@@ -1,0 +1,16 @@
+<mads:mads version="2.0" xsi:schemaLocation="http://www.loc.gov/mads/v2 http://www.loc.gov/standards/mads/mads-2-0.xsd" xmlns:mads="http://www.loc.gov/mads/v2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <mads:authority geographicSubdivision="not applicable">
+    <mads:name type="personal" authority="naf">
+      <mads:namePart type="family">Getz</mads:namePart>
+      <mads:namePart type="given">Stanley</mads:namePart>
+      <mads:namePart type="date">1927-1991</mads:namePart>
+    </mads:name>
+  </mads:authority>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gayetsky, Stanley</mads:namePart>
+      <mads:namePart type="date">1927-1991</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:note type="source">Sauter, E.E. Stan Getz plays music from the soundtrack of the motion ... [SR] 1965</mads:note>
+ </mads:mads>
