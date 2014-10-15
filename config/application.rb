@@ -13,6 +13,16 @@ module Hel
       g.test_framework :rspec, :spec => true
     end
 
+    # Load the local ldap configuration
+    begin
+      CONFIG = YAML.load(File.read(File.expand_path('../application.local.yml', __FILE__)))
+      CONFIG.merge! CONFIG.fetch(Rails.env, {})
+      recursive_symbolize_keys! CONFIG
+    rescue => error
+      puts "Couldn't load the basic_files 'application.local.yml': #{error.inspect.to_s}"
+      CONFIG = {:ldap => {:user => 'sifd-ldap-read', :password => ''}, :test=>{:user=>'sifdtest', :password=>''}}
+    end
+
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

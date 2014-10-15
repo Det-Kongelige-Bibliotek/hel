@@ -1,0 +1,7 @@
+# Template file for application.local.yml. To run valhal require authentication using an authentication system
+# supporting ldap. The application.local.yml file makes it possible to use ldap in this authentication process.
+
+# Add your ldap username and password here.
+ldap:
+  user: WRITE_YOUR_LDAP-LOGIN_HERE
+  password: WRITE_YOUR_LDAP-PASSWORD_HERE
