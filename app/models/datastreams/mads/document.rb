@@ -38,8 +38,8 @@ module Datastreams
       def authorized_personal_names
         authorized = {}
         authority.name.nodeset.each_with_index do |node, i|
-          type = node.attr('authority') || i
-          authorized[type.to_sym] = parse_names(node)
+          type = node.attr('authority').to_sym || i
+          authorized[type] = parse_names(node)
         end
         authorized
       end
