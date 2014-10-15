@@ -30,6 +30,41 @@ module Datastreams
         end
       end
 
+      define_template :authorized_person do |xml, name_hash|
+        xml.authority do
+          xml.name(type: 'personal', authority: name_hash.fetch(:scheme)) do
+            name_hash.each do |key, val|
+              if key == :full
+                xml.namePart { xml.text(val) }
+              else
+                xml.namePart(type: key.to_s) { xml.text(val) }
+              end
+            end
+          end
+        end
+      end
+
+      # Given a hash of values, add a new authorized personal name
+      # based on a pre-defined template e.g.
+      # {scheme: 'viaf', family: 'Joyce', given: 'James', date: '1882-1941'}
+      # will insert and return an xml node with the following structure
+      # <mads:authority>
+      #   <mads:name type="personal" authority="viaf">
+      #     <mads:namePart type="family">Joyce</mads:namePart>
+      #     <mads:namePart type="given">James</mads:namePart>
+      #     <mads:namePart type="date">1882-1941</mads:namePart>
+      #   </mads:name>
+      # </mads:authority>
+      def add_authorized_personal_name(name_hash)
+        fail 'You must provide an authority scheme' unless name_hash[:scheme].present?
+        unless name_hash[:family].present? || name_hash[:given].present? || name_hash[:full].present?
+          fail 'You must provide at least one name'
+        end
+        node = add_child_node(ng_xml.root, :authorized_person, name_hash)
+        content_will_change!
+        node
+      end
+
       # Return a hash of hashes
       # whereby each hash contains the
       # components of a name element

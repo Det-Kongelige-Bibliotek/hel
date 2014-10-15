@@ -29,6 +29,32 @@ describe Datastreams::MADS::Document do
 
     end
 
+    describe 'add_authorized_personal_name' do
+      before :all do
+        @name = { scheme: 'viaf', family: 'Joyce', given: 'James', date: '1882-1941' }
+      end
+
+      it 'allows us to add a new personal name' do
+        @ds.add_authorized_personal_name(@name)
+        expect(@ds.authorized_personal_names[:viaf][:family]).to eql 'Joyce'
+      end
+      it 'requires at least one name element' do
+        no_names = @name.except(:family).except(:given)
+        expect {
+          @ds.add_authorized_personal_name(no_names)
+        }.to raise_error
+      end
+      it 'requires an authority scheme' do
+        expect {
+          @ds.add_authorized_personal_name(@name.except(:scheme))
+        }.to raise_error
+      end
+      it 'does not add empty elements' do
+        @ds.add_authorized_personal_name(@name.merge(family: ''))
+        expect(@ds.authorized_personal_names[:viaf].keys).not_to include(:family)
+      end
+    end
+
     describe 'other_personal_names' do
       it 'should return an array of other names' do
         expect(@ds.other_personal_names).to be_an Array
