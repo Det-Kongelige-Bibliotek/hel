@@ -7,13 +7,45 @@ class User < ActiveRecord::Base
   include Blacklight::User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :ldap_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid, :memberOf
+
+  before_validation :get_ldap_email
+  before_save :get_ldap_name, :get_ldap_memberOf
+
+  def get_ldap_email
+    emails = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+    self.email = emails.first.to_s unless emails.blank?
+  end
+
+  def get_ldap_name
+    names = Devise::LDAP::Adapter.get_ldap_param(self.username,"cn")
+    self.name = names.first.to_s.force_encoding("utf-8") unless names.blank?
+  end
+
+  def get_ldap_memberOf
+    groups = Devise::LDAP::Adapter.get_ldap_param(self.username,"memberOf")
+    self.memberOf=groups.join(';').force_encoding("utf-8") unless groups.blank?
+  end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account.
   def to_s
-    email
+    name
   end
+
+  #TODO: Change to reflect the Valhal usergroups, when they are defined
+  def groups
+    array = []
+    unless self.memberOf.blank?
+      if self.memberOf.include? 'CN=Brugerbasen_SuperAdmins,OU=Brugerbasen,OU=Adgangsstyring,DC=kb,DC=dk'
+        array << "admin"
+      end
+    end
+    array
+  end
+
 end
