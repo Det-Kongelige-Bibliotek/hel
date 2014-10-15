@@ -9,6 +9,7 @@ module Datastreams
       set_terminology do |t|
         t.root(path: 'mads', xmlns: 'http://www.loc.gov/mads/v2')
         t.notes(path: 'note')
+        t.identifiers(path: 'identifier')
         t.authority do
           t.name do
             t.authority_type(path: { attribute: 'authority' })
@@ -50,6 +51,17 @@ module Datastreams
           other_names << parse_names(node)
         end
         other_names
+      end
+
+      # Return an identifier of a given scheme
+      # if present, otherwise nil
+      # @param String
+      # @return String | nil
+      def identifier(scheme)
+        identifiers.nodeset.each do |n|
+          return n.text if n.attr('type').present? && n.attr('type') == scheme
+        end
+        nil
       end
 
       def self.xml_template

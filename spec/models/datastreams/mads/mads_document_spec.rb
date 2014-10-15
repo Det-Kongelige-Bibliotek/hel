@@ -49,5 +49,14 @@ describe Datastreams::MADS::Document do
         expect(@ds.notes.first).to include('Sauter, E.E. St')
       end
     end
+
+    describe 'identifier(type)' do
+      it 'retrieves an identifier of the given type from the document' do
+        expect(@ds.identifier('uuid')).to eql 'reallyrandomuuid'
+      end
+      it 'retrieves nil if no identifier of that type is found' do
+        expect(@ds.identifier('not_here')).to eql nil
+      end
+    end
   end
 end
