@@ -58,5 +58,11 @@ describe Datastreams::MADS::Document do
         expect(@ds.identifier('not_here')).to eql nil
       end
     end
+
+    describe 'uuid' do
+      it 'retrieves an identifier with type uuid' do
+        expect(@ds.uuid).to eql ['reallyrandomuuid']
+      end
+    end
   end
 end

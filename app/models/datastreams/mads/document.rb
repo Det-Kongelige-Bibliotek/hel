@@ -10,6 +10,7 @@ module Datastreams
         t.root(path: 'mads', xmlns: 'http://www.loc.gov/mads/v2')
         t.notes(path: 'note')
         t.identifiers(path: 'identifier')
+        t.uuid(path: 'identifier', attributes: { type: 'uuid' })
         t.authority do
           t.name do
             t.authority_type(path: { attribute: 'authority' })
