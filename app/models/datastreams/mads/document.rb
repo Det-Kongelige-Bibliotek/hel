@@ -32,7 +32,8 @@ module Datastreams
 
       define_template :authorized_person do |xml, name_hash|
         xml.authority do
-          xml.name(type: 'personal', authority: name_hash.fetch(:scheme)) do
+          # get authority value from scheme key and remove from hash
+          xml.name(type: 'personal', authority: name_hash.delete(:scheme)) do
             name_hash.each do |key, val|
               if key == :full
                 xml.namePart { xml.text(val) }
