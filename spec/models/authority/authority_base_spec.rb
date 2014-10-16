@@ -14,4 +14,10 @@ describe Authority::Base do
   it 'should have a MADS datastream' do
     expect(@b.datastreams.keys).to include 'mads'
   end
+
+  it 'should return all descendant class' do
+    p = Authority::Person.create
+    expect(Authority::Base.descendants).to include(p)
+    p.delete
+  end
 end
