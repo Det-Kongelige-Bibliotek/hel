@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :authority do
+    resources :bases, :people
+  end
+
   resources :instances
 
   resources :works

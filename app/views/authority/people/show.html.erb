@@ -1,0 +1,12 @@
+<h1><%= @authority_object.display_value %></h1>
+<h2>Authorized names</h2>
+
+<% @authority_object.authorized_personal_names.each do |key, val| %>
+    <h3><%= key.upcase %></h3>
+    <% val.each do |term, value| %>
+        <p><%= "#{term.to_s.titleize}: #{value}" %></p>
+    <% end %>
+<% end %>
+
+
+<h2>Variants</h2>

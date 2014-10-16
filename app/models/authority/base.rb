@@ -2,6 +2,8 @@ module Authority
   # Base class - contains logic common to all
   # Authority subclasses.
   class Base < ActiveFedora::Base
+    include Concerns::Inheritance
+
     has_metadata 'mads', type: Datastreams::MADS::Document
     has_attributes :identifiers, datastream: 'mads', multiple: true
     has_attributes :uuid, datastream: 'mads', multiple: false
@@ -10,10 +12,11 @@ module Authority
       id
     end
     # Get all descendant objects
-    # TODO: this could be made faster by using Solr instead
+    # TODO: look at improving performance
     # @return Array
     def self.descendants
-      ObjectSpace.each_object(singleton_class).map(&:all).flatten
+      objs = ActiveFedora::SolrService.query('has_model_ssim: *Authority_Base')
+      objs.map { |e| ActiveFedora::Base.find(e['id']) }
     end
   end
 end
