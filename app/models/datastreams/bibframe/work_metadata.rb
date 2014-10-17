@@ -21,9 +21,38 @@ module Datastreams
           end
         end
 
+        t.systemNumber do
+          t.Identifier do
+            t.identifierValue
+          end
+        end
+
         t.title(proxy: [:workTitle, :Title, :titleValue])
         t.subtitle(proxy: [:workTitle, :Title, :subtitle])
         t.language_authority(proxy: [:language, :authority])
+      end
+
+      define_template :uuid do |xml, uuid_val|
+        xml.systemNumber do
+          xml.Identifier do
+            xml.identifierScheme { xml.text('systemNumber') }
+            xml.identifierValue  { xml.text(uuid_val) }
+          end
+        end
+      end
+
+      def uuid
+        systemNumber.Identifier.identifierValue.nodeset.each do |n|
+          return n.text.sub('(uuid)', '') if n.text.include?('(uuid)')
+        end
+        nil
+      end
+
+      def uuid=(val)
+        uuid_val = '(uuid)' + val
+        node = add_child_node(ng_xml.root, :uuid, uuid_val)
+        content_will_change!
+        node
       end
 
       def self.xml_template

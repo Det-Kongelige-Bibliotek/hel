@@ -28,4 +28,14 @@ describe Datastreams::Bibframe::WorkMetadata do
     expect(@ds.language_authority)
     .to eql ['http://id.loc.gov/vocabulary/languages.html']
   end
+
+  it 'parses the uuid' do
+    expect(@ds.uuid).to eql 'reallyrandomuuid'
+  end
+
+  it 'allows us to write a uuid' do
+    ds = Datastreams::Bibframe::WorkMetadata.new
+    ds.uuid = 'anotherrandomuuid'
+    expect(ds.uuid).to eql 'anotherrandomuuid'
+  end
 end
