@@ -26,6 +26,12 @@ module Datastreams
           t.productionDate
         end
 
+        t.systemNumber do
+          t.Identifier do
+            t.identifierValue
+          end
+        end
+
         t.language_authority(proxy: [:language, :authority])
         t.production_note(proxy: [:production, :productionNote])
         t.production_date(proxy: [:production, :productionDate])

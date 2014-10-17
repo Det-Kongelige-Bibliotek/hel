@@ -13,6 +13,14 @@ module Bibframe
       has_attributes(:language, :language_authority, :note,
                      :identifier_value, :identifier_scheme,
                      datastream: 'bfMetadata', multiple: true)
+
+      def uuid
+        bfMetadata.uuid
+      end
+
+      def uuid=(val)
+        bfMetadata.uuid = val
+      end
     end
   end
 end
