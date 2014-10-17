@@ -1,7 +1,7 @@
 module Datastreams
   module Bibframe
     # Datastream for modelling all Bibframe::Work metadata
-    class WorkMetadata < ActiveFedora::OmDatastream
+    class WorkMetadata < Datastreams::Bibframe::Resource
       set_terminology do |t|
         t.root(path:  'Work', xmlns: 'http://bibframe.org/vocab/')
         t.workTitle do
@@ -30,29 +30,6 @@ module Datastreams
         t.title(proxy: [:workTitle, :Title, :titleValue])
         t.subtitle(proxy: [:workTitle, :Title, :subtitle])
         t.language_authority(proxy: [:language, :authority])
-      end
-
-      define_template :uuid do |xml, uuid_val|
-        xml.systemNumber do
-          xml.Identifier do
-            xml.identifierScheme { xml.text('systemNumber') }
-            xml.identifierValue  { xml.text(uuid_val) }
-          end
-        end
-      end
-
-      def uuid
-        systemNumber.Identifier.identifierValue.nodeset.each do |n|
-          return n.text.sub('(uuid)', '') if n.text.include?('(uuid)')
-        end
-        nil
-      end
-
-      def uuid=(val)
-        uuid_val = '(uuid)' + val
-        node = add_child_node(ng_xml.root, :uuid, uuid_val)
-        content_will_change!
-        node
       end
 
       def self.xml_template

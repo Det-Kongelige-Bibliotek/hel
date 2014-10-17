@@ -2,7 +2,7 @@ module Datastreams
   module Bibframe
     # Datastream for modelling all
     # Bibframe::Instance metadata
-    class InstanceMetadata < ActiveFedora::OmDatastream
+    class InstanceMetadata < Datastreams::Bibframe::Resource
       set_terminology do |t|
         t.root(path:  'Instance', xmlns: 'http://bibframe.org/vocab/')
         t.language do
