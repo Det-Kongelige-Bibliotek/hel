@@ -6,5 +6,6 @@
 # be mixed in.
 class Work < ActiveFedora::Base
   include Bibframe::Work
+  include Concerns::UUIDGenerator
   has_many :instances, property: :instance_of
 end
