@@ -49,5 +49,9 @@ describe Bibframe::Instance do
     @stub.publication_note = 'On the bottom of your fridge'
     expect(@stub.publication_note).to eql 'On the bottom of your fridge'
   end
+  it 'should allow us to set and get isbn13' do
+    @stub.isbn13 = '9780521169004'
+    expect(@stub.isbn13).to eql '9780521169004'
+  end
 
 end

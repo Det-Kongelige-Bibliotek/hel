@@ -9,6 +9,7 @@ module Bibframe
       has_attributes(:production_note, :production_date,
                      :publication_note, :publication_date,
                      :distribution_note, :distribution_date,
+                     :isbn13,
                      datastream: 'bfMetadata', multiple: false)
       has_attributes(:language, :language_authority, :note,
                      :identifier_value, :identifier_scheme,
