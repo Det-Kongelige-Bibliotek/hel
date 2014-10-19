@@ -55,4 +55,13 @@ describe Datastreams::Bibframe::InstanceMetadata do
     expect(h.keys).to include(:aleph)
     expect(h.values).to include('00078344056')
   end
+
+  it 'parses an isbn13' do
+    expect(@ds.isbn13).to eql ['9780521169004']
+  end
+  it 'writes an isbn13' do
+    new = Datastreams::Bibframe::InstanceMetadata.new
+    new.isbn13 = '0123456789012'
+    expect(new.isbn13).to eql ['0123456789012']
+  end
 end

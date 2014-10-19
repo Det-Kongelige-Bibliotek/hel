@@ -25,6 +25,7 @@ module Datastreams
           t.productionNote
           t.productionDate
         end
+        t.isbn13
 
         t.language_authority(proxy: [:language, :authority])
         t.production_note(proxy: [:production, :productionNote])
