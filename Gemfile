@@ -43,6 +43,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'bunny', '~> 1.1.0'
 gem 'amq-protocol', '>= 1.9.2'
 
+gem 'isbn_validation'
+
 gem 'devise'
 gem 'devise-guests', "~> 0.3"
 group :development, :test do
