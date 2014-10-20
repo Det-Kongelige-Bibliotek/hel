@@ -33,6 +33,8 @@ describe WorksController do
     Work.delete_all
   end
 
+  
+
   describe 'GET index' do
     it 'assigns all works as @works' do
       work = Work.create! valid_attributes

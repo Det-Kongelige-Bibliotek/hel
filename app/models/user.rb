@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   before_save :get_ldap_name, :get_ldap_memberOf
 
   def get_ldap_email
-    logger.debug("getting email")
     emails = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
     self.email = emails.first.to_s unless emails.blank?
   end
