@@ -18,4 +18,12 @@ describe 'Trykforlaeg' do
     t.isbn13 = '9780521169004'
     expect(t.valid?).to eq true
   end
+
+  it 'can accept different isbn13 formats' do
+    t = Trykforlaeg.new
+    t.isbn13 = '978-3-16-148410-0'
+    expect(t.valid?).to eq true
+    t.isbn13 = '978-0-321-58410-6'
+    expect(t.valid?).to eq true
+  end
 end
