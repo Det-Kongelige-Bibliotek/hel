@@ -6,5 +6,6 @@
 # be mixed in.
 class Work < ActiveFedora::Base
   include Bibframe::Work
+  include Hydra::AccessControls::Permissions
   has_many :instances, property: :instance_of
 end
