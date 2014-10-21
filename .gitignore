@@ -17,3 +17,9 @@
 /jetty
 .keep
 /.idea
+
+# Ignore local configuration
+config/application.local.yml
+
+# Ignore code coverage report
+coverage
