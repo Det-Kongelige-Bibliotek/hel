@@ -1,5 +1,6 @@
 # Perform actions on Instances
 class InstancesController < ApplicationController
+  include PreservationHelper
   before_action :set_instance, only: [:show, :edit, :update, :destroy]
 
   # GET /instances
@@ -54,18 +55,23 @@ class InstancesController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
+    @instance = Instance.find(params[:id])
     begin
-      notice = update_preservation_profile_from_controller(params, @file)
-      redirect_to @file, notice: notice
+      notice = update_preservation_profile_from_controller(params, @instance)
+      redirect_to @instance, notice: notice
     rescue => error
       error_msg = "Could not update preservation profile: #{error.inspect}"
       error.backtrace.each do |l|
         error_msg += "\n#{l}"
       end
       logger.error error_msg
-      @file.errors[:preservation] << error.inspect.to_s
+      @instance.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end
+  end
+
+  def preservation
+    @instance = Instance.find(params[:id])
   end
 
   # DELETE /instances/1
