@@ -1,0 +1,10 @@
+
+<%- model_class = Instance -%>
+<div class="page-header">
+  <h1><%=t 'helpers.titles.preservation', :default => [:'helpers.titles.preservation', 'Preservation for %{model}'], :model => model_class.model_name.human %></h1>
+</div>
+
+<%- @object = @instance-%>
+<%= render 'preservation' %>
+
+<%= render 'footer' %>
