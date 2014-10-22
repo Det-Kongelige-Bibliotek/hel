@@ -39,7 +39,11 @@ module MqHelper
               :content_type => options['content_type'], :type => options['type']
     )
 
-    conn.close
+    begin
+      conn.close
+    rescue => error
+      logger.error "error closing mq connection #{error.message} #{conn.status}"
+    end
     true
   end
 end
