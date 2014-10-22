@@ -76,7 +76,7 @@ module PreservationHelper
   # - File_UUID
   # - Content_URI
   #
-  # Extra for BasicFile:
+  # Extra for ContentFile:
   # - File_UUID
   # - Content_URI
   #
@@ -89,7 +89,7 @@ module PreservationHelper
     message['Valhal_ID'] = element.pid
     message['Model'] = element.class.name
 
-    if element.kind_of?(BasicFile)
+    if element.kind_of?(ContentFile)
       message['File_UUID'] = element.file_uuid
       message['Content_URI'] = url_for(:controller => 'view_file', :action => 'show', :pid => element.pid)
     end
@@ -111,7 +111,8 @@ module PreservationHelper
       end
       # Do not retrieve the descMetadata directly, instead transform it to MODS before adding it.
       if key == 'descMetadata' && !element.kind_of?(BasicFile)
-        res += TransformationService.transform_to_mods(element).root.to_s
+        #TODO: bibframe to mods??
+     #   res += TransformationService.transform_to_mods(element).root.to_s
         next
       end
       res += "<#{key}>"
@@ -208,6 +209,7 @@ module PreservationHelper
   def cascade_preservation(params, element)
     if element.can_perform_cascading? && params['preservation']['cascade_preservation'] == Constants::CASCADING_EFFECT_TRUE
       element.cascading_elements.each do |pib|
+        logger.debug("#{pib.class}")
         update_preservation_profile_from_controller(params, pib)
       end
     end
