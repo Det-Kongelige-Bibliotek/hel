@@ -5,11 +5,13 @@ describe Authority::Person do
     @p = Authority::Person.new
   end
 
-  it 'should allow us to set an authorized name' do
-    @p.add_authorized_personal_name(full: 'James Joyce', scheme: 'viaf')
-    expect(@p.authorized_personal_names[:viaf][:full]).to eql 'James Joyce'
+  describe 'setters' do
+    it 'should allow us to set an authorized name' do
+      @p.add_authorized_personal_name(full: 'James Joyce', scheme: 'viaf')
+      expect(@p.authorized_personal_names[:viaf][:full]).to eql 'James Joyce'
+    end
+    it 'should allow us to set a variant name'
   end
-  it 'should allow us to set a variant name'
 
   describe 'display_value' do
     it 'contains the full name when this is present' do
