@@ -23,7 +23,7 @@ module Datastreams
           t.Language
         end
         t.mode_of_issuance(path: 'modeOfIssuance')
-        t.title_statement(path: 'titleStatement')
+        t.title_statement(path: 'titleStatement', index_as: :stored_searchable)
         t.extent
         t.dimensions
         t.isbn13(proxy: [:isbn_13, :Identifier, :label])
