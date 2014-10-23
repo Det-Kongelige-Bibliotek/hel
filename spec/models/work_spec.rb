@@ -89,5 +89,13 @@ describe Work do
       vals = @work.to_solr.values.flatten
       expect(vals).to include 'James Joyce'
     end
+
+    it 'should contain all creator names' do
+      cre = Authority::Person.new
+      cre.add_authorized_personal_name(scheme: 'viaf', full: 'Pablo Picasso')
+      @work.add_creator(cre)
+      vals = @work.to_solr.values.flatten
+      expect(vals).to include 'Pablo Picasso'
+    end
   end
 end

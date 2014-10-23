@@ -61,6 +61,9 @@ class Work < ActiveFedora::Base
     authors.each do |aut|
       Solrizer.insert_field(solr_doc, 'author', aut.all_names, :facetable)
     end
+    creators.each do |cre|
+      Solrizer.insert_field(solr_doc, 'creator', cre.all_names, :facetable)
+    end
     solr_doc
   end
 end
