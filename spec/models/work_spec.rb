@@ -70,4 +70,24 @@ describe Work do
       expect(a.received_works).to include @work
     end
   end
+
+  describe 'to_solr' do
+    before :each do
+      @work = Work.new
+    end
+
+    it 'should contain all title values' do
+      @work.add_title(value: 'Vice Squad!')
+      vals = @work.to_solr.values.flatten
+      expect(vals).to include 'Vice Squad!'
+    end
+
+    it 'should contain all author names' do
+      aut = Authority::Person.new
+      aut.add_authorized_personal_name(scheme: 'viaf', full: 'James Joyce')
+      @work.add_author(aut)
+      vals = @work.to_solr.values.flatten
+      expect(vals).to include 'James Joyce'
+    end
+  end
 end

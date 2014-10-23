@@ -58,6 +58,9 @@ class Work < ActiveFedora::Base
     title_values.each do |val|
       Solrizer.insert_field(solr_doc, 'title', val, :stored_searchable)
     end
+    authors.each do |aut|
+      Solrizer.insert_field(solr_doc, 'author', aut.all_names, :facetable)
+    end
     solr_doc
   end
 end
