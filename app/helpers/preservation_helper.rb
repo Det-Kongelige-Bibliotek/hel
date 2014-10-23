@@ -110,11 +110,13 @@ module PreservationHelper
         next
       end
       # Do not retrieve the descMetadata directly, instead transform it to MODS before adding it.
+      # Todo: transform bibframe to mods or create bibframe-xml ??
+=begin
       if key == 'descMetadata' && !element.kind_of?(BasicFile)
-        #TODO: bibframe to mods??
-     #   res += TransformationService.transform_to_mods(element).root.to_s
+        res += TransformationService.transform_to_mods(element).root.to_s
         next
       end
+=end
       res += "<#{key}>"
       if content.content.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
         res += Nokogiri::XML.parse(content.content).root.to_s
