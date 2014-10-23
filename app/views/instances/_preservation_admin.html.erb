@@ -1,0 +1,83 @@
+!--
+Must be included through rendering of multipart fields.
+The given preservation metadata must be passed on as @preservationMetadata, and the element with the preservation metadata must be given as @object.
+The 'fields for' builder must be delivered as a the 'f' parameter.
+-->
+<div class="preservation_current_settings">
+  <h3>Current preservation settings for this <%= @object.class %>:</h3>
+  <dt><strong>Preservation profile:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_profile.blank? ? 'N/A' : @preservationMetadata.preservation_profile.first %></dd>
+  <dt><strong>Preservation comment:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_comment.blank? ? 'N/A' : @preservationMetadata.preservation_comment.first %></dd>
+</div>
+
+<% if @preservationMetadata.preservation_state.first.blank? ||
+        !Constants::PRESERVATION_STATES.keys.include?(@preservationMetadata.preservation_state.first)%>
+    <% @preservation_state = Constants::PRESERVATION_STATE_INVALID %>
+<% else %>
+    <% @preservation_state = Constants::PRESERVATION_STATES[@preservationMetadata.preservation_state.first] %>
+<% end %>
+<%= content_tag(:div, :class=>'preservation_current_state', :style => "background-color:#{@preservation_state['color']};") do %>
+    <h3>Current preservation state for this element: </h3>
+    <%= @preservation_state['error'] ? content_tag(:h3, 'ERROR') : '' %>
+    <dt><strong>Preservation state:</strong></dt>
+    <%= content_tag(:dd, @preservation_state['text']) %>
+    <dt><strong>Preservation details:</strong></dt>
+    <dd><%= @preservationMetadata.preservation_details.blank? ? 'N/A' : @preservationMetadata.preservation_details.first %></dd>
+    <dt><strong>Preservation modify date:</strong></dt>
+    <dd><%= @preservationMetadata.preservation_modify_date.blank? ? 'N/A' : @preservationMetadata.preservation_modify_date.first %></dd>
+    <dt><strong>WARC id:</strong></dt>
+    <dd><%= @preservationMetadata.warc_id.blank? ? 'N/A' : @preservationMetadata.warc_id.first %></dd>
+<% end %>
+
+<hr/>
+<div class="preservation_profile">
+  <h3>Change preservation profile</h3>
+  <table border="5px">
+    <tr>
+      <th>Profile name</th>
+      <th>Bitsafety</th>
+      <th>Confidentaility</th>
+      <th>Long term preservation</th>
+    </tr>
+    <%- PRESERVATION_CONFIG['preservation_profile'].each do |key, value| %>
+        <tr>
+          <td>
+            <b>
+              <%= value['name'].blank? ? key : value['name'] %>
+            </b>
+          </td>
+          <td>
+            <%= value['bit_safety'] %>
+          </td>
+          <td>
+            <%= value['confidentiality'] %>
+          </td>
+          <td>
+            <%= value['yggdrasil'] %>
+          </td>
+        </tr>
+    <%- end %>
+  </table>
+  <div class="set_profile">
+    <br/>
+    <%= f.label :preservation_profile, 'Preservation profile' %>
+    <%= f.select :preservation_profile, options_for_select(PRESERVATION_CONFIG["preservation_profile"].keys,
+                                                           @preservationMetadata.preservation_profile.first ) %>
+  </div>
+</div>
+
+<div class="set_comment">
+  <h3>Change comment for preservation</h3>
+  <br/>
+  <%= f.label :preservation_comment, "Preservation comment" %>
+  <%= f.text_field :preservation_comment, :class => 'text_field', :value => @preservationMetadata.preservation_comment.first %>
+</div>
+
+<% # Do not make this possible for all elements (e.g. BasicFile and Person), since it is no possible to cascade from them %>
+<% if @object.can_perform_cascading? %>
+    <div class="set_cascading">
+      <%= f.label :cascade_preservation, 'Cascade preservation' %>
+      <%= f.check_box :cascade_preservation%>
+    </div>
+<% end %>

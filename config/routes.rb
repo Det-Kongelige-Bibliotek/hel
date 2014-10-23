@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :instances do
     member do
+      get 'preservation'
+      patch 'update_preservation_profile'
       get 'administration'
       patch 'update_administration'
     end
@@ -11,6 +13,7 @@ Rails.application.routes.draw do
 
   blacklight_for :catalog
   devise_for :users
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -55,3 +55,8 @@ group :development, :test do
   gem 'jettywrapper'
   gem 'thin'
 end
+
+#logging start
+gem 'log4r', '1.1.10'
+gem 'quiet_assets'
+#logging end
