@@ -1,5 +1,7 @@
 Metrics/LineLength:
   Max: 156
+Metrics/MethodLength:
+  Max: 15
 Style/Blocks:
   Enabled: false
 AllCops:
