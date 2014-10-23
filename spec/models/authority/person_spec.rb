@@ -12,11 +12,6 @@ describe Authority::Person do
   it 'should allow us to set a variant name'
 
   describe 'display_value' do
-    it 'contains the capitalized name of the scheme' do
-      @p.add_authorized_personal_name(full: 'James Joyce', scheme: 'viaf')
-      expect(@p.display_value).to include 'VIAF'
-    end
-
     it 'contains the full name when this is present' do
       @p.add_authorized_personal_name(full: 'James Joyce', scheme: 'viaf')
       expect(@p.display_value).to include 'James Joyce'
@@ -28,6 +23,24 @@ describe Authority::Person do
 
     it 'returns the id if no names are present' do
       expect(@p.display_value).to eql @p.id
+    end
+  end
+
+  describe 'all names' do
+    it 'returns an array of structured names' do
+      @p.add_authorized_personal_name(full: "Flann O'Brien", scheme: 'viaf')
+      @p.add_authorized_personal_name(given: 'Myles', family: 'Na Gopaleen', scheme: 'nli')
+      expect(@p.all_names).to include('Myles Na Gopaleen')
+      expect(@p.all_names).to include("Flann O'Brien")
+    end
+  end
+
+  describe 'to_solr' do
+    it 'adds all authorized names to the solr doc' do
+      @p.add_authorized_personal_name(full: "Flann O'Brien", scheme: 'viaf')
+      @p.add_authorized_personal_name(given: 'Myles', family: 'Na Gopaleen', scheme: 'nli')
+      expect(@p.to_solr.values.flatten).to include('Myles Na Gopaleen')
+      expect(@p.to_solr.values.flatten).to include("Flann O'Brien")
     end
   end
 end
