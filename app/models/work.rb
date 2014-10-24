@@ -52,4 +52,18 @@ class Work < ActiveFedora::Base
     agent.received_works << self
     recipients << agent
   end
+
+  def to_solr(solr_doc = {})
+    super
+    title_values.each do |val|
+      Solrizer.insert_field(solr_doc, 'title', val, :stored_searchable)
+    end
+    authors.each do |aut|
+      Solrizer.insert_field(solr_doc, 'author', aut.all_names, :facetable)
+    end
+    creators.each do |cre|
+      Solrizer.insert_field(solr_doc, 'creator', cre.all_names, :facetable)
+    end
+    solr_doc
+  end
 end

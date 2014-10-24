@@ -88,4 +88,13 @@ describe Instance do
     i.save
     expect(i.uuid.present?).to be true
   end
+
+  describe 'to_solr' do
+    it 'should include the title statement' do
+      i = Instance.new
+      i.title_statement = 'King James Edition'
+      vals = i.to_solr.values.flatten
+      expect(vals).to include 'King James Edition'
+    end
+  end
 end
