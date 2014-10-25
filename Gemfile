@@ -57,6 +57,11 @@ group :development, :test do
   gem 'thin'
 end
 
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
 #logging start
 gem 'log4r', '1.1.10'
 gem 'quiet_assets'
