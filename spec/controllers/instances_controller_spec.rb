@@ -18,6 +18,18 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
+# We'll put our functioning tests here for now
+describe InstancesController, type: :controller do
+  describe '#show' do
+    it 'should return rdf when requested' do
+      instance = Instance.create
+      get :show, { id: instance.id, format: :rdf }
+      expect(assigns(:instance)).to eq(instance)
+    end
+  end
+end
+
+
 describe InstancesController, broken: true do
 
   # This should return the minimal set of attributes required to create a valid

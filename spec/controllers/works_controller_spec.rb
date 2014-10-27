@@ -18,6 +18,19 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
+# We'll put our functioning tests here for now
+describe WorksController, type: :controller do
+  describe '#show' do
+    it 'should return rdf when requested' do
+      work = Work.create
+      get :show, { id: work.id, format: :rdf }
+      expect(assigns(:work)).to eq(work)
+    end
+  end
+end
+
+
+
 describe WorksController, broken: true do
 
   # This should return the minimal set of attributes required to create a valid
