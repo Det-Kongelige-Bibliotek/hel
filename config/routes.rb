@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   blacklight_for :catalog
   devise_for :users
 
+  namespace :authority do
+    resources :people
+  end
+
+  get 'resources/:id' => 'resources#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

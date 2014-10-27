@@ -29,7 +29,7 @@ module Concerns
                        'xmlns:relators' => LOC_RELATORS_URI
         ) do
           #  Use .class method to make it class agnostic
-          xml['bf'].send(self.class.to_s) do
+          xml['bf'].send(self.class.to_s, 'rdf:about' => create_resource_url(id)) do
             # Add the relational data
             bf_rels.each do |key, val|
               xml['bf'].send(key, 'rdf:resource' => val)
@@ -46,6 +46,16 @@ module Concerns
     end
     # rubocop:enable Metrics/MethodLength
 
+    # create a link to a resource based on
+    # a Fedora identifier
+    # e.g. from info:fedora/changeme:90
+    # to http://valhal.kb.dk/works/changeme:90
+    def create_resource_url(fedora_identifier)
+      app_url = CONFIG[Rails.env.to_sym][:application_url]
+      system_id = fedora_identifier.split('/').last
+      "#{app_url}/resources/#{system_id}"
+    end
+
     # Get all subelements of object as a single string
     def bf_xml
       doc = Nokogiri::XML(bfMetadata.to_xml)
@@ -59,7 +69,8 @@ module Concerns
     # will be rendered as:
     # { relatedWork: 'someresource.com' }
     def namespaced_relations(doc, namespace_uri)
-      rip_rdf_statements(doc.xpath('.//ns:*', 'ns' => namespace_uri))
+      val_hash = rip_rdf_statements(doc.xpath('.//ns:*', 'ns' => namespace_uri))
+      val_hash.each { |k, v| val_hash[k] = create_resource_url(v) }
     end
 
     def rip_rdf_statements(nodeset)
