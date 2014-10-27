@@ -1,7 +1,8 @@
 # Perform actions on Instances
 class InstancesController < ApplicationController
   include PreservationHelper
-  before_action :set_instance, only: [:show, :edit, :update, :destroy]
+  before_action :set_instance, only: [:show, :edit, :update, :destroy,
+                                      :update_preservation_profile, :update_administration]
 
   # GET /instances
   # GET /instances.json
@@ -12,6 +13,10 @@ class InstancesController < ApplicationController
   # GET /instances/1
   # GET /instances/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.rdf { render rdf: @instance }
+    end
   end
 
   # GET /instances/new
@@ -55,7 +60,6 @@ class InstancesController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
-    @instance = Instance.find(params[:id])
     begin
       notice = update_preservation_profile_from_controller(params, @instance)
       redirect_to @instance, notice: notice
@@ -86,7 +90,6 @@ class InstancesController < ApplicationController
 
   # Updates the administration metadata for the ordered instance.
   def update_administration
-    @instance = Instance.find(params[:id])
     begin
       update_administrative_metadata_from_controller(params, @instance, false)
       redirect_to @instance, notice: 'Updated the administrative metadata'

@@ -11,6 +11,10 @@ class WorksController < ApplicationController
   # GET /works/1
   # GET /works/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.rdf { render rdf: @work }
+    end
   end
 
   # GET /works/new
