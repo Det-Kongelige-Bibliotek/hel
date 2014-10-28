@@ -70,4 +70,28 @@ describe Work do
       expect(a.received_works).to include @work
     end
   end
+
+  # In the absence of a proper RDF validator on Ruby
+  # these tests are mainly thought of as smoke tests;
+  # they will catch the worst bugs, but not subtle problems
+  # with invalid RDF output.
+  describe 'to_rdf' do
+    before :all do
+      @work = Work.create
+    end
+    # This test will only catch the worst errors
+    # as the Reader is very forgiving
+    # TODO: Find a more stringent validator
+    it 'is valid rdf' do
+      expect {
+        RDF::RDFXML::Reader.new(@work.to_rdf, validate: true)
+      }.not_to raise_error
+    end
+
+    it 'includes the hasInstance relations' do
+      @work.instances << Instance.new
+      @work.save
+      expect(@work.to_rdf).to include('hasInstance')
+    end
+  end
 end

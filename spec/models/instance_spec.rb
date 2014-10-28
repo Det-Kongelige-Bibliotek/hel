@@ -15,8 +15,25 @@ describe Instance do
       expect(@instance.content_files.size).to eql 0
     end
 
-    it 'can be an instance of a work' do
-      expect(@instance.respond_to?(:work)).to eql true
+    describe 'to work' do
+      before :all do
+        @i = Instance.create
+        @w = Work.create
+        @i.set_work(@w)
+      end
+
+      it 'can be an instance of a work' do
+        expect(@i.work).to eql @w
+      end
+
+      it 'is a symmetrical relationship' do
+        expect(@w.instances).to include @i
+      end
+
+      it 'is expressed symmetrically in rels-ext' do
+        expect(@i.rels_ext.to_rels_ext).to include('instanceOf')
+        expect(@w.rels_ext.to_rels_ext).to include('hasInstance')
+      end
     end
 
     it 'can have parts which are Works' do
@@ -87,5 +104,19 @@ describe Instance do
     expect(i.uuid).to be_nil
     i.save
     expect(i.uuid.present?).to be true
+  end
+
+  describe 'to_rdf' do
+    before :all do
+      @instance = Instance.create
+    end
+    # This test will only catch the worst errors
+    # as the Reader is very forgiving
+    # TODO: Find a more stringent validator
+    it 'is valid rdf' do
+      expect {
+        RDF::RDFXML::Reader.new(@instance.to_rdf, validate: true)
+      }.not_to raise_error
+    end
   end
 end

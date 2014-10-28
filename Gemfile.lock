@@ -386,6 +386,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jettywrapper
   jquery-rails
+  linkeddata
   log4r (= 1.1.10)
   quiet_assets
   rails (= 4.1.6)
