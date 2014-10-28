@@ -10,7 +10,7 @@ class Work < ActiveFedora::Base
   include Concerns::UUIDGenerator
   include Concerns::RDFOutput
 
-  has_many :instances, property: :instance_of
+  has_and_belongs_to_many :instances, property: :has_instance, inverse_of: :instance_of
   has_and_belongs_to_many :related_works, class_name: 'Work', property: :related_work, inverse_of: :related_work
   has_and_belongs_to_many :preceding_works, class_name: 'Work', property: :preceded_by, inverse_of: :succeeded_by
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
@@ -25,6 +25,11 @@ class Work < ActiveFedora::Base
   # Note also that these methods will automatically
   # save the object, as AF does this for the related
   # object when creating a relation.
+  def add_instance(instance)
+    instance.work = self
+    work.instances << instance
+  end
+
   def add_related(work)
     work.related_works << self
     related_works << work
