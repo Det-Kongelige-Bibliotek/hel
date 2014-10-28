@@ -3,6 +3,7 @@ module Authority
   # Authority subclasses.
   class Base < ActiveFedora::Base
     include Concerns::Inheritance
+    include Hydra::AccessControls::Permissions
 
     has_metadata 'mads', type: Datastreams::MADS::Document
     has_attributes :identifiers, datastream: 'mads', multiple: true
