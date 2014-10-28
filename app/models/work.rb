@@ -55,6 +55,7 @@ class Work < ActiveFedora::Base
 
   def to_solr(solr_doc = {})
     super
+    Solrizer.insert_field(solr_doc, 'display_value',title_values.first, :displayable)
     title_values.each do |val|
       Solrizer.insert_field(solr_doc, 'title', val, :stored_searchable, :displayable)
     end
