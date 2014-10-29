@@ -2,7 +2,7 @@ module Concerns
   # To be mixed in by AF models with Bibframe datastreams
   # Contains methods to produce an RDF representation of object
   # The only publically used method is to_rdf, which is called
-  # when the user requests a document in rdf format.work
+  # when the user requests a document in rdf format.
   # The Bibframe Metadata is combined with the Fedora RelsExt
   # and outputted as a single RDF compliant document.
   # <?xml version="1.0"?>
