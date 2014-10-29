@@ -1,6 +1,32 @@
 module Concerns
   # To be mixed in by AF models with Bibframe datastreams
   # Contains methods to produce an RDF representation of object
+  # The only publically used method is to_rdf, which is called
+  # when the user requests a document in rdf format.work
+  # The Bibframe Metadata is combined with the Fedora RelsExt
+  # and outputted as a single RDF compliant document.
+  # <?xml version="1.0"?>
+  #       <rdf:RDF xmlns:bf="http://bibframe.org/vocab/#" 
+  #       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  #       xmlns:relators="http://id.loc.gov/vocabulary/relators/#">
+  #   <bf:Work rdf:about="http://valhal.kb.dk/resources/valhal:1">
+  #   <bf:relatedWork rdf:resource="http://valhal.kb.dk/resources/valhal:3"/>
+  #   <relators:aut rdf:resource="http://valhal.kb.dk/resources/valhal:2"/>
+  #   <bf:title>
+  #     <bf:Title>
+  #       <bf:titleType>uniform</bf:titleType>
+  #       <bf:titleValue>Great Expectations</bf:titleValue>
+  #     </bf:Title>
+  #   </bf:title>
+  #   <bf:identifier>
+  #     <bf:Identifier>
+  #       <bf:identifierScheme>uuid</bf:identifierScheme>
+  #   <bf:identifierValue>4c168590-4180-0132-e264-101f744d4172</bf:identifierValue>
+  #     </bf:Identifier>
+  #   </bf:identifier>
+  # </bf:Work>
+  # </rdf:RDF>
+
   module RDFOutput
     BIBFRAME_URI = 'http://bibframe.org/vocab/#'
     LOC_RELATORS_URI = 'http://id.loc.gov/vocabulary/relators/#'
@@ -47,9 +73,10 @@ module Concerns
     # rubocop:enable Metrics/MethodLength
 
     # create a link to a resource based on
-    # a Fedora identifier
-    # e.g. from info:fedora/changeme:90
-    # to http://valhal.kb.dk/works/changeme:90
+    # a Fedora identifier and the application url
+    # set in the local config file
+    # e.g. from info:fedora/valhal:90
+    # to http://valhal.kb.dk/resources/valhal:90
     def create_resource_url(fedora_identifier)
       app_url = CONFIG[Rails.env.to_sym][:application_url]
       system_id = fedora_identifier.split('/').last
@@ -63,11 +90,12 @@ module Concerns
     end
 
     # Given a Nokogiri::XML::Document and a namespace uri
-    # return a hash of all objects within that namespace.
+    # return a hash of all objects within that namespace,
+    # with Fedora links corrected to be Valhal links
     # For example an element in the form:
-    # <ns0:relatedWork rdf:resource='someresource.com'/>
+    # <ns0:relatedWork rdf:resource='info:fedora/valhal:90'/>
     # will be rendered as:
-    # { relatedWork: 'someresource.com' }
+    # { relatedWork: 'http://valhal.kb.dk/resources/valhal:90' }
     def namespaced_relations(doc, namespace_uri)
       val_hash = rip_rdf_statements(doc.xpath('.//ns:*', 'ns' => namespace_uri))
       val_hash.each { |k, v| val_hash[k] = create_resource_url(v) }
