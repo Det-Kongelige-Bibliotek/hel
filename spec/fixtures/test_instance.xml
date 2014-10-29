@@ -1,26 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bf:Instance xmlns:bf="http://bibframe.org/vocab/">
-  <bf:note>Mode of access: World Wide Web.</bf:note>
-  <bf:language authority="http://id.loc.gov/vocabulary/languages.html">eng</bf:language>
-  <bf:identifier>
-    <bf:identifierValue>00078344056</bf:identifierValue>
-    <bf:identifierScheme>aleph</bf:identifierScheme>
-  </bf:identifier>
-  <bf:publication>
-    <bf:publicationNote>Washington D.C.</bf:publicationNote>
-    <bf:publicationDate>1999</bf:publicationDate>
-  </bf:publication>
-  <bf:production>
-    <bf:productionNote>Bangor</bf:productionNote>
-    <bf:productionDate>1998</bf:productionDate>
-  </bf:production>
-  <bf:distribution>
-    <bf:distributionNote>Horseback.</bf:distributionNote>
-    <bf:distributionDate>2000</bf:distributionDate>
-  </bf:distribution>
-  <bf:isbn13>
-    <bf:Identifier>
-      <bf:label>9780521169004</bf:label>
-    </bf:Identifier>
-  </bf:isbn13>
-</bf:Instance>
+<rdf:RDF xmlns:bf="http://bibframe.org/vocab/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <bf:Instance rdf:about="http://examples.org/mogie/instance/">
+    <bf:publication>
+      <bf:Provider>
+        <bf:providerName>
+          <bf:Organization>
+            <bf:label>Master Gutenbergs Workshop</bf:label>
+          </bf:Organization>
+        </bf:providerName>
+        <bf:providerPlace>
+          <bf:Place>
+            <bf:label>Mainz</bf:label>
+          </bf:Place>
+        </bf:providerPlace>
+        <bf:copyrightDate>ca. 1453-1454.</bf:copyrightDate>
+      </bf:Provider>
+    </bf:publication>
+    <bf:modeOfIssuance>single unit</bf:modeOfIssuance>
+    <bf:extent>parts of 2 leaves ;</bf:extent>
+    <bf:dimensions>10.7 x 30.8 cm.</bf:dimensions>
+    <bf:titleStatement>Ars minor fragment.</bf:titleStatement>
+    <bf:instanceOf rdf:resource="http://example.org/mogie/"/>
+    <bf:isbn13>
+      <bf:Identifier>
+        <bf:label>9780521169004</bf:label>
+      </bf:Identifier>
+    </bf:isbn13>
+  </bf:Instance>
+</rdf:RDF>

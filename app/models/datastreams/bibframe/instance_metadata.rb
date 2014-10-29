@@ -5,48 +5,29 @@ module Datastreams
     class InstanceMetadata < Datastreams::Bibframe::Resource
       set_terminology do |t|
         t.root(path:  'Instance', xmlns: 'http://bibframe.org/vocab/')
-        t.language do
-          t.authority(path: { attribute: 'authority', namespace_prefix: nil })
-        end
         t.note
         t.identifier do
-          t.identifierValue
-          t.identifierScheme
+          t.Identifier
         end
         t.publication do
-          t.publicationNote
-          t.publicationDate
-        end
-        t.distribution do
-          t.distributionNote
-          t.distributionDate
-        end
-        t.production do
-          t.productionNote
-          t.productionDate
+          t.Provider do
+            t.copyrightDate
+          end
         end
         t.isbn_13(path: 'isbn13') do
           t.Identifier do
             t.label
           end
         end
-
-        t.systemNumber do
-          t.Identifier do
-            t.identifierValue
-          end
+        t.language do
+          t.Language
         end
-
-        t.language_authority(proxy: [:language, :authority])
-        t.production_note(proxy: [:production, :productionNote])
-        t.production_date(proxy: [:production, :productionDate])
-        t.distribution_note(proxy: [:distribution, :distributionNote])
-        t.distribution_date(proxy: [:distribution, :distributionDate])
-        t.publication_note(proxy: [:publication, :publicationNote])
-        t.publication_date(proxy: [:publication, :publicationDate])
-        t.identifier_value(proxy: [:identifier, :identifierValue])
-        t.identifier_scheme(proxy: [:identifier, :identifierScheme])
+        t.mode_of_issuance(path: 'modeOfIssuance')
+        t.title_statement(path: 'titleStatement', index_as: :stored_searchable)
+        t.extent
+        t.dimensions
         t.isbn13(proxy: [:isbn_13, :Identifier, :label])
+        t.copyright_date(proxy: [:publication, :Provider, :copyrightDate])
       end
 
       define_template :isbn13 do |xml, value|
@@ -58,7 +39,7 @@ module Datastreams
       end
 
       def self.xml_template
-        Nokogiri::XML.parse('<bf:Instance xmlns:bf="http://bibframe.org/vocab/">')
+        Nokogiri::XML.parse('<bf:Instance xmlns:bf="http://bibframe.org/vocab/"/>')
       end
 
       # return a hash of identifiers such that

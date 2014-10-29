@@ -5,3 +5,12 @@
 ldap:
   user: WRITE_YOUR_LDAP-LOGIN_HERE
   password: WRITE_YOUR_LDAP-PASSWORD_HERE
+# These links are used to construct urls
+# to Valhal objects from the model level
+# e.g. in RDF export
+test:
+  application_url: test
+development:
+  application_url: http://localhost:3000
+production:
+  application_url: http://valhal.kb.dk

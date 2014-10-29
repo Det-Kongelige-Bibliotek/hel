@@ -243,13 +243,14 @@
       <analyzer>
         <tokenizer class="solr.ICUTokenizerFactory"/>
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
-        <filter class="solr.EnglishPossessiveFilterFactory"/>
+        <!--filter class="solr.EnglishPossessiveFilterFactory"/-->
         <!-- EnglishMinimalStemFilterFactory is less aggressive than PorterStemFilterFactory: -->
-        <filter class="solr.EnglishMinimalStemFilterFactory"/>
+        <!--filter class="solr.EnglishMinimalStemFilterFactory"/-->
         <!--
         <filter class="solr.PorterStemFilterFactory"/>
         -->
         <filter class="solr.TrimFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
       </analyzer>
     </fieldType>
         

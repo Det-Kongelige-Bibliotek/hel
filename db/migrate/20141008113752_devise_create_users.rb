@@ -24,7 +24,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.string    :username
 
-      t.string    :memberOf
+      t.string    :member_of
 
       t.timestamps
     end

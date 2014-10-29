@@ -30,7 +30,7 @@ describe Datastreams::MADS::Document do
     end
 
     describe 'add_authorized_personal_name' do
-      before :all do
+      before :each do
         @name = { scheme: 'viaf', family: 'Joyce', given: 'James', date: '1882-1941' }
       end
 

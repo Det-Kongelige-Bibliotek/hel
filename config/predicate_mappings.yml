@@ -16,9 +16,28 @@
 #   :oai_item_id => ["info:fedora/oai:example.edu:changeme:500"]
 #
 :predicate_mapping:
-  http://www.kb.dk#:
+  http://bibframe.org/vocab/#:
     :instance_of: instanceOf
+    :has_instance: hasInstance
+    :is_part_of: isPartOf
+    :has_part: hasPart
+    :related_work: relatedWork
+    :preceded_by: precededBy
+    :succeeded_by: succeededBy
+  # We use LOC relators for describing relations
+  # on the Resource side.
+  http://id.loc.gov/vocabulary/relators/#:
+    :creator: cre
+    :author: aut
+    :recipient: rcp
+  # Custom stuff we don't have a proper schema for yet
+  # Try and find a proper schema before putting something here!
+  http://www.kb.dk#:
+    # These show the Authority side of a relationship
     :content_for: contentFor
+    :creator_of: creatorOf
+    :author_of: authorOf
+    :recipient_of: recipient_of
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo
     :has_annotation: hasAnnotation
@@ -31,7 +50,6 @@
     :has_metadata: hasMetadata
     :has_member: hasMember
     :has_model: hasModel
-    :has_part: hasPart
     :has_subset: hasSubset
     :has_topic: hasTopic
     :is_annotation_of: isAnnotationOf
@@ -42,7 +60,6 @@
     :is_member_of: isMemberOf
     :is_member_of_collection: isMemberOfCollection
     :is_metadata_for: isMetadataFor
-    :is_part_of: isPartOf
     :is_subset_of: isSubsetOf
     :is_topic_of: isTopicOf
   info:fedora/fedora-system:def/model#:

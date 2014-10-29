@@ -4,36 +4,77 @@ module Datastreams
     class WorkMetadata < Datastreams::Bibframe::Resource
       set_terminology do |t|
         t.root(path:  'Work', xmlns: 'http://bibframe.org/vocab/')
-        t.workTitle do
-          t.Title do
-            t.titleValue
-            t.subtitle
-          end
+        t.title do
+          t.Title
+        end
+        t.note
+        t.identifier do
+          t.Identifier
         end
         t.language do
-          t.authority(path: { attribute: 'authority', namespace_prefix: nil })
+          t.Language
         end
+      end
 
-        t.note
-        t.subject do
-          t.Topic do
-            t.label
+      define_template :title do |xml, type, subtitle, lang, value|
+        xml.title do
+          xml.Title do
+            lang_attr = lang.present? ? { 'xml:lang' => lang } : {}
+            xml.titleType { xml.text(type) }
+            xml.titleValue(lang_attr) { xml.text(value) }
+            xml.subtitle(lang_attr)  { xml.text(subtitle) } unless subtitle.blank?
           end
         end
+      end
 
-        t.systemNumber do
-          t.Identifier do
-            t.identifierValue
-          end
+      # Create an Array of Title objects
+      # based on the title.Title nodeset
+      def titles
+        title.Title.nodeset.map { |n| Title.new(n) }
+      end
+
+      # Return only the title values - useful for indexing
+      def title_values
+        titles.map(&:value)
+      end
+
+      # Add a title to the datastream, expects a Hash
+      # with the following keys:
+      # { value: 'The Importance of Being Earnest', type: 'Uniform',
+      #  subtitle: 'and other encounters', lang: 'en' }
+      # Note that value is the only necessary key
+      # but the others are important as well!
+      # Note also that lang refers to the language of the titleValue
+      # not the lang of the resource
+      def add_title(title_hash)
+        sibling = find_by_terms(:title).last
+        if sibling
+          node = add_next_sibling_node(sibling, :title, title_hash[:type], title_hash[:subtitle],
+                                       title_hash[:lang], title_hash[:value])
+        else
+          node = add_child_node(ng_xml.root, :title, title_hash[:type], title_hash[:subtitle],
+                                title_hash[:lang], title_hash[:value])
         end
-
-        t.title(proxy: [:workTitle, :Title, :titleValue])
-        t.subtitle(proxy: [:workTitle, :Title, :subtitle])
-        t.language_authority(proxy: [:language, :authority])
+        content_will_change!
+        node
       end
 
       def self.xml_template
-        Nokogiri::XML.parse('<bf:Work xmlns:bf="http://bibframe.org/vocab/">')
+        Nokogiri::XML.parse('<bf:Work xmlns:bf="http://bibframe.org/vocab/"/>')
+      end
+    end
+
+    # present easy accessors for title attributes
+    class Title
+      attr_reader :type, :value, :subtitle, :lang
+
+      # Create new object from a Nokogiri::XML::Element
+      def initialize(xml)
+        @type = xml.css('bf|titleType').text
+        @subtitle = xml.css('bf|subtitle').text
+        val_node = xml.css('bf|titleValue')
+        @value = val_node.text
+        @lang = val_node.attr('lang').present? ? val_node.attr('lang').text : nil
       end
     end
   end

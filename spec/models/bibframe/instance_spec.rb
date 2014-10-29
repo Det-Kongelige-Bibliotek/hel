@@ -1,57 +1,62 @@
 require 'spec_helper'
 
-# Dummy class for testing
-class Stub < ActiveFedora::Base
-  include Bibframe::Instance
-end
-
 describe Bibframe::Instance do
   before :all do
-    @stub = Stub.new
-  end
-  it 'should allow us to set a language value' do
-    @stub.language = 'eng'
-    expect(@stub.language).to eql ['eng']
-  end
-  it 'should allow us to set a language authority' do
-    @stub.language_authority = 'I says'
-    expect(@stub.language_authority).to eql ['I says']
-  end
-  it 'should allow us to set an identifier value' do
-    @stub.identifier_value = '12345'
-    expect(@stub.identifier_value).to eql ['12345']
-  end
-  it 'should allow us to set an identifier scheme' do
-    @stub.identifier_scheme = 'aleph'
-    expect(@stub.identifier_scheme).to eql ['aleph']
-  end
-  it 'should allow us to set a production date' do
-    @stub.production_date = '1999'
-    expect(@stub.production_date).to eql '1999'
-  end
-  it 'should allow us to set a production note' do
-    @stub.production_note = 'by giant robots!'
-    expect(@stub.production_note).to eql 'by giant robots!'
-  end
-  it 'should allow us to set a distribution date' do
-    @stub.distribution_date = '2000'
-    expect(@stub.distribution_date).to eql '2000'
-  end
-  it 'should allow us to set a distribution note' do
-    @stub.distribution_note = 'On llamas!'
-    expect(@stub.distribution_note).to eql 'On llamas!'
-  end
-  it 'should allow us to set a publication date' do
-    @stub.publication_date = '2000'
-    expect(@stub.publication_date).to eql '2000'
-  end
-  it 'should allow us to set a publication note' do
-    @stub.publication_note = 'On the bottom of your fridge'
-    expect(@stub.publication_note).to eql 'On the bottom of your fridge'
-  end
-  it 'should allow us to set and get isbn13' do
-    @stub.isbn13 = '9780521169004'
-    expect(@stub.isbn13).to eql '9780521169004'
+    @instance = Instance.new
   end
 
+  describe 'on include' do
+    it 'fails when included from a non AF class' do
+      expect {
+        # doesn't extend AF::Base
+        class StubNoAF; include Bibframe::Instance; end
+      }.to raise_error(RuntimeError)
+    end
+
+    it 'does not fail when included from an AF descendant' do
+      expect { Instance.new }.not_to raise_error
+    end
+  end
+
+  describe 'literals' do
+    it 'should allow us to set and get notes' do
+      @instance.note = ['a note']
+      expect(@instance.note).to eql ['a note']
+    end
+
+    it 'should allow us to set and get a copyright date' do
+      @instance.copyright_date = '19-02-2012'
+      expect(@instance.copyright_date).to eql '19-02-2012'
+    end
+
+    it 'should allow us to set and get isbn13' do
+      @instance.isbn13 = '9780521169004'
+      expect(@instance.isbn13).to eql '9780521169004'
+    end
+
+    it 'should allow us to set and get a mode of issuance' do
+      @instance.mode_of_issuance = 'printed'
+      expect(@instance.mode_of_issuance).to eql 'printed'
+    end
+
+    it 'should allow us to set and get a title statement' do
+      @instance.title_statement = 'Published in Rome'
+      expect(@instance.title_statement).to eql 'Published in Rome'
+    end
+
+    it 'should allow us to set and get an extent' do
+      @instance.extent = 'incomplete'
+      expect(@instance.extent).to eql 'incomplete'
+    end
+
+    it 'should allow us to set and get dimensions' do
+      @instance.dimensions = '36cm'
+      expect(@instance.dimensions).to eql '36cm'
+    end
+
+    it 'should allow us to set and get a uuid' do
+      @instance.uuid = 'veryrandomuuid'
+      expect(@instance.uuid).to eql 'veryrandomuuid'
+    end
+  end
 end

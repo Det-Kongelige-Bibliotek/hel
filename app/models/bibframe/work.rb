@@ -3,21 +3,14 @@ module Bibframe
   # should live in this module
   module Work
     extend ActiveSupport::Concern
+    include Bibframe::Concerns::MetadataDelegation
+
     included do
-      has_metadata(name: 'bfMetadata',
-                   type: Datastreams::Bibframe::WorkMetadata)
-      has_attributes(:title, :subtitle,
-                     datastream: 'bfMetadata', multiple: false)
-      has_attributes(:language, :language_authority, :note,
-                     datastream: 'bfMetadata', multiple: true)
+      fail 'The host class must extend ActiveFedora::Base!' unless self < ActiveFedora::Base
 
-      def uuid
-        bfMetadata.uuid
-      end
+      has_metadata name: 'bfMetadata', type: Datastreams::Bibframe::WorkMetadata
+      has_attributes :note, datastream: 'bfMetadata', multiple: true
 
-      def uuid=(val)
-        bfMetadata.uuid = val
-      end
     end
   end
 end

@@ -7,66 +7,96 @@ require 'spec_helper'
 # e.g. validations, relations etc.
 describe Instance do
   before :all do
-    @element = Instance.new
+    @instance = Instance.new
   end
 
-  it 'has many files' do
-    #i = Instance.new
-    expect(@element.content_files.size).to eql 0
+  describe 'relations' do
+    it 'has many files' do
+      expect(@instance.content_files.size).to eql 0
+    end
+
+    describe 'to work' do
+      before :all do
+        @i = Instance.create
+        @w = Work.create
+        @i.set_work(@w)
+      end
+
+      it 'can be an instance of a work' do
+        expect(@i.work).to eql @w
+      end
+
+      it 'is a symmetrical relationship' do
+        expect(@w.instances).to include @i
+      end
+
+      it 'is expressed symmetrically in rels-ext' do
+        expect(@i.rels_ext.to_rels_ext).to include('instanceOf')
+        expect(@w.rels_ext.to_rels_ext).to include('hasInstance')
+      end
+    end
+
+    it 'can have parts which are Works' do
+      w = Work.new
+      @instance.parts << w
+      expect(@instance.parts).to include w
+    end
   end
 
-  it 'should be possible to edit the activity field' do
-    @element.activity.should be_nil
-    @element.activity = 'TEST'
-    @element.activity.should == 'TEST'
-  end
+  describe 'administration' do
+    it 'should be possible to edit the activity field' do
+      @instance.activity.should be_nil
+      @instance.activity = 'TEST'
+      @instance.activity.should == 'TEST'
+    end
 
-  it 'should be possible to edit the workflow_status field' do
-    @element.workflow_status.should be_nil
-    @element.workflow_status = 'TEST'
-    @element.workflow_status.should == 'TEST'
-  end
+    it 'should be possible to edit the workflow_status field' do
+      @instance.workflow_status.should be_nil
+      @instance.workflow_status = 'TEST'
+      @instance.workflow_status.should == 'TEST'
+    end
 
-  it 'should be possible to edit the embargo field' do
-    @element.embargo.should be_nil
-    @element.embargo = 'TEST'
-    @element.embargo.should == 'TEST'
-  end
+    it 'should be possible to edit the embargo field' do
+      @instance.embargo.should be_nil
+      @instance.embargo = 'TEST'
+      @instance.embargo.should == 'TEST'
+    end
 
-  it 'should be possible to edit the embargo_date field' do
-    @element.embargo_date.should be_nil
-    @element.embargo_date = 'TEST'
-    @element.embargo_date.should == 'TEST'
-  end
+    it 'should be possible to edit the embargo_date field' do
+      @instance.embargo_date.should be_nil
+      @instance.embargo_date = 'TEST'
+      @instance.embargo_date.should == 'TEST'
+    end
 
-  it 'should be possible to edit the embargo_condition field' do
-    @element.embargo_condition.should be_nil
-    @element.embargo_condition = 'TEST'
-    @element.embargo_condition.should == 'TEST'
-  end
+    it 'should be possible to edit the embargo_condition field' do
+      @instance.embargo_condition.should be_nil
+      @instance.embargo_condition = 'TEST'
+      @instance.embargo_condition.should == 'TEST'
+    end
 
-  it 'should be possible to edit the access_condition field' do
-    @element.access_condition.should be_nil
-    @element.access_condition = 'TEST'
-    @element.access_condition.should == 'TEST'
-  end
+    it 'should be possible to edit the access_condition field' do
+      @instance.access_condition.should be_nil
+      @instance.access_condition = 'TEST'
+      @instance.access_condition.should == 'TEST'
+    end
 
-  it 'should be possible to edit the copyright field' do
-    @element.copyright.should be_nil
-    @element.copyright = 'TEST'
-    @element.copyright.should == 'TEST'
-  end
+    it 'should be possible to edit the copyright field' do
+      @instance.copyright.should be_nil
+      @instance.copyright = 'TEST'
+      @instance.copyright.should == 'TEST'
+    end
 
-  it 'should be possible to edit the material_type field' do
-     @element.material_type.should be_nil
-    @element.material_type = 'TEST'
-    @element.material_type.should == 'TEST'
-  end
+    it 'should be possible to edit the material_type field' do
+      @instance.material_type.should be_nil
+      @instance.material_type = 'TEST'
+      @instance.material_type.should == 'TEST'
+    end
 
-  it 'should be possible to edit the availability field' do
-    @element.availability.should be_nil
-    @element.availability = 'TEST'
-    @element.availability.should == 'TEST'
+    it 'should be possible to edit the availability field' do
+      @instance.availability.should be_nil
+      @instance.availability = 'TEST'
+      @instance.availability.should == 'TEST'
+    end
   end
 
   it 'should have a uuid on creation' do
@@ -75,5 +105,27 @@ describe Instance do
     i.save
     expect(i.uuid.present?).to be true
   end
-end
 
+  describe 'to_rdf' do
+    before :all do
+      @instance = Instance.create
+    end
+    # This test will only catch the worst errors
+    # as the Reader is very forgiving
+    # TODO: Find a more stringent validator
+    it 'is valid rdf' do
+      expect {
+        RDF::RDFXML::Reader.new(@instance.to_rdf, validate: true)
+      }.not_to raise_error
+    end
+  end
+
+  describe 'to_solr' do
+    it 'should include the title statement' do
+      i = Instance.new
+      i.title_statement = 'King James Edition'
+      vals = i.to_solr.values.flatten
+      expect(vals).to include 'King James Edition'
+    end
+  end
+end
