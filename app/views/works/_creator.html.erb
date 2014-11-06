@@ -1,0 +1,46 @@
+<%= fields_for "work[creators][#{index}]", creator, index: nil do |creator_fields| %>
+    <% if creator['id'].blank? %>
+        <div class="<%= hidden ? 'hidden-' : '' %>creator">
+          <div class='col-sm-8'>
+            <div class='form-group'>
+              <%= creator_fields.label 'id', 'Agent' %>
+              <%= select_tag "work[creators][#{index}][id]", options_for_select(get_agent_list),  {include_blank: true, class: (hidden ? '' : 'combobox ') + 'form-control input-large creator-id'} %>
+            </div>
+          </div>
+          <div class='col-sm-2'>
+            <div class="form-group">
+              <%= creator_fields.label 'type', 'Type' %>
+              <%= select_tag "work[creators][#{index}][type]", options_for_select(['aut']),  {include_blank: true, class: (hidden ? '' : 'combobox ') + 'form-control input-large creator-type'}  %>
+            </div>
+          </div>
+          <div class='col-sm-1'>
+            <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-creator">
+              <span class="glyphicon glyphicon-minus"></span>
+              Slet
+            </a>
+          </div>
+        </div>
+    <% else %>
+        <div class="creator">
+          <div class='col-sm-8'>
+            <div class='form-group'>
+              <%= creator_fields.label :id, 'Agent' %>
+              <%= select_tag "work[creators][#{index}][id]", options_for_select(get_agent_list,creator['id']),  {include_blank: false, class: 'combobox form-control input-large creator-id'} %>
+            </div>
+          </div>
+          <div class='col-sm-2'>
+            <div class="form-group">
+              <%= creator_fields.label :type, 'Type' %>
+              <%= select_tag "work[creators][#{index}][type]", options_for_select(['aut'],creator['type']),  {include_blank: false, class: 'combobox form-control input-large creator-type'} %>
+            </div>
+          </div>
+          <div class='col-sm-1'>
+            <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-creator">
+              <span class="glyphicon glyphicon-minus"></span>
+              Slet
+            </a>
+          </div>
+        </div>
+    <% end %>
+
+<% end %>

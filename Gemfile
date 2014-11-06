@@ -17,8 +17,7 @@ gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -50,9 +49,26 @@ gem 'devise'
 gem 'devise-guests', "~> 0.3"
 gem 'devise_ldap_authenticatable'
 
+gem 'ohm'
+
 group :development, :test do
   gem 'simplecov'
   gem 'rspec-rails'
   gem 'jettywrapper'
   gem 'thin'
+  gem 'linkeddata'
 end
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
+group :test do
+  gem 'fakeredis'
+end
+
+#logging start
+gem 'log4r', '1.1.10'
+gem 'quiet_assets'
+#logging end

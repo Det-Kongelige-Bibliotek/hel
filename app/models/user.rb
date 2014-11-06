@@ -11,21 +11,21 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   before_validation :get_ldap_email
-  before_save :get_ldap_name, :get_ldap_memberOf
+  before_save :get_ldap_name, :get_ldap_member_of
 
   def get_ldap_email
-    emails = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+    emails = Devise::LDAP::Adapter.get_ldap_param(self.username, 'mail')
     self.email = emails.first.to_s unless emails.blank?
   end
 
   def get_ldap_name
-    names = Devise::LDAP::Adapter.get_ldap_param(self.username,"cn")
-    self.name = names.first.to_s.force_encoding("utf-8") unless names.blank?
+    names = Devise::LDAP::Adapter.get_ldap_param(self.username, 'cn')
+    self.name = names.first.to_s.force_encoding('utf-8') unless names.blank?
   end
 
-  def get_ldap_memberOf
-    groups = Devise::LDAP::Adapter.get_ldap_param(self.username,"memberOf")
-    self.memberOf=groups.join(';').force_encoding("utf-8") unless groups.blank?
+  def get_ldap_member_of
+    groups = Devise::LDAP::Adapter.get_ldap_param(self.username, 'memberOf')
+    self.member_of=groups.join(';').force_encoding('utf-8') unless groups.blank?
   end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
@@ -36,14 +36,15 @@ class User < ActiveRecord::Base
   end
 
   #TODO: Change to reflect the Valhal usergroups, when they are defined
+  #TODO: group names should be loaded from a config file
   def groups
-    array = []
-    unless self.memberOf.blank?
-      if self.memberOf.include? 'CN=Brugerbasen_SuperAdmins,OU=Brugerbasen,OU=Adgangsstyring,DC=kb,DC=dk'
-        array << "admin"
+    groups = []
+    unless self.member_of.blank?
+      if self.member_of.include? 'CN=Brugerbasen_SuperAdmins,OU=Brugerbasen,OU=Adgangsstyring,DC=kb,DC=dk'
+        groups << 'admin'
       end
     end
-    array
+    groups
   end
 
 end

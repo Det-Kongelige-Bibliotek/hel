@@ -18,6 +18,18 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
+# We'll put our functioning tests here for now
+describe InstancesController, type: :controller do
+  describe '#show' do
+    it 'should return rdf when requested' do
+      instance = Instance.create
+      get :show, { id: instance.id, format: :rdf }
+      expect(assigns(:instance)).to eq(instance)
+    end
+  end
+end
+
+
 describe InstancesController, broken: true do
 
   # This should return the minimal set of attributes required to create a valid
@@ -156,5 +168,167 @@ describe InstancesController, broken: true do
       response.should redirect_to(instances_url)
     end
   end
+
+  describe 'Update preservation profile metadata' do
+    before(:each) do
+      @ins = Instance.create!
+    end
+    it 'should have a default preservation settings' do
+      ins = Instance.find(@ins.pid)
+      ins.preservation_profile.should_not be_blank
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_comment.should be_blank
+    end
+
+    it 'should be updated and redirect to the instance' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
+
+      ins = Instance.find(@ins.pid)
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_profile.should == profile
+      ins.preservation_comment.should == comment
+    end
+
+    it 'should not update or redirect, when the profile is wrong.' do
+      profile = "wrong profile #{Time.now.to_s}"
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should_not redirect_to(@ins)
+
+      ins = Instance.find(@ins.pid)
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_profile.should_not == profile
+      ins.preservation_comment.should_not == comment
+    end
+
+    it 'should update the preservation date' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      comment = "This is the preservation comment"
+      ins = Instance.find(@ins.pid)
+      d = ins.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
+
+      ins = Instance.find(@ins.pid)
+      ins.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update the preservation date, when the same profile and comment is given.' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      comment = "This is the preservation comment"
+      @ins.preservation_profile = profile
+      @ins.preservation_comment = comment
+      @ins.save
+
+      ins = Instance.find(@ins.pid)
+      d = ins.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
+
+      ins = Instance.find(@ins.pid)
+      ins.preservation_modify_date.should == d
+    end
+
+
+    #TODO: Mock rabbitMQ
+    it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'true'
+      comment = "This is the preservation comment"
+      destination = MQ_CONFIG["preservation"]["destination"]
+      uri = MQ_CONFIG["mq_uri"]
+
+      conn = Bunny.new(uri)
+      conn.start
+
+      ch = conn.create_channel
+      q = ch.queue(destination, :durable => true)
+
+      put :update_preservation_profile, {:id => @ins.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
+
+      q.subscribe do |delivery_info, metadata, payload|
+        metadata[:type].should == Constants::MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
+        payload.should include @ins.pid
+        json = JSON.parse(payload)
+        json.keys.should include ('UUID')
+        json.keys.should include ('Preservation_profile')
+        json.keys.should include ('Valhal_ID')
+        json.keys.should_not include ('File_UUID')
+        json.keys.should_not include ('Content_URI')
+        json.keys.should include ('Model')
+       # json.keys.should include ('metadata')
+        json['metadata'].keys.each do |k|
+          @ins.datastreams.keys.should include k
+          Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.should_not include k
+        end
+      end
+
+      ins = Instance.find(@ins.pid)
+      ins.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
+      ins.preservation_comment.should == comment
+      sleep 1.second
+      conn.close
+    end
+
+    it 'should not send a message, when performing preservation and the profile has Yggdrasil set to false' do
+      profile = PRESERVATION_CONFIG['preservation_profile'].keys.first
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'false'
+      comment = 'This is the preservation comment'
+
+      put :update_preservation_profile, {:id => @ins.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON,
+                                         :preservation => {:preservation_profile => profile,
+                                                           :preservation_comment => comment }}
+      response.should redirect_to(@ins)
+
+      ins = Instance.find(@ins.pid)
+      ins.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
+      ins.preservation_comment.should == comment
+    end
+
+    it 'should send inheritable settings to the files' do
+      file = ContentFile.create
+      @ins.content_files << file
+      @ins.save!
+      file.save!
+
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      comment = "This is the preservation comment-#{Time.now.to_s}"
+
+      put :update_preservation_profile, {:id => @ins.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation =>
+          {:preservation_profile => profile, :preservation_comment => comment, :cascade_preservation => '1'}}
+
+      file = ContentFile.find(file.pid)
+      file.preservation_state.should_not be_blank
+      file.preservation_details.should_not be_blank
+      file.preservation_modify_date.should_not be_blank
+      file.preservation_profile.should == profile
+      file.preservation_comment.should == comment
+    end
+
+  end
+
+
+  describe 'GET preservation' do
+    it 'should assign \'@ins\' to the ordered_instance' do
+      @ins = Instance.create!
+      get :preservation, {:id => @ins.pid}
+      assigns(:instance).should eq(@ins)
+    end
+  end
+
 
 end

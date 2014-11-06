@@ -1,0 +1,86 @@
+ .mandatory input, .mandatory select{
+     border-color:red;
+ }
+ .mandatory label{
+     color:red;
+ }
+ .work{
+     background:#eee;
+     padding: 0px 0px 20px 0px;
+     position: relative;
+
+ }
+ .work .page-header{
+     border-color:#DDDDDD;
+ }
+ .work hr{
+     border-bottom:1px solid #DDDDDD;
+     padding:0px 0px;
+     margin: 5px 0px;
+ }
+
+
+ .navbar{
+     margin-bottom: 0px;
+     border-radius: 0px;
+     z-index: 2;
+ }
+
+ table{
+     table-layout: fixed;
+ }
+
+
+
+
+ .page-header{
+    margin-top:0px;
+ }
+ .instans fieldset{
+     margin-bottom: 30px;
+     background: #eee;
+     padding:20px 10px;
+     border-radius: 8px 8px 8px 8px;
+
+ }
+ .instans legend{
+     color:#777;
+ }
+
+ .dot{
+     width:50px;
+     height:50px;
+     -webkit-transform: rotate(45deg);
+     z-index: 2;
+     background:#EEE;
+     position: absolute;
+     bottom:-26px;
+     left:50%;
+     margin-left:-28px;
+ }
+
+
+
+
+ /*FILEUPLOAD https://blueimp.github.io/jQuery-File-Upload/
+ */
+
+ .fileinput-button input {
+     position: absolute;
+     top: 0;
+     right: 0;
+     margin: 0;
+     opacity: 0;
+     -ms-filter: 'alpha(opacity=0)';
+     font-size: 200px;
+     direction: ltr;
+     cursor: pointer;
+ }
+
+ .fileupload-buttonbar .btn, .fileupload-buttonbar .toggle {
+     margin-bottom: 5px;
+ }
+
+
+
+

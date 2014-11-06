@@ -1,0 +1,27 @@
+<h1>Controlled Lists</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name </th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @controlled_lists.each do |controlled_list| %>
+      <tr>
+        <td><%= controlled_list.name %></td>
+        <td><%= link_to 'Show', controlled_list %></td>
+        <td><%= link_to 'Edit', edit_administration_controlled_list_path(controlled_list.id) %></td>
+        <td><%= link_to 'Delete', controlled_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Controlled List', new_administration_controlled_list_path %>

@@ -1,0 +1,32 @@
+<div class="<%= "empty-name" unless scheme.present? %>">
+<div class='form-group'>
+  <div class='col-sm-2'>
+    <label>Scheme</label>
+  </div>
+  <div class='col-sm-2'>
+    <input class="form-control" value="<%= scheme %>" name="authority_person[authorized_personal_name][][scheme]"/>
+  </div>
+</div>
+<div class='form-group'>
+  <div class='col-sm-2'>
+    <label>Given name</label>
+  </div>
+  <div class='col-sm-4'>
+    <input class="form-control"  value="<%= name[:given] %>" name="authority_person[authorized_personal_name][][given]"/>
+  </div>
+  <div class='col-sm-2'>
+    <label>Family name</label>
+  </div>
+  <div class='col-sm-4'>
+    <input class="form-control" value="<%= name[:family] %>" name="authority_person[authorized_personal_name][][family]"/>
+  </div>
+</div>
+<div class='form-group'>
+  <div class='col-sm-2'>
+    <label>Date</label>
+  </div>
+  <div class='col-sm-2'>
+    <input class="form-control" value="<%= name[:date] %>" name="authority_person[authorized_personal_name][][date]"/>
+  </div>
+</div>
+</div>

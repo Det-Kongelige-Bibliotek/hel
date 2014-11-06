@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008113808) do
+ActiveRecord::Schema.define(version: 20141009135002) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "user_id",       null: false
@@ -41,15 +41,14 @@ ActiveRecord::Schema.define(version: 20141008113808) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "name"
-    t.string   "pid"
+    t.string   "member_of"
     t.string   "username"
-    t.string   "memberOf"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "guest",                  default: false
@@ -57,6 +56,10 @@ ActiveRecord::Schema.define(version: 20141008113808) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+
+  create_table "works", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

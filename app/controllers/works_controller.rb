@@ -11,6 +11,10 @@ class WorksController < ApplicationController
   # GET /works/1
   # GET /works/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.rdf { render rdf: @work }
+    end
   end
 
   # GET /works/new
@@ -71,6 +75,6 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(:title, :subtitle, :language, :language_authority, :note)
+    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]])
   end
 end

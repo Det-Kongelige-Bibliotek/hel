@@ -1,7 +1,60 @@
-<h1><%= @work.title %></h1>
-<h2><%= @work.subtitle %></h2>
-<p><%= @work.language %></p>
-<p><%= @work.language_authority %></p>
-<p><%= @work.note %></p>
-<%= link_to 'Edit', edit_work_path(@work) %> |
-<%= link_to 'Back', works_path %>
+<!-- Work -->
+<div class="work previewMode">
+  <div class="container">
+
+    <div class="page-header">
+      <div class="btn-group pull-right">
+
+        <%= link_to 'Edit', edit_work_path(@work), class: 'btn btn-primary' %>
+      </div>
+      <h1>
+        <span class="label label-success fa fa-files-o"> </span><%= @work.titles.first.value%><br>
+        <small><%= @work.titles.first.subtitle%></small>
+      </h1>
+    </div>
+
+
+    <h4>Titler</h4>
+    <table class="table table-striped"><tbody>
+      <% @work.titles.each do |title| %>
+      <tr>
+        <td>
+          <strong>Titel</strong>
+        </td>
+        <td>
+          <span><%= title.value%></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>Undertitle</strong>
+        </td>
+        <td>
+          <span><%= title.subtitle%></span>
+        </td>
+      </tr>
+        <tr>
+          <td>
+            <strong>Sprog</strong>
+          </td>
+          <td>
+            <span><%= title.lang %></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Type</strong>
+          </td>
+          <td>
+            <span><%= title.type%></span>
+          </td>
+        </tr>
+      <% end %>
+      </tbody></table>
+
+  </div>
+  <div class="dot"></div>
+</div>
+<!-- Work end -->
+
+

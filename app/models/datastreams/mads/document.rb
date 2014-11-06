@@ -57,13 +57,18 @@ module Datastreams
       #   </mads:name>
       # </mads:authority>
       def add_authorized_personal_name(name_hash)
+        ensure_valid_name_hash!(name_hash)
+        node = add_child_node(ng_xml.root, :authorized_person, name_hash)
+        content_will_change!
+        node
+      end
+
+      # throws an exception if the hash does not have the necessary data
+      def ensure_valid_name_hash!(name_hash)
         fail 'You must provide an authority scheme' unless name_hash[:scheme].present?
         unless name_hash[:family].present? || name_hash[:given].present? || name_hash[:full].present?
           fail 'You must provide at least one name'
         end
-        node = add_child_node(ng_xml.root, :authorized_person, name_hash)
-        content_will_change!
-        node
       end
 
       # Return a hash of hashes

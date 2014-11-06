@@ -1,0 +1,32 @@
+<%= form_for(@authority_object, html: { class: 'form-horizontal' }) do |f| %>
+  <% if @authority_object.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@authority_object.errors.count, "error") %> prohibited this authority_basis from being saved:</h2>
+
+      <ul>
+      <% @authority_object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <h2>Authorised Personal Names</h2>
+    <% @authority_object.authorized_personal_names.each do |scheme, name| %>
+        <%= render partial: 'name', locals: { scheme: scheme, name: name } %>
+        <br/>
+    <% end %>
+    <h3>New name</h3>
+    <div data-hook="empty-names">
+        <%= render partial: 'name',  locals: { scheme: '', name: { given: '', family: '', date: '' }} %>
+    </div>
+    <a class="btn btn-sm btn-primary col-sm-offset-10" href="#" data-function="new-authorized-personal-name">
+      <span class="glyphicon glyphicon-plus"></span>
+      Add new
+    </a>
+
+
+  <div class="actions">
+    <%= f.submit 'Save', class: 'btn btn-lg btn-primary' %>
+  </div>
+<% end %>
