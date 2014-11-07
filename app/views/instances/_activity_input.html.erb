@@ -1,0 +1,4 @@
+<%=
+    builder.input :activity, collection: Administration::Activity.all, prompt: 'Aktivitet', label_method: :activity,
+                  input_html: { data: { function: 'fetch_activity_data' }}
+%>

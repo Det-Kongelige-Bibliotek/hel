@@ -1,0 +1,76 @@
+# Enable pre-loading of vocabularies into Redis
+# Called by rake valhal:load_controlled_lists to be used on new deploys only.
+workflow_status:
+  name: Workflow status
+  entries:
+    - Ingested
+    - Metadata complete
+    - Færdig forvaltet
+# TODO: update this list with a complete representation
+# e.g. http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
+languages:
+  name: Languages
+  entries:
+    - da
+    - sv
+    - nb
+    - nn
+    - en
+    - fr
+    - de
+    - es
+    - nl
+    - it
+    - pl
+    - ro
+    - fi
+title_type:
+  name: Title types
+  entries:
+    - Uniform
+    - Abbreviated
+    - Translated
+    - Alternative
+collections:
+  name: Collections
+  entries:
+    - dasamx
+    - dasam2
+    - dasam3
+    - dasmaa
+    - aesaml
+    - glsaml
+    - vmanus
+    - boghis
+    - kortsa
+    - billed
+    - luftfo
+    - mushos
+    - musman
+    - orkbib
+    - drabib
+    - ortsam
+    - judsam
+    - kubsam
+access_types:
+  name: Access types
+  entries:
+    - efter aftale
+    - læsesal
+    - ingen adgang
+preservation_profiles:
+  name: Preservation Profiles
+  entries:
+    - simple
+    - storage
+    - eternity
+copyrights:
+  name: Copyright Licenses
+  entries:
+    - All Rights Reserved
+    - Attribution CC BY
+    - Attribution-ShareAlike CC BY-SA
+    - Attribution-NoDerivs CC BY-ND
+    - Attribution-NonCommercial CC BY-NC
+    - Attribution-NonCommercial-ShareAlike CC BY-NC-SA
+    - Attribution-NonCommercial-NoDerivs CC BY-NC-ND

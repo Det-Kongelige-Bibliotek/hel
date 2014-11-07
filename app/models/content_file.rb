@@ -3,6 +3,12 @@
 # be given on the Instance level.
 class ContentFile < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
+  include Concerns::Preservation
+
   has_file_datastream 'file'
   belongs_to :instance, property: :content_for
+
+  def can_perform_cascading?
+    false
+  end
 end

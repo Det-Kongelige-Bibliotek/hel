@@ -33,6 +33,7 @@ module Authority
         if @authority_object.save
           format.html { redirect_to @authority_object, notice: 'Base was successfully created.' }
           format.json { render :show, status: :created, location: @authority_object }
+          format.js { render :show, status: :created, location: @authority_object  }
         else
           format.html { render :new }
           format.json { render json: @authority_object.errors, status: :unprocessable_entity }

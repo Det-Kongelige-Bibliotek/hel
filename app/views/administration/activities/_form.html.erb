@@ -1,0 +1,29 @@
+<%= simple_form_for(@activity, html: { class: 'form-horizontal' }, defaults: {
+        wrapper_html: { class: 'form-group' }, input_html: { class: 'form-control' } }) do |f| %>
+  <% if @activity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@activity.errors.count, "error") %> prohibited this
+      activity from being saved:</h2>
+      <ul>
+      <% @activity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="instans editMode">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9">
+        <%= render partial: 'instances/administrative', locals: { builder: f } %>
+        <div class="btn-group pull-right">
+          <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
+              <span class="glyphicon glyphicon-save"></span>
+              Gem
+          <% end %>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<% end %>

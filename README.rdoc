@@ -1,28 +1,29 @@
-== README
+== VALHAL. Digital Curation Platform
+=== Part of Chronos - The Royal Librarys 'Digital Library Platform'
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+=== Up and running
+* Ruby version 2.0
 
-* Ruby version
+* Rails version 4.1.6
 
 * System dependencies
+ * Fedora Commons version 3.7.1 (http://fedorarepository.org/)
+ * Apache Solr version 4.10.x (http://lucene.apache.org/solr/)
+ * Redis version 2.8.x (http://redis.io/)
+ 
 
 * Configuration
+ * <tt>rake jetty:config</tt> (If running the hydra jetty) else copy configuration from fedora_conf/ and solr_conf/ to the respective installation directories.
 
 * Database creation
-
-* Database initialization
+ * <tt>rake:dbmigrate</tt>
 
 * How to run the test suite
+ * rake spec
 
-* Services (job queues, cache servers, search engines, etc.)
+* Public website
+ * Valhal is only intended for curation inside the Royal Librarys firewall. All public material should evetually be published through our dissemination platform 'Bifrost'
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* License
+See LICENSE.txt

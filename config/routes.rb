@@ -1,16 +1,32 @@
 Rails.application.routes.draw do
+
   resources :instances do
     member do
+      get 'preservation'
+      patch 'update_preservation_profile'
       get 'administration'
       patch 'update_administration'
     end
   end
   resources :works
+  resources :trykforlaegs
 
   root to: 'catalog#index'
 
+  # namespace for managing system
+  namespace :administration do
+    resources :controlled_lists
+    resources :activities
+  end
+
   blacklight_for :catalog
   devise_for :users
+
+  namespace :authority do
+    resources :people
+  end
+
+  get 'resources/:id' => 'resources#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

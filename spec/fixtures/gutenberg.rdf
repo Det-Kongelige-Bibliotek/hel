@@ -1,0 +1,41 @@
+<rdf:RDF xmlns:bf="http://bibframe.org/vocab/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:relators="http://id.loc.gov/vocabulary/relators/">
+<bf:Work rdf:about="http://example.org/mogie/">
+  <rdf:type rdf:resource="http://bibframe.org/vocab/Text"/>
+  <bf:title>
+    <bf:Title>
+      <bf:titleType>uniform</bf:titleType>
+      <bf:subtitle>Heroes * Villains * Towers * Punishment!</bf:subtitle>
+      <bf:titleValue xml:lang="en">Gutenberg Bible</bf:titleValue>
+    </bf:Title>
+  </bf:title>
+  <bf:title>
+    <bf:Title>
+      <bf:titleType>uniform</bf:titleType>
+      <bf:titleValue xml:lang="en">The 42-line Bible</bf:titleValue>
+    </bf:Title>
+  </bf:title>
+  <bf:title>
+    <bf:Title>
+      <bf:titleType>uniform</bf:titleType>
+      <bf:titleValue xml:lang="en">The Mazarin Bible</bf:titleValue>
+    </bf:Title>
+  </bf:title>
+  <relators:prt rdf:resource="./gutenberg.madsxml.xml"/> <!-- marc relators printer -->
+  <bf:hasInstance rdf:resource="http://examples.org/mogie/instance/"/>
+  <bf:identifier>
+    <bf:Identifier>
+      <bf:identifierValue>reallyrandomworkuuidandithasnosemanticswhatsoever</bf:identifierValue>
+      <bf:identifierScheme>uuid</bf:identifierScheme>
+    </bf:Identifier>
+  </bf:identifier>
+  <bf:note xml:lang="en">A printed bible!</bf:note>
+  <bf:language>
+    <bf:Language>
+      <bf:resourcePart>text</bf:resourcePart>
+      <bf:label>Latin</bf:label>
+    </bf:Language>
+  </bf:language>
+</bf:Work>
+ </rdf:RDF>

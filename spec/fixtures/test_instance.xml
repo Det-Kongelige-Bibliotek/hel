@@ -14,13 +14,20 @@
           </bf:Place>
         </bf:providerPlace>
         <bf:copyrightDate>ca. 1453-1454.</bf:copyrightDate>
+        <bf:providerDate>1454</bf:providerDate>
       </bf:Provider>
     </bf:publication>
     <bf:modeOfIssuance>single unit</bf:modeOfIssuance>
     <bf:extent>parts of 2 leaves ;</bf:extent>
     <bf:dimensions>10.7 x 30.8 cm.</bf:dimensions>
     <bf:titleStatement>Ars minor fragment.</bf:titleStatement>
-    <bf:instanceOf rdf:resource="http://example.org/mogie/"/>
+    <bf:identifier>
+      <bf:Identifier>
+	<bf:identifierValue>reallyrandominstanceuuid</bf:identifierValue>
+	<bf:identifierScheme>uuid</bf:identifierScheme>
+      </bf:Identifier>
+    </bf:identifier>
+    <bf:instanceOf rdf:resource="./gutenberg"/>
     <bf:isbn13>
       <bf:Identifier>
         <bf:label>9780521169004</bf:label>

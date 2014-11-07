@@ -20,17 +20,16 @@ describe Datastreams::Bibframe::WorkMetadata do
       expect(@ds.titles.first.subtitle).to eql 'Heroes * Villains * Towers * Punishment!'
     end
 
-    it 'has an array of values for each title object' do
-      expect(@ds.titles.first.values).to be_an Array
-      expect(@ds.titles.first.values.first).to be_a Datastreams::Bibframe::Title::TitleValue
+    it 'has a value for each title object' do
+      expect(@ds.titles.first.value).to be_a String
     end
 
     it 'has a value for each title value' do
-      expect(@ds.titles.first.values.first.value).to eql 'Gutenberg Bible'
+      expect(@ds.titles.first.value).to eql 'Gutenberg Bible'
     end
 
-    it 'has a lang for each title value' do
-      expect(@ds.titles.first.values.first.lang).to eql 'en'
+    it 'has a lang for each title object' do
+      expect(@ds.titles.first.lang).to eql 'en'
     end
 
     it 'can return an array of title values only' do
@@ -43,8 +42,8 @@ describe Datastreams::Bibframe::WorkMetadata do
       ds.add_title(type: 'uniform', subtitle: 'and so on...', lang: 'en', value: 'Great Expectations')
       expect(ds.titles.first.subtitle).to eql 'and so on...'
       expect(ds.titles.first.type).to eql 'uniform'
-      expect(ds.titles.first.values.first.value).to eql 'Great Expectations'
-      expect(ds.titles.first.values.first.lang).to eql 'en'
+      expect(ds.titles.first.value).to eql 'Great Expectations'
+      expect(ds.titles.first.lang).to eql 'en'
     end
   end
 

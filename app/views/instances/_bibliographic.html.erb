@@ -1,0 +1,55 @@
+<!--Bibliografiske metadata -->
+<fieldset id="bibliographic" class="row">
+  <legend class="col-sm-12" >
+    Bibliografiske metadata
+  </legend>
+  <div class="col-sm-6">
+    <%= builder.input :title_statement %>
+  </div>
+  <%# In this case we need to manually create the input as language is not a simple accessor %>
+  <% @instance.languages.each do |lang| %>
+  <div class="col-sm-6">
+    <div class="form-group">
+     <label for="language-value">Language</label>
+      <select id="language-value" name="instance[language][][value]" class="form-control">
+        <%=  options_for_select(get_translated_list('Languages'), selected: lang.value) %>
+      </select>
+    </div>
+  </div>
+  <% end %>
+  <% if @instance.languages.empty? %>
+      <div class="col-sm-6">
+        <label for="language-value">Language</label>
+        <select id="language-value" name="instance[language][][value]" class="form-control">
+         <%=  options_for_select(get_translated_list('Languages').unshift(['Vælg sprog', '']) ) %>
+       </select>
+      </div>
+  <% end %>
+
+  <div class="col-sm-6">
+    <%= builder.input :copyright_date %>
+  </div>
+  <div class="col-sm-6">
+    <%= builder.input :published_date %>
+ </div>
+  <div class="col-sm-6">
+    <%= builder.input :dimensions %>
+  </div>
+  <div class="col-sm-6">
+    <%= builder.input :mode_of_issuance %>
+  </div>
+  <div class="col-sm-6">
+    <%= builder.input :contents_note %>
+  </div>
+  <% if @instance.note.present? %>
+  <% @instance.note.each do |n| %>
+      <div class="col-sm-6">
+        <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
+      </div>
+  <% end %>
+<% end %>
+  <div class="col-sm-6">
+    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]'} %>
+  </div>
+
+</fieldset>

@@ -10,7 +10,7 @@
   <tbody>
     <% @works.each do |work| %>
       <tr>
-        <td><%= link_to work.title, work %></td>
+        <td><%= link_to work.title_values, work %></td>
         <td><%= link_to 'Edit', edit_work_path(work) %></td>
         <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

@@ -16,7 +16,7 @@
 #   :oai_item_id => ["info:fedora/oai:example.edu:changeme:500"]
 #
 :predicate_mapping:
-  http://bibframe.org/vocab/#:
+  http://bibframe.org/vocab/:
     :instance_of: instanceOf
     :has_instance: hasInstance
     :is_part_of: isPartOf
@@ -26,7 +26,7 @@
     :succeeded_by: succeededBy
   # We use LOC relators for describing relations
   # on the Resource side.
-  http://id.loc.gov/vocabulary/relators/#:
+  http://id.loc.gov/vocabulary/relators/:
     :creator: cre
     :author: aut
     :recipient: rcp

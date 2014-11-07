@@ -1,4 +1,3 @@
-require 'english'
 require 'rubocop'
 require 'yaml'
 

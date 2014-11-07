@@ -1,0 +1,16 @@
+<h2><%= "#{@instance.class.to_s}: #{@instance.title_statement}" %> </h2>
+
+<p>Copyright Date <%= @instance.copyright_date %></p>
+<p>Date published<%= @instance.published_date %></p>
+<p>Mode of issuance <%= @instance.mode_of_issuance %></p>
+<% @instance.languages.each do |lang| %>
+    <p>Language: <%= lang.value %> <%= lang.part %></p>
+
+<% end %>
+
+<% @instance.note.each do |n| %>
+    <p>Note: <%= n %></p>
+<% end %>
+
+<%= link_to 'Edit', edit_trykforlaeg_path(@instance) %> |
+<%= link_to 'Back', trykforlaegs_path %>

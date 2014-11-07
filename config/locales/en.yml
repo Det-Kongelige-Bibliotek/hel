@@ -20,4 +20,19 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  Languages:
+    da: Danish
+    sv: Swedish
+    nb: Norwegian Bokmål
+    nn: Norwegian Nynorsk
+    en: English
+    fr: French
+    de: German
+    es: Spanish
+    nl: Dutch
+    it: Italian
+    pl: Polish
+    ro: Romanian
+    fi: Finnish
+  blacklight:
+    application_name: 'Blacklight'

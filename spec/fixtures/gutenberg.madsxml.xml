@@ -1,0 +1,95 @@
+<mads:mads version="2.0" xsi:schemaLocation="http://www.loc.gov/mads/v2 http://www.loc.gov/standards/mads/mads-2-0.xsd" xmlns:mads="http://www.loc.gov/mads/v2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <mads:authority geographicSubdivision="not applicable">
+    <mads:name type="personal" authority="naf">
+      <mads:namePart>Gutenberg, Johann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:authority>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Guttenberg, Ioann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gkoutempernk</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Guttenberg, Johann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gutenberg, Ĭokhann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gutenberg, Iogann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gutenberg, Johannes</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gensfleisch zur Laden zum Gutenberg, Johann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>Gensfleisch zum Gutenberg, Johann</mads:namePart>
+      <mads:namePart type="date">1397?-1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:variant type="other">
+    <mads:name type="personal">
+      <mads:namePart>גוטענבערג, יאהאנ</mads:namePart>
+      <mads:namePart type="date">?1397־1468</mads:namePart>
+    </mads:name>
+  </mads:variant>
+  <mads:note type="nonpublic">Machine-derived non-Latin script reference project</mads:note>
+  <mads:note type="nonpublic">Non-Latin script reference not evaluated</mads:note>
+  <mads:note type="source">Birkenfeld, G. Die schwarze Kunst, 1936</mads:note>
+  <mads:note type="source">Köhler, J.D. Hochverdiente und aus bewährten Urkunden ... 1741: t.p. (Ehren-Rettung Johann Guttenbergs, eingebohrnen Bürgers in Mayntz, aus dem alten rheinländischen adelichen Geschlechte derer von Sorgenloch, genannt Gänsefleisch)</mads:note>
+  <mads:note type="source">Varbanet͡s, N. V. Ĭokhann Gutenberg i nachalo knigopechatanii͡a v Evrope, 1980</mads:note>
+  <mads:note type="source">Nemirovskiĭ, E.L. Iogann Gutenberg, okolo 1399-1468, 1989</mads:note>
+  <mads:note type="source">Johannes Gutenberg, 1400-1468, 1970</mads:note>
+  <mads:note type="source">Glaister. Glossary of the book (Johann Gensfleisch zum Gutenberg)</mads:note>
+  <mads:note type="source">Black-letter, 2000: p. 7 (Johann Gensfleisch zur Laden zum Gutenberg)</mads:note>
+  <mads:note type="source">Wikipedia, Jan. 24, 2013 (a German blacksmith, goldsmith, printer, and publisher who invented mechanical movable type printing, around 1439; born in Mainz, Germany; died Feb. 3, 1468, in Mainz)</mads:note>
+  <mads:identifier type="lccn">n  50034916 </mads:identifier>
+  <mads:fieldOfActivity>Printing industry -</mads:fieldOfActivity>
+  <mads:extension>
+    <mads:profession>
+      <mads:professionTerm>Printer</mads:professionTerm>
+    </mads:profession>
+  </mads:extension>
+  <mads:extension>
+    <mads:gender>
+      <mads:genderTerm>male</mads:genderTerm>
+    </mads:gender>
+  </mads:extension>
+  <mads:recordInfo>
+    <mads:recordOrigin>Converted from MARCXML to MADS version 2.0 (Revision 2.13)</mads:recordOrigin>
+    <mads:recordContentSource authority="marcorg">DLC</mads:recordContentSource>
+    <mads:recordChangeDate encoding="iso8601">20130405073819.0</mads:recordChangeDate>
+    <mads:recordIdentifier source="DLC">n50034916</mads:recordIdentifier>
+    <mads:languageOfCataloging>
+      <mads:languageTerm authority="iso639-2b" type="code">eng</mads:languageTerm>
+    </mads:languageOfCataloging>
+    <mads:descriptionStandard>rda</mads:descriptionStandard>
+    <mads:descriptionStandard>other rules</mads:descriptionStandard>
+  </mads:recordInfo>
+</mads:mads>

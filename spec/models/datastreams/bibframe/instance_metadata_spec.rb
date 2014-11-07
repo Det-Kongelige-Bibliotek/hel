@@ -27,6 +27,9 @@ describe Datastreams::Bibframe::InstanceMetadata do
     it 'parses an isbn13' do
       expect(@ds.isbn13).to eql ['9780521169004']
     end
+    it 'parses a provider date' do
+      expect(@ds.provider_date).to eql ['1454']
+    end
   end
 
   describe 'writing' do

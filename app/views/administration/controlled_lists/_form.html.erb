@@ -1,0 +1,38 @@
+<%= form_for(@controlled_list, html: { class: 'form-horizontal' }) do |f| %>
+    <% if @controlled_list.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@controlled_list.errors.count, "error") %> prohibited this controlled_list from being saved:</h2>
+          <ul>
+            <% @controlled_list.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <% unless @controlled_list.name %>
+        <div class="form-group">
+          <%= f.label 'Controlled List Name', class: 'control-label col-sm-2' %>
+          <div class="col-sm-4">
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+        </div>
+    <% end %>
+    <% if @controlled_list.elements.length > 0 %>
+        <% @controlled_list.elements.each do |element| %>
+            <%= render partial: 'element', object: element %>
+        <% end %>
+    <% end %>
+    <h4>New entry</h4>
+    <div data-hook="empty-entries">
+      <%= render partial: 'element', object: Administration::ListEntry.new %>
+    </div>
+    <hr/>
+    <a class="btn btn-sm btn-primary col-sm-offset-5" href="#" data-function="new-controlled_list-entry">
+      <span class="glyphicon glyphicon-plus"></span>
+      Add new
+    </a>
+    <hr/>
+    <div class="action">
+      <%= f.submit 'Save', class: 'btn btn-lg btn-primary col-sm-offset-3' %>
+    </div>
+<% end %>

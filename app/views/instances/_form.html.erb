@@ -11,8 +11,37 @@
       </ul>
     </div>
   <% end %>
-    <%= render 'preservation' %>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="instans editMode">
+      <div class="page-header">
+        <div class="container">
+          <h1>Instans <small>Ukendt</small></h1>
+        </div>
+      </div>
+
+    <div class="container">
+    <div class="row">
+
+    <div class="col-sm-3">
+        <%= render partial: 'sidebar' %>
+    </div>
+    <div class="col-sm-9">
+
+      <%= render partial: 'bibliographic', locals: { builder: f } %>
+      <%= render partial: 'administrative', locals: { builder: f }  %>
+      <%= render partial: 'upload', locals: { builder: f }  %>
+
+    </div>
+
+      <div class="btn-group pull-right">
+        <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
+            <span class="glyphicon glyphicon-save"></span>
+            Gem
+        <% end %>
+
+    </div>
+
+    </div>
+    </div>
+</div>
+
 <% end %>

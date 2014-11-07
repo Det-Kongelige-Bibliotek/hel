@@ -7,19 +7,17 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 # Load the local ldap configuration
-def recursive_symbolize_keys! hash
+def recursive_symbolize_keys!(hash)
   hash.symbolize_keys!
-  hash.values.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}
+  hash.values.select { |v| v.is_a? Hash }.each { |h| recursive_symbolize_keys!(h) }
 end
 
-begin
-  CONFIG = YAML.load(File.read(File.expand_path("../application.local.yml", __FILE__)))
-  CONFIG.merge! CONFIG.fetch(Rails.env, {})
-  recursive_symbolize_keys! CONFIG
-rescue => error
-  puts "Couldn't load the basic_files 'application.local.yml': #{error.inspect.to_s}"
-  CONFIG = {:ldap => {:user => 'sifd-ldap-read', :password => ''}, :test=>{:user=>'sifdtest', :password=>''}}
-end
+# Load config details in - will crash out if config not present
+CONFIG = YAML.load(File.read(File.expand_path('../application.local.yml', __FILE__)))
+CONFIG.merge! CONFIG.fetch(Rails.env, {})
+recursive_symbolize_keys!(CONFIG)
+
+
 
 module Hel
   class Application < Rails::Application
@@ -27,11 +25,13 @@ module Hel
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'datastreams', '{**}')]
     config.autoload_paths += Dir[Rails.root.join('app', 'helpers', 'constants.rb')]
     config.autoload_paths += Dir[Rails.root.join('app', 'export', '{**}')]
+    config.autoload_paths += Dir[Rails.root.join('lib', '{**}')]
 
     config.generators do |g|
       g.test_framework :rspec, :spec => true
     end
 
+    config.encoding = "UTF-8"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -43,6 +43,6 @@ module Hel
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.default_locale = :da
   end
 end

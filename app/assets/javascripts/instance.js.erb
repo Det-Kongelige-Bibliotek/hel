@@ -1,0 +1,43 @@
+$(document).ready(function(){
+   evaluateEmbargoFields();
+   $('[data-toggle="embargo_detailed"]').click(evaluateEmbargoFields);
+   $('[data-function="fetch_activity_data"]').change(fetchActivityData);
+});
+
+// call the Activity show.json
+// and populate the form fields with its values
+function fetchActivityData(){
+    var activity_id = $(this).val();
+    var activity_url = "<%= Rails.application.routes.url_helpers.administration_activities_path %>/" + activity_id + '.json';
+
+    $.get(activity_url, function(data) {
+        // iterate over response and apply values to the corresponding inputs
+        $.each(data, function(i, item){
+            if (i == 'activity') return;
+            if (item == null) return;
+            if (item == 'Undefined') return;
+            var selector = "[name$=\"" + i + "]\"]";
+            $(selector).val(item);
+        });
+        //make sure all checkboxes appearances match their values
+        var $checkboxes = $('input[type="checkbox"]');
+        $checkboxes.each(function(){
+            var checked = ($(this).val() == '1');
+            $(this).prop('checked', checked);
+        });
+        //make sure fields are enabled if relevant
+        evaluateEmbargoFields();
+    });
+
+}
+
+//enable the detailed embargo fields if there is an embargo
+function evaluateEmbargoFields() {
+    var $checkbox = $('[data-toggle="embargo_detailed"]');
+    var $detailed = $('[data-hook="embargo_detailed"]');
+    if ($checkbox.is(':checked')) {
+        $detailed.attr('disabled', false);
+    } else {
+        $detailed.attr('disabled', true);
+    }
+}

@@ -69,8 +69,12 @@ module Datastreams
         languages.map(&:value)
       end
 
-      def add_language(lang)
-        add_to_sibling(:language, :language, lang[:part], lang[:value])
+      def language=(langs)
+        language_nodeset.each { |n| n.remove }
+        langs.each do |lang|
+          next if lang[:value].blank?
+          add_to_sibling(:language, :language, lang[:part], lang[:value])
+        end
       end
 
       # Add element after sibling if present

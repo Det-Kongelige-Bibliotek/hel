@@ -1,4 +1,5 @@
 require 'spec_helper'
+require "open-uri"
 
 # Since most Instance functionality is defined
 # in Bibframe::Instance, most tests take place
@@ -6,8 +7,9 @@ require 'spec_helper'
 # is not encapsulated in Bibframe::Instance here,
 # e.g. validations, relations etc.
 describe Instance do
-  before :all do
-    @instance = Instance.new
+  include_context 'shared'
+  before :each do
+    @instance = Instance.new(instance_params)
   end
 
   describe 'relations' do
@@ -15,8 +17,25 @@ describe Instance do
       expect(@instance.content_files.size).to eql 0
     end
 
-    it 'can be an instance of a work' do
-      expect(@instance.respond_to?(:work)).to eql true
+    describe 'to work' do
+      before :each do
+        @i = Instance.create(instance_params)
+        @w = Work.create
+        @i.set_work(@w)
+      end
+
+      it 'can be an instance of a work' do
+        expect(@i.work).to eql @w
+      end
+
+      it 'is a symmetrical relationship' do
+        expect(@w.instances).to include @i
+      end
+
+      it 'is expressed symmetrically in rels-ext' do
+        expect(@i.rels_ext.to_rels_ext).to include('instanceOf')
+        expect(@w.rels_ext.to_rels_ext).to include('hasInstance')
+      end
     end
 
     it 'can have parts which are Works' do
@@ -28,7 +47,6 @@ describe Instance do
 
   describe 'administration' do
     it 'should be possible to edit the activity field' do
-      @instance.activity.should be_nil
       @instance.activity = 'TEST'
       @instance.activity.should == 'TEST'
     end
@@ -40,7 +58,6 @@ describe Instance do
     end
 
     it 'should be possible to edit the embargo field' do
-      @instance.embargo.should be_nil
       @instance.embargo = 'TEST'
       @instance.embargo.should == 'TEST'
     end
@@ -64,7 +81,6 @@ describe Instance do
     end
 
     it 'should be possible to edit the copyright field' do
-      @instance.copyright.should be_nil
       @instance.copyright = 'TEST'
       @instance.copyright.should == 'TEST'
     end
@@ -76,7 +92,6 @@ describe Instance do
     end
 
     it 'should be possible to edit the availability field' do
-      @instance.availability.should be_nil
       @instance.availability = 'TEST'
       @instance.availability.should == 'TEST'
     end
@@ -87,5 +102,39 @@ describe Instance do
     expect(i.uuid).to be_nil
     i.save
     expect(i.uuid.present?).to be true
+  end
+
+  describe 'to_mods' do
+    before :all do 
+      @instance = Instance.create
+    end
+    it 'is wellformed XML' do
+      xsd = Nokogiri::XML::Schema(open('http://www.loc.gov/standards/mods/v3/mods-3-5.xsd').read)
+      errors = xsd.validate(Nokogiri::XML.parse(@instance.to_mods) { |config| config.strict })
+      expect(errors).to eql []
+    end
+  end
+
+  describe 'to_rdf' do
+    before :each do
+      @instance = Instance.create(instance_params)
+    end
+    # This test will only catch the worst errors
+    # as the Reader is very forgiving
+    # TODO: Find a more stringent validator
+    it 'is valid rdf' do
+      expect {
+        RDF::RDFXML::Reader.new(@instance.to_rdf, validate: true)
+      }.not_to raise_error
+    end
+  end
+
+  describe 'to_solr' do
+    it 'should include the title statement' do
+      i = Instance.new
+      i.title_statement = 'King James Edition'
+      vals = i.to_solr.values.flatten
+      expect(vals).to include 'King James Edition'
+    end
   end
 end

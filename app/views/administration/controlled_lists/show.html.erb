@@ -1,0 +1,8 @@
+<h1>
+  <%= @controlled_list.name %>
+</h1>
+<% @controlled_list.elements.each do |element| %>
+    <p><%= element.name %></p>
+<% end %>
+<%= link_to 'Edit', edit_administration_controlled_list_path(@controlled_list) %> |
+<%= link_to 'Back', administration_controlled_lists_path %>

@@ -1,0 +1,52 @@
+
+<!--Administrative metadata -->
+<fieldset class="row" id="administrative">
+  <legend class="col-sm-12">
+    Administrative metadata
+  </legend>
+  <div class="col-sm-12">
+    <%#
+        We render this as a partial to enable different views that include this form to define it differently
+        e.g. as a dropdown or a text input.
+    %>
+    <%= render partial: 'activity_input', locals: { builder: builder } %>
+    <hr>
+  </div>
+  <div class="col-sm-12">
+      <%= builder.input :collection, collection: get_translated_list('Collections'), prompt: 'Samling' %>
+    <hr>
+  </div>
+
+    <div class="checkbox col-sm-12">
+      <div class="col-sm-3">
+        <%= builder.input :availability, as: :boolean, boolean_style: :inline,
+                     label_html: { class: 'checkbox-inline' },
+                     wrapper_html: { class: ''  }, input_html: { class: '' } %>
+      </div>
+      <div class="col-sm-3">
+        <%= builder.input :embargo, as: :boolean, boolean_style: :inline,
+                      label_html: { class: 'checkbox-inline' }, wrapper_html: { class: ''  },
+                      input_html: { class: '', data: { toggle: 'embargo_detailed' } } %>
+
+        </div>
+      <div class="col-sm-2">
+        <%= builder.input :embargo_date, input_html: { data: { hook: 'embargo_detailed' }} %>
+      </div>
+      <div class="col-sm-4">
+        <%= builder.input :embargo_condition, input_html: { data: { hook: 'embargo_detailed' }} %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+        <%= builder.input :access_condition, collection: get_controlled_vocab('Access types'),  prompt: 'Klausuleringstype' %>
+    </div>
+
+
+  <div class="col-sm-4">
+    <%= builder.input :preservation_profile, collection: get_controlled_vocab('Preservation Profiles'),  prompt: 'Bevaringsprofil' %>
+  </div>
+
+  <div class="col-sm-4">
+    <%= builder.input :copyright, collection: get_controlled_vocab('Copyright Licenses'),  prompt: 'Vælg licens' %>
+  </div>
+</fieldset>

@@ -29,6 +29,11 @@ describe Bibframe::Instance do
       expect(@instance.copyright_date).to eql '19-02-2012'
     end
 
+    it 'should allow us to set and get a provider date' do
+      @instance.provider_date = '26-09-2012'
+      expect(@instance.provider_date).to eql '26-09-2012'
+    end
+
     it 'should allow us to set and get isbn13' do
       @instance.isbn13 = '9780521169004'
       expect(@instance.isbn13).to eql '9780521169004'
@@ -57,6 +62,10 @@ describe Bibframe::Instance do
     it 'should allow us to set and get a uuid' do
       @instance.uuid = 'veryrandomuuid'
       expect(@instance.uuid).to eql 'veryrandomuuid'
+    end
+    it 'should allow us to set and get a language' do
+      @instance.language = { value: 'french' }
+      expect(@instance.language_values).to include 'french'
     end
   end
 end

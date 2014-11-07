@@ -1,0 +1,59 @@
+<div class="work editMode">
+
+  <div class="page-header">
+    <div class="container">
+      <h1>Værk <small id="headerTitle"><%= @work.title_values.first%></small></h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <%= form_for @work do |f| %>
+        <fieldset class="row">
+            <legend class="col-sm-12">Titler</legend>
+            <% if @work.titles.length > 0  %>
+                <% @work.titles.each_with_index do |title,index| %>
+                    <%= render  partial: 'title',  locals: {title: title , index: index, hidden:false} %>
+                <% end%>
+            <% end %>
+            <hr/>
+
+          <%= render partial: 'title', locals: {title: Datastreams::Bibframe::Title.new, index: @work.titles.length, hidden:false} %>
+          <%= render partial: 'title', locals: {title: Datastreams::Bibframe::Title.new, index: @work.titles.length+1, hidden:true} %>
+
+            <div class='col-sm-12'>
+                <a class="btn btn-sm btn-primary" href="#" data-function="new-title">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  Tilføj Titel
+                </a>
+            </div>
+        </fieldset>
+        <fieldset class="row">
+          <legend class="col-sm-12">Ophav</legend>
+          <% if @work.creators.length >0 %>
+              <% @work.creators.each_with_index do |creator,index| %>
+                <%= render partial: 'creator', locals: {creator: creator, index: index, hidden:false} %>
+              <% end %>
+          <% end %>
+          <%= render partial: 'creator', locals: {creator: {},index: @work.creators.length, hidden: false}%>
+          <%= render partial: 'creator', locals: {creator: {},index: @work.creators.length+1, hidden: true}%>
+
+          <div class='col-sm-12'>
+            <a class="btn btn-sm btn-primary" href="#" data-function="new-creator">
+              <span class="glyphicon glyphicon-plus"></span>
+              Tilføj Ophav
+            </a>
+          </div>
+        </fieldset>
+        <div class='col-sm-12'>
+          <a class="btn btn-sm btn-primary" data-toggle="modal" href="#new_agent_modal">
+            Opret ny agent
+          </a>
+        </div>
+
+        <div class="actions">
+          <%= f.submit 'Gem værk',  class: 'btn btn-lg btn-primary col-sm-offset-11' %>
+        </div>
+    <% end %>
+  </div>
+</div>
+<%= render partial: 'new_agent_modal' %>

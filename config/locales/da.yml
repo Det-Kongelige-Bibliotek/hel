@@ -1,0 +1,57 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+da:
+  Languages:
+    da: Dansk
+    sv: Svensk
+    nb: Norsk Bokmål
+    nn: Norsk Nynorsk
+    en: Engelsk
+    fr: Fransk
+    de: Tysk
+    es: Spansk
+    nl: Hollandsk
+    it: Italiensk
+    pl: Polsk
+    ro: Rumaensk
+    fi: Finsk
+  Collections:
+    dasamx: Danske Samling, 1.-2. samling (-1601)
+    dasam2: Danske Samling, 1.-2. samling (1602-1959)
+    dasam3: Danske Samling, 3. samling (1960-)
+    dasmaa: Danske Samling, småtryk
+    aesaml: Ældre Samling
+    glsaml: Gammel Samling (DNLB)
+    vmanus: Vesterlandske manuskripter.
+    boghis: Håndskriftafdelingen, Boghistoriske Saml.
+    kortsa: Kortsaml.
+    billed: Billedsaml.
+    luftfo: Luftfotosaml.
+    mushos: Musikalier, Hovedsaml.
+    musman: Musikmanuskripter
+    orkbib: Orkesterbibl.
+    drabib: Dramatisk Bibl.
+    ortsam: Orientalske Saml.
+    judsam: Judaistiske Saml.
+    kubsam: "NB-værker i KUB-samlinger (eksempler: UBF-samling, osv.)"
+  blacklight:
+    application_name: 'Valhal'
