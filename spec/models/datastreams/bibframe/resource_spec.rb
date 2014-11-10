@@ -24,7 +24,7 @@ describe Datastreams::Bibframe::Resource do
 
   it 'allows us to set and get the language' do
     ds = Datastreams::Bibframe::Resource.new
-    ds.language = { value: 'franglish', part: 'commentary' }
+    ds.language = [{ value: 'franglish', part: 'commentary' }]
     expect(ds.languages.first.part).to eql 'commentary'
     expect(ds.languages.first.value).to eql 'franglish'
   end

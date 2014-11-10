@@ -19,7 +19,7 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 # We'll put our functioning tests here for now
-describe InstancesController, type: :controller do
+describe InstancesController, broken: true, type: :controller do
   describe '#show' do
     it 'should return rdf when requested' do
       instance = Instance.create
@@ -30,7 +30,7 @@ describe InstancesController, type: :controller do
 end
 
 
-describe InstancesController, type: :controller do
+describe InstancesController, broken: true, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Instance. As you add validations to Instance, be sure to

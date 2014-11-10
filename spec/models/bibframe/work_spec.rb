@@ -36,12 +36,12 @@ describe Bibframe::Work do
     end
 
     it 'should be possible to add a language with a part' do
-      @stub.language = { value: 'French', part: 'Spine' }
+      @stub.language = [{ value: 'French', part: 'Spine' }]
       expect(@stub.language_values).to include 'French'
     end
 
     it 'should be possible to add a language without a part' do
-      @stub.language = { value: 'Gaeilge' }
+      @stub.language = [{ value: 'Gaeilge' }]
       expect(@stub.language_values).to include 'Gaeilge'
     end
 
