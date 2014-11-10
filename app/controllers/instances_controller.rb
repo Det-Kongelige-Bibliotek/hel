@@ -1,6 +1,7 @@
 # Perform actions on Instances
 class InstancesController < ApplicationController
   include PreservationHelper
+  before_action :set_work, only: [:create]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
   :update_preservation_profile, :update_administration]
@@ -39,15 +40,13 @@ class InstancesController < ApplicationController
   # POST /instances
   # POST /instances.json
   def create
-    begin
       @instance = @klazz.new(instance_params)
-      flash[:notice] = "#{@klazz} was successfully saved" if @instance && @instance.save
-    rescue ActiveFedora::RecordInvalid => exception
-      logger.error("Invalid instance params #{instance_params}")
-      @instance = Instance.new
-    end
-
-    respond_with(@work, @instance)
+      if @instance.save
+        flash[:notice] = "#{@klazz} was successfully saved"
+      else
+        @instance.work = @work
+      end
+      respond_with(@work, @instance)
   end
 
   # PATCH/PUT /instances/1

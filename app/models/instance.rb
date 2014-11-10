@@ -31,11 +31,16 @@ class Instance < ActiveFedora::Base
     else
       fail "Can only take args of type Work or String where string represents a Work's pid"
     end
-    work.instances << self
-    work.save
-    self.work = work
-    save
-    work
+    begin
+      work.instances << self
+      work.save
+      self.work = work
+      save
+      work
+    rescue ActiveFedora::RecordInvalid => exception
+      logger.error("set_work failed #{exception}")
+      nil
+    end
   end
 
   # This is actually a getter!
