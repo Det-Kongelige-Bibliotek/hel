@@ -2,6 +2,13 @@ module Datastreams
   module Bibframe
     # Datastream for modelling all Bibframe::Work metadata
     class WorkMetadata < Datastreams::Bibframe::Resource
+
+      # Inserted maintain existing naming of solr fields in Activefedora 8
+      # And thus avoid anoing deprecation warning messages
+      def prefix
+        ""
+      end
+
       set_terminology do |t|
         t.root(path:  'Work', xmlns: 'http://bibframe.org/vocab/')
         t.title do

@@ -6,6 +6,13 @@ module Datastreams
     # See http://www.loc.gov/standards/mads/mads-outline.html
     # for an overview.
     class Document < ActiveFedora::OmDatastream
+
+      # Inserted maintain existing naming of solr fields in Activefedora 8
+      # And thus avoid anoing deprecation warning messages
+      def prefix
+        ""
+      end
+
       set_terminology do |t|
         t.root(path: 'mads', xmlns: 'http://www.loc.gov/mads/v2')
         t.notes(path: 'note')

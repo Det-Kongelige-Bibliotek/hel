@@ -3,6 +3,13 @@ module Datastreams
     # Datastream for modelling all
     # Bibframe::Instance metadata
     class InstanceMetadata < Datastreams::Bibframe::Resource
+
+      # Inserted maintain existing naming of solr fields in Activefedora 8
+      # And thus avoid anoing deprecation warning messages
+      def prefix
+        ""
+      end
+
       set_terminology do |t|
         t.root(path:  'Instance', xmlns: 'http://bibframe.org/vocab/')
         t.note

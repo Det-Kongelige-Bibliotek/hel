@@ -3,6 +3,13 @@ module Datastreams
 
   # Datastream for the administrative metadata for a Work and Instance.
   class AdminDatastream < ActiveFedora::OmDatastream
+
+    # Inserted maintain existing naming of solr fields in Activefedora 8
+    # And thus avoid anoing deprecation warning messages
+    def prefix
+      ""
+    end
+
     set_terminology do |t|
       t.root(:path=>'fields')
       t.collection(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],

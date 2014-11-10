@@ -5,6 +5,13 @@ module Datastreams
     # and the methods to work on them
     # http://bibframe.org/vocab/Resource.html
     class Resource < ActiveFedora::OmDatastream
+
+      # Inserted maintain existing naming of solr fields in Activefedora 8
+      # And thus avoid anoing deprecation warning messages
+      def prefix
+        ""
+      end
+
       set_terminology do |t|
         t.root(path:  'Resource', xmlns: 'http://bibframe.org/vocab/')
         t.identifier do

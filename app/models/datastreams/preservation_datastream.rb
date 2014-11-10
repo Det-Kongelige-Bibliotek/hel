@@ -2,6 +2,13 @@
 module Datastreams
   # Datastream for the preservation metadata. It is just a simple XML-formatted key-value mapping.
   class PreservationDatastream < ActiveFedora::OmDatastream
+
+    # Inserted maintain existing naming of solr fields in Activefedora 8
+    # And thus avoid anoing deprecation warning messages
+    def prefix
+      ""
+    end
+
     set_terminology do |t|
       t.root(path: 'fields')
       t.preservation_profile(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
