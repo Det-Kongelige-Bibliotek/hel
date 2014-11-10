@@ -20,33 +20,41 @@ require 'spec_helper'
 
 # We'll put our functioning tests here for now
 describe WorksController, type: :controller do
+  # This should return the minimal set of attributes required to create a valid
+  # Work. As you add validations to Work, be sure to
+  # adjust the attributes here as well.
+  let(:valid_attributes) do
+    agent = Authority::Person.create(
+        authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+    )
+    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
+  end
+
+  let(:other_valid_attributes) do
+    agent2 = Authority::Person.create(
+        authorized_personal_name: { given: 'Fornavn2', family: 'Efternavn2', scheme: 'KB' }
+    )
+    $valid_attributes = {titles: {'0' => {'value'=> 'Another work title'} }, creators: {'0'=>{'id'=> agent2.id, 'type'=>'aut'}, '1'=>{'id'=> agent2.id, 'type'=>'aut'}  } }
+  end
+
+  # This should return the minimal set of values that should be in the session
+  # in order to pass any filters (e.g. authentication) defined in
+  # InstancesController. Be sure to keep this updated too.
+  let(:valid_session) { {} }
+
+
+  before :each  do
+    Work.delete_all
+    Authority::Base.delete_all
+  end
+
   describe '#show' do
     it 'should return rdf when requested' do
-      work = Work.create
+      work = Work.create! valid_attributes
       get :show, { id: work.id, format: :rdf }
       expect(assigns(:work)).to eq(work)
     end
   end
-end
-
-
-
-describe WorksController, broken: true do
-
-  # This should return the minimal set of attributes required to create a valid
-  # Work. As you add validations to Work, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) { { title: 'A Work title'  } }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # WorksController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-  before :each do
-    Work.delete_all
-  end
-
-  
 
   describe 'GET index' do
     it 'assigns all works as @works' do
@@ -124,8 +132,8 @@ describe WorksController, broken: true do
         # specifies that the Work created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Work.any_instance.should_receive(:update).with('title' => 'new')
-        put :update, { id: work.to_param, work: { title: 'new' } }, valid_session
+        Work.any_instance.should_receive(:update).with(other_valid_attributes)
+        put :update, { id: work.to_param, work: other_valid_attributes }, valid_session
       end
 
       it 'assigns the requested work as @work' do
