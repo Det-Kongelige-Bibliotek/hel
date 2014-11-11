@@ -19,28 +19,38 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 # We'll put our functioning tests here for now
-describe InstancesController, broken: true, type: :controller do
-  describe '#show' do
-    it 'should return rdf when requested' do
-      instance = Instance.create
-      get :show, { id: instance.id, format: :rdf }
-      expect(assigns(:instance)).to eq(instance)
-    end
-  end
-end
-
-
-describe InstancesController, broken: true, type: :controller do
+describe InstancesController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Instance. As you add validations to Instance, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { title_statement: 'An Unfortunate Title' } }
+  let(:valid_attributes) { { activity: 'SomeActivity', copyright: 'Some Copyright',  collection: 'Some Collection'} }
+
+  let(:valid_work_attributes) do
+    agent = Authority::Person.create(
+        authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+    )
+    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # InstancesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  before :each do
+    Instance.delete_all
+    Authority::Base.delete_all
+    Work.delete_all
+  end
+
+  describe '#show' do
+    it 'should return rdf when requested' do
+      instance = Instance.create valid_attributes
+      get :show, { id: instance.id, format: :rdf }
+      expect(assigns(:instance)).to eq(instance)
+    end
+  end
 
   describe 'GET index' do
     it 'assigns all instances as @instances' do
@@ -60,7 +70,8 @@ describe InstancesController, broken: true, type: :controller do
 
   describe 'GET new' do
     it 'assigns a new instance as @instance' do
-      get :new, {}, valid_session
+      w = Work.create valid_work_attributes
+      get :new, {work_id: w.id}, valid_session
       assigns(:instance).should be_a_new(Instance)
     end
   end
@@ -76,23 +87,28 @@ describe InstancesController, broken: true, type: :controller do
   describe 'POST create' do
     describe 'with valid params' do
       it 'creates a new Instance' do
+        w = Work.create valid_work_attributes
         expect {
-          post :create, { instance: valid_attributes }, valid_session
+          post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
         }.to change(Instance, :count).by(1)
       end
 
       it "saves the Instance's title" do
-        post :create, { instance: valid_attributes.merge(title_statement: 'War and Peace') }, valid_session
+        w = Work.create valid_work_attributes
+        post :create, { instance: valid_attributes.merge(title_statement: 'War and Peace',set_work: w.id), work_id: w.id }, valid_session
         expect(Instance.last.title_statement).to eql 'War and Peace'
       end
 
       it "saves the Instance's language" do
-        post :create, { instance: valid_attributes.merge(language: { value: 'Latin' }) }, valid_session
+        w = Work.create valid_work_attributes
+        post :create, { instance: valid_attributes.merge(language: [ {value: 'Latin' }],set_work: w.id), work_id: w.id }, valid_session
         expect(Instance.last.language_values).to include 'Latin'
       end
 
       it 'assigns a newly created instance as @instance' do
-        post :create, { instance: valid_attributes }, valid_session
+        w = Work.create valid_work_attributes
+        {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}
+        post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
         assigns(:instance).should be_a(Instance)
         assigns(:instance).should be_persisted
       end
@@ -102,15 +118,17 @@ describe InstancesController, broken: true, type: :controller do
       it 'assigns a newly created but unsaved instance as @instance' do
         # Trigger the behavior that occurs when invalid params are submitted
         Instance.any_instance.stub(:save).and_return(false)
-        post :create, {instance: valid_attributes }, valid_session
+        w = Work.create valid_work_attributes
+        post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}  , valid_session
         assigns(:instance).should be_a_new(Instance)
       end
 
-      it "re-renders the 'new' template" do
+      it "redirects to the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Instance.any_instance.stub(:save).and_return(false)
-        post :create, { instance: valid_attributes  }, valid_session
-        response.should render_template('new')
+        w = Work.create valid_work_attributes
+        post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}  , valid_session
+        response.should redirect_to ('/works/'+w.id+'/instances')
       end
     end
   end
@@ -119,42 +137,44 @@ describe InstancesController, broken: true, type: :controller do
     describe 'with valid params' do
       it 'updates the requested instance' do
         instance = Instance.create! valid_attributes
-        # Assuming there are no other instances in the database, this
-        # specifies that the Instance created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Instance.any_instance.should_receive(:update).with('these' => 'params')
-        put :update, { id: instance.to_param, instance: { 'these' => 'params' } }, valid_session
+        Instance.any_instance.should_receive(:update).with(valid_attributes)
+        put :update, { id: instance.to_param, instance:  valid_attributes }, valid_session
       end
 
       it 'assigns the requested instance as @instance' do
-        instance = Instance.create! valid_attributes
-        put :update, { id: instance.to_param, instance: valid_attributes }, valid_session
-        assigns(:instance).should eq(instance)
+        i = Instance.create! valid_attributes
+        w = Work.create valid_work_attributes
+        i.set_work=w
+        put :update, {id: i.id, instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
+        assigns(:instance).should eq(i)
       end
 
       it 'redirects to the instance' do
-        instance = Instance.create! valid_attributes
-        put :update, { id: instance.to_param, instance: valid_attributes }, valid_session
-        response.should redirect_to(instance)
+        i = Instance.create! valid_attributes
+        w = Work.create valid_work_attributes
+        i.set_work=w
+        put :update, {id: i.id, instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
+        response.should redirect_to work_instance_url(w,i)
       end
     end
 
     describe 'with invalid params' do
       it 'assigns the instance as @instance' do
-        instance = Instance.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
+        i = Instance.create! valid_attributes
+        w = Work.create valid_work_attributes
+        i.set_work=w
         Instance.any_instance.stub(:save).and_return(false)
-        put :update, { id: instance.to_param, instance: {} }, valid_session
-        assigns(:instance).should eq(instance)
+        put :update, { id: i.id, instance: valid_attributes }, valid_session
+        assigns(:instance).should eq(i)
       end
 
       it "re-renders the 'edit' template" do
-        instance = Instance.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
+        i = Instance.create! valid_attributes
+        w = Work.create valid_work_attributes
+        i.set_work=w
         Instance.any_instance.stub(:save).and_return(false)
-        put :update, { id: instance.to_param, instance: {} }, valid_session
-        response.should render_template('edit')
+        put :update, { id: i.id, instance: valid_attributes }, valid_session
+        response.should redirect_to work_instance_url(w,i)
       end
     end
   end
@@ -176,7 +196,7 @@ describe InstancesController, broken: true, type: :controller do
 
   describe 'Update preservation profile metadata' do
     before(:each) do
-      @ins = Instance.create!
+      @ins = Instance.create! valid_attributes
     end
     it 'should have a default preservation settings' do
       ins = Instance.find(@ins.pid)
@@ -329,7 +349,7 @@ describe InstancesController, broken: true, type: :controller do
 
   describe 'GET preservation' do
     it 'should assign \'@ins\' to the ordered_instance' do
-      @ins = Instance.create!
+      @ins = Instance.create! valid_attributes
       get :preservation, {:id => @ins.pid}
       assigns(:instance).should eq(@ins)
     end
