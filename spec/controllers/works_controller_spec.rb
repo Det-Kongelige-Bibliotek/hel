@@ -103,7 +103,7 @@ describe WorksController, type: :controller do
 
       it 'redirects to the created work' do
         post :create, { work: valid_attributes }, valid_session
-        response.should redirect_to(Work.last)
+        response.should render_template(:add_instance)
       end
     end
 
