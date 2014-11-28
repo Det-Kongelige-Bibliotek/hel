@@ -1,0 +1,29 @@
+function update_date(obj,dateofbirth,dateofdeath) {
+    if ((dateofbirth && dateofbirth.length > 0) || (dateofdeath && dateofdeath.lengh > 0)) {
+        obj.find('[data-hook="date"]').val(dateofbirth+"--"+dateofdeath);
+    } else {
+        obj.find('[data-hook="date"]').val('');
+    }
+}
+
+function split_dates() {
+    $('[data-hook="dates"]').each(function(){
+        val = $(this).find('[data-hook="date"]').val().split('--');
+        if (val.length > 0) {
+            $(this).find('[data-hook="dateofbirth"]').val(val[0])
+        }
+        if (val.length > 1) {
+            $(this).find('[data-hook="dateofdeath"]').val(val[1])
+        }
+    })
+}
+
+$(document).ready(function(){
+    split_dates();
+    $('[data-hook="dateofbirth"]').change(function(){
+        update_date($(this).parent().parent(),$(this).val(),$(this).parent().parent().find('[data-hook="dateofdeath"]').val());
+    });
+    $('[data-hook="dateofdeath"]').change(function(){
+        update_date($(this).parent().parent(),$(this).parent().parent().find('[data-hook="dateofbirth"]').val(),$(this).val());
+    });
+});

@@ -23,12 +23,19 @@
     <input class="form-control" value="<%= name[:family] %>" name="authority_person[authorized_personal_name][][family]"/>
   </div>
 </div>
-<div class='form-group'>
-  <div class='col-sm-4'>
-    <label><%= t('person.date') %></label>
+<div class='form-group col-sm-12' data-hook="dates">
+  <div class='col-sm-2'>
+    <label>født</label>
   </div>
   <div class='col-sm-4'>
-    <input class="form-control" value="<%= name[:date] %>" name="authority_person[authorized_personal_name][][date]"/>
+    <input data-hook="dateofbirth" class="form-control" value="" name="authority_person[authorized_personal_name][][dateofbirth]"/>
   </div>
+  <div class='col-sm-2'>
+    <label>død</label>
+  </div>
+  <div class='col-sm-4'>
+    <input data-hook="dateofdeath" class="form-control" value="" name="authority_person[authorized_personal_name][][dateofdeath]"/>
+  </div>
+  <input data-hook="date" type="hidden" name="authority_person[authorized_personal_name][][date]" value="<%= name[:date] %>">
 </div>
 </div>
