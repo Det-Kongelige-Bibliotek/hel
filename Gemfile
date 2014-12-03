@@ -69,7 +69,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'rack-mini-profiler'
   gem 'flamegraph'
-  gem 'stackprof'
+  #gem 'stackprof'
 end
 
 group :test do

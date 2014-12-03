@@ -397,7 +397,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.9)
     sqlite3 (1.3.9-x86-mingw32)
-    stackprof (0.2.7)
     stomp (1.3.3)
     sxp (0.1.5)
     systemu (2.6.4)
@@ -463,7 +462,6 @@ DEPENDENCIES
   simple_form
   simplecov
   sqlite3
-  stackprof
   therubyracer
   thin
   tzinfo-data
