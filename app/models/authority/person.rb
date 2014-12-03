@@ -12,6 +12,24 @@ module Authority
     #       authorized_personal_name: { full: "Flann O'Brien", scheme: 'viaf' },
     #       authorized_personal_name: { given: 'Myles', family: 'Na Gopaleen', scheme: 'nli' }
     #     )
+
+    validate :has_a_name, :dates_are_valid
+
+    def has_a_name
+      logger.debug("validates name #{authorized_personal_names}")
+      if mads.authorized_personal_names.blank?
+        errors.add('[authorized_personal_name][][family]','Der skal angives mindst et navn')
+      end
+    end
+
+    def dates_are_valid
+        mads.authorized_personal_names.each do |name_hash|
+          unless Date.edtf(name_hash[:date]).nil?
+            errors.add('[authorized_personal_name][][date]','Der skal angives gyldige EDTF datoer')
+          end
+        end
+    end
+
     def initialize(*args)
       super
       return if args.empty? || args.first.nil?
@@ -24,6 +42,11 @@ module Authority
       mads.authorized_personal_names
     end
 
+    def authorized_personal_name
+      mads.authorized_personal_names
+    end
+
+
     def authorized_personal_name=(args)
       if args.is_a? Array
         args.each { |h| add_authorized_personal_name(h) }
@@ -33,6 +56,7 @@ module Authority
     end
 
     def add_authorized_personal_name(name_hash)
+      logger.debug("add personal name #{name_hash}")
       mads.ensure_valid_name_hash!(name_hash)
       mads.add_authorized_personal_name(name_hash)
       # if we have a blank hash just skip it
