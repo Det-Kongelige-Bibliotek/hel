@@ -1,6 +1,6 @@
 function update_date(obj,dateofbirth,dateofdeath) {
     if ((dateofbirth && dateofbirth.length > 0) || (dateofdeath && dateofdeath.lengh > 0)) {
-        obj.find('[data-hook="date"]').val(dateofbirth+"--"+dateofdeath);
+        obj.find('[data-hook="date"]').val(dateofbirth+"/"+dateofdeath);
     } else {
         obj.find('[data-hook="date"]').val('');
     }
@@ -8,7 +8,7 @@ function update_date(obj,dateofbirth,dateofdeath) {
 
 function split_dates() {
     $('[data-hook="dates"]').each(function(){
-        val = $(this).find('[data-hook="date"]').val().split('--');
+        val = $(this).find('[data-hook="date"]').val().split('/');
         if (val.length > 0) {
             $(this).find('[data-hook="dateofbirth"]').val(val[0])
         }
@@ -26,4 +26,15 @@ $(document).ready(function(){
     $('[data-hook="dateofdeath"]').change(function(){
         update_date($(this).parent().parent(),$(this).parent().parent().find('[data-hook="dateofbirth"]').val(),$(this).val());
     });
+
+
+    $.validator.addMethod("dateFormat",
+            function(value, element) {
+                return value.match(/^\d\d\d\d(-\d\d){0,2}\??$/);
+            },
+            "Dato format skal være yyyy-mm-dd");
+    $.validator.addClassRules('valid-date', {
+        dateFormat: true
+    });
+    $('#new_authority_person').validate({});
 });

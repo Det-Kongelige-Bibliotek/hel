@@ -28,13 +28,13 @@
     <label>født</label>
   </div>
   <div class='col-sm-4'>
-    <input data-hook="dateofbirth" class="form-control" value="" name="authority_person[authorized_personal_name][][dateofbirth]"/>
+    <input data-hook="dateofbirth" class="form-control valid-date" value="" name="authority_person[authorized_personal_name][][dateofbirth]"/>
   </div>
   <div class='col-sm-2'>
     <label>død</label>
   </div>
   <div class='col-sm-4'>
-    <input data-hook="dateofdeath" class="form-control" value="" name="authority_person[authorized_personal_name][][dateofdeath]"/>
+    <input data-hook="dateofdeath" class="form-control valid-date" value="" name="authority_person[authorized_personal_name][][dateofdeath]"/>
   </div>
   <input data-hook="date" type="hidden" name="authority_person[authorized_personal_name][][date]" value="<%= name[:date] %>">
 </div>
