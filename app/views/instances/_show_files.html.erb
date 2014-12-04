@@ -3,17 +3,29 @@
     <strong><%= f.original_filename %></strong>
     <table class="table table-striped"><tbody>
     <tr>
-      <td> Filnavn</td>
+      <td> <strong>Filnavn</strong></td>
       <td>
-        <strong><%= f.original_filename %></strong>
+        <%= f.original_filename %>
       </td>
     </tr>
     <tr>
-      <td>Bevarings Status</td>
-      <td><strong><%= f.preservation_state %></strong></td>
+      <td>
+        <strong>Bevarings profil</strong>
+      </td>
+      <td>
+        <span><%= @instance.preservation_profile %></span>
+      </td>
     </tr>
     <tr>
-      <td>Download link</td>
+      <td><strong>Bevarings Status</strong></td>
+      <td><%= f.preservation_state %></td>
+    </tr>
+    <tr>
+      <td><strong>Bevarings Detaljer</strong></td>
+      <td><%= f.preservation_details %></td>
+    </tr>
+    <tr>
+      <td><strong>Download link</strong></td>
       <td>
         <%if can?(:download,@instance.content_files.first) %>
             <%= link_to "Download", download_content_file_path(f)%>

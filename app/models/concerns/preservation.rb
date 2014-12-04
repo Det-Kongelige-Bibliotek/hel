@@ -96,7 +96,9 @@ module Concerns
 
         if self.kind_of?(ContentFile)
           message['File_UUID'] = self.file_uuid
-          message['Content_URI'] = url_for(:controller => 'view_file', :action => 'show', :pid =>self.pid, :only_path => true)
+          app_url = CONFIG[Rails.env.to_sym][:application_url]
+          path = url_for(:controller => 'view_file', :action => 'show', :pid =>self.pid, :only_path => true)
+          message['Content_URI'] = "#{app_url}#{path}"
         end
 
         metadata = create_message_metadata
@@ -109,6 +111,7 @@ module Concerns
       # @return The metadata for the element.
       def create_message_metadata
         content = self.create_preservation_message_metadata
+        logger.debug("preservation_metadata: <metadata>#{content}</metadata>")
         "<metadata>#{content}</metadata>"
       end
 

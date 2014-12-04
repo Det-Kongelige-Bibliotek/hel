@@ -67,7 +67,7 @@ class ContentFile < ActiveFedora::Base
   ## Model specific preservation functionallity
   def create_preservation_message_metadata
 
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields><provenanceMetadata"
+    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
     res +="<preservationMetadata>"
     res += self.preservationMetadata.content
     res +="</preservationMetadata>"

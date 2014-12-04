@@ -17,6 +17,14 @@ module ApplicationHelper
     list.sort { |x,y| x.first <=> y.first }
   end
 
+  def get_preservation_profiles_for_select
+    profiles = []
+    PRESERVATION_CONFIG['preservation_profile'].each do |key,value|
+      profiles << [value['name'], key]
+    end
+    profiles
+  end
+
   # Renders a title type ahead field
   def render_title_typeahead_field
     results = Work.get_title_typeahead_objs

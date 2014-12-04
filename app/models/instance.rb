@@ -114,7 +114,12 @@ class Instance < ActiveFedora::Base
     res += self.preservationMetadata.content
     res +="</preservationMetadata>"
 
-    res += self.to_mods
+    mods = self.to_mods
+    if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
+      logger.debug("removing xml header")
+      mods = Nokogiri::XML.parse(mods).root.to_s
+    end
+    res += mods
 
     #TODO: Update this to handle multiple file instances with structmaps
     if (self.content_files.size == 1)

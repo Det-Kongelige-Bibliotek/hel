@@ -1,17 +1,85 @@
 development:
   preservation_profile:
     storage:
-      bit_safety: 'Minimum Bitsafety (Not in Bitrepository: 1 local copy, no integrity checks)'
-      confidentiality: 'Low confidentiality (Everyone with access to Valhal).'
+      name: 'Not long-term preservation'
+      bit_safety: 'bitSafetyVeryLow'
+      confidentiality: 'confidentialityVeryLow'
       yggdrasil: 'false'
     simple:
+      name: 'simple'
       bit_safety: 'Medium Bitsafety (Bitrepository with 3 x copies: 2 full and one checksum, and regularly integrity checks)'
       confidentiality: 'Medium confidentiality (no access through bitrepository, and limited access to basic_files at pillars/backends)'
       yggdrasil: 'true'
     eternity:
+      name: 'eternity'
       bit_safety: 'Maximum Bitsafety (15 x copies: 10 in Bitrepository with daily integrity checks, 5 on open sites on the Internet, 1 on other the Moon and 1 in another galaxy)'
       confidentiality: 'Minimum confidentiality (public accessible through the Internet)'
       yggdrasil: 'true'
+    A:
+      name: 'A: Pligtafleveret digitalt født materiale, som ikke er i Netarkivet'
+      bit_safety: 'bitSafetyVeryHigh'
+      confidentiality: 'confidentialityMedium'
+      yggdrasil: 'true'
+#    B:
+#      name: 'B: Pligtafleveret digitalt født materiale, som også er i Netarkivet'
+#      bit_safety: 'bitSafetyLow'
+#      confidentiality: 'confidentialityMin'
+#      yggdrasil: 'true'
+#    C:
+#      name: 'C: Mediekonverterede pligtafleverede samlinger'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
+#    D:
+#      name: 'D: Født digitalt samlings- materiale som ikke er fortroligt'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
+#    E:
+#      name: 'E: Født digitalt samlings materiale som er fortroligt'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
+    F:
+      name: 'F: Substitutions-digitaliseret samlings-materiale (som ikke er fortroligt)'
+      bit_safety: 'bitSafetyVeryHigh'
+      confidentiality: 'confidentialityMedium'
+      yggdrasil: 'true'
+    G:
+      name: 'G: Substitutions-digitaliseret samlings-materiale (som er fortroligt)'
+      bit_safety: 'bitSafetyVeryHigh'
+      confidentiality: 'confidentialityMedium'
+      yggdrasil: 'true'
+    H:
+      name: 'H: Digitalt født dokumentations materiale'
+      bit_safety: 'bitSafetyVeryHigh'
+      confidentiality: 'confidentialityMedium'
+      yggdrasil: 'true'
+    I:
+      name: 'I: KB institutions-arkiv for digitalt født materiale'
+      bit_safety: 'bitSafetyVeryHigh'
+      confidentiality: 'confidentialityMedium'
+      yggdrasil: 'true'
+#    J:
+#      name: 'J: Formidlings digitaliseringsprojekter'
+#      bit_safety: 'bitSafetyLow'
+#      confidentiality: 'confidentialityMin'
+#      yggdrasil: 'true'
+    K:
+      name: 'K: Digitaliseringsprojekter hvor originaler haves (Simonsens breve, ADL, foto, BC54)'
+      bit_safety: 'bitSafetyMedium'
+      confidentiality: 'confidentialityMedium'
+      yggdrasil: 'true'
+#    L:
+#      name: 'L: Hemmelige samlinger'
+#      bit_safety: 'bitSafetyMedium'
+#      confidentiality: 'confidentialityVeryHigh'
+#      yggdrasil: 'true'
+#    M:
+#      name: 'M: Top hemmelige samlinger'
+#      bit_safety: 'bitSafetyMedium'
+#      confidentiality: 'confidentialityVeryHigh'
+#      yggdrasil: 'true'
 
 test:
   preservation_profile:
