@@ -77,7 +77,7 @@ module Concerns
         else
           self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
           message = create_preservation_message
-          puts "saving object #{self.preservation_state}"
+          logger.debug "saving object #{self.preservation_state}"
           if self.save
             send_message_to_preservation(message)
           else
@@ -111,7 +111,6 @@ module Concerns
       # @return The metadata for the element.
       def create_message_metadata
         content = self.create_preservation_message_metadata
-        logger.debug("preservation_metadata: <metadata>#{content}</metadata>")
         "<metadata>#{content}</metadata>"
       end
 
