@@ -79,6 +79,7 @@ class Work < ActiveFedora::Base
   def creators=(val)
     remove_creators
     val.each_value do |v|
+      logger.debug("adding creator #{v}")
       if (v['type'] == 'aut')
         add_author(ActiveFedora::Base.find(v['id'])) unless v['id'].blank?
       end

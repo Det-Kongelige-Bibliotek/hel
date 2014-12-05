@@ -10,7 +10,7 @@ describe Instance do
 
   let(:work_attributes) do
     agent = Authority::Person.create(
-        authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+        'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
     )
     $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
   end
