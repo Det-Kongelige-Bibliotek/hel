@@ -1,13 +1,16 @@
 <div class="<%= "empty-name" unless scheme.present? %>">
+
+  <!-- Removed scheme-field until we actually implement authorities
   <div class='form-group'>
     <div class='col-sm-4'>
-      <label><%= t('person.scheme') %></label>
+      <label><%#= t('person.scheme') %></label>
     </div>
     <div class='col-sm-4'>
-      <input class="form-control" value="<%= scheme %>" name="authority_person[authorized_personal_name][][scheme]"/>
+      <input class="form-control" value="<%#= scheme %>" name="authority_person[authorized_personal_name][][scheme]"/>
     </div>
     <span class="help-block"></span>
   </div>
+ -->
   <div class='form-group'>
     <div class='col-sm-4'>
       <label><%= t('person.given') %></label>
