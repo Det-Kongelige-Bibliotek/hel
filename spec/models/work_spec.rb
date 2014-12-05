@@ -19,7 +19,7 @@ describe Work do
   describe 'Relations:' do
     before :each do
       agent = Authority::Person.create(
-          authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
       )
       @work = Work.new
       @work.add_title({'value'=> 'A title'})
@@ -62,7 +62,7 @@ describe Work do
 
     it 'can have an author' do
       a = Authority::Person.create(
-          authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
       )
       @work.add_author(a)
       expect(@work.authors).to include a
@@ -84,7 +84,7 @@ describe Work do
   describe 'to_rdf' do
     before :all do
       agent = Authority::Person.create(
-          authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
       )
       @work = Work.new
       @work.add_title({'value'=> 'A title'})
@@ -110,7 +110,7 @@ describe Work do
   describe 'to_solr' do
     before :each do
       agent = Authority::Person.create(
-          authorized_personal_name: { given: 'Fornavn', family: 'Efternavn', scheme: 'KB' }
+          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
       )
       @work = Work.new
       @work.add_title({'value'=> 'A title'})
@@ -125,10 +125,10 @@ describe Work do
     end
 
     it 'should contain all author names' do
-      aut = Authority::Person.new
-      aut.authorized_personal_name = { scheme: 'viaf', full: 'James Joyce' }
-      aut.save
+      aut = Authority::Person.create(
+          'authorized_personal_name' => { 'scheme' => 'viaf', 'family' => 'Joyce', 'given' => 'James', 'date' => '1932/2009' })
       @work.add_author(aut)
+      puts("creators #{@work.creators}")
       vals = @work.to_solr.values.flatten
       expect(vals).to include 'James Joyce'
     end

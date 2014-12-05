@@ -14,19 +14,14 @@
   <% end %>
 
     <h2>Person</h2>
-    <% @authority_object.authorized_personal_names.each do |scheme, name| %>
-        <%= render partial: 'authority/people/name', locals: { scheme: scheme, name: name } %>
-        <br/>
-    <% end %>
-
-    <div data-hook="empty-names">
+    <% if @authority_object.new? %>
         <%= render partial: 'authority/people/name',  locals: { scheme: '', name: { given: '', family: '', date: '' }} %>
-    </div>
-    <!-- a class="btn btn-sm btn-primary col-sm-offset-10" href="#" data-function="new-authorized-personal-name">
-      <span class="glyphicon glyphicon-plus"></span>
-      Add new
-    </a -->
-
+    <% else %>
+        <% @authority_object.authorized_personal_names.each do |scheme, name| %>
+            <%= render partial: 'authority/people/name', locals: { scheme: scheme, name: name } %>
+            <br/>
+        <% end %>
+    <% end %>
 
   <div class="actions">
     <%= f.submit 'Gem Person', class: 'btn btn-lg btn-success' %>

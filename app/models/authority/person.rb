@@ -12,17 +12,39 @@ module Authority
     #       authorized_personal_name: { full: "Flann O'Brien", scheme: 'viaf' },
     #       authorized_personal_name: { given: 'Myles', family: 'Na Gopaleen', scheme: 'nli' }
     #     )
+
+    validate :has_a_name, :dates_are_valid
+
+    def has_a_name
+      if self.authorized_personal_names.blank?
+        errors.add('[authorized_personal_name][][family]','Der skal angives mindst et navn')
+      end
+    end
+
+    def dates_are_valid
+      self.authorized_personal_names.values.each do |name_hash|
+        unless (name_hash[:date].blank?)
+          errors.add('[authorized_personal_name][][date]','Der skal angives gyldige EDTF datoer') if Date.edtf(name_hash[:date]).nil?
+        end
+      end
+    end
+
     def initialize(*args)
       super
       return if args.empty? || args.first.nil?
-      self.authorized_personal_name = args
+      # self.authorized_personal_name = args
     end
 
     # All authorized personal names
     # organised by their scheme
     def authorized_personal_names
-      mads.authorized_personal_names
+      self.mads.authorized_personal_names
     end
+
+    def authorized_personal_name
+      self.mads.authorized_personal_names
+    end
+
 
     def authorized_personal_name=(args)
       if args.is_a? Array
@@ -33,11 +55,15 @@ module Authority
     end
 
     def add_authorized_personal_name(name_hash)
-      mads.ensure_valid_name_hash!(name_hash)
-      mads.add_authorized_personal_name(name_hash)
-      # if we have a blank hash just skip it
-      rescue
+      logger.debug("add_authorized_personal_name(#{name_hash})")
+      begin
+        mads.ensure_valid_name_hash!(name_hash)
+        mads.add_authorized_personal_name(name_hash)
+        # if we have a blank hash just skip it
+      rescue Exception=>ex
+        logger.error("add_authorized_personal_name failed #{ex}")
         return
+      end
     end
 
     # Build a display value from the name and date

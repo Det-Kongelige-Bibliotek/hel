@@ -16,7 +16,8 @@ describe Authority::Base do
   end
 
   it 'should return all descendant class' do
-    p = Authority::Person.create
+    p = Authority::Person.create(
+        'authorized_personal_name' => { 'scheme' => 'viaf', 'family' => 'Joyce', 'given' => 'James', 'date' => '1932/2009' })
     expect(Authority::Base.descendants).to include(p)
     p.delete
   end

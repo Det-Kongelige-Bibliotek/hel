@@ -40,7 +40,7 @@ module Datastreams
       define_template :authorized_person do |xml, name_hash|
         xml.authority do
           # get authority value from scheme key and remove from hash
-          xml.name(type: 'personal', authority: name_hash.delete(:scheme)) do
+          xml.name(type: 'personal', authority: name_hash.delete('scheme')) do
             name_hash.each do |key, val|
               if key == :full
                 xml.namePart { xml.text(val) }
@@ -72,8 +72,8 @@ module Datastreams
 
       # throws an exception if the hash does not have the necessary data
       def ensure_valid_name_hash!(name_hash)
-        fail 'You must provide an authority scheme' unless name_hash[:scheme].present?
-        unless name_hash[:family].present? || name_hash[:given].present? || name_hash[:full].present?
+        #fail 'You must provide an authority scheme' unless name_hash[:scheme].present?
+        unless name_hash['family'].present? || name_hash['given'].present? || name_hash['full'].present?
           fail 'You must provide at least one name'
         end
       end
