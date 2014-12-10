@@ -79,7 +79,7 @@ describe InstancesController, type: :controller do
 
   describe 'POST create' do
     describe 'with valid params' do
-      xit 'creates a new Instance. Pending: why are 2 instances created when no Instances exists in Fedora' do
+      it 'creates a new Instance. Pending: why are 2 instances created when no Instances exists in Fedora' do
         w = Work.create valid_work_attributes
         expect {
           post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
@@ -104,6 +104,17 @@ describe InstancesController, type: :controller do
         post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
         assigns(:instance).should be_a(Instance)
         assigns(:instance).should be_persisted
+      end
+    end
+
+    describe 'with files' do
+      it 'creates a new instance with multiple files' do
+        w = Work.create valid_work_attributes
+        f = File.new('spec/fixtures/blank_file.txt')
+        attrs = valid_attributes.merge(set_work: w.id, content_files: [f,f])
+        post :create, { instance: attrs, work_id: w.id }, valid_session
+        expect(assigns(:instance).content_files).to be_present
+        expect(assigns(:instance).content_files.size).to eq 2
       end
     end
 

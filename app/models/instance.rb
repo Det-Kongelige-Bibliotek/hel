@@ -53,21 +53,16 @@ class Instance < ActiveFedora::Base
     work.first.id
   end
 
-  # very simple method to enable
-  # single file uploads
-  # will need to be expanded to handle
-  # multiple files
-  def content_files=(file)
+  def content_files=(files)
     #remove old file
-    content_files.each do |cf|
-      cf.delete
+    content_files.delete_all
+    files.each do |f|
+      cf = ContentFile.new
+      cf.add_file(f)
+      set_rights_metadata_on_file(cf)
+      cf.save
+      content_files << cf
     end
-
-    cf = ContentFile.new
-    cf.add_file(file)
-    set_rights_metadata_on_file(cf)
-    cf.save
-    content_files << cf
   end
 
   # method to set the rights metadata stream based on activity

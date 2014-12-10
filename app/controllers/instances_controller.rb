@@ -136,8 +136,8 @@ class InstancesController < ApplicationController
     params.require(@klazz.to_s.downcase.to_sym).permit(:activity, :title_statement, :extent, :copyright,
                                      :copyright_date, :published_date, :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
-                                     :access_condition, :availability, :collection, :content_files,
-                                     :preservation_profile, :set_work, language: [[:value, :part]], note: []
+                                     :access_condition, :availability, :collection, :preservation_profile,
+                                     :set_work, language: [[:value, :part]], note: [], content_files: []
     ).tap { |elems| remove_blanks(elems) }
   end
 
