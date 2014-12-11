@@ -50,6 +50,8 @@ class ContentFile < ActiveFedora::Base
         'image/tiff'
       when '.jpg', '.jpeg'
         'image/jpeg'
+      when '.txt'
+        'text/plain'
       else
         raise "no mimetype found for extension #{ext}!"
     end
