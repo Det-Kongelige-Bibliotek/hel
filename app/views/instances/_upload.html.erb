@@ -1,14 +1,14 @@
 <% if @instance.content_files.blank? %>
-
     <fieldset id="upload" class="row">
 
 
       <legend class="col-sm-12" >
         Upload Ny Fil
       </legend>
-
-      <%= builder.input :content_files, as: :file, input_html: { class: ''},
-                        wrapper_html: { class: ''} %>
+      <div class="input file optional">
+        <label class="file optional">Content files</label>
+        <input class="file optional" name="<%="#{@instance.class.to_s.downcase}[content_files][]" %>" type="file">
+      </div>
     </fieldset>
 
 <% else %>
@@ -19,24 +19,30 @@
             Upload Ny Fil
           </legend>
 
-          <%= builder.input :content_files, as: :file, input_html: { class: ''},
-                            wrapper_html: { class: ''} %>
+          <div class="input file optional">
+            <label class="file optional">Content files</label>
+            <input class="file optional" name="<%="#{@instance.class.to_s.downcase}[content_files][]" %>" type="file">
+          </div>
         </fieldset>
     <% end %>
-        <fieldset id="files" class="row">
+
+    <fieldset id="upload" class="row">
           <legend class="col-sm-12" >
             Eksisterende fil
           </legend>
           <%if can?(:show,@instance.content_files.first) %>
+            <dl class="dl-horizontal">
             <% @instance.content_files.each do |cf| %>
-              <%= cf.original_filename %>
-              <%if can?(:download,@instance.content_files.first) %>
-                <%= link_to "Download", download_content_file_path(cf)%>
+              <dt><%= cf.original_filename %></dt>
+
+              <% if can?(:download, cf) %>
+                <dd><%= link_to "Download", download_content_file_path(cf)%></dd>
               <% end %>
             <% end %>
+            </dl>
           <% else %>
               Du har ikke adgang til at se filen
           <% end %>
-        </fieldset>
+    </fieldset>
 
 <% end %>
