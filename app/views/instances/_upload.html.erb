@@ -5,10 +5,7 @@
       <legend class="col-sm-12" >
         Upload Ny Fil
       </legend>
-      <div class="input file optional">
-        <label class="file optional">Content files</label>
-        <input class="file optional" name="<%="#{@instance.class.to_s.downcase}[content_files][]" %>" type="file">
-      </div>
+        <%= render partial: 'file_input' %>
     </fieldset>
 
 <% else %>
@@ -19,10 +16,7 @@
             Upload Ny Fil
           </legend>
 
-          <div class="input file optional">
-            <label class="file optional">Content files</label>
-            <input class="file optional" name="<%="#{@instance.class.to_s.downcase}[content_files][]" %>" type="file">
-          </div>
+          <%= render partial: 'file_input' %>
         </fieldset>
     <% end %>
 
