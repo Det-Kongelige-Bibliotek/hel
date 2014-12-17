@@ -156,3 +156,24 @@ da:
         new_activity: "Ny aktivitet"
       edit:
         edit_activity: "Rediger aktivitet"
+    controlled_lists:
+      index:
+        header: "Kontrollerede lister"
+        edit: "Rediger"
+        delete: "Slet"
+        confirm_delete: "Er du sikker du vil slette denne kontrollerede list?"
+        create: "Ny kontrollerede list"
+      new:
+        header: "Ny kontrollerede list"
+      form:
+        list_name: "Navnet af listen"
+        new_entry: "Ny post"
+        new_field: "Tilføj flere"
+        save: "Gem"
+      element:
+        entry: "Post"
+      edit:
+        header: "Redigerer %{name}"
+  back: "Tilbage"
+  show: "Vis"
+  edit: "Rediger"

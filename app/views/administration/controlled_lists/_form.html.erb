@@ -11,7 +11,7 @@
     <% end %>
     <% unless @controlled_list.name %>
         <div class="form-group">
-          <%= f.label 'Controlled List Name', class: 'control-label col-sm-2' %>
+          <%= f.label t('.list_name'), class: 'control-label col-sm-2' %>
           <div class="col-sm-4">
             <%= f.text_field :name, class: 'form-control' %>
           </div>
@@ -22,17 +22,17 @@
             <%= render partial: 'element', object: element %>
         <% end %>
     <% end %>
-    <h4>New entry</h4>
+    <h4><%= t '.new_entry' %></h4>
     <div data-hook="empty-entries">
       <%= render partial: 'element', object: Administration::ListEntry.new %>
     </div>
     <hr/>
     <a class="btn btn-sm btn-primary col-sm-offset-5" href="#" data-function="new-controlled_list-entry">
       <span class="glyphicon glyphicon-plus"></span>
-      Add new
+      <%= t '.new_field' %>
     </a>
     <hr/>
     <div class="action">
-      <%= f.submit 'Save', class: 'btn btn-lg btn-primary col-sm-offset-3' %>
+      <%= f.submit t('.save'), class: 'btn btn-lg btn-primary col-sm-offset-3' %>
     </div>
 <% end %>

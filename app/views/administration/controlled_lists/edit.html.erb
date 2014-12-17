@@ -1,6 +1,6 @@
 <div class="container">
-<h1>Edit ControlledList</h1>
+<h1><%= t '.header', name: @controlled_list.name %> </h1>
 <%= render 'form' %>
-<%= link_to 'Show', administration_controlled_lists_path(@controlled_list) %>
-<%= link_to 'Back', administration_controlled_lists_path %>
+<%= link_to t(:show), @controlled_list %> |
+<%= link_to t(:back), administration_controlled_lists_path %>
 </div>

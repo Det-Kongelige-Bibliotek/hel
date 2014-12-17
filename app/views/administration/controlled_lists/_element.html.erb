@@ -2,7 +2,7 @@
     <div class="<%= "empty-entry" unless element.persisted? %>">
       <%= fields.hidden_field :id %>
       <div class="form-group">
-        <label class="control-label col-sm-2">Entry</label>
+        <label class="control-label col-sm-2"><%= t '.entry' %></label>
         <div class="col-sm-4">
           <%= fields.text_field :name, class: 'form-control' %>
         </div>
