@@ -141,3 +141,12 @@ da:
       error_message: "Ingen data fundet i aleph for %{field} %{value}"
       success_message: "Værk oprettet med data fra Aleph"
     save_error: "Værk kunne ikke gemmes"
+  administration:
+    activities:
+      index:
+        header: "Aktiviteter"
+        name: "Navn"
+        edit: "Rediger"
+        destroy: "Slet"
+        confirm_delete: "Er du sikker di vil slette dette aktivitet"
+        create: "Opret aktivitet"

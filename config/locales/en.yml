@@ -85,3 +85,12 @@ en:
     aleph:
       error_message: "No data found in Aleph for %{field} %{value}"
     save_error: "Work could not be saved correctly"
+  administration:
+    activities:
+      index:
+        header: "Activities"
+        name: "Name"
+        edit: "Edit"
+        destroy: "Delete"
+        confirm_delete: "Are you sure you will delete this activity"
+        create: "Create activity"
