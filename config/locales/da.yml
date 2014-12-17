@@ -97,6 +97,8 @@ da:
       preservation_profile: "Bevaring Profil"
       preservation_state: "Bevaring Status"
       preservaton_details: "Bevaring detaljer"
+    administrative:
+      admin_header: "Administrativ metadata"
   simple_form:
     labels:
       defaults:
@@ -150,3 +152,7 @@ da:
         destroy: "Slet"
         confirm_delete: "Er du sikker di vil slette dette aktivitet"
         create: "Opret aktivitet"
+      new:
+        new_activity: "Ny aktivitet"
+      edit:
+        edit_activity: "Rediger aktivitet"
