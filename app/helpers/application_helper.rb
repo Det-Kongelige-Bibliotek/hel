@@ -48,4 +48,5 @@ module ApplicationHelper
     def collect_title(titles,id)
       titles.collect {|title| [title,id]}
     end
+
 end

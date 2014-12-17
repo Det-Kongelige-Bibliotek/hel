@@ -113,6 +113,7 @@ da:
         access_condition: Adgang betingelser
         copyright: Licens
 
+
   trykforlaegs:
     bibliographic:
       language: "Sprog"
@@ -130,3 +131,9 @@ da:
 
   roles:
     aut: 'Forfatter'
+  devise:
+    sessions:
+      new:
+        username: "Brugernavn"
+        password: "Adgangkode"
+        remember_me: "Husk mig"

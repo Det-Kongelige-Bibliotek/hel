@@ -35,7 +35,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        format.html { redirect_to @work, notice: 'Work was successfully created.' }
+        format.html { redirect_to @work, notice: 'Værket blev oprettet.' }
         format.json { render :show, status: :created, location: @work }
       else
         format.html { render :new }
@@ -61,10 +61,10 @@ class WorksController < ApplicationController
     @work.from_mods(mods)
 
     if @work.save 
-      flash[:notice] = 'The work was successfully initialized with data from Aleph'
+      flash[:notice] = 'Værket blev initialiseret med data fra Aleph'
       redirect_to new_work_trykforlaeg_path work_id: @work.pid, query: query
     else
-      flash[:error] = 'It was impossible to get data from Aleph'
+      flash[:error] = 'Det var umuligt at få data fra Aleph'
       redirect_to new_work_path
     end
 
@@ -75,7 +75,7 @@ class WorksController < ApplicationController
   def update
     respond_to do |format|
       if @work.update(work_params)
-        format.html { redirect_to @work, notice: 'Work was successfully updated.' }
+        format.html { redirect_to @work, notice: 'Værket er opdateret.' }
         format.json { render :show, status: :ok, location: @work }
       else
         format.html { render :edit }
@@ -89,7 +89,7 @@ class WorksController < ApplicationController
   def destroy
     @work.destroy
     respond_to do |format|
-      format.html { redirect_to works_url, notice: 'Work was successfully destroyed.' }
+      format.html { redirect_to works_url, notice: 'Værket blev slettet.' }
       format.json { head :no_content }
     end
   end

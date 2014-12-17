@@ -22,6 +22,9 @@ da:
   blacklight:
     application_name: 'Valhal'
 
+    entry_name:
+          default: 'post'
+
     header_links:
       login: 'Login'
       logout: 'Log Out'
@@ -164,8 +167,8 @@ da:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
       per_page:
-        label: '%{count}<span class="hide-text"> per page</span>'
-        button_label: '%{count} per page'
+        label: '%{count}<span class="hide-text"> per side</span>'
+        button_label: '%{count} per side'
         title: 'Number of results to display per page'
         submit: 'Update'
       sort:
@@ -177,11 +180,11 @@ da:
           title: 'Targeted search options'
           post_label: 'for'
         q: 'Search...'
-        submit: 'Search'
+        submit: 'Søg'
       pagination:
         title: 'Results navigation'
       pagination_info:
-        no_items_found: 'No %{entry_name} found'
+        no_items_found: 'Ingen %{entry_name} fundet'
         single_item_found: '<strong>1</strong> to <strong>1</strong> of <strong>1</strong>'
         pages:
           one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
@@ -210,7 +213,7 @@ da:
       librarian_view:
         title: 'Librarian View'
         leader: 'LEADER %{leader}'
-      start_over: 'Start Over'
+      start_over: 'Start forfra'
       index:
         label: '%{label}:'
       show:
@@ -222,10 +225,12 @@ da:
         default: 'Keyword'
       zero_results:
         modify_search: 'Tilpas søgning'
+        use_fewer_keywords: 'Brug færre søgeord'
+        search_fields: 'Søge felter'
+        search_everything: 'Søg Alt'
+        title: 'Titel'
 
-
-    entry_name:
-      default: 'entry'
+    page_entries: 'hh'
 
     did_you_mean: 'Did you mean to type: %{options}?'
 

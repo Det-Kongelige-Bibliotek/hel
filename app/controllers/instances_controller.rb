@@ -42,9 +42,9 @@ class InstancesController < ApplicationController
       doc = converter.to_mods("")
       mods = Datastreams::Mods.from_xml(doc) 
       if @instance.from_mods(mods)
-        flash[:notice] = "Successfully retrieved instance data"
+        flash[:notice] = "Instans data er hentet."
       else
-        flash[:error]  = "Failed to retrieved instance data"
+        flash[:error]  = "Kunne ikke hente instans data."
       end
     end
     @instance.work << @work
@@ -59,7 +59,7 @@ class InstancesController < ApplicationController
   def create
       @instance = @klazz.new(instance_params)
       if @instance.save
-        flash[:notice] = "#{@klazz} was successfully saved"
+        flash[:notice] = "#{@klazz} blev gemt"
         @instance.cascade_preservation
       else
         @instance.work << @work
@@ -72,7 +72,7 @@ class InstancesController < ApplicationController
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
     if @instance.update(instance_params)
-      flash[:notice] = "#{@klazz} was successfully updated."
+      flash[:notice] = "#{@klazz} er opdateret."
       @instance.cascade_preservation
     end
     respond_with(@instance.work.first, @instance)
@@ -80,9 +80,9 @@ class InstancesController < ApplicationController
 
   def send_to_preservation
     if @instance.send_to_preservation
-      flash[:notice] = 'Instance and content files send for preservation'
+      flash[:notice] = 'Instans og indholdsfiler sendt til bevaring'
     else
-      flash[:notice] = 'Failed sending instance to preservation'
+      flash[:notice] = 'Kunne ikke send til bevaring'
     end
     redirect_to work_instance_path(@instance.work.first,@instance)
   end
@@ -91,7 +91,7 @@ class InstancesController < ApplicationController
   def destroy
     @instance.destroy
     @instances = @klazz.all
-    flash[:notice] = "#{@klazz} was successfully deleted"
+    flash[:notice] = "#{@klazz} er slettet"
     redirect_to action: :index
   end
 
@@ -99,9 +99,9 @@ class InstancesController < ApplicationController
   def update_administration
     begin
       update_administrative_metadata_from_controller(params, @instance, false)
-      redirect_to @instance, notice: 'Updated the administrative metadata'
+      redirect_to @instance, notice: 'Administrativ metadata er opdateret'
     rescue => error
-      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error_msg = "Kunne ikke opdatere administrativ metadata: #{error.inspect}"
       error.backtrace.each do |l|
         error_msg += "\n#{l}"
       end
