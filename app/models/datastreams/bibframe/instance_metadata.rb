@@ -37,6 +37,12 @@ module Datastreams
             t.label
           end
         end
+        t.sysno(path: 'systemNumber') do
+          t.Identifier do
+            t.label
+          end
+        end
+
         t.language do
           t.Language
         end
@@ -46,6 +52,7 @@ module Datastreams
         t.dimensions
         t.contents_note(path: 'contentsNote')
         t.isbn13(proxy: [:isbn_13, :Identifier, :label])
+        t.system_number(proxy: [:sysno, :Identifier, :label])
         t.copyright_date(proxy: [:publication, :Provider, :copyrightDate])
         t.published_date(proxy: [:publication, :Provider, :providerDate])
         t.publisher_name(proxy: [:publication, :Provider, :providerName, :Organization, :label])
@@ -59,6 +66,15 @@ module Datastreams
           end
         end
       end
+
+      define_template :system_number do |xml, value|
+        xml.systemNumber do
+          xml.Identifier do
+            xml.label { xml.text(value) }
+          end
+        end
+      end
+
 
       def self.xml_template
         Nokogiri::XML.parse('<bf:Instance xmlns:bf="http://bibframe.org/vocab/"/>')
