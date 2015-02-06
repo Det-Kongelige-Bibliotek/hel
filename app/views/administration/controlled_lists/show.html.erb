@@ -1,10 +1,13 @@
 <div class="container">
-<h1>
-  <%= @controlled_list.name %>
-</h1>
-<% @controlled_list.elements.each do |element| %>
-    <p><%= element.name %></p>
-<% end %>
-<%= link_to t(:edit), edit_administration_controlled_list_path(@controlled_list) %> |
-<%= link_to t(:back), administration_controlled_lists_path %>
+  <h1>
+    <%= @controlled_list.name %>
+  </h1>
+  <dl class="dl-horizontal">
+    <% @controlled_list.elements.each do |element| %>
+        <dt><%= element.name %></dt>
+        <dd><%= element.label %></dd>
+    <% end %>
+  </dl>
+  <%= link_to t(:edit), edit_administration_controlled_list_path(@controlled_list) %> |
+  <%= link_to t(:back), administration_controlled_lists_path %>
 </div>

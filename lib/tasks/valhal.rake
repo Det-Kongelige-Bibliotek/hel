@@ -16,8 +16,8 @@ namespace :valhal do
     lists.each_value do |val|
       current = Administration::ControlledList.create(name: val['name'])
       if val.has_key?('entries')
-        val['entries'].each do |entry|
-          Administration::ListEntry.create(name: entry, controlled_list: current)
+        val['entries'].each do |name, label|
+          Administration::ListEntry.create(name: name, label: label, controlled_list: current)
         end
       end
     end

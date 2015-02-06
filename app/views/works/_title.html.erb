@@ -11,13 +11,13 @@
           <div class='col-sm-2'>
             <div class="form-group">
               <%= title_fields.label :lang, 'Sprog' %>
-              <%= title_fields.select :lang, get_translated_list('Languages'), {include_blank: true}, {:class => 'title-lang form-control'+(hidden ? '': ' combobox')} %>
+              <%= title_fields.select :lang, get_list_with_labels('Languages'), {include_blank: true}, {:class => 'title-lang form-control'+(hidden ? '': ' combobox')} %>
             </div>
           </div>
           <div class='col-sm-2'>
             <div class="form-group">
               <%= title_fields.label :type, 'Type' %>
-              <%= title_fields.select :type, get_translated_list('Title types'), {include_blank: true}, {:class => 'title-type form-control'+(hidden ? '': ' combobox')} %>
+              <%= title_fields.select :type, get_list_with_labels('Title types'), {include_blank: true}, {:class => 'title-type form-control'+(hidden ? '': ' combobox')} %>
             </div>
           </div>
           <div class='col-sm-1'>
@@ -50,7 +50,7 @@
           <div class='col-sm-2'>
             <div class="form-group">
               <%= title_fields.label :lang, 'Sprog' %>
-              <%= title_fields.select :lang, get_translated_list('Languages'), {include_blank: true}, {:class => 'form-control'+(hidden ? '': ' combobox')} %>
+              <%= title_fields.select :lang, get_list_with_labels('Languages'), {include_blank: true}, {:class => 'form-control'+(hidden ? '': ' combobox')} %>
             </div>
           </div>
           <div class='col-sm-2'>
