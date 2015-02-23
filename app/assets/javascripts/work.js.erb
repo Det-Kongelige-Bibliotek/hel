@@ -75,6 +75,26 @@ $(document).ready(function(){
         $input.clone().insertAfter($input);
     })
 
+    // Add/remove title functions
+    $(".hidden-subject").hide();
+    // TODO: this stuff needs to be cleaned up
+    // e.g. refactor into functions, remove unused code (some of the combobox stuff)
+    subject_counter = $(".subject, .new-subject, .hidden-subject").length;
+    $('[data-function="new-subject"]').click(function(){
+        hidden_subject = $("div.hidden-subject");
+        new_subject = hidden_subject.clone(true)
+                .find("select.subject-id").attr("name","work[subjects]["+subject_counter+"][id]").end();
+        hidden_subject.removeClass('hidden-subject').addClass("subject");
+        hidden_subject.show();
+        new_subject.insertAfter(hidden_subject);
+        subject_counter = subject_counter + 1;
+        return false;
+    });
+    $('[data-function="delete-subject"]').click(function(){
+        $(this).parent().parent().remove();
+        return false;
+    });
+    
 
     // Combobox functionallity
     $('.combobox').combobox();
