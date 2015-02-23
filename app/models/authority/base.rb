@@ -5,6 +5,8 @@ module Authority
     include Concerns::Inheritance
     include Hydra::AccessControls::Permissions
 
+    has_and_belongs_to_many :subject_of, class_name: 'Work', property: :subject_of, inverse_of: :subject
+
     has_metadata 'mads', type: Datastreams::MADS::Document
     has_attributes :identifiers, datastream: 'mads', multiple: true
     has_attributes :uuid, datastream: 'mads', multiple: false

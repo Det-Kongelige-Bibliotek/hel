@@ -40,6 +40,7 @@
     :creator_of: creatorOf
     :author_of: authorOf
     :recipient_of: recipient_of
+    :subject_of: subjectOf
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo
     :has_annotation: hasAnnotation
