@@ -60,16 +60,16 @@ describe Work do
     end
 
     it 'can have an agent as a subjects' do
-      @work.subjects << @agent
+      @work.add_subject(@agent)
       expect(@work.subjects).to include @agent
     end
 
     it 'can have a Work as a subject' do
-      @work.subjects << @rel
+      @work.add_subject(@rel)
       expect(@work.subjects).to include @rel
     end
     it 'expresses its subject relations in rdf' do
-      @work.subjects << @agent
+      @work.add_subject(@agent)
       expect(@work.to_rdf).to include 'bf:subject'
     end
 

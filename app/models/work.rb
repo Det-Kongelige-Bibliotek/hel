@@ -93,8 +93,8 @@ class Work < ActiveFedora::Base
     authors=[]
   end
 
-  def add_subject(agent)
-    subjects << agent
+  def add_subject(rel)
+    subjects << rel
   end
 
   def subjects=(val)
