@@ -17,7 +17,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
-  has_and_belongs_to_many :subjects, class_name: 'Authority::Base', property: :subject, inverse_of: :subject_of
+  has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
 
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
@@ -80,7 +80,6 @@ class Work < ActiveFedora::Base
   def creators=(val)
     remove_creators
     val.each_value do |v|
-      logger.debug("adding creator #{v}")
       if (v['type'] == 'aut')
         add_author(ActiveFedora::Base.find(v['id'])) unless v['id'].blank?
       end
@@ -99,18 +98,13 @@ class Work < ActiveFedora::Base
   end
 
   def subjects=(val)
-    logger.debug("subjects are #{val.inspect}")
     remove_subjects
     val.each_value do |v|
-      logger.debug("adding subject #{v}")
       add_subject(ActiveFedora::Base.find(v['id'])) unless v['id'].blank?
     end
   end
 
   def remove_subjects
-    subjects.each do |s|
-      s.subject_of.delete self
-    end
     subjects=[]
   end
 
