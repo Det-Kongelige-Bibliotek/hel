@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   namespace :administration do
     resources :controlled_lists
     resources :activities
+    resources :external_repositories, :only => [:show, :index] do
+      get 'syncronise', on: :member
+    end
   end
 
   blacklight_for :catalog

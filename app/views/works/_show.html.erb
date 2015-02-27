@@ -67,6 +67,17 @@
       </tr>
     <% end %>
     </tbody></table>
+    <% if @work.subjects.present? %>
+        <h4>Emne(r)</h4>
+        <table class="table table-striped">
+          <tbody>
+            <%# Subject could either be a Work or an Authority %>
+            <% @work.subjects.each do |subj| %>
+                <tr><td><%= link_to subj.display_value, subj %></td></tr>
+            <% end %>
+          </tbody>
+        </table>
+    <% end %>
     <div class="row">
 
         <div class="btn-group">

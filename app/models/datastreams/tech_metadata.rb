@@ -14,7 +14,7 @@ module Datastreams
       t.root(:path=>'fields')
       t.uuid
       t.file_checksum
-      t.original_filename
+      t.original_filename(:type=> :string, :index_as => :stored_searchable)
       t.mime_type
       t.file_size
       t.last_modified
@@ -22,6 +22,8 @@ module Datastreams
       t.last_accessed
       t.file_uuid
       t.editable
+      t.validators
+      t.tei_ref(:type=> :string, :index_as => :stored_searchable)
     end
 
     def self.xml_template

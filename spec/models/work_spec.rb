@@ -18,16 +18,16 @@ describe Work do
   # a Fedora mock (which doesn't exist)
   describe 'Relations:' do
     before :each do
-      agent = Authority::Person.create(
+      @agent = Authority::Person.create(
           'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
       )
       @work = Work.new
       @work.add_title({'value'=> 'A title'})
-      @work.add_author(agent)
+      @work.add_author(@agent)
       @work.save # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
       @rel = Work.new
       @rel.add_title({'value'=> 'A title'})
-      @rel.add_author(agent)
+      @rel.add_author(@agent)
       @rel.save # for these tests to work. Object has to be persisted. Otherwise relation cannot be updated
     end
 
@@ -57,6 +57,20 @@ describe Work do
       @work.add_succeeding(@rel)
       expect(@work.succeeding_works).to include @rel
       expect(@rel.preceding_works).to include @work
+    end
+
+    it 'can have an agent as a subjects' do
+      @work.add_subject(@agent)
+      expect(@work.subjects).to include @agent
+    end
+
+    it 'can have a Work as a subject' do
+      @work.add_subject(@rel)
+      expect(@work.subjects).to include @rel
+    end
+    it 'expresses its subject relations in rdf' do
+      @work.add_subject(@agent)
+      expect(@work.to_rdf).to include 'bf:subject'
     end
 
 

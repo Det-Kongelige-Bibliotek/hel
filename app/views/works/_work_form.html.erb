@@ -71,6 +71,28 @@
         </fieldset>
         <div class='col-sm-12'>
         </div>
+        <fieldset class="row">
+          <legend class="col-sm-12">Emner</legend>
+          <% if @work.subjects.size > 0  %>
+              <% @work.subjects.each_with_index do |subject,index| %>
+                  <%= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
+              <% end%>
+              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: @work.subjects.size, hidden:true} %>
+          <% else %>
+              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
+              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
+          <% end %>
+
+          <div class='col-sm-12'>
+            <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
+              <span class="glyphicon glyphicon-plus"></span>
+              Tilføj Emne
+            </a>
+          </div>
+        </fieldset>
+        
+        <div class='col-sm-12'>
+        </div>
 
         <div class="actions col-sm-offset-9">
           <%= link_to t('.cancel'), :back, class: 'btn btn-lg btn-warning'%>

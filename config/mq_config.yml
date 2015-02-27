@@ -3,7 +3,7 @@ development:
   preservation:
     destination: "preservation-dev-queue"
     response: "preservation-response-dev-queue"
-    polling_interval_in_minutes: 1
+    polling_interval_in_minutes: 0
 
 test:
   mq_uri: "amqp://localhost:5672"

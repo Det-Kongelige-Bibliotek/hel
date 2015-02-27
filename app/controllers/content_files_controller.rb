@@ -20,7 +20,8 @@ class ContentFilesController < ApplicationController
       render text: obj_not_found.to_s, status: 404
     rescue => standard_error
       flash[:error] = 'An error has occurred. Please contact your system administrator'
-      logger.error standard_error.to_s
+      logger.error "standard error"
+      logger.error standard_error.inspect
       render text: standard_error.to_s, status: 500
     end
   end

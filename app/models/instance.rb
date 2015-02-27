@@ -12,10 +12,12 @@ class Instance < ActiveFedora::Base
   include Concerns::Preservation
   include Concerns::Renderers
   include Datastreams::TransWalker
+  include Concerns::CustomValidations
 
   has_and_belongs_to_many :work, class_name: 'Work', property: :instance_of, inverse_of: :has_instance
   has_many :content_files, property: :content_for
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
+  has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
 
   validates :activity, :collection, :copyright, presence: true
 
@@ -59,12 +61,53 @@ class Instance < ActiveFedora::Base
     #remove old file
     content_files.delete_all
     files.each do |f|
-      cf = ContentFile.new
-      cf.add_file(f)
-      set_rights_metadata_on_file(cf)
-      cf.save
-      content_files << cf
+      self.add_file(f)
     end
+  end
+
+  def add_file(file, validators=[])
+    cf = ContentFile.new
+
+    isOK = true
+    validators.each do |vname|
+      file_content = ""
+      if file.is_a? String
+        file_content = File.open(file).read
+      else
+        file_content = file.read
+      end
+      validator = get_validator_from_classname(vname)
+      msg = validator.is_valid_xml_content(file_content)
+      unless msg.blank?
+        cf.errors[:base] << msg
+        isOK = false
+      end
+    end
+
+    return cf unless isOK
+
+    if (file.is_a? File) || (file.is_a? ActionDispatch::Http::UploadedFile)
+      cf.add_file(file)
+    else if (file.is_a? String)
+           cf.add_external_file(file)
+         end
+    end
+    set_rights_metadata_on_file(cf)
+    cf.validators = validators
+    cf.save(validate: false)
+    content_files << cf
+    cf
+  end
+
+  def validate_with_xml_validator(validator,xml)
+    errors = ActiveRecord::Errors.new
+    if validator.class <= Validator::Xml
+      begin
+        xdoc = Nokogiri::XML.parse(record.datastreams['content'].content) { |config| config.strict }
+
+      end
+    end
+    errors
   end
 
   # method to set the rights metadata stream based on activity
@@ -122,5 +165,19 @@ class Instance < ActiveFedora::Base
       end
     end
     res
+  end
+
+  def to_solr(solr_doc = {} )
+    super
+    activity_name = Administration::Activity.find(activity).activity
+    Solrizer.insert_field(solr_doc, 'activity_name', activity_name, :stored_searchable, :facetable)
+  end
+
+  # given an activity name, return a set of Instances
+  # belonging to that activity
+  # note the mapping to AF objects will take a bit of time
+  def self.find_by_activity(activity)
+    docs = ActiveFedora::SolrService.query("activity_name_sim:#{activity}")
+    docs.map { |d| Instance.find(d['id']) }
   end
 end

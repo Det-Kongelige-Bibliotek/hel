@@ -1,0 +1,33 @@
+<%= fields_for "work[subjects][#{index}]", subject, index: nil do |subject_fields| %>
+    <% if subject.nil? %>
+        <div class="<%= hidden ? 'hidden-' : '' %>subject">
+          <div class='col-sm-8'>
+            <div class='form-group'>
+              <%= subject_fields.label 'id', 'Agent' %>
+              <%= select_tag "work[subjects][#{index}][id]", options_for_select(get_agent_list),  {include_blank: true, class:'form-control input-large subject-id'} %>
+            </div>
+          </div>
+          <div class='col-sm-1'>
+            <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-subject">
+              <span class="glyphicon glyphicon-minus"></span>
+              Slet emne
+            </a>
+          </div>
+        </div>
+    <% else %>
+        <div class="subject">
+          <div class='col-sm-8'>
+            <div class='form-group'>
+              <%= subject_fields.label :id, 'Agent' %>
+              <%= select_tag "work[subjects][#{index}][id]", options_for_select(get_agent_list,subject.id),  {include_blank: false, class: 'form-control input-large subject-id'} %>
+            </div>
+          </div>
+          <div class='col-sm-1'>
+            <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-subject">
+              <span class="glyphicon glyphicon-minus"></span>
+              Slet emne
+            </a>
+          </div>
+        </div>
+    <% end %>
+<% end %>

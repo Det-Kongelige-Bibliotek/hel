@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>
+    Externt Repositorie<%= @external_repository.name %>
+  </h1>
+  <table class="table">
+    <tr>
+      <td>URL</td>
+      <td><%= @external_repository.url%></td>
+    </tr>
+    <tr>
+      <td>Branch</td>
+      <td><%= @external_repository.branch%></td>
+    </tr>
+    <tr>
+      <td>Aktivitet</td>
+      <td><%= @external_repository.activity%></td>
+    </tr>
+    <tr>
+      <td>Synkroniserings metode</td>
+      <td><%= @external_repository.sync_method%></td>
+    </tr>
+    <tr>
+      <td>synkroniserings status</td>
+      <td><%= @external_repository.sync_status%></td>
+    </tr>
+    <tr>
+      <td>Synkroniserings dato</td>
+      <td><%= @external_repository.sync_date%></td>
+    </tr>
+  </table>
+
+  <h2>Log messages</h2>
+  <pre>
+  <% @external_repository.sync_message.each do |msg| %>
+    <%= msg.msg %>
+  <% end %>
+  </pre>
+
+  <%= link_to t(:syncronise), syncronise_administration_external_repository_path(@external_repository) %> |
+  <%= link_to t(:back), administration_controlled_lists_path %>
+</div>

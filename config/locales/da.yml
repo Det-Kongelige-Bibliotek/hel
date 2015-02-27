@@ -145,6 +145,12 @@ da:
         label: "Label"
       edit:
         header: "Redigerer %{name}"
+    external_repositories:
+      index:
+        header: "Externe Repositorier"
+        show: "Vis"
+        syncronise: "Synkroniser"
+        name: "Navn"
   back: "Tilbage"
   show: "Vis"
   edit: "Rediger"

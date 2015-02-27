@@ -24,6 +24,14 @@ describe Instance do
       expect(@instance.content_files.size).to eql 0
     end
 
+    it 'can have an equivalent instance' do
+      i = Instance.new(instance_params)
+      @instance.has_equivalent << i
+      @instance.save
+      expect(@instance.has_equivalent).to include i
+      expect(i.has_equivalent).to include @instance
+    end
+
     describe 'to work' do
       before :each do
         @i = Instance.create(instance_params)
@@ -143,6 +151,14 @@ describe Instance do
       i.title_statement = 'King James Edition'
       vals = i.to_solr.values.flatten
       expect(vals).to include 'King James Edition'
+    end
+  end
+
+  describe 'find by activity' do
+    it 'should find all instances with a given activity name' do
+      i = Instance.create(instance_params)
+      set = Instance.find_by_activity('test')
+      expect(set.first.id).to eql i.id
     end
   end
 end
