@@ -32,5 +32,13 @@
         <% end %>
       </td>
     </tr>
+    <tr>
+      <td><strong>Upload</strong></td>
+      <td>
+        <%if can?(:download,@instance.content_files.first) %>
+            <%= link_to "Upload", upload_content_file_path(f)%>
+        <% end %>
+      </td>
+    </tr>
 </tbody></table>
 <% end %>

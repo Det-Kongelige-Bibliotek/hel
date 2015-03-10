@@ -26,6 +26,10 @@ class ContentFilesController < ApplicationController
     end
   end
 
+  def upload
+
+  end
+
   def set_file
     @file = ContentFile.find(params[:id])
   end
