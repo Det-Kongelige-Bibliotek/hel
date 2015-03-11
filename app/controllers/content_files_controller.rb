@@ -3,7 +3,7 @@ require 'blacklight/catalog'
 
 class ContentFilesController < ApplicationController
 
-  before_action :set_file, only: [:download]
+  before_action :set_file, only: [:download, :upload, :update]
 
 
   # Retrieve the content file for a given ContentFile.
@@ -27,7 +27,33 @@ class ContentFilesController < ApplicationController
   end
 
   def upload
+    authorize! :edit, params[:id]
+  end
 
+  def update
+    authorize! :edit, params[:id]
+
+    uploaded_file = params[:file]
+
+    v = Validator::RelaxedTei.new
+    msg = v.is_valid_xml_content(uploaded_file.read.force_encoding 'UTF-8')
+    uploaded_file.rewind
+
+    logger.debug("message #{msg}")
+
+    if msg.blank?
+      file_location = @file.datastreams['content'].dsLocation
+      file_location.slice! 'file://'
+      file_object = File.open(file_location,"w:UTF-8")
+      file_object.write (uploaded_file.read.force_encoding 'UTF-8')
+      @file.update_tech_metadata_for_external_file
+      @file.save
+      flash[:notice] = 'Filen blev opdaterer'
+      redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+    else
+      flash[:error] = msg
+      render 'upload'
+   end
   end
 
   def set_file

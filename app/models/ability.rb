@@ -28,6 +28,10 @@ class Ability
       test_read(cf.pid)
     end
 
+    can [:upload, :update] do |cf|
+      test_edit(cf.pid)
+    end
+
     can [:send_to_preservation, :update_adminstration], Instance do |obj|
       test_edit(obj.pid)
     end

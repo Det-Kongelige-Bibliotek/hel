@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     member do
       get 'download'
       get 'upload'
+      patch 'update'
     end
   end
   root to: 'catalog#index'
