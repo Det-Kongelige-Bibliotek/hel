@@ -48,7 +48,7 @@ module Validator
           msg = msg + "Content is nil"
         else
           xdoc = Nokogiri::XML.parse(content) { |config| config.strict }
-          is_valid_xml_doc(xdoc)
+          msg = is_valid_xml_doc(xdoc)
         end
       rescue Exception => wellformedness
         puts wellformedness.message
