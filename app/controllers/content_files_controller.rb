@@ -43,16 +43,16 @@ class ContentFilesController < ApplicationController
 
     if msg.blank?
       file_location = @file.datastreams['content'].dsLocation
-      file_location.slice! 'file://'
+      file_location.slice!('file://')
       file_object = File.open(file_location,"w:UTF-8")
-      file_object.write (uploaded_file.read.force_encoding 'UTF-8')
+      file_object.write(uploaded_file.read.force_encoding 'UTF-8')
       @file.update_tech_metadata_for_external_file
       @file.save
       flash[:notice] = 'Filen blev opdaterer'
       redirect_to work_instance_path(@file.instance.work.first,@file.instance)
     else
       flash[:error] = msg
-      render 'upload'
+      redirect_to work_instance_path(@file.instance.work.first,@file.instance)
    end
   end
 
