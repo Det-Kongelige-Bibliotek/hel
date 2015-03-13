@@ -60,7 +60,7 @@ module Validator
       msg = ""
       xval = schema_selector(@schema_file)
       xval.validate(xdoc).each do |error|
-        msg += "line: #{error.line} - #{error.message} \n"
+        msg += "line: #{error.line} - #{error.msg}"
       end
       msg
     end
