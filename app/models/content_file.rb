@@ -37,16 +37,6 @@ class ContentFile < ActiveFedora::Base
   #
   # @param path external url to the file
   def add_external_file(path)
-    if path.start_with?('http://')
-      add_external_file_http(path)
-    else
-      add_external_file_local(path)
-    end
-  end
-
-
-
-  def add_external_file_local(path)
     file_name = Pathname.new(path).basename.to_s
     mime_type = mime_type_from_ext(file_name)
 
@@ -65,31 +55,24 @@ class ContentFile < ActiveFedora::Base
   end
 
 
-  def add_external_file_http(url)
-
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    resp = http.head(uri.request_uri)
-
-    mime_type = resp['content-type']
-
-    attrs = {:dsLocation => url, :controlGroup => 'E', :mimeType => mime_type, :prefix=>''}
-    ds = ActiveFedora::Datastream.new(inner_object,'content',attrs)
-
-    self.size = resp['Content-Length']
-    self.original_filename = File.basename(uri.path)
-    self.file_uuid = UUID.new.generate
-    datastreams['content'] = ds
-  end
-
-  # This function checks if the content of an external mannaged file
-  # has changed, and updates the tech metadata 
-  def update_tech_metadata_for_external_file
+  # Get the path of the external file
+  def external_file_path
+    path = nil
     if self.datastreams['content'].controlGroup == 'E'
       path = self.datastreams['content'].dsLocation
       if path.start_with? 'file://'
         path.slice! 'file://'
       end
+    end
+    path
+  end
+
+
+  # This function checks if the content of an external mannaged file
+  # has changed, and updates the tech metadata 
+  def update_tech_metadata_for_external_file
+    if self.datastreams['content'].controlGroup == 'E'
+      path = self.external_file_path
       file_object = File.new(path)
       new_checksum = generate_checksum(file_object)
       logger.debug("#{path} checksums #{self.checksum} #{new_checksum}")
@@ -101,6 +84,18 @@ class ContentFile < ActiveFedora::Base
       end
     end
     false
+  end
+
+
+
+  def update_external_file_content(new_content)
+    raise "Only content of external files can be overwritten" unless self.datastreams['content'].controlGroup == 'E'
+    raise "Content of this file cannot be updated files" unless self.content_can_be_changed?
+    file_location = self.external_file_path
+    file_object = File.open(file_location,"w:UTF-8")
+    file_object.write(new_content)
+    self.update_tech_metadata_for_external_file
+    self.save
   end
 
 
@@ -161,7 +156,6 @@ class ContentFile < ActiveFedora::Base
 
   ## Model specific preservation functionallity
   def create_preservation_message_metadata
-
     res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
     res +="<preservationMetadata>"
     res += self.preservationMetadata.content
@@ -176,7 +170,7 @@ class ContentFile < ActiveFedora::Base
   end
 
   def content_can_be_changed?
-    true
+    self.mime_type == 'text/xml'
   end
 
   def self.find_by_original_filename(fname)
@@ -232,5 +226,4 @@ class ContentFile < ActiveFedora::Base
     logger.error e.backtrace.join("\n")
     nil
   end
-
 end

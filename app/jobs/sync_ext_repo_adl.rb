@@ -78,9 +78,7 @@ class SyncExtRepoADL
             repo.add_sync_message("Added #{fname}")
             Resque.enqueue(AddAdlImageFiles,cf.pid,"/kb/adl-facsimiles")
           rescue Exception => e
-            Resque.logger.warn "Skipping file"
-            Resque.logger.warn e.message
-            Resque.logger.warn e.backtrace.join("\n")
+            Resque.logger.warn "Skipping file #{fname} : #{e.message}"
             repo.add_sync_message("Skipping file #{fname} : #{e.message}")
           end
         end
