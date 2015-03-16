@@ -20,39 +20,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 da:
-  Languages:
-    da: Dansk
-    sv: Svensk
-    nb: Norsk Bokmål
-    nn: Norsk Nynorsk
-    en: Engelsk
-    fr: Fransk
-    de: Tysk
-    es: Spansk
-    nl: Hollandsk
-    it: Italiensk
-    pl: Polsk
-    ro: Rumaensk
-    fi: Finsk
-  Collections:
-    dasamx: Danske Samling, 1.-2. samling (-1601)
-    dasam2: Danske Samling, 1.-2. samling (1602-1959)
-    dasam3: Danske Samling, 3. samling (1960-)
-    dasmaa: Danske Samling, småtryk
-    aesaml: Ældre Samling
-    glsaml: Gammel Samling (DNLB)
-    vmanus: Vesterlandske manuskripter.
-    boghis: Håndskriftafdelingen, Boghistoriske Saml.
-    kortsa: Kortsaml.
-    billed: Billedsaml.
-    luftfo: Luftfotosaml.
-    mushos: Musikalier, Hovedsaml.
-    musman: Musikmanuskripter
-    orkbib: Orkesterbibl.
-    drabib: Dramatisk Bibl.
-    ortsam: Orientalske Saml.
-    judsam: Judaistiske Saml.
-    kubsam: "NB-værker i KUB-samlinger (eksempler: UBF-samling, osv.)"
   blacklight:
     application_name: 'Valhal'
   activefedora:
@@ -174,7 +141,8 @@ da:
         new_field: "Tilføj flere"
         save: "Gem"
       element:
-        entry: "Post"
+        entry: "Værdi"
+        label: "Label"
       edit:
         header: "Redigerer %{name}"
   back: "Tilbage"

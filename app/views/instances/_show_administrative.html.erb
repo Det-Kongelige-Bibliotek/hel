@@ -13,7 +13,7 @@
     <strong><%= t('.collection') %></strong>
   </td>
   <td>
-    <span><%= t("Collections.#{@instance.collection}") if @instance.collection.present? %></span>
+    <span><%= get_entry_label('Collections', @instance.collection) if @instance.collection.present? %></span>
   </td>
 </tr>
 <tr>

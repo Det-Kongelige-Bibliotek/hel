@@ -10,9 +10,16 @@ describe Administration::ControlledList do
     expect(cr.name).to eql 'my first controlled list'
   end
 
-  it 'should have a list of elements' do
-    cr = Administration::ControlledList.create
-    e = Administration::ListEntry.create(name: 'new element', controlled_list: cr)
-    expect(cr.elements.first).to eql e
+  describe 'entries' do
+    it 'should be possible to add entries' do
+      cr = Administration::ControlledList.create
+      e = Administration::ListEntry.create(name: 'new element', controlled_list: cr)
+      expect(cr.elements.first).to eql e
+    end
+
+    it 'should be possible to add labels for entries' do
+      e = Administration::ListEntry.new(name: 'sv', label: 'Svensk')
+      expect(e.label).to eql 'Svensk'
+    end
   end
 end

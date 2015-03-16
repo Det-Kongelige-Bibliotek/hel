@@ -6,26 +6,28 @@ module Administration
     unique :name
     collection :elements, Administration::ListEntry
 
-    def elements=(elements)
+    def elements=(elems)
       self.save unless self.persisted?
-      elements.each do |new|
-        hash = params_to_hash(new)
-        if hash.key?(:id) && hash[:id].present?
-          entry = Administration::ListEntry[hash[:id]]
-          hash.merge!(controlled_list_id: self.id)
-          entry.update(hash)
-        elsif hash.key?(:name) && hash[:name].present?
-          entry = Administration::ListEntry.new(name: hash[:name], controlled_list_id: self.id)
+      elems.each do |new|
+        entry = nil
+        values = params_to_hash(new)
+        if values.key?(:id) && values[:id].present?
+          entry = Administration::ListEntry[values[:id]]
+          values.merge!(controlled_list_id: self.id)
+          entry.update(values)
+        elsif values.key?(:name) && values[:name].present?
+          entry = Administration::ListEntry.new(values.merge(controlled_list_id: self.id))
         end
-        entry.save if defined?(entry) and entry
+        entry.save if entry.present?
       end
       save
     end
-# convert a hash with string keys
-# to one with symbol keys
+
+    # convert a hash with string keys
+    # to one with symbol keys
     def params_to_hash(params)
       symboled = {}
-      params.each{ |k,v| symboled[k.to_sym] = v }
+      params.each{ |k,v| symboled[k.to_sym] = v if v.present? }
       symboled
     end
   end
