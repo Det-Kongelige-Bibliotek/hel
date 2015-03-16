@@ -35,6 +35,8 @@ module Datastreams
                          :path=>'material_type', :label=>'Material type')
       t.availability(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                          :path=>'availability', :label=>'Availability')
+      t.validation_message(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
+                     :path=>'validation_message', :label=>'Validation Message')
       t.external_repository(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                      :path=>'external_repository', :label=>'External Repository')
     end
