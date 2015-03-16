@@ -1,6 +1,6 @@
 require 'resque'
 
-class FitsCharaterizingJob
+class FitsCharacterizingJob
 
   @queue = 'fits_characterizing'
 
@@ -11,7 +11,7 @@ class FitsCharaterizingJob
     tmpfile = Tempfile.new(cf.original_filename)
     tmpfile.write(cf.datastreams['content'].content)
     tmpfile.rewind
-    cf.add_fits_metadatastream(tmpfile)
+    cf.add_fits_metadata_datastream(tmpfile)
     tmpfile.close
   end
 end
