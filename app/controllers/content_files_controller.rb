@@ -42,6 +42,8 @@ class ContentFilesController < ApplicationController
 
     if msg.blank?
       @file.update_external_file_content(uploaded_file.read.force_encoding 'UTF-8')
+      repo  = Administration::ExternalRepository[@file.instance.external_repository]
+      repo.push
       flash[:notice] = 'Filen blev opdaterer'
       redirect_to work_instance_path(@file.instance.work.first,@file.instance)
     else
