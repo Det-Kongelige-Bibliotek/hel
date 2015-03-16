@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'resque'
 require 'open3'
 
@@ -101,8 +102,6 @@ class SyncExtRepoADL
     repo.save
   end
 
-
-  private
   def self.clone(repo)
     cmd = "git clone #{repo.url} #{@git_dir}; cd #{@git_dir}; git fetch; git checkout #{repo.branch}"
     success = false
