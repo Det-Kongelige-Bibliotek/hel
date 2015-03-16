@@ -94,7 +94,8 @@ $(document).ready(function(){
         $(this).parent().parent().remove();
         return false;
     });
-    
+
+
 
     // Combobox functionallity
     $('.combobox').combobox();
@@ -175,4 +176,11 @@ function restyleButton() {
             .removeClass('btn-primary')
             .addClass('btn-success')
             .val('Gemt');
+}
+
+function ButtonClicked()
+{
+    document.getElementById("submit-button").style.display = "none"; // to undisplay
+    document.getElementById("button-loading").style.display = ""; // to display
+    return true;
 }

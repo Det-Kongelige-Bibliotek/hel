@@ -11,9 +11,17 @@
               <label class="file optional">New Content for <%= file.original_filename %></label>
               <input class="file optional" name="file" type="file">
             </div>
-            <input type="submit" class="btn btn-default" value="upload" data-function="upload-file-modal"/>
+
+            <div id="submit-button">
+                <input type="submit" class="btn btn-default" value="upload" data-function="upload-file-modal" onclick="ButtonClicked()"/>
+            </div>
+            <div id="button-loading" style="margin-left:30px; display:none;">
+                <img src="/assets/loading.gif" alt="loading..."/>
+            </div>
 
         <% end %>
+
+
       </div>
     </div>
    </div>
