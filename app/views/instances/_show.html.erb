@@ -2,6 +2,9 @@
   <div class="page-header">
     <div class="container">
       <div class="btn-group pull-right">
+        <% if @instance.type == 'TEI' %>
+            <%= link_to "Søg efter tiff filer", check_tei_images_work_instance_url(@work,@instance), :class => "btn btn-primary", "id" => "imageFoundBtn", "data-target" => "#imageFoundModal" %>
+        <% end %>
         <%= link_to 'Send til Bevaring', send_to_preservation_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
         <% if @instance.is_a? Trykforlaeg %>
             <%= link_to 'Rediger', edit_work_trykforlaeg_url(@work,@instance), class: 'btn btn-primary' %>
@@ -30,3 +33,5 @@
     </div>
   </div>
 </div>
+
+<%= render 'instances/image_found_modal' %>

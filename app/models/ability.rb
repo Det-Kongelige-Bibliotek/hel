@@ -36,6 +36,10 @@ class Ability
       test_edit(obj.pid)
     end
 
+    can [:check_tei_images], Instance do |obj|
+      test_read(obj.pid)
+    end
+
 
     if (user_groups & ['Chronos-Pligtaflevering','Chronos-Admin']).present?
       can [:aleph], Work

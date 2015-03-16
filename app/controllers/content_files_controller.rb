@@ -39,15 +39,9 @@ class ContentFilesController < ApplicationController
     msg = v.is_valid_xml_content(uploaded_file.read.force_encoding 'UTF-8')
     uploaded_file.rewind
 
-    logger.debug("message #{msg}")
 
     if msg.blank?
-      file_location = @file.datastreams['content'].dsLocation
-      file_location.slice!('file://')
-      file_object = File.open(file_location,"w:UTF-8")
-      file_object.write(uploaded_file.read.force_encoding 'UTF-8')
-      @file.update_tech_metadata_for_external_file
-      @file.save
+      @file.update_external_file_content(uploaded_file.read.force_encoding 'UTF-8')
       flash[:notice] = 'Filen blev opdaterer'
       redirect_to work_instance_path(@file.instance.work.first,@file.instance)
     else

@@ -94,14 +94,18 @@ $(document).ready(function(){
         $(this).parent().parent().remove();
         return false;
     });
-
-
+    
 
     // Combobox functionallity
     $('.combobox').combobox();
     $('.combobox').click(function(){
         $(this).siblings('.dropdown-toggle').click();
     });
+
+    $("#imageFoundBtn").on('click',renderImageFoundModal);
+
+
+
 });
 
 // when the form-loader retrieves a form, append it to
@@ -176,6 +180,47 @@ function restyleButton() {
             .removeClass('btn-primary')
             .addClass('btn-success')
             .val('Gemt');
+}
+
+function renderImageFoundModal(event) {
+
+    var modal =  $("#imageFoundModal");
+    var url = $(this).attr("href");
+    link = $(this);
+    link.html('<span class="glyphicon glyphicon-refresh spinning"></span> Vent ...');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+            var errors = data["errors"];
+            msg = errors.length + " fejl";
+
+            html = '<p>'+msg+'</p><ul>';
+            for (i in errors) {
+                html += '<li><pre>'+errors[i]+'</pre></li>';
+            }
+            html += '</ul>';
+            modal_body = modal.find(".modal-body");
+            modal_body.html(html);
+            modal.modal();
+            if (errors.length == 0) {
+                link.removeClass('btn-primary').addClass('btn-success');
+                link.html("Alle TIFF-filer fundet");
+            } else {
+                link.removeClass('btn-primary').addClass('btn-danger');
+                link.html("Søg efter TIFF filer "+errors.length+" fejl");
+            }
+
+
+
+        }
+    });
+    link.attr('data-toggle','modal');
+    link.off('click',renderImageFoundModal);
+    return false;
+
 }
 
 function ButtonClicked()

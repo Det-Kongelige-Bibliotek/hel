@@ -4,7 +4,7 @@ class InstancesController < ApplicationController
   before_action :set_work, only: [:create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
-  :send_to_preservation, :update_administration]
+  :send_to_preservation, :update_administration, :check_tei_images]
 
   authorize_resource :work
   authorize_resource :instance, :through => :work
@@ -111,6 +111,11 @@ class InstancesController < ApplicationController
     end
   end
 
+  def check_tei_images
+    v = Validator::TeiImagesFound.new
+    v.validate @instance
+    render :json => {:errors => @instance.errors.full_messages }
+  end
 
   private
 
