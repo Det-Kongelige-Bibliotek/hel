@@ -35,21 +35,27 @@ class ContentFilesController < ApplicationController
 
     uploaded_file = params[:file]
 
-    v = Validator::RelaxedTei.new
-    msg = v.is_valid_xml_content(uploaded_file.read.force_encoding 'UTF-8')
-    uploaded_file.rewind
-
-
-    if msg.blank?
-      @file.update_external_file_content(uploaded_file.read.force_encoding 'UTF-8')
-      repo  = Administration::ExternalRepository[@file.instance.external_repository]
-      repo.push
-      flash[:notice] = 'Filen blev opdaterer'
+    if uploaded_file.nil?
+      flash[:error] = "Der er ikke valgt nogen fil"
       redirect_to work_instance_path(@file.instance.work.first,@file.instance)
     else
-      flash[:error] = msg
-      redirect_to work_instance_path(@file.instance.work.first,@file.instance)
-   end
+
+      v = Validator::RelaxedTei.new
+      msg = v.is_valid_xml_content(uploaded_file.read.force_encoding 'UTF-8')
+      uploaded_file.rewind
+
+
+      if msg.blank?
+        @file.update_external_file_content(uploaded_file.read.force_encoding 'UTF-8')
+        repo  = Administration::ExternalRepository[@file.instance.external_repository]
+        repo.push
+        flash[:notice] = 'Filen blev opdaterer'
+        redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+      else
+        flash[:error] = msg
+        redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+      end
+    end
   end
 
   def set_file
