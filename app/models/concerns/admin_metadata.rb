@@ -12,6 +12,12 @@ module Concerns
                      :copyright, :material_type, :availability, :collection, :type, :external_repository,
                      datastream: 'adminMetadata', :multiple => false
 
+      has_attributes :validation_message, datastream: 'adminMetadata', :multiple => true
+
+      def add_validation_message=(messages)
+        self.validation_message=messages
+      end
+
       def permissions=(val)
         permissionMetadata.remove_permissions
         val['instance']['group'].each do |access,groups|
