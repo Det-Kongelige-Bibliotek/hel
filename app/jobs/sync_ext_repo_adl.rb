@@ -18,10 +18,10 @@ class SyncExtRepoADL
 
     if repo.sync_status == 'NEW'
       repo.add_sync_message("Cloning new git repository")
-      success = SyncExtRepoADL.clone(repo)
+      success = repo.clone
     else
       repo.add_sync_message("Updating git repository")
-      success = SyncExtRepoADL.update(repo)
+      success = repo.update
     end
 
     if (success)
@@ -67,7 +67,7 @@ class SyncExtRepoADL
             i = nil
             i = find_instance(sysno) unless sysno.blank? || sysno == '000000000'
             if (i.nil?)
-              i = create_new_work_and_instance(sysno,doc,adl_activity)
+              i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
               new_instances=new_instances+1
               repo.add_sync_message("Created new Work and Instans for '#{i.work.first.display_value}'")
             else
@@ -101,34 +101,6 @@ class SyncExtRepoADL
 
 
   private
-  def self.clone(repo)
-    cmd = "git clone #{repo.url} #{@git_dir}; cd #{@git_dir}; git fetch; git checkout #{repo.branch}"
-    success = false
-    Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
-      while line = stdout.gets
-        repo.add_sync_message(line)
-      end
-      repo.add_sync_message(stderr.read)
-      exit_status = wait_thr.value
-      success = exit_status.success?
-    end
-    success
-  end
-
-  def self.update(repo)
-    cmd = "cd #{@git_dir};git checkout -f #{repo.branch};git pull"
-    success = false
-    Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
-      while line = stdout.gets
-        repo.add_sync_message(line)
-      end
-      repo.add_sync_message(stderr.read)
-      exit_status = wait_thr.value
-      success = exit_status.success?
-    end
-    success
-  end
-
 
   def self.find_instance(sysno)
     result = ActiveFedora::SolrService.query('system_number_tesim:"'+sysno+'" && active_fedora_model_ssi:Instance')
@@ -139,7 +111,7 @@ class SyncExtRepoADL
     end
   end
 
-  def self.create_new_work_and_instance(sysno,doc,adl_activity)
+  def self.create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
     Resque.logger.debug "Creating new work"
     w = Work.new
     doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:title").each do |n|
@@ -175,6 +147,7 @@ class SyncExtRepoADL
     i.collection = adl_activity.collection
     i.preservation_profile = adl_activity.preservation_profile
     i.type = 'TEI'
+    i.external_repository = repo_id
 
     result = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:publicationStmt/xmlns:publisher")
     i.publisher_name = result[0].text unless result.size == 0
@@ -190,7 +163,6 @@ class SyncExtRepoADL
     cf = i.add_file(fname,["RelaxedTei"],false)
     raise "unable to add file: #{cf.errors.messages}" unless cf.errors.blank?
     raise "unable to add file: #{i.errors.messages}" unless i.save
-    Resque.logger.debug("custom validators #{cf.validators}")
     cf
   end
 end
