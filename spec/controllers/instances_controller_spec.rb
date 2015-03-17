@@ -45,7 +45,7 @@ describe InstancesController, type: :controller do
     login_admin
   end
 
-  desoribe '#show' do
+  describe '#show' do
     it 'should return rdf when requested' do
       instance = Instance.create valid_attributes
       get :show, { id: instance.id, format: :rdf }
