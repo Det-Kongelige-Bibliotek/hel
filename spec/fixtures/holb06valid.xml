@@ -25,10 +25,9 @@
         <author xml:id="idm140013644602544">Ludvig Holberg</author>
       </titleStmt>
       <publicationStmt xml:id="idm140013644602032">
-        <publisher xml:id="idm140013644601776">Rosenkilde og Bagger</publisher>
-        <idno xml:id="idm140013644601392">
-<!--auto-genereret ID element-->
-        </idno>
+        <publisher xml:id="idm140013644601776">Rosenkilde og
+	Bagger</publisher>
+	<idno xml:id="idm140013644601392" xml:base="texts/holb06val.xml">001629300:06</idno>
       </publicationStmt>
       <notesStmt xml:id="idm140013644600464">
         <note xml:id="idm140013644600160">
