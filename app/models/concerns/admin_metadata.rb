@@ -9,7 +9,7 @@ module Concerns
       has_metadata :name => 'permissionMetadata', :type=> Datastreams::PermissionMetadata
 
       has_attributes :activity, :workflow_status, :embargo, :embargo_date, :embargo_condition, :access_condition,
-                     :copyright, :material_type, :availability, :collection, :type, :external_repository,
+                     :copyright, :material_type, :availability, :collection, :type, :external_repository, :validation_status,
                      datastream: 'adminMetadata', :multiple => false
 
       has_attributes :validation_message, datastream: 'adminMetadata', :multiple => true

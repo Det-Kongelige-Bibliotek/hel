@@ -1,4 +1,4 @@
-<div class="modal fade" id="imageFoundModal" tabindex="-1" role="dialog" aria-labelledby="imageFoundModal" aria-hidden="true">
+<div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,13 +7,13 @@
       </div>
       <div class="modal-body">
         <ul>
-        <% instance.validation_message.each do |message| %>
+        <% @instance.validation_message.each do |message| %>
             <li><%= message %></li>
         <% end %>
         </ul>    
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>
+        <%= link_to "Start ny validering", validate_tei_work_instance_url(@work,@instance), :class => "btn btn-primary", "data-target" => "#validationModal" %>
       </div>
     </div>
   </div>
