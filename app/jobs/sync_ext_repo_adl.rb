@@ -114,15 +114,32 @@ class SyncExtRepoADL
   def self.create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
     Resque.logger.debug "Creating new work"
     w = Work.new
-    doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:title").each do |n|
-      title = n.text
-      titleized_title = title.mb_chars.titleize.wrapped_string
-      w.add_title(value: titleized_title)
+    unless sysno.blank? || sysno == '000000000'
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:title").each do |n|
+        title = n.text
+        titleized_title = title.mb_chars.titleize.wrapped_string
+        w.add_title(value: titleized_title)
+      end
+    else
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:title").each do |n|
+        title = n.text
+        titleized_title = title.mb_chars.titleize.wrapped_string
+        w.add_title(value: titleized_title)
+      end
     end
 
-    doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").each do |n|
-      unless doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").text.blank?
-        names = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").text
+
+    unless sysno.blank? || sysno == '000000000'
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
+        surname = n.xpath("//xmlns:surname").text.mb_chars.titleize
+        forename = n.xpath("//xmlns:forename").text.mb_chars.titleize
+        p = Authority::Person.find_or_create_person(forename,surname)
+        w.add_author(p)
+      end
+    else
+      # if no author in source desc/bibl is found look in filedesc
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").each do |n|
+        names = n.text
         # Convert the names to title case in an encoding safe manner
         # e.g. JEPPE AAKJÆR becomes Jeppe Aakjær
         titleized_names = names.mb_chars.titleize.wrapped_string.split(' ')
@@ -132,6 +149,7 @@ class SyncExtRepoADL
         w.add_author(p)
       end
     end
+
     unless w.save
       raise "Error saving work #{w.errors.messages}"
     end
@@ -140,6 +158,10 @@ class SyncExtRepoADL
     i = Instance.new
 
     i.set_work=w
+
+    i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
+    i.published_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
+    i.publisher_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
 
     i.system_number = sysno
     i.activity = adl_activity.pid
