@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :works do
     resources :instances do
       get 'send_to_preservation', on: :member
-      get  'check_tei_images', on: :member
+      get  'validate_tei', on: :member
     end
     resources :trykforlaegs
     post 'aleph', on: :collection

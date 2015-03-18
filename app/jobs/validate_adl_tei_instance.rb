@@ -7,7 +7,9 @@ class ValidateAdlTeiInstance
   def self.perform(pid)
     i = Instance.find(pid)
     i.validation_message = ['Vent Venligst ...']
-    i.save
+    i.validation_status = 'INPROGRESS'
+    i.save(validate:false)
+    i.validation_status = 'VALID'
 
     raise 'Not a ADL Tei instance' unless i.type=='TEI'
 
@@ -21,6 +23,7 @@ class ValidateAdlTeiInstance
         Resque.logger.debug("Performing TEI validate on #{cf.original_filename}")
         tei_validator.validate cf
         if cf.errors.size > 0
+          i.validation_status = 'INVALID'
           cf.errors.each do |error|
             errors << error.message
           end
@@ -31,8 +34,10 @@ class ValidateAdlTeiInstance
         errors << "#{cf.original_filename} er ikke en xml fil"
       end
     end
+    Resque.logger.debug("Performing image validate")
     image_validator.validate i
     if i.errors.size > 0
+      i.validation_status = 'INVALID'
       i.errors.each do |error|
         errors << error.message
       end
@@ -40,6 +45,11 @@ class ValidateAdlTeiInstance
       errors << "Alle Billedfiler fundet"
     end
     i.validation_message = errors
+    i.save(validate:false)
+
+  rescue Exception => e
+    i.validation_status = 'INVALID'
+    i.validation_message=[e.message]
     i.save(validate:false)
   end
 

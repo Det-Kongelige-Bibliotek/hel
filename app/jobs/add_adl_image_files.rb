@@ -75,6 +75,7 @@ class AddAdlImageFiles
     else
       Resque.logger.error("Content file #{content_file_id} has no tiff files")
     end
+    Resque.enqueue(ValidateAdlTeiInstance,tei_inst.pid)
   end
 
   def self.load_file_map(path)
