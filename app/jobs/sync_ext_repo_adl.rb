@@ -142,7 +142,6 @@ class SyncExtRepoADL
         w.add_author(p)
       end
     end
-
     unless w.save
       raise "Error saving work #{w.errors.messages}"
     end
