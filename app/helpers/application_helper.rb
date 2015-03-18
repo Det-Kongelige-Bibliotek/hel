@@ -29,6 +29,11 @@ module ApplicationHelper
     I18n.t("models.#{name.parameterize('_')}")
   end
 
+  def translate_collection_names(name)
+    I18n.t("Collections.#{name.parameterize('_')}")
+  end
+
+
   # Renders a title type ahead field
   def render_title_typeahead_field
     results = Work.get_title_typeahead_objs
@@ -48,6 +53,10 @@ module ApplicationHelper
 
     def collect_title(titles,id)
       titles.collect {|title| [title,id]}
+    end
+
+    def get_activity_name(id)
+      Administration::Activity.find(id).activity
     end
 
 end
