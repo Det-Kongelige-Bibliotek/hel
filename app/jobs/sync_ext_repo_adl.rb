@@ -144,7 +144,7 @@ class SyncExtRepoADL
   def self.create_new_work_and_instance(sysno,doc,adl_activity)
     Resque.logger.debug "Creating new work"
     w = Work.new
-    unless doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:title").blank?
+    unless sysno.blank? || sysno == '000000000'
       doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:title").each do |n|
         title = n.text
         titleized_title = title.mb_chars.titleize.wrapped_string
@@ -159,7 +159,7 @@ class SyncExtRepoADL
     end
 
 
-    unless doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").blank?
+    unless sysno.blank? || sysno == '000000000'
       doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
         surname = n.xpath("//xmlns:surname").text.mb_chars.titleize
         forename = n.xpath("//xmlns:forename").text.mb_chars.titleize
