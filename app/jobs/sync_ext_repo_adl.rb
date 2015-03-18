@@ -162,7 +162,7 @@ class SyncExtRepoADL
     unless doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").blank?
       doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
         surname = n.xpath("//xmlns:surname").text.mb_chars.titleize
-        forename = n.xpath("//xmlns:surname").text.mb_chars.titleize
+        forename = n.xpath("//xmlns:forename").text.mb_chars.titleize
         p = Authority::Person.find_or_create_person(forename,surname)
         w.add_author(p)
       end
