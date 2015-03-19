@@ -1,32 +1,16 @@
-# Responsible for keeping the teiHeader in sync with the hydra chronos metadata
 require 'open3'
+require 'resque'
 
+# Responsible for keeping the teiHeader in sync with the hydra chronos metadata
 class TeiHeaderSyncService
-  attr_accessor :sheet
+  @queue = 'sync_ext_repo'
 
-  def initialize(sheet)
-    puts "initialize called"
-    puts sheet
-    @xslt = Nokogiri::XSLT(File.read(sheet))
-  end
-
-  def update_header(teifile,params)
-    doc = Nokogiri::XML.parse(File.read(teifile)) { |config| config.strict }
-    @xslt.transform(doc,Nokogiri::XSLT.quote_params(params))
+  def self.perform(sheet,tei_file)
+    params = []
+    xslt = Nokogiri::XSLT(File.read(sheet))
+    doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
+    rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(params))
+    File.open(tei_file, 'w') { |f| f.print(rdoc.to_xml) }
   end
   
-  def executor(cmd)
-    msg = ""
-    success = false
-    Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
-      while line = stdout.gets
-        msg += line
-      end
-      msg += stderr.read
-      exit_status = wait_thr.value
-      success = exit_status.success?
-    end
-    success
-  end
-
 end
