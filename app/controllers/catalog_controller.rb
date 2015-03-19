@@ -20,6 +20,7 @@ class CatalogController < ApplicationController
       :rows => 10
     }
 
+    config.index.partials = [:index_header, :index, :instances]
 
     # This filters out objects that you want to exclude from search results, like FileAssets
     CatalogController.solr_search_params_logic += [:exclude_unwanted_models]

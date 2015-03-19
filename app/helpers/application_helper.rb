@@ -59,4 +59,17 @@ module ApplicationHelper
       Administration::Activity.find(id).activity
     end
 
+
+    # Generate a link to a instance given a work_id and instance id
+    # Note: This code could be made much simpler if we
+    def get_work_instance_link_for_search_result(work_id,inst_id)
+      solr_id = inst_id.gsub(':','\:')
+      doc =ActiveFedora::SolrService.query("id:#{solr_id}").first
+      if doc['active_fedora_model_ssi'] == 'Trygforlaeg'
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_tesim']})", work_trykforlaeg_path(work_id,inst_id)
+      else
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_tesim']})", work_instance_path(work_id,inst_id)
+      end
+    end
+
 end
