@@ -5,8 +5,8 @@ require 'resque'
 class TeiHeaderSyncService
   @queue = 'sync_ext_repo'
 
-  def self.perform(sheet,tei_file)
-    params = []
+  def self.perform(sheet,tei_file,uri)
+    params = ['uri' => uri]
     xslt = Nokogiri::XSLT(File.read(sheet))
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
     rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(params))
