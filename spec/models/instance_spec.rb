@@ -145,4 +145,57 @@ describe Instance do
       expect(vals).to include 'King James Edition'
     end
   end
+
+  describe 'preservation' do
+    before :each do
+      @i = Instance.create(instance_params)
+    end
+
+    describe '#can_perform_cascading?' do
+      it 'should be true for instances' do
+        expect(@i.can_perform_cascading?).to be true
+      end
+    end
+
+    describe '#cascading_elements' do
+      it 'should return an empty list, when it has no files.' do
+        expect(@i.cascading_elements).to be_empty
+      end
+
+      it 'should return a list containing the files' do
+        cf = ContentFile.create
+        @i.content_files=[cf]
+        @i.save
+        @i.reload
+        expect(@i.cascading_elements).not_to be_empty
+        expect(@i.cascading_elements).to include cf
+      end
+    end
+
+    describe '#create_message_metadata' do
+      before :each do
+        @w = Work.create(work_attributes)
+        @i.set_work = @w
+        @i.save
+        @i.reload
+        @w.reload
+      end
+
+      it 'should create metadata, which is valid xml' do
+        metadata = @i.create_message_metadata
+        xml = Nokogiri::XML.parse(metadata)
+        expect(metadata).to eq(xml.root.to_s)
+      end
+
+      it 'should create metadata containing uuid fields for the uuids of both instance and work.' do
+        metadata = @i.create_message_metadata
+
+        expect(metadata).to include "<uuid>#{@i.uuid}</uuid>"
+        expect(metadata).to include "<uuid>#{@w.uuid}</uuid>"
+      end
+    end
+
+
+
+  end
 end

@@ -103,10 +103,8 @@ class Instance < ActiveFedora::Base
 
   def create_preservation_message_metadata
 
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
-    res +="<preservationMetadata>"
-    res += self.preservationMetadata.content
-    res +="</preservationMetadata>"
+    res = "<provenanceMetadata>\n  <instance>\n    <uuid>#{self.uuid}</uuid>\n  </instance>\n  <work>\n    <uuid>#{self.work.first.uuid}</uuid>\n  </work>\n</provenanceMetadata>\n"
+    res += "<preservationMetadata>#{self.preservationMetadata.content}</preservationMetadata>\n"
 
     mods = self.to_mods
     if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
@@ -116,7 +114,7 @@ class Instance < ActiveFedora::Base
 
     #TODO: Update this to handle multiple file instances with structmaps
     if (self.content_files.size  > 0 )
-      cf = content_files.each do |cf|
+      content_files.each do |cf|
         res+="<file><name>#{cf.original_filename}</name>"
         res+="<uuid>#{cf.uuid}</uuid></file>"
       end
