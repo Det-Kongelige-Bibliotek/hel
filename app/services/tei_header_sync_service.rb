@@ -21,8 +21,8 @@ class TeiHeaderSyncService
     # @work     = Work.create
     #end
 
-    params = ['author' => 
-              Nokogiri::XML('<author xmlns="http://www.tei-c.org/ns/1.0">'+'</author>')]
+    params = ['first' => alist.first[:given],
+              'last'  => alist.first[:family] ]
     xslt = Nokogiri::XSLT(File.read(sheet))
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
     rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(params))

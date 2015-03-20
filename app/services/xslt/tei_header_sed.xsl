@@ -5,14 +5,20 @@
 	       exclude-result-prefixes="xsl t"
 	       version="1.0">
 
-  <xsl:param name="author"/>
+  <xsl:param name="first"/>
+  <xsl:param name="last"/>
 
   <xsl:output encoding="UTF-8"
 	      indent="yes" />
 
   <xsl:template match="t:sourceDesc/t:bibl">
     <bibl>
-      <xsl:copy-of select="$author"/>
+      <author>
+	<name>
+	  <surname><xsl:value-of select="$last"/></surname>,
+	  <forename><xsl:value-of select="$first"/></forename>
+	</name>
+      </author>
       <title>Shit happens</title>
     </bibl>
   </xsl:template>
