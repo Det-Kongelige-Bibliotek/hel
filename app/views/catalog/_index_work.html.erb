@@ -13,7 +13,7 @@
     <div class="panel-heading" role="tab" id="workInstancesHeading<%=counter%>">
       <h5 class="panel-title">
         <a class="collapsed" data-toggle="collapse" href="#workInstances<%=counter%>" aria-expanded="false" aria-controls="workInstances<%=counter%>">
-          <%= document["has_instance_ssim"].size %> instans(er)
+          <%= document["has_instance_ssim"].blank? ? 0 : document["has_instance_ssim"].size %> instans(er)
         </a>
       </h5>
     </div>
