@@ -37,20 +37,8 @@ describe  TeiHeaderSyncService do
                                                                  @xdoc,
                                                                  adl_activity)
       cf = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
-      puts instance.pid
-      puts instance.publisher_name
-      work = instance.work.first
-      puts work.title_values.first
-#      puts work.subtitle
-      author = work.authors.first
-      alist  = author.authorized_personal_names.values
-      puts alist.first[:family]
-      puts alist.first[:given]
-      #before :all do 
-      # @instance = Instance.create
-      # @work     = Work.create
-      #end
-      result = TeiHeaderSyncService.perform(@xsl,@tei_file,'http://example.org')
+    
+      result = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
 #      puts  self.executor(@cat_cmd)
     end
   end

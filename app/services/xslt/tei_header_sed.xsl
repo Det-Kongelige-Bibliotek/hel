@@ -5,12 +5,14 @@
 	       exclude-result-prefixes="xsl t"
 	       version="1.0">
 
+  <xsl:param name="author"/>
+
   <xsl:output encoding="UTF-8"
 	      indent="yes" />
 
   <xsl:template match="t:sourceDesc/t:bibl">
     <bibl>
-      <xsl:copy-of select="@*"/>
+      <xsl:copy-of select="$author"/>
       <title>Shit happens</title>
     </bibl>
   </xsl:template>

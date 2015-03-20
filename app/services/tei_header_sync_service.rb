@@ -5,8 +5,24 @@ require 'resque'
 class TeiHeaderSyncService
   @queue = 'sync_ext_repo'
 
-  def self.perform(sheet,tei_file,uri)
-    params = ['uri' => uri]
+  def self.perform(sheet,tei_file,inst)
+
+    puts inst.pid
+    puts inst.publisher_name
+    work = inst.work.first
+    puts work.title_values.first
+#      puts work.subtitle
+    author = work.authors.first
+    alist  = author.authorized_personal_names.values
+    puts alist.first[:family]
+    puts alist.first[:given]
+    #before :all do 
+    # @inst = Inst.create
+    # @work     = Work.create
+    #end
+
+    params = ['author' => 
+              Nokogiri::XML('<author xmlns="http://www.tei-c.org/ns/1.0">'+'</author>')]
     xslt = Nokogiri::XSLT(File.read(sheet))
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
     rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(params))
