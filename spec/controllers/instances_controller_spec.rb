@@ -111,7 +111,7 @@ describe InstancesController, type: :controller do
     describe 'with files' do
       it 'creates a new instance with multiple files' do
         w = Work.create valid_work_attributes
-        f = File.new('spec/fixtures/blank_file.txt')
+        f = fixture_file_upload('blank_file.txt','text/xml')
         attrs = valid_attributes.merge(set_work: w.id, content_files: [f,f])
         post :create, { instance: attrs, work_id: w.id }, valid_session
         expect(assigns(:instance).content_files).to be_present
