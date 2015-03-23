@@ -19,7 +19,7 @@ describe Administration::ExternalRepository do
   it 'should have a branch' do
     repo = Administration::ExternalRepository.new
     repo.branch = 'test'
-    expect(repo.url).to eql 'test'
+    expect(repo.branch).to eql 'test'
   end
 
   it 'should have an activity' do
