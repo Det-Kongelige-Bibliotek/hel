@@ -71,6 +71,11 @@ module PreservationHelper
       element.preservationMetadata.warc_id = metadata['warc_id']
     end
 
+    unless (metadata['file_warc_id'].blank? || metadata['file_warc_id'] == element.preservationMetadata.file_warc_id.first)
+      updated = true
+      element.preservationMetadata.file_warc_id = metadata['file_warc_id']
+    end
+
     if updated
       set_preservation_modified_time(element)
     end

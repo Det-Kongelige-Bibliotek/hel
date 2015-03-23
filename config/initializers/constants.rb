@@ -66,6 +66,14 @@ PRESERVATION_RESOURCES_DOWNLOAD_SUCCESS = {'PRESERVATION_RESOURCES_DOWNLOAD_SUCC
 PRESERVATION_RESOURCES_DOWNLOAD_FAILURE = {'PRESERVATION_RESOURCES_DOWNLOAD_FAILURE' => {
     'error' => true, 'color' => 'red', 'text' => 'Yggdrasil could not download the resource file from Valhal.'}}
 
+# Yggdrasil has successfully packaged the resources successfully.
+PRESERVATION_RESOURCES_PACKAGE_SUCCESS = {'PRESERVATION_RESOURCES_DOWNLOAD_SUCCESS' => {
+    'error' => false, 'color' => 'limegreen', 'text' => 'Yggdrasil has successfully downloaded the resources from Valhal'}}
+
+# Yggdrasil could not package the resources. Failstate.
+PRESERVATION_RESOURCES_PACKAGE_FAILURE = {'PRESERVATION_RESOURCES_DOWNLOAD_FAILURE' => {
+    'error' => true, 'color' => 'red', 'text' => 'Yggdrasil could not download the resource file from Valhal.'}}
+
 # Yggdrasil finished packaging (metadata and ressources written to the WARC format) and ready to initiate upload.
 PRESERVATION_PACKAGE_COMPLETE = {'PRESERVATION_PACKAGE_COMPLETE' => {
     'error' => false, 'color' => 'limegreen', 'text' => 'Yggdrasil has finished packaging into a WARC file.'}}

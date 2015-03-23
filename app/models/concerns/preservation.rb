@@ -12,7 +12,7 @@ module Concerns
 
       has_metadata :name => 'preservationMetadata', :type => Datastreams::PreservationDatastream
       has_attributes :preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date,
-                     :preservation_comment, :warc_id, :preservation_bitsafety, :preservation_confidentiality,
+                     :preservation_comment, :warc_id, :file_warc_id, :preservation_bitsafety, :preservation_confidentiality,
                      datastream: 'preservationMetadata', :multiple => false
 
       validate :validate_preservation
@@ -30,7 +30,6 @@ module Concerns
         self.save
         Resque.enqueue(SendToPreservationJob,self.pid)
       end
-
 
       def update_preservation_profile
         self.preservation_profile = 'Undefined' if self.preservation_profile.blank?
@@ -63,7 +62,6 @@ module Concerns
           end
         end
       end
-
 
       # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
       # @param element The element to perform the preservation upon.
