@@ -27,6 +27,7 @@ class ContentFile < ActiveFedora::Base
       file_name = Pathname.new(file.path).basename.to_s
       mime_type = mime_type_from_ext(file_name)
     else
+      logger.warn "Could not add file #{file.inspect}"
       return false
     end
 

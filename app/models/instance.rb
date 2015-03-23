@@ -102,8 +102,7 @@ class Instance < ActiveFedora::Base
   end
 
   def create_preservation_message_metadata
-
-    res = "<provenanceMetadata>\n  <instance>\n    <uuid>#{self.uuid}</uuid>\n  </instance>\n  <work>\n    <uuid>#{self.work.first.uuid}</uuid>\n  </work>\n</provenanceMetadata>\n"
+    res = "<provenanceMetadata>\n  <instance>\n    <uuid>#{self.uuid}</uuid>\n  </instance>\n  <work>\n    <uuid>#{self.work.first.uuid unless self.work.empty?}</uuid>\n  </work>\n</provenanceMetadata>\n"
     res += "<preservationMetadata>#{self.preservationMetadata.content}</preservationMetadata>\n"
 
     mods = self.to_mods

@@ -9,11 +9,11 @@ class SendToPreservationJob
     begin
       obj = ActiveFedora::Base.find(pid)
     rescue ObjectNotFoundError
-      raise "No object with pid #{pid} found"
+      raise ArgumentError.new "No object with pid #{pid} found"
     end
 
     if !obj.respond_to?('is_preservable') || !obj.is_preservable || !obj.respond_to?('initiate_preservation')
-      raise "Object #{pid} of type #{obj.class.name} is not preservable"
+      raise ArgumentError.new "Object #{pid} of type #{obj.class.name} is not preservable"
     end
 
     obj.initiate_preservation(cascade)

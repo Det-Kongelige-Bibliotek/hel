@@ -164,7 +164,7 @@ describe Instance do
 
       it 'should return a list containing the files' do
         cf = ContentFile.create
-        @i.content_files=[cf]
+        @i.content_files << cf
         @i.save
         @i.reload
         expect(@i.cascading_elements).not_to be_empty
