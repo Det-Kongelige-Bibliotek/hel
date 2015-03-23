@@ -64,15 +64,10 @@ class SyncExtRepoADL
               Resque.logger.debug " sysno #{sysno} vol #{volno}"
             end
 
-            i = nil
-            i = find_instance(sysno) unless sysno.blank? || sysno == '000000000'
-            if (i.nil?)
-              i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
-              new_instances=new_instances+1
-              repo.add_sync_message("Created new Work and Instans for '#{i.work.first.display_value}'")
-            else
-              repo.add_sync_message("Found existing Instance for '#{i.work.first.display_value}'")
-            end
+            i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
+            new_instances=new_instances+1
+            repo.add_sync_message("Created new Work and Instans for '#{i.work.first.display_value}'")
+
             cf = add_contentfile_to_instance(fname,i) unless i.nil?
             added_files=added_files+1
             repo.add_sync_message("Added #{fname}")

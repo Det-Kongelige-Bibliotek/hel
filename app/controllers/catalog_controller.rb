@@ -20,6 +20,7 @@ class CatalogController < ApplicationController
       :rows => 10
     }
 
+    config.index.partials = [:index_header, :index, :instances]
 
     # This filters out objects that you want to exclude from search results, like FileAssets
     CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
@@ -61,6 +62,10 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field solr_name('author', :facetable), :label => 'Forfatter'
     config.add_facet_field 'active_fedora_model_ssi', :label => 'Indhold', helper_method: :translate_model_names
+    config.add_facet_field solr_name('work_collection',:facetable), :label => 'Samling', helper_method: :translate_collection_names
+    config.add_facet_field solr_name('work_activity',:facetable), :label => 'Aktivitet', helper_method: :get_activity_name
+
+
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request

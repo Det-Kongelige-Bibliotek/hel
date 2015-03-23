@@ -11,7 +11,7 @@ namespace :adl do
     adl_activity.save
 
     repo = Administration::ExternalRepository.create(:name => 'ADL', :url => 'git@disdev-01:/opt/git/adl_data.git',
-                                                     :branch => 'mini', :sync_status =>'NEW', :sync_method => 'ADL',
+                                                     :branch => 'mini2', :sync_status =>'NEW', :sync_method => 'ADL',
                                                      :base_dir => '/tmp/adl_data', :activity => adl_activity.pid)
 
   end
