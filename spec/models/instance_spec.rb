@@ -193,9 +193,18 @@ describe Instance do
         expect(metadata).to include "<uuid>#{@i.uuid}</uuid>"
         expect(metadata).to include "<uuid>#{@w.uuid}</uuid>"
       end
+
+      it 'should contain the WARC id, if it is set' do
+        metadata = @i.create_message_metadata
+        expect(@i.warc_id).to be_nil
+        expect(metadata).not_to include("<warc_id>")
+        @i.warc_id = UUID.new.generate
+        @i.save
+        @i.reload
+        metadata = @i.create_message_metadata
+        expect(@i.warc_id).not_to be_nil
+        expect(metadata).to include("<warc_id>#{@i.warc_id}</warc_id>")
+      end
     end
-
-
-
   end
 end
