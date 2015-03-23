@@ -42,18 +42,17 @@ module ApplicationHelper
                { include_blank: true, class: 'combobox form-control input-large', data_function: 'title-selected' }
   end
 
-    #Renders a list of Agents for a typeahead field
-    def get_agent_list
-      results = Authority::Agent.get_typeahead_objs
-      agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
-      agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
-    end
+  #Renders a list of Agents for a typeahead field
+  def get_agent_list
+    results = Authority::Agent.get_typeahead_objs
+    agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
+    agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
+  end
 
-    private
+  private
 
-
-    def collect_title(titles,id)
-      titles.collect {|title| [title,id]}
-    end
+  def collect_title(titles,id)
+    titles.collect {|title| [title,id]}
+  end
 
 end

@@ -52,4 +52,8 @@ describe 'content' do
       end
     end
   end
+
+  describe '#preservation' do
+
+  end
 end
