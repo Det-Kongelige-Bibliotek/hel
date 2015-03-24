@@ -33,8 +33,21 @@
         <note xml:id="idm140013644600160">
 	  </note>
       </notesStmt>
-      <sourceDesc xml:id="idm140013644599648"><bibl xml:id="idm140013644599520"><author n="1" xml:id="idm140013644598832"><name xml:id="idm140013644598576"><surname xml:id="idm140013644598448">Holberg</surname>, <forename xml:id="idm140013644597984">Ludvig</forename></name></author><title xml:id="idm140013644597696">Værker i tolv bind</title><title xml:id="idm140013644597392">3-7: Komedier</title><pubPlace xml:id="idm140013644597104">[Kbh.]</pubPlace>
-<publisher xml:id="idm140013644596640">Rosenkilde og Bagger</publisher><date xml:id="idm140013644596304">1969-1971</date></bibl><listBibl xml:id="idm140013644596016"><bibl xml:id="biblid54649"><title xml:id="idm140013644582864">DEN PANTSATTE BONDEDRENG</title></bibl><bibl xml:id="biblid61608"><title xml:id="idm140013644582016">DET LYKKELIGE SKIBBRUD</title></bibl><bibl xml:id="biblid74665"><title xml:id="idm140013644581184">ERASMUS MONTANUS</title></bibl><bibl xml:id="biblid85277"><title xml:id="idm140013644580400">PERNILLES KORTE FRØIKENSTAND</title></bibl><bibl xml:id="biblid93781"><title xml:id="idm140013644579520">DE USYNLIGE</title></bibl><bibl xml:id="biblid101051"><title xml:id="idm140013644578736">DEN STUNDESLØSE</title></bibl><bibl xml:id="biblid113866"><title xml:id="idm140013644577936">DEN HONNETTE AMBITION</title></bibl><bibl xml:id="biblid122728"><title xml:id="idm140013644577152">LIIGBEGIÆNGELSE</title></bibl></listBibl></sourceDesc>
+      <sourceDesc xml:id="idm140013644599648">
+	<bibl xml:id="idm140013644599520">
+	  <author n="1" xml:id="idm140013644598832">
+	    <name xml:id="idm140013644598576">
+	      <surname xml:id="idm140013644598448">Holberg</surname>,
+	      <forename xml:id="idm140013644597984">Ludvig</forename>
+	    </name>
+	  </author>
+	  <title xml:id="idm140013644597696">Værker i tolv bind</title>
+	  <title xml:id="idm140013644597392">3-7: Komedier</title>
+	  <pubPlace xml:id="idm140013644597104">[Kbh.]</pubPlace>
+	  <publisher xml:id="idm140013644596640">Rosenkilde og Bagger</publisher>
+	  <date xml:id="idm140013644596304">1969-1971</date>
+	</bibl>
+      <listBibl xml:id="idm140013644596016"><bibl xml:id="biblid54649"><title xml:id="idm140013644582864">DEN PANTSATTE BONDEDRENG</title></bibl><bibl xml:id="biblid61608"><title xml:id="idm140013644582016">DET LYKKELIGE SKIBBRUD</title></bibl><bibl xml:id="biblid74665"><title xml:id="idm140013644581184">ERASMUS MONTANUS</title></bibl><bibl xml:id="biblid85277"><title xml:id="idm140013644580400">PERNILLES KORTE FRØIKENSTAND</title></bibl><bibl xml:id="biblid93781"><title xml:id="idm140013644579520">DE USYNLIGE</title></bibl><bibl xml:id="biblid101051"><title xml:id="idm140013644578736">DEN STUNDESLØSE</title></bibl><bibl xml:id="biblid113866"><title xml:id="idm140013644577936">DEN HONNETTE AMBITION</title></bibl><bibl xml:id="biblid122728"><title xml:id="idm140013644577152">LIIGBEGIÆNGELSE</title></bibl></listBibl></sourceDesc>
     </fileDesc>
   </teiHeader>
   <text xml:id="idm140013644576416">

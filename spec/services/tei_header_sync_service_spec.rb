@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe  TeiHeaderSyncService do
@@ -13,8 +14,8 @@ describe  TeiHeaderSyncService do
       "mkdir -p #{work_dir};" + 
       "cp #{source_file} #{@tei_file}"
 
-    @cat_cmd = "/usr/bin/cat #{@tei_file}"
-    puts  @cat_cmd 
+#    @cat_cmd = "/usr/bin/cat #{@tei_file}"
+#    puts  @cat_cmd 
 
     @xsl  = "#{Rails.root}/app/services/xslt/tei_header_sed.xsl"
 
@@ -36,10 +37,22 @@ describe  TeiHeaderSyncService do
       instance     = SyncExtRepoADL.create_new_work_and_instance(@idno,
                                                                  @xdoc,
                                                                  adl_activity)
-      cf = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
-    
-      result = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
-#      puts  self.executor(@cat_cmd)
+
+      instance.published_place = "The end of the universe"
+
+      work = instance.work.first
+      work.add_title(
+                     { value: 'The Importance of Being Earnest', 
+                       type: 'Uniform',
+                       subtitle: 'and other encounters', lang: 'en' }
+                     )
+      forename = "New forename"
+      surname  = "New surname"
+      person   = Authority::Person.find_or_create_person(forename,surname)
+      work.add_author(person)
+      author   = work.authors.first
+      cf       = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
+      result   = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
     end
   end
 

@@ -7,25 +7,42 @@ class TeiHeaderSyncService
 
   def self.perform(sheet,tei_file,inst)
 
-    puts inst.pid
-    puts inst.publisher_name
     work = inst.work.first
-    puts work.title_values.first
-#      puts work.subtitle
     author = work.authors.first
-    alist  = author.authorized_personal_names.values
-    puts alist.first[:family]
-    puts alist.first[:given]
-    #before :all do 
-    # @inst = Inst.create
-    # @work     = Work.create
-    #end
 
-    params = ['first' => alist.first[:given],
-              'last'  => alist.first[:family] ]
+    parameters = {}
+    work.authors.each_with_index do |a,i|
+      aut = a.authorized_personal_names.values.first
+      parameters["first#{i}"] = aut[:given]
+      parameters["last#{i}"]  = aut[:family]
+    end
+
+# This didn't work very well. Leave it here as a memo for the time being
+#
+#   myfuncs = Class.new do
+#      def family
+#        @alist.first[:family]
+#        "mongrel"
+#      end
+#      def given
+#        @alist.first[:given]
+#      end
+#    end
+#    
+#    Nokogiri::XSLT.register "http://example.com/functions", myfuncs
+#
+
+    work.title_values.each_with_index do |tit,i|
+      parameters["title#{i}"]      = tit
+    end
+
+    parameters[:publisher] = inst.publisher_name
+    parameters[:pub_place] = inst.published_place
+    parameters[:date]      = inst.published_date
+
     xslt = Nokogiri::XSLT(File.read(sheet))
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
-    rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(params))
+    rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(parameters))
     File.open(tei_file, 'w') { |f| f.print(rdoc.to_xml) }
   end
   
