@@ -72,6 +72,16 @@ class InstancesController < ApplicationController
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
     if @instance.update(instance_params)
+      if @instance.type == 'TEI'
+        @instance.content_files.each do |f|
+          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                                       f.external_file_path,@instance)
+          f.update_tech_metadata_for_external_file
+          f.save(validate: false)
+        end
+        repo = Administration::ExternalRepository[@instance.external_repository]
+        repo.push
+      end
       flash[:notice] = "#{@klazz} er opdateret."
       @instance.cascade_preservation
     end

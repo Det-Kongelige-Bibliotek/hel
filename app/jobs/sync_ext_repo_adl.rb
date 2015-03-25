@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'resque'
 require 'open3'
 
@@ -92,8 +93,33 @@ class SyncExtRepoADL
     repo.save
   end
 
+  def self.clone(repo)
+    cmd = "git clone #{repo.url} #{@git_dir}; cd #{@git_dir}; git fetch; git checkout #{repo.branch}"
+    success = false
+    Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+      while line = stdout.gets
+        repo.add_sync_message(line)
+      end
+      repo.add_sync_message(stderr.read)
+      exit_status = wait_thr.value
+      success = exit_status.success?
+    end
+    success
+  end
 
-  private
+  def self.update(repo)
+    cmd = "cd #{@git_dir};git checkout -f #{repo.branch};git pull"
+    success = false
+    Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+      while line = stdout.gets
+        repo.add_sync_message(line)
+      end
+      repo.add_sync_message(stderr.read)
+      exit_status = wait_thr.value
+      success = exit_status.success?
+    end
+    success
+  end
 
   def self.find_instance(sysno)
     result = ActiveFedora::SolrService.query('system_number_tesim:"'+sysno+'" && active_fedora_model_ssi:Instance')
