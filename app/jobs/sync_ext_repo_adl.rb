@@ -4,8 +4,6 @@ require 'open3'
 class SyncExtRepoADL
   @queue = 'sync_ext_repo'
 
-  @git_dir = '/tmp/adl_data'
-
   def self.perform(repo_id)
     Resque.logger.debug "Starting ADL sync"
     repo = Administration::ExternalRepository[repo_id]
@@ -29,7 +27,7 @@ class SyncExtRepoADL
 
       adl_activity = Administration::Activity.find(repo.activity)
 
-      Dir.glob("#{@git_dir}/*/*.xml").each do |fname|
+      Dir.glob("#{repo.base_dir}/*/*.xml").each do |fname|
         Resque.logger.debug "file #{fname}"
         proccessed_files = proccessed_files+1
         cf = ContentFile.find_by_original_filename(Pathname.new(fname).basename.to_s)
@@ -71,7 +69,7 @@ class SyncExtRepoADL
             cf = add_contentfile_to_instance(fname,i) unless i.nil?
             added_files=added_files+1
             repo.add_sync_message("Added #{fname}")
-            Resque.enqueue(AddAdlImageFiles,cf.pid,"/kb/adl-facsimiles")
+            Resque.enqueue(AddAdlImageFiles,cf.pid,repo.image_dir)
           rescue Exception => e
             Resque.logger.warn "Skipping file #{fname} : #{e.message}"
             repo.add_sync_message("Skipping file #{fname} : #{e.message}")
