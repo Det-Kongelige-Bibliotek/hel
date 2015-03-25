@@ -1,10 +1,8 @@
 require 'open3'
-require 'resque'
 
 # Responsible for keeping the teiHeader in sync with the hydra chronos metadata
 
 class TeiHeaderSyncService
-  @queue = 'sync_ext_repo'
 
   def self.perform(sheet,tei_file,inst)
 

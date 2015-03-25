@@ -14,9 +14,6 @@ describe  TeiHeaderSyncService do
       "mkdir -p #{work_dir};" + 
       "cp #{source_file} #{@tei_file}"
 
-#    @cat_cmd = "/usr/bin/cat #{@tei_file}"
-#    puts  @cat_cmd 
-
     @xsl  = "#{Rails.root}/app/services/xslt/tei_header_sed.xsl"
 
     self.executor(cmd)
