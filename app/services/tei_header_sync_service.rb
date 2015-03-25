@@ -65,7 +65,7 @@ class TeiHeaderSyncService
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
     rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(parameters))
     File.open(tei_file, 'w') { |f| f.print(rdoc.to_xml) }
-
+    return rdoc
   end
   
 end

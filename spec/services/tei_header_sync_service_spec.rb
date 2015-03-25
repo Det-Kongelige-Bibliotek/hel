@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe  TeiHeaderSyncService do
 
-  before do
+  before :all do
     # the sysno of this holb is 001629300
     source_file = "#{Rails.root}/spec/fixtures/holb06valid.xml"
     @tei_file   = "/tmp/adl-test/texts/holb06valid.xml"
@@ -50,6 +50,10 @@ describe  TeiHeaderSyncService do
       author   = work.authors.first
       cf       = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
       result   = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
+
+      find_sub = result.xpath '//t:sourceDesc/t:bibl/t:title[@type="sub"]', 't' => 'http://www.tei-c.org/ns/1.0' 
+
+      expect(find_sub.text).to eql 'and other encounters'
     end
   end
 
