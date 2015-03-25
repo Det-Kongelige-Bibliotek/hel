@@ -12,9 +12,11 @@
         <% end %>
         </ul>    
       </div>
+      <% unless @instance.validation_status == 'INPROGRESS' %>
       <div class="modal-footer">
         <%= link_to "Start ny validering", validate_tei_work_instance_url(@work,@instance), :class => "btn btn-primary", "data-target" => "#validationModal" %>
       </div>
+      <% end %>
     </div>
   </div>
 </div>

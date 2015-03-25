@@ -112,6 +112,9 @@ class InstancesController < ApplicationController
   end
 
   def validate_tei
+    @instance.validation_message = ['Vent Venligst ...']
+    @instance.validation_status = 'INPROGRESS'
+    @instance.save(validate:false)
     Resque.enqueue(ValidateAdlTeiInstance,@instance.pid)
     redirect_to work_instance_path(@instance.work.first,@instance)
   end
