@@ -15,7 +15,7 @@ describe ContentFilesController, type: :controller do
       cf.edit_groups = ['Chronos-Admin']
       cf.save
       get :upload, {id: cf.pid}, valid_session
-      expect(assigns(:file)).to eql cf
+      expect(assigns(:file).id).to eql cf.id
     end
   end
 
