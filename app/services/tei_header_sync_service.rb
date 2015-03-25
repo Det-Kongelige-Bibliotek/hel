@@ -51,7 +51,7 @@ class TeiHeaderSyncService
     work.titles.each_with_index do |tit,i|
       parameters["title#{i}"]          = tit.value
       parameters["title_lang#{i}"]     = tit.lang
-      parameters["sub_title_lang#{i}"] = tit.subtitle
+      parameters["sub_title#{i}"] = tit.subtitle
     end
 
     #

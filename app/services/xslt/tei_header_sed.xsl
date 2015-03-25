@@ -87,22 +87,46 @@
 	<xsl:copy-of select="@*"/>
 	<xsl:value-of select="$title0"/>
       </xsl:element>
+      <xsl:if test="$sub_title0">
+	<xsl:call-template name="encode_title">
+	  <xsl:with-param name="type" select="'sub'"/>
+	  <xsl:with-param name="tit" select="$sub_title0"/>
+	</xsl:call-template>
+      </xsl:if>
     </xsl:if>
     <xsl:if test="$title1">
       <xsl:call-template name="encode_title">
 	<xsl:with-param name="tit" select="$title1"/>
       </xsl:call-template>
+      <xsl:if test="$sub_title1">
+	<xsl:call-template name="encode_title">
+	  <xsl:with-param name="type" select="'sub'"/>
+	  <xsl:with-param name="tit" select="$sub_title1"/>
+	</xsl:call-template>
+      </xsl:if>
     </xsl:if>
     <xsl:if test="$title2">
       <xsl:call-template name="encode_title">
 	<xsl:with-param name="tit" select="$title2"/>
       </xsl:call-template>
+      <xsl:if test="$sub_title2">
+	<xsl:call-template name="encode_title">
+	  <xsl:with-param name="type" select="'sub'"/>
+	  <xsl:with-param name="tit" select="$sub_title2"/>
+	</xsl:call-template>
+      </xsl:if>
     </xsl:if>
   </xsl:template>
 
   <xsl:template name="encode_title">
     <xsl:param name="tit"/>
+    <xsl:param name="type" select="''"/>
     <xsl:element name="title">
+      <xsl:if test="$type">
+	<xsl:attribute name="type">
+	  <xsl:value-of select="$type"/>
+	</xsl:attribute>
+      </xsl:if>
       <xsl:value-of select="$tit"/>
     </xsl:element>
   </xsl:template>
