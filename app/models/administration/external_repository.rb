@@ -2,15 +2,16 @@ require 'open3'
 
 module Administration
   class ExternalRepository < OhmModelWrapper
-    attribute :name
-    attribute :type
-    attribute :url
-    attribute :branch
-    attribute :activity
+    attribute :name # name of the repository
+    attribute :type # type (usually git)
+    attribute :url # url of the repository (git-url)
+    attribute :branch # name of the branch to be used
+    attribute :activity # the activity that newly created instances belong to
     attribute :sync_method
     attribute :sync_status
     attribute :sync_date
-    attribute :base_dir
+    attribute :base_dir # local directory where the git repository should be cloned to
+    attribute :image_dir
     list :sync_message, Administration::SyncMessage
     unique :name
 
