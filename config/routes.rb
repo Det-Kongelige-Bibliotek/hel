@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :show, :update, :destroy] do
     member do
       get 'download'
+      get 'upload'
+      patch 'update'
     end
   end
   root to: 'catalog#index'

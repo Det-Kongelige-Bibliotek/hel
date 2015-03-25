@@ -3,7 +3,7 @@ require 'blacklight/catalog'
 
 class ContentFilesController < ApplicationController
 
-  before_action :set_file, only: [:download]
+  before_action :set_file, only: [:download, :upload, :update]
 
 
   # Retrieve the content file for a given ContentFile.
@@ -23,6 +23,40 @@ class ContentFilesController < ApplicationController
       logger.error "standard error"
       logger.error standard_error.inspect
       render text: standard_error.to_s, status: 500
+    end
+  end
+
+  def upload
+    authorize! :edit, params[:id]
+  end
+
+  def update
+    authorize! :edit, params[:id]
+
+    uploaded_file = params[:file]
+
+    if uploaded_file.nil?
+      flash[:error] = "Der er ikke valgt nogen fil"
+      redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+    else
+
+      v = Validator::RelaxedTei.new
+      msg = v.is_valid_xml_content(uploaded_file.read.force_encoding 'UTF-8')
+      uploaded_file.rewind
+
+
+      if msg.blank?
+        @file.update_external_file_content(uploaded_file.read.force_encoding 'UTF-8')
+        unless Administration::ExternalRepository[@file.instance.external_repository].nil?
+          repo  = Administration::ExternalRepository[@file.instance.external_repository]
+          repo.push
+        end
+        flash[:notice] = 'Filen blev opdaterer'
+        redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+      else
+        flash[:error] = msg
+        redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+      end
     end
   end
 

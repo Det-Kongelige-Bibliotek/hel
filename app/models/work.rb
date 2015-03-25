@@ -120,6 +120,10 @@ class Work < ActiveFedora::Base
     authors.each do |aut|
       Solrizer.insert_field(solr_doc, 'author', aut.all_names,:stored_searchable, :facetable, :displayable)
     end
+    self.instances.each do |i|
+      Solrizer.insert_field(solr_doc, 'work_activity',i.activity, :facetable)
+      Solrizer.insert_field(solr_doc, 'work_collection',i.collection, :facetable)
+    end
     solr_doc
   end
 

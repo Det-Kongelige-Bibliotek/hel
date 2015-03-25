@@ -48,11 +48,9 @@ module Validator
           msg = msg + "Content is nil"
         else
           xdoc = Nokogiri::XML.parse(content) { |config| config.strict }
-          is_valid_xml_doc(xdoc)
+          msg = is_valid_xml_doc(xdoc)
         end
       rescue Exception => wellformedness
-        puts wellformedness.message
-        pp wellformedness
         msg = "XML not wellformed #{wellformedness.message}"
       end
       msg
@@ -62,7 +60,7 @@ module Validator
       msg = ""
       xval = schema_selector(@schema_file)
       xval.validate(xdoc).each do |error|
-        msg = msg + "\n" + error.message
+        msg += "line: #{error.line} - #{error.message} \n"
       end
       msg
     end

@@ -5,8 +5,6 @@ require 'open3'
 class SyncExtRepoADL
   @queue = 'sync_ext_repo'
 
-  @git_dir = '/tmp/adl_data'
-
   def self.perform(repo_id)
     Resque.logger.debug "Starting ADL sync"
     repo = Administration::ExternalRepository[repo_id]
@@ -19,10 +17,10 @@ class SyncExtRepoADL
 
     if repo.sync_status == 'NEW'
       repo.add_sync_message("Cloning new git repository")
-      success = SyncExtRepoADL.clone(repo)
+      success = repo.clone
     else
       repo.add_sync_message("Updating git repository")
-      success = SyncExtRepoADL.update(repo)
+      success = repo.update
     end
 
     if (success)
@@ -30,7 +28,7 @@ class SyncExtRepoADL
 
       adl_activity = Administration::Activity.find(repo.activity)
 
-      Dir.glob("#{@git_dir}/*/*.xml").each do |fname|
+      Dir.glob("#{repo.base_dir}/*/*.xml").each do |fname|
         Resque.logger.debug "file #{fname}"
         proccessed_files = proccessed_files+1
         cf = ContentFile.find_by_original_filename(Pathname.new(fname).basename.to_s)
@@ -65,23 +63,16 @@ class SyncExtRepoADL
               Resque.logger.debug " sysno #{sysno} vol #{volno}"
             end
 
-            i = nil
-            i = find_instance(sysno) unless sysno.blank? || sysno == '000000000'
-            if (i.nil?)
-              i = create_new_work_and_instance(sysno,doc,adl_activity)
-              new_instances=new_instances+1
-              repo.add_sync_message("Created new Work and Instans for '#{i.work.first.display_value}'")
-            else
-              repo.add_sync_message("Found existing Instance for '#{i.work.first.display_value}'")
-            end
+            i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
+            new_instances=new_instances+1
+            repo.add_sync_message("Created new Work and Instans for '#{i.work.first.display_value}'")
+
             cf = add_contentfile_to_instance(fname,i) unless i.nil?
             added_files=added_files+1
             repo.add_sync_message("Added #{fname}")
-            Resque.enqueue(AddAdlImageFiles,cf.pid,"/kb/adl-facsimiles")
+            Resque.enqueue(AddAdlImageFiles,cf.pid,repo.image_dir)
           rescue Exception => e
-            Resque.logger.warn "Skipping file"
-            Resque.logger.warn e.message
-            Resque.logger.warn e.backtrace.join("\n")
+            Resque.logger.warn "Skipping file #{fname} : #{e.message}"
             repo.add_sync_message("Skipping file #{fname} : #{e.message}")
           end
         end
@@ -102,6 +93,7 @@ class SyncExtRepoADL
     repo.save
   end
 
+<<<<<<< HEAD
   def self.clone(repo)
     cmd = "git clone #{repo.url} #{@git_dir}; cd #{@git_dir}; git fetch; git checkout #{repo.branch}"
     success = false
@@ -130,7 +122,6 @@ class SyncExtRepoADL
     success
   end
 
-
   def self.find_instance(sysno)
     result = ActiveFedora::SolrService.query('system_number_tesim:"'+sysno+'" && active_fedora_model_ssi:Instance')
     if (result.size > 0)
@@ -140,18 +131,35 @@ class SyncExtRepoADL
     end
   end
 
-  def self.create_new_work_and_instance(sysno,doc,adl_activity)
+  def self.create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
     Resque.logger.debug "Creating new work"
     w = Work.new
-    doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:title").each do |n|
-      title = n.text
-      titleized_title = title.mb_chars.titleize.wrapped_string
-      w.add_title(value: titleized_title)
+    unless sysno.blank? || sysno == '000000000'
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:title").each do |n|
+        title = n.text
+        titleized_title = title.mb_chars.titleize.wrapped_string
+        w.add_title(value: titleized_title)
+      end
+    else
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:title").each do |n|
+        title = n.text
+        titleized_title = title.mb_chars.titleize.wrapped_string
+        w.add_title(value: titleized_title)
+      end
     end
 
-    doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").each do |n|
-      unless doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").text.blank?
-        names = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").text
+
+    unless sysno.blank? || sysno == '000000000'
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
+        surname = n.xpath("//xmlns:surname").text.mb_chars.titleize
+        forename = n.xpath("//xmlns:forename").text.mb_chars.titleize
+        p = Authority::Person.find_or_create_person(forename,surname)
+        w.add_author(p)
+      end
+    else
+      # if no author in source desc/bibl is found look in filedesc
+      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").each do |n|
+        names = n.text
         # Convert the names to title case in an encoding safe manner
         # e.g. JEPPE AAKJÆR becomes Jeppe Aakjær
         titleized_names = names.mb_chars.titleize.wrapped_string.split(' ')
@@ -161,6 +169,7 @@ class SyncExtRepoADL
         w.add_author(p)
       end
     end
+
     unless w.save
       raise "Error saving work #{w.errors.messages}"
     end
@@ -170,12 +179,17 @@ class SyncExtRepoADL
 
     i.set_work=w
 
+    i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
+    i.published_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
+    i.publisher_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
+
     i.system_number = sysno
     i.activity = adl_activity.pid
     i.copyright = adl_activity.copyright
     i.collection = adl_activity.collection
     i.preservation_profile = adl_activity.preservation_profile
     i.type = 'TEI'
+    i.external_repository = repo_id
 
     result = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:publicationStmt/xmlns:publisher")
     i.publisher_name = result[0].text unless result.size == 0
@@ -191,7 +205,6 @@ class SyncExtRepoADL
     cf = i.add_file(fname,["RelaxedTei"],false)
     raise "unable to add file: #{cf.errors.messages}" unless cf.errors.blank?
     raise "unable to add file: #{i.errors.messages}" unless i.save
-    Resque.logger.debug("custom validators #{cf.validators}")
     cf
   end
 end

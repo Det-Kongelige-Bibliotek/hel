@@ -15,6 +15,10 @@ describe Instance do
     $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
   end
 
+  before :all do
+    ActiveFedora::Base.delete_all
+  end
+
   before :each do
     @instance = Instance.new(instance_params)
   end
@@ -147,7 +151,7 @@ describe Instance do
 
   describe 'to_solr' do
     it 'should include the title statement' do
-      i = Instance.new
+      i = Instance.new(instance_params)
       i.title_statement = 'King James Edition'
       vals = i.to_solr.values.flatten
       expect(vals).to include 'King James Edition'
@@ -157,8 +161,8 @@ describe Instance do
   describe 'find by activity' do
     it 'should find all instances with a given activity name' do
       i = Instance.create(instance_params)
-      set = Instance.find_by_activity('test')
-      expect(set.first.id).to eql i.id
+      set = Instance.find_by_activity('test').map{|i| i.pid}
+      expect(set).to include i.pid
     end
   end
 end
