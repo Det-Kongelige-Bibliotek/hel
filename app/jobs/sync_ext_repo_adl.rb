@@ -93,7 +93,6 @@ class SyncExtRepoADL
     repo.save
   end
 
-<<<<<<< HEAD
   def self.clone(repo)
     cmd = "git clone #{repo.url} #{@git_dir}; cd #{@git_dir}; git fetch; git checkout #{repo.branch}"
     success = false
