@@ -73,7 +73,7 @@ class AddAdlImageFiles
         end
       end
     else
-      Rescue.logger("Content file #{content_file_id} has no tiff files")
+      Resque.logger.error("Content file #{content_file_id} has no tiff files")
     end
   end
 
