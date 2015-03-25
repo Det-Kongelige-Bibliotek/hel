@@ -22,6 +22,12 @@
   <xsl:param name="title1" select="''"/>
   <xsl:param name="title2" select="''"/>
   <xsl:param name="title3" select="''"/>
+
+  <xsl:param name="sub_title0" select="''"/>
+  <xsl:param name="sub_title1" select="''"/>
+  <xsl:param name="sub_title2" select="''"/>
+  <xsl:param name="sub_title3" select="''"/>
+
   <xsl:param name="date" select="''"/>
   <xsl:param name="publisher" select="''"/>
   <xsl:param name="pub_place" select="''"/>

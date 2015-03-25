@@ -48,8 +48,10 @@ class TeiHeaderSyncService
     # here we do the same for the titles. should rethink this if we find sub
     # titles in ADL (which we will do if we look for them)
 
-    work.title_values.each_with_index do |tit,i|
-      parameters["title#{i}"]      = tit
+    work.titles.each_with_index do |tit,i|
+      parameters["title#{i}"]          = tit.value
+      parameters["title_lang#{i}"]     = tit.lang
+      parameters["sub_title_lang#{i}"] = tit.subtitle
     end
 
     #
