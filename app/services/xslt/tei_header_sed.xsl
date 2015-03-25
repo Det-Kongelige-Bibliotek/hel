@@ -9,6 +9,15 @@
 
   <xsl:param name="aid" select="''"/>
 
+<!-- 
+     This terrible list of param elements is due to the fact valhal cannot do
+     a decent xml serialization of the metadata, that I and ruby nokogiri
+     just don't understand each other, or possibly that nokogiri is just garbage. I
+     don't preclude any of the former. 
+-->
+
+<!-- pairs of first and last names -->
+
   <xsl:param name="first0" select="''"/>
   <xsl:param name="last0" select="''"/>
 
@@ -17,6 +26,8 @@
 
   <xsl:param name="first2" select="''"/>
   <xsl:param name="last2" select="''"/>
+
+<!-- pairs of titles and subtitles -->
 
   <xsl:param name="title0" select="''"/>
   <xsl:param name="title1" select="''"/>
@@ -27,6 +38,8 @@
   <xsl:param name="sub_title1" select="''"/>
   <xsl:param name="sub_title2" select="''"/>
   <xsl:param name="sub_title3" select="''"/>
+
+<!-- some other fields -->
 
   <xsl:param name="date" select="''"/>
   <xsl:param name="publisher" select="''"/>
