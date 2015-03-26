@@ -38,10 +38,22 @@ module Concerns
         # Ensure UTF8 encoding
         fits_meta_data = fits_meta_data.encode(Encoding::UTF_8)
 
+        xml = Nokogiri::XML(fits_meta_data)
+
         # If datastream already exists, then set it
         self.fitsMetadata.content = fits_meta_data
+
+        self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s
+        self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s
+        self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s
+
         self.save
       end
+
+      XPATH_FORMAT_NAME = 'fits:fits/fits:identification/fits:identity/@format'
+      XPATH_FORMAT_MIMETYPE = 'fits:fits/fits:identification/fits:identity/@mimetype'
+      XPATH_FORMAT_VERSION = 'fits:fits/fits:identification/fits:identity/fits:version/text()'
+      NAMESPACE={'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}
     end
   end
 end

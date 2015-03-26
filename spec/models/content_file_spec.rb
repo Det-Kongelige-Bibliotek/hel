@@ -23,13 +23,13 @@ describe 'content' do
 
     it 'should have a fits datastream' do
       c = ContentFile.new
-      c.datastreams.keys.should include 'fitsMetadata'
+      expect(c.datastreams.keys).to include 'fitsMetadata'
     end
 
     it 'fits datastream should initially be nil' do
       c = ContentFile.new
-      c.datastreams['fitsMetadata'].content.should be_nil
-      c.fitsMetadata.content.should be_nil
+      expect(c.datastreams['fitsMetadata'].content).to be_nil
+      expect(c.fitsMetadata.content).to be_nil
     end
 
     describe 'content of fitsmetadata' do
@@ -39,17 +39,83 @@ describe 'content' do
       end
 
       it 'should not be nil' do
-        @c.fitsMetadata.content.should_not be_nil
+        expect(@c.fitsMetadata.content).not_to be_nil
       end
 
       it 'should not be empty' do
-        @c.fitsMetadata.content.should_not be_empty
+        expect(@c.fitsMetadata.content).not_to be_empty
       end
 
       it 'should have a fits as root' do
         xml = Nokogiri::XML(@c.fitsMetadata.content)
-        puts xml.root.name.should eq "fits"
+        expect(xml.root.name).to eq "fits"
       end
+
+      it 'should set format name' do
+        expect(@c.format_name).not_to be_nil
+        expect(@c.format_name).to eq 'Extensible Markup Language'
+      end
+
+      it 'should set format mimetype' do
+        expect(@c.format_mimetype).not_to be_nil
+        expect(@c.format_mimetype).to eq 'text/xml'
+      end
+
+      it 'should set format version' do
+        expect(@c.format_version).not_to be_nil
+        expect(@c.format_version).to eq '1.0'
+      end
+
+    end
+  end
+
+  describe '#techMetadata' do
+    it 'should have a tectMetadata datastream' do
+      c = ContentFile.new
+      expect(c.datastreams.keys).to include 'techMetadata'
+    end
+
+    it 'should have a format variables' do
+      c = ContentFile.new
+      expect(c).to respond_to :format_name, :format_version, :format_mimetype
+    end
+
+    it 'should have most fields set by adding the file' do
+      c = ContentFile.new
+      f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+      expect(c.last_modified).to be_nil
+      expect(c.created).to be_nil
+      expect(c.last_accessed).to be_nil
+      expect(c.original_filename).to be_nil
+      expect(c.mime_type).to be_nil
+      expect(c.file_uuid).to be_nil
+      expect(c.checksum).to be_nil
+      expect(c.size).to be_nil
+
+      c.add_file(f)
+      c.save!
+      c.reload
+
+      expect(c.last_modified).not_to be_nil
+      expect(c.created).not_to be_nil
+      expect(c.last_accessed).not_to be_nil
+      expect(c.original_filename).not_to be_nil
+      expect(c.mime_type).not_to be_nil
+      expect(c.file_uuid).not_to be_nil
+      expect(c.checksum).not_to be_nil
+      expect(c.size).not_to be_nil
+    end
+
+    it 'should have be able to set the format variables' do
+      c = ContentFile.new
+      c.format_name = 'format_name'
+      c.format_mimetype = 'format_mimetype'
+      c.format_version = 'format_version'
+      c.save!
+      c.reload
+      expect(c.format_name).to eq 'format_name'
+      expect(c.format_mimetype).to eq 'format_mimetype'
+      expect(c.format_version).to eq 'format_version'
     end
   end
 
