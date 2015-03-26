@@ -130,7 +130,7 @@ class SyncExtRepoADL
     end
   end
 
-  def self.create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
+  def self.create_new_work_and_instance(sysno,doc,adl_activity,repo_id=nil)
     Resque.logger.debug "Creating new work"
     w = Work.new
     unless sysno.blank? || sysno == '000000000'
