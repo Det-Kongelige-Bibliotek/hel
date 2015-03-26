@@ -32,10 +32,10 @@ class AddAdlImageFiles
         tiff_inst.collection = tei_inst.collection
         tiff_inst.preservation_profile = tei_inst.preservation_profile
         tiff_inst.type = 'TIFF'
+        tiff_inst.set_work=tei_inst.work.first
         unless tiff_inst.save
           raise "error creating tiff instance #{tiff_inst.errors.messages}"
         end
-        tiff_inst.set_work=tei_inst.work.first
         tei_inst.has_equivalent << tiff_inst
         tei_inst.save
       end
