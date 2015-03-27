@@ -9,11 +9,11 @@ class ViewFileController < ApplicationController
       @content_file = ContentFile.find(params[:pid])
       send_data @content_file.datastreams['content'].content, {:filename => @content_file.original_filename, :type => @content_file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
-      flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
+      flash[:error] = t('flashmessage.file_not_found')
       logger.error obj_not_found.to_s
       redirect_to :root
     rescue StandardError => standard_error
-      flash[:error] = 'An error has occurred. Please contact your system administrator'
+      flash[:error] = t('flashmessage.standard_error')
       logger.error standard_error.to_s
       redirect_to :root
     end

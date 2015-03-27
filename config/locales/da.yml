@@ -70,13 +70,29 @@ da:
       cancel: "Fortryd"
     show:
       edit: "Rediger"
+
   authority:
-    people:
+      bases:
+        created: "Base was successfully created."
+        updated: "Base was successfully updated."
+        destroyed: "Base was successfully destroyed."
+      people:
+        destroyed: "Person was successfully destroyed."
       form:
         cancel: "Fortryd"
       show:
         authorized_names: "Autoriserede navne"
+
   instances:
+    flashmessage:
+      ins_data_retrieved: "Instans data er hentet."
+      no_ins_data_retrieved: "Kunne ikke hente instans data."
+      ins_saved: "%{var} blev gemt"
+      ins_updated: "%{var} er opdateret."
+      preserved: 'Instans og indholdsfiler sendt til bevaring'
+      no_preserved: 'Kunne ikke send til bevaring'
+      destroy: "%{var} er slettet"
+      admin_updated: "Administrativ metadata er opdateret"
     types:
       trykforlaeg: Trykforlæg
     form:
@@ -92,6 +108,7 @@ da:
       language: "Sprog"
     sidebar:
       go_to: "Gå Til:"
+      bibliographic: Bibliografiske metadata
     show_administrative:
       activity: "Aktivitet"
       collection: "Samling"
@@ -102,6 +119,7 @@ da:
       preservaton_details: "Bevaring detaljer"
     administrative:
       admin_header: "Administrativ metadata"
+
   simple_form:
     labels:
       defaults:
@@ -142,12 +160,20 @@ da:
         password: "Adgangkode"
         remember_me: "Husk mig"
   work:
+    update: "Værket er opdateret."
+    save: "Værket blev oprettet."
+    destroy: "Værket blev slettet."
     aleph:
       error_message: "Ingen data fundet i aleph for %{field} %{value}"
       success_message: "Værk oprettet med data fra Aleph"
     save_error: "Værk kunne ikke gemmes"
+
   administration:
     activities:
+      flashmessage:
+        created: "Activity was successfully created."
+        updated: "Activity was successfully updated."
+        destroyed: "Activity was successfully destroyed."
       index:
         header: "Aktiviteter"
         name: "Navn"
@@ -159,7 +185,12 @@ da:
         new_activity: "Ny aktivitet"
       edit:
         edit_activity: "Rediger aktivitet"
+
     controlled_lists:
+      flashmessage:
+        created: "ControlledList was successfully created."
+        updated: "ControlledList was successfully updated."
+        destroyed: "ControlledList was successfully destroyed."
       index:
         header: "Kontrollerede lister"
         edit: "Rediger"
@@ -177,12 +208,23 @@ da:
         entry: "Post"
       edit:
         header: "Redigerer %{name}"
+
     external_repositories:
+      flashmessage:
+        synchronizing: "Synkronisering startet"
       index:
         header: "Externe Repositorier"
         show: "Vis"
         syncronise: "Synkroniser"
         name: "Navn"
+
+  content_file:
+    flashmessage:
+      file_uploaded: "Filen er uploaded"
+      no_file_to_upload: "Der er ikke valgt nogen fil"
+      basic_file_not_found: 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
+
+
   back: "Tilbage"
   show: "Vis"
   edit: "Rediger"
@@ -190,3 +232,8 @@ da:
   unauthorized:
       manage:
         all: "Du har ikke adgang til denne side."
+
+  flashmessage:
+    standard_error: 'An error has occurred. Please contact your system administrator'
+    file_not_found: 'The file you requested could not be found in Fedora! Please contact your system administrator'
+    be_admin: "Du skal være administrator for at kunne opdatere"
