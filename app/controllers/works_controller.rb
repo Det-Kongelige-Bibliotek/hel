@@ -35,7 +35,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        format.html { redirect_to @work, notice: 'Værket blev oprettet.' }
+        format.html { redirect_to @work, notice: t('work.save') }
         format.json { render :show, status: :created, location: @work }
       else
         format.html { render :new }
@@ -89,7 +89,7 @@ class WorksController < ApplicationController
             repo.push
           end
         end
-        format.html { redirect_to @work, notice: 'Værket er opdateret.' }
+        format.html { redirect_to @work, notice: t('work.update') }
         format.json { render :show, status: :ok, location: @work }
       else
         format.html { render :edit }
@@ -103,7 +103,7 @@ class WorksController < ApplicationController
   def destroy
     @work.destroy
     respond_to do |format|
-      format.html { redirect_to works_url, notice: 'Værket blev slettet.' }
+      format.html { redirect_to works_url, notice: t('work.destroy') }
       format.json { head :no_content }
     end
   end

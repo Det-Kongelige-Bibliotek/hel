@@ -16,7 +16,7 @@ module Administration
       @external_repository.sync_date = DateTime.now.to_s
       @external_repository.save
       Resque.enqueue("SyncExtRepo#{@external_repository.sync_method}".constantize,@external_repository.id)
-      redirect_to @external_repository, notice: 'Synkronisering startet'
+      redirect_to @external_repository, notice: t('administration.external_repositories.flashmessage.synchronizing')
     end
 
     def set_external_repository

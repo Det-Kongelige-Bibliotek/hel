@@ -4,7 +4,7 @@ module Authority
     def destroy
       @authority_object.destroy
       respond_to do |format|
-        format.html { redirect_to authority_people_path, notice: 'Person was successfully destroyed.' }
+        format.html { redirect_to authority_people_path, notice: t('authority.people.destroyed') }
         format.json { head :no_content }
       end
     end

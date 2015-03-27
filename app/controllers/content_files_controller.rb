@@ -15,11 +15,11 @@ class ContentFilesController < ApplicationController
     begin
       send_data @file.datastreams['content'].content, {:filename => @file.original_filename, :type => @file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
-      flash[:error] = 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
+      flash[:error] = t('content_file.flashmessage.basic_file_not_found')
       logger.error obj_not_found.to_s
       render text: obj_not_found.to_s, status: 404
     rescue => standard_error
-      flash[:error] = 'An error has occurred. Please contact your system administrator'
+      flash[:error] = t('flashmessage.standard_error')
       logger.error "standard error"
       logger.error standard_error.inspect
       render text: standard_error.to_s, status: 500
@@ -36,7 +36,8 @@ class ContentFilesController < ApplicationController
     uploaded_file = params[:file]
 
     if uploaded_file.nil?
-      flash[:error] = "Der er ikke valgt nogen fil"
+      #this message is not really used, as we handle this case in the _upload_file_modal.html.erb
+      flash[:error] = t('content_file.flashmessage.no_file_to_upload')
       redirect_to work_instance_path(@file.instance.work.first,@file.instance)
     else
 
@@ -51,7 +52,7 @@ class ContentFilesController < ApplicationController
           repo  = Administration::ExternalRepository[@file.instance.external_repository]
           repo.push
         end
-        flash[:notice] = 'Filen blev opdaterer'
+        flash[:notice] = t('content_file.flashmessage.file_uploaded')
         redirect_to work_instance_path(@file.instance.work.first,@file.instance)
       else
         flash[:error] = msg
