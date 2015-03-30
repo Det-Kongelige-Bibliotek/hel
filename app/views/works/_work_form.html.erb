@@ -4,9 +4,9 @@
     <div class="container">
       <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
         <span class="glyphicon glyphicon-import"></span>
-        Importer fra Aleph
+        <%= t('.import') %>
       </button>
-      <h1>Værk <small id="headerTitle"><%= @work.title_values.first%></small></h1>
+      <h1><%= t('.work') %> <small id="headerTitle"><%= @work.title_values.first%></small></h1>
 
     </div>
   </div>
@@ -15,7 +15,7 @@
     <%= form_for(@work) do |f| %>
         <% if @work.errors.any? %>
             <div id="error_explanation">
-              <h2><%= pluralize(@work.errors.count, "error") %> prohibited this instance from being saved:</h2>
+              <h2><%= pluralize(@work.errors.count, "error") %> <%= t('.error') %></h2>
 
               <ul>
                 <% @work.errors.full_messages.each do |message| %>
@@ -25,7 +25,7 @@
             </div>
         <% end %>
         <fieldset class="row">
-            <legend class="col-sm-12">Titler</legend>
+            <legend class="col-sm-12"><%= t('.titles') %></legend>
             <% if @work.titles.length > 0  %>
                 <% @work.titles.each_with_index do |title,index| %>
                     <%= render  partial: 'works/title',  locals: {title: title , index: index, hidden:false} %>
@@ -39,16 +39,16 @@
             <div class='col-sm-12'>
                 <a class="btn btn-sm btn-success" href="#" data-function="new-title">
                   <span class="glyphicon glyphicon-plus"></span>
-                  Tilføj Titel
+                  <%= t('.add_title') %>
                 </a>
             </div>
         </fieldset>
         <fieldset class="row">
           <legend class="col-sm-12">
-            Ophav
+            <%= t('.author') %>
             <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="#new_agent_modal">
               <span class="glyphicon glyphicon-plus"></span>
-            Opret ny person
+              <%= t('.new_person') %>
             </a>
           </legend>
           <% if @work.creators.length >0 %>
@@ -65,14 +65,14 @@
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-creator">
               <span class="glyphicon glyphicon-plus"></span>
-              Tilføj Ophav
+              <%= t('.add_author') %>
             </a>
           </div>
         </fieldset>
         <div class='col-sm-12'>
         </div>
         <fieldset class="row">
-          <legend class="col-sm-12">Emner</legend>
+          <legend class="col-sm-12"><%= t('.subject') %></legend>
           <% if @work.subjects.size > 0  %>
               <% @work.subjects.each_with_index do |subject,index| %>
                   <%= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
@@ -86,7 +86,7 @@
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
               <span class="glyphicon glyphicon-plus"></span>
-              Tilføj Emne
+              <%= t('.add_subject') %>
             </a>
           </div>
         </fieldset>

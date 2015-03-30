@@ -13,13 +13,13 @@
     <hr>
   </div>
   <div class="col-sm-12">
-      <%= builder.input :collection, collection: get_translated_list('Collections'), prompt: 'Samling' %>
+      <%= builder.input :collection, collection: get_translated_list('Collections'), prompt: t('.collection') %>
     <hr>
   </div>
 
   <fieldset class="row">
     <legend class="col-sm-12">
-      <h4>Tilgængelighed</h4>
+      <h4><%= t('.availability') %></h4>
     </legend>
 
 
@@ -39,22 +39,22 @@
 
 
     <div class="col-sm-3">
-      <%= builder.input :access_condition, collection: get_controlled_vocab('Access types'),  prompt: 'Klausuleringstype' %>
+      <%= builder.input :access_condition, collection: get_controlled_vocab('Access types'),  prompt: t('.klaus') %>
     </div>
 
       <div class="col-sm-3">
-        <%= builder.input :copyright, collection: get_controlled_vocab('Copyright Licenses'),  prompt: 'Vælg licens' %>
+        <%= builder.input :copyright, collection: get_controlled_vocab('Copyright Licenses'),  prompt: t('.license') %>
       </div>
     </fieldset>
 
   <fieldset class="row">
   <legend class="col-sm-12">
-    <h4>Bevaring</h4>
+    <h4><%= t('.preservation') %></h4>
   </legend>
 
 
     <div class="col-sm-4">
-      <%= builder.label :preservation_profile, 'Preservation profile' %>
+      <%= builder.label :preservation_profile, t('.preserv_profile') %>
       <%= builder.select :preservation_profile, options_for_select(get_preservation_profiles_for_select,
           @instance.blank? ? '' :  @instance.preservation_profile)%>
     </div>

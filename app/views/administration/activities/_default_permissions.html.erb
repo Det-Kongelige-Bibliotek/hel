@@ -1,5 +1,5 @@
 <fieldset class="row" id="instance-permissions">
-    <legend class="col-sm-12">Instance Permissions</legend>
+    <legend class="col-sm-12"><%= t('.ins_permissions') %></legend>
 
     <% get_controlled_vocab('Hydra Access Types').each do |access_type| %>
       <div class="col-sm-4">
@@ -10,7 +10,7 @@
     <% end %>
 </fieldset>
 <fieldset class="row" id="instance-permissions">
-  <legend class="col-sm-12">File Permissions</legend>
+  <legend class="col-sm-12"><%= t('.file_permissions') %></legend>
 
   <% get_controlled_vocab('Hydra Access Types').each do |access_type| %>
       <div class="col-sm-4">

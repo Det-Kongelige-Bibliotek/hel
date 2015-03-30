@@ -3,7 +3,7 @@
 <%= form_for(@authority_object, remote: remote, html: { class: 'form-horizontal' }) do |f| %>
   <% if @authority_object.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@authority_object.errors.count, "error") %> prohibited this authority_basis from being saved:</h2>
+      <h2><%= pluralize(@authority_object.errors.count, "error") %> <%= t('.no_save_error') %> </h2>
 
       <ul>
       <% @authority_object.errors.full_messages.each do |message| %>
@@ -13,7 +13,7 @@
     </div>
   <% end %>
 
-    <h2>Person</h2>
+    <h2><%= t('.person') %></h2>
     <% if @authority_object.new? %>
         <%= render partial: 'authority/people/name',  locals: { scheme: '', name: { given: '', family: '', date: '' }} %>
     <% else %>

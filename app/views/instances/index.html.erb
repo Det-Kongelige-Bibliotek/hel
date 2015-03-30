@@ -1,5 +1,5 @@
-<% @page_title="Liste over instanser"  %>
-<h1>Listing instances</h1>
+<% @page_title= t('.title')  %>
+<h1><%= t('.list') %></h1>
 
 <table>
   <thead>
@@ -13,7 +13,7 @@
       <tr>
         <td><%= link_to 'Show', instance %></td>
         <td><%= link_to 'Edit', edit_instance_path(instance) %></td>
-        <td><%= link_to 'Destroy', instance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', instance, method: :delete, data: { confirm: t('.confirm') } %></td>
       </tr>
     <% end %>
   </tbody>

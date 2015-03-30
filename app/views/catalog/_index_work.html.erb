@@ -13,15 +13,17 @@
     <div class="panel-heading" role="tab" id="workInstancesHeading<%=counter%>">
       <h5 class="panel-title">
         <a class="collapsed" data-toggle="collapse" href="#workInstances<%=counter%>" aria-expanded="false" aria-controls="workInstances<%=counter%>">
-          <%= document["has_instance_ssim"].blank? ? 0 : document["has_instance_ssim"].size %> instans(er)
+          <%= document["has_instance_ssim"].blank? ? 0 : document["has_instance_ssim"].size %> <%= t('.ins') %>
         </a>
       </h5>
     </div>
     <div id="workInstances<%=counter%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="workInstancesHeading<%=counter%>">
       <ul class="list-group">
-        <% document["has_instance_ssim"].each do |inst_id| %>
-            <% id = inst_id.split('/').last %>
-            <li class="list-group-item"><%= get_work_instance_link_for_search_result(document["id"],id) %> </li>
+        <% unless document["has_instance_ssim"].blank? %>
+            <% document["has_instance_ssim"].each do |inst_id| %>
+                <% id = inst_id.split('/').last %>
+                <li class="list-group-item"><%= get_work_instance_link_for_search_result(document["id"],id) %> </li>
+            <% end %>
         <% end %>
       </ul>
     </div>

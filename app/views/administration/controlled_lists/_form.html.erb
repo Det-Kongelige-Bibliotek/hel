@@ -1,7 +1,7 @@
 <%= form_for(@controlled_list, html: { class: 'form-horizontal' }) do |f| %>
     <% if @controlled_list.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@controlled_list.errors.count, "error") %> prohibited this controlled_list from being saved:</h2>
+          <h2><%= pluralize(@controlled_list.errors.count, "error") %> <%= t('.no_save_error') %></h2>
           <ul>
             <% @controlled_list.errors.full_messages.each do |msg| %>
                 <li><%= msg %></li>
