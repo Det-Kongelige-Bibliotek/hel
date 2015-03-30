@@ -14,7 +14,7 @@
     <div class="instans editMode">
       <div class="page-header">
         <div class="container">
-          <h1>Instans <small><%= @klazz %></small></h1>
+          <h1><%= t('.title') %><small><%= @klazz %></small></h1>
         </div>
       </div>
 
@@ -36,7 +36,7 @@
         <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
         <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
             <span class="glyphicon glyphicon-save"></span>
-            Gem
+            <%= t('.gem') %>
         <% end %>
 
     </div>

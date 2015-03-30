@@ -1,4 +1,4 @@
-<h1>Listing Trykforlaegs</h1>
+<h1><%= t('.title') %></h1>
 
 <table>
   <thead>
@@ -12,7 +12,7 @@
       <tr>
         <td><%= link_to 'Show', instance %></td>
         <td><%= link_to 'Edit', edit_trykforlaeg_path(instance) %></td>
-        <td><%= link_to 'Destroy', instance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', instance, method: :delete, data: { confirm: t('.confirm') } %></td>
       </tr>
     <% end %>
   </tbody>

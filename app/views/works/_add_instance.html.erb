@@ -2,12 +2,12 @@
   <div class="col-sm-offset-4">
     <div class="btn-group" data-hook="dropdown-button">
       <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-        Tilføj ny instans <span class="caret"></span>
+        <%= t('.add') %> <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="<%= new_work_trykforlaeg_path(@work) %>">
-            Trykforlaeg
+            <%= t('.tryk') %>
           </a>
         </li>
       </ul>

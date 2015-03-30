@@ -1,4 +1,4 @@
-<% @page_title="Vis instans til: " + @work.titles.first.value  %>
+<% @page_title= t('.title') + @work.titles.first.value  %>
 <%= render partial: 'works/show' %>
 <%= render partial: 'instances/show' %>
 

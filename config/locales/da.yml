@@ -26,11 +26,7 @@ da:
     errors:
       messages:
         record_invalid: 'Ugyldig data'
-  person:
-    scheme: Skema
-    given: Fornavn
-    family: Efternavn
-    date: Fødsels-Dødsår
+
 
   works:
     work_form:
@@ -60,23 +56,48 @@ da:
       no_preserved: 'Kunne ikke send til bevaring'
       destroy: "%{var} er slettet"
       admin_updated: "Administrativ metadata er opdateret"
+    index:
+      title: "Liste over instanser"
+      list: "Listing instances"
+      confirm: "Are you sure?"
+    new:
+      title: "Ny instans af: "
+    show:
+      title: "Vis instans til: "
     types:
-      trykforlaeg: Trykforlæg
+      trykforlaeg: "Trykforlæg"
+    file_input:
+      add: "Tilføj flere filer"
     form:
+      title: "Instans"
       cancel: "Fortryd"
       could_not_be_saved: "Instansen kunne ikke gemmes"
+      gem: "Gem"
     show_bibliograph:
+      isbn: ISBN
       copyright_date: "Dato for ophavsret"
       published_date: "Udgivelsedato"
       mode_of_issuance: "Udgivelseform"
       extent: "Omfang"
       language: "Sprog"
     bibliographic:
+      title: "Bibliografiske metadata"
       language: "Sprog"
     sidebar:
       go_to: "Gå Til:"
-      bibliographic: Bibliografiske metadata
+      bibliographic: "Bibliografiske metadata"
+      administrative: "Administrative metadata"
+      upload: "Fil upload"
+    show_files:
+      label: "Files"
+      file_name: "Filnavn"
+      bev_profil: "Bevarings profil"
+      bev_status: "Bevarings Status"
+      bev_detaljer: "Bevarings Detaljer"
+      download: "Download link"
+      upload: "Upload"
     show_administrative:
+      label: "Administrative Data"
       activity: "Aktivitet"
       collection: "Samling"
       copyright: "Licens"
@@ -84,8 +105,22 @@ da:
       preservation_profile: "Bevaring Profil"
       preservation_state: "Bevaring Status"
       preservaton_details: "Bevaring detaljer"
+    activity_input:
+      activity: "Aktivitet"
     administrative:
       admin_header: "Administrativ metadata"
+      collection: "Samling"
+      availability: "Tilgængelighed"
+      klaus: "Klausuleringstype"
+      license: "Vælg licens"
+      preservation: "Bevaring"
+      preserv_profile: "Preservation profile"
+    image_found:
+      check: "Check tei pagebreaks"
+    image_found_modal:
+      tiff: "Manglende tiff billeder"
+      wait: "Please wait ..."
+      luk: "Luk"
 
   simple_form:
     labels:
@@ -141,6 +176,21 @@ da:
         created: "Activity was successfully created."
         updated: "Activity was successfully updated."
         destroyed: "Activity was successfully destroyed."
+      activity_input:
+        activity: "Aktivitet"
+      default_permissions:
+        ins_permissions: "Instance Permissions"
+        file_permissions: "File Permissions"
+      form:
+        no_save_error: "prohibited this activity from being saved:"
+        gem: "Gem"
+      show:
+        access: "Access condition"
+        availability: "Availability"
+        collection: "Collection"
+        embargo: "Embargo"
+        em_condition: "Embargo condition"
+        pres_profile: "Preservation Profile"
       index:
         header: "Aktiviteter"
         name: "Navn"
@@ -167,6 +217,7 @@ da:
       new:
         header: "Ny kontrollerede list"
       form:
+        no_save_error: "prohibited this controlled_list from being saved:"
         list_name: "Navnet af listen"
         new_entry: "Ny post"
         new_field: "Tilføj flere"
@@ -185,6 +236,119 @@ da:
         show: "Vis"
         syncronise: "Synkroniser"
         name: "Navn"
+      show:
+        title: "Externt Repositorie"
+        branch: "Branch"
+        activity: "Aktivitet"
+        base: "Base Directory"
+        image: "Image Directory"
+        sync: "Synkroniserings metode"
+        sync_status: "Synkroniserings status"
+        sync_date: "Synkroniserings dato"
+        log: "Log messages"
+
+  authority:
+    bases:
+      new:
+        title: "New authority_basis"
+    people:
+      form:
+        no_save_error: "prohibited this authority_basis from being saved:"
+        person: "Person"
+      name:
+        scheme: "Skema"
+        given: "Fornavn"
+        family: "Efternavn"
+        date: "Fødsels-Dødsår"
+        born: "Født"
+        die: "Død"
+      edit:
+        editing: "Editing person"
+      index:
+        confirm: "Are you sure?"
+        list: "Listing %{var} objects"
+      new:
+        title: "New Person"
+
+  catalog:
+    home_text:
+      title: "Velkommen til Valhal!"
+    index_work:
+      ins: "instans(er)"
+
+  devise:
+    sessions:
+      new:
+        title: "Log ind"
+
+  shared:
+    administration_dropdown:
+      admin: "Administrer"
+    create_dropdown:
+      opret: "Opret"
+    navbar:
+      nav: "Toggle navigation"
+    user_dropdown:
+      login: "Log ind"
+      logout: "Log ud"
+      guest: "Gæst"
+
+  trykforlaegs:
+    bibliographic:
+      title: "Bibliografiske metadata"
+    index:
+      title: "Listing Trykforlaegs"
+      confirm: "Are you sure?"
+
+  works:
+    add_instance:
+      add: "Tilføj ny instans"
+      tryk: "Trykforlaeg"
+      new_ins: "Ny instans til:"
+    aleph_import:
+      import: "Importer fra Aleph"
+      number: "System nummer"
+    creator:
+      close: "Slet ophav"
+    show:
+      titles: "Titler"
+      title: "Titel"
+      subtitle: "Undertitel"
+      lang: "Sprog"
+      type: "Type"
+      author: "Ophav"
+      name: "Navn"
+      role: "Rolle"
+      subject: "Emne(r)"
+      new_tryk: "Nyt Trykforlæg"
+    subject_authority:
+      close: "Slet emne"
+    title:
+      close: "Slet titel"
+    work_form:
+      import: "Importer fra Aleph"
+      work: "Værk"
+      error: "prohibited this instance from being saved:"
+      titles: "Titler"
+      add_title: "Tilføj Titel"
+      author: "Ophav"
+      new_person: "Opret ny person"
+      add_author: "Tilføj Ophav"
+      subject: "Emner"
+      add_subject: "Tilføj Emne"
+    edit:
+      page_title: "Rediger værk: "
+    index:
+      page_title: "Liste over værker"
+      title: "Listing works"
+      cofirm: "Are you sure?"
+    new:
+      page_title: "Nyt værk"
+    show:
+      page_title: "Værk: "
+
+
+
 
   content_file:
     flashmessage:

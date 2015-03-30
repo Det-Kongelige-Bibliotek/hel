@@ -1,6 +1,6 @@
 <div class="container">
   <h1>
-    Externt Repositorie<%= @external_repository.name %>
+    <%= t('.title') %><%= @external_repository.name %>
   </h1>
   <table class="table">
     <tr>
@@ -8,36 +8,36 @@
       <td><%= @external_repository.url%></td>
     </tr>
     <tr>
-      <td>Branch</td>
+      <td><%= t('.title') %></td>
       <td><%= @external_repository.branch%></td>
     </tr>
     <tr>
-      <td>Aktivitet</td>
+      <td><%= t('.activity') %></td>
       <td><%= @external_repository.activity%></td>
     </tr>
     <tr>
-      <td>Base directory</td>
+      <td><%= t('.base') %></td>
       <td><%= @external_repository.base_dir%></td>
     </tr>
     <tr>
-      <td>Image directory</td>
+      <td><%= t('.image') %></td>
       <td><%= @external_repository.image_dir%></td>
     </tr>
     <tr>
-      <td>Synkroniserings metode</td>
+      <td><%= t('.sync') %></td>
       <td><%= @external_repository.sync_method%></td>
     </tr>
     <tr>
-      <td>synkroniserings status</td>
+      <td><%= t('.sync_status') %></td>
       <td><%= @external_repository.sync_status%></td>
     </tr>
     <tr>
-      <td>Synkroniserings dato</td>
+      <td><%= t('.sync_date') %></td>
       <td><%= @external_repository.sync_date%></td>
     </tr>
   </table>
 
-  <h2>Log messages</h2>
+  <h2><%= t('.log') %></h2>
   <pre>
   <% @external_repository.sync_message.each do |msg| %>
     <%= msg.msg %>

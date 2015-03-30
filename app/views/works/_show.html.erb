@@ -17,14 +17,14 @@
     </div>
 
 
-    <h4>Titler</h4>
+    <h4><%= t('.titles') %></h4>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Titel</th>
-          <th>Undertitel</th>
-          <th>Sprog</th>
-          <th>Type</th>
+          <th><%= t('.title') %></th>
+          <th><%= t('.subtitle') %></th>
+          <th><%= t('.lang') %></th>
+          <th><%= t('.type') %></th>
         </tr>
       </thead>
       <tbody>
@@ -48,12 +48,12 @@
       <% end %>
       </tbody>
     </table>
-    <h4>Ophav</h4>
+    <h4><%= t('.author') %></h4>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Navn</th>
-          <th>Rolle</th>
+          <th><%= t('.name') %></th>
+          <th><%= t('.role') %></th>
         </tr>
       </thead>
       <tbody>
@@ -70,7 +70,7 @@
     <% end %>
     </tbody></table>
     <% if @work.subjects.present? %>
-        <h4>Emne(r)</h4>
+        <h4><%= t('.subject') %></h4>
         <table class="table table-striped">
           <tbody>
             <%# Subject could either be a Work or an Authority %>
@@ -102,7 +102,7 @@
             <% if can?(:create, Trykforlaeg) %>
                 <li>
                   <a href="<%= new_work_trykforlaeg_path(@work) %>">
-                    Nyt Trykforlæg
+                    <%= t('.new_tryk') %>
                   </a>
                 </li>
             <% end %>
