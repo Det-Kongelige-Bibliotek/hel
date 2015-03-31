@@ -46,8 +46,8 @@
     <strong><%= t('.language') %></strong>
   </td>
   <td>
-    <%# Show language codes as collected, translated string, rather than array of codes %>
-    <span><%= @instance.language_values.collect { |lang| t("Languages.#{lang}")}.join(', ') %></span>
+    <%# Show language codes as collection of labels, rather than array of codes %>
+    <span><%= @instance.language_values.collect { |lang| get_entry_label('Languages', lang) }.join(', ') %></span>
   </td>
 </tr>
 <tr>

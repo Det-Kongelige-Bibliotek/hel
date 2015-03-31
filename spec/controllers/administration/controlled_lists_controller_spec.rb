@@ -83,9 +83,18 @@ describe Administration::ControlledListsController, type: :controller do
         expect(assigns(:controlled_list)).to be_persisted
       end
 
-      it 'creates elements for the controlled list' do
-        post :create, { administration_controlled_list: valid_attributes }, valid_session
-        expect(assigns(:controlled_list).elements.size).to be > 0
+      it 'creates elements with values and labels' do
+        post :create, { administration_controlled_list:  valid_attributes.merge(
+                        elements: [ { name: 'sv', label: 'Svensk'} ] ) }, valid_session
+        entry = assigns(:controlled_list).elements.first
+        expect(entry.name).to eql 'sv'
+        expect(entry.label).to eql 'Svensk'
+      end
+      it 'creates multiple elements' do
+        attributes = valid_attributes.merge(
+            elements: [ { name: 'sv', label: 'Svensk'}, { name: 'da', label: 'Dansk'}  ] )
+        post :create, { administration_controlled_list:  attributes }, valid_session
+        expect(assigns(:controlled_list).elements.size).to eql 2
       end
     end
 

@@ -3,87 +3,87 @@
 workflow_status:
   name: Workflow status
   entries:
-    - Ingested
-    - Metadata complete
-    - Færdig forvaltet
+    Ingested:
+    'Metadata complete':
+    'Færdig forvaltet':
 # TODO: update this list with a complete representation
 # e.g. http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
 languages:
   name: Languages
   entries:
-    - da
-    - sv
-    - nb
-    - nn
-    - en
-    - fr
-    - de
-    - es
-    - nl
-    - it
-    - pl
-    - ro
-    - fi
+    da: Dansk
+    sv: Svensk
+    nb: Norsk Bokmål
+    nn: Nynorsk
+    en: Engelsk
+    fr: Fransk
+    de: Tysk
+    es: Spansk
+    nl: Hollandsk
+    it: Italiensk
+    pl: Polsk
+    ro: Rumænsk
+    fi: Finsk
 title_type:
   name: Title types
   entries:
-    - Uniform
-    - Abbreviated
-    - Translated
-    - Alternative
+    Uniform:
+    Abbreviated:
+    Translated:
+    Alternative:
 collections:
   name: Collections
   entries:
-    - dasamx
-    - dasam2
-    - dasam3
-    - dasmaa
-    - aesaml
-    - glsaml
-    - vmanus
-    - boghis
-    - kortsa
-    - billed
-    - luftfo
-    - mushos
-    - musman
-    - orkbib
-    - drabib
-    - ortsam
-    - judsam
-    - kubsam
+    dasamx: Danske Samling, 1.-2. samling (-1601)
+    dasam2: Danske Samling, 1.-2. samling (1602-1959)
+    dasam3: Danske Samling, 3. samling (1960-)
+    dasmaa: Danske Samling, småtryk
+    aesaml: Ældre Samling
+    glsaml: Gammel Samling (DNLB)
+    vmanus: Vesterlandske manuskripter.
+    boghis: Håndskriftafdelingen, Boghistoriske Saml.
+    kortsa: Kortsaml.
+    billed: Billedsaml.
+    luftfo: Luftfotosaml.
+    mushos: Musikalier, Hovedsaml.
+    musman: Musikmanuskripter
+    orkbib: Orkesterbibl.
+    drabib: Dramatisk Bibl.
+    ortsam: Orientalske Saml.
+    judsam: Judaistiske Saml.
+    kubsam: "NB-værker i KUB-samlinger (eksempler: UBF-samling, osv.)"
 access_types:
   name: Access types
   entries:
-    - efter aftale
-    - læsesal
-    - ingen adgang
+    'efter aftale':
+    læsesal:
+    'ingen adgang':
 preservation_profiles:
   name: Preservation Profiles
   entries:
-    - simple
-    - storage
-    - eternity
+    simple:
+    storage:
+    eternity:
 copyrights:
   name: Copyright Licenses
   entries:
-    - All Rights Reserved
-    - Attribution CC BY
-    - Attribution-ShareAlike CC BY-SA
-    - Attribution-NoDerivs CC BY-ND
-    - Attribution-NonCommercial CC BY-NC
-    - Attribution-NonCommercial-ShareAlike CC BY-NC-SA
-    - Attribution-NonCommercial-NoDerivs CC BY-NC-ND
+    'All Rights Reserved':
+    CC BY: Attribution
+    CC BY-SA: Attribution-ShareAlike
+    CC BY-ND: Attribution-NoDerivs
+    CC BY-NC: Attribution-NonCommercial
+    CC BY-NC-SA: Attribution-NonCommercial-ShareAlike
+    CC BY-NC-ND: Attribution-NonCommercial-NoDerivs
 hydra_access_groups:
   name: Hydra Access Groups
   entries:
-    - Chronos-Alle
-    - Chronos-Admin
-    - Chronos-Pligtaflevering
-    - Chronos-NSA
+    Chronos-Alle:
+    Chronos-Admin:
+    Chronos-Pligtaflevering:
+    Chronos-NSA:
 hydra_access_types:
   name: Hydra Access Types
   entries:
-    - discover
-    - read
-    - edit
+    discover:
+    read:
+    edit:

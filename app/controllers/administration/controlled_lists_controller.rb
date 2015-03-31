@@ -24,7 +24,6 @@ module Administration
     # POST /controlled_lists
     def create
       @controlled_list = ControlledList.new(controlled_list_params)
-
       if @controlled_list.save
         redirect_to @controlled_list, notice: 'ControlledList was successfully created.'
       else
@@ -55,8 +54,7 @@ module Administration
 
     # Only allow a trusted parameter "white list" through.
     def controlled_list_params
-      puts params
-      params.require(:administration_controlled_list).permit(:name, elements: [:id, :name])
+      params.require(:administration_controlled_list).permit(:name, elements: [:id, :name, :label])
     end
 
     def ensure_admin!

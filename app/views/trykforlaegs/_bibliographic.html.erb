@@ -9,7 +9,7 @@
     <div class="form-group">
      <label for="language-value"><%=t '.language' %></label>
       <select id="language-value" name="trykforlaeg[language][][value]" class="form-control">
-        <%=  options_for_select(get_translated_list('Languages'), selected: lang.value) %>
+        <%=  options_for_select(get_list_with_labels('Languages'), selected: lang.value) %>
       </select>
     </div>
   </div>
@@ -18,7 +18,7 @@
       <div class="col-sm-6">
         <label for="language-value"><%=t '.language' %></label>
         <select id="language-value" name="trykforlaeg[language][][value]" class="form-control">
-         <%=  options_for_select(get_translated_list('Languages').unshift(['Vælg sprog', '']) ) %>
+         <%=  options_for_select(get_list_with_labels('Languages').unshift(['Vælg sprog', '']) ) %>
        </select>
       </div>
   <% end %>
