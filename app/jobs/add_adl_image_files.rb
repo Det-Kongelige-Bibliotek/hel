@@ -72,10 +72,10 @@ class AddAdlImageFiles
           Resque.logger.error("Unable to add file for pb #{n.to_s}: #{e.message}" )
         end
       end
+      Resque.enqueue(ValidateAdlTeiInstance,tei_inst.pid)
     else
       Resque.logger.error("Content file #{content_file_id} has no tiff files")
     end
-    Resque.enqueue(ValidateAdlTeiInstance,tei_inst.pid)
   end
 
   def self.load_file_map(path)
