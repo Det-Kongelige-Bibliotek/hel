@@ -4,7 +4,7 @@ class InstancesController < ApplicationController
   before_action :set_work, only: [:create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
-  :send_to_preservation, :update_administration, :check_tei_images]
+  :send_to_preservation, :update_administration, :validate_tei]
 
   authorize_resource :work
   authorize_resource :instance, :through => :work
@@ -121,10 +121,12 @@ class InstancesController < ApplicationController
     end
   end
 
-  def check_tei_images
-    v = Validator::TeiImagesFound.new
-    v.validate @instance
-    render :json => {:errors => @instance.errors.full_messages }
+  def validate_tei
+    @instance.validation_message = ['Vent Venligst ...']
+    @instance.validation_status = 'INPROGRESS'
+    @instance.save(validate:false)
+    Resque.enqueue(ValidateAdlTeiInstance,@instance.pid)
+    redirect_to work_instance_path(@instance.work.first,@instance)
   end
 
   private

@@ -36,7 +36,7 @@ class Ability
       test_edit(obj.pid)
     end
 
-    can [:check_tei_images], Instance do |obj|
+    can [:validate_tei], Instance do |obj|
       test_read(obj.pid)
     end
 
