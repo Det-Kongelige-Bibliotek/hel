@@ -27,6 +27,9 @@ describe Datastreams::Bibframe::InstanceMetadata do
     it 'parses an isbn13' do
       expect(@ds.isbn13).to eql ['9780521169004']
     end
+    it 'parses a system number' do
+      expect(@ds.system_number).to eql ["0123456789"]
+    end
     it 'parses a published date' do
       expect(@ds.published_date).to eql ['1454']
     end
@@ -37,6 +40,12 @@ describe Datastreams::Bibframe::InstanceMetadata do
       new = Datastreams::Bibframe::InstanceMetadata.new
       new.isbn13 = '0123456789012'
       expect(new.isbn13).to eql ['0123456789012']
+    end
+
+    it 'writes an system number' do
+      new = Datastreams::Bibframe::InstanceMetadata.new
+      new.isbn13 = '1234567890'
+      expect(new.isbn13).to eql ["1234567890"]
     end
 
     it 'writes a copyright date' do

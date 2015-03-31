@@ -67,6 +67,17 @@
       </tr>
     <% end %>
     </tbody></table>
+    <% if @work.subjects.present? %>
+        <h4>Emne(r)</h4>
+        <table class="table table-striped">
+          <tbody>
+            <%# Subject could either be a Work or an Authority %>
+            <% @work.subjects.each do |subj| %>
+                <tr><td><%= link_to subj.display_value, subj %></td></tr>
+            <% end %>
+          </tbody>
+        </table>
+    <% end %>
     <div class="row">
 
         <div class="btn-group">
@@ -75,7 +86,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <% @work.instances.each do |instance| %>
-                <li><%= link_to(t("instances.types.#{instance.class.to_s.downcase}"), [@work, instance]) %></li>
+                <li><%= link_to(t("instances.types.#{instance.class.to_s.downcase} (#{instance.type})"), [@work, instance]) %></li>
             <% end %>
 
           </ul>

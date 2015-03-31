@@ -17,6 +17,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
+  has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
 
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
@@ -79,7 +80,6 @@ class Work < ActiveFedora::Base
   def creators=(val)
     remove_creators
     val.each_value do |v|
-      logger.debug("adding creator #{v}")
       if (v['type'] == 'aut')
         add_author(ActiveFedora::Base.find(v['id'])) unless v['id'].blank?
       end
@@ -93,9 +93,25 @@ class Work < ActiveFedora::Base
     authors=[]
   end
 
+  def add_subject(rel)
+    subjects << rel
+  end
+
+  def subjects=(val)
+    remove_subjects
+    val.each_value do |v|
+      add_subject(ActiveFedora::Base.find(v['id'])) unless v['id'].blank?
+    end
+  end
+
+  def remove_subjects
+    subjects=[]
+  end
+
+
   def to_solr(solr_doc = {})
     super
-    Solrizer.insert_field(solr_doc, 'display_value',title_values.first, :displayable)
+    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
     titles.each do |title|
       Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
       Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
@@ -103,6 +119,10 @@ class Work < ActiveFedora::Base
     end
     authors.each do |aut|
       Solrizer.insert_field(solr_doc, 'author', aut.all_names,:stored_searchable, :facetable, :displayable)
+    end
+    self.instances.each do |i|
+      Solrizer.insert_field(solr_doc, 'work_activity',i.activity, :facetable)
+      Solrizer.insert_field(solr_doc, 'work_collection',i.collection, :facetable)
     end
     solr_doc
   end
@@ -114,6 +134,9 @@ class Work < ActiveFedora::Base
     self.edit_groups = ['Chronos-Alle']
   end
 
+  def display_value
+    title_values.first
+  end
 
   # Validation methods
   def has_a_title

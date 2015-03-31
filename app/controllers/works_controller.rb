@@ -77,6 +77,18 @@ class WorksController < ApplicationController
   def update
     respond_to do |format|
       if @work.update(work_params)
+        @work.instances.each do |i|
+          if i.type == 'TEI'
+            i.content_files.each do |f|
+                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                f.external_file_path,i)
+                f.update_tech_metadata_for_external_file
+                f.save(validate: false)
+            end
+            repo = Administration::ExternalRepository[i.external_repository]
+            repo.push
+          end
+        end
         format.html { redirect_to @work, notice: 'Værket er opdateret.' }
         format.json { render :show, status: :ok, location: @work }
       else
@@ -110,6 +122,6 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]],note:[])
+    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]], subjects: [[:id]], note:[])
   end
 end

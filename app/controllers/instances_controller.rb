@@ -4,7 +4,7 @@ class InstancesController < ApplicationController
   before_action :set_work, only: [:create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
-  :send_to_preservation, :update_administration]
+  :send_to_preservation, :update_administration, :check_tei_images]
 
   authorize_resource :work
   authorize_resource :instance, :through => :work
@@ -72,6 +72,16 @@ class InstancesController < ApplicationController
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
     if @instance.update(instance_params)
+      if @instance.type == 'TEI'
+        @instance.content_files.each do |f|
+          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                                       f.external_file_path,@instance)
+          f.update_tech_metadata_for_external_file
+          f.save(validate: false)
+        end
+        repo = Administration::ExternalRepository[@instance.external_repository]
+        repo.push
+      end
       flash[:notice] = "#{@klazz} er opdateret."
       @instance.cascade_preservation
     end
@@ -111,6 +121,11 @@ class InstancesController < ApplicationController
     end
   end
 
+  def check_tei_images
+    v = Validator::TeiImagesFound.new
+    v.validate @instance
+    render :json => {:errors => @instance.errors.full_messages }
+  end
 
   private
 

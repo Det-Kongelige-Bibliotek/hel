@@ -12,6 +12,8 @@ module Datastreams
 
     set_terminology do |t|
       t.root(:path=>'fields')
+      t.type(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
+                 :path=>'admin_type', :label=>'Instance Type')
       t.collection(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                 :path=>'admin_collection', :label=>'Administrative Collection')
       t.activity(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
@@ -33,6 +35,8 @@ module Datastreams
                          :path=>'material_type', :label=>'Material type')
       t.availability(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                          :path=>'availability', :label=>'Availability')
+      t.external_repository(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
+                     :path=>'external_repository', :label=>'External Repository')
     end
     def self.xml_template
       Nokogiri::XML.parse('<fields/>')
