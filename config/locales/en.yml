@@ -94,3 +94,7 @@ en:
         destroy: "Delete"
         confirm_delete: "Are you sure you will delete this activity"
         create: "Create activity"
+    controlled_lists:
+      element:
+        label: "Label"
+        entry: "Entry"
