@@ -37,7 +37,9 @@
           <span><%= title.subtitle%></span>
         </td>
           <td>
-            <span><%= get_entry_label('Languages', title.lang) %></span>
+            <% unless title.lang.blank? %>
+                <span><%= get_entry_label('Languages', title.lang) %></span>
+            <% end %>
           </td>
           <td>
             <span><%= title.type %></span>
