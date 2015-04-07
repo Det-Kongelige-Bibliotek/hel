@@ -22,6 +22,9 @@ module Datastreams
       t.last_accessed
       t.file_uuid(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'UUID for the actual file')
       t.editable
+      t.validators
+      t.pb_xml_id(:type=> :string, :index_as => :stored_searchable)
+      t.pb_facs_id(:type=> :string, :index_as => :stored_searchable)
       # Format metadata extracted from characterization
       t.format_name(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Format name', :path=>'format_name')
       t.format_mimetype(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Format mimetype', :path=>'format_mimetype')

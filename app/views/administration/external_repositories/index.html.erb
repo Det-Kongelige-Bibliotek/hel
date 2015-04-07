@@ -1,0 +1,24 @@
+
+<h1><%= t('.header') %></h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th><%= t('.name') %></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @external_repositories.each do |controlled_list| %>
+      <tr>
+        <td><%= link_to controlled_list.name, controlled_list %></td>
+        <td><%= link_to t('.show'), administration_external_repository_path(controlled_list.id) %></td>
+        <td><%= link_to t('.syncronise'), syncronise_administration_external_repository_path(controlled_list.id) %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>

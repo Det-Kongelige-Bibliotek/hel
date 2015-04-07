@@ -35,6 +35,11 @@ module ApplicationHelper
     I18n.t("models.#{name.parameterize('_')}")
   end
 
+  def translate_collection_names(name)
+    I18n.t("Collections.#{name.parameterize('_')}")
+  end
+
+
   # Renders a title type ahead field
   def render_title_typeahead_field
     results = Work.get_title_typeahead_objs
@@ -54,5 +59,22 @@ module ApplicationHelper
   def collect_title(titles,id)
     titles.collect {|title| [title,id]}
   end
+
+    def get_activity_name(id)
+      Administration::Activity.find(id).activity
+    end
+
+
+    # Generate a link to a instance given a work_id and instance id
+    # Note: This code could be made much simpler if we
+    def get_work_instance_link_for_search_result(work_id,inst_id)
+      solr_id = inst_id.gsub(':','\:')
+      doc =ActiveFedora::SolrService.query("id:#{solr_id}").first
+      if doc['active_fedora_model_ssi'] == 'Trygforlaeg'
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_tesim']})", work_trykforlaeg_path(work_id,inst_id)
+      else
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_tesim']})", work_instance_path(work_id,inst_id)
+      end
+    end
 
 end

@@ -15,6 +15,10 @@ describe Instance do
     $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
   end
 
+  before :all do
+    ActiveFedora::Base.delete_all
+  end
+
   before :each do
     @instance = Instance.new(instance_params)
   end
@@ -22,6 +26,14 @@ describe Instance do
   describe 'relations' do
     it 'has many files' do
       expect(@instance.content_files.size).to eql 0
+    end
+
+    it 'can have an equivalent instance' do
+      i = Instance.new(instance_params)
+      @instance.has_equivalent << i
+      @instance.save
+      expect(@instance.has_equivalent).to include i
+      expect(i.has_equivalent).to include @instance
     end
 
     describe 'to work' do
@@ -139,10 +151,18 @@ describe Instance do
 
   describe 'to_solr' do
     it 'should include the title statement' do
-      i = Instance.new
+      i = Instance.new(instance_params)
       i.title_statement = 'King James Edition'
       vals = i.to_solr.values.flatten
       expect(vals).to include 'King James Edition'
+    end
+  end
+
+  describe 'find by activity' do
+    it 'should find all instances with a given activity name' do
+      i = Instance.create(instance_params)
+      set = Instance.find_by_activity('test').map{|i| i.pid}
+      expect(set).to include i.pid
     end
   end
 
@@ -205,6 +225,7 @@ describe Instance do
         expect(@i.warc_id).not_to be_nil
         expect(metadata).to include("<warc_id>#{@i.warc_id}</warc_id>")
       end
+
     end
   end
 end

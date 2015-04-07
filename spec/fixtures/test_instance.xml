@@ -33,5 +33,10 @@
         <bf:label>9780521169004</bf:label>
       </bf:Identifier>
     </bf:isbn13>
+    <bf:systemNumber>
+      <bf:Identifier>
+        <bf:identifierValue>0123456789</bf:identifierValue>
+      </bf:Identifier>
+    </bf:systemNumber>
   </bf:Instance>
 </rdf:RDF>
