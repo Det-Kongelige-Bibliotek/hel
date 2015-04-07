@@ -29,6 +29,7 @@ module Datastreams
       t.format_name(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Format name', :path=>'format_name')
       t.format_mimetype(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Format mimetype', :path=>'format_mimetype')
       t.format_version(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Format version', :path=>'format_version')
+      t.format_pronom_id(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Pronom ID (format identification)', :path=>'format_pronom_id')
     end
 
     def self.xml_template

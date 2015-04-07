@@ -33,6 +33,7 @@ describe 'Characterizing content files with FITS' do
       FitsCharacterizingJob.perform(@f.pid)
       @f.reload
       expect(@f.fitsMetadata.content).to include('<identity format="Portable Network Graphics" mimetype="image/png"')
+      expect(@f.format_pronom_id).to eq 'fmt/11'
     end
   end
 

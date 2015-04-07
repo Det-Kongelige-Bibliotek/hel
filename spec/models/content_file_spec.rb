@@ -66,6 +66,11 @@ describe 'content' do
         expect(@c.format_version).to eq '1.0'
       end
 
+      it 'should set pronom id' do
+        expect(@c).to respond_to(:format_pronom_id)
+        expect(@c.format_pronom_id).to be_nil
+      end
+
     end
   end
 

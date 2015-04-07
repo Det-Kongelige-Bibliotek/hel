@@ -43,15 +43,17 @@ module Concerns
         # If datastream already exists, then set it
         self.fitsMetadata.content = fits_meta_data
 
-        self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s
-        self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s
-        self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s
+        self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).empty?
+        self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty?
+        self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty?
+        self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty?
 
         self.save
       end
 
       XPATH_FORMAT_NAME = 'fits:fits/fits:identification/fits:identity/@format'
       XPATH_FORMAT_MIMETYPE = 'fits:fits/fits:identification/fits:identity/@mimetype'
+      XPATH_FORMAT_PRONOM_ID = 'fits:fits/fits:identification/fits:identity/fits:externalIdentifier/text()'
       XPATH_FORMAT_VERSION = 'fits:fits/fits:identification/fits:identity/fits:version/text()'
       NAMESPACE={'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}
     end
