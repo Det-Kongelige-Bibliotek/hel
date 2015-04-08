@@ -34,6 +34,10 @@ class ConversionService
     work
   end
 
+  # convenience method to allow immediate generation
+  # of an instance from an aleph search
+  # E.g. ConversionService.instance_from_aleph('isbn', '9788711396322')
+  # Possible field values include isbn and sys (for system number)
   def self.instance_from_aleph(aleph_field, aleph_value)
     mods = ConversionService.aleph_to_mods(aleph_field, aleph_value)
     return nil if mods.nil?
