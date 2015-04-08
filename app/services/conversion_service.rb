@@ -20,4 +20,20 @@ class ConversionService
     marc2mods.transform(self.to_marc21(pdf_uri))
   end
 
+  # convenience method to allow immediate generation
+  # of a work from an aleph search
+  # E.g. ConversionService.work_from_aleph('isbn', '9788711396322')
+  # will return a work with metadata based on the Aleph record
+  # Empty searches return nil
+  def self.work_from_aleph(aleph_field, aleph_value)
+    service = AlephService.new
+    rec = service.find_first(aleph_field, aleph_value)
+    return nil unless rec.present?
+    converter = ConversionService.new(rec)
+    doc = converter.to_mods
+    mods = Datastreams::Mods.from_xml(doc)
+    work = Work.new
+    work.from_mods(mods)
+    work
+  end
 end
