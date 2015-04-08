@@ -4,10 +4,13 @@ require 'spec_helper'
 describe  TeiHeaderSyncService do
 
   before :all do
-    # the sysno of this holb is 001629300
-    source_file = "#{Rails.root}/spec/fixtures/holb06valid.xml"
-    @tei_file   = "/tmp/adl-test/texts/holb06valid.xml"
-    work_dir    = "/tmp/adl-test/texts"
+    # the sysno of this edition is 001541111
+    filename = "001541111_000.xml"
+    @dir = filename.text.split('.', 2)[0]
+    source_file = "#{Rails.root}/spec/fixtures/breve/001541111_000/#{filename}"
+
+    @tei_file   = "/tmp/letters-test/texts/#{filename}"
+    work_dir    = "/tmp/letters-test/texts/"
 
     cmd         = 
       "rm -r #{work_dir};" +
@@ -19,8 +22,8 @@ describe  TeiHeaderSyncService do
     self.executor(cmd)
     @xdoc = Nokogiri::XML.parse(File.new(@tei_file)) { |config| config.strict }
     thing = @xdoc.xpath '//t:publicationStmt/t:idno', 't' => 'http://www.tei-c.org/ns/1.0' 
-    # the sysno of this holb is 001629300
-    @idno = thing.text.split(':', 2)[0]
+
+    @idno = filename.text.split('_', 2)[0]
   end
 
   describe '#update_header' do
