@@ -25,6 +25,7 @@ class ConversionService
   # E.g. ConversionService.work_from_aleph('isbn', '9788711396322')
   # will return a work with metadata based on the Aleph record
   # Empty searches return nil
+  # Possible field values include isbn and sys (for system number)
   def self.work_from_aleph(aleph_field, aleph_value)
     service = AlephService.new
     rec = service.find_first(aleph_field, aleph_value)
