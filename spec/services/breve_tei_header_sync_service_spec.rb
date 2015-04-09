@@ -17,7 +17,7 @@ describe  TeiHeaderSyncService do
       "mkdir -p #{work_dir};" + 
       "cp #{source_file} #{@tei_file}"
 
-    @xsl  = "#{Rails.root}/app/services/xslt/tei_header_sed.xsl"
+    @xsl  = "#{Rails.root}/app/services/xslt/tei_header_insert.xsl"
 
     self.executor(cmd)
     @xdoc = Nokogiri::XML.parse(File.new(@tei_file)) { |config| config.strict }

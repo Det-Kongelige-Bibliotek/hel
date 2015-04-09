@@ -80,7 +80,7 @@ class WorksController < ApplicationController
         @work.instances.each do |i|
           if i.type == 'TEI'
             i.content_files.each do |f|
-                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
                 f.external_file_path,i)
                 f.update_tech_metadata_for_external_file
                 f.save(validate: false)
