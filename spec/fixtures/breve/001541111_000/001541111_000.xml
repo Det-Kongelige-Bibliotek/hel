@@ -3,13 +3,27 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title>Breve</title>
+	<author>Fornavn Efternavn</author>
       </titleStmt>
       <publicationStmt>
-        <p/>
+	<publisher/>
+	<idno>001541111:000</idno>
       </publicationStmt>
       <sourceDesc>
-        <bibl/>
+	<bibl>
+	  <author>
+	    <name>
+	      <surname>Holberg</surname>, 
+	      <forename>Ludvig</forename>
+	    </name>
+	  </author>
+	  <title>Værker i tolv bind</title>
+	  <title xml:id="idm140013644597392">3-7: Komedier</title>
+	  <pubPlace>[Kbh.]</pubPlace>
+	  <publisher>Rosenkilde og Bagger</publisher>
+	  <date>1969-1971</date>
+	</bibl>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
@@ -169,10 +183,10 @@
 	skal jeg gøre? Kan du huske når vi lå i sengen og ... hele søndagen?
 	Vi talte og talte, og for mig var der noget vidunderligt ved det. Jeg
 	kan -som jeg skrev - aldrig glemme dig. Jeg kan ikke glemme vores
-	lykkelige år i Birkerød, og ingen kan nogensinde erstatte dig i<pb
-	n="11"/> mit hjerte. Min egen Victor, det vil hjælpe mig at skrive til
-	dig engang imellem, du behøver ikke at svare. Måske søger jeg
-	skilsmisse, men jeg viger tilbage ved tanken om, at vi skal skændes om
+	lykkelige år i Birkerød, og ingen kan nogensinde erstatte dig i mit
+	hjerte. Min egen Victor, det vil hjælpe mig at skrive til dig engang
+	imellem, du behøver ikke at svare. Måske søger jeg skilsmisse, men jeg
+	viger tilbage ved tanken om, at vi skal skændes om
 	betingelserne. Helle ... er meget interesseret i det på grund af
 	arveloven. Farvel kære Victor, dit brev hjalp på min depression. Jeg
 	ville være glad, hvis du ringer til mig en gang imellem.  </p>

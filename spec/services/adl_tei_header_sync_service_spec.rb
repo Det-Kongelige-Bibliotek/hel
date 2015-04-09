@@ -47,7 +47,6 @@ describe  TeiHeaderSyncService do
       surname  = "New surname"
       person   = Authority::Person.find_or_create_person(forename,surname)
       work.add_author(person)
-      author   = work.authors.first
       cf       = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
       result   = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
 
