@@ -73,6 +73,11 @@ describe Work do
       expect(@work.to_rdf).to include 'bf:subject'
     end
 
+    it 'can be part of a work' do
+      @work.is_part_of = @rel
+      expect(@work.is_part_of).to eql @rel
+    end
+
 
     it 'can have an author' do
       a = Authority::Person.create(
