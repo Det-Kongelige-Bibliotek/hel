@@ -17,6 +17,15 @@ class LetterVolumeSplitter
     self.parse_letters(tei, master_work)
   end
 
+  # changeme:205
+  def self.get_letter_data(file_id)
+    cf = ContentFile.find(file_id)
+    tei = Nokogiri::XML(cf.datastreams['content'].content)
+    divs = tei.css('text body div')
+    data = LetterData.new(divs.first)
+    data
+  end
+
   # Given a tei xml doc, create a work
   # for each letter with a relation to
   # a given master work
@@ -27,7 +36,7 @@ class LetterVolumeSplitter
     start_page_break = tei.css('pb').first.attr('n')
     raise 'First page break does not have n attribute' if start_page_break.nil?
     # file prefix is the volume name, the same as a jpgs name without the last 4 digits and the .jpg
-    file_prefix = master_work.ordered_instance_types[:jpgs].files.first.original_filename.sub(/_\d{4}.jpg/, '')
+    # file_prefix = master_work.ordered_instance_types[:jpgs].files.first.original_filename.sub(/_\d{4}.jpg/, '')
     # Create Works for each letter with relations
     # to the previous letter and the master work
     prev_letter = nil
@@ -186,23 +195,14 @@ class LetterData
   end
 
   def sender_name
-    @div.css('persName[type="sender"]').first.text if @div.css('persName[type="sender"]').length > 0
+    @div.css('closer signed persName').first.text if @div.css('closer signed persName').length > 0
   end
 
   def recipient_name
-    @div.css('address name').first.text if @div.css('address name').length > 0
+    @div.css('opener salute persName').first.text if @div.css('opener salute persName').length > 0
   end
 
   def sender_address
-    @div.css('placeName[type="sender"]').first.text if @div.css('placeName[type="sender"]').length > 0
+    @div.css('opener dateline geogName').first.text if @div.css('opener dateline geogName').length > 0
   end
-
-  # If we have duplicate date or recipient fields we
-  # are likely to have two letters within the same div
-  # therefore we flag for manual attention
-  def needs_attention?
-    @div.css('date').size > 1 || @div.css('address name').size > 1
-  end
-
-
 end
