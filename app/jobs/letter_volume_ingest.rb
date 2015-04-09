@@ -34,9 +34,10 @@ class LetterVolumeIngest
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
     fail "Instance could not be saved #{instance_jpg.errors.messages}" unless instance_jpg.save
 
-    ingest_tei_file(pathname, instance_tei)
+    tei_id = ingest_tei_file(pathname, instance_tei)
     ingest_jpg_files(pathname, instance_jpg)
-
+    Resque.logger.info "Letter Volume #{pathname.basename.to_s} imported with id #{work.id}"
+    Resque.enqueue(LetterVolumeSplitter, work.pid, tei_id)
   end
 
   def self.ingest_tei_file(pathname, instance_tei)
@@ -48,6 +49,7 @@ class LetterVolumeIngest
     c.add_external_file(xml_path)
     c.instance = instance_tei
     c.save
+    c.id
   end
 
   def self.ingest_jpg_files(pathname, instance_jpg)
