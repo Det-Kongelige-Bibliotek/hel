@@ -8,23 +8,32 @@ class LetterVolumeSplitter
   # the result of the xml transform
   def self.perform(work_pid, xml_pid)
     master_work = Work.find(work_pid)
-    xml = BasicFile.find(xml_pid)
+    xml = ContentFile.find(xml_pid)
 
     raise "Work with pid #{work_pid} not found!" unless master_work
-    raise "BasicFile with pid #{xml_pid} not found!" unless xml
+    raise "ContentFile with pid #{xml_pid} not found!" unless xml
 
-    tei = Nokogiri::XML(xml.content.content)
-    self.parse_letters(tei, master_work)
+    tei = Nokogiri::XML(cf.datastreams['content'].content)
+    self.extract_letters(tei, master_work)
+  end
+
+  def self.extract_letters(tei, master_work)
+    divs = tei.css('text body div')
+    prev = nil
+    divs.each do |div|
+      # create work
+      work = Work.new
+      # create relationship to previous letter
+      work.add_preceding(prev) unless prev.nil?
+      work.is_part_of = master_work
+      work.save
+      return work
+      # create jpg instance
+      # create xml instance
+    end
   end
 
   # changeme:205
-  def self.get_letter_data(file_id)
-    cf = ContentFile.find(file_id)
-    tei = Nokogiri::XML(cf.datastreams['content'].content)
-    divs = tei.css('text body div')
-    data = LetterData.new(divs.first)
-    data
-  end
 
   # Given a tei xml doc, create a work
   # for each letter with a relation to
