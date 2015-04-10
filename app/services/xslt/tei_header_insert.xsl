@@ -7,16 +7,26 @@
 	       exclude-result-prefixes="my xsl t"
 	       version="1.0">
 
+  <!--
+      This XSL inserts data into the teiHeader, assuming the presence of a
+      rudimentary header.
+  -->
   <xsl:include href="common_functions.xsl" />
+
+  <xsl:output method="xml"
+	      indent="yes"
+	      encoding="UTF-8" />
+
+
 
   <xsl:template match="t:sourceDesc/t:bibl">
     <bibl>
       <xsl:apply-templates select="@*"/>
-      <xsl:apply-templates 
-	  mode="bibl" 
-	  select="t:pubPlace|t:date|t:publisher|t:title[1]|t:author[1]"/>
-      <xsl:apply-templates
-	  select="t:editor|t:ref|t:relatedItem|t:respStmt|t:textLang"/>
+      <xsl:call-template name="author" />
+      <xsl:call-template name="title" />
+      <xsl:call-template name="date" />
+      <xsl:call-template name="publisher" />
+      <xsl:call-template name="pub_place" />
     </bibl>
   </xsl:template>
 
