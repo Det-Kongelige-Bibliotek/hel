@@ -58,11 +58,8 @@ describe  TeiHeaderSyncService do
       instance.add_file(cf)
       instance.save
       work.save
-
       result   = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
-
       find_sub = result.xpath '//t:sourceDesc/t:bibl/t:title[@type="sub"]', 't' => 'http://www.tei-c.org/ns/1.0' 
-
       expect(find_sub.text).to eql 'and other encounters'
     end
   end
