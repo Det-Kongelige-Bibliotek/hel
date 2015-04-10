@@ -13,13 +13,27 @@ class LetterVolumeSplitter
     raise "Work with pid #{work_pid} not found!" unless master_work
     raise "ContentFile with pid #{xml_pid} not found!" unless xml
 
-    tei = Nokogiri::XML(cf.datastreams['content'].content)
-    self.extract_letters(tei, master_work)
+    self.extract_letters(xml, master_work)
   end
 
-  def self.extract_letters(tei, master_work)
+
+  def self.parse_one(xml_pid)
+    xml = ContentFile.find(xml_pid)
+    parent_dir = Pathname.new(xml.external_file_path).parent
+    tei = Nokogiri::XML(xml.datastreams['content'].content)
+    divs = tei.css('text body div')
+
+
+    # create jpg instance
+    # create content files for each jpg
+  end
+
+  def self.extract_letters(xml, master_work)
+    parent_dir = Pathname.new(xml.external_file_path).parent
+    tei = Nokogiri::XML(xml.datastreams['content'].content)
     divs = tei.css('text body div')
     prev = nil
+    current_page = nil
     divs.each do |div|
       # create work
       work = Work.new
@@ -27,8 +41,22 @@ class LetterVolumeSplitter
       work.add_preceding(prev) unless prev.nil?
       work.is_part_of = master_work
       work.save
-      return work
       # create jpg instance
+      # TODO: Get activity data and create instance
+      jpg_instance = Instance.new
+      letter = LetterData.new(div)
+      # add image references based on pb facs
+      letter.image_refs.each do |ref|
+        cf = ContentFile.new
+        file_path = parent_dir.join(ref).to_s
+        cf.add_external_file(file_path)
+        cf.instance = jpg_instance
+        cf.save
+        puts cf.id
+        return cf
+      end
+      # add relevant files
+      return work
       # create xml instance
     end
   end
@@ -135,7 +163,6 @@ class LetterVolumeSplitter
     file_path
   end
 
-
   # Given a Nokogiri::XML::Element
   # representing a single div
   # return a hash of metadata parsed from this element
@@ -175,9 +202,12 @@ end
 # Helper class to wrap some of the parsing logic
 class LetterData
 
+  attr_reader :div
+
   # @param Nokogiri::XML::Document div
   def initialize(div)
     @div = div
+    self
   end
 
   def id
@@ -190,6 +220,18 @@ class LetterData
 
   def date
     @div.css('date').first.text if @div.css('date').length > 0
+  end
+
+  def page_nums
+    page_breaks.collect {|pb| pb['n'] }
+  end
+
+  def image_refs
+    page_breaks.collect {|pb| pb['facs'] }
+  end
+
+  def page_breaks
+    @div.css('pb')
   end
 
   def body
