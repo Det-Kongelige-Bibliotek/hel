@@ -40,28 +40,30 @@ class LetterVolumeIngest
     Resque.enqueue(LetterVolumeSplitter, work.pid, tei_id)
   end
 
+  # Find TEI file
+  # Create ContentFile object and attach to TEI Instance
   def self.ingest_tei_file(pathname, instance_tei)
-    # Find TEI file
-    # Create ContentFile object and attach to TEI Instance
-    xml_path = pathname.children.select {|c| c.to_s.include?('.xml') }.first.to_s
+    xml_path = pathname.children.select {|c| c.to_s.include?('.xml') }.first
     fail "No xml file found in directory #{pathname}" if xml_path.nil?
+    abs_path = xml_path.expand_path.to_s
     c = ContentFile.new
-    c.add_external_file(xml_path)
+    c.add_external_file(abs_path)
     c.instance = instance_tei
     c.save
+    puts "TEI file id #{c.id}"
     c.id
   end
 
+  # Find JPEG files
+  # Create ContentFile objects and attach to JPG Instance
   def self.ingest_jpg_files(pathname, instance_jpg)
-    # Find JPEG files
-    # Create ContentFile objects and attach to JPG Instance
     images_path = pathname.children.select {|c| c.directory?}.first
     fail "No subdirectory found in directory #{pathname}" if images_path.nil?
     jpg_paths = images_path.children.select {|c| c.to_s.include?('.jpg') }
     fail "No jpg file found in directory #{images_path}" if jpg_paths.nil?
     jpg_paths.each do |path|
       c_jpg = ContentFile.new
-      c_jpg.add_external_file(path.to_s)
+      c_jpg.add_external_file(path.expand_path.to_s)
       c_jpg.instance = instance_jpg
       c_jpg.save
     end
