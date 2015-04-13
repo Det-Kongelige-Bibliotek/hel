@@ -6,7 +6,7 @@ describe  TeiHeaderSyncService do
   before :all do
     # the sysno of this edition is 001541111
     filename = "001541111_000.xml"
-    @dir = filename.text.split('.', 2)[0]
+    @dir = filename.split('.', 2)[0]
     source_file = "#{Rails.root}/spec/fixtures/breve/001541111_000/#{filename}"
 
     @tei_file   = "/tmp/letters-test/texts/#{filename}"
@@ -17,13 +17,12 @@ describe  TeiHeaderSyncService do
       "mkdir -p #{work_dir};" + 
       "cp #{source_file} #{@tei_file}"
 
-    @xsl  = "#{Rails.root}/app/services/xslt/tei_header_sed.xsl"
+    @xsl  = "#{Rails.root}/app/services/xslt/tei_header_insert.xsl"
 
     self.executor(cmd)
     @xdoc = Nokogiri::XML.parse(File.new(@tei_file)) { |config| config.strict }
-    thing = @xdoc.xpath '//t:publicationStmt/t:idno', 't' => 'http://www.tei-c.org/ns/1.0' 
-
-    @idno = filename.text.split('_', 2)[0]
+    
+    @idno = filename.split('_', 2)[0]
   end
 
   describe '#update_header' do
@@ -34,13 +33,7 @@ describe  TeiHeaderSyncService do
       adl_activity.collection = "dasamx"
       adl_activity.preservation_profile = "simple"
       adl_activity.save
-      instance     = SyncExtRepoADL.create_new_work_and_instance(@idno,
-                                                                 @xdoc,
-                                                                 adl_activity)
-
-      instance.published_place = "The end of the universe"
-
-      work = instance.work.first
+      work=Work.new
       work.add_title(
                      { value: 'The Importance of Being Earnest', 
                        type: 'Uniform',
@@ -50,12 +43,23 @@ describe  TeiHeaderSyncService do
       surname  = "New surname"
       person   = Authority::Person.find_or_create_person(forename,surname)
       work.add_author(person)
-      author   = work.authors.first
-      cf       = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
+      work.save
+      instance=Instance.new
+      instance.published_place = "The end of the universe"
+      instance.activity = adl_activity.pid
+      instance.copyright =  adl_activity.copyright
+      instance.collection =  adl_activity.collection
+      instance.save
+      instance.set_work=work
+      instance.save
+      cf       = ContentFile.new
+      cf.add_external_file(@tei_file)
+      cf.save
+      instance.add_file(cf)
+      instance.save
+      work.save
       result   = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
-
       find_sub = result.xpath '//t:sourceDesc/t:bibl/t:title[@type="sub"]', 't' => 'http://www.tei-c.org/ns/1.0' 
-
       expect(find_sub.text).to eql 'and other encounters'
     end
   end
