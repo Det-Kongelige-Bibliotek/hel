@@ -14,4 +14,16 @@ namespace :breve do
     activity.save
     puts "saved activity with id #{activity.id}"
   end
+
+  # The correct folder structure should be something like:
+  #  <sysnum>_000
+  #          <sysnum>_000.xml
+  #          images/
+  #            - <sysnum>_000_0010
+  #            - <sysnum>_000_0011
+  #            etc...
+  desc 'Given a path to a folder containing letter data, run the volume and letter import for that folder'
+  task :import_from_path, [:path] => :environment do |task, args|
+    LetterVolumeIngest.perform(args.path)
+  end
 end
