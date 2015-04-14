@@ -1,5 +1,4 @@
 <h1><%= @file.original_filename %> </h1>
-<%= link_to download_content_file_path do %>
-    <%= image_tag download_content_file_path(@file), size: '310x350' %>
-<% end %>
+<%# render a html view tailored for the specific content type %>
+<%= render partial: "content_#{@file.mime_type.split('/').last}", object: @file %>
 <%= render partial: 'file_info', locals: { file: @file, instance: @file.instance } %>
