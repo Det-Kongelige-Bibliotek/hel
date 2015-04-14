@@ -9,11 +9,13 @@ class LetterVolumeSplitter
   def self.perform(work_pid, xml_pid)
     master_work = Work.find(work_pid)
     xml = ContentFile.find(xml_pid)
+    activity = Administration::Activity.find(activity: 'Danmarks Breve').first
 
     raise "Work with pid #{work_pid} not found!" unless master_work
     raise "ContentFile with pid #{xml_pid} not found!" unless xml
+    raise 'Danmarks Breve Activity not found!' unless activity
 
-    self.extract_letters(xml, master_work)
+    self.extract_letters(xml, master_work, activity)
   end
 
 
@@ -28,36 +30,56 @@ class LetterVolumeSplitter
     # create content files for each jpg
   end
 
-  def self.extract_letters(xml, master_work)
+  def self.extract_letters(xml, master_work, activity)
     parent_dir = Pathname.new(xml.external_file_path).parent
     tei = Nokogiri::XML(xml.datastreams['content'].content)
     divs = tei.css('text body div')
     prev = nil
     current_page = nil
     divs.each do |div|
+      letter = LetterData.new(div)
       # create work
       work = Work.new
       # create relationship to previous letter
       work.add_preceding(prev) unless prev.nil?
       work.is_part_of = master_work
-      work.save
-      # create jpg instance
-      # TODO: Get activity data and create instance
-      jpg_instance = Instance.new
-      letter = LetterData.new(div)
+      work.add_title(value: letter.title)
+      matching_author = master_work.find_matching_author(letter.sender_name)
+      if matching_author.present?
+        work.add_author(matching_author)
+      else
+        work.add_author(master_work.authors.first)
+      end
+      fail "Letter could not be saved! #{work.errors.messages}" unless work.save
+      Resque.logger.info "Letter saved with id #{work.id}"
+
+      # add TEI reference with id
+      xml_instance = Instance.from_activity(activity)
+      cf = ContentFile.new
+      cf.add_external_file(xml.external_file_path)
+      cf.xml_pointer = letter.id
+      cf.instance = xml_instance
+      cf.save
+      xml_instance.work << work
+      fail "XML Instance could not be saved! #{xml_instance.errors.messages}" unless xml_instance.save
+
       # add image references based on pb facs
+      jpg_instance = Instance.from_activity(activity)
+      jpg_instance.work << work
       letter.image_refs.each do |ref|
         cf = ContentFile.new
+        Resque.logger.debug "Parent dir is #{parent_dir}"
+        Resque.logger.debug "Facsimile ref is #{ref}"
         file_path = parent_dir.join(ref).to_s
+        unless File.exist? file_path
+          Resque.logger.error "File #{file_path} not found!"
+          next
+        end
         cf.add_external_file(file_path)
         cf.instance = jpg_instance
         cf.save
-        puts cf.id
-        return cf
       end
-      # add relevant files
-      return work
-      # create xml instance
+      fail "JPG Instance could not be saved! #{jpg_instance.errors.messages}" unless jpg_instance.save
     end
   end
 
@@ -204,14 +226,14 @@ class LetterData
 
   attr_reader :div
 
-  # @param Nokogiri::XML::Document div
+  # @param div (nokogiri element)
   def initialize(div)
     @div = div
-    self
+    nil
   end
 
   def id
-    @div.attributes['id'].value
+    @div.attributes['id'].value if @div.attributes['id'].present?
   end
 
   def num
@@ -226,8 +248,10 @@ class LetterData
     page_breaks.collect {|pb| pb['n'] }
   end
 
+  # select all facsimile links from pb elements
   def image_refs
-    page_breaks.collect {|pb| pb['facs'] }
+    refs = page_breaks.collect {|pb| pb['facs'] }
+    refs.select(&:present?)
   end
 
   def page_breaks
@@ -241,7 +265,7 @@ class LetterData
   def note
     if @div.css('note').length > 0
       val = @div.css('note').first.text
-      {displayLabel: 'noteFromText', value: val}
+      { displayLabel: 'noteFromText', value: val }
     end
   end
 
@@ -255,5 +279,13 @@ class LetterData
 
   def sender_address
     @div.css('opener dateline geogName').first.text if @div.css('opener dateline geogName').length > 0
+  end
+
+  def title
+    "Brev fra #{if_present(sender_name)} til #{if_present(recipient_name)}, #{if_present(sender_address)} #{if_present(date)}"
+  end
+
+  def if_present(string)
+    string.present? ? string : 'Ukendt'
   end
 end
