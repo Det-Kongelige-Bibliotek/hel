@@ -3,7 +3,7 @@
   <!-- Removed scheme-field until we actually implement authorities
   <div class='form-group'>
     <div class='col-sm-4'>
-      <label><%#= t('person.scheme') %></label>
+      <label><%#= t('.scheme') %></label>
     </div>
     <div class='col-sm-4'>
       <input class="form-control" value="<%#= scheme %>" name="authority_person[authorized_personal_name][][scheme]"/>
@@ -13,7 +13,7 @@
  -->
   <div class='form-group'>
     <div class='col-sm-4'>
-      <label><%= t('person.given') %></label>
+      <label><%= t('.given') %></label>
     </div>
     <div class='col-sm-4'>
       <input class="form-control" value="<%= name[:given] %>" name="authority_person[authorized_personal_name][][given]"/>
@@ -22,7 +22,7 @@
   </div>
   <div class='form-group'>
     <div class='col-sm-4'>
-      <label><%= t('person.family') %></label>
+      <label><%= t('.family') %></label>
     </div>
     <div class='col-sm-4'>
       <input class="form-control" value="<%= name[:family] %>" name="authority_person[authorized_personal_name][][family]"/>
@@ -32,7 +32,7 @@
   <% unless name[:full].blank? %>
   <div class='form-group'>
     <div class='col-sm-4'>
-      <label><%= t('person.full') %></label>
+      <label><%= t('.full') %></label>
     </div>
     <div class='col-sm-4'>
       <input class="form-control" value="<%= name[:full] %>" name="authority_person[authorized_personal_name][][full]"/>
@@ -42,13 +42,13 @@
   <% end %>
   <div class='form-group' data-hook="dates">
     <div class='col-sm-2'>
-      <label>Født</label>
+      <label><%= t('.born') %></label>
     </div>
     <div class='col-sm-4'>
       <input data-hook="dateofbirth" class="form-control valid-date" value="" name="authority_person[authorized_personal_name][][dateofbirth]"/>
     </div>
     <div class='col-sm-2'>
-      <label>Død</label>
+      <label><%= t('.die') %></label>
     </div>
     <div class='col-sm-4'>
       <input data-hook="dateofdeath" class="form-control valid-date" value="" name="authority_person[authorized_personal_name][][dateofdeath]"/>
