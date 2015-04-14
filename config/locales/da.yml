@@ -90,12 +90,6 @@ da:
       upload: "Fil upload"
     show_files:
       label: "Files"
-      file_name: "Filnavn"
-      bev_profil: "Bevarings profil"
-      bev_status: "Bevarings Status"
-      bev_detaljer: "Bevarings Detaljer"
-      download: "Download link"
-      upload: "Upload"
     show_administrative:
       label: "Administrative Data"
       activity: "Aktivitet"
@@ -246,6 +240,14 @@ da:
         sync_status: "Synkroniserings status"
         sync_date: "Synkroniserings dato"
         log: "Log messages"
+  content_files:
+    file_info:
+      file_name: "Filnavn"
+      bev_profil: "Bevarings profil"
+      bev_status: "Bevarings Status"
+      bev_detaljer: "Bevarings Detaljer"
+      download: "Download"
+      upload: "Upload"
 
   authority:
     bases:
