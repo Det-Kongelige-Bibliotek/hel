@@ -75,9 +75,9 @@ module ApplicationHelper
       if doc.nil?
         link_to 'Work', work_path(work_id)
       elsif doc['active_fedora_model_ssi'] == 'Trygforlaeg'
-        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_tesim']})", work_trykforlaeg_path(work_id,inst_id)
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_trykforlaeg_path(work_id,inst_id)
       else
-        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_tesim']})", work_instance_path(work_id,inst_id)
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_instance_path(work_id,inst_id)
       end
     end
 
