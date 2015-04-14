@@ -10,13 +10,18 @@ describe 'LetterData' do
   end
 
   describe 'title' do
-
     it 'should build a title' do
       expect(@data.title).to include 'Tove'
     end
 
     it 'should parse the sender' do
       expect(@data.sender_name).to eql 'Victor'
+    end
+  end
+
+  describe 'image refs' do
+    it 'should not return nil elements' do
+      expect(@data.image_refs).not_to include nil
     end
   end
 end
