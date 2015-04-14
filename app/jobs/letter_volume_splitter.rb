@@ -35,7 +35,7 @@ class LetterVolumeSplitter
     tei = Nokogiri::XML(xml.datastreams['content'].content)
     divs = tei.css('text body div')
     prev = nil
-    current_page = nil
+    last_img_ref = nil
     divs.each do |div|
       letter = LetterData.new(div)
       # create work
@@ -66,6 +66,14 @@ class LetterVolumeSplitter
       # add image references based on pb facs
       jpg_instance = Instance.from_activity(activity)
       jpg_instance.work << work
+      if letter.preceding_page_break? && last_img_ref.present?
+        cf = ContentFile.new
+        file_path = parent_dir.join(last_img_ref).to_s
+        Resque.logger.debug "Adding preceding file #{file_path}"
+        cf.add_external_file(file_path)
+        cf.instance = jpg_instance
+        cf.save
+      end
       letter.image_refs.each do |ref|
         cf = ContentFile.new
         Resque.logger.debug "Parent dir is #{parent_dir}"
@@ -79,6 +87,7 @@ class LetterVolumeSplitter
         cf.instance = jpg_instance
         cf.save
       end
+      last_img_ref = letter.image_refs.last
       fail "JPG Instance could not be saved! #{jpg_instance.errors.messages}" unless jpg_instance.save
     end
   end
@@ -287,5 +296,16 @@ class LetterData
 
   def if_present(string)
     string.present? ? string : 'Ukendt'
+  end
+
+  # we assume that there is a preceding page break
+  # if the position of the first page break is AFTER
+  # the position of the first word - i.e. some content
+  # MUST be on a previous page break
+  def preceding_page_break?
+    first_word = @div.text.scan(/\w+/).first
+    first_word_pos = @div.to_xml.index(first_word)
+    first_pb_pos = @div.to_xml.index('<pb')
+    first_pb_pos > first_word_pos
   end
 end
