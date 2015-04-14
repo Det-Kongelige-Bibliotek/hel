@@ -55,6 +55,7 @@ class LetterVolumeSplitter
 
       # add TEI reference with id
       xml_instance = Instance.from_activity(activity)
+      xml_instance.type = 'TEI'
       cf = ContentFile.new
       cf.add_external_file(xml.external_file_path)
       cf.xml_pointer = letter.id
@@ -65,6 +66,7 @@ class LetterVolumeSplitter
 
       # add image references based on pb facs
       jpg_instance = Instance.from_activity(activity)
+      jpg_instance.type = 'JPEG'
       jpg_instance.work << work
       letter.image_refs.each do |ref|
         cf = ContentFile.new
