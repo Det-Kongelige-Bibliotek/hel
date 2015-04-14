@@ -119,6 +119,15 @@ describe Work do
     it 'will return nil if no matching person object is found' do
       expect(@work2.find_matching_author('Charles')).to be_nil
     end
+
+    # I know this doesn't belong in this section
+    # TODO: move into a *general* section
+    it 'should be possible to add a language' do
+      @work2.add_language('eng')
+      @work2.save
+      @work2.reload
+      expect(@work2.language_values).to include 'eng'
+    end
   end
 
   # In the absence of a proper RDF validator on Ruby
