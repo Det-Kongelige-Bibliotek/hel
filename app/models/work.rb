@@ -65,6 +65,10 @@ class Work < ActiveFedora::Base
     editors << agent
   end
 
+  def add_contributors(agent)
+    contributors << agent
+  end
+
   def add_recipient(agent)
     recipients << agent
   end

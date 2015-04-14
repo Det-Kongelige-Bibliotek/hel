@@ -31,7 +31,7 @@ module Datastreams
         family = p.xpath('car:namePart[@type="family"]','car'=>ns).text
         given  = p.xpath('car:namePart[@type="given"]','car'=>ns).text
         date   = p.xpath('car:namePart[@type="date"]','car'=>ns).text
-
+        role   = p.xpath('car:role/car:roleTerm','car'=>ns).text
         if(!family.blank? or !given.blank?) then
           nhash = {'scheme' => 'KB', 'family' => family, 'given' => given, 'date' => date}
         else
@@ -40,7 +40,11 @@ module Datastreams
         end
         name={authorized_personal_name: nhash }
         mads=Authority::Person.create(name)
-        self.add_author(mads)
+        if(role.eq? aut) then
+          self.add_author(mads)
+        else
+          self.add_contributors(mads)
+        end
       }
 
     end

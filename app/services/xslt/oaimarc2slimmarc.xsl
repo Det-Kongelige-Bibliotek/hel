@@ -425,11 +425,11 @@
       <xsl:choose>
 	<xsl:when test="subfield/@label='h'">
 	  <xsl:attribute name="ind1">1</xsl:attribute>
-	  <xsl:attribute name="ind2"><xsl:text>#</xsl:text></xsl:attribute>
+	  <xsl:attribute name="ind2"><xsl:text>b</xsl:text></xsl:attribute>
 	</xsl:when>
 	<xsl:otherwise>
 	  <xsl:attribute name="ind1">0</xsl:attribute>
-	  <xsl:attribute name="ind2"><xsl:text>#</xsl:text></xsl:attribute>
+	  <xsl:attribute name="ind2"><xsl:text>b</xsl:text></xsl:attribute>
 	</xsl:otherwise>
       </xsl:choose>
 
