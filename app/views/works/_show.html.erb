@@ -48,6 +48,10 @@
       <% end %>
       </tbody>
     </table>
+    <h4><%= t('.lang') %></h4>
+    <% @work.language_values.each do |lang| %>
+        <%= lang %>
+    <% end %>
     <h4><%= t('.agents') %></h4>
     <table class="table table-striped">
       <thead>
