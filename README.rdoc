@@ -3,16 +3,14 @@
 == VALHAL. Digital Curation Platform
 === Part of Chronos - The Royal Librarys 'Digital Library Platform'
 
-GIT checkout of repository
-===
+=== GIT checkout of repository
 
 git clone https://gitusername@github.com/Det-Kongelige-Bibliotek/valhal.git
 
 Replace 'gitusername' with your own gitusername.
 This is necessary, if you want to push commits back to master branch.
 
-Software requisites
-===
+=== Software requisites
 
 The Hydra part of valhal has the same basic software requisites as the Hydra-Head component (Ruby, Rails, etc.).
   - The software requisites for the Hydra-Head can be found here: https://github.com/projecthydra/hydra-head/wiki/Installation-Prerequisites
@@ -40,13 +38,13 @@ File Information Tool Set (FITS), http://projects.iq.harvard.edu/fits/downloads.
 Set environment variable FITS_HOME to the fully qualified file name of the FITS script.
 We have tested with FITS 0.8.4, and we have compiled it in a version, which supports java 8 (https://github.com/Det-Kongelige-Bibliotek/fits)
 
-RubyMine setup for developers
-===
+=== RubyMine setup for developers
+
 In RubyMine chose File->Open Directory and select the valhal directory.
 RubyMine should automatically integrate with the valhal Git repository.
 
-Initialize before first run
-===
+=== Initialize before first run
+
 
 In the config directory, create an application.local.yml file based on the application.local.template.yml file.
 
@@ -64,9 +62,7 @@ $ rake valhal:load_controlled_lists
 
 $ rake adl:init
 
-
-Run
-===
+=== Run
 
 Start Redis (must be running in a separate terminal or as a background job):
 
@@ -90,9 +86,7 @@ The tests can be run by:
 
 $ rake spec
 
-
-Stopping Valhal
-===
+=== Stopping Valhal
 
 Stop the rails server by using "ctrl-c" in the terminal running "rails server".
 
@@ -100,10 +94,7 @@ then stop the jetty application with:
 
 $ rake jetty:stop
 
-
-
-More information
-===================
+=== More information
 
 * Public website
  * Valhal is only intended for curation inside the Royal Librarys firewall. All public material should eventually be published through our dissemination platform 'Bifrost'
