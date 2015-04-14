@@ -347,6 +347,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rouge (1.8.0)
     rsolr (1.0.12)
       builder (>= 2.1.2)
     rspec-core (3.2.2)
@@ -485,6 +486,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (>= 4.1.6)
   resque
+  rouge
   rspec-rails
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
