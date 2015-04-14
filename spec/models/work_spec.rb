@@ -78,30 +78,46 @@ describe Work do
       expect(@work.is_part_of).to eql @rel
     end
 
+  end
+  describe 'person relations' do
+
+    before :all do
+      @victor = Authority::Person.create(
+          'authorized_personal_name' => { 'given'=> 'Victor', 'family' => 'Andreasen', 'scheme' => 'KB', 'date' => '1932/2009' }
+      )
+      @tove = Authority::Person.create(
+          'authorized_personal_name' => { 'given'=> 'Tove', 'family' => 'Ditlevsen', 'scheme' => 'KB', 'date' => '1932/2009' }
+      )
+      @work2 = Work.new
+      @work2.add_title({'value'=> 'A title'})
+      @work2.add_author(@victor)
+      @work2.add_recipient(@tove)
+      fail unless @work2.save
+      @work2.reload
+      @victor.reload
+      @tove.reload
+    end
 
     it 'can have an author' do
-      a = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work.add_author(a)
-      @work.save
-      @work.reload
-      a.reload
-      expect(@work.authors).to include a
-      expect(a.authored_works).to include @work
+      expect(@work2.authors).to include @victor
+      expect(@victor.authored_works).to include @work2
     end
 
     it 'can have a recipient' do
-      a = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work.add_recipient(a)
-      @work.add_author(a)
-      @work.save
-      @work.reload
-      a.reload
-      expect(@work.recipients).to include a
-      expect(a.received_works).to include @work
+      expect(@work2.recipients).to include @tove
+      expect(@tove.received_works).to include @work2
+    end
+
+    it 'can return the names of authors in a searchable hash' do
+      expect(@work2.author_names.keys.first).to eql 'Andreasen, Victor'
+    end
+
+    it 'will return the person object matching a given string' do
+      expect(@work2.find_matching_author('Victor').id).to eql @victor.id
+    end
+
+    it 'will return nil if no matching person object is found' do
+      expect(@work2.find_matching_author('Charles')).to be_nil
     end
   end
 

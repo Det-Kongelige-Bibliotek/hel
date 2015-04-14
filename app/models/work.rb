@@ -78,6 +78,36 @@ class Work < ActiveFedora::Base
     creators
   end
 
+  # this method returns a hash
+  # where every author name is a key
+  # and the object id is a value
+  # e.g. { "Victor Andreasen" => 'valhal:1234' }
+  # It can be used to *guess* the value of an author
+  # based on a string value, e.g. Victor
+  def author_names
+    author_names = {}
+    authors.each do |aut|
+      aut.all_names.each do |name|
+        author_names[name] = aut
+      end
+    end
+    author_names
+  end
+
+  # Given a name fragment, attempt
+  # to find a Person object from the authors
+  # that matches this string
+  # e.g. given a Work w with author Andreasen, Victor,
+  # w.find_matching_author('Victor') will return
+  # the Authority::Person object Victor Andreasen
+  # If no match is found, return nil
+  def find_matching_author(query)
+    author_names.select do |name, obj|
+      return obj if name.include?(query)
+    end
+    nil
+  end
+
   def creators=(val)
     remove_creators
     val.each_value do |v|
