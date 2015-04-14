@@ -29,7 +29,7 @@ Apache Solr version 4.10.x (http://lucene.apache.org/solr/)
 
 In a development setting it is recommended to use a Hydra Jetty Instance which comes with both Solr and Fedora pre-installed. For the set up of Hydra Jetty, see bellow.
 
-Redis version 2.8.x (http://redis.io/)
+Redis version 2.8.x or greater (http://redis.io/) - default package only contains source code, so remember to run 'make install'.
 
 RabbitMQ. Note that RabbitMQ depends on Erlang.
 
@@ -38,14 +38,14 @@ ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo �
 
 File Information Tool Set (FITS), http://projects.iq.harvard.edu/fits/downloads.
 Set environment variable FITS_HOME to the fully qualified file name of the FITS script.
-We have tested with FITS 0.8.4
+We have tested with FITS 0.8.4, and we have compiled it in a version, which supports java 8 (https://github.com/Det-Kongelige-Bibliotek/fits)
 
 RubyMine setup for developers
 ===
 In RubyMine chose File->Open Directory and select the valhal directory.
 RubyMine should automatically integrate with the valhal Git repository.
 
-Run
+Initialize before first run
 ===
 
 In the config directory, create an application.local.yml file based on the application.local.template.yml file.
@@ -56,29 +56,50 @@ $ bundle install
 
 $ rake db:migrate
 
-$ rake resque:work QUEUE='*'
-
 $ rake jetty:clean
-
-$ rake jetty:start
-
-The interface can be started on localhost:3000 by:
-
-$ rails server
 
 Before using the Valhal interface it can be an advantage to load the set of predefined controlled lists by:
 
 $ rake valhal:load_controlled_lists
 
+$ rake adl:init
+
+
+Run
+===
+
+Start Redis (must be running in a separate terminal or as a background job):
+
+$ cd REDIS_HOME (where ever you have installed redis)
+
+$ ./src/redis-server
+
+Start fedora and solr:
+
+$ rake jetty:start
+
+Start the workflow engine (must be running in a separate terminal or as a background job):
+
+$ rake resque:work QUEUE='*'
+
+The interface can be started on localhost:3000 by:
+
+$ rails server
+
 The tests can be run by:
 
 $ rake spec
 
-Stopping Valhal
-===================
 
-use "ctrl-c" for stopping the rails server
-then stop the jetty application with "rake jetty:stop"
+Stopping Valhal
+===
+
+Stop the rails server by using "ctrl-c" in the terminal running "rails server".
+
+then stop the jetty application with:
+
+$ rake jetty:stop
+
 
 
 More information
