@@ -44,12 +44,20 @@ class LetterVolumeSplitter
       work.add_preceding(prev) unless prev.nil?
       work.is_part_of = master_work
       work.add_title(value: letter.title)
+
+      # Using the names from the master work, attempt a *best guess*
+      # to find the name of tha author and the recipient
       matching_author = master_work.find_matching_author(letter.sender_name)
+      matching_recipient = master_work.find_matching_author(letter.recipient_name)
       if matching_author.present?
         work.add_author(matching_author)
       else
         work.add_author(master_work.authors.first)
       end
+      if matching_recipient.present?
+        work.add_recipient(matching_recipient)
+      end
+
       fail "Letter could not be saved! #{work.errors.messages}" unless work.save
       Resque.logger.info "Letter saved with id #{work.id}"
 
