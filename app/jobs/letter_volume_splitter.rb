@@ -44,6 +44,7 @@ class LetterVolumeSplitter
       work.add_preceding(prev) unless prev.nil?
       work.is_part_of = master_work
       work.add_title(value: letter.title)
+      work.add_language(letter.language) if letter.language.present?
 
       # Using the names from the master work, attempt a *best guess*
       # to find the name of tha author and the recipient
@@ -244,6 +245,10 @@ class LetterData
 
   def id
     @div.attributes['id'].value if @div.attributes['id'].present?
+  end
+
+  def language
+    @div.attributes['lang'].value if @div.attributes['lang'].present?
   end
 
   def num

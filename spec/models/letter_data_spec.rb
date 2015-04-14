@@ -24,4 +24,10 @@ describe 'LetterData' do
       expect(@data.image_refs).not_to include nil
     end
   end
+
+  describe 'language' do
+    it 'should return the language code if present' do
+      expect(@data.language).to eql 'da-DK'
+    end
+  end
 end
