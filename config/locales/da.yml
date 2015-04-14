@@ -250,6 +250,8 @@ da:
       download: "Download"
       upload: "Upload"
 
+    show:
+      missing_template: "Template <strong>%{template}</strong> findes ikke!"
   authority:
     bases:
       new:

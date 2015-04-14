@@ -1,4 +1,6 @@
 <h1><%= @file.original_filename %> </h1>
 <%# render a html view tailored for the specific content type %>
-<%= render partial: "content_#{@file.mime_type.split('/').last}", object: @file %>
+<% template_name = "content_#{@file.mime_type.split('/').last}" %>
+<%= render partial: template_name, object: @file rescue
+            t('.missing_template', template: template_name).html_safe %>
 <%= render partial: 'file_info', locals: { file: @file, instance: @file.instance } %>
