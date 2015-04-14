@@ -32,6 +32,8 @@
     :creator: cre
     :author: aut
     :recipient: rcp
+    :contributor: ctb
+    :editor: edt
   # Custom stuff we don't have a proper schema for yet
   # Try and find a proper schema before putting something here!
   http://www.kb.dk#:
@@ -40,6 +42,8 @@
     :creator_of: creatorOf
     :author_of: authorOf
     :recipient_of: recipient_of
+    :contributor_to: contributor_to
+    :editor_of: editor_of
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo
     :has_annotation: hasAnnotation

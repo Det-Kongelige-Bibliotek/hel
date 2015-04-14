@@ -19,6 +19,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
   has_and_belongs_to_many :editors, class_name: 'Authority::Agent',  property: :editor, inverse_of: :editor_of
+  has_and_belongs_to_many :contributors, class_name: 'Authority::Agent',  property: :contributor, inverse_of: :contributor_to
   has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
 
   before_save :set_rights_metadata
