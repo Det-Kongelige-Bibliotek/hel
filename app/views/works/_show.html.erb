@@ -88,7 +88,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <% @work.instances.each do |instance| %>
-                <li><%= link_to(t("instances.types.#{instance.class.to_s.downcase} (#{instance.type})"), [@work, instance]) %></li>
+                <li><%= link_to("#{t('instances.types.' + instance.class.to_s.downcase)} (#{instance.type})", [@work, instance]) %></li>
             <% end %>
 
           </ul>

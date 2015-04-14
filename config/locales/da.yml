@@ -66,6 +66,7 @@ da:
       title: "Vis instans til: "
     types:
       trykforlaeg: "Trykforlæg"
+      instance: Instans
     file_input:
       add: "Tilføj flere filer"
     form:
