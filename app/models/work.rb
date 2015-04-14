@@ -78,6 +78,18 @@ class Work < ActiveFedora::Base
     creators
   end
 
+
+  def agents
+    agents = []
+    authors.each do |a|
+      agents.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
+    end
+    recipients.each do |rcp|
+      agents.push({"id" => rcp.id, "type"=> 'rcp', 'display_value' => rcp.display_value})
+    end
+    agents
+  end
+
   # this method returns a hash
   # where every author name is a key
   # and the object id is a value

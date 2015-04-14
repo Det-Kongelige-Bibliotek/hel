@@ -28,12 +28,6 @@ da:
         record_invalid: 'Ugyldig data'
 
 
-  works:
-    work_form:
-      cancel: "Fortryd"
-    show:
-      edit: "Rediger"
-
   authority:
       bases:
         created: "Base was successfully created."
@@ -150,6 +144,7 @@ da:
 
   roles:
     aut: 'Forfatter'
+    rcp: 'Modtager'
   devise:
     sessions:
       new:
@@ -316,6 +311,8 @@ da:
     creator:
       close: "Slet ophav"
     show:
+      edit: "Rediger"
+      agents: "Ophav"
       titles: "Titler"
       title: "Titel"
       subtitle: "Undertitel"
@@ -341,6 +338,7 @@ da:
       add_author: "Tilføj Ophav"
       subject: "Emner"
       add_subject: "Tilføj Emne"
+      cancel: 'Fortryd'
     edit:
       page_title: "Rediger værk: "
     index:
