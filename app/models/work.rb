@@ -102,7 +102,9 @@ class Work < ActiveFedora::Base
   # the Authority::Person object Victor Andreasen
   # If no match is found, return nil
   def find_matching_author(query)
+    return nil if query.nil?
     author_names.select do |name, obj|
+      next unless name.present?
       return obj if name.include?(query)
     end
     nil
