@@ -67,6 +67,10 @@ class ContentFile < ActiveFedora::Base
     path
   end
 
+  def content
+    self.datastreams['content'].content if self.datastreams['content'].present?
+  end
+
 
   # This function checks if the content of an external mannaged file
   # has changed, and updates the tech metadata 
