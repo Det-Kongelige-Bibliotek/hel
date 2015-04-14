@@ -15,7 +15,8 @@ class LetterVolumeIngest
     # create Valhal objects
     fail "Work could not be saved #{work.errors.messages}" unless work.save
     # create TEI and JPG instances
-    activity = Administration::Activity.first
+    activity = Administration::Activity.find(activity: 'Danmarks Breve').first
+    fail 'Activity Danmarks Breve not defined!' unless activity.present?
 
     instance_tei.work << work
     instance_tei.type = 'TEI'
