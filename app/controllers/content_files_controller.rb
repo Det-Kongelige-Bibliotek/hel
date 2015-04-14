@@ -6,7 +6,6 @@ class ContentFilesController < ApplicationController
   before_action :set_file, only: [:download, :upload, :update, :show]
 
   def show
-    render text: open(@file.external_file_path, 'rb').read, content_type: 'image/jpeg'
   end
 
   # Retrieve the content file for a given ContentFile.
