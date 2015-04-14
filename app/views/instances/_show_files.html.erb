@@ -1,6 +1,8 @@
 <a id="upload"></a><h4><%= t('.label')%></h4>
 <% @instance.content_files.each do |f| %>
-    <strong><%= f.original_filename %></strong>
+    <strong>
+      <%= link_to(f.original_filename, f) %>
+    </strong>
     <table class="table table-striped"><tbody>
     <tr>
       <td> <strong><%= t('.file_name')%></strong></td>
