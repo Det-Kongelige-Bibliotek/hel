@@ -6,5 +6,4 @@ set -o errexit
 rake adl:clean
 rake breve:create_activity
 rake breve:import_from_path['spec/fixtures/breve/001541111_000']
-rake environment resque:work RAILS_ENV=development QUEUE=* &
-tail -f log/resque.log
+rake environment resque:work RAILS_ENV=development QUEUE=*
