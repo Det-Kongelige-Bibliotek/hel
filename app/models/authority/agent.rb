@@ -3,6 +3,7 @@ module Authority
   class Agent < Authority::Base
     has_and_belongs_to_many :authored_works, class_name: 'Work', property: :author_of, inverse_of: :author
     has_and_belongs_to_many :received_works, class_name: 'Work', property: :recipient, inverse_of: :recipient_of
+    has_and_belongs_to_many :edited_works,   class_name: 'Work', property: :editor_of, inverse_of: :editor
 
 
     #TODO move this to a background job
@@ -10,6 +11,7 @@ module Authority
     def reindex_related_works
       authored_works.each { |w| w.update_index }
       received_works.each { |w| w.update_index }
+      edited_works.each   { |w| w.update_index }
     end
 
 

@@ -94,16 +94,18 @@
   <xsl:template match="varfield[@id='100']">
 
     <xsl:element name="marc:datafield">
-
       <xsl:attribute name="ind1">
-	<xsl:value-of select="@i1"/>
+	<xsl:choose>
+	  <xsl:when test="subfield[@label = 'h']">1</xsl:when>
+	  <xsl:otherwise>0</xsl:otherwise>
+	</xsl:choose>
       </xsl:attribute>
-      <xsl:attribute name="ind2">
-	<xsl:value-of select="@i1"/>
-      </xsl:attribute>
+      <xsl:attribute name="ind2">b</xsl:attribute>
       <xsl:attribute name="tag">
 	<xsl:value-of select="@id"/>
       </xsl:attribute>
+
+      <xsl:call-template name="name-content" />
 
       <xsl:if test="subfield[@label = 'a']">
 	<xsl:element name="marc:subfield">
@@ -121,6 +123,8 @@
 	  </xsl:for-each>
 	</xsl:element>
       </xsl:if>
+
+      <xsl:call-template name="do_relator"/>
 
     </xsl:element>
 
@@ -432,7 +436,9 @@
       <xsl:attribute name="tag">700</xsl:attribute>
 
       <xsl:call-template name="name-content" />
-
+      <xsl:call-template name="do_relator">
+	<xsl:with-param name="rel">ctb</xsl:with-param>
+      </xsl:call-template>
     </xsl:element>
   </xsl:template>
 
@@ -460,6 +466,9 @@
 
   <xsl:template match="varfield">
     <xsl:element name="marc:datafield">
+      <xsl:attribute name="tag">
+	<xsl:value-of select="@id"/>
+      </xsl:attribute>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -518,6 +527,26 @@
       </xsl:otherwise>
     </xsl:choose>
 
+  </xsl:template>
+
+  <xsl:template name="do_relator">
+    <xsl:param name="rel" select="'aut'"/>
+    <xsl:choose>
+      <xsl:when test="subfield[@label='4']">
+	<xsl:if test="not(contains(subfield[@label='4'],'dk'))">
+	  <xsl:element name="marc:subfield">
+	    <xsl:attribute name="code">4</xsl:attribute>
+	    <xsl:value-of select="subfield[@label='a']" />
+	  </xsl:element>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">4</xsl:attribute>
+	  <xsl:value-of select="$rel"/>
+	</xsl:element>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="session-id|record_header|doc_number"/>

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This class represents a Work model in
 # Fedora. Only KB specific logic should
 # live in this class. All domain logic
@@ -17,6 +18,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
+  has_and_belongs_to_many :editors, class_name: 'Authority::Agent',  property: :editor, inverse_of: :editor_of
   has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
 
   before_save :set_rights_metadata
@@ -56,6 +58,10 @@ class Work < ActiveFedora::Base
 
   def add_author(agent)
     authors << agent
+  end
+
+  def add_editor(agent)
+    editors << agent
   end
 
   def add_recipient(agent)
