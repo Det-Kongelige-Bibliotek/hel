@@ -16,18 +16,8 @@ class LetterVolumeSplitter
     raise 'Danmarks Breve Activity not found!' unless activity
 
     self.extract_letters(xml, master_work, activity)
-  end
-
-
-  def self.parse_one(xml_pid)
-    xml = ContentFile.find(xml_pid)
-    parent_dir = Pathname.new(xml.external_file_path).parent
-    tei = Nokogiri::XML(xml.datastreams['content'].content)
-    divs = tei.css('text body div')
-
-
-    # create jpg instance
-    # create content files for each jpg
+    # update all objects in Solr to ensure index is correct
+    Resque.enqueue(UpdateIndex)
   end
 
   def self.extract_letters(xml, master_work, activity)
