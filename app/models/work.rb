@@ -201,4 +201,13 @@ class Work < ActiveFedora::Base
     ActiveFedora::SolrService.query("title_tesim:* && active_fedora_model_ssi:Work",
                                     {:rows => ActiveFedora::SolrService.count("title_tesim:* && active_fedora_model_ssi:Work")})
   end
+
+  # Given an activity name, find all the works
+  # that belong to that activity
+  # @param activity String
+  # @return ['id', 'id']
+  def self.find_by_activity(activity)
+    docs = ActiveFedora::SolrService.query("work_collection_sim:#{activity} && active_fedora_model_ssi:Work")
+    docs.collect { |doc| doc['id'] }
+  end
 end
