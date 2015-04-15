@@ -27,14 +27,14 @@ class LetterVolumeSplitter
     pb = tei.css('pb')
     # array with all the image refs of the TEI file
     all_image_refs = pb.collect {|pb| pb['facs'] }
-    prev = nil
+    previous_work = nil
     last_img_ref = nil
     divs.each do |div|
       letter = LetterData.new(div)
       # create work
       work = Work.new
       # create relationship to previous letter
-      work.add_preceding(prev) unless prev.nil?
+      work.add_preceding(previous_work) unless previous_work.nil?
       work.is_part_of = master_work
       work.add_title(value: letter.title)
       work.add_language(letter.language) if letter.language.present?
@@ -98,6 +98,7 @@ class LetterVolumeSplitter
         cf.save
       end
       last_img_ref = letter.image_refs.last
+      previous_work = work
       fail "JPG Instance could not be saved! #{jpg_instance.errors.messages}" unless jpg_instance.save
     end
   end
