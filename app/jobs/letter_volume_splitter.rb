@@ -77,6 +77,8 @@ class LetterVolumeSplitter
       jpg_instance = Instance.from_activity(activity)
       jpg_instance.type = 'JPEG'
       jpg_instance.work << work
+
+      # if the letter starts before its first <pb> - include the previous pb image
       if letter.preceding_page_break? && last_img_ref.present?
         cf = ContentFile.new
         file_path = parent_dir.join(last_img_ref).to_s
