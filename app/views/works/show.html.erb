@@ -1,2 +1,3 @@
 <% @page_title= t('.page_title') + @work.titles.first.value  %>
+<%# We render this page as a partial to enable us to include it in the Instance show view %>
 <%= render partial: 'show' %>
