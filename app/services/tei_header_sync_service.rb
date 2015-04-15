@@ -60,8 +60,7 @@ class TeiHeaderSyncService
     parameters[:publisher] = inst.publisher_name
     parameters[:pub_place] = inst.published_place
     parameters[:date]      = inst.published_date
-
-    xslt = Nokogiri::XSLT(File.read(sheet))
+    xslt  = Nokogiri.XSLT(File.open(sheet, 'rb'))
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }
     rdoc = xslt.transform(doc,Nokogiri::XSLT.quote_params(parameters))
     File.open(tei_file, 'w') { |f| f.print(rdoc.to_xml) }

@@ -75,7 +75,7 @@ class InstancesController < ApplicationController
     if @instance.update(instance_params)
       if @instance.type == 'TEI'
         @instance.content_files.each do |f|
-          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
                                        f.external_file_path,@instance)
           f.update_tech_metadata_for_external_file
           f.save(validate: false)
