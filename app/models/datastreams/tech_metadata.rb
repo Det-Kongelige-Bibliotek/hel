@@ -25,6 +25,7 @@ module Datastreams
       t.validators
       t.pb_xml_id(:type=> :string, :index_as => :stored_searchable)
       t.pb_facs_id(:type=> :string, :index_as => :stored_searchable)
+      t.xml_pointer
     end
 
     def self.xml_template

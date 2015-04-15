@@ -33,7 +33,8 @@ class InstancesController < ApplicationController
   def new
     @instance = @klazz.new
     @work = Work.find(params[:work_id])
-    if params[:query] 
+    # TODO: Refactor to use ConversionService.instance_from_aleph
+    if params[:query]
       service = AlephService.new
       query = params[:query] 
       set=service.find_set(query) 

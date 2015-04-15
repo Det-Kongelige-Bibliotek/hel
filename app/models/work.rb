@@ -18,6 +18,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
   has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
+  belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
 
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
@@ -75,6 +76,50 @@ class Work < ActiveFedora::Base
       creators.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
     end
     creators
+  end
+
+
+  def agents
+    agents = []
+    authors.each do |a|
+      agents.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
+    end
+    recipients.each do |rcp|
+      agents.push({"id" => rcp.id, "type"=> 'rcp', 'display_value' => rcp.display_value})
+    end
+    agents
+  end
+
+  # this method returns a hash
+  # where every author name is a key
+  # and the object id is a value
+  # e.g. { "Victor Andreasen" => 'valhal:1234' }
+  # It can be used to *guess* the value of an author
+  # based on a string value, e.g. Victor
+  def author_names
+    author_names = {}
+    authors.each do |aut|
+      aut.all_names.each do |name|
+        author_names[name] = aut
+      end
+    end
+    author_names
+  end
+
+  # Given a name fragment, attempt
+  # to find a Person object from the authors
+  # that matches this string
+  # e.g. given a Work w with author Andreasen, Victor,
+  # w.find_matching_author('Victor') will return
+  # the Authority::Person object Victor Andreasen
+  # If no match is found, return nil
+  def find_matching_author(query)
+    return nil if query.nil?
+    author_names.select do |name, obj|
+      next unless name.present?
+      return obj if name.include?(query)
+    end
+    nil
   end
 
   def creators=(val)

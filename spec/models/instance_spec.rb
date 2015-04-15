@@ -165,4 +165,16 @@ describe Instance do
       expect(set).to include i.pid
     end
   end
+
+  describe 'from activity' do
+    it 'should create an instance with the same values as the activity' do
+      act = Administration::Activity.create(
+          collection: 'Håndskriftsamlingen', copyright: 'CC BY ND', preservation_profile: 'ETERNITY'
+      )
+      inst = Instance.from_activity(act)
+      expect(inst.collection).to eql 'Håndskriftsamlingen'
+      expect(inst.copyright).to eql 'CC BY ND'
+      expect(inst.preservation_profile).to eql 'ETERNITY'
+    end
+  end
 end

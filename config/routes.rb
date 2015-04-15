@@ -19,8 +19,9 @@ Rails.application.routes.draw do
     post 'aleph', on: :collection
   end
 
-  resources :content_files, :except => [:new, :index, :delete, :create, :edit, :show, :update, :destroy] do
+  resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
+      get 'show'
       get 'download'
       get 'upload'
       patch 'update'

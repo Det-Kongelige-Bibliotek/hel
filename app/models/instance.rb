@@ -153,4 +153,15 @@ class Instance < ActiveFedora::Base
     docs = ActiveFedora::SolrService.query("activity_name_sim:#{activity}")
     docs.map { |d| Instance.find(d['id']) }
   end
+
+  # given an activity object - create an instance
+  # with the default values of that activity
+  def self.from_activity(activity)
+    i = self.new
+    i.activity = activity.id
+    i.collection = activity.collection
+    i.copyright = activity.copyright
+    i.preservation_profile = activity.preservation_profile
+    i
+  end
 end
