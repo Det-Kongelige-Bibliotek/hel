@@ -323,6 +323,6 @@ class LetterData
     first_word = @div.text.scan(/\w+/).first
     first_word_pos = @div.to_xml.index(first_word)
     first_pb_pos = @div.to_xml.index('<pb')
-    first_pb_pos > first_word_pos
+    first_pb_pos > first_word_pos rescue nil
   end
 end
