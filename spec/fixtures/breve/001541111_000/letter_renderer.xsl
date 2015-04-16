@@ -43,9 +43,9 @@
 	</span>
       </xsl:for-each>
       <xsl:if test="t:date">
-	<span property="datePublished">
-	  (<xsl:value-of select="t:date"/><xsl:text>) </xsl:text>
-	</span>
+	(<span property="datePublished">
+	  <xsl:value-of select="t:date"/>
+	</span><xsl:text>) </xsl:text>
       </xsl:if>
      <xsl:if test="t:title">
        <em property="name">
@@ -95,7 +95,6 @@
 	<xsl:attribute name="id"><xsl:value-of
 	select="concat('letter',@xml:id)"/></xsl:attribute>
 	<div style="width:45%;float:left;">
-	  <xsl:apply-templates select="t:opener"/>
 	  <form>
 	    <dl>
 	      <xsl:call-template name="render_form"/>
@@ -103,7 +102,7 @@
 	  </form>
 	  <xsl:apply-templates/>
 	</div>
-	<div style="width:45%;float:left;">
+	<div style="margin-left:+2em; width:45%;float:left;">
 	  <xsl:for-each select="preceding::t:pb[1]|descendant::t:pb">
 	    <xsl:call-template name="render_facs"/>
 	  </xsl:for-each>
@@ -128,6 +127,57 @@
   -->  
 
   <xsl:template match="t:opener">
+    <xsl:apply-templates select="t:dateline"/>
+    <xsl:apply-templates select="t:salute"/>
+  </xsl:template>
+
+  <xsl:template match="t:closer">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="t:postscript">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="t:signed">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="t:salute/t:persName">
+    <span property="recipient">
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="t:signed/t:persName">
+    <span property="author">
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="t:dateline">
+    <p style="text-align: right;">
+      <xsl:if test="t:geogName">
+	<xsl:apply-templates select="t:geogName"/>
+	<xsl:if test="t:date"><br/></xsl:if>
+      </xsl:if>
+      <xsl:if test="t:date">
+	<xsl:apply-templates select="t:date"/>
+      </xsl:if>
+    </p>
+  </xsl:template>
+
+  <xsl:template match="t:salute">
+    <p>
+      <xsl:apply-templates/>
+    </p>
+  </xsl:template>
+
+  <xsl:template match="t:date">
+    <xsl:element name="span">
+      <xsl:attribute name="property">datePublished</xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="t:p">
@@ -221,7 +271,5 @@
       </xsl:text>
     </script>
   </xsl:template>
-
-
   
 </xsl:transform>
