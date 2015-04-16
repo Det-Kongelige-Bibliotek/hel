@@ -177,4 +177,12 @@ describe Instance do
       expect(inst.preservation_profile).to eql 'ETERNITY'
     end
   end
+
+  describe 'isbn10' do
+    it 'should be possible to get and set an isbn10' do
+      instance = Instance.new
+      instance.isbn10 = '87-00-69074-0'
+      expect(instance.isbn10).to eql '87-00-69074-0'
+    end
+  end
 end
