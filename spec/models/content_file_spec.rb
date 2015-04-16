@@ -125,6 +125,103 @@ describe 'content' do
   end
 
   describe '#preservation' do
+    describe '#create_preservation_message' do
+      before :each do
+        @f = ContentFile.create
+      end
+      it 'should contain UUID' do
+        expect(@f.create_preservation_message).to have_key 'UUID'
+        expect(@f.create_preservation_message['UUID']).to eq @f.uuid
+      end
+      it 'should contain Preservation_profile' do
+        expect(@f.create_preservation_message).to have_key 'Preservation_profile'
+      end
+      it 'should contain Valhal_ID' do
+        expect(@f.create_preservation_message).to have_key 'Valhal_ID'
+        expect(@f.create_preservation_message['Valhal_ID']).to eq @f.pid
+      end
+      it 'should contain Model' do
+        expect(@f.create_preservation_message).to have_key 'Model'
+        expect(@f.create_preservation_message['Model']).to eq @f.class.name
+      end
+      it 'should contain File_UUID' do
+        expect(@f.create_preservation_message).to have_key 'File_UUID'
+      end
+      it 'should contain Content_URI' do
+        expect(@f.create_preservation_message).to have_key 'Content_URI'
+      end
+      it 'should not contain warc_id when not preserved' do
+        expect(@f.create_preservation_message).not_to have_key 'warc_id'
+      end
+      it 'should contain warc_id when preserved' do
+        @f.warc_id = 'WARC_ID.warc'
+        @f.save
+        @f.reload
+        expect(@f.create_preservation_message).to have_key 'warc_id'
+      end
 
+      it 'should contain metadata' do
+        expect(@f.create_preservation_message).to have_key 'metadata'
+      end
+
+      describe '#Update' do
+        it 'should contain File_UUID but not Content_URI, when initiation date is newer than last modified.' do
+          @f.file_warc_id = "file_warc.id"
+          f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+          @f.add_file(f)
+          @f.preservation_initiated_date = DateTime.now.strftime("%FT%T.%L%:z")
+          @f.save
+          @f.reload
+          expect(@f.create_preservation_message).to have_key 'File_UUID'
+          expect(@f.create_preservation_message).not_to have_key 'Content_URI'
+        end
+
+        it 'should contain File_UUID and Content_URI, when initiation date is later than last modified.' do
+          @f.preservation_initiated_date = DateTime.now.strftime("%FT%T.%L%:z")
+          @f.file_warc_id = "file_warc.id"
+          f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+          @f.add_file(f)
+          @f.last_modified = DateTime.now.strftime("%FT%T.%L%:z")
+          @f.save
+          @f.reload
+          puts @f.create_preservation_message
+          expect(@f.create_preservation_message).to have_key 'File_UUID'
+          expect(@f.create_preservation_message).to have_key 'Content_URI'
+        end
+
+      end
+    end
+
+    describe '#create_message_metadata' do
+      before :each do
+        @f = ContentFile.create
+        f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+        @f.add_file(f)
+        @f.save
+        @f.reload
+      end
+
+      it 'should have provenanceMetadata' do
+        expect(@f.create_message_metadata).to include '<provenanceMetadata>'
+      end
+      it 'should have techMetadata' do
+        expect(@f.create_message_metadata).to include '<techMetadata>'
+      end
+      it 'should have preservationMetadata' do
+        expect(@f.create_message_metadata).to include '<preservationMetadata>'
+      end
+      describe '#fitsMetadata' do
+        it 'should not have fitsMetadata before running characterization' do
+          expect(@f.create_message_metadata).not_to include '<fitsMetadata>'
+        end
+        it 'should have fitsMetadata after running characterization' do
+          @f.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
+          @f.save!
+          @f.reload
+          expect(@f.create_message_metadata).to include '<fitsMetadata>'
+        end
+      end
+
+    end
   end
 end

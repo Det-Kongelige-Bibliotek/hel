@@ -19,6 +19,8 @@ module Datastreams
                              :path=>'preservation_details', :label=>'Preservation Details')
       t.preservation_modify_date(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                                  :path => 'preservation_modify_date', :label => 'Preservation Modify Date')
+      t.preservation_initiated_date(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
+                                    :path => 'preservation_initiated_date', :label => 'Preservation Initiated Date')
       t.preservation_comment(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                              :path => 'preservation_comment', :label => 'Preservation Comment')
       t.warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],

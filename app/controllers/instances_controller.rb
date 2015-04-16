@@ -60,7 +60,7 @@ class InstancesController < ApplicationController
       @instance = @klazz.new(instance_params)
       if @instance.save
         flash[:notice] = t('instances.flashmessage.ins_saved', var: @klazz)
-        @instance.cascade_preservation
+        @instance.cascade_preservation_profile
       else
         @instance.work << @work
       end

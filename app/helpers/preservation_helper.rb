@@ -47,7 +47,6 @@ module PreservationHelper
       return false
     end
 
-    puts "Updating '#{element.to_s}' with preservation metadata '#{metadata}'"
     updated = false
 
     unless (metadata['preservation_state'].blank? || metadata['preservation_state'] == element.preservationMetadata.preservation_state.first)

@@ -225,7 +225,43 @@ describe Instance do
         expect(@i.warc_id).not_to be_nil
         expect(metadata).to include("<warc_id>#{@i.warc_id}</warc_id>")
       end
+    end
 
+    describe '#create_preservation_message' do
+      it 'should contain UUID' do
+        expect(@i.create_preservation_message).to have_key 'UUID'
+        expect(@i.create_preservation_message['UUID']).to eq @i.uuid
+      end
+      it 'should contain Preservation_profile' do
+        expect(@i.create_preservation_message).to have_key 'Preservation_profile'
+      end
+      it 'should contain Valhal_ID' do
+        expect(@i.create_preservation_message).to have_key 'Valhal_ID'
+        expect(@i.create_preservation_message['Valhal_ID']).to eq @i.pid
+      end
+      it 'should contain Model' do
+        expect(@i.create_preservation_message).to have_key 'Model'
+        expect(@i.create_preservation_message['Model']).to eq @i.class.name
+      end
+      it 'should not contain File_UUID' do
+        expect(@i.create_preservation_message).not_to have_key 'File_UUID'
+      end
+      it 'should not contain Content_URI' do
+        expect(@i.create_preservation_message).not_to have_key 'Content_URI'
+      end
+      it 'should not contain warc_id when not preserved' do
+        expect(@i.create_preservation_message).not_to have_key 'warc_id'
+      end
+      it 'should contain warc_id when preserved' do
+        @i.warc_id = 'WARC_ID.warc'
+        @i.save
+        @i.reload
+        expect(@i.create_preservation_message).to have_key 'warc_id'
+      end
+
+      it 'should contain metadata' do
+        expect(@i.create_preservation_message).to have_key 'metadata'
+      end
     end
   end
 end

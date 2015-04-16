@@ -151,24 +151,21 @@ class ContentFile < ActiveFedora::Base
     end
   end
 
-  # Extracts the timestamps from the file and inserts them into the technical metadata.
-  # @param file The file to extract the timestamps of.
-  def set_file_timestamps(file)
-    self.created = file.ctime.to_s
-    self.last_accessed = file.atime.to_s
-    self.last_modified = file.mtime.to_s
-  end
-
-
   ## Model specific preservation functionallity
   def create_preservation_message_metadata
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
+    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>\n"
     res +="<preservationMetadata>"
     res += self.preservationMetadata.content
-    res +="</preservationMetadata>"
+    res +="</preservationMetadata>\n"
     res +="<techMetadata>"
     res += self.techMetadata.content
-    res +="</techMetadata>"
+    res +="</techMetadata>\n"
+    unless self.fitsMetadata.nil? || self.fitsMetadata.content.nil? || self.fitsMetadata.content.empty?
+      res +="<fitsMetadata>"
+      res += self.fitsMetadata.content
+      res +="</fitsMetadata>\n"
+    end
+    res
   end
 
   def can_perform_cascading?
