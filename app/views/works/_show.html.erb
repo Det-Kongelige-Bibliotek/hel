@@ -84,6 +84,50 @@
           </tbody>
         </table>
     <% end %>
+
+    <% if @work.is_part_of.present? %>
+        <h4> <%= t('.rel_works') %></h4>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th><%= t('.descr') %></th>
+            <th><%= t('.title') %></th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td>
+                  <span><%= t('.contained') %></span>
+                </td>
+                <td>
+                  <strong><%= link_to @work.is_part_of.titles.first.value, work_path(@work.is_part_of) %></strong>
+                </td>
+              </tr>
+              <% unless @work.preceding_works.empty? %>
+              <tr>
+                <td>
+                  <span><%= t('.previous') %></span>
+                </td>
+                <td>
+                  <strong><%= link_to @work.preceding_works.last.titles.first.value , work_path(@work.preceding_works.last) %></strong>
+                </td>
+              </tr>
+              <tr>
+              <% end %>
+              <% unless @work.succeeding_works.empty? %>
+              <td>
+                <span><%= t('.next') %></span>
+              </td>
+              <td>
+                <strong><%= link_to @work.succeeding_works.first.titles.first.value , work_path(@work.succeeding_works.first) %></strong>
+              </td>
+              </tr>
+              <% end %>
+          </tbody>
+        </table>
+    <% end %>
+
+
     <div class="row">
 
       <div class="btn-group">

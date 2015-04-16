@@ -324,6 +324,11 @@ da:
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
       page_title: "Værk: "
+      rel_works: "Relaterede værker"
+      descr: "Beskrivelse"
+      contained: "En del af"
+      previous: "Forrige værk"
+      next: "Næste værk"
     subject_authority:
       close: "Slet emne"
     title:
