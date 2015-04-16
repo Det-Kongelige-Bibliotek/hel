@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	       xmlns:t="http://www.tei-c.org/ns/1.0"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       version="1.0">
+
+  <xsl:output method="xml"
+	      encoding="UTF-8"
+	      omit-xml-declaration="yes"/>
+
+  <xsl:template match="/t:TEI">
+    <html>
+      <xsl:apply-templates mode="head" select="t:teiHeader"/>
+      <body>
+	<h3><xsl:apply-templates mode="body" select="t:teiHeader"/></h3>
+	<xsl:apply-templates select="t:text"/>
+      </body>
+    </html>
+  </xsl:template>
+
+  <xsl:template mode="body" match="t:teiHeader">
+    <xsl:for-each select="t:fileDesc/t:sourceDesc/t:bibl[1]">
+      <xsl:for-each select="t:author">
+	<span property="author">
+	  <xsl:choose>
+	    <xsl:when test="position() = 1">
+	      <xsl:value-of select="t:name/t:surname"/><xsl:text>,
+	      </xsl:text><xsl:value-of select="t:name/t:forename"/>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:choose>
+		<xsl:when test="position() = last()">
+		  <xsl:text> &amp; </xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+		  <xsl:text>, </xsl:text>
+		</xsl:otherwise>
+	      </xsl:choose>
+	      <xsl:value-of select="t:name/t:forename"/><xsl:text>
+	      </xsl:text><xsl:value-of select="t:name/t:surname"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</span>
+      </xsl:for-each>
+      <xsl:if test="t:date">
+	<span property="datePublished">
+	  (<xsl:value-of select="t:date"/><xsl:text>) </xsl:text>
+	</span>
+      </xsl:if>
+     <xsl:if test="t:title">
+       <em property="name">
+	 <xsl:value-of 
+	     select="t:title[not(@type)]"/>
+	 <xsl:if test="t:title[@type='sub']">
+	   <xsl:text>: </xsl:text><xsl:value-of 
+	       select="t:title[@type='sub']"/>
+	 </xsl:if>
+       </em>
+     </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template mode="head" match="t:teiHeader">
+    <head>
+      <title>
+	<xsl:value-of 
+	    select="t:fileDesc/t:sourceDesc/t:bibl/t:title[not(@type)]"/>
+      </title>
+      <meta http-equiv="content-type" 
+	    content="application/xhtml+xml; charset=UTF-8"/>
+      <xsl:call-template name="scripts"/>
+    </head>
+  </xsl:template>
+
+  <xsl:template match="t:text">
+    <xsl:apply-templates select="t:body"/>
+  </xsl:template>
+
+  <xsl:template match="t:body">
+    <ul style="list-style-type: none">
+      <xsl:for-each select="//t:div[@n &lt; 5 ]">
+	<li title="click to select">
+	  <xsl:attribute name="onclick"> 
+	    <xsl:text>closeopen('</xsl:text>
+	    <xsl:value-of select="concat('letter',@xml:id)"/>
+	    <xsl:text>')</xsl:text>
+	  </xsl:attribute>
+	<strong><xsl:value-of select="@n"/></strong><xsl:text>
+	</xsl:text><xsl:call-template name="letter_title"/>
+	</li>
+      </xsl:for-each>
+    </ul>
+    <xsl:for-each select="//t:div[@n &lt; 5 ]">
+      <div style="display: none;">
+	<xsl:attribute name="id"><xsl:value-of
+	select="concat('letter',@xml:id)"/></xsl:attribute>
+	<div style="width:45%;float:left;">
+	  <xsl:apply-templates select="t:opener"/>
+	  <form>
+	    <dl>
+	      <xsl:call-template name="render_form"/>
+	    </dl>
+	  </form>
+	  <xsl:apply-templates/>
+	</div>
+	<div style="width:45%;float:left;">
+	  <xsl:for-each select="preceding::t:pb[1]|descendant::t:pb">
+	    <xsl:call-template name="render_facs"/>
+	  </xsl:for-each>
+	</div>
+      </div>
+    </xsl:for-each>
+  </xsl:template>
+
+  <!--
+   1. Start
+   2. Brevskrivningsdato
+   3. Afsender
+   4. Afsendelsessted
+   5. Modtager
+   6. Modtagelsessted
+   7. Sprog – er angivet i selve softwaren og derfor ikke opmærket på samme
+   måde som resten. Kan findes i tagget <w:lang> under attribute
+   w:val=””. Følger iso-forkortelser, så vidt jeg kan regne ud.
+   8. Proveniens
+   9. Note
+  10. Slut
+  -->  
+
+  <xsl:template match="t:opener">
+  </xsl:template>
+
+  <xsl:template match="t:p">
+    <xsl:element name="p">
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="render_form">
+    <dt>Afsender</dt>
+    <xsl:for-each select="t:closer/t:signed/t:persName">
+      <dd><xsl:element name="input">
+	<xsl:attribute name="name">sender</xsl:attribute>
+	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+      </xsl:element></dd>
+    </xsl:for-each>
+    <dt>Afsendelsessted</dt>
+    <xsl:for-each select="t:opener/t:dateline/t:geogName">
+      <dd><xsl:element name="input">
+	<xsl:attribute name="name">senders_place</xsl:attribute>
+	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+      </xsl:element></dd>
+    </xsl:for-each>
+    <dt>Brevskrivningsdato</dt>
+    <xsl:for-each select="t:opener/t:dateline/t:date">
+      <dd><xsl:element name="input">
+	<xsl:attribute name="name">date</xsl:attribute>
+	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+      </xsl:element></dd>
+    </xsl:for-each>
+    <dt>Modtager</dt>
+    <xsl:for-each select="t:opener/t:salute/t:persName">
+      <dd><xsl:element name="input">
+	<xsl:attribute name="name">recipient</xsl:attribute>
+	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+      </xsl:element></dd>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template name="render_facs">
+    <xsl:element name="img">
+      <xsl:attribute name="style">
+	width:100%;
+      </xsl:attribute>
+      <xsl:attribute name="alt">
+	side <xsl:value-of select="@n"/>
+      </xsl:attribute>
+      <xsl:attribute name="src">
+	<xsl:value-of select="@facs"/>
+      </xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="letter_title">
+    <span>
+      <xsl:for-each 
+	  select="t:opener/t:dateline/t:geogName |
+		  t:opener/t:dateline/t:date">
+	<xsl:apply-templates select="."/>
+	<xsl:if test="position()=last()">. </xsl:if>
+	<xsl:text> </xsl:text>
+      </xsl:for-each>
+      <xsl:for-each 
+	  select="t:opener/t:salute/t:persName"> 
+	<xsl:if test="position()=1">Til </xsl:if>
+	<xsl:apply-templates select="."/><xsl:text> </xsl:text>
+      </xsl:for-each>
+
+      <xsl:for-each 
+	  select="t:closer/t:signed/t:persName">
+	<xsl:if test="position()=1">fra </xsl:if>
+	<xsl:apply-templates select="."/>
+      </xsl:for-each>
+    </span>
+
+  </xsl:template>
+
+  <xsl:template name="scripts">
+    <script type="application/javascript">
+      <xsl:text>
+	opendiv = "";
+	function closeopen(lid) {
+	   if(opendiv) {
+	      prevlet = document.getElementById(opendiv);
+   	      prevlet.style.display="none";
+	   }
+	   var letter = document.getElementById(lid);
+	   letter.style.display="block";
+	   opendiv = lid;
+	}
+      </xsl:text>
+    </script>
+  </xsl:template>
+
+
+  
+</xsl:transform>
