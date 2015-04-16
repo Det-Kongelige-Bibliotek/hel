@@ -1,4 +1,7 @@
 <h1><%= @file.original_filename %> </h1>
+<div id="xml_pointer" class="hide">
+  <%= @file.xml_pointer %>
+</div>
 <%# render a html view tailored for the specific content type %>
 <% template_name = "content_#{@file.mime_type.split('/').last}" %>
 <%= render partial: template_name, object: @file rescue
