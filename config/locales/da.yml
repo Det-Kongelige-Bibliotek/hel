@@ -327,6 +327,7 @@ da:
       rel_works: "Relaterede værker"
       descr: "Beskrivelse"
       contained: "En del af"
+      contains: "Indeholder"
       previous: "Forrige værk"
       next: "Næste værk"
     subject_authority:

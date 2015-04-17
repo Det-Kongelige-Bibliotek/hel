@@ -125,6 +125,26 @@
               <% end %>
           </tbody>
         </table>
+    <% elsif  @work.parts.present?%>
+        <h4><%= t('.contains') %></h4>
+        <div class="table-scroll">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th><%= t('.title') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @work.parts.each do |rel| %>
+                  <tr>
+                    <td>
+                      <strong><%= link_to rel.titles.first.value, work_path(rel) %></strong>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+        </div>
     <% end %>
 
 
