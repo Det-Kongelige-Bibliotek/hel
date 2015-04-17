@@ -78,6 +78,11 @@ describe Work do
       expect(@work.is_part_of).to eql @rel
     end
 
+    it 'can contain other works' do
+      @work.parts << @rel
+      expect(@work.parts).to include @rel
+    end
+
   end
   describe 'person relations' do
 

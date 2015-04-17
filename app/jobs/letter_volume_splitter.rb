@@ -35,7 +35,6 @@ class LetterVolumeSplitter
       work = Work.new
       # create relationship to previous letter
       work.add_preceding(previous_work) unless previous_work.nil?
-      work.is_part_of = master_work
       work.add_title(value: letter.title)
       work.add_language(letter.language) if letter.language.present?
 
@@ -54,6 +53,8 @@ class LetterVolumeSplitter
 
       fail "Letter could not be saved! #{work.errors.messages}" unless work.save
       Resque.logger.info "Letter saved with id #{work.id}"
+      master_work.parts << work
+      master_work.save
 
       # add TEI reference with id
       xml_instance = Instance.from_activity(activity)
