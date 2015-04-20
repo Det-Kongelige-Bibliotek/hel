@@ -97,6 +97,10 @@ class InstancesController < ApplicationController
     redirect_to work_instance_path(@instance.work.first,@instance)
   end
 
+  def perform_fits
+    
+  end
+
   # DELETE /instances/1
   def destroy
     @instance.destroy
