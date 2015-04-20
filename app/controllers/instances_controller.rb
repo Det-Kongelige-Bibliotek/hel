@@ -4,7 +4,7 @@ class InstancesController < ApplicationController
   before_action :set_work, only: [:create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
-  :send_to_preservation, :update_administration]
+  :send_to_preservation, :update_administration, :validate_tei]
 
   authorize_resource :work
   authorize_resource :instance, :through => :work
@@ -42,9 +42,9 @@ class InstancesController < ApplicationController
       doc = converter.to_mods("")
       mods = Datastreams::Mods.from_xml(doc) 
       if @instance.from_mods(mods)
-        flash[:notice] = "Instans data er hentet."
+        flash[:notice] = t('instances.flashmessage.ins_data_retrieved')
       else
-        flash[:error]  = "Kunne ikke hente instans data."
+        flash[:error]  = t('instances.flashmessage.no_ins_data_retrieved')
       end
     end
     @instance.work << @work
@@ -59,7 +59,7 @@ class InstancesController < ApplicationController
   def create
       @instance = @klazz.new(instance_params)
       if @instance.save
-        flash[:notice] = "#{@klazz} blev gemt"
+        flash[:notice] = t('instances.flashmessage.ins_saved', var: @klazz)
         @instance.cascade_preservation
       else
         @instance.work << @work
@@ -72,7 +72,17 @@ class InstancesController < ApplicationController
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
     if @instance.update(instance_params)
-      flash[:notice] = "#{@klazz} er opdateret."
+      if @instance.type == 'TEI'
+        @instance.content_files.each do |f|
+          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                                       f.external_file_path,@instance)
+          f.update_tech_metadata_for_external_file
+          f.save(validate: false)
+        end
+        repo = Administration::ExternalRepository[@instance.external_repository]
+        repo.push
+      end
+      flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
       @instance.cascade_preservation
     end
     respond_with(@instance.work.first, @instance)
@@ -80,9 +90,9 @@ class InstancesController < ApplicationController
 
   def send_to_preservation
     if @instance.send_to_preservation
-      flash[:notice] = 'Instans og indholdsfiler sendt til bevaring'
+      flash[:notice] = t('instances.flashmessage.preserved')
     else
-      flash[:notice] = 'Kunne ikke send til bevaring'
+      flash[:notice] = t('instances.flashmessage.no_preserved')
     end
     redirect_to work_instance_path(@instance.work.first,@instance)
   end
@@ -95,7 +105,7 @@ class InstancesController < ApplicationController
   def destroy
     @instance.destroy
     @instances = @klazz.all
-    flash[:notice] = "#{@klazz} er slettet"
+    flash[:notice] = t('instances.flashmessage.destroy', var: @klazz)
     redirect_to action: :index
   end
 
@@ -103,7 +113,7 @@ class InstancesController < ApplicationController
   def update_administration
     begin
       update_administrative_metadata_from_controller(params, @instance, false)
-      redirect_to @instance, notice: 'Administrativ metadata er opdateret'
+      redirect_to @instance, notice: t('instances.flashmessage.admin_updated')
     rescue => error
       error_msg = "Kunne ikke opdatere administrativ metadata: #{error.inspect}"
       error.backtrace.each do |l|
@@ -115,6 +125,13 @@ class InstancesController < ApplicationController
     end
   end
 
+  def validate_tei
+    @instance.validation_message = ['Vent Venligst ...']
+    @instance.validation_status = 'INPROGRESS'
+    @instance.save(validate:false)
+    Resque.enqueue(ValidateAdlTeiInstance,@instance.pid)
+    redirect_to work_instance_path(@instance.work.first,@instance)
+  end
 
   private
 

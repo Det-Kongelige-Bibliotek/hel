@@ -26,40 +26,78 @@ da:
     errors:
       messages:
         record_invalid: 'Ugyldig data'
-  person:
-    scheme: Skema
-    given: Fornavn
-    family: Efternavn
-    date: Fødsels-Dødsår
+
 
   works:
     work_form:
       cancel: "Fortryd"
     show:
       edit: "Rediger"
+
   authority:
-    people:
+      bases:
+        created: "Base was successfully created."
+        updated: "Base was successfully updated."
+        destroyed: "Base was successfully destroyed."
+      people:
+        destroyed: "Person was successfully destroyed."
       form:
         cancel: "Fortryd"
       show:
         authorized_names: "Autoriserede navne"
+
   instances:
+    flashmessage:
+      ins_data_retrieved: "Instans data er hentet."
+      no_ins_data_retrieved: "Kunne ikke hente instans data."
+      ins_saved: "%{var} blev gemt"
+      ins_updated: "%{var} er opdateret."
+      preserved: 'Instans og indholdsfiler sendt til bevaring'
+      no_preserved: 'Kunne ikke send til bevaring'
+      destroy: "%{var} er slettet"
+      admin_updated: "Administrativ metadata er opdateret"
+    index:
+      title: "Liste over instanser"
+      list: "Listing instances"
+      confirm: "Are you sure?"
+    new:
+      title: "Ny instans af: "
+    show:
+      title: "Vis instans til: "
     types:
-      trykforlaeg: Trykforlæg
+      trykforlaeg: "Trykforlæg"
+    file_input:
+      add: "Tilføj flere filer"
     form:
+      title: "Instans"
       cancel: "Fortryd"
       could_not_be_saved: "Instansen kunne ikke gemmes"
+      gem: "Gem"
     show_bibliograph:
+      isbn: ISBN
       copyright_date: "Dato for ophavsret"
       published_date: "Udgivelsedato"
       mode_of_issuance: "Udgivelseform"
       extent: "Omfang"
       language: "Sprog"
     bibliographic:
+      title: "Bibliografiske metadata"
       language: "Sprog"
     sidebar:
       go_to: "Gå Til:"
+      bibliographic: "Bibliografiske metadata"
+      administrative: "Administrative metadata"
+      upload: "Fil upload"
+    show_files:
+      label: "Files"
+      file_name: "Filnavn"
+      bev_profil: "Bevarings profil"
+      bev_status: "Bevarings Status"
+      bev_detaljer: "Bevarings Detaljer"
+      download: "Download link"
+      upload: "Upload"
     show_administrative:
+      label: "Administrative Data"
       activity: "Aktivitet"
       collection: "Samling"
       copyright: "Licens"
@@ -67,8 +105,23 @@ da:
       preservation_profile: "Bevaring Profil"
       preservation_state: "Bevaring Status"
       preservaton_details: "Bevaring detaljer"
+    activity_input:
+      activity: "Aktivitet"
     administrative:
       admin_header: "Administrativ metadata"
+      collection: "Samling"
+      availability: "Tilgængelighed"
+      klaus: "Klausuleringstype"
+      license: "Vælg licens"
+      preservation: "Bevaring"
+      preserv_profile: "Preservation profile"
+    image_found:
+      check: "Check tei pagebreaks"
+    image_found_modal:
+      tiff: "Manglende tiff billeder"
+      wait: "Please wait ..."
+      luk: "Luk"
+
   simple_form:
     labels:
       defaults:
@@ -109,12 +162,35 @@ da:
         password: "Adgangkode"
         remember_me: "Husk mig"
   work:
+    update: "Værket er opdateret."
+    save: "Værket blev oprettet."
+    destroy: "Værket blev slettet."
     aleph:
       error_message: "Ingen data fundet i aleph for %{field} %{value}"
       success_message: "Værk oprettet med data fra Aleph"
     save_error: "Værk kunne ikke gemmes"
+
   administration:
     activities:
+      flashmessage:
+        created: "Activity was successfully created."
+        updated: "Activity was successfully updated."
+        destroyed: "Activity was successfully destroyed."
+      activity_input:
+        activity: "Aktivitet"
+      default_permissions:
+        ins_permissions: "Instance Permissions"
+        file_permissions: "File Permissions"
+      form:
+        no_save_error: "prohibited this activity from being saved:"
+        gem: "Gem"
+      show:
+        access: "Access condition"
+        availability: "Availability"
+        collection: "Collection"
+        embargo: "Embargo"
+        em_condition: "Embargo condition"
+        pres_profile: "Preservation Profile"
       index:
         header: "Aktiviteter"
         name: "Navn"
@@ -126,7 +202,12 @@ da:
         new_activity: "Ny aktivitet"
       edit:
         edit_activity: "Rediger aktivitet"
+
     controlled_lists:
+      flashmessage:
+        created: "ControlledList was successfully created."
+        updated: "ControlledList was successfully updated."
+        destroyed: "ControlledList was successfully destroyed."
       index:
         header: "Kontrollerede lister"
         edit: "Rediger"
@@ -136,6 +217,7 @@ da:
       new:
         header: "Ny kontrollerede list"
       form:
+        no_save_error: "prohibited this controlled_list from being saved:"
         list_name: "Navnet af listen"
         new_entry: "Ny post"
         new_field: "Tilføj flere"
@@ -145,6 +227,136 @@ da:
         label: "Label"
       edit:
         header: "Redigerer %{name}"
+
+    external_repositories:
+      flashmessage:
+        synchronizing: "Synkronisering startet"
+      index:
+        header: "Externe Repositorier"
+        show: "Vis"
+        syncronise: "Synkroniser"
+        name: "Navn"
+      show:
+        title: "Externt Repositorie"
+        branch: "Branch"
+        activity: "Aktivitet"
+        base: "Base Directory"
+        image: "Image Directory"
+        sync: "Synkroniserings metode"
+        sync_status: "Synkroniserings status"
+        sync_date: "Synkroniserings dato"
+        log: "Log messages"
+
+  authority:
+    bases:
+      new:
+        title: "New authority_basis"
+    people:
+      form:
+        no_save_error: "prohibited this authority_basis from being saved:"
+        person: "Person"
+      name:
+        scheme: "Skema"
+        given: "Fornavn"
+        family: "Efternavn"
+        date: "Fødsels-Dødsår"
+        born: "Født"
+        die: "Død"
+      edit:
+        editing: "Editing person"
+      index:
+        confirm: "Are you sure?"
+        list: "Listing %{var} objects"
+      new:
+        title: "New Person"
+
+  catalog:
+    home_text:
+      title: "Velkommen til Valhal!"
+    index_work:
+      ins: "instans(er)"
+
+  devise:
+    sessions:
+      new:
+        title: "Log ind"
+
+  shared:
+    administration_dropdown:
+      admin: "Administrer"
+    create_dropdown:
+      opret: "Opret"
+    navbar:
+      nav: "Toggle navigation"
+    user_dropdown:
+      login: "Log ind"
+      logout: "Log ud"
+      guest: "Gæst"
+
+  trykforlaegs:
+    bibliographic:
+      title: "Bibliografiske metadata"
+    index:
+      title: "Listing Trykforlaegs"
+      confirm: "Are you sure?"
+
+  works:
+    add_instance:
+      add: "Tilføj ny instans"
+      tryk: "Trykforlaeg"
+      new_ins: "Ny instans til:"
+    aleph_import:
+      import: "Importer fra Aleph"
+      number: "System nummer"
+    creator:
+      close: "Slet ophav"
+    show:
+      titles: "Titler"
+      title: "Titel"
+      subtitle: "Undertitel"
+      lang: "Sprog"
+      type: "Type"
+      author: "Ophav"
+      name: "Navn"
+      role: "Rolle"
+      subject: "Emne(r)"
+      new_tryk: "Nyt Trykforlæg"
+    subject_authority:
+      close: "Slet emne"
+    title:
+      close: "Slet titel"
+    work_form:
+      import: "Importer fra Aleph"
+      work: "Værk"
+      error: "prohibited this instance from being saved:"
+      titles: "Titler"
+      add_title: "Tilføj Titel"
+      author: "Ophav"
+      new_person: "Opret ny person"
+      add_author: "Tilføj Ophav"
+      subject: "Emner"
+      add_subject: "Tilføj Emne"
+    edit:
+      page_title: "Rediger værk: "
+    index:
+      page_title: "Liste over værker"
+      title: "Listing works"
+      cofirm: "Are you sure?"
+    new:
+      page_title: "Nyt værk"
+    show:
+      page_title: "Værk: "
+
+
+
+
+  content_file:
+    flashmessage:
+      file_uploaded: "Filen er uploaded"
+      no_file_to_upload: "Der er ikke valgt nogen fil"
+      basic_file_not_found: 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
+
+
   back: "Tilbage"
   show: "Vis"
   edit: "Rediger"
@@ -152,3 +364,8 @@ da:
   unauthorized:
       manage:
         all: "Du har ikke adgang til denne side."
+
+  flashmessage:
+    standard_error: 'An error has occurred. Please contact your system administrator'
+    file_not_found: 'The file you requested could not be found in Fedora! Please contact your system administrator'
+    be_admin: "Du skal være administrator for at kunne opdatere"

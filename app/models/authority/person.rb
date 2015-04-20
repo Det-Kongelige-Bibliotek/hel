@@ -90,6 +90,15 @@ module Authority
     end
 
     #static methods
+    def self.find_or_create_person(forename,surname)
+      result = ActiveFedora::SolrService.query('person_name_tesim:"'+surname+', '+forename+'"')
+      if (result.size > 0)
+        Authority::Person.find(result[0]['id'])
+      else
+        Authority::Person.create(authorized_personal_name: { 'given' => forename, 'family' => surname})
+      end
+    end
+
     def self.get_typeahead_objs
       ActiveFedora::SolrService.query("typeahead_tesim:* && has_model_ssim:*Authority_Person",
                                       {:rows => ActiveFedora::SolrService.count("typeahead_tesim:* && has_model_ssim:*Authority_Person")})

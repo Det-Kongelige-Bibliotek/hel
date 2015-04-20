@@ -1,0 +1,1491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="idm140453278395280">
+  <teiHeader xml:id="idm140453278394976">
+    <fileDesc xml:id="idm140453278394720">
+      <titleStmt xml:id="idm140453278394416">
+        <title xml:id="idm140453278394112">Jeppe Aakjær</title>
+        <author xml:id="idm140453278367728">Henrik Fibæk Jensen</author>
+        <respStmt xml:id="idm140453278367344">
+          <resp xml:id="idm140453278367088"/>
+          <name xml:id="idm140453278366832"/>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt xml:id="idm140453278366320">
+        <publisher xml:id="idm140453278366064">ADL</publisher>
+      </publicationStmt>
+      <sourceDesc xml:id="idm140453278365552">
+        <bibl xml:id="idm140453278365296"/>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text xml:id="idm140453278364656">
+    <body xml:id="idm140453278364400">
+      <div xml:id="idm140453278364144">
+        <head xml:id="idm140453278363888">Jeppe Aakjær</head>
+        <!--
+<p>Forfatterportr&aelig;t: Jeppe Aakj&aelig;r </p>
+<p>af Henrik Fib&aelig;k Jensen </p>
+
+<p>1866: F&oslash;dt i Aakj&aelig;r syd for Skive</p>
+<p>1895: Studentereksamen </p>
+<p>1895-98: Universitetsstudier i faget historie </p>
+<p>1897: F&oslash;rste bog: <hi rend="italics">Missionen og dens H&oslash;vding</hi></p>
+<p>1904: <hi rend="italics">Vredens B&oslash;rn</hi></p>
+<p>1905: <hi rend="italics">Fri Felt</hi></p>
+<p>1906: <hi rend="italics">Rugens Sange og andre</hi> <hi rend="italics">Digte</hi></p>
+<p>1928: <hi rend="italics">Fra min Bitte-Tid</hi></p>
+<p>1930: D&oslash;d p&aring; Jenle nord for Skive</p>
+-->
+        <div type="indl" xml:id="idm140453278362864">
+          <head xml:id="idm140453278361664">Indledning</head>
+          <list type="simple" xml:id="idm140453278361280">
+            <item xml:id="idm140453278360736">
+              <ref target="#a1.1" xml:id="idm140453278360432">"Jens Vejmand" og "Havren"</ref>
+            </item>
+            <item xml:id="idm140453278359600">
+              <ref target="#a1.2" xml:id="idm140453278359344">Aakjær i det litterære landskab</ref>
+            </item>
+          </list>
+          <anchor xml:id="a1.1"/>
+          <div xml:id="idm140453278345104">
+            <head xml:id="idm140453278344848">"Jens Vejmand" og "Havren"</head>
+            <p xml:id="idm140453278425024">"Min far og jeg sang "Jens Vejmand", så tårerne sprang. De
+            kolde hårde sten og de stivfrosne fingre var mere, end et
+            barnehjerte kunne bære. At han så heller ikke fik en gravsten, var
+            dog, når man tager hans liv i betragtning, et mindre onde, men
+            retfærdighed var der ikke meget af". Sådan fortæller Mimi Jakobsen
+            i sin erindringsbog, <hi rend="italics" xml:id="idm140453278424080">Politik i
+            virkeligheden</hi> (1993, s. 109-110), og hendes barndomsminde er
+            næppe enestående. Lige siden Jens første gang dukkede frem bag
+            skærmen i <hi rend="italics" xml:id="idm140453278423136">Politiken</hi>s kronik den 22.6.1905
+            (<ref target="../texts/aakjaer01val.xml#workid86568" xml:id="idm140453278422448"><hi rend="italics" xml:id="idm140453278422080">SV</hi> 1 185-186</ref>), har tårerne flydt både
+            over hans trøstesløse liv og over det hjerteknugende faktum, at
+            han på trods af sin profession ikke engang blev forundt en sten på
+            sin grav! </p>
+            <p xml:id="idm140453278421104">På Aakjærs tid var det almindeligt, at den fattigste del af
+            landbefolkningen blev sat til at slå skærver, dvs. knuse sten, som
+            blev brugt til vejbelægning. Jens Vejmand er en sådan
+            tvangsudskrevet skærveknuser helt nede på bunden af det danske
+            samfund, som "af sin sure Nød / med Hamren maa forvandle / de
+            haarde Sten til Brød" (<ref target="../texts/aakjaer01val.xml#s185" xml:id="idm140453278318592"><hi rend="italics" xml:id="idm140453278318224">SV</hi> 1 185</ref>). Uanset hvornår man kommer
+            forbi - tidligt eller sent, ved sommertid eller vintertid - er han
+            i fuld sving. Han må slide umenneskeligt hårdt for blot at
+            overleve.  Omsider dør han så, midt i sit arbejde. Og selvom han
+            brugte hele sit liv på at hugge sten, må han tragisk nok nøjes med
+            et bræt på sit gravsted: "Der staar paa Kirkegaarden / et gammelt
+            frønnet Bræt; / det hælder slemt til Siden, / og Malingen er
+            slet. / Det er saamænd Jens Vejmands. / Hans Liv var fuldt af
+            Sten, / men paa hans Grav - i Døden, / man gav ham aldrig én"
+            (<ref target="../texts/aakjaer01val.xml#s186" xml:id="idm140453278316096"><hi rend="italics" xml:id="idm140453278315728">SV</hi> 1 186</ref>).</p>
+            <p xml:id="idm140453278314848">Digtet om Jens rummer en umiddelbar social appel, som
+            appellerer til alle aldersklasser. Ja, i TV-serien
+            "Danmarkshistorie" udråber Erik Kjersgaard ligefrem "Jens Vejmand"
+            til "selve indbegrebet af social indignation" (Danmarks Radio
+            1982).  Vi forarges over, at nogen skal døje <hi rend="italics" xml:id="idm140453278313920">så
+            </hi>krank en skæbne som Jens'. Aakjær henvender sig direkte til
+            læserne ("Og vaagner du en Morgen", "Og ager du til Staden", "Og
+            vender du tilbage"), hvorved vi bliver part i sagen. Vi kan ikke
+            undslå os, vi er førstehåndsvidner: Vi <hi rend="italics" xml:id="idm140453278312736">ser</hi>
+            den gamle olding i de lasede klæder, og vi <hi rend="italics" xml:id="idm140453278311984">hører</hi> de monotone hammerslag, der danner
+            klangbunden for hans triste liv. Han er generalnævneren for
+            samfundets allerdårligst stillede, som slider livet igennem uden
+            selv at få ret meget ud af det. Når han ikke gør oprør, er det
+            sandsynligvis, fordi han er et af de gammeldags almuemennesker,
+            der affinder sig med deres ulyksalige livsvilkår som noget
+            skæbnebestemt.</p>
+            <p xml:id="idm140453278310416">Aakjærs andet bedst kendte digt er "Havren" (<ref target="../texts/aakjaer02val.xml#workid80574" xml:id="idm140453278310048"><hi rend="italics" xml:id="idm140453278309632">SV</hi> 2 141-143</ref>), der første gang stod at
+            læse i <hi rend="italics" xml:id="idm140453278308704">Politiken</hi> den 3.9.1916. Dets
+            storhed var så iøjnefaldende, at professor Vilhelm Andersen straks
+            skrev til forfatteren: "Det er sjældent, man ser det fuldkomne,
+            for en Gangs Skyld har jeg truffet det her i Deres Digt" (<hi rend="italics" xml:id="idm140453278307504">Efterladte Erindringer</hi>, s. 166). </p>
+            <p xml:id="idm140453278306656">Overraskende nok lægger Aakjær synsvinklen hos havren: Det er
+            igennem den, vi opfatter og forstår verden. I første strofe
+            velsigner den sin ejermand: Da havren blev sået, slog han kryds
+            over den "for at gi' mig Helse med paa Vej" (<ref target="../texts/aakjaer02val.xml#s142" xml:id="idm140453278305840"><hi rend="italics" xml:id="idm140453278305424">SV</hi> 2 142</ref>), og velsignelsen virkede
+            åbenbart, for gennem juniregnen og julisolen voksede havren sig
+            stor og sund og fik til sidst mere end tyve bjælder på hvert
+            strå. Når der er vindstille, tier den, men når søndenvinden kælent
+            smyger sig om den og puster til dens gule top, kommer dens bjælder
+            i vuggende bevægelser, og til sidst frembringer den overgivent
+            lyde, "som naar gyldne Hamre sammen slaar" (<ref target="../texts/aakjaer02val.xml#142" xml:id="idm140453278303920"><hi rend="italics" xml:id="idm140453278303504">SV</hi> 2 142</ref>). For poetisk anlagte mennesker
+            er klangbilledet dog langt mere fuldtonende. Havren blev sået,
+            "mens glade Lærker sang" (<ref target="../texts/aakjaer02val.xml#142" xml:id="idm140453278302368"><hi rend="italics" xml:id="idm140453278301952">SV</hi> 2 142</ref>), og på en måde, der unddrager
+            sig enhver rationel forståelse, blev denne glædedrukne sang
+            indoptaget i såsæden, hvorved den senere blev en del af den
+            fuldvoksne havre: "Mens i Dug jeg groede Fod for Fod, / groede
+            Sangen sammen med min Rod; / den, som ydmyg lægger Øret til, /
+            hører Lærkens Triller i mit Spil. // Det kan kolde Hjærner ej
+            forstaa: / Jeg er Lærkesangen paa et Straa, / Livets Rytme døbt i
+            Sommerdræ, / mer end Gumlekost for Øg og Fæ" (<ref target="../texts/aakjaer02val.xml#142" xml:id="idm140453278300512"><hi rend="italics" xml:id="idm140453278300096">SV</hi> 2 142</ref>). De, der besidder hjertets
+            ydmyghed, hører i bjældeklangen "Lærkesangen paa et Straa" og
+            bliver således i enkelte lykkefulde stunder af kosmisk karakter ét
+            med "Livets Rytme". Forestillingen om den underskønne lærkesang,
+            der overlever i strået, giver digtet dets helt særegne
+            karakter. Aakjær er velsagtens den eneste danske digter, som kunne
+            være kommet på den tanke!</p>
+            <p xml:id="idm140453278298432">Men ikke nok med det. Den gennemsunde havre synger ikke blot,
+            den <hi rend="italics" xml:id="idm140453278298080">ringler</hi> også, som det hedder med et af
+            Aakjærs mange lydmalende ord. Når aftenklokken i det fjerne ringer
+            solen til ro, sekunderer havren den refleksagtigt: "og naar
+            Aftenklokken ringer Fred, / staar jeg paa min Taa og ringler
+            med. // Jeg skal ringle Barnet til dets Seng, / ringle Taagen op
+            af Sump og Eng, / ringle Freden over Hjemmet ind, / ringle Bønnen
+            frem i fromme Sind" (<ref target="../texts/aakjaer02val.xml#143" xml:id="idm140453278296768"><hi rend="italics" xml:id="idm140453278296352">SV </hi>2 143</ref>). Denne velsignede,
+            sindsberoligende ringlelyd, der forkynder Guds fred over land og
+            by, udgør vor egentlige nationalmelodi. De "kolde Hjærner" ryster
+            selvsagt opgivende på hovedet ved snakken om den bedende havre og
+            fastslår med naturvidenskabelig strenghed: Når blæsten sætter
+            havrens bjælder i bevægelse, opstår der friktionslyde, som for
+            overfølsomme sjæle <hi rend="italics" xml:id="idm140453278294688">kan</hi> minde om lærkesang,
+            kirkeklokker og meget andet. Det er der ikke noget uforklarligt
+            i!</p>
+            <p xml:id="idm140453278293664">Digtene om vejmanden og havren viser spændvidden i Aakjærs
+            forfatterskab.  Medens "Jens Vejmand" er et socialt digt båret af
+            en fnysende indignation, som virker overrumplende stærk, netop
+            fordi den er uudtalt og overlader harmen til den følsomme læser,
+            er "Havren" et naturdigt udsprunget af en dybfølt glæde og
+            forundring over den livgivende cyklus (fra såsæd til havre),
+            bonden år efter år sætter i værk. Digtene udgør to højdepunkter i
+            to parallelt løbende tendenser i Aakjærs forfatterskab: På den ene
+            side var han en social engageret skribent, der med sin pen kæmpede
+            for samfundets dårligst stillede, på den anden side var han en
+            følelsesbetonet digter, der nærede en vegetativ drøm om "blot" at
+            være til stede i og beskrive den jyske natur, han elskede så
+            højt. Med sin <hi rend="italics" xml:id="idm140453278291440">forstand</hi> beskrev han
+            uretfærdigheder i det bestående samfund og kæmpede for en
+            samfundsomvæltning, der ville bringe undertrykte klasser op i
+            lyset, med sine <hi rend="italics" xml:id="idm140453278290352">følelser</hi> var han bundet
+            til naturen og til sine barndomsminder. Vil man forsøge at
+            'forklare' denne særegne dobbelthed i Aakjærs forfatterfysiognomi,
+            må man skrue tiden tilbage til dengang, det alt sammen
+            startede. Hans egenart som forfatter blev nemlig i udpræget grad
+            bestemt dels af det sind, han arvede efter sin forældre, og dels
+            af hans opvækstvilkår (se biografien).</p>
+          </div>
+          <anchor xml:id="a1.2"/>
+          <div xml:id="idm140453278288032">
+            <head xml:id="idm140453278287776">Aakjær i det litterære landskab</head>
+            <p xml:id="idm140453278287312"><hi rend="italics" xml:id="idm140453278287184">Derude fra Kjærene</hi> (1899) kaldte Aakjær
+            med demonstrativ tydelighed sin første digtsamling. Længere kan
+            man næsten ikke komme væk fra den københavnske stenbro!  Helt ud i
+            titlerne på sine bøger - <hi rend="italics" xml:id="idm140453278286048">Fri felt</hi> (1905)
+            og <hi rend="italics" xml:id="idm140453278285328">Rugens Sange og andre Digte</hi> (1906) -
+            markerede Aakjær sit tilhørsforhold til <hi rend="italics" xml:id="idm140453278284480">den
+            jyske bevægelse</hi>, som opstod i starten af
+            1900-tallet. Bevægelsens medlemmer, der ud over Aakjær talte navne
+            som Johannes V.  Jensen, Marie Bregendahl, Johan Skjoldborg og
+            Thøger Larsen, insisterede på at beskrive livsvilkårene på netop
+            deres hjemstavn med en hidtil uhørt grad af realisme og stoflig
+            sanselighed. Set gennem hver deres individuelle optik kortlagde de
+            både det jyske landskab - heden, åerne, markerne - og de
+            mennesker, der levede i det.  Hjemstavnsforfatterne anskuede altid
+            mennesket i dets nødvendige samspil med naturen - bondens
+            fundamentale afhængighed af jorden og vejret - og de var konstant
+            optaget af at udforske de faktorer, der bestemmer den retning, et
+            menneskeliv tager. Hvordan er forholdet mellem sociale
+            betingelser, arvemæssige dispositioner, tilfældigheder og ...
+            skæbnen? Det er store spørgsmål, der tumles med i
+            hjemstavnsforfatternes værker, men det sker altid i et
+            letforståeligt sprog. Ja, det vil sige, nogle af digterne -
+            herunder Aakjær - skrev undertiden på dialekt, hvilket drev de
+            københavnske anmeldere til vanvid! </p>
+          </div>
+        </div>
+        <div type="biog" xml:id="idm140453278281328">
+          <head xml:id="idm140453278280800">Biografi</head>
+          <list type="simple" xml:id="idm140453278280384">
+            <item xml:id="idm140453278279856">
+              <ref target="#a2.1" xml:id="idm140453278279600">Hjemme - Barndomsårene i Aakjær (1866-1884)</ref>
+            </item>
+            <item xml:id="idm140453278278704">
+              <ref target="#a2.2" xml:id="idm140453278278448">Hjemløs - Ungdomsårene i landflygtighed (1884-1907)</ref>
+            </item>
+            <item xml:id="idm140453278277536">
+              <ref target="#a2.3" xml:id="idm140453278277280">Hjem - Manddomsårene på Jenle (1907-1930)</ref>
+            </item>
+          </list>
+          <anchor xml:id="a2.1"/>
+          <div xml:id="idm140453278275616">
+            <head xml:id="idm140453278275360">Hjemme - Barndomsårene i Aakjær (1866-1884)</head>
+            <p xml:id="idm140453278274864">Jeppe Jensen, som Aakjærs fødenavn lød, blev født i den fattigste af landsbyen Aakjærs
+seks gårde den 10.9.1866 som søn af gårdejer Jens Peder Jensen og Kathrine Marie
+Jeppesen. Forældrene var diametralt forskellige mennesketyper: Faderen var udadvendt
+- han lo hjerteligt - rationel og engageret i politiske og samfundsmæssige spørgsmål,
+moderen var indadvendt - hun smilede vemodigt - emotionel og ligegyldig over for alt,
+hvad der lå uden for hjemmets fire vægge. Også på det religiøse område var de
+hinandens modsætninger: Hun satte livet igennem sin lid til Gud, mens han tvivlede på,
+om der overhovedet eksisterede en almægtig skaber (for husfredens skyld skiltede han
+dog aldrig med sin spirende vantro). </p>
+            <p xml:id="idm140453278272944">Da Aakjær på sine ældre dage skrev sine erindringer, var han helt på det rene
+med, at hans forældre hver på deres måde havde præget "mit Væsens Rod og de Kilder,
+hvoraf saa meget i min Digtning udspringer" (<hi rend="italics" xml:id="idm140453278272240">Fra min Bitte-Tid</hi>, s. 94). Faderen
+"repræsenterede Døgnets Prosa", mens moderen udgjorde "Poesien i Dagens Liv" (<hi rend="italics" xml:id="idm140453278271376">Fra</hi>
+							<hi rend="italics" xml:id="idm140453278270720">min Bitte-Tid</hi>, s. 83), og denne dobbelthed måtte Aakjær resten af livet spænde over.
+Slagordsagtigt kan man sige, at arven fra faderen fortrinsvis kom til udtryk i hans prosa
+(de agitatoriske romaner, kamptalerne), mens arven fra moderen overvejende
+udmøntede sig i hans poesi (naturlyrikken, mindedigtene). Selv mente Aakjær, at
+"Arven fra Mors Side er langt den stærkeste i mig" (<hi rend="italics" xml:id="idm140453278269360">Fra</hi>
+							<hi rend="italics" xml:id="idm140453278268704">min Bitte-Tid</hi>, s. 54). Aldrig
+glemte han de lyksalige timer, hvor han sammen med hende - eller alene - strejfede om
+langs Karup Ås bredder: "Det er sikkert disse paradisiske Enge, disse endeløse Flader af
+den mest uberørte Natursarthed og Farveynde, der sammen med de dybe Vældkilder af
+Inderlighed og Følsomhed i min Mors Bryst har gjort mig til den Digter, jeg er" (<hi rend="italics" xml:id="idm140453278267280">Fra</hi>
+							<hi rend="italics" xml:id="idm140453278266624">min Bitte-Tid</hi>, s. 80). </p>
+            <p xml:id="idm140453278265776">Næst efter forældrene fik Niels Jakobsen størst betydning for den unge
+Aakjærs udvikling. Han havde ham som lærer i sit sidste skoleår på Fly Skole (1879-80), og "hver Dag under den nye Lærers Undervisning blev mig en Oplevelse. Jeg
+havde kun et Aar tilbage af min Skolegang, da Jakobsen blev Lærer, men dette Aar fik
+hundredfold mere Værdi for mig end alle de seks foregaaende tilsammen" (<hi rend="italics" xml:id="idm140453278264896">Drengeaar
+og Knøsekaar</hi>,<hi rend="italics" xml:id="idm140453278264176"/>s. 9). Med den nye lærer kom også den nye tid med ét slag til den gamle
+landsby: Inspireret af Grundtvigs og Kolds lovprisning af "det levende Ord" erstattede
+Jakobsen åndløst terperi og ufordøjet udenadslæren med engageret fortællekunst: "Nej,
+nu stod Verden ikke til Paaske! Degnen fortalte <hi rend="italics" xml:id="idm140453278263024">Æventyr</hi> - i Skolen! Ja, ikke nok med
+det, han fortalte ogsaa Bibelskhistorie, Danmarkshistorie, Geografi! Alt fortalte han.
+Det hændte, at vi sad i et Skrupgrin, saadan fortalte han" (<hi rend="italics" xml:id="idm140453278261968">Drengeaar og Knøsekaar</hi>, s.
+8). Den opvakte elev blev snart lærerens yndling og begyndte at komme i hans hjem,
+hvor han lånte bøger af B.S. Ingemann, St.St. Blicher, Carit Etlar og mange andre. Uden
+Jakobsen ville Aakjærs liv <hi rend="italics" xml:id="idm140453278260816">måske</hi> have formet sig helt anderledes: "Det er slet ikke godt
+at vide, hvad min Skæbne vilde være bleven, hvis ikke jeg havde faaet denne dygtige
+Lærer i mit 12te Aar. I al Stilhed førte han en ny Verden med sig, Sangens, Poesiens,
+Skønhedens Verden; og jeg aabnede mine unge Sanser og drak af de friske Kilder, som
+Planterne drikker Sommerregnen efter Ugers Tørke" (<hi rend="italics" xml:id="idm140453278259376">Konge, Adel og andre
+Sallingboer</hi>, s. 222).</p>
+            <p xml:id="idm140453278258512">Med liv og sjæl engagerede læreren sig i sin elevs fremtid. Drengen havde så
+gode evner, at han for enhver pris måtte holdes til bogen, og derfor sørgede Jakobsen
+for, at han blev optaget først på Staby Højskole (ved Ringkøbing) i 1882 og derefter på
+Blaagaard Seminarium (i København) i 1884. Endnu inden Aakjær var fyldt tyve år, var
+han således godt på vej mod en fremtidig livsgerning som lærer.</p>
+          </div>
+          <anchor xml:id="a2.2"/>
+          <div xml:id="idm140453278256704">
+            <head xml:id="idm140453278256448">Hjemløs - Ungdomsårene i landflygtighed (1884-1907)</head>
+            <p xml:id="idm140453278255936">Afrejsen til København i efteråret 1884 betød et definitivt farvel til barndommens
+verden. Hvilken omvæltning: Fra den lille jyske landsby, hvor alt var statisk og
+forudsigeligt, til den store sjællandske metropol, hvor alt var dynamisk og
+uforudsigeligt! Og Aakjær forstod til fulde at udnytte de talløse muligheder, storbyen
+gav: Flittigt gik han til foredrag, overværede skuespil, frekventerede museer,
+udforskede biblioteker osv. Og så tog han for alvor fat på at læse de nye, realistiske
+forfattere: "al min Læsning blev herefter afgørende bestemt af mit Hang til at følge
+Realismens Fane og lade dens Bøger og Ideer gennemsyre hele min Opfattelse af Livet
+og Samfundet" (<hi rend="italics" xml:id="idm140453278254256">Drengeaar og Knøsekaar</hi>, s. 68). Når det moderne gennembruds
+bannerfører, Georg Brandes - "en herlig rensende Aand i Verdensformat" - gik på
+talerstolen, var Aakjær næsten altid at finde blandt tilhørerne, og han bevarede livet
+igennem en knusende respekt for "vort magelige Lands aldrig hvilende Samvittighed"
+(<hi rend="italics" xml:id="idm140453278252960">Muld og Mænd</hi>, s. 122). Brandes lærte ham, at kendetegnet på al levende litteratur er,
+at den sætter problemer under debat.</p>
+            <p xml:id="idm140453278251888">Aakjærs begejstring for den nye realisme medførte, at han nødvendigvis måtte
+tage afstand fra sin barndomsverden derhjemme ved Karup Å. Jo mere han fordybede
+sig i alt <hi rend="italics" xml:id="idm140453278251264">det nye</hi> - litterært, filosofisk, politisk - jo mere kom han til at foragte alt <hi rend="italics" xml:id="idm140453278250416">det
+gamle</hi>: </p>
+            <cit xml:id="idm140453278249600">
+              <q xml:id="idm140453278249344">"Jeg sugede den ny Tid ind gennem alle Porer, mens jeg mere og mere fyldtes af Haan
+og Overbærenhed med det, jeg havde levet i derhjemme. En ny Erasmus Montanus var
+under Udformning. [...] en som var fyldt til Halsen af alt det, som moderne var, inden
+for Literatur og Nyttefilosofi, halvfordøjede Floskler og Spekulationer over Gud og
+Tilværelsens Gaade, der "frygtløst bekrammedes af Poge". Men en skøn Tid var det, og
+i min barnlige Uforstand troede jeg at have forstaaet det altsammen, længe forinden jeg
+endnu havde nemmet Tilværelsens Abc. [...] den spændte Hjærne berusede sig i den </q>
+              <q xml:id="idm140453278248160">nye, stærke Vin, mens jeg fyldtes af en lidt for barnlig og naiv Selvglæde, og den
+Verden, hvor jeg dog, naar alt kom til alt, havde min Rod, syntes at ligge fjernt, fjernt
+bag et umaadeligt bredt og diset Hav" </q>
+              <bibl xml:id="idm140453278247328">(<hi rend="italics" xml:id="idm140453278247072">Drengeaar og Knøsekaar</hi>, s. 69-70).</bibl>
+            </cit>
+            <p xml:id="idm140453278246064">Selvom Aakjær brugte en stor del af døgnets timer på at indsuge den ny tid, fik
+han alligevel også tid til at passe sine studier, og i juli 1886 tog han en
+præliminæreksamen. Optændt vendte han tilbage til sin hjemstavn, hvor han
+ved årsskiftet 1886-87 holdt nogle 'revolutionære' foredrag på Fly Skole, som
+medførte, at han kom til at sidde 17 dage i Viborg Tugthus! Et halvårskursus
+på Askov Højskole i vinteren 1887-88 blev en "sær, tosset Baglæns-Dans, der
+da næsten heller ingen Rolle kom til at spille i mit Liv [...] Jeg havde
+gennemløbet en ungdommelig brusende Ungdomsudvikling, hvor alt stod i
+Realismens Tegn, nu blev jeg henført til denne Romantikens sikre Borg og
+Fæste, hvor Halvfjerdsernes Mænd aldrig blev nævnt uden Skuldertræk"
+(<hi rend="italics" xml:id="idm140453278244224">Drengeaar og Knøsekaar</hi>, s. 190). </p>
+            <p xml:id="idm140453278243344">Men selvom Aakjær så på højskolerne med overbærenhed, forhindrede det
+ham ikke i at tage arbejde i selvsamme regi! Efter et kort mellemspil som børnelærer på
+Elbæk Friskole (1888-89) blev han ansat først på Hjørlunde Højskole (1891) og derefter
+på Kjøbenhavns Højskole (1891-92). Lærergerningen bekom ham vel: "Jeg var rigtig i
+mit Es som Højskolelærer og tog mig ingenlunde Opgaven let. Jeg var langt mere
+belæst end unge Mennesker i Almindelighed. Mine Foredrag var ikke frie Emner om alt
+mellem Himmel og Jord, som det dengang var Mode paa Højskolerne. De handlede om
+Realiteter og optog mig selv med Liv og Sjæl" (<hi rend="italics" xml:id="idm140453278241760">Før det Dages</hi>, s. 82). Da han
+praktiserede en "konfessionsløs" undervisning baseret på Darwin og Brandes, blev han
+til sidst fyret (højskolen byggede jo i bund og grund på et kristent menneskesyn).</p>
+            <p xml:id="idm140453278240528">Afskedigelsen medførte, at Aakjær tog hele sit liv op til revision: Nu ville han
+ikke længere være lærer, men derimod faghistoriker. Først brugte han tre år (1892-95)
+på at tage den forhadte studentereksamen, som var en forudsætning for, at han kunne
+blive immatrikuleret ved Københavns Universitetet, og derefter studerede han historie i
+tre år (1895-98). Den lærer, der fik størst betydning for ham, var professor Kristian
+Erslev, som oplærte ham i den kildekritiske metode, der adskiller den professionelle
+historiker fra amatøren. </p>
+            <p xml:id="idm140453278239488">Når Aakjær på trods af sin lidenskab for historie alligevel ikke fuldførte sit
+studium, skyldtes det, at han konstant måtte påtage sig tidskrævende arbejdsopgaver:
+korrekturlæsning, udarbejdelse af rigsdagsreferater, undervisning m.v. I modsætning til
+sine ugifte studiekammerater var han nemlig familieforsørger: Han var i 1893 blevet
+gift med Marie Bregendahl, datter af den rigeste gårdejer derhjemmefra. Ægteskabet var
+ikke lykkeligt, dels fordi de havde store økonomiske problemer at slås med, og dels
+fordi deres sind ikke var stemt i samme toneart. De var simpelthen <hi rend="italics" xml:id="idm140453278238608">for</hi> forskellige: Han
+kunne leve af kærlighed og kildevand, hun kunne ikke nøjes med en tilværelse på
+kredit: "Jeg stakkels Fantast! Alle mine glødende Ord og Bønner afvæbnedes med én
+eneste Glose: <hi rend="italics" xml:id="idm140453278237536">Huslejen!</hi>" (<hi rend="italics" xml:id="idm140453278236848">Før det Dages</hi>, s. 159).<hi rend="italics" xml:id="idm140453278236112"/>De blev skilt i 1900. </p>
+            <p xml:id="idm140453278235424">Når Aakjær opgav sine universitetsstudier, var det dog ikke 'kun', fordi han
+var overbebyrdet med erhvervsarbejde. I slutningen af 1890'erne stod det ham nemlig
+mere og mere klart, at hans livs bestemmelse var at blive digter - ikke historiker. Vejen
+frem til denne erkendelse var brydningsfuld. </p>
+            <p xml:id="idm140453278234432">Selvom Aakjær kom til at bo i København i adskillige år, affandt han sig aldrig
+med storbylivet. Det var forfærdeligt, fordi det underminerede alt smukt og godt:
+"København er saa ond imod ens Idealer; hvad der var i én af Godt og Fint, det
+forgroves og overdrages med Skimmel i en By som denne. Hvad man saa op imod med
+Taarer i Øjnene og Glød i Kinderne, det blir herinde saa inderligt lurvet og stygt. Man
+maa bo paa Landet for at være god og uskyldig" (<hi rend="italics" xml:id="idm140453278233536">Før det Dages</hi>, s. 149-150).<hi rend="italics" xml:id="idm140453278232800"/>Den
+bondefødte Aakjær kunne simpelthen ikke falde til i storbyens kogende heksekedel, og
+de ungdomsår, hvor han mere eller mindre fast boede i København, forblev derfor på
+alle måder udlændingeår gennemsyret af både fysisk og eksistentiel hjemløshed. Dog
+begyndte han ved udgangen af 1890'erne at finde fodfæste. </p>
+            <p xml:id="idm140453278231504">På tærsklen til det nye århundrede indså han nemlig, at den gamle jyske
+bondekultur rummede fundamentale livsværdier, som var gået tabt i storbyens inferno.
+Han blev født som digter, da han helt ind i sine hjerterødder forstod, at han <hi rend="italics" xml:id="idm140453278230752">aldrig</hi> kunne
+frigøre sig fra sit barndomsmiljø, at den inderste kerne i hans kunstneriske talent havde
+sin rod i den sunkne verden derhjemme, og at hans digterkald bestod i at fastholde den
+tabte tid og give den poetisk fylde. Denne erkendelse udgjorde vendepunktet i hans
+voksne liv. Nu var han for alvor <hi rend="italics" xml:id="idm140453278229440">på vej hjem</hi>. </p>
+          </div>
+          <anchor xml:id="a2.3"/>
+          <div xml:id="idm140453278227824">
+            <head xml:id="idm140453278227568">Hjem - Manddomsårene på Jenle (1907-1930)</head>
+            <p xml:id="idm140453278227088">Efter at Aakjær havde fundet sin emnekreds - det jyske - og efter at han i 1902 havde
+mødt sit livs store kærlighed - Nanna Krog - blev trangen til at vende hjem
+uimodståelig. Åndelig talt søgte han tilbage til sit udgangspunkt med sine første bøger,
+nu resterede blot den fysiske returnering. </p>
+            <p xml:id="idm140453278226080">Sammen med sin bror Jens fik Aakjær i 1906 mulighed for at erhverve et
+jordstykke ca. 10 km nord for Skive. De slog til, og i april 1907 flyttede Jens og det
+nygifte ægtepar Jeppe og Nanna Aakjær ind på Jenle (et jysk udtryk for enlig, ensom).
+Mange års trøstesløshed var omsider til ende: "Den Gaard er for mig en Hvilestilling.
+Vi gaar altid tilbage til den Hvilestilling, som Barndomstiden har været for os" (<hi rend="italics" xml:id="idm140453278225136">Hver 8
+Dag</hi>, 20.10.1907). Jens stod som ejer af gården, ægteparret Aakjær som lejere. De to
+brødre ville dele arbejdsopgaverne imellem sig: Jens skulle drive gården, Jeppe skulle
+leve af sin pen. </p>
+            <p xml:id="idm140453278223952">Det kom slet ikke til at gå som planlagt. Jens formåede ikke at drive et
+rentabelt landbrug og måtte derfor allerede efter et par år forlade Jenle. Aakjær blev
+boende på gården, der blev overtaget af et konsortium, og først da han i 1919 fik råd til
+at købe konsortiemedlemmerne ud, blev han eneejer af Jenle. I 1920'erne brugte han
+store summer på at udbygge og forskønne sin gård - både udendørs og indendørs. Dens
+bankende hjerte var og blev dog hans arbejdsværelse: "Ingen Bondes Hjem, ingen
+Lærds Hjem, men en Drømmers forunderlige Enestue, hvori Bøgerne, Bøgerne paa
+Lofter, Hylder og tunge Reoler staar som en Skare af Skikkelser og Skæbner, usynlige
+omkring Jyllands nu saa navnkundige Sanger" (Emil Bønnelycke, <hi rend="italics" xml:id="idm140453278222144">Berlingske Tidende
+</hi>18.1.1922). I denne enestue med den vidunderlige udsigt over Astrup Vig fuldbragte
+Aakjær i årene 1907-30 sit forfatterskab. </p>
+            <p xml:id="idm140453278221056">Hverdagenes nøjsomme arbejdsomhed blev kun afbrudt af månedlange
+foredragsturneer, studieophold i København og Jenle-festerne. I perioden 1910-29
+afholdt Aakjær hver sommer en stor fest (med årene 1919, 1927 og 1928 som
+undtagelser). Nanna Aakjær fortæller: "fra nær og fjern kom folk for at se og høre rigets
+store mænd. Det var jo før film, radio og fjernsyn gjorde mødet med de kendte ansigter
+til noget dagligdags. Man kendte kun lederne, idealerne - eller de arge fjender - fra
+aviser og bøger. Her saa man dem i kød og blod, tolkende de emner, der var tidens og
+dagens. Det var oplevelser, som de, der var med, aldrig glemmer" (<hi rend="italics" xml:id="idm140453278219456">Skive Folkeblad</hi>
+25.2.1961). </p>
+            <p xml:id="idm140453278218608">Jenle-festerne, som samlede 2.000-8.000 mennesker, startede kl. 16 (efter
+kirketid). Aakjær og hans private gæster spiste middag med rødvin til kl. 12, så de var
+allerede i højt humør, inden festen startede. Når tiden var inde, blev der ringet med
+klokkekneblen, og deltagerne marcherede under musikledsagelse fra gårdspladsen foran
+stuehuset ad flagalléeen ned til festpladsen ved stranden. Her blev de røde faner
+opplantet foran talerstolen, og festen tog sin begyndelse.</p>
+            <p xml:id="idm140453278217424">Man startede med en fællessang, der ofte var lavet specielt til lejligheden.
+Thøger Larsens "Danmark nu blunder den lyse Nat" er f.eks. skrevet til Jenlefesten i
+1914. Så bød Aakjær velkommen, hvorpå først den indbudte foredragsholder og
+derefter han selv besteg talerstolen. Tit talte de om det samme spørgsmål. Blandt de
+emner, der blev sat under debat, kan nævnes husmandssagen, forholdet mellem
+kristendom og socialisme, herremandsvældet, militarismen, første verdenskrig, det
+sønderjyske spørgsmål, hedens opdyrkning, folkeoplysning, fædrelandskærlighed og
+klassekamp. Blandt gæstetalerne må nævnes H.P. Hansen, F.J. Borgbjerg, P. Munch,
+Thorvald Stauning, Ove Rode, Johan Skjoldborg, K.K. Steincke og Johannes
+Buchholtz. Ind imellem talerne stod indbudte sangere for underholdningen.</p>
+            <p xml:id="idm140453278215360">Aakjærs tankevækkende, skarpe og samtidig humoristiske tale bragte altid
+"den alvorligt lyttende Forsamling til at stormle eller storle, for at tale Bjørnsonsk. Det
+sang i Luften fra Jeppe Aakjærs Hammer, Øksehug og Køllesving mod falske Guder, og
+den nationale Gemenhed i Hof- og Statskalenderen" (Emil Bønnelycke, <hi rend="italics" xml:id="idm140453278214480">Politiken</hi>
+9.7.1923). Med "flagrende Haarmanke" slog han et slag "for de Smaa i Samfundet og i
+Særdeleshed for den danske Husmand, altid baaret af hans Livsvirkes og Digtnings
+Grundtone om Folkets Lykke, der skal være vor Lov" (Johannes Fønss, <hi rend="italics" xml:id="idm140453278213296">Social-Demokraten</hi> 24.10. 1940). </p>
+            <p xml:id="idm140453278212448">Når talerne og sangene var overstået, kom der gang i de medbragte madkurve.
+Efter at den værste sult var stillet, gik mange af de ældre festdeltagere hjem.
+Sommernatten stod nemlig i de unges tegn, og der var nok at tage sig til: På stranden
+var der restaurationstelte, iskageboder, lykkehjul, gynger o.m.a. Alkohol var strengt
+forbudt, så man måtte nøjes med kaffe, der til gengæld blev konsumeret i spandevis.
+Mens de unge badede, legede og dansede, fortsatte Aakjær og hans gæster festen
+indendøre. Nogle år var op imod 80 mennesker samlet i hans tætpakkede stuer til et højt
+værdsat tagselvbord. Overalt stod eller sad folk og spiste, mens de diskuterede talerne
+og sang Aakjær og Bellman. Ud på aftenen samledes alle på ny på festpladsen, hvor
+Aakjær læste op af egne værker. Festen sluttede omkring midnat med et gigantisk
+fyrværkeri. I sandhed en storslået afrunding på en dejlig dag.</p>
+            <p xml:id="idm140453278210240">Den ydre festivitas var ikke at foragte, men den egentlige
+            kerne i Jenlefesterne var trods alt talerne. I første omgang blev
+            de ivrigt diskuteret af festdeltagerne, og i anden omgang gav de
+            tit anledning til en hed avisdebat. Med rituel forudsigelighed tog
+            egnens borgerlige aviser år efter år skarpt afstand fra de
+            "socialistiske Krigshyl", som "Klassehadets Apostel" udstødte fra
+            Jenles talerstol (<hi rend="italics" xml:id="idm140453278209136">Skive Venstre-Blad</hi>
+            7.7.1925). Men også i de landsdækkende aviser blev Aakjærs tale
+            ivrigt kommenteret (den blev altid bragt som kronik i <hi rend="italics" xml:id="idm140453278208144">Politiken</hi>). Han tog kritikken i stiv arm: Som
+            en fuldblods socialist havde han nu én gang sine markante
+            meninger, som han for enhver pris måtte indvi omverden i. De var
+            ikke noget ydre, påklistret, som han kunne tage frem ved passende
+            lejligheder og lade ligge ved andre, nej, de udgjorde den inderste
+            kerne i al hans virken.  Lakonisk fastslog han, at "alt mit Liv
+            har været Agitation", at agitationen er "den Muld, hvoraf jeg er
+            groet, den Undergrund, der nærer min Digtnings som mit inderste
+            Væsens Rodtrævler" (<ref target="../texts/aakjaer04tom.xml#pageaakj4fm005" xml:id="idm140453278206672"><hi rend="italics" xml:id="idm140453278206240">SV</hi> 4 forord</ref>).</p>
+            <p xml:id="idm140453278205296">Man behøver blot at læse en enkelt af Aakjærs taler -
+            "Herremænd" fra 1911 (<ref target="../texts/aakjaer04tom.xml#workid58773" xml:id="idm140453278204832"><hi rend="italics" xml:id="idm140453278204416">SV</hi> 4 407-419</ref>) - for at forstå, hvorfor
+            han vakte så stort postyr. Talen er ét langt ætsende angreb på <hi rend="italics" xml:id="idm140453278203376">herremanden</hi>, der "har redet vort Folk som onde
+            Drømme lige fra Historiens Gry" (<ref target="../texts/aakjaer04tom.xml#n407" xml:id="idm140453278202512"><hi rend="italics" xml:id="idm140453278202096">SV</hi> 4 407</ref>): "I de sidste 3-400 Aar har
+            den danske Adel levet paa en topmaalt Meningsløshed; den har
+            krævet og faaet udleveret det meste af den danske Jord for sig
+            uden nogensinde at ha' vendt saa meget som en Spadefuld af den"
+            (<ref target="../texts/aakjaer04tom.xml#n409" xml:id="idm140453278200720"><hi rend="italics" xml:id="idm140453278200304">SV</hi> 4 409</ref>). Herremanden er "<hi rend="italics" xml:id="idm140453278199456">Samfundssnylteren i Renkultur</hi>" (<ref target="../texts/aakjaer04tom.xml#n409" xml:id="idm140453278198752"><hi rend="italics" xml:id="idm140453278198336">SV</hi> 4 409</ref>), som igennem århundreder har
+            gjort bondens lod urimelig tung. Stavnsbåndets løsning i 1788 og
+            Junigrundloven i 1849 udgjorde to vigtige milepæle på vejen frem
+            mod herremandens endeligt, men med den reaktionære
+            Grundlovsrevision i 1866 genvandt han desværre nogle af sine
+            rettigheder. Den reviderede Grundlov er at sammenligne med </p>
+            <cit xml:id="idm140453278196752">
+              <q xml:id="idm140453278196496">"en vældig Karosse, hvori Borgerne steg ind efter Rigdom og
+              Rang. Først steg alle de <hi rend="italics" xml:id="idm140453278196016">Besiddende</hi> ind;
+              de sidder mageligt med Puder i Ryggen og Pengeposen paa Skjødet;
+              saa krøb efterhaanden de andre efter, Obersten med Sabel og
+              Uniform, Embedsmanden med Paraply og Hattefutteral osv. osv. Men
+              da de saakaldte simple Folk begyndte at entre Vognen, blev der
+              brat givet Faresignal; Karossen satte sig i Bevægelse, nogle
+              havde kun det ene Ben oppe i Vognen, saadan som Husmænd og
+              Landarbejdere. Andre, som Kvinderne og Tyendet og de 25-aarige,
+              havde slet ikke faaet Tav endnu"</q>
+              <bibl xml:id="idm140453278194416">
+		(<ref target="../texts/aakjaer04tom.xml#n415" xml:id="idm140453278194128"><hi rend="italics" xml:id="idm140453278193616">SV</hi> 4 415</ref>).
+	      </bibl>
+            </cit>
+            <p xml:id="idm140453278192512">Fra sin plads i karossen råber Aakjær til "Grundlovens
+            Stedbørn", der i et halvt århundrede har løbet stakåndet efter
+            vognen, at de ikke skal give op. En dag får også de plads i
+            vognen, og så får den nok en helt anden kurs!</p>
+            <p xml:id="idm140453278191568">Dramatisk afrunder han talen med at beskrive et maleri, som han
+            vælger at kalde "Herskabet vender hjem". Sådan som han husker det,
+            er det opdelt i to halvdele, der er tydeligt adskilt af et
+            dige. På den ene side af diget ser man en glad godsejer, der i en
+            herskabelig vogn er på vej hjem til sit gods sammen med nogle
+            damer efter en lang dags fornøjelige sysler: "Der flirtes, der
+            les, der nydes; Hestene traver, Vognen fjedrer under sin
+            Skjønhedsbyrde. Det er Lykken paa fire rullende Hjul" (<ref target="../texts/aakjaer04tom.xml#n418" xml:id="idm140453278190544"><hi rend="italics" xml:id="idm140453278190176">SV</hi> 4 418</ref>). På den anden side af diget
+            ser man en forkuet landarbejder, der er på vej hjem efter "en
+            lang, udmattende Arbejdsdag; han er rygbøjet og krogknæget, hans
+            Dragt er lappet paa Kryds og Tværs" (<ref target="../texts/aakjaer04tom.xml#n418" xml:id="idm140453278188880"><hi rend="italics" xml:id="idm140453278188464">SV</hi> 4 418</ref>). Maleriet gengiver det
+            øjeblik, hvor han "forskræmt" hilser på sit herskab: "Dette Dige
+            [...] sætter Skjel mellem to Verdner; paa den ene Side dem, <hi rend="italics" xml:id="idm140453278187280">der nyder uden at arbejde, paa den anden Side dem,
+            som arbejder uden at nyde</hi>" (<ref target="../texts/aakjaer04tom.xml#n419" xml:id="idm140453278186512"><hi rend="italics" xml:id="idm140453278186096">SV</hi> 4 419</ref>). Og så henvender Aakjær sig
+            pludselig direkte til sine tilhørere, som for de fleste
+            vedkommende står på samme side af diget som landarbejderen: Måske
+            er den tid ikke så fjern, hvor "I tog Mod til jer <hi rend="italics" xml:id="idm140453278184768">og sprang over Diget</hi> for at indføre en hel ny
+            Samfundsskik. Det er dette Spring over Diget, som vi alle venter
+            paa; det er dette Spring over Diget, der skal indlede en hel ny
+            Tid, hvor der kanske er lidt færre Herremænd, men til Gjengæld
+            flere lykkelige Hjem" (<ref target="../texts/aakjaer04tom.xml#n419" xml:id="idm140453278183440"><hi rend="italics" xml:id="idm140453278183024">SV</hi> 4 419</ref>). Man forstår så sandelig godt,
+            at de velbjærgede hadede Aakjær af et godt hjerte: Han opfordrede
+            jo direkte de udbyttede - tilværelsens forfordelte - til at
+            invadere deres ukrænkelige territorium! </p>
+            <p xml:id="idm140453278181616">Efter et langt liv i stridens tegn døde Aakjær pludselig den
+            22.4.1930. Som sædvanlig stod han op ved 7-tiden:</p>
+            <cit xml:id="idm140453278180960">
+              <q xml:id="idm140453278180704">"Han [...] talte muntert med alle - var ligefrem oprømt. Saa
+              gik han ned i sin Spisestue og drak Morgenkaffe. For Enden af
+              Bordet staar der et Bur med to kurrende, blaagraa
+              Turtelduer. Han tog de tamme Dyr ud af Buret, løftede dem op i
+              sine Hænder, talte med dem og sang og fløjtede for dem, og de
+              svarede ham. Saa gik han ud i sin Sydhave og tog fat paa
+              Arbejdet. Han havde faaet Skuffejern med Hjul under, og det var
+              han meget glad ved. [...] Saa har han følt sig træt og er gaaet
+              tre Skridt hen til en hvid Bænk - og der faldt han forover med
+              Ansigtet mod Jorden - en Omfavnelse, et Kys mod den Jord, han
+              altid havde elsket. [...] Det føles digterisk forsvarligt at se
+              et Symbol paa Mandens hele Liv i de Morgentimer: Staa glad op,
+              lege med fløjtende Fugle, dyrke Jord og kæmpe mod Ukrudt. Og saa
+              segne mod Jorden midt i det klare Solskin - løftes op og bæres
+              bort i en elsket Kvindes Arme"</q>
+              <bibl xml:id="idm140453278178288"> (Buchholtz: <hi rend="italics" xml:id="idm140453278178000">Sidste Rejse</hi>, s. 17-18). </bibl>
+            </cit>
+            <p xml:id="idm140453278177024">Den elskede kvinde var selvfølgelig Nanna. Da hun sammen med en
+            veninde gik ud i haven hen på formiddagen, "fandt hun Digteren
+            liggende med Ansigtet mod Havens Grus. Først troede fru Aakjær, at
+            han var snublet, men da hun forsøgte at hjælpe sin Mand op, var
+            han stiv og tung. Døden var allerede indtraadt. Uden at faa sagt
+            Farvel til nogen havde Digteren udaandet mellem sine kære
+            Rosenbuske" (<hi rend="italics" xml:id="idm140453278420464">Jyske Tidende</hi> 23.4.). </p>
+          </div>
+        </div>
+        <div type="fskab" xml:id="idm140453278419360">
+          <head xml:id="idm140453278418832">Forfatterskabet</head>
+          <list type="simple" xml:id="idm140453278418416">
+            <item xml:id="idm140453278417888">
+              <ref target="#a3.1" xml:id="idm140453278417632">Det religiøse spørgsmål - "disse evige Abespring mod Maanen"</ref>
+            </item>
+            <item xml:id="idm140453278416704">
+              <ref target="#a3.2" xml:id="idm140453278416448">Det jyske bondeliv - Det velsignede arbejde</ref>
+            </item>
+            <item xml:id="idm140453278415600">
+              <ref target="#a3.3" xml:id="idm140453278415344">Det jyske bondeliv - Den forbandede udbytning</ref>
+            </item>
+            <item xml:id="idm140453278414496">
+              <ref target="#a3.4" xml:id="idm140453278414240">Tematisk sammenfatning - Mindets og forandringens digter</ref>
+            </item>
+          </list>
+          <p xml:id="idm140453278413248">Tegneren og forfatteren Achton Friis var en dag i 1897 på cykeltur med Aakjær: </p>
+          <cit xml:id="idm140453278412688">
+            <q xml:id="idm140453278412432">"Det var en Efteraarsmorgen for længe siden, at vi paa vore Cykler havde stridt os op
+paa en af Fjendsherreds højeste Banker. Nu stod vi her og saa ud over det vide Land,
+hvor Sol og Taager stredes. Vi var længe tavse. Omsider greb han min Haand og
+udbrød: "Kære Friis, hvor vilde jeg gerne her ha' drukket Dus med Dem, for her synes
+jeg egentlig, at vi først virkelig mødes. Skade, at vi mangler baade Glas og Flaske. Men
+se her - jeg har et Par Pærer i min Lomme, lad os <hi rend="italics" xml:id="idm140453278158880">spise</hi> Dus i dem!" Saa krydsede vi
+vore Arme og bed i den søde Frugt. Og dér blev vi dus. - Det er treogtredive Aar siden,
+at Synet af vor fælles Fødejord fik os til at mødes paa denne Vis efter nogle Maaneders
+Bekendtskab i Storbyen. Men "vi glemt 'et aaler i wo Daww!""</q>
+            <bibl xml:id="idm140453278157504"> (<hi rend="italics" xml:id="idm140453278157248">Nationaltidende</hi>
+23.4.1930). </bibl>
+          </cit>
+          <p xml:id="idm140453278156272">Der er noget helt symbolsk over den måde, hvorpå Friis og Aakjær spiste dus i pærer </p>
+          <p xml:id="idm140453278155696">ved synet af "vor fælles Fødejord". Fra banken skuede de ud over det velsignede land,
+som i hvert fald Aakjær kom til at bruge størstedelen af sit liv på at kortlægge. </p>
+          <p xml:id="idm140453278154944">Han fandt sin livsopgave ved indgangen til det nye århundrede: "Fra Aaret
+1900 har jeg været klar over min Digtnings Art og Retning; det har hele Tiden siden
+været en stadig og rolig Vækst uden Svinkeærinde, uden Omvendelser eller større
+larmende Gennembrud [...] Som Digter var jeg baade i Vers og i Prosa decideret
+bestemt af mit jydske Milieu, der mere og mere sugede mig helt til sig. Mine Æmner
+var saa at sige udelukkende jydske" (<hi rend="italics" xml:id="idm140453278153968">Efterladte Erindringer</hi>, s. 69). Med sin første
+roman, sin første digtsamling og sine to første novellesamlinger fra årene 1899-1901
+afstak han sit territorium: Fjends Herred. I altovervejende grad digtede han på sine
+barndomsminder: "det Jylland, som jeg tænker paa og egentlig stærkest interesserer mig
+for, er det, som jeg har fulgt til Graven" (<hi rend="italics" xml:id="idm140453278152624">Hver 8 Dag</hi>, 23.8.1903). Da Aakjær havde
+afgrænset sin emnekreds både geografisk og tidsmæssigt, faldt der ro over hans sind:
+"Især 1899 blev mig et betydningsfuldt Aar, hvor jeg som Menneske sprængte min
+Slavelænke og som Digter tog mit Rige i Besiddelse" (<hi rend="italics" xml:id="idm140453278151408">Før det Dages</hi>, s. 197). Han
+havde pålagt sig selv en opgave, der gav hans liv en mening og et formål. </p>
+          <p xml:id="idm140453278150384">Aakjær var utrolig produktiv inden for næsten alle genrer. Hans skønlitterære
+forfatterskab består af 6 romaner, 5 novellesamlinger, 5 skuespil og 6 digtsamlinger, og
+han har selv præciseret det synspunkt, hvorunder disse værker må anskues: 
+</p>
+          <cit xml:id="idm140453278149488">
+            <q xml:id="idm140453278149232">"Selv i min Digtning vil det være klogt under alle de mere eller mindre fantasifulde Lag
+at søge Kulturhistorikeren. Mine Romaner og Noveller, ja mange af mine Digte med, er
+uangribelige historiske Dokumenter fra min egen Tid. Jeg har sjælden spundet noget ud
+af Luften. Det er Historikeren i mig, der har Digteren ved Haanden, ikke omvendt, og
+jeg vilde betragte det som en Skam, om nogen med Rette kunde sige, at det eller det
+Træk i min Digtning ingen Grund har under Fødderne"</q>
+            <bibl xml:id="idm140453278148176"> (<hi rend="italics" xml:id="idm140453278147920">Før det Dages</hi>, s. 196). 
+</bibl>
+          </cit>
+          <p xml:id="idm140453278146928">Hans faglitterære forfatterskab omfatter indsamling og bearbejdning af folkesagn, et
+digert trebinds værk om Steen Steensen Blicher, taler og foredrag (hvoraf en stor del er
+samlet i <hi rend="italics" xml:id="idm140453278146288">SV</hi> 4) og omkring 2000 sider lokalhistoriske afhandlinger (samlet i <hi rend="italics" xml:id="idm140453278145552">SV</hi> 5 og i 6
+bind <hi rend="italics" xml:id="idm140453278144864">Studier fra Hjemstavnen</hi>). Endvidere skrev han på sine ældre dage fire
+erindringsbøger, hvoraf det første -<hi rend="italics" xml:id="idm140453278143984"> Fra min Bitte-Tid </hi>(1928)<hi rend="italics" xml:id="idm140453278143264"/>- helt klart må medregnes
+til hans hovedværker. Kort sagt: Den produktion, den myreflittige Aakjær efterlod sig,
+er uhyre omfangsrig. På tværs af genrerne skal her redegøres for nogle hovedtemaer i
+forfatterskabet.</p>
+          <anchor xml:id="a3.1"/>
+          <div xml:id="idm140453278141488">
+            <head xml:id="idm140453278141232">Det religiøse spørgsmål - "disse evige Abespring mod Maanen"</head>
+            <p xml:id="idm140453278140704">Det religiøse åg lå tungt på den unge Aakjærs skuldre. Han var opvokset i et miljø, hvor
+alle var vanekristne (med faderen som en delvis undtagelse), og det var først gennem
+egne studier og gennem mødet med brandesianismen, at han frigjorde sig fra enhver tro
+på transcendentale magter. </p>
+            <p xml:id="idm140453278139712">Nu forholdt det sig ikke sådan, at han slet ikke interesserede sig for Bibelen.
+Da han sad indespærret i Viborg Tugthus i januar 1887 for gudsbespottelige foredrag,
+brugte han således opholdet på at læse både det gamle og det nye testamente! Måneden
+efter skrev han til Marie Bregendahl: "I det øjeblik, da jeg bliver udråbt overalt for
+fritænker - ja, for <hi rend="italics" xml:id="idm140453278138784">gudsbespotter</hi>, da sidder jeg som hensunken i Vorherres favn med
+hjertet fyldt af barnetroens milde fryd - åja hvor lykkelig er jeg ikke, mer end
+menneskelig lykkelig ved denne pagt jeg så varmt har fornyet med helten fra Golgatha"
+(Brovst: <hi rend="italics" xml:id="idm140453278137648">Jeppe og Marie</hi>, s. 111). Pagten holdt kun et års tid eller to. Allerede da han
+var på Askov Højskole i vinteren 1887-88, så han "med ophøjet Overbærenhed paa al
+blødhattet Grundtvigianisme" (<hi rend="italics" xml:id="idm140453278136576">Drengeaar og Knøsekaar</hi>, s. 191). Alligevel skrev han til
+Marie: </p>
+            <cit xml:id="idm140453278135664">
+              <q xml:id="idm140453278135408">"Af alt hvad ondt jeg maa friste, lad mig dog aldrig miste min <hi rend="italics" xml:id="idm140453278135072">Barnetro</hi>. Intet Menneske
+er lykkelig uden den. Ja, maa jeg faa beholde den uskadt, men det er tit som vilde den
+svigte mig, som vilde den tage til at gaa under for mig, men kunde jeg rigtig komme til
+at bede Gud om Lov til at beholde den, bede ret ømt og mildt og barnligt og kjækt op
+mod Guds Ansigt, mon jeg saa ikke nok fik Lov til at beholde den, da jeg ønsker det saa
+inderligt"</q>
+              <bibl xml:id="idm140453278133488"> (Bjerre: <hi rend="italics" xml:id="idm140453278133200">Breve fra Jeppe Aakjær</hi>, s. 36). </bibl>
+            </cit>
+            <p xml:id="idm140453278132192">Skelsættende blev de to første uger af 1890, som Aakjær brugte på at læse Charles
+Darwins <hi rend="italics" xml:id="idm140453278131728">Arternes Oprindelse</hi> (1859). Denne bog blev bestemmende for hans endelige
+opgør med kristendommen: "Hans Bog er Nøglen til mangt et aflaaset Rum i Livets
+Labyrint, mangt et Rum som Præsterne har hængt Guds Segl paa som helligt og
+ubrydeligt. Han respekterer ikke de Segl - og Videnskaben bør ikke respektere dem -
+han bryder dem uden at agte disse selvgjorte Seglgjemmeres afmægtige Forbandelse.
+Nu sejrer Videnskaben, nu brydes Præstevælden!" (Bjerre: <hi rend="italics" xml:id="idm140453278130304">Breve fra Jeppe Aakjær</hi>, s.
+54). Aakjær mente, at videnskaben - Darwins evolutionslære - og troen - Bibelens
+skabelsesberetning - gensidigt udelukkede hinanden, og han valgte ved indgangen til
+1890'erne éntydigt side til fordel for videnskaben: "<hi rend="italics" xml:id="idm140453278129120">Det gamle og nye Testamente</hi> er
+smukke Sprogmindesmærker: flunkende, flammende Fantasier, med Poesiens ringlende
+Guldklang i Sproget, - men de er for gamle at leve paa for Nutidsmænd. Nej, det <hi rend="italics" xml:id="idm140453278128112">nyeste
+Testamente</hi>, det skreves af <hi rend="italics" xml:id="idm140453278127392">Charles Darwin</hi>, og det vil ha bærende Kraft for Aandens
+Udvalgte endnu i Aarhundreder" (<hi rend="italics" xml:id="idm140453278126544">Før det Dages</hi>, s. 104). Resten af sit liv forblev
+Aakjær en helbåren fritænker: "Religionen det er Menneskeslægtens Barneble, og de
+frie stærke Aander har altid været saa temmelig gudløse" (Bjerre: <hi rend="italics" xml:id="idm140453278125440">Breve fra Jeppe
+Aakjær</hi>, s. 142). </p>
+            <p xml:id="idm140453278124560">Sin interesse for Bibelen slap han dog ikke. I 1890 udarbejdede han et stort,
+aldrig udgivet manuskipt om <hi rend="italics" xml:id="idm140453278124176">Det Gamle Testamente</hi>, som han kaldte <hi rend="italics" xml:id="idm140453278123456">Bibelske
+Randgloser</hi>. Punkt for punkt opremsede han de mange uretfærdigheder, den hellige bog
+rummer, og hans konklusion var knusende: </p>
+            <cit xml:id="idm140453278122384">
+              <q xml:id="idm140453278122128">"Der er mægtigt skjønne poetiske Partier, men den største Part støder dog vor Følelse
+og Moral. [...] Han er en vild Gud, de 5 Mosebøgers, bloddrukken, offerkjær. Ofte
+vanskelig at skjelne fra en Dæmon. Forfærdelig i sin Vrede, barsk selv i sin Venlighed.
+Hvad han gir til den bedende, det slænger han til ham i Fortørnelse, hvad han gives af
+ham, det griber han som et Rov. Er det den Gud, der skal dømme Himmel og Jord, da
+Gud naade de Retfærdige. Men den Gud har heldigvis aldrig existeret andetsteds end i
+de jødiske Skjaldes og Sagnfortælleres mægtige Fantasi [...]. Guderne skabte
+Menneskene siger Mytologien, Menneskene skabte Guderne siger den historiske Kritik"</q>
+              <bibl xml:id="idm140453278120336">
+(NKS 3389, 4º).</bibl>
+            </cit>
+            <p xml:id="idm140453278119776">Den sidste sætning, der i en nøddeskal rummer det socialistiske
+            syn på alle religioner, ligger bag Aakjærs første bog,
+            stridsskriftet <hi rend="italics" xml:id="idm140453278119184">Missionen og dens Høvding
+            </hi>(1897), og hans første roman, <hi rend="italics" xml:id="idm140453278118352">Bondens
+            Søn</hi> (1899).</p>
+            <p xml:id="idm140453278117472"><hi rend="italics" xml:id="idm140453278117344">Missionen og dens Høvding</hi> (<ref target="../texts/aakjaer04tom.xml#workid54688" xml:id="idm140453278116624"><hi rend="italics" xml:id="idm140453278116208">SV</hi> 4 23-57</ref>) udsprang af hans forbitrelse
+            over "den fordummende Magt, som en pervers og livsfjendtlig
+            Religiøsitet kunde have over Menneskesindet" (<hi rend="italics" xml:id="idm140453278115056">Før det Dages</hi>, s. 175). Den livsfjendtlige
+            religion var Indre Mission, der især takket være den demagogiske
+            førerhøvding, Vilhelm Beck, havde bredt sig som en steppebrand
+            over det ganske land. Aakjærs bog var et flammende indlæg imod
+            missionen - denne inhumane afart af kristendommen, som truede med
+            at forvandle et livsglad folk til en nation af helvedesangste
+            mørkemænd. </p>
+            <p xml:id="idm140453278113456">Sit generalopgør med kristendommen fortsatte Aakjær i den
+            stærkt selvbiografiske roman <hi rend="italics" xml:id="idm140453278112976">Bondens Søn</hi>
+            (<ref target="../texts/aakjaer06val.xml#workid54652" xml:id="idm140453278112240"><hi rend="italics" xml:id="idm140453278111824">SV</hi> 6 1-111</ref>). Til professor Valdemar
+            Vedel forklarede han, at han havde "forsøgt at forme den [romanen]
+            som en Bondesøns Udviklingshistorie, og især anstrengt mig for at
+            paapege det religiøse Højtryk, under hvilket saa mange smukke
+            Evner forkrøbles" (Bjerre: <hi rend="italics" xml:id="idm140453278110384">Breve fra Jeppe
+            Aakjær</hi>, s. 197). </p>
+            <p xml:id="idm140453278109488">Bondesønnen hedder Jens Søndergaard, og man tør nok sige, at
+            hans barndom står i skrækkens tegn. "Er Jens ikke en rar Dreng,
+            saa kommer Bussemanden og tar ham" (<ref target="../texts/aakjaer06val.xml#s14" xml:id="idm140453278108832"><hi rend="italics" xml:id="idm140453278108416">SV</hi> 6 14</ref>), truer en tjenestepige, og
+            "senere hen erstattedes dette Uhyre af Postillernes Djævel, og der
+            var ikke mange Træk at forandre eller føje til. Det var
+            Bondebarnets og de Vildes Gud, født i Angst og Mørkerædsel, der
+            her stod over ham med blodigt Gab" (<ref target="../texts/aakjaer06val.xml#s15" xml:id="idm140453278106976"><hi rend="italics" xml:id="idm140453278106560">SV</hi> 6 15</ref>). Jens forstår, "at Gud var en
+            vældig Straffer af Overtrædelser, en Hævner uden Glemsel og en
+            Spejder uden Lige, hvis Øje intet Menneske kunde skjule sig for"
+            (<ref target="../texts/aakjaer06val.xml#s52" xml:id="idm140453278105328"><hi rend="italics" xml:id="idm140453278104912">SV</hi> 6 52</ref>). </p>
+            <p xml:id="idm140453278103968">Vendepunktet i Jens' liv indtræder, da han møder den kætterske
+            særling Dons, der finder det tåbeligt at beskæftige sig med noget,
+            hvorom man ingen viden kan have: </p>
+            <cit xml:id="idm140453278103184">
+              <q xml:id="idm140453278102928">"hvilke herlige Kræfter gaar der ikke til Spilde under disse
+              evige Abespring mod Maanen! Himlen, hvad vedkommer den os? Se
+              engang derop! Ser <hi rend="italics" xml:id="idm140453278102320">du</hi> noget? Æther ser
+              du. Og saa' nogen Moders Sjæl nogensinde andet end denne
+              vigende, blaa, uigjennemskuelige Dejlighed? Men af dette vigende
+              Blaa dannede alle Tider og Folkeslag deres Guder, skiftende som
+              de drivende Skyer, og som Skyer er de ogsaa vejret hen"</q>
+              <bibl xml:id="idm140453278100896">
+	      (<ref target="../texts/aakjaer06val.xml#gidogsaamenneskene" xml:id="idm140453278100608"><hi rend="italics" xml:id="idm140453278100176">SV</hi> 6 80</ref>). 
+	      </bibl>
+            </cit>
+            <p xml:id="idm140453278099072">Gud er slet og ret "en Omskrivning for alt det, Menneskene ikke
+            ved" (<ref target="../texts/aakjaer06val.xml#aakjaer06gudomskrivning" xml:id="idm140453278098720"><hi rend="italics" xml:id="idm140453278098288">SV</hi> 6 79</ref>), hvorfor han nødvendigvis må
+            lide en langsom død i takt med, at videnskaben forklarer flere og
+            flere af tilværelsens gåder. Livskunsten består kort sagt i, at
+            "se Livet mandigt i Øjnene og hævde: Der sker ikke andre Mirakler
+            end dem, du selv lar ske" 
+	    (<ref target="../texts/aakjaer06val.xml#s82" xml:id="idm140453278096816"><hi rend="italics" xml:id="idm140453278096400">SV</hi> 6 82</ref>). Jens overtager Dons'
+            areligiøse livsopfattelse, og samtidig med at han kaster
+            kristendommens åg af sine skuldre, forsvinder også alle kvælende
+            syndsforestillinger som dug for solen. Hidtil har han skammet sig
+            over sin erotiske betagelse af hjemstavnens bugnende bondepiger,
+            men nu forstår han, at den seksuelle drift er en naturlig del af
+            menneskelivet og derfor aldrig kan være syndig. </p>
+            <p xml:id="idm140453278094752">Men selvom Jens fuldstændig underkender den tro, hvorpå hans
+            aner igennem generationer har bygget deres liv, er han fortsat "et
+            Muldets Barn, bundet med uoverrivelige Baand til sine Fædres Jord"
+            (<ref target="../texts/aakjaer06val.xml#aakjaeruoverriveligeband" xml:id="idm140453278094016"><hi rend="italics" xml:id="idm140453278093584">SV</hi> 6 109</ref>). Romanen ender da også med, at
+            han - efter et kortvarigt intermezzo i København - vender tilbage
+            til sin hjemegn, hvor han overtager fødegården. Tilsyneladende er
+            han tilbage ved sit udgangspunkt, og dog er alt anderledes. Hans
+            forfædre levede og døde i Djævelens skygge, men "fra de
+            Aandslænker, som <hi rend="italics" xml:id="idm140453278092112">de</hi> havde baaret, følte
+            han sig løst. Hans Sind husede ikke mere nogen Frygt for hans
+            Slægts onde og straffende Afguder, men bredskuldret og sund skulde
+            <hi rend="italics" xml:id="idm140453278091056">han</hi> nynnende bære sin Sædekurv hen over
+            den Jord, som de havde pløjet med Djævlen paaskrævs over
+            Plovaasen" (<ref target="../texts/aakjaer06val.xml#s109" xml:id="idm140453278090112"><hi rend="italics" xml:id="idm140453278089696">SV</hi> 6 109</ref>). Man kan give den fædrene
+            livsform ny gyldighed, såfremt man overvinder den fædrene tro. På
+            denne vision er romanen skrevet. Jens går frygtløst ind i
+            hverdagene uden at længes efter en nådig Gud eller at frygte en
+            ondskabsfuld Satan. Mennesket er alene i universet. Men livet er
+            også godt nok i sig selv, når blot man bruger det til at føre
+            slægten videre på den jord, ens forfædre har levet på i
+            århundreder. Slægtskontinuiteten og bundetheden til jorden
+            erstatter Paradis og Helvede. </p>
+          </div>
+          <anchor xml:id="a3.2"/>
+          <div xml:id="idm140453278087312">
+            <head xml:id="idm140453278087056">Det jyske bondeliv - Det velsignede arbejde</head>
+            <p xml:id="idm140453278086608">"Der dukker af Disen min Fædrenejord". Med denne intonation
+            starter digtet "Jylland" (<ref target="../texts/aakjaer01val.xml#workid73155" xml:id="idm140453278086144"><hi rend="italics" xml:id="idm140453278085728">SV</hi> 1 111-113</ref>), hvormed Aakjær åbner
+            afdelingen af "Hjemstavns-Sange" i <hi rend="italics" xml:id="idm140453278084784">Fri
+            Felt</hi> (1905). Placeringen er velvalgt: Det var jo netop en
+            lille afkrog af halvøen - Fjends Herred - han som den første påtog
+            sig at indskrive på det litterære Danmarkskort. Han påbegyndte sin
+            generobring af barndomslandet, efter at han med sine to første
+            bøger havde afklaret det religiøse spørgsmål. Først da var han
+            psykologisk sat fri til at koncentrere sig om sin hovedindsats som
+            forfatter: en sansemættet, nøgtern registrerende og dog samtidig
+            poetisk kortlægning af det fædreland, der dukkede op af disen.
+            Det lå i Aakjærs natur, at han ganske uproblematisk var i stand
+            til at betragte landbolivet igennem to forskellige brillesæt: Når
+            han tog det ene på, løb hans sind fuld af en dybfølt glæde over
+            den vestjyske naturs særegne skønhed, og han lovpriste bondens
+            ærlige arbejde i en række digte, som er blevet folkeeje; når han
+            tog det andet på, sprang den forfærdelige sociale nød ham i
+            øjnene, han blev grebet af en retfærdig harme og fordømte den
+            uværdige måde, hvorpå nogle mennesker kynisk udnyttede andre -
+            ovenikøbet med samfundets accept. Umiddelbart virker de to
+            synsvinkler uforenelige, men ved nærmere eftertanke kan man måske
+            sige, at de i virkeligheden komplementerer hinanden: Bondens
+            arbejde i stalden og på marken er <hi rend="italics" xml:id="idm140453278081936">i sig
+            selv</hi> velsignet, fordi han i modsætning til f.eks. en
+            kontormand indgår i et stofskifte med naturen, det er <hi rend="italics" xml:id="idm140453278080992">de ydre omstændigheder</hi> (de dårlige jordlodder,
+            den grove udnyttelse), som alligevel forpester alt for mange af
+            hans dage. Men disse omstændigheder kan forandres! </p>
+            <p xml:id="idm140453278079792">Overalt i sit forfatterskab opererede Aakjær skiftevis med de to synsvinkler,
+dog må man sige, at drivkraften bag hans romaner og noveller overvejende var hans
+sociale indignation, mens en stor del af hans lyrik er natur- og mindedigte, hvor bonden
+betragtes som en del af naturen og ikke som en del af samfundet (det sociale hierarki er
+fraværende). </p>
+            <p xml:id="idm140453278078704">Bondens liv og arbejde, hans sind og hans værk, var i det hele
+            taget et uopslideligt emne for Aakjær. Ja, hele hans forfatterskab
+            kan i virkeligheden opfattes som variationer over dette tema. I
+            kraft af sit erhverv er bonden mere end nogen anden afhængig af
+            mulden og vejret, og derfor viste Aakjær ham altid i hans samspil
+            med naturen. For hedebonden udgjorde den karrige jord tilværelsens
+            uafvendelighed, og da eksistensvilkårene nu én gang var så barske,
+            blev han også selv ualmindelig hårdfør.  Stejl, stridbar,
+            påholdende, ordknap. Sådan var hans sind. Og så længe han
+            overhovedet magtede det, fortsatte han med at dyrke sit beskedne
+            jordlod, mens han henlevede sit liv med Gud som den øverste
+            myndighed. Mandigt affandt bonden sig med, hvad livet måtte byde
+            ham. Den sørgmodige resignation var hans varemærke: "Guds Villi
+            taaler ingen Nokken" (<ref target="../texts/aakjaer06val.xml#aakjaer06gudsvilli" xml:id="idm140453278076464"><hi rend="italics" xml:id="idm140453278076032">SV</hi> 6 295</ref>).</p>
+            <p xml:id="idm140453278075088">Intetsteds har Aakjær beskrevet bondens arbejde skønnere end i
+            sit lyriske hovedværk, <hi rend="italics" xml:id="idm140453278074608">Rugens Sange og andre
+            Digte</hi> (1906). Som titlen indikerer falder det i to afdelinger
+            - "Rugens Sange" og "og andre Digte" - hvoraf den første udgør en
+            sammenhængende suite bestående af et forspil og et dusin digte,
+            hvori vi følger vinterrugen, fra den lægges i efteråret, til den
+            høstes om sommeren (<ref target="../texts/aakjaer01val.xml#workid92479" xml:id="idm140453278073232"><hi rend="italics" xml:id="idm140453278072816">SV</hi> 1 218-235</ref>). </p>
+            <p xml:id="idm140453278071872">Forspillet slår stemningen an: "Jeg lægger mig i Læet her ved
+            Storrugens Rod, / jeg lytter, og jeg lytter, til det synger i mit
+            Blod" (<ref target="../texts/aakjaer01val.xml#s218" xml:id="idm140453278071280"><hi rend="italics" xml:id="idm140453278070864">SV</hi> 1 218</ref>). Rugen står enhver bondefødt
+            nær - dens klokkespil udgør "den kjære danske Lyd, hvorved vi
+            voxed op" (<ref target="../texts/aakjaer01val.xml#s218" xml:id="idm140453278069760"><hi rend="italics" xml:id="idm140453278069344">SV</hi> 1 218</ref>) - og i de efterfølgende digte
+            fortælles dens historie. </p>
+            <p xml:id="idm140453278068240">Det starter alt sammen med, at bonden en efterårsdag går op på
+            sit loft, hvor han henter sæden, som han derefter sår, mens skyen
+            står lav og tung, blæsten jager med løvet, lærken triller og viben
+            klager: "Sæden flyver fra hans Haand og springer højt af Glæde: /
+            atter er den given hen til Jordens Moderskjød [...] / Stort og
+            Smaat - det væves ind i Bondens Alvorstanke; / aldrig er hans Kald
+            saa skjønt, som naar han saar sin Rug" (<ref target="../texts/aakjaer01val.xml#s219" xml:id="idm140453278067280"><hi rend="italics" xml:id="idm140453278066864">SV</hi> 1 219</ref>). </p>
+            <p xml:id="idm140453278065920">Når rugen er sået, strider den sig heltemodigt igennem den
+            barske danske vinter. Uanset vejrliget glemmer den aldrig sin
+            opgave: "Det er, som du vidste: I Lykke og Nød / du strider for
+            Menneskets Brød" (<ref target="../texts/aakjaer01val.xml#s220" xml:id="idm140453278065168"><hi rend="italics" xml:id="idm140453278064752">SV</hi> 1 220</ref>). Da foråret kommer, udspiller
+            der sig et sandt leben ved rugmarken: Den fattige, gigtplagede Ane
+            Malén tjener surt til dagens brød ved at fjerne sten fra "den
+            Riges Rug" (<ref target="../texts/aakjaer01val.xml#s221" xml:id="idm140453278063488"><hi rend="italics" xml:id="idm140453278063072">SV</hi> 1 221</ref>), den knibske Anna og hendes
+            "Hjertenskjær", Anders, finder efter nogen tøven sammen ved
+            rugskellet, mens "Rugen ringled vidt og bredt om Kys og
+            Kjærlighed; / hvad det mindste Ax har hørt, den hele Ager ved"
+            (<ref target="../texts/aakjaer01val.xml#s223" xml:id="idm140453278061712"><hi rend="italics" xml:id="idm140453278061296">SV</hi> 1 223</ref>), og Jens og hans viv går en
+            runde på deres gård, mens de fryder sig over, hvor godt rugen
+            står. </p>
+            <p xml:id="idm140453278060080">Omsider falder "Velsignelsens lysende Naade" (<ref target="../texts/aakjaer01val.xml#s225" xml:id="idm140453278059760"><hi rend="italics" xml:id="idm140453278059344">SV</hi> 1 225</ref>), regnen, hvilket tegner godt
+            for høsten. Den er et af årets absolutte højdepunkter: "Og aldrig
+            stemmes en Sjæl saa glad, / det være sig Mands eller Kvindes, /
+            som naar det dufter af Myntens Blad, / og Negene samles og bindes"
+            (<ref target="../texts/aakjaer01val.xml#s226" xml:id="idm140453278057952"><hi rend="italics" xml:id="idm140453278057536">SV</hi> 1 226</ref>). Først skal leerne slibes, og
+            så går det ellers løs: "Og nu hvæsser vi vor Le, / og saa mejer vi
+            vort Korn, / og saa favner vi vor Kvinde under Maanens Horn" (<ref target="../texts/aakjaer01val.xml#s227" xml:id="idm140453278056320"><hi rend="italics" xml:id="idm140453278055904">SV</hi> 1 227</ref>). </p>
+            <p xml:id="idm140453278054960">Når rugen er høstet, køres den hjem og bæres ind. Højdepunktet
+            i dens cyklus fra såsæd til menneskeføde indtræder, når den bliver
+            bragt i lade. Og Aakjær har intet glemt: "Nu er det længe siden, /
+            men end det gjemmes i <hi rend="italics" xml:id="idm140453278054160">mit</hi> Sind, / hvordan
+            i Barndomstiden / den kjære Rug kom ind" (<ref target="../texts/aakjaer01val.xml#s233" xml:id="idm140453278053344"><hi rend="italics" xml:id="idm140453278052928">SV</hi> 1 233</ref>). Først breder mor "et Klæde /
+            saa ømt som nogen Højtidsdug" ud, så man kan modtage rugen som "en
+            Hædersgjæst", så lægger far vesten "og sér saa indadvendt: / En
+            Skjælven i et ydmygt Sind, / en Bøn til Altets Skaber, / før Avlen
+            bringes ind" (<ref target="../texts/aakjaer01val.xml#s233" xml:id="idm140453278051488"><hi rend="italics" xml:id="idm140453278051072">SV</hi> 1 233</ref>). Da rugen efter en lang dags
+            hårdt, men lykkeligt arbejde er bragt tørt og sikkert i lade, går
+            alle veltilfredse til ro: "Saa slutter Far i Jesu Navn, / og
+            Hjemmet gaar til Hvile / med Høsten i sin Favn" (<ref target="../texts/aakjaer01val.xml#s235" xml:id="idm140453278049744"><hi rend="italics" xml:id="idm140453278049328">SV</hi> 1 235</ref>). </p>
+            <p xml:id="idm140453278048384">"Rugens Sange" er både en almengyldig beskrivelse af bondens
+            gerning til alle tider og en historisk tidsbundet skildring af
+            bondelivet, som det formede sig i Fjends i 1870'erne. Betegnende
+            nok veksler Aakjær ganske uproblematisk mellem benævnelserne
+            "Bonden" og "Far". </p>
+            <p xml:id="idm140453278047344">Da Aakjær i høj grad digtede på sine barn- og ungdomsminder fra
+            Fjends, blev hans synsvinkel i sagens natur bagudrettet. Det
+            bondesamfund, han skildrede med så stor indfølelse, var verden af
+            i går. På midten af sin livsbane stoppede han op, flyttede tilbage
+            til sin hjemstavn (omtrent) og begyndte at digte om den. Han <hi rend="italics" xml:id="idm140453278046464">måtte</hi> søge tilbage til de steder, hvor han
+            første gang tog verden i besiddelse. Hjemdriften er lige så
+            uudryddelig som seksualdriften. Hvis vi i vort livs forår drager
+            ud (som Ole på knolden), må vi nødvendigvis i vort livs efterår
+            valfarte fra "det yderste Hav" til barndommens bæk for at lytte
+            til "Mindernes Suk": "Hvad var vel i Verden det fattige Liv / med
+            al dets fortærende Tant, / om ikke en Plet med en Dal og lidt Siv
+            / vort Hjærte i Skjælvinger bandt! / Om ikke vi drog fra det
+            yderste Hav / for bøjet og rynket at staa / og høre de Kluk, / de
+            Mindernes Suk / fra Bækken, vi kyssed som smaa" (<ref target="../texts/aakjaer01val.xml#s113" xml:id="idm140453278044304"><hi rend="italics" xml:id="idm140453278043888">SV</hi> 1 113</ref>).  Gensynet med barndomslandet
+            er ofte forstemmende. Forventningsfulde valfarter vi hjem til den
+            "muntre Skjæbneflod" (<ref target="../texts/aakjaer02val.xml#s48" xml:id="idm140453278042768"><hi rend="italics" xml:id="idm140453278042352">SV</hi> 2 48</ref>), vi levede ved og badede i, da
+            vi var børn, blot for at erfare, at alt er forandret. Tunge om
+            hjertet må vi mindesyge konstatere, "at alt er Grus, / din
+            Barndoms Grund, din Moders Hus, / hvor maa dit Hjærte bløde" (<ref target="../texts/aakjaer02val.xml#workid64114" xml:id="idm140453278041008"><hi rend="italics" xml:id="idm140453278040592">SV</hi> 2 46</ref>).  Livets grundlov er grum og
+            ubarmhjertig: "Det gamle falder, det ny bestaar" (<ref target="../texts/aakjaer01val.xml#s198" xml:id="idm140453278039664"><hi rend="italics" xml:id="idm140453278039248">SV</hi> 1 198</ref>).  På et eller andet tidspunkt
+            går alle menneskers barndomshjem til grunde, "men Mindet slaar /
+            sin Kreds derom alle Dage" (<ref target="../texts/aakjaer01val.xml#workid88512" xml:id="idm140453278038112"><hi rend="italics" xml:id="idm140453278037696">SV</hi> 1 197</ref>). Ved synet af et lille barn i
+            en vugge forestiller Aakjær sig, hvordan det engang vokser sig
+            stor og stærk, bliver gift og bosat, kort sagt "bliver Mand som vi
+            andre" (<ref target="../texts/aakjaer01val.xml#s198" xml:id="idm140453278036448"><hi rend="italics" xml:id="idm140453278036032">SV</hi> 1 198</ref>). Og så vil også denne
+            granvoksne kraftkarl blive aldeles blød om hjertet, når han
+            opsøger det sted, hvor hans nu forsvundne barndomshjem lå: "Saa
+            staar du vel, som vi andre staar, / og tryller Ranker om sunkne
+            Stene / og stirrer ud mod en falden Gaard, / mens Solen synker bag
+            Grene" (<ref target="../texts/aakjaer01val.xml#s199" xml:id="idm140453278034592"><hi rend="italics" xml:id="idm140453278034176">SV</hi> 1 199</ref>). </p>
+            <p xml:id="idm140453278033232">Mindedigtene udgør en selvstændig afdeling af Aakjærs lyriske
+            produktion, men bevidstheden om, at det er en tabt verden, han
+            giver poetisk mæle, er allestedsnærværende. Den giver hans digte
+            deres helt særegne, vemodige grundtone.  Hvad han fortæller om,
+            skete for længe siden. I dag er alt anderledes. Rokken står. </p>
+            <p xml:id="idm140453278032192">Når alt dette er sagt, skal det dog tilføjes, at for Aakjær var
+            naturen <hi rend="italics" xml:id="idm140453278031744">altid</hi> en kilde til glæde og
+            forundring. Den dulmede smerten over det tabte. Hans smittende
+            livsglæde kommer allerbedst til udtryk i "Sundt Blod" (<ref target="../texts/aakjaer01val.xml#s240" xml:id="idm140453278030704"><hi rend="italics" xml:id="idm140453278030288">SV</hi> 1 240-241</ref>), som rummer en hel
+            livslære på vers. I den første strofe deklameres den fundamentale
+            optimisme, hvorpå digtet er skrevet, nærmest demonstrativt: "Jeg
+            bærer med Smil min Byrde, / jeg drager med Sang mit Læs; / jeg er
+            som den vilde Hyrde, / der gjenner sit Kvæg paa Græs" (<ref target="../texts/aakjaer01val.xml#s240" xml:id="idm140453278028800"><hi rend="italics" xml:id="idm140453278028384">SV</hi> 1 240</ref>). Jeg'et har godt nok sine
+            problemer at slås med, men det bærer og drager dem med smil og
+            sang. Ingen problemer er så knugende, at sindet ikke lettes, når
+            man blot går ud i naturen, der er så overvældende, at jeg'et ej
+            finder "tolkende Ord" og derfor må blæse i sin skalmeje til
+            "Bukkene bræger af Fryd" (<ref target="../texts/aakjaer01val.xml#s240" xml:id="idm140453278026848"><hi rend="italics" xml:id="idm140453278026432">SV</hi> 1 240</ref>). I digtets 4 første strofer
+            optræder ordet "jeg" hele 7 gange, hvorpå læseren omsider
+            inddrages i det femte og sidste: "Hvor kan I dog gruble og græde,
+            / saa længe Guds Himmel er blaa! / <hi rend="italics" xml:id="idm140453278025136">Mit</hi>
+            Hjerte skjælver af Glæde, / blot Duggen dynker et Straa" (<ref target="../texts/aakjaer01val.xml#s241" xml:id="idm140453278024320"><hi rend="italics" xml:id="idm140453278023904">SV </hi>1 241</ref>). Det er svært at bevare
+            pessimismen, når man står ansigt til ansigt med den skinnende sol,
+            den blå fjord, de sejlende skyer og duggen, der tynger et
+            strå. </p>
+          </div>
+          <anchor xml:id="a3.3"/>
+          <div xml:id="idm140453278021760">
+            <head xml:id="idm140453278021504">Det jyske bondeliv - Den forbandede udbytning</head>
+            <p xml:id="idm140453278021056">Ved udgangen af 1800-tallet var klasseforskellene på landet
+            meget store. Nok var alle landmænd bønder, men nogle bønder var
+            unægtelig mere lige end andre! De lod sig inddele i tre klasser:
+            1) godsejere/proprietærer, 2) gårdmænd/boelsmænd og 3) husmænd/
+            daglejere. Den øverste klasse var på retræte, den mellemste
+            befæstede konstant sin position, mens den nederste kæmpede for
+            blot at overleve. Gårdmændene dominerede overalt - økonomisk,
+            kulturelt og politisk - og de levede af det slidsomme arbejde,
+            medlemmerne af den nederste klasse udførte. Skønt den omfattede
+            halvdelen af landbefolkningen, ejede den kun 2 % af jorden. Den
+            jordlod, husmændene havde mulighed for at købe, var så lille, at
+            de var tvunget til at arbejde for gårdmændene for at holde den
+            allerværste sult fra døren. </p>
+            <p xml:id="idm140453278018656">Således var den sociale lagdeling i det landbosamfund, Aakjær
+            voksede op i.  Hans "Iagttagelsesfelt" var "Boelsmanden og den
+            mindre Gaardmand, - den jordløse Husmand og Landarbejderen har jeg
+            aldrig kendt" (<hi rend="italics" xml:id="idm140453278017888">Viborg Amts Social-Demokrat</hi>
+            8.10.1902). I de natur- og mindedigte, der er omtalt ovenfor,
+            optræder de sociale skel kun i glimt, men i Aakjærs kampdigte er
+            de sat i centrum.</p>
+            <p xml:id="idm140453278016704">Som agitator opererede han med en række faste modsætningspar:
+            Oppe/nede, lys/mørke og varme/kulde. Overklassen lever et mageligt
+            liv <hi rend="italics" xml:id="idm140453278016112">oppe </hi>i lyset og varmen, underklassen
+            slider sig halvt ihjel <hi rend="italics" xml:id="idm140453278015344">nede</hi> i mørket og
+            kulden. Med sine kampsange ville Aakjær bringe de
+            underprivilegerede - daglejere, husmænd, arbejdere, tyende,
+            kvinder - til at forstå, at de kun får deres berettigede plads i
+            solen, såfremt de står sammen og er indstillet på at kæmpe for
+            deres sag: "Vild Fattefolk kuns støtt hinaan, / mod hwad der søn
+            vil gnav wos, / saa skuld I se, hwor vi sku kraan / og aalle mie
+            klav wos. / Men Smofolk ved ett, hwad de kan, / fâr de staar te æ
+            Hammel; / de kund jo løwt æ hiele Land, / saatt <hi rend="italics" xml:id="idm140453278014032">de</hi> dje Rygge sammel" (<ref target="../texts/aakjaer02val.xml#s2" xml:id="idm140453278013344"><hi rend="italics" xml:id="idm140453278012928">SV</hi> 2 2</ref>).</p>
+            <p xml:id="idm140453278011984">I lejlighedssangene "Kommer I snart" (<ref target="../texts/aakjaer01val.xml#s262" xml:id="idm140453278011680"><hi rend="italics" xml:id="idm140453278011264">SV</hi> 1 262-263</ref>), "Tyendesang" (<ref target="../texts/aakjaer01val.xml#s263" xml:id="idm140453278010416"><hi rend="italics" xml:id="idm140453278010000">SV</hi> 1 263-264</ref>) og "Arbejdersang" (<ref target="../texts/aakjaer01val.xml#s134" xml:id="idm140453278009152"><hi rend="italics" xml:id="idm140453278008736">SV</hi> 1 134-135</ref>) henvender Aakjær sig
+            direkte til hhv.  husmænd, tyende og arbejdere. Fælles for dem er,
+            at de skaber samfundets værdier - uden selv at få nævneværdig del
+            i dem. "Vi harved din Ager, vi skar dine Neg, / vi strigled din
+            blommede Hest, / vi lytted bag Stalden til Rotternes Leg, / naar
+            selv du gik pyntet til Fest. / Du drømte paa Bolstre, / vi slumred
+            paa Halm" (<ref target="../texts/aakjaer01val.xml#s264" xml:id="idm140453278007264"><hi rend="italics" xml:id="idm140453278006848">SV</hi> 1 264</ref>). Sådan tiltaler tyendet ("vi")
+            gårdmændene og godsejerne ("du"), mens arbejderne tålmodigt
+            forklarer den hovne junkerspire, som stolt peger på sit
+            adelsvåben, hvem der egentlig bærer verden på sine skuldre: "- <hi rend="italics" xml:id="idm140453278005504">Vi</hi> er Børn af dem, der brugte Hakken / ligefra
+            den første Fortids-Old. / Adel, Fyrster steg paa <hi rend="italics" xml:id="idm140453278004608">vore</hi> Rygge, / og vi bar dem over Ørkners Sand;
+            / fedeligt de sad i Palmers Skygge, / naar vi andre savned Brød og
+            Vand" (<ref target="../texts/aakjaer01val.xml#s134" xml:id="idm140453278003616"><hi rend="italics" xml:id="idm140453278003200">SV</hi> 1 134</ref>). Udnyttelsen har fundet sted i
+            århundreder, men nu skal det være slut med at spise "Trællens Æde
+            af Hundens Fad" (<ref target="../texts/aakjaer01val.xml#s263" xml:id="idm140453278002080"><hi rend="italics" xml:id="idm140453278001664">SV</hi> 1 263</ref>). Sammen skal de
+            underprivilegerede sprænge deres "Tusindsaars-Lænke", sammen skal
+            de kæmpe for deres naturgivne ret: "Staa ej bundne jer Bødler bi!
+            / - kommer I snart! - / grib jer Spade og hug jer fri! / I er
+            tusind, hvor de er ti! / - kommer I snart, I Husmænd!" (<ref target="../texts/aakjaer01val.xml#s263" xml:id="idm140453278000192"><hi rend="italics" xml:id="idm140453277999776">SV</hi> 1 263</ref>). Først når ingen lever af at
+            udnytte andre, kan alle være frie: "Da pløjer vi muntre vort
+            bølgende Land, / naar først vi har friet vor kuede Stand / fra
+            Tusindaars-Trældommens Nat" (<ref target="../texts/aakjaer01val.xml#s264" xml:id="idm140453277998496"><hi rend="italics" xml:id="idm140453277998080">SV</hi> 1 264</ref>).</p>
+            <p xml:id="idm140453277997136">Selve revolutionen, hvor udbytterne og de udbyttede går i
+            struben på hinanden, har Aakjær morsomt beskrevet i digtet "Ko og
+            Hjort" (<ref target="../texts/aakjaer01val.xml#s285" xml:id="idm140453277996544"><hi rend="italics" xml:id="idm140453277996128">SV</hi> 1 285-288</ref>). En forsulten husmandsko
+            får en dag nok af sit elendige liv på en udmarvet jordlod, hvorfor
+            den tændt af en "Oprørsgnist" søger ind i lensgodsets dejlige
+            skove med deres "grødegrønne Sletter" (<ref target="../texts/aakjaer01val.xml#s286" xml:id="idm140453277994816"><hi rend="italics" xml:id="idm140453277994400">SV</hi> 1 286</ref>). Her forsøger en standsbevidst
+            hjort at forskrække koen, som "vralter saa tungt og saa trygt, /
+            hun kjender vel til Sult men kun lidet til Frygt" (<ref target="../texts/aakjaer01val.xml#s287" xml:id="idm140453277993216"><hi rend="italics" xml:id="idm140453277992800">SV</hi> 1 287</ref>). Da junker-hjorten ikke kan
+            skræmme plebejer-koen bort, sætter den "et saadant Ribbensstød"
+            ind, "at Koens Harm og Smerte som Brøl af Struben skød" (<ref target="../texts/aakjaer01val.xml#s287" xml:id="idm140453277991600"><hi rend="italics" xml:id="idm140453277991184">SV</hi> 1 287</ref>). Et slagsmål tager sin
+            begyndelse, "som næppe før er set; / ej nogen turde gjætte, hvem
+            først sattes Bét" (<ref target="../texts/aakjaer01val.xml#s288" xml:id="idm140453277990080"><hi rend="italics" xml:id="idm140453277989664">SV</hi> 1 288</ref>). I kraft af sin "voldske,
+            plumpe Bersærke-Boxerkunst" sejrer koen til sidst over den
+            spænstige og gratiøse hjort, som flygter "i hinkende Spring efter
+            talrige Knæk. / Men Koen hun rejste en Brølen saa lang, / at
+            Lehnsskovens Sletter de skogrende klang" (<ref target="../texts/aakjaer01val.xml#s288" xml:id="idm140453277988208"><hi rend="italics" xml:id="idm140453277987792">SV</hi> 1 288</ref>). Og Aakjær er ikke sen til at
+            udlægge teksten: "Du Husmand derhjemme paa din simestukne Lo, /
+            naar vil <hi rend="italics" xml:id="idm140453277986704">du</hi> stinde Nakken en Dag som din
+            Ko!" (<ref target="../texts/aakjaer01val.xml#s288" xml:id="idm140453277985984"><hi rend="italics" xml:id="idm140453277985568">SV</hi> 1 288</ref>).</p>
+            <p xml:id="idm140453277984624">Aakjær brugte nok lyrikken som et våben i klassekampen, men det
+            var alligevel fortrinsvis i hans prosa, at han systematisk
+            afdækkede, hvordan "de store" på alle tænkelige måder udnyttede
+            "de små".</p>
+            <p xml:id="idm140453277983744">Enkelt og hjertegribende skildres rovdriften på de forsvarsløse
+            i novellen "Da Hyrdedrengen skulde i Skoven" (<ref target="../texts/aakjaer07tom.xml#workid54880" xml:id="idm140453277983216"><hi rend="italics" xml:id="idm140453277982800">SV</hi> 7 43-55</ref>). Året rundt slider
+            hyrdedrengen Per hos den nærige gårdmand Stafen, men endelig får
+            han en dag fri til at tage på en sommerudflugt sammen med sine
+            klassekammerater. Inden det kommer så vidt, har Stafen beklaget
+            sig i en uendelighed over tidernes forfald, og når han overhovedet
+            giver Per fri, er det kun, fordi han ikke vil være til grin i de
+            andre gårdmænds øjne: "Om Kreaturerne bejser ad Helvede til, hvad
+            gjør det, bare Drengen morer sig. Jow, aaejow! Han skal paa
+            Ferietur; han skal i Skoven, naar en anden maa gaa ved Arbejdet"
+            (<ref target="../texts/aakjaer07tom.xml#n44" xml:id="idm140453277980640"><hi rend="italics" xml:id="idm140453277980224">SV</hi> 7 44</ref>). Da den store dag oprinder, er
+            Per tidligt oppe for at være helt sikker på ikke at komme for sent
+            til toget, der skal føre ham ud i den store verden, ud til
+            eventyret. Men ak: I den årle morgenstund tvinger Stafen ham til
+            at genne kreaturerne ud med det resultat, at han netop kommer for
+            sent. Pers hæsblæsende løbetur ned til stationen er skildret, så
+            man sidder med hjertet oppe i halsen. Og da han når frem, få
+            minutter efter at toget er kørt, er det næsten ikke til at bære:
+            "Den grønne Skov med Fjorden omkring, de glade Kammerater, Legen,
+            Dansen, Musikken, den dampende Kaffe og den liflige Hvedekage -
+            <hi rend="italics" xml:id="idm140453277977760">alt</hi> tykkes han nu det forsvandt bag Røgen
+            af det bortdampende Lokomotiv" (<ref target="../texts/aakjaer07tom.xml#n54" xml:id="idm140453277976912"><hi rend="italics" xml:id="idm140453277976496">SV</hi> 7 54</ref>). Den grædefærdige Jens får en
+            kop kaffe og en kage hos den venlige stationsforstander, og så kan
+            han ellers traske hjem til endnu en grå arbejdsdag. En stor
+            oplevelse blev nægtet ham, blot fordi hans husbond absolut skulle
+            udnytte hans arbejdskraft til den sidste blodsdråbe: "Har de nu
+            ikke Synd af at lade et Barn komme for sildig, der kun én Gang om
+            Aaret har en bitte Glæde!" (<ref target="../texts/aakjaer07tom.xml#s53" xml:id="idm140453277975040"><hi rend="italics" xml:id="idm140453277974624">SV</hi> 7 53</ref>).</p>
+            <p xml:id="idm140453277973680">I sin bedste roman, <hi rend="italics" xml:id="idm140453277973392">Vredens Børn</hi> fra
+            1904 (<ref target="../texts/aakjaer06val.xml#workid99401" xml:id="idm140453277972656"><hi rend="italics" xml:id="idm140453277972240">SV</hi> 6 439-650</ref>), beskriver Aakjær, hvordan
+            gårdmænd fuldstændig skamløst udnytter deres underkuede
+            tjenestedrenge og </p>
+            <p xml:id="idm140453277971008">-karle. Ved udgivelsen af bogen udtalte han: "Tjenestekarlen,
+            Fattigmandens Søn, der senere bliver Husmand ude paa det af Gud
+            forbandede jyske Sand, er Danmarks mest tragiske Type. Hans Liv er
+            Slid og atter Slid, fra han næppe kan knappe sine Bukser, til han
+            som en gammel, krumbøjet Mand stavrer om med Kæp i Haand mellem
+            nogle magre Faar derude paa Lyngen" (<hi rend="italics" xml:id="idm140453277969952">Social-Demokraten</hi> 7.10.). <hi rend="italics" xml:id="idm140453277969232">Vredens Børn </hi>handler om en fattigmandssøn, der
+            nægter at acceptere et liv i forudbestemt armod. </p>
+            <p xml:id="idm140453277968192">Per, som han hedder, kommer allerede ud at tjene som 11-årig,
+            og vi følger ham gennem det næste tiår, hvor han bliver
+            tjenestedreng og sidenhen karl hos tre forskellige gårdmænd, der
+            alle udnytter ham på det groveste. Arbejdstiden er lang og hård -
+            fra kl. 4 til kl. 22-23 - lønnen er ussel, og boligforholdene er
+            mildest talt elendige - tjenestedrengene og karlene bor sammen i
+            uhumske båse i staldene.  Per ville måske have affundet sig med
+            sin skæbne, hvis ikke han havde mødt vildmanden Goj, som
+            underkender hele det bestående klassesamfund: </p>
+            <cit xml:id="idm140453277967072">
+              <q xml:id="idm140453277966816">"I skulde gjøre Oprør, I Taabenakker! Revolution, Dæwlen
+              bryde mig! [...] Slut op! Rot jer sammen, for Satan! Hvorfor lar
+              I jer træde paa? [...] Jeg har tjent i alle Lande; jeg har
+              vogtet Faar i Australien og drevet med Kvæg i det yderste
+              Brasilien; men Dæwlen bryde mig, om jeg nogetsteds paa den runde
+              Jord har truffet saa tyranniske og snæversindede Husbonder som
+              blandt denne udskregne "oplyste" Gaardmandsklasse her i dette
+              stemningsfordrukne Flødeland"</q>
+              <bibl xml:id="idm140453277965792"> (<ref target="../texts/aakjaer06val.xml#s506" xml:id="idm140453277965536"><hi rend="italics" xml:id="idm140453277965120">SV</hi> 6 506-507</ref>).</bibl>
+            </cit>
+            <p xml:id="idm140453277964048">Goj vækker Pers revolutionsinstinkt (<ref target="../texts/aakjaer06val.xml#s508" xml:id="idm140453277963696"><hi rend="italics" xml:id="idm140453277963280">SV</hi>
+            6 508</ref>): "Og gjør man dig Fortræd - og det gjør man jo daglig
+            - saa knyt din Næve i Bukserne, til du en Dag bliver stærk nok til
+            at svinge den lige i Planeten af dette maskraadne, gaardmandshovne
+            Penge-Samfund". Per indser, at samfundssystemet må laves om helt
+            fra bunden af, for det er jo grundlæggende uretfærdigt, at nogle
+            få kan berige sig på de manges bekostning. Som socialist har han
+            svært ved at få arbejde som daglejer, og ingen gårdmand kunne
+            drømme om at ansætte ham som karl. Da han ingen muligheder ser for
+            at forbedre sin situation herhjemme, </p>
+            <p xml:id="idm140453277960976">emigrerer han til mulighedernes land: Amerika. </p>
+            <p xml:id="idm140453277960528"><hi rend="italics" xml:id="idm140453277960400">Vredens Børn</hi> affødte en hidsig debat:
+            Hele 800 harmdirrende avisartikler blev det til! Enkelte lovpriste
+            Aakjær, forbi han havde mod til at afsløre landproletariatets
+            umenneskelige livsvilkår, men de fleste fordømte ham på det
+            kraftigste. Kritikerne mente, at <hi rend="italics" xml:id="idm140453277959072">Vredens
+            Børn</hi> ikke var en roman i traditionel forstand, men derimod
+            "Socialialistisk Agitation under literære Former" (<hi rend="italics" xml:id="idm140453277958096">Vendsyssel Tidende</hi> 17.11.1904).  Agitationen
+            lå i, at Aakjær overdrev hæmningsløst, at han fremdrog specielt
+            uheldige eksemplarer af gårdmandsklassen, at han var ensidig, at
+            han var tendentiøs, at han generaliserede på baggrund af
+            iagttagelser i et fjernt jysk herred, og at han beskrev forhold,
+            som lå en snes år tilbage i tiden. Aakjær tog kritikken med
+            sindsro. Han havde belæg for hver eneste detalje i bogen og var i
+            øvrigt en svoren tilhænger af den så foragtede tendenslitteratur:
+            "enhver levedygtig Literatur maa være tendentiøs, ellers er den
+            ligegyldig [...] At forlange af Digtningen, at den ikke maa ha
+            Tendens, er som at forlange af et Skib, at det ikke maa ha en
+            bestemt Retning" (<hi rend="italics" xml:id="idm140453277955664">Fra Sallingland til
+            Øresund</hi>, s. 111). </p>
+            <p xml:id="idm140453277954752">Debatten omkring <hi rend="italics" xml:id="idm140453277954464">Vredens Børn</hi> medførte,
+            at der blev stiftet en socialdemokratisk tyendeforening, og at
+            rigsdagen nedsatte en tyendekommission, der skulle fremkomme med
+            forslag til en revision af den forældede tyendelov fra 1854.
+            Aakjær blev tilbudt en plads i kommissionen, men han afslog med
+            den begrundelse, at en forfatter må være frit stillet. I 1921 blev
+            tyendeloven (der bl.a. tillod en husbond at afstraffe sine folk
+            korporligt) ophævet som et resultat af kommissionens arbejde.
+            Således er <hi rend="italics" xml:id="idm140453277953136">Vredens Børn</hi> vistnok den eneste
+            danske roman, der har medført en lovændring! </p>
+          </div>
+          <anchor xml:id="a3.4"/>
+          <div xml:id="idm140453277951344">
+            <head xml:id="idm140453277951088">Tematisk sammenfatning - Mindets og forandringens digter</head>
+            <p xml:id="idm140453277950624">Som forfatter var Aakjær bestemt af to faktorer: Sin
+            bondeafstamning og sit socialistiske engagement. Denne dobbelthed
+            gjorde ham både til <hi rend="italics" xml:id="idm140453277950016">mindets</hi> og <hi rend="italics" xml:id="idm140453277949328">forandringens</hi> digter. </p>
+            <p xml:id="idm140453277948480">Først i trediveårsalderen indså Aakjær, at hans livs
+            bestemmelse var at kortlægge den jyske bondes arbejde, sind og
+            væsen. Når han kunne gøre det med så stor indlevelse, var det
+            fordi, han beskrev det landbosamfund, de mennesketyper og den
+            natur, han kendte fra sin opvækst i Fjends. I hans sind lå talløse
+            erindringsbrokker - "NU er det længe siden,/men end det gjemmes i
+            <hi rend="italics" xml:id="idm140453277947600">mit</hi> Sind" (<ref target="../texts/aakjaer01val.xml#s233" xml:id="idm140453277946912"><hi rend="italics" xml:id="idm140453277946496">SV</hi> 1 233</ref>) - som han gennem en
+            kunstnerisk forarbejdning transformerede til usentimentale
+            mindedigte, hvori han gav den verden, der for længst var gået al
+            kødets gang, poetisk mæle. I sit kulturhistoriske forfatterskab og
+            med sine Blicher-studier overskred han sin egen tidshorisont og
+            pejlede sig ind på bondens eksistensvilkår flere århundreder
+            tilbage.</p>
+            <p xml:id="idm140453277944688">Samtidig med at Aakjær søgte tilbage og skabte sin ypperste
+            kunst på sine barndomsminder, var han - paradoksalt nok - også
+            forandringens mand, som aktivt kæmpede for fremtidens nye
+            samfund. Socialisten Aakjær vidste alt om livsgodernes uretfærdige
+            fordeling: I sit prosaforfatterskab viste han, hvordan "de store"
+            (herremænd, store gårdmænd) konsekvent udnyttede "de små"
+            (husmænd, daglejere), og i sine agitatoriske kamptaler plæderede
+            han for radikale forandringer af revolutionslignende karakter, som
+            én gang for alle kunne bringe udnyttelsen til ophør. Endemålet var
+            det ligeværdige samfund, hvor ingen kunne leve af andres arbejde,
+            og hvor alle havde lige ret til at udvikle deres menneskelige
+            potentiale. </p>
+            <p xml:id="idm140453277942528"><hi rend="italics" xml:id="idm140453277942400">Bagud</hi> og <hi rend="italics" xml:id="idm140453277941680">fremad</hi>
+            - det var de poler, hvorimellem Aakjærs forfatterskab
+            svingede. Med sine følelser, arven fra moderen, og sit lyriske
+            digtersind var han bundet til det 19. århundredes almueverden, med
+            sin forstand, arven fra faderen, og sin socialistiske
+            overbevisning trådte han ind i det 20. århundrede, hvor kampen
+            skulle stå for det nye idealsamfund.</p>
+          </div>
+        </div>
+        <div type="modt" xml:id="idm140453277939888">
+          <head xml:id="idm140453277939360">Modtagelse</head>
+          <head xml:id="idm140453277938944">Forfatterskabets modtagelse og efterliv</head>
+          <p xml:id="idm140453277938512">Aakjær valgte fra sin første fremtræden på den litterære arena
+          éntydigt side til fordel for det jyske, og det bragte ham i et
+          livsvarigt modsætningsforhold til anmelderne i København. I et
+          interview fra 1924 udtalte han på alle hjemstavnsforfatteres
+          vegne:</p>
+          <cit xml:id="idm140453277937504">
+            <q xml:id="idm140453277937248">"Ulykken i dette Land er, at de toneangivende Kritikere altid
+            har staaet fremmed overfor alt det, der hænder 7 Kilometer udenfor
+            Hovedstaden. Vore Typer, vort Milieu, vore Naturstemninger vækker
+            hos dem aldrig Genkendelsens Glæde; vor Dialekt er dem komplet
+            uforstaaelig; derfor er deres Bedømmelse af vore landlige Værker
+            altid mærket, i bedste Tilfælde af en kølig Velvilje, men hyppigst
+            af Blaserthed og Kulde, der kan stige til Forfølgelsessyge. Jeg
+            har været ude for alle Grader"</q>
+            <bibl xml:id="idm140453277936016"> (<hi rend="italics" xml:id="idm140453277935760">Verden og Vi</hi>, s.
+359). </bibl>
+          </cit>
+          <p xml:id="idm140453277934784">Livet igennem måtte Aakjær døje med en uforsonlig presse, der i
+          bedste fald så med velvilje på nogle af hans digtsamlinger. Hans
+          romaner, derimod, blev affærdiget som tendentiøs rabalder, og hans
+          skuespil blev direkte latterliggjort.</p>
+          <p xml:id="idm140453277933840">Men selvom mange toneangivende kritikere vendte tommelfingrene
+          nedad, opnåede Aakjær alligevel en enestående folkelig popularitet,
+          som kulminerede, da han på sin 60-års fødselsdag blev hyldet af det
+          danske folk på Københavns Rådhus. Ved den lejlighed udtalte
+          professor Vilhelm Andersen de ofte citerede ord: "Han taler og
+          synger os baade sønder og sammen. Dvs. han har talt os sønder, fra
+          hinanden, og sunget os sammen igen. Naar han har rejst Skellene i
+          den stridige Særfølelse i sine Taler og Fortællinger, har han faaet
+          os til at glemme dem for den dybe Samfølelse i hans Sange" (<hi rend="italics" xml:id="idm140453277932800">Min Hædersdag</hi>, s. 17). Ét eksempel turde være
+          nok: Da Aakjær i 1904 udgav <hi rend="italics" xml:id="idm140453277931936">Vredens Børn</hi>,
+          blev gårdmændene i Fjends så forbitrede, at de truede med at
+          gennembanke ham, men da han året efter udgav <hi rend="italics" xml:id="idm140453277930944">Fri
+          Felt</hi>, blev de selvsamme gårdmænd så bevægede over naturskønne
+          digte som "Jylland", at de tog ham til sig som deres digter! </p>
+          <p xml:id="idm140453277929840">I 1928 blev han af <hi rend="italics" xml:id="idm140453277929552">Politiken</hi>s læsere
+          valgt som Danmarks populæreste digter, og da han døde i 1930, kom de
+          store ord frem en sidste gang. Naturligt nok hyldede de lokale
+          aviser i skøn samdrægtighed egnens store digter. <hi rend="italics" xml:id="idm140453277928400">Skive Folkeblad</hi> skrev (30.4.):</p>
+          <cit xml:id="idm140453277927552">
+            <q xml:id="idm140453277927296">"Er Egnen ikke blevet rigere gennem det, Jeppe Aakjær har
+            skabt? Han har gravet i den jydske Muld som ingen anden. Han har
+            hævet Skatte, som hver især kan ty hen til i kommende Tider og
+            føle sig beriget af. Han har sagt de skønneste Ting med de
+            jævneste Ord, og netop derved blev det stort. Derfor blev han
+            Folkets kæreste Skjald, - han var den af vore mange Lyrikere, der
+            naaede længst ud og trængte dybest ned i Sindene.  Maaske har vi
+            Digtere af et finere og mere kræsent Tilsnit, men de synger for de
+            faa. Vi har ingen længer, der som han kunde slaa Spektret, saa et
+            helt Folk uvilkaarligt lyttede, ingen, hvis jævne og enkle Sange i
+            den Grad blev nærende Dagligkost for Menigmand som hans".</q>
+          </cit>
+          <p xml:id="idm140453277925008">Men også de landsdækkende aviser hyldede Aakjær uden
+          forbehold. Som en af rigets helt store sønner fik han en ligfærd
+          gennem Jylland over Århus til København, hvor han blev brændt. På
+          denne måde fik alle danskere mulighed for at tage afsked med deres
+          nationalskjald. </p>
+          <p xml:id="idm140453277924000">Ved Aakjærs død spåede flere nekrologskrivere, at hans artikler
+          og store dele af hans prosa ville blive glemt, mens de bedste af
+          hans sange ville leve videre. De fik ret (omend <hi rend="italics" xml:id="idm140453277923328">Vredens Børn</hi> og nogle af hans noveller har fået
+          en renæssance inden for den sidste snes år). Aakjær var allerstørst
+          som lyriker, og Oluf Friis' ord står fortsat til troende: "Lyrikken
+          er det Punkt, hvorfra alt i Aakjærs Forfatterskab udgaar og hvortil
+          det vender tilbage, skærpet og renset i Versets ædle Form" (<hi rend="italics" xml:id="idm140453277921936">Den nye Litteratur</hi>, september 1926). Derfor
+          synger man fortsat Aakjær ved mange folkelige sammenkomster, og i
+          folkehøjskolens sangbog er han den andenbedst repræsenterede digter
+          (efter Grundtvig). </p>
+          <p xml:id="idm140453277920672">Ligesom Grundtvigs salmer og H.C. Andersens eventyr er "Havren",
+          "Jens Vejmand", "Sundt Blod" og flere andre af Aakjærs sange en
+          umistelig del af vores identitet som danskere. </p>
+          <p xml:id="idm140453277919872">Allerede i 1913 udgav Aakjærs nære ven K.K. Nicolaisen den første
+          biografi om ham, og sidenhen er der udkommet en række bøger om hans
+          liv og forfatterskab.  Felix Nørgaards introduktion fra 1941 står
+          stadig som et hovedværk, især pga. hans forbilledlige indføring i
+          Aakjærs lyrik. Solvejg Bjerre, Aakjærs datter, har skrevet flere
+          bøger om livet på Jenle, som både bygger på hendes egne erindringer
+          og på arkivstudier. I 1980'erne udgav Bjarne Nielsen Brovst tre
+          skrifter om Aakjærs liv i perioden 1886-95, som især er værdifulde,
+          fordi de bringer fyldige citater fra aldrig udgivne breve. Senest
+          har Henrik Fibæk Jensen i 1999 givet en populær indføring i hele
+          Aakjærs liv og forfatterskab. Den monumentale Aakjær-biografi, der
+          inddrager alle tilgængelige kilder, trænger helt til bunds i især
+          Aakjærs lyriske univers og sætter forfatterskabet ind i en bred
+          tids- og litteraturhistorisk sammenhæng, savnes dog stadig. </p>
+          <p xml:id="idm140453277917568">Af specialanalyser må især fremhæves Nørregaard Frandsens
+          dybdeborende artikel fra 1997 om <hi rend="italics" xml:id="idm140453277917088">Rugens Sange og
+          andre Digte</hi>. Flere af Aakjærs kendteste digte - "Sundt Blod",
+          "Historiens Sang", "Karlsvognen", "Jens Vejmand", "Se Dig ud",
+          "Karup Aa" og "For læng, læng Sind" - er gennem årene blevet gjort
+          til genstand for særskilte fortolkninger. I 1981 foretog
+          Hjordt-Vetlesen en nærlæsning af tre af Aakjærs romaner, og i
+          kølvandet på genudgivelsen af <hi rend="italics" xml:id="idm140453277915744">Vredens Børn</hi> i
+          1979 udspandt der sig et veritabelt slagsmål om den rette brug af
+          romanen i undervisningssammenhæng.</p>
+        </div>
+        <div type="textkrit" xml:id="idm140453277914512">
+          <head xml:id="idm140453277913984">Tekstoplysninger</head>
+          <p xml:id="idm140453277913568">Den udgave, der er anvendt i ADL, og som der henvises til i dette
+          portræt, er: Jeppe Aakjær: <hi rend="italics" xml:id="idm140453277913088">Samlede Værker</hi>
+          I-VIII, 1918-19 (forkortes i ADL: <hi rend="italics" xml:id="idm140453277912320">SV</hi>).</p>
+          <p xml:id="idm140453277911536">I <ref target="http://www.dsl.dk/uadlte1800.pdf" xml:id="idm140453277911232"><hi rend="italics" xml:id="idm140453277910816">Udgivelse af danske litterære tekster efter
+          1800</hi></ref><lb xml:id="idm140453277910160"/> (Den røde Betænkning) DSL, 1996, gøres der rede
+          for foreliggende udgaver i afsnittet om Jeppe Aakjær,
+          s. 108-110.</p>
+        </div>
+        <div type="bibliog" xml:id="idm140453277909360">
+          <head xml:id="idm140453277908832">Bibliografi</head>
+          <p xml:id="idm140453277908416">
+            <ref target="http://www.dlb.dansklf.dk/" xml:id="idm140453277908160">Dansk Litteraturhistorisk Bibliografi</ref>
+          </p>
+          <list type="simple" xml:id="idm140453277907312">
+            <item xml:id="idm140453277906784">
+              <ref target="#a7.1" xml:id="idm140453277906528">Aakjær-udgivelser</ref>
+            </item>
+            <item xml:id="idm140453277905696">
+              <ref target="#a7.2" xml:id="idm140453277905440">Om Jeppe Aakjær og hans forfatterskab</ref>
+            </item>
+            <item xml:id="idm140453277904560">
+              <ref target="#a7.3" xml:id="idm140453277904304">Om Aakjærs lyrik</ref>
+            </item>
+            <item xml:id="idm140453277903472">
+              <ref target="#a7.4" xml:id="idm140453277903216">Om Aakjærs prosa</ref>
+            </item>
+          </list>
+          <anchor xml:id="a7.1"/>
+          <div xml:id="idm140453277901536">
+            <head xml:id="idm140453277901280">Aakjær-udgivelser</head>
+            <p xml:id="idm140453277900848"><hi rend="italics" xml:id="idm140453277900720">Missionen og dens Høvding</hi>, 1897<hi rend="italics" xml:id="idm140453277900000"/></p>
+            <p xml:id="idm140453277899472"><hi rend="italics" xml:id="idm140453277899344">Bondens Søn</hi>, 1899<hi rend="italics" xml:id="idm140453277898608"/></p>
+            <p xml:id="idm140453277898080"><hi rend="italics" xml:id="idm140453277897952">Derude fra Kjærene</hi>, 1899<hi rend="italics" xml:id="idm140453277897216"/></p>
+            <p xml:id="idm140453277896688"><hi rend="italics" xml:id="idm140453277896560">Vadmelsfolk</hi>, 1900<hi rend="italics" xml:id="idm140453277895840"/></p>
+            <p xml:id="idm140453277895312"><hi rend="italics" xml:id="idm140453277895184">Fjandboer</hi>, 1901</p>
+            <p xml:id="idm140453277894336"><hi rend="italics" xml:id="idm140453277894208">Steen Steensen Blichers Livstragedie i Breve og Aktstykker</hi> I-III, 1903-1904</p>
+            <p xml:id="idm140453277893312"><hi rend="italics" xml:id="idm140453277893184">Vredens Børn</hi>, 1904<hi rend="italics" xml:id="idm140453277892448"/></p>
+            <p xml:id="idm140453277891920"><hi rend="italics" xml:id="idm140453277891792">Fri Felt</hi>, 1905<hi rend="italics" xml:id="idm140453277891072"/></p>
+            <p xml:id="idm140453277890544"><hi rend="italics" xml:id="idm140453277890416">Fra Jul til Sanct Hans</hi>, 1905<hi rend="italics" xml:id="idm140453277889696"/></p>
+            <p xml:id="idm140453277889168"><hi rend="italics" xml:id="idm140453277889040">Rugens Sange og andre Digte</hi>, 1906</p>
+            <p xml:id="idm140453277888176"><hi rend="italics" xml:id="idm140453277888048">Livet paa Hegnsgaard</hi>, 1907<hi rend="italics" xml:id="idm140453277887328"/></p>
+            <p xml:id="idm140453277886800"><hi rend="italics" xml:id="idm140453277886672">Paa Aftægt</hi>, 1907<hi rend="italics" xml:id="idm140453277885952"/></p>
+            <p xml:id="idm140453277885424"><hi rend="italics" xml:id="idm140453277885296">Hvor Bønder bor</hi>, 1908</p>
+            <p xml:id="idm140453277884432"><hi rend="italics" xml:id="idm140453277884304">Mulm og Malm</hi>, 1909<hi rend="italics" xml:id="idm140453277883584"/></p>
+            <p xml:id="idm140453277883056"><hi rend="italics" xml:id="idm140453277882928">Ulvens Søn</hi>, 1909</p>
+            <p xml:id="idm140453277882080"><hi rend="italics" xml:id="idm140453277881952">Den Sommer og den Eng -</hi>, 1910<hi rend="italics" xml:id="idm140453277881232"/></p>
+            <p xml:id="idm140453277880704"><hi rend="italics" xml:id="idm140453277880576">Af gammel Jehannes hans Bivelskistaari</hi>, 1911</p>
+            <p xml:id="idm140453277879712"><hi rend="italics" xml:id="idm140453277879584">Naar Bønder elsker</hi>, 1911<hi rend="italics" xml:id="idm140453277878848"/></p>
+            <p xml:id="idm140453277878320"><hi rend="italics" xml:id="idm140453277878192">Esper Tækki</hi>, 1913<hi rend="italics" xml:id="idm140453277877456"/></p>
+            <p xml:id="idm140453277876928"><hi rend="italics" xml:id="idm140453277876800">Jævnt Humør</hi>, 1913</p>
+            <p xml:id="idm140453277875936"><hi rend="italics" xml:id="idm140453277875808">Sommer-Taler</hi>, 1913</p>
+            <p xml:id="idm140453277874960"><hi rend="italics" xml:id="idm140453277874832">Arbejdets Glæde</hi>, 1914</p>
+            <p xml:id="idm140453277873968"><hi rend="italics" xml:id="idm140453277873840">Hedevandringer</hi>, 1915</p>
+            <p xml:id="idm140453277872992"><hi rend="italics" xml:id="idm140453277872864">Jens Langkniv</hi>, 1916</p>
+            <p xml:id="idm140453277872016"><hi rend="italics" xml:id="idm140453277871888">Hvor der er gjærende Kræfter</hi>, 1916<hi rend="italics" xml:id="idm140453277871120"/></p>
+            <p xml:id="idm140453277870592"><hi rend="italics" xml:id="idm140453277870464">Vejr og Vind og Folkesind</hi>, 1916<hi rend="italics" xml:id="idm140453277869728"/></p>
+            <p xml:id="idm140453277869200"><hi rend="italics" xml:id="idm140453277869072">Himmelbjærgpræsten</hi>, 1917</p>
+            <p xml:id="idm140453277868192"><hi rend="italics" xml:id="idm140453277868064">Samlede Værker</hi> 1-8, 1918-1919
+            (forkortes i ADL: <hi rend="italics" xml:id="idm140453277867296">SV</hi>)</p>
+            <p xml:id="idm140453277866512">Aakjær forestod selv udgivelsen af <hi rend="italics" xml:id="idm140453277866160">Samlede
+            Værker</hi>, som er forsynet med hans værdifulde noter. Alle de
+            ovenstående titler pånær trebindsværket om Blicher er inkluderet i
+            <hi rend="italics" xml:id="idm140453277865120">Samlede Værker</hi>. Teksterne gengives efter
+            den seneste af Aakjær redigerede udgave. Især de tidligste
+            prosabøger er - med forfatterens egne ord - "gjennemrettet i hver
+            eneste Linje" (<ref target="../texts/aakjaer06val.xml#s651" xml:id="idm140453277863984"><hi rend="italics" xml:id="idm140453277863568">SV</hi> 6 651</ref>). <hi rend="italics" xml:id="idm140453277862752">Samlede
+            Værker</hi> er opdelt efter genrer, og inden for hver genre
+            genoptrykker Aakjær sine tekster i en streng kronologisk
+            rækkefølge. Det medfører, at kompositionen i de originale digt- og
+            novellesamlinger er gået tabt (man kan slet ikke se, fra hvilke
+            bøger teksterne stammer). Endvidere har Aakjær udeladt nogle af
+            digtene i <hi rend="italics" xml:id="idm140453277861264">Derude fra Kjærene</hi>. Til gengæld
+            rummer <hi rend="italics" xml:id="idm140453277860480">Samlede Værker</hi> noveller, digte og
+            artikler, som ikke findes i Aakjærs tidligere udsendte bøger. </p>
+            <p xml:id="idm140453277859440"><hi rend="italics" xml:id="idm140453277859312">Hjærtegræs og Ærenspris</hi>, 1921<hi rend="italics" xml:id="idm140453277858560"/></p>
+            <p xml:id="idm140453277858032"><hi rend="italics" xml:id="idm140453277857904">Pigen fra Limfjorden</hi>, 1921<hi rend="italics" xml:id="idm140453277857184"/></p>
+            <p xml:id="idm140453277856656"><hi rend="italics" xml:id="idm140453277856528">Po fir glowend Pæl</hi>, 1923</p>
+            <p xml:id="idm140453277855664"><hi rend="italics" xml:id="idm140453277855536">Hejmdals Vandringer</hi>, 1924<hi rend="italics" xml:id="idm140453277854816"/></p>
+            <p xml:id="idm140453277854288"><hi rend="italics" xml:id="idm140453277854160">Rejsegildet</hi>, 1925<hi rend="italics" xml:id="idm140453277853440"/></p>
+            <p xml:id="idm140453277852912"><hi rend="italics" xml:id="idm140453277852784">Under Aftenstjernen</hi>, 1927<hi rend="italics" xml:id="idm140453277852064"/></p>
+            <p xml:id="idm140453277851536"><hi rend="italics" xml:id="idm140453277851408">Min Hædersdag paa Kjøbenhavns Raadhus 10. September 1926</hi>, 1927</p>
+            <p xml:id="idm140453277850464"><hi rend="italics" xml:id="idm140453277850336">Fra min Bitte-Tid</hi>, 1928</p>
+            <p xml:id="idm140453277849488"><hi rend="italics" xml:id="idm140453277849360">Drengeaar og Knøsekaar</hi>, 1929</p>
+            <p xml:id="idm140453277848480"><hi rend="italics" xml:id="idm140453277848352">Før det Dages</hi>, 1929</p>
+            <p xml:id="idm140453277847488"><hi rend="italics" xml:id="idm140453277847360">Langs Karupaaens Bred. Studier fra Hjemstavnen</hi>, 1929<hi rend="italics" xml:id="idm140453277846608"/></p>
+            <p xml:id="idm140453277846080"><hi rend="italics" xml:id="idm140453277845952">Fra Agermuld og Hedesand. Studier fra Hjemstavnen</hi>, 1930</p>
+            <p xml:id="idm140453277845072"><hi rend="italics" xml:id="idm140453277844944">Konge</hi>, <hi rend="italics" xml:id="idm140453277844256">Adel og andre Sallingboer. Studier fra Hjemstavnen</hi>, 1930</p>
+            <p xml:id="idm140453277843376"><hi rend="italics" xml:id="idm140453277843248">Gammel Brug og gammel Brøde. Studier fra Hjemstavnen</hi>, 1931</p>
+            <p xml:id="idm140453277842304"><hi rend="italics" xml:id="idm140453277842176">Samlede Digte</hi> 1-3, 1931</p>
+            <p xml:id="idm140453277841328">Den kommenterede udgave, som Aakjær nåede at planlægge inden sin død, indeholder
+dels de digte, der findes i <hi rend="italics" xml:id="idm140453277840832">Samlede Værker</hi> bd. 1 og 2, og dels de digte, han skrev fra
+1918 til sin død. Der findes ingen tilsvarende samlet udgave af Aakjærs
+prosaforfatterskab efter 1919. </p>
+            <p xml:id="idm140453277839680"><hi rend="italics" xml:id="idm140453277839552">Muld og Mænd. Studier fra Hjemstavnen</hi>, 1932</p>
+            <p xml:id="idm140453277838640"><hi rend="italics" xml:id="idm140453277838512">Fra Sallingland til Øresund. Studier fra Hjemstavnen</hi>, 1932<hi rend="italics" xml:id="idm140453277837696"/></p>
+            <p xml:id="idm140453277837168"><hi rend="italics" xml:id="idm140453277837040">Digte og Noveller</hi>, 1932<hi rend="italics" xml:id="idm140453277836320"/></p>
+            <p xml:id="idm140453277835792"><hi rend="italics" xml:id="idm140453277835664">Efterladte Erindringer</hi>, udg. af Georg Saxild, 1934</p>
+            <p xml:id="idm140453277834800"><hi rend="italics" xml:id="idm140453277834672">Breve fra Jeppe Aakjær. 1883-1899</hi>, samlet og udg. af Solvejg Aakjær Bjerre, 1944</p>
+            <p xml:id="idm140453277833696"><hi rend="italics" xml:id="idm140453277833568">Drøm og drama. Breve mellem Jeppe Aakjær og hans søskende</hi>, af Kamma Aakjær, 1990
+</p>
+            <p xml:id="idm140453277832576">Aakjær er en af de meget få danske forfattere, der har lavet en "Selvbibliografi"! I 1919
+udgav han "Mit Regnebræt", som er en fortegnelse over <hi rend="italics" xml:id="idm140453277832016">alt</hi>, hvad han havde fået
+udgivet - selvstændige bøger, bidrag til tidsskrifter og aviser.</p>
+          </div>
+          <anchor xml:id="a7.2"/>
+          <div xml:id="idm140453277830256">
+            <head xml:id="idm140453277830000">Om Jeppe Aakjær og hans forfatterskab</head>
+            <p xml:id="idm140453277829520">Nicolaisen, K.K.: <hi rend="italics" xml:id="idm140453277829264">Jeppe Aakjær</hi>, 1913</p>
+            <p xml:id="idm140453277828400">Schmidt, August F.: "Tro og Sagn i Jeppe Aakjærs Digtning" i: <hi rend="italics" xml:id="idm140453277828000">Dansk Udsyn</hi> 1924, 
+ s. 119-136</p>
+            <p xml:id="idm140453277827152">Buchholtz, Johannes/Nicolaisen, K.K.: <hi rend="italics" xml:id="idm140453277826848">Sidste Rejse. Jeppe Aakjærs Ligfærd</hi>, 1930</p>
+            <p xml:id="idm140453277825936">Raunkiær, C.: <hi rend="italics" xml:id="idm140453277825632">Hjemstavnsfloraen hos Hedens Sangere Blicher og Aakjær</hi>, 1930</p>
+            <p xml:id="idm140453277824688">Schmidt, August F.: <hi rend="italics" xml:id="idm140453277824400">Jeppe Aakjær</hi>, 1933</p>
+            <p xml:id="idm140453277823536">Schmidt, August F.: <hi rend="italics" xml:id="idm140453277823248">Jenle og Jenlefesterne</hi>, 1935</p>
+            <p xml:id="idm140453277822400">Bøgebjerg, Eilif: "Jeppe Aakjær som lokalhistorisk Skribent" i: <hi rend="italics" xml:id="idm140453277822000">Danske Studier 1939</hi>, 
+ s. 139-151</p>
+            <p xml:id="idm140453277821152">Hemmer Hansen, Eva: <hi rend="italics" xml:id="idm140453277820864">Digter og Samfund</hi>, 1939, s. 116-133</p>
+            <p xml:id="idm140453277820016">Fuchs, Reinhard: <hi rend="italics" xml:id="idm140453277819728">Der dänische Bauerndichter Jeppe Aakjær</hi>, 1940</p>
+            <p xml:id="idm140453277818816">Nørgaard, Felix: <hi rend="italics" xml:id="idm140453277818512">Jeppe Aakjær</hi>, 1941</p>
+            <p xml:id="idm140453277817648">Gandrup, Richardt: "Jeppe Aakjær" i: <hi rend="italics" xml:id="idm140453277817296">Danske Digtere i det 20. Aarhundrede</hi>, bd. 1, </p>
+            <p xml:id="idm140453277816432">1951, s. 99-114</p>
+            <p xml:id="idm140453277816016">Skrubbeltrang, Fridlev: "Jeppe Aakjær" i: Richard Andersen og S.Haugstrup Jensen </p>
+            <p xml:id="idm140453277815456">(red.): <hi rend="italics" xml:id="idm140453277815168">Kapitler af dansk digtning fra Herman Bang til Kaj Munk</hi>, 1951, s. 197-223</p>
+            <p xml:id="idm140453277814288">Woel, Cai M.: <hi rend="italics" xml:id="idm140453277814000">Dansk Literaturhistorie 1900-1950</hi>, bd. 1, 1956, s. 26-39</p>
+            <p xml:id="idm140453277813136">Frederiksen, Emil: "Jeppe Aakjær" i: <hi rend="italics" xml:id="idm140453277812784">Danske digtere i det 20. århundrede</hi>, bd. 1, 1965, </p>
+            <p xml:id="idm140453277811872">s. 117-152</p>
+            <p xml:id="idm140453277811456">Billeskov Jansen, F.J.: "Jeppe Aakjær" i: <hi rend="italics" xml:id="idm140453277811104">Dansk litteratur historie</hi>, bd. 3, 3. udg. 1971, 
+ s. 498-505</p>
+            <p xml:id="idm140453277810224">Kristensen, Sven Møller: <hi rend="italics" xml:id="idm140453277809904">Den store generation</hi>, 1974</p>
+            <p xml:id="idm140453277809056">Bjerre, Solvejg: <hi rend="italics" xml:id="idm140453277808768">Den hvide rug</hi>, <hi rend="italics" xml:id="idm140453277808080">den blide rug. Jeppe Aakjær og "Jenle"</hi>, 1980</p>
+            <p xml:id="idm140453277807168">Hjordt-Vetlesen, Inger-Lise: "Jeppe Aakjær" i: <hi rend="italics" xml:id="idm140453277806800">Danske digtere i det 20. århundrede</hi>, 
+ bd. 1, 1980, s. 197-217</p>
+            <p xml:id="idm140453277805872">Danelund, Jørgen (red.): <hi rend="italics" xml:id="idm140453277805552">Jeppe Aakjær. Årbog 1</hi>, 1982; artikler af Flemming Harrits, </p>
+            <p xml:id="idm140453277804656">Solvejg Bjerre, Vagn Raahede, Finn Vadmand, Finn Slumstrup, Jørgen Danelund og </p>
+            <p xml:id="idm140453277804096">Ove Gibskov</p>
+            <p xml:id="idm140453277803680">Hjordt-Vetlesen, Inger-Lise: "Husmandsdigtningen - protest og nostalgi" i: <hi rend="italics" xml:id="idm140453277803328">Dansk </hi>
+						</p>
+            <p xml:id="idm140453277802512"><hi rend="italics" xml:id="idm140453277802384">litteraturhistorie</hi>, bd. 7, 1984, s. 50-57</p>
+            <p xml:id="idm140453277801536">Bjerre, Solvejg: <hi rend="italics" xml:id="idm140453277801248">Livet på Jenle</hi>, 1985</p>
+            <p xml:id="idm140453277800384">Brovst, Bjarne Nielsen: <hi rend="italics" xml:id="idm140453277800080">Jeppe Aakjærs 17 dage i Viborg arrest 1887</hi>, 1987</p>
+            <p xml:id="idm140453277799168">Brovst, Bjarne Nielsen: <hi rend="italics" xml:id="idm140453277798864">Jeppe Aakjær på Askov Højskole 1887-1888</hi>, 1988</p>
+            <p xml:id="idm140453277797952">Brovst, Bjarne Nielsen: <hi rend="italics" xml:id="idm140453277797648">Jeppe og Marie</hi>, 1988, </p>
+            <p xml:id="idm140453277796800">Bjerre, Solvejg: <hi rend="italics" xml:id="idm140453277796512">Længe siden</hi>, 1992</p>
+            <p xml:id="idm140453277795648">Fibæk Jensen, Henrik: <hi rend="italics" xml:id="idm140453277795328">Jeppe Aakjær. Spillemand og stridsmand</hi>, 1999</p>
+          </div>
+          <anchor xml:id="a7.3"/>
+          <div xml:id="idm140453277793584">
+            <head xml:id="idm140453277793328">Om Aakjærs lyrik</head>
+            <p xml:id="idm140453277792896">Nielsen, Hans Jørn: <hi rend="italics" xml:id="idm140453277792576">Til folket vi går. Omkring nogle Aakjærsange</hi>, 1982</p>
+            <p xml:id="idm140453277791680">- <hi rend="italics" xml:id="idm140453277791424">Rugens Sange og andre Digte</hi>:</p>
+            <p xml:id="idm140453277790592">Andersen, Harry: "Jeppe Aakjær og Rugens Sange" i: <hi rend="italics" xml:id="idm140453277790208">Ord och bild </hi>1955, s. 205-215</p>
+            <p xml:id="idm140453277789360">Nørregaard Frandsen, Johs.: "En skælven i et ydmygt sind - JeppeAakjær: <hi rend="italics" xml:id="idm140453277788944">Rugens </hi>
+						</p>
+            <p xml:id="idm140453277788128"><hi rend="italics" xml:id="idm140453277788000">Sange</hi>" i: Inger-Lise Hjordt-Vetlesen m.fl. (red): <hi rend="italics" xml:id="idm140453277787248">Læsninger i dansk litteratur</hi>, bd. 3: </p>
+            <p xml:id="idm140453277786352">1900-1940, 1997, s. 76-94</p>
+            <p xml:id="idm140453277785920">- "Sundt Blod"</p>
+            <p xml:id="idm140453277785504">Brostrøm, Torben: "Digt og digterjeg. Jeppe Aakjær: Sundt blod" i: Thomas Bredsdorff </p>
+            <p xml:id="idm140453277784928">(red.): <hi rend="italics" xml:id="idm140453277784640">Danske digtanalyser</hi>, 1969, s. 135-142 </p>
+            <p xml:id="idm140453277783792">- "Historiens Sang"</p>
+            <p xml:id="idm140453277783376">Eller, Edv.: "Jeppe Aakjær: Historiens Sang" i: <hi rend="italics" xml:id="idm140453277783008">Dansk Ungdom</hi> 1930, s. 520-522 </p>
+            <p xml:id="idm140453277782160">Fibæk Jensen, Henrik: "Historiens sang. Om Jeppe Aakjærs historiesyn" i: <hi rend="italics" xml:id="idm140453277781744">Dansk udsyn </hi>
+						</p>
+            <p xml:id="idm140453277780928"><hi rend="italics" xml:id="idm140453277780800"/>1990, s. 287-300</p>
+            <p xml:id="idm140453277780112">- "Karlsvognen"</p>
+            <p xml:id="idm140453277779696">Andersen, Harry: "To Hymner. Aakjærs "Karlsvognen" og Holsteins "Foraarsbøgen"" </p>
+            <p xml:id="idm140453277779136">i: <hi rend="italics" xml:id="idm140453277778880">EDDA</hi> 1937, s. 433-445<hi rend="italics" xml:id="idm140453277778160"/>
+						</p>
+            <p xml:id="idm140453277777504">Hakon Jørgensen, Bo: "Jeppe Aakjær: <hi rend="italics" xml:id="idm140453277777152">Karlsvognen</hi>" i: <hi rend="italics" xml:id="idm140453277776432">Mastetoppe</hi>, 1997, s. 311-313 </p>
+            <p xml:id="idm140453277775584">- "Jens Vejmand"</p>
+            <p xml:id="idm140453277775168">Jepsen, Mads: <hi rend="italics" xml:id="idm140453277774880">Jens Vejmand. En gammeldags Nutidsbetragtning</hi>, 1910</p>
+            <p xml:id="idm140453277774000">- "Se dig ud"</p>
+            <p xml:id="idm140453277773584">Olsen, Gunnar: "Se dig ud" i: Roar Skovmand (red): <hi rend="italics" xml:id="idm140453277773264">Dansk Nationalfølelse</hi>, 1946, </p>
+            <p xml:id="idm140453277772384">s. 110-119</p>
+            <p xml:id="idm140453277771968">- "Karup Aa"</p>
+            <p xml:id="idm140453277771552">Povlsen, Hans: "Ved kilden" i: <hi rend="italics" xml:id="idm140453277771248">Digt og Læser</hi>, 1958, s. 43-56</p>
+            <p xml:id="idm140453277770384">- "For læng, læng Sind"</p>
+            <p xml:id="idm140453277769936">Schütte, Gudmund: "Den skotske Hjærtenstone "Auld lang syne" gengiven på jysk" </p>
+            <p xml:id="idm140453277769376">i: <hi rend="italics" xml:id="idm140453277769120">Skivebogen</hi> 1950, s. 60-64</p>
+            <p xml:id="idm140453277768272">Tang Kristensen, Johs. E.: <hi rend="italics" xml:id="idm140453277767968">Skuld gammel Venskab rejn forgo - og to breve fra Jeppe </hi>
+						</p>
+            <p xml:id="idm140453277767104"><hi rend="italics" xml:id="idm140453277766976">Aakjær til Evald Tang Kristensen</hi>, 1992</p>
+          </div>
+          <anchor xml:id="a7.4"/>
+          <div xml:id="idm140453277765296">
+            <head xml:id="idm140453277765040">Om Aakjærs prosa</head>
+            <p xml:id="idm140453277764608">Hjordt-Vetlesen, Inger-Lise: <hi rend="italics" xml:id="idm140453277764304">Flugtens fængsel. Længsler og bindinger i Jeppe Aakjærs
+romaner</hi>, 1981</p>
+            <p xml:id="idm140453277763376">- Romanen <hi rend="italics" xml:id="idm140453277763088">Vredens Børn</hi>
+						</p>
+            <p xml:id="idm140453277762256">Nielsen, Harald: <hi rend="italics" xml:id="idm140453277761968">Af Tidens Træk. Litterære Afhandlinger</hi>", 1909, s. 68-76</p>
+            <p xml:id="idm140453277761056">Nørgaard, Felix: "Jeppe Aakjær: Vredens Børn" i: <hi rend="italics" xml:id="idm140453277760672">Danske Samfundsromaner</hi>, 1946, </p>
+            <p xml:id="idm140453277759824">s. 49-65</p>
+            <p xml:id="idm140453277759408">Christensen, Hans Jørn: <hi rend="italics" xml:id="idm140453277759088">Vredens Børn - en montage</hi>, 1979</p>
+            <p xml:id="idm140453277758208">Svane, Marie-Louise: "Social kritik og folkelig tradition i Aakjærs roman Vredens </p>
+            <p xml:id="idm140453277757648">Børn" i: <hi rend="italics" xml:id="idm140453277757360">Kultur og klasse</hi> 38, 1980, s. 6-25</p>
+            <p xml:id="idm140453277756512">Thule Hansen, Vagn: "Natur og social bevidsthed" i: <hi rend="italics" xml:id="idm140453277756192">Kursiv</hi> 2/1982, s. 32-35</p>
+            <p xml:id="idm140453277755344">Hansen, Henrik: "Jeppe Aakjærs "Vredens Børn" - eller hvordan man bliver gal i </p>
+            <p xml:id="idm140453277754784">hovedet" i: <hi rend="italics" xml:id="idm140453277754496">Kursiv</hi> 3/1982, s. 51-66</p>
+            <p xml:id="idm140453277753648">- Romanen <hi rend="italics" xml:id="idm140453277753360">Jens Langkniv</hi>:</p>
+            <p xml:id="idm140453277752544">Fibæk Jensen, Henrik: <hi rend="italics" xml:id="idm140453277752224">Jens Langkniv - en jysk Robin Hood?</hi>, 1993, s. 35-58</p>
+            <p xml:id="idm140453277751360">- Novellen "Sidsels Brudelys"</p>
+            <p xml:id="idm140453277750928">Nørregaard Frandsen, Johs.: "Den tavse sorg. Jeppe Aakjær: "Sidsels Brudelys"" i: Povl </p>
+            <p xml:id="idm140453277750352">Schmidt og Jørgen Gleerup (red): <hi rend="italics" xml:id="idm140453277750016">Drift og socialitet</hi>, 1983, s. 20-28</p>
+            <p xml:id="idm140453277749168">En udførlig litteraturliste findes i Henrik Fibæk Jensens <hi rend="italics" xml:id="idm140453277748768">Jeppe Aakjær. Spillemand og 
+stridsmand</hi>, 1999, s. 322-332.</p>
+          </div>
+        </div>
+        <div type="port" xml:id="idm140453277747600">
+          <head xml:id="idm140453277747072">Henrik Fibæk Jensen</head>
+          <p xml:id="idm140453277746624">
+Henrik Fibæk Jensen (f. 1954) er cand.mag. i dansk, historie og filosofi.<lb xml:id="idm140453277746208"/>
+ Forfatter til bl.a. <hi rend="italics" xml:id="idm140453277745920">Det egentlige liv - en bog om Johannes Buchholtz</hi> (1995) og <hi rend="italics" xml:id="idm140453277745168">Jeppe Aakjær -
+Spillemand og stridsmand </hi>(1999)</p>
+          <!--
+<p>Pr&aelig;gnante Aakj&aelig;r-citater:</p>
+
+<p>1."Der er en intim Forbindelse mellem min Digtning og Karup Aa, ja, det er vel
+tvivlsomt, at jeg var bleven den Digter, jeg er, hvis jeg ikke var bleven f&oslash;dt paa
+denne Aas Bredder. I hvert Fald er det mig bevidst, at de dybeste Gl&aelig;der, jeg har
+haft, har jeg oplevet ved denne Aa og i dens Enge" (<hi rend="italics">Fra</hi> <hi rend="italics">min Bitte-Tid</hi>, s. 176).</p>
+
+<p>2."Gud er jo kun en Omskrivning for alt det, Menneskene ikke ved" (<hi rend="italics">SV</hi> 6 79).</p>
+
+<p>3."Lad dette v&aelig;re vort Ideal at gj&oslash;re denne Jord saa herlig som mulig. Lad dette
+v&aelig;re vort Valgsprog: <hi rend="italics">Jeg vil ikke gj&oslash;re Uret</hi>, <hi rend="italics">og jeg vil ikke finde mig i Uret!</hi> - En
+saadan Leveregel har Vingefang nok til et b&aelig;re et Menneske lykkelig til hans
+Grav. Alle Guder, alle Paradisspejlinger, svinder hen som Skyer i Luften ved
+Siden af dette" (<hi rend="italics">SV</hi> 4 119).</p>
+
+<p>4."Det skulde vi da l&aelig;re af Politiken at holde os til Jorden; mens Religionen peger
+paa Himlen og det tomme Rum, peger Politiken energisk mod Jorden og den
+enkeltes og det heles jordiske Lykke. [..] Politik - det er det at eje en Ko paa
+Toften og en Gris ved Truget, det er det at ha en glad Kvinde i et sollyst Hjem;
+Politik er en H&oslash;ne i Gryden og en Stemme i Raadet" (<hi rend="italics">SV</hi> 4 115-116).</p>
+
+<p>5."Af Folket vi kommer, til Folket vi gaar,</p>
+<p><hi rend="italics">dets </hi>Lykke skal v&aelig;re <hi rend="italics">vor</hi> Lov" (<hi rend="italics">SV</hi> 1 104). </p>
+
+<p>6."Og lad kun Verden snakke</p>
+<p>og sige, hvad den vil,</p>
+<p>der er dog ingen Lykke</p>
+<p>som Elskovens til" (<hi rend="italics">SV </hi>1 76). </p>
+
+<p>7."Hvor kan I dog gruble og gr&aelig;de,</p>
+<p>saa l&aelig;nge Guds Himmel er blaa!</p>
+<p><hi rend="italics">Mit</hi> Hjerte skj&aelig;lver af Gl&aelig;de,</p>
+<p>blot Duggen dynker et Straa" (<hi rend="italics">SV </hi>1 241).</p>
+
+<p>8."Det er Historikeren i mig, der har Digteren ved Haanden, ikke omvendt" (<hi rend="italics">F&oslash;r det
+Dages</hi>, s. 196).</p>
+
+<p>9."Og aldrig stemmes en Sj&aelig;l saa glad,</p>
+<p>det v&aelig;re sig Mands eller Kvindes,</p>
+<p>som naar det dufter af Myntens Blad,</p>
+<p>og Negene samles og bindes" (<hi rend="italics">SV</hi> 1 226).</p>
+
+<p>10."Hvad var vel i Verden det fattige Liv</p>
+<p>med al dets fort&aelig;rende Tant,</p>
+<p>om ikke en Plet med en Dal og lidt Siv</p>
+<p>vort Hj&aelig;rte i Skj&aelig;lvinger bandt!</p>
+<p>Om ikke vi drog fra det yderste Hav</p>
+<p>for b&oslash;jet og rynket at staa</p>
+<p>og h&oslash;re de Kluk,</p>
+<p>de Mindernes Suk</p>
+<p>fra B&aelig;kken, vi kyssed som smaa" (<hi rend="italics">SV</hi> 1 113).</p>
+
+<p>11."enhver levedygtig Literatur maa v&aelig;re tendenti&oslash;s, ellers er den ligegyldig [...] At
+forlange af Digtningen, at den ikke maa ha Tendens, er som at forlange af et Skib,
+at det ikke maa ha en bestemt Retning" (<hi rend="italics">Fra Sallingland til &Oslash;resund</hi>, s. 111).</p>
+-->
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

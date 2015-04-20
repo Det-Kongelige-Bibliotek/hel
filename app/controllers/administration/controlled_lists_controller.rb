@@ -25,7 +25,7 @@ module Administration
     def create
       @controlled_list = ControlledList.new(controlled_list_params)
       if @controlled_list.save
-        redirect_to @controlled_list, notice: 'ControlledList was successfully created.'
+        redirect_to @controlled_list, notice: t('administration.controlled_lists.flashmessage.created')
       else
         render action: 'new'
       end
@@ -34,7 +34,7 @@ module Administration
     # PATCH/PUT /controlled_lists/1
     def update
       if @controlled_list.update(controlled_list_params)
-        redirect_to @controlled_list, notice: 'ControlledList was successfully updated.'
+        redirect_to @controlled_list, notice: t('administration.controlled_lists.flashmessage.updated')
       else
         render action: 'edit'
       end
@@ -43,7 +43,7 @@ module Administration
     # DELETE /controlled_lists/1
     def destroy
       @controlled_list.delete
-      redirect_to administration_controlled_lists_url, notice: 'ControlledList was successfully destroyed.'
+      redirect_to administration_controlled_lists_url, notice: t('administration.controlled_lists.flashmessage.destroyed')
     end
 
     private
@@ -59,7 +59,7 @@ module Administration
 
     def ensure_admin!
       unless user_signed_in? && current_user.admin?
-        flash[:alert] = 'Du skal være administrator for at kunne opdatere'
+        flash[:alert] = t('flashmessage.be_admin')
         redirect_to root_path
       end
     end

@@ -35,7 +35,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        format.html { redirect_to @work, notice: 'Værket blev oprettet.' }
+        format.html { redirect_to @work, notice: t('work.save') }
         format.json { render :show, status: :created, location: @work }
       else
         format.html { render :new }
@@ -77,7 +77,19 @@ class WorksController < ApplicationController
   def update
     respond_to do |format|
       if @work.update(work_params)
-        format.html { redirect_to @work, notice: 'Værket er opdateret.' }
+        @work.instances.each do |i|
+          if i.type == 'TEI'
+            i.content_files.each do |f|
+                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                f.external_file_path,i)
+                f.update_tech_metadata_for_external_file
+                f.save(validate: false)
+            end
+            repo = Administration::ExternalRepository[i.external_repository]
+            repo.push
+          end
+        end
+        format.html { redirect_to @work, notice: t('work.update') }
         format.json { render :show, status: :ok, location: @work }
       else
         format.html { render :edit }
@@ -91,7 +103,7 @@ class WorksController < ApplicationController
   def destroy
     @work.destroy
     respond_to do |format|
-      format.html { redirect_to works_url, notice: 'Værket blev slettet.' }
+      format.html { redirect_to works_url, notice: t('work.destroy') }
       format.json { head :no_content }
     end
   end
@@ -110,6 +122,6 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]],note:[])
+    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]], subjects: [[:id]], note:[])
   end
 end

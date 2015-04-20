@@ -7,6 +7,6 @@
 #   @instance = Instance.new(instance_params)
 # end
 RSpec.shared_context 'shared' do
-  let (:instance_params) { { collection: 'Sample', activity: @default_activity_id, copyright: 'cc' }}
+  let (:instance_params) { { collection: 'Sample', activity: Administration::Activity.create(activity: 'test').id, copyright: 'cc' }}
   let (:valid_trykforlaeg) { instance_params.merge(isbn13: '9780521169004', published_date: '2004')}
 end

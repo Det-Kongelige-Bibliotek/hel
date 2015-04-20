@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :works do
     resources :instances do
       get 'send_to_preservation', on: :member
+      get  'validate_tei', on: :member
     end
     resources :trykforlaegs
     post 'aleph', on: :collection
@@ -21,6 +22,8 @@ Rails.application.routes.draw do
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :show, :update, :destroy] do
     member do
       get 'download'
+      get 'upload'
+      patch 'update'
     end
   end
   root to: 'catalog#index'
@@ -28,6 +31,9 @@ Rails.application.routes.draw do
   namespace :administration do
     resources :controlled_lists
     resources :activities
+    resources :external_repositories, :only => [:show, :index] do
+      get 'syncronise', on: :member
+    end
   end
 
   blacklight_for :catalog
