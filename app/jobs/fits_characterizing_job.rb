@@ -15,5 +15,6 @@ class FitsCharacterizingJob
     tmpfile.rewind
     cf.add_fits_metadata_datastream(tmpfile)
     tmpfile.close
+    tmpfile.unlink # deletes the tmp file
   end
 end
