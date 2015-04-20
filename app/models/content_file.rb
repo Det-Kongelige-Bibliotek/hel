@@ -123,7 +123,7 @@ class ContentFile < ActiveFedora::Base
     self.mime_type = mime_type
     self.size = file.size.to_s
     self.file_uuid = UUID.new.generate
-    self.save
+    self.save!
     Resque.enqueue(FitsCharacterizingJob,self.pid)
     true
   end

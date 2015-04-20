@@ -22,7 +22,7 @@ gem 'jquery-validation-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0'
+gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'hydra', '~> 7.2.0'
 gem 'simple_form'
 
@@ -56,9 +56,6 @@ gem 'ohm'
 gem 'httparty'
 
 gem 'resque'
-
-gem 'hydra-file_characterization'
-
 
 group :development, :test do
   gem 'simplecov'
