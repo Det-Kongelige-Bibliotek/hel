@@ -3,9 +3,9 @@ development:
   password: <%= CONFIG[:development][:fedora_passwd] %>
   url: <%= CONFIG[:development][:fedora_url] %>
 test: &TEST  
-  user: fedoraAdmin
-  password: fedoraAdmin
-  url: <%= "http://127.0.0.1:#{ENV['TEST_JETTY_PORT'] || 8983}/fedora-test" %>
+  user: <%= CONFIG[:test][:fedora_user] || fedoraAdmin%>
+  password: <%= CONFIG[:test][:fedora_passwd] || fedoraAdmin%>
+  url: <%= CONFIG[:test][:fedora_url] || "http://127.0.0.1:#{ENV['TEST_JETTY_PORT'] || 8983}/fedora-test" %>
 production:
   user: <%= CONFIG[:production][:fedora_user] %>
   password: <%= CONFIG[:production][:fedora_passwd] %>
