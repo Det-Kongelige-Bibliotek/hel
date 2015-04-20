@@ -68,7 +68,6 @@ class ContentFile < ActiveFedora::Base
     path
   end
 
-
   # This function checks if the content of an external mannaged file
   # has changed, and updates the tech metadata 
   def update_tech_metadata_for_external_file
@@ -86,8 +85,6 @@ class ContentFile < ActiveFedora::Base
     end
     false
   end
-
-
 
   def update_external_file_content(new_content)
     raise "Only content of external files can be overwritten" unless self.datastreams['content'].controlGroup == 'E'

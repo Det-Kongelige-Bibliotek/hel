@@ -19,5 +19,6 @@ class FitsCharacterizingJob
     puts "Running fits on #{tmpfile.inspect}"
     cf.add_fits_metadata_datastream(tmpfile)
     tmpfile.close
+    tmpfile.unlink
   end
 end
