@@ -23,7 +23,7 @@ gem 'jquery-validation-rails'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'hydra', '~> 7.2.0'
+gem 'hydra', '~> 9.0.0'
 gem 'simple_form'
 
 # Use ActiveModel has_secure_password
@@ -60,7 +60,7 @@ gem 'resque'
 group :development, :test do
   gem 'simplecov'
   gem 'rspec-rails'
-  gem 'jettywrapper'
+  gem 'jettywrapper', '~> 2.0.0'
   gem 'thin'
   gem 'linkeddata'
 end
@@ -68,7 +68,7 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'rack-mini-profiler'
+#  gem 'rack-mini-profiler'
 # gem 'flamegraph'
 # gem 'stackprof'
 end
