@@ -481,6 +481,7 @@ DEPENDENCIES
   ohm
   quiet_assets
   rails (>= 4.1.6)
+  rdf-vocab (>= 0.6.0)
   resque
   rspec-rails
   sass-rails (~> 4.0.3)

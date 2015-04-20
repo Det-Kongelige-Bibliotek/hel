@@ -56,6 +56,7 @@ gem 'ohm'
 gem 'httparty'
 
 gem 'resque'
+gem 'rdf-vocab', '>= 0.6.0'
 
 group :development, :test do
   gem 'simplecov'
