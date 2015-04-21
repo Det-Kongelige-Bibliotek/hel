@@ -10,4 +10,5 @@ class Person < ActiveFedora::Base
   property :nationality, predicate: ::RDF::Vocab::SCHEMA.nationality, multiple: false
   property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
   property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: true
+  property :image, predicate: ::RDF::Vocab::SCHEMA.image
 end
