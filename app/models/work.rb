@@ -5,12 +5,13 @@
 # should live in separate modules and
 # be mixed in.
 class Work < ActiveFedora::Base
-  include Bibframe::Work
+  # include Bibframe::Work
   include Hydra::AccessControls::Permissions
-  include Concerns::UUIDGenerator
   include Concerns::Renderers
   include Datastreams::TransWalker
 
+  property :titles, predicate: ::RDF::Vocab::Bibframe::title
+=begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
   has_and_belongs_to_many :related_works, class_name: 'Work', property: :related_work, inverse_of: :related_work
   has_and_belongs_to_many :preceding_works, class_name: 'Work', property: :preceded_by, inverse_of: :succeeded_by
@@ -18,6 +19,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
   has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
+  belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
 
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
@@ -75,6 +77,50 @@ class Work < ActiveFedora::Base
       creators.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
     end
     creators
+  end
+
+
+  def agents
+    agents = []
+    authors.each do |a|
+      agents.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
+    end
+    recipients.each do |rcp|
+      agents.push({"id" => rcp.id, "type"=> 'rcp', 'display_value' => rcp.display_value})
+    end
+    agents
+  end
+
+  # this method returns a hash
+  # where every author name is a key
+  # and the object id is a value
+  # e.g. { "Victor Andreasen" => 'valhal:1234' }
+  # It can be used to *guess* the value of an author
+  # based on a string value, e.g. Victor
+  def author_names
+    author_names = {}
+    authors.each do |aut|
+      aut.all_names.each do |name|
+        author_names[name] = aut
+      end
+    end
+    author_names
+  end
+
+  # Given a name fragment, attempt
+  # to find a Person object from the authors
+  # that matches this string
+  # e.g. given a Work w with author Andreasen, Victor,
+  # w.find_matching_author('Victor') will return
+  # the Authority::Person object Victor Andreasen
+  # If no match is found, return nil
+  def find_matching_author(query)
+    return nil if query.nil?
+    author_names.select do |name, obj|
+      next unless name.present?
+      return obj if name.include?(query)
+    end
+    nil
   end
 
   def creators=(val)
@@ -156,4 +202,14 @@ class Work < ActiveFedora::Base
     ActiveFedora::SolrService.query("title_tesim:* && active_fedora_model_ssi:Work",
                                     {:rows => ActiveFedora::SolrService.count("title_tesim:* && active_fedora_model_ssi:Work")})
   end
+
+  # Given an activity name, find all the works
+  # that belong to that activity
+  # @param activity String
+  # @return ['id', 'id']
+  def self.find_by_activity(activity)
+    docs = ActiveFedora::SolrService.query("work_collection_sim:#{activity} && active_fedora_model_ssi:Work")
+    docs.collect { |doc| doc['id'] }
+  end
+=end
 end
