@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rdf:RDF xmlns:bf="http://bibframe.org/vocab/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:relators="http://id.loc.gov/vocabulary/relators/"
+	 xmlns:mads="http://www.loc.gov/mads/rdf/v1#"> 
+
+  <bf:Work  xmlns:relators="http://id.loc.gov/vocabulary/relators">
+    <rdf:type rdf:resource="http://bibframe.org/vocab/MovingImage"/>
+    <bf:title>Kære Victor</bf:title>
+    <bf:relator  rdf:nodeID="bnode-q90w87"/>
+    <bf:relator  rdf:nodeID="bnode-vicke"/>
+  </bf:Work>
+
+  <!-- BIBFRAME Relator-->
+  <bf:Relator  rdf:nodeID="bnode-q90w87">
+    <bf:relatorRole rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+    <bf:agent rdf:nodeID="bnode-y65v32"/>
+  </bf:Relator>
+
+  <bf:Relator  rdf:nodeID="bnode-vicke">
+    <bf:relatorRole rdf:resource="http://id.loc.gov/vocabulary/relators/edt"/>
+    <bf:agent rdf:nodeID="bnode-vicke-the-person"/>
+  </bf:Relator>
+
+  <!-- BIBFRAME Authority-->
+  <bf:Person rdf:nodeID="bnode-vicke-the-person">
+    <bf:hasAuthority 
+	rdf:resource="http://viaf.org/viaf/293747331"/>
+  </bf:Person>
+
+  <bf:Person rdf:nodeID="bnode-y65v32">
+    <bf:hasAuthority  
+	rdf:resource="http://viaf.org/viaf/32787734"/>
+  </bf:Person>
+
+  <mads:PersonalName rdf:about="http://viaf.org/viaf/32787734">
+    <rdf:type rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <mads:authoritativeLabel>Ditlevsen, Tove Irma Margit, 1918-1976</mads:authoritativeLabel>
+    <mads:elementList rdf:parseType="Collection">
+      <mads:NameElement>
+        <mads:elementValue>Ditlevsen,</mads:elementValue>
+      </mads:NameElement>
+       <mads:NameElement>
+        <mads:elementValue>Tove Irma Margit,</mads:elementValue>
+       </mads:NameElement>
+      <mads:DateNameElement>
+        <mads:elementValue>1918-1976</mads:elementValue>
+      </mads:DateNameElement>
+    </mads:elementList>
+  </mads:PersonalName>
+  
+  <mads:PersonalName rdf:about="http://viaf.org/viaf/293747331">
+    <rdf:type rdf:resource="http://www.loc.gov/mads/rdf/v1#Authority"/>
+    <mads:authoritativeLabel>Andreasen, Victor Johannes,
+    1920-2000</mads:authoritativeLabel>
+      <mads:elementList rdf:parseType="Collection">
+	<mads:NameElement>
+          <mads:elementValue>Andreasen,</mads:elementValue>
+	</mads:NameElement>
+	<mads:NameElement>
+	  <mads:elementValue>Victor Johannes,</mads:elementValue>
+	</mads:NameElement>
+	<mads:DateNameElement>
+          <mads:elementValue>1920-2000</mads:elementValue>
+	</mads:DateNameElement>
+      </mads:elementList>
+    </mads:PersonalName>
+  
+</rdf:RDF>
