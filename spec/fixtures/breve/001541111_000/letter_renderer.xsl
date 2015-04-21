@@ -186,41 +186,85 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="t:pb">
+    [s. <a href="#{@xml:id}"><xsl:value-of select="@n"/></a>]
+  </xsl:template>
+
+  <xsl:template name="inputfield">
+    <xsl:param name="variable" select="'shit'"/>
+    <xsl:param name="value"    select="''"/>
+    <dd>
+      <xsl:element name="input">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="$variable"/>
+	</xsl:attribute>
+	<xsl:attribute name="value">
+	  <xsl:value-of select="$value"/>
+	</xsl:attribute>
+      </xsl:element>
+    </dd>
+  </xsl:template>
+
+  <xsl:template name="render_input">
+    <xsl:param name="xpath"/>
+    <xsl:param name="variable" select="'shit'"/>
+    <xsl:choose>
+      <xsl:when test="$xpath">
+	<xsl:for-each select="$xpath">
+	  <xsl:call-template name="inputfield">
+	    <xsl:with-param name="variable" select="$variable"/>
+	    <xsl:with-param name="value" select="."/>
+	  </xsl:call-template>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="inputfield">
+	  <xsl:with-param name="variable" select="$variable"/>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template name="render_form">
     <dt>Afsender</dt>
-    <xsl:for-each select="t:closer/t:signed/t:persName">
-      <dd><xsl:element name="input">
-	<xsl:attribute name="name">sender</xsl:attribute>
-	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
-      </xsl:element></dd>
-    </xsl:for-each>
+    <xsl:call-template name="render_input">
+      <xsl:with-param name="xpath" select="t:closer/t:signed/t:persName"/>
+      <xsl:with-param name="variable">sender</xsl:with-param>
+    </xsl:call-template>
+
     <dt>Afsendelsessted</dt>
-    <xsl:for-each select="t:opener/t:dateline/t:geogName">
-      <dd><xsl:element name="input">
-	<xsl:attribute name="name">senders_place</xsl:attribute>
-	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
-      </xsl:element></dd>
-    </xsl:for-each>
+    <xsl:call-template name="render_input">
+      <xsl:with-param name="xpath" select="t:opener/t:dateline/t:geogName"/>
+      <xsl:with-param name="variable">senders_place</xsl:with-param>
+    </xsl:call-template>
+
     <dt>Brevskrivningsdato</dt>
-    <xsl:for-each select="t:opener/t:dateline/t:date">
-      <dd><xsl:element name="input">
-	<xsl:attribute name="name">date</xsl:attribute>
-	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
-      </xsl:element></dd>
-    </xsl:for-each>
+    <xsl:call-template name="render_input">
+      <xsl:with-param name="xpath" select="t:opener/t:dateline/t:date"/>
+      <xsl:with-param name="variable">date</xsl:with-param>
+    </xsl:call-template>
+
     <dt>Modtager</dt>
-    <xsl:for-each select="t:opener/t:salute/t:persName">
-      <dd><xsl:element name="input">
-	<xsl:attribute name="name">recipient</xsl:attribute>
-	<xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
-      </xsl:element></dd>
-    </xsl:for-each>
+    <xsl:call-template name="render_input">
+      <xsl:with-param name="xpath" select="t:opener/t:salute/t:persName"/>
+      <xsl:with-param name="variable">recipient</xsl:with-param>
+    </xsl:call-template>
+ 
+    <dt>Modtagelsessted</dt>
+    <xsl:call-template name="render_input">
+      <xsl:with-param name="xpath" select="t:opener/t:address/t:addrLine"/>
+      <xsl:with-param name="variable">recipients_place</xsl:with-param>
+    </xsl:call-template>
+
   </xsl:template>
 
   <xsl:template name="render_facs">
     <xsl:element name="img">
       <xsl:attribute name="style">
 	width:100%;
+      </xsl:attribute>
+      <xsl:attribute name="id">
+	<xsl:value-of select="@xml:id"/>
       </xsl:attribute>
       <xsl:attribute name="alt">
 	side <xsl:value-of select="@n"/>
