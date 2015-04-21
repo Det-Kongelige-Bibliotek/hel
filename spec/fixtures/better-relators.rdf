@@ -4,7 +4,8 @@
          xmlns:relators="http://id.loc.gov/vocabulary/relators/"
 	 xmlns:schema="http://schema.org/"> 
 
-  <bf:Work  xmlns:relators="http://id.loc.gov/vocabulary/relators">
+  <bf:Work  xmlns:relators="http://id.loc.gov/vocabulary/relators" 
+	    rdf:about="http://example.org/text">
     <rdf:type rdf:resource="http://bibframe.org/vocab/Text"/>
     <bf:title>Kære Victor</bf:title>
     <bf:relator  rdf:nodeID="bnode-tove"/>
