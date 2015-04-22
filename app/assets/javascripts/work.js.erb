@@ -20,25 +20,22 @@ $(document).ready(function(){
     // TODO: this stuff needs to be cleaned up
     // e.g. refactor into functions, remove unused code (some of the combobox stuff)
     title_counter = $(".title, .new-title, .hidden-title").length;
-    $('[data-function="new-title"]').click(function(){
-        hidden_title = $("div.hidden-title");
-        new_title = hidden_title.clone(true)
-            .find("input.title-value").attr("name","work[titles]["+title_counter+"][value]").end()
-            .find("select.title-lang").attr("name","work[titles]["+title_counter+"][lang]").end()
-            .find("select.title-type").attr("name","work[titles]["+title_counter+"][type]").end()
-            .find("input.title-subtitle").attr("name","work[titles]["+title_counter+"][subtitle]").end();
-        hidden_title.removeClass('hidden-title').addClass("title");
-        hidden_title.find("select").each(function(index){
-            $(this).addClass("combobox");
-            $(this).combobox();
-            $(this).click(function(){
-                $(this).siblings('.dropdown-toggle').click();
-            });
+    $('[data-function="new-title"]').click(function(e){
+        e.preventDefault();
+        var $fields = $('.title_fields:last');
+        var $new_fields = $fields.clone(true);
+        var regex = new RegExp(/[0-9]/);
+        // Update all name and id attributes before pasting in the clone
+        $new_fields.find('input').each(function(index, input){
+            var num = parseInt(regex.exec(input.name));
+            var inc = num + 1;
+            var updated_name = input.name.replace(num.toString(), inc.toString());
+            var updated_id = input.id.replace(num.toString(), inc.toString());
+            $(input).attr('name', updated_name);
+            $(input).attr('id', updated_id);
+            $(input).val('');
         });
-        hidden_title.show();
-        new_title.insertAfter(hidden_title);
-        title_counter = title_counter +1;
-        return false;
+        $new_fields.insertAfter($fields);
     });
     $('[data-function="delete-title"]').click(function(){
         $(this).parent().parent().remove();
