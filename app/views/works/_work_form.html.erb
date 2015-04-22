@@ -12,28 +12,15 @@
   </div>
 
   <div class="container">
-    <%= form_for(@work) do |f| %>
-        <% if @work.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@work.errors.count, "error") %> <%= t('.error') %></h2>
-
-              <ul>
-                <% @work.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
+    <%= simple_form_for(@work, html: { novalidate: true }, input_html: { class: 'form-control' }) do |f| %>
         <fieldset class="row">
             <legend class="col-sm-12"><%= t('.titles') %></legend>
-            <% if @work.titles.length > 0  %>
+            <% if @work.titles.size > 0  %>
                 <% @work.titles.each_with_index do |title,index| %>
-                    <%= render  partial: 'works/title',  locals: {title: title , index: index, hidden:false} %>
+                    <%= render  partial: 'works/title',  locals: { work_form: f, title: title , index: index, hidden:false } %>
                 <% end%>
-              <%= render partial: 'works/title', locals: {title: Datastreams::Bibframe::Title.new, index: @work.titles.length+1, hidden:true} %>
             <% else %>
-             <%= render partial: 'works/title', locals: {title: Datastreams::Bibframe::Title.new, index: 0, hidden:false} %>
-             <%= render partial: 'works/title', locals: {title: Datastreams::Bibframe::Title.new, index: 1, hidden:true} %>
+             <%= render partial: 'works/title', locals: { work_form: f, title: Title.new, index: 0, hidden: false } %>
             <% end %>
 
             <div class='col-sm-12'>
@@ -51,15 +38,16 @@
               <%= t('.new_person') %>
             </a>
           </legend>
-          <% if @work.creators.length >0 %>
-              <% @work.creators.each_with_index do |creator,index| %>
-                <%= render partial: 'works/creator', locals: {creator: creator, index: index, hidden:false} %>
-              <% end %>
-              <%= render partial: 'works/creator', locals: {creator: {},index: @work.creators.length, hidden: true}%>
-          <% else %>
-            <%= render partial: 'works/creator', locals: {creator: {},index: 0, hidden: false}%>
-            <%= render partial: 'works/creator', locals: {creator: {},index: 1, hidden: true}%>
-          <% end %>
+
+          <%# if @work.creators.length >0 %>
+              <%# @work.creators.each_with_index do |creator,index| %>
+                <%#= render partial: 'works/creator', locals: {creator: creator, index: index, hidden:false} %>
+              <%# end %>
+              <%#= render partial: 'works/creator', locals: {creator: {},index: @work.creators.length, hidden: true}%>
+          <%# else %>
+            <%#= render partial: 'works/creator', locals: {creator: {},index: 0, hidden: false}%>
+            <%#= render partial: 'works/creator', locals: {creator: {},index: 1, hidden: true}%>
+          <%# end %>
 
 
           <div class='col-sm-12'>
@@ -73,15 +61,15 @@
         </div>
         <fieldset class="row">
           <legend class="col-sm-12"><%= t('.subject') %></legend>
-          <% if @work.subjects.size > 0  %>
-              <% @work.subjects.each_with_index do |subject,index| %>
-                  <%= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
-              <% end%>
-              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: @work.subjects.size, hidden:true} %>
-          <% else %>
-              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
-              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
-          <% end %>
+          <%# if @work.subjects.size > 0  %>
+              <%# @work.subjects.each_with_index do |subject,index| %>
+                  <%#= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
+              <%# end%>
+              <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: @work.subjects.size, hidden:true} %>
+          <%# else %>
+              <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
+              <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
+          <%# end %>
 
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
@@ -102,6 +90,6 @@
   </div>
 </div>
 
-<%= render partial: 'works/new_agent_modal' %>
+<%#= render partial: 'works/new_agent_modal' %>
 <%= render partial: 'works/aleph_import' %>
 

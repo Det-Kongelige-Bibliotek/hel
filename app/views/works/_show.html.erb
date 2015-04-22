@@ -37,12 +37,12 @@
           <span><%= title.subtitle%></span>
         </td>
           <td>
-            <% unless title.lang.blank? %>
-                <span><%= get_entry_label('Languages', title.lang) %></span>
-            <% end %>
+            <%# unless title.lang.blank? %>
+                <span><%#= get_entry_label('Languages', title.lang) %></span>
+            <%# end %>
           </td>
           <td>
-            <span><%= title.type %></span>
+            <span><%= title.variant %></span>
           </td>
         </tr>
       <% end %>
@@ -57,29 +57,29 @@
         </tr>
       </thead>
       <tbody>
-    <% @work.creators.each do |creator| %>
+    <%# @work.creators.each do |creator| %>
       <tr>
         <td>
           <%# TODO  make this more general for other types of agents %>
-          <strong><%= link_to creator['display_value'], authority_person_path(creator['id']) %></strong>
+          <strong><%#= link_to creator['display_value'], authority_person_path(creator['id']) %></strong>
         </td>
         <td>
-          <span><%= t("roles.#{creator['type']}") %></span>
+          <span><%#= t("roles.#{creator['type']}") %></span>
         </td>
       </tr>
-    <% end %>
+    <%# end %>
     </tbody></table>
-    <% if @work.subjects.present? %>
-        <h4><%= t('.subject') %></h4>
+    <%# if @work.subjects.present? %>
+        <h4><%#= t('.subject') %></h4>
         <table class="table table-striped">
           <tbody>
             <%# Subject could either be a Work or an Authority %>
-            <% @work.subjects.each do |subj| %>
-                <tr><td><%= link_to subj.display_value, subj %></td></tr>
-            <% end %>
+            <%# @work.subjects.each do |subj| %>
+                <tr><td><%#= link_to subj.display_value, subj %></td></tr>
+            <%# end %>
           </tbody>
         </table>
-    <% end %>
+    <%# end %>
     <div class="row">
 
         <div class="btn-group">
