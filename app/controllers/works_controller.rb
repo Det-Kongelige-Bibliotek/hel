@@ -2,7 +2,7 @@
 # Handle actions on Works
 class WorksController < ApplicationController
   before_action :set_work, only: [:show, :edit, :update, :destroy]
-  authorize_resource
+  #authorize_resource
 
   # GET /works
   # GET /works.json
@@ -22,6 +22,7 @@ class WorksController < ApplicationController
   # GET /works/new
   def new
     @work = Work.new
+    @work.titles.build
   end
 
   # GET /works/1/edit
@@ -122,6 +123,9 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]], subjects: [[:id]], note:[])
+    params[:work].permit(titles_attributes: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]], subjects: [[:id]], note:[]).tap do |fields|
+      # remove any inputs with blank values
+      fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? }
+    end
   end
 end
