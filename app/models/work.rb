@@ -10,14 +10,18 @@ class Work < ActiveFedora::Base
   include Concerns::Renderers
   include Datastreams::TransWalker
 
-  has_many :titles, predicate: ::RDF::Vocab::Bibframe::title
-  has_many :languages, predicate: ::RDF::Vocab::Bibframe::language
-  has_many :authors, predicate: ::RDF::Vocab::MARCRelators.author, class: 'Person'
+  property :languages, predicate: ::RDF::Vocab::Bibframe::language
+  has_many :titles
+  has_many :instances, predicate: ::RDF::Vocab::Bibframe.hasInstance
 
-  accepts_nested_attributes_for :languages, :titles
+  accepts_nested_attributes_for :titles
 
   def uuid
     self.id
+  end
+
+  def title_values
+    titles.collect(&:value)
   end
 =begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
