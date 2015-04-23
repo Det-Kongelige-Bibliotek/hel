@@ -10,7 +10,7 @@ class Work < ActiveFedora::Base
   include Concerns::Renderers
   include Datastreams::TransWalker
 
-  property :languages, predicate: ::RDF::Vocab::Bibframe::language
+  property :language, predicate: ::RDF::Vocab::Bibframe::language, multiple: false
   has_many :titles
   has_many :instances, predicate: ::RDF::Vocab::Bibframe.hasInstance
 
