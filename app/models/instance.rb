@@ -13,11 +13,17 @@ class Instance < ActiveFedora::Base
   include Datastreams::TransWalker
   include Concerns::CustomValidations
 
-  belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
   property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13
-=begin
+  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10
+  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance
+  property :extent, predicate: ::RDF::Vocab::Bibframe.extent
+  property :note, predicate: ::RDF::Vocab::Bibframe.note
+
+  belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
   has_many :content_files, property: :content_for
+=begin
+
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
   has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
 
