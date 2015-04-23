@@ -8,7 +8,6 @@ class ContentFile < ActiveFedora::Base
   include Concerns::TechMetadata
   include Concerns::Preservation
   include Concerns::FitsCharacterizing
-  include Concerns::UUIDGenerator
   include Concerns::CustomValidations
 
   belongs_to :instance, property: :content_for
