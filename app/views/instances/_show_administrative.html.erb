@@ -42,6 +42,14 @@
 </tr>
 <tr>
   <td>
+    <strong><%= t('instances.administrative.is_available') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.availability == '1' ? 'Ja' : 'Nej' %></span>
+  </td>
+</tr>
+<tr>
+  <td>
     <strong><%= t('.preservation_profile') %></strong>
   </td>
   <td>

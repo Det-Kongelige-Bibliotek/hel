@@ -109,6 +109,7 @@ da:
       license: "Vælg licens"
       preservation: "Bevaring"
       preserv_profile: "Preservation profile"
+      is_available: "Må tilgængeliggøres?"
     image_found:
       check: "Check tei pagebreaks"
     image_found_modal:
