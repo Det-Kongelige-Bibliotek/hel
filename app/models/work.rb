@@ -22,7 +22,7 @@ class Work < ActiveFedora::Base
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
   validates_each :origin_date do |record, attr, val|
-    record.errors.add(attr, 'must be valid EDTF.') if val.present? && EDTF.parse(val).nil?
+    record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
   end
 
   # This method i insertet to make cancan authorization work with nested ressources and subclassing
