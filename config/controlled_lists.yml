@@ -6,24 +6,6 @@ workflow_status:
     Ingested:
     'Metadata complete':
     'Færdig forvaltet':
-# TODO: update this list with a complete representation
-# e.g. http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
-languages:
-  name: Languages
-  entries:
-    da: Dansk
-    sv: Svensk
-    nb: Norsk Bokmål
-    nn: Nynorsk
-    en: Engelsk
-    fr: Fransk
-    de: Tysk
-    es: Spansk
-    nl: Hollandsk
-    it: Italiensk
-    pl: Polsk
-    ro: Rumænsk
-    fi: Finsk
 title_type:
   name: Title types
   entries:
@@ -87,3 +69,674 @@ hydra_access_types:
     discover:
     read:
     edit:
+languages:
+  name: Languages
+  source: ISO-639-2
+  entries:
+    aar: Afar
+    abk: Abkhaziansk
+    ace: Akinesisk
+    ach: Acoli
+    ada: Adangme
+    afa: Afro-Asiatisk (Andre)
+    afh: Afrihili (Kunstsprog)
+    afr: Afrikaans
+    ajm: Aljamia (udgået)
+    aka: Akan
+    akk: Akkadiansk
+    ale: Aleutisk
+    alg: Algonquianske sprog
+    amh: Amharisk
+    ang: Engelsk, Gammel (Anglo-Saxisk ca. 450-1100)
+    apa: Apache sprog
+    ara: Arabisk
+    arc: Aramæisk
+    arn: Araucaniansk
+    arp: Arapaho
+    art: Kunstsprog (Andre)
+    arw: Arawak
+    asm: Assamesisk
+    ath: Athapascanske sprog
+    ava: Avarisk
+    ave: Avestansk
+    awa: Awandhi
+    aym: Aymara
+    aze: Azerbaijansk
+    bad: Banda
+    bai: Bamileke sprog
+    bak: Bashkir
+    bal: Baluchi
+    bam: Bambara
+    ban: Balinesisk
+    bas: Basa
+    bat: Baltisk (Andre)
+    bej: Beja
+    bel: Byelorussisk
+    bem: Bemba
+    ben: Bengalsk (Bangla)
+    ber: Berber sprog
+    bho: Bhojpuri
+    bih: Bihari
+    bik: Bikol
+    bin: Bini
+    bis: Bislama
+    bla: Siksika (Blackfoot)
+    bnt: Bantu (Andre)
+    bod: Tibetansk
+    bra: Braj
+    bre: Bretonsk
+    btk: Batak
+    bug: Buginesisk
+    bul: Bulgarsk
+    cad: Caddo
+    cai: Centralamerikansk Indiansk (Andre)
+    cam: Cambodiansk
+    car: Caribisk
+    cat: Catalansk
+    cau: Kaukasisk (Andre)
+    ceb: Cebuano
+    cel: Keltisk (Andre)
+    ces: Tjekkisk
+    cha: Chamorro
+    chb: Chibcha
+    che: Chechen
+    chg: Chagatai
+    chn: Chinook jargon
+    cho: Choctaw
+    chr: Cherokee
+    chu: Kirkelig Slavisk
+    chv: Chuvash
+    chy: Cheyenne
+    cmc: Chamiske sprog
+    cop: Koptisk
+    cor: Cornisk
+    cos: Korsikansk
+    cpe: Creolsk og pidgin, engelsk baseret (Andre)
+    cpf: Creolsk og pidgin, fransk baseret (Andre)
+    cpp: Creolsk og pidgin, portugisisk baseret (Andre)
+    cre: Cree
+    crp: Creolsk og pidgin (Andre)
+    cus: Cushitisk (Andre)
+    cym: Walisisk
+    dak: Dakota
+    dan: Dansk
+    day: Dayak
+    del: Delaware
+    deu: Tysk
+    din: Dinka
+    div: Divehi
+    doi: Dogri
+    dra: Dravidiansk (Andre)
+    dua: Duala
+    dum: Hollandsk, Middelalder (ca. 1050-1350)
+    dyu: Dyula
+    dzo: Dzongkha
+    efi: Efik
+    egy: Egyptisk (Oldtids)
+    eka: Ekajuk
+    ell: Græsk, Moderne (fra 1453)
+    elx: Elamitisk
+    eng: Engelsk
+    enm: Engelsk, Middelalder (1100-1500)
+    epo: Esperanto
+    esk: Eskimoisk (Andre)
+    esl: Spansk (Castiliansk)
+    est: Estisk
+    eth: Ethiopisk
+    eus: Baskisk
+    ewe: Ewe
+    ewo: Ewondo
+    fan: Fang
+    fao: Færøsk
+    fas: Persisk (Farsi)
+    fat: Fanti
+    fij: Fiji
+    fin: Finsk
+    fiu: Finno-Ugrisk (Andre)
+    fon: Fon
+    fre: Fransk
+    frm: Fransk, Middelalder (ca. 1400-1600)
+    fro: Fransk, Gammel (ca. 842-1400)
+    fry: Frisisk
+    ful: Fulah
+    gaa: Ga (Gþ)
+    gag: Gallegan
+    gai: Irsk
+    gay: Gayo
+    gba: Gbaya
+    gdh: Gælisk, Skotsk
+    gem: Germansk (Andre)
+    gil: Gilbertesisk
+    gmh: Tysk, Middelalder Høj (ca. 1050-1500)
+    goh: Tysk, Gammel Høj (ca. 750-1050)
+    gon: Gondi
+    gor: Gorontalo
+    got: Gothisk
+    grb: Grebo
+    grc: Græsk, Oldtids (til 1453)
+    grn: Guarani
+    guj: Gujarati
+    hai: Haida
+    hau: Hausa
+    haw: Hawaiiansk
+    heb: Hebraisk
+    her: Herero
+    hil: Hiligaynon
+    him: Himachali
+    hin: Hindi
+    hmn: Hmong
+    hmo: Hiri Motu
+    hun: Ungarsk
+    hup: Hupa
+    hye: Armensk
+    iba: Iban
+    ibo: Igbo
+    ijo: Ijo
+    iku: Inuktitut (Eskimoisk)
+    ile: Interlingue
+    ilo: Iloko
+    ina: Interlingua (Internat. Auxilary Language Assoc.)
+    inc: Indisk (Andre)
+    ind: Indonesisk
+    ine: Indo-Europæisk (Andre)
+    ipk: Inupiak
+    ira: Iransk (Andre)
+    iro: Irokesiske sprog
+    isl: Islandsk
+    ita: Italiensk
+    jaw: Javanesisk
+    jpn: Japansk
+    jpr: Judeo-Persisk
+    jrb: Judeo-Arabisk
+    kaa: Kara-Kalpak
+    kab: Kabyle
+    kac: Kachin
+    kal: Grønlandsk
+    kam: Kamba
+    kan: Kannada
+    kar: Karen
+    kas: Kashmirsk
+    kat: Georgisk
+    kau: Kanuri
+    kaw: Kawi
+    kaz: Kazakh
+    kha: Khasi
+    khi: Khoisan (Andre)
+    khm: Khmer
+    kho: Khotanesisk
+    kik: Kikuyu
+    kin: Kinyarwanda
+    kir: Kirghisisk
+    kmb: Kimbundu
+    kok: Konkani
+    kon: Kongo
+    kor: Koreansk
+    kpe: Kpelle
+    kro: Kru
+    kru: Kurukh
+    kua: Kuanyama
+    kur: Kurdisk
+    kus: Kusaie
+    kut: Kutenai
+    lad: Ladino
+    lah: Lahnda
+    lam: Lamba (Sprog brugt i TV-serien Star Trek)
+    lao: Laothisk (Lao)
+    lap: Lappiske sprog
+    lat: Latin
+    lav: Lettisk)
+    lin: Lingala
+    lit: Lithauisk
+    lol: Mongo (Lolo, Bantu)
+    loz: Lozi
+    lua: Luba-Lulua
+    lub: Luba-Katanga
+    lug: Ganda (Luganda)
+    lui: Luiseno
+    lun: Lunda
+    luo: Luo (Kenya og Tanzania)
+    lus: Lushai
+    mad: Maduresisk
+    mag: Magahi
+    mah: Marshall
+    mai: Maithili
+    mak: Makasar
+    mal: Malayalam
+    man: Mandingo
+    map: Austronesisk (Malayo-Polynesisk)
+    mar: Marathi
+    mas: Masai
+    max: Manx
+    mdr: Mandar
+    men: Mende
+    mic: Micmac
+    min: Minangkabau
+    mis: Blandede (Andre)
+    mke: Makedonisk
+    mkh: Mon-Khmer (Andre)
+    mlg: Malagasy
+    mlt: Maltesisk
+    mni: Manipuri
+    mno: Manobo srog
+    moh: Mohawk
+    mol: Moldavisk
+    mon: Mongolsk
+    mos: Mossi
+    mri: Maori
+    msa: Malaysisk
+    mul: Multiple sprog
+    mun: Munda (Andre)
+    mus: Creek (Muskogee)
+    mwr: Marwari
+    mya: Burmesisk
+    myn: Maya sprog
+    nah: Aztekisk (Nahuatlan)
+    nai: Nordamerikansk Indiansk (Andre)
+    nau: Nauru
+    nav: Navajo
+    nde: Ndebele (Zimbabwe)
+    ndo: Ndonga
+    nep: Nepalesisk
+    new: Newari
+    nia: Nias
+    nic: Niger-Kordofaniansk (Niger-Congo)
+    niu: Niuean
+    nld: Hollandsk
+    non: Norse, Gammel
+    nor: Norsk
+    nso: Nordlig Sotho
+    nub: Nubiske sprog
+    nya: Nyanja
+    nym: Nyamwezi
+    nyn: Nyankole
+    nyo: Nyoro
+    nzi: Nzima
+    oci: Occitan, Langue d'oc (efter 1500)
+    oji: Ojibwa
+    ori: Oriya
+    orm: Oromo (Afan, Galla)
+    osa: Osage
+    oss: Ossetisk
+    ota: Tyrkisk, Osmannisk
+    oto: Otomianske sprog
+    paa: Papuan-Australsk (Andre)
+    pag: Pangasinsk
+    pal: Pahlavi
+    pam: Pampanga
+    pan: Panjabi (Punjabi)
+    pap: Papiamento
+    pau: Palauansk
+    peo: Persisk, Gammel (ca. 600-400 F.K.)
+    phi: Philippinsk (Andre)
+    pli: Pali
+    pol: Polsk
+    pon: Ponape
+    por: Portugisisk
+    pra: Prakrit sprog
+    pro: Provencalsk, Gammel (til 1500)
+    pus: Pushto (Pashto)
+    que: Quechua
+    raj: Rajasthansk
+    rap: Rapanui
+    rar: Rarotongan
+    roa: Romansk (Andre)
+    roh: Rhaeto-Romansk
+    rom: Romani
+    ron: Rumænsk
+    run: Kirundi (Rundi)
+    rus: Russisk
+    sad: Sandawe
+    sag: Sango
+    sai: Sydamerikansk Indiansk (Andre)
+    sal: Salishanske sprog
+    sam: Samaritansk Aramæisk
+    san: Sanskrit
+    sas: Sasak
+    sat: Santali
+    scc: Serbo-Kroatisk (Cyrillisk)
+    sco: Skotsk
+    scr: Serbo-Kroatisk (Romansk)
+    sel: Selkup
+    sem: Semitisk (Andre)
+    sgn: Tegnsprog
+    shn: Shan
+    sid: Sidamo
+    sin: Singhalesisk
+    sio: Sioux sprog
+    sit: Sino-Tibetansk (Andre)
+    sla: Slavisk (Andre)
+    slk: Slovakisk
+    slv: Slovensk
+    smo: Samoansk
+    sna: Shona
+    snd: Sindhi
+    snk: Soninke
+    sog: Sogdiansk
+    som: Somalisk
+    son: Songhai
+    sot: Sotho
+    sqi: Albansk
+    srr: Serer
+    ssa: Nilo-Saharansk (Sub-Saharansk Afrikansk)
+    sso: Sydlig Sotho (Sesotho)
+    ssw: Swazi
+    suk: Sukuma
+    sun: Sundanesisk
+    sus: Susu
+    sux: Sumerisk
+    sve: Svensk
+    swa: Swahili
+    syr: Syrisk
+    tah: Tahitiansk
+    tai: Tai (Andre)
+    tam: Tamilsk
+    tat: Tatar
+    tel: Telugu
+    tem: Timne (Temne)
+    ter: Tereno
+    tet: Tetum
+    tgk: Tajik
+    tgl: Tagalog
+    tha: Thai
+    tig: Tigre
+    tir: Tigrinya
+    tiv: Tivi
+    tkl: Tokelauisk
+    tli: Tlingit
+    tmh: Tamashek
+    tog: Tonga (Nyasa)
+    ton: Tonga (Tonga Islands)
+    tpi: Tok Pisin
+    tru: Truk
+    tsi: Tsimshiansk
+    tsn: Tswana
+    tso: Tsonga
+    tuk: Turkmenisk
+    tum: Tumbuka
+    tur: Tyrkisk
+    tut: Altaisk (Turko-Tatarisk)
+    tvl: Tuvalu
+    twi: Twi
+    uga: Ugaritisk
+    uig: Uigur
+    ukr: Ukrainisk
+    umb: Umbundu
+    und: Ubestemt
+    urd: Urdu
+    uzb: Uzbekisk
+    vai: Vai
+    ven: Venda
+    vie: Vietnamesisk
+    vol: Volapük
+    vot: Votisk
+    wak: Wakashanske sprog
+    wal: Walamo
+    war: Waray
+    was: Washo
+    wen: Sorbianske sprog (Wendisk)
+    wol: Wolof
+    xho: Xhosa
+    yao: Yao (Bantu)
+    yap: Yap
+    yid: Jiddisch
+    yor: Yoruba
+    zap: Zapotec
+    zen: Zenaga
+    zha: Zhuang
+    zho: Kinesisk
+    znd: Zande
+    zul: Zulu
+    zun: Zuni
+countries:
+  name: Country codes
+  source: ISO-3166
+  entries:
+    af: Afghanistan
+    ax: Åland Islands
+    al: Albania
+    dz: Algeria
+    as: American Samoa
+    ad: Andorra
+    ao: Angola
+    ai: Anguilla
+    aq: Antarctica
+    ag: Antigua and Barbuda
+    ar: Argentina
+    am: Armenia
+    aw: Aruba
+    au: Australia
+    at: Austria
+    az: Azerbaijan
+    bs: Bahamas
+    bh: Bahrain
+    bd: Bangladesh
+    bb: Barbados
+    by: Belarus
+    be: Belgium
+    bz: Belize
+    bj: Benin
+    bm: Bermuda
+    bt: Bhutan
+    bo: Bolivia, Plurinational State of
+    bq: Bonaire, Sint Eustatius and Saba
+    ba: Bosnia and Herzegovina
+    bw: Botswana
+    bv: Bouvet Island
+    br: Brazil
+    io: British Indian Ocean Territory
+    bn: Brunei Darussalam
+    bg: Bulgaria
+    bf: Burkina Faso
+    bi: Burundi
+    kh: Cambodia
+    cm: Cameroon
+    ca: Canada
+    cv: Cape Verde
+    ky: Cayman Islands
+    cf: Central African Republic
+    td: Chad
+    cl: Chile
+    cn: China
+    cx: Christmas Island
+    cc: Cocos (Keeling) Islands
+    co: Colombia
+    km: Comoros
+    cg: Congo
+    cd: Congo, the Democratic Republic of the
+    ck: Cook Islands
+    cr: Costa Rica
+    ci: Côte d'Ivoire
+    hr: Croatia
+    cu: Cuba
+    cw: Curaçao
+    cy: Cyprus
+    cz: Czech Republic
+    dk: Denmark
+    dj: Djibouti
+    dm: Dominica
+    do: Dominican Republic
+    ec: Ecuador
+    eg: Egypt
+    sv: El Salvador
+    gq: Equatorial Guinea
+    er: Eritrea
+    ee: Estonia
+    et: Ethiopia
+    fk: Falkland Islands (Malvinas)
+    fo: Faroe Islands
+    fj: Fiji
+    fi: Finland
+    fr: France
+    gf: French Guiana
+    pf: French Polynesia
+    tf: French Southern Territories
+    ga: Gabon
+    gm: Gambia
+    ge: Georgia
+    de: Germany
+    gh: Ghana
+    gi: Gibraltar
+    gr: Greece
+    gl: Greenland
+    gd: Grenada
+    gp: Guadeloupe
+    gu: Guam
+    gt: Guatemala
+    gg: Guernsey
+    gn: Guinea
+    gw: Guinea-Bissau
+    gy: Guyana
+    ht: Haiti
+    hm: Heard Island and McDonald Islands
+    va: Holy See (Vatican City State)
+    hn: Honduras
+    hk: Hong Kong
+    hu: Hungary
+    is: Iceland
+    in: India
+    id: Indonesia
+    ir: Iran, Islamic Republic of
+    iq: Iraq
+    ie: Ireland
+    im: Isle of Man
+    il: Israel
+    it: Italy
+    jm: Jamaica
+    jp: Japan
+    je: Jersey
+    jo: Jordan
+    kz: Kazakhstan
+    ke: Kenya
+    ki: Kiribati
+    kp: Korea, Democratic People's Republic of
+    kr: Korea, Republic of
+    kw: Kuwait
+    kg: Kyrgyzstan
+    la: Lao People's Democratic Republic
+    lv: Latvia
+    lb: Lebanon
+    ls: Lesotho
+    lr: Liberia
+    ly: Libya
+    li: Liechtenstein
+    lt: Lithuania
+    lu: Luxembourg
+    mo: Macao
+    mk: Macedonia, the former Yugoslav Republic of
+    mg: Madagascar
+    mw: Malawi
+    my: Malaysia
+    mv: Maldives
+    ml: Mali
+    mt: Malta
+    mh: Marshall Islands
+    mq: Martinique
+    mr: Mauritania
+    mu: Mauritius
+    yt: Mayotte
+    mx: Mexico
+    fm: Micronesia, Federated States of
+    md: Moldova, Republic of
+    mc: Monaco
+    mn: Mongolia
+    me: Montenegro
+    ms: Montserrat
+    ma: Morocco
+    mz: Mozambique
+    mm: Myanmar
+    na: Namibia
+    nr: Nauru
+    np: Nepal
+    nl: Netherlands
+    nc: New Caledonia
+    nz: New Zealand
+    ni: Nicaragua
+    ne: Niger
+    ng: Nigeria
+    nu: Niue
+    nf: Norfolk Island
+    mp: Northern Mariana Islands
+    no: Norway
+    om: Oman
+    pk: Pakistan
+    pw: Palau
+    ps: Palestine, State of
+    pa: Panama
+    pg: Papua New Guinea
+    py: Paraguay
+    pe: Peru
+    ph: Philippines
+    pn: Pitcairn
+    pl: Poland
+    pt: Portugal
+    pr: Puerto Rico
+    qa: Qatar
+    re: Réunion
+    ro: Romania
+    ru: Russian Federation
+    rw: Rwanda
+    bl: Saint Barthélemy
+    sh: Saint Helena, Ascension and Tristan da Cunha
+    kn: Saint Kitts and Nevis
+    lc: Saint Lucia
+    mf: Saint Martin (French part)
+    pm: Saint Pierre and Miquelon
+    vc: Saint Vincent and the Grenadines
+    ws: Samoa
+    sm: San Marino
+    st: Sao Tome and Principe
+    sa: Saudi Arabia
+    sn: Senegal
+    rs: Serbia
+    sc: Seychelles
+    sl: Sierra Leone
+    sg: Singapore
+    sx: Sint Maarten (Dutch part)
+    sk: Slovakia
+    si: Slovenia
+    sb: Solomon Islands
+    so: Somalia
+    za: South Africa
+    gs: South Georgia and the South Sandwich Islands
+    ss: South Sudan
+    es: Spain
+    lk: Sri Lanka
+    sd: Sudan
+    sr: Suriname
+    sj: Svalbard and Jan Mayen
+    sz: Swaziland
+    se: Sweden
+    ch: Switzerland
+    sy: Syrian Arab Republic
+    tw: Taiwan, Province of China
+    tj: Tajikistan
+    tz: Tanzania, United Republic of
+    th: Thailand
+    tl: Timor-Leste
+    tg: Togo
+    tk: Tokelau
+    to: Tonga
+    tt: Trinidad and Tobago
+    tn: Tunisia
+    tr: Turkey
+    tm: Turkmenistan
+    tc: Turks and Caicos Islands
+    tv: Tuvalu
+    ug: Uganda
+    ua: Ukraine
+    ae: United Arab Emirates
+    gb: United Kingdom
+    us: United States
+    um: United States Minor Outlying Islands
+    uy: Uruguay
+    uz: Uzbekistan
+    vu: Vanuatu
+    ve: Venezuela, Bolivarian Republic of
+    vn: Viet Nam
+    vg: Virgin Islands, British
+    vi: Virgin Islands, U.S.
+    wf: Wallis and Futuna
+    eh: Western Sahara
+    ye: Yemen
+    zm: Zambia
+    zw: Zimbabwe
