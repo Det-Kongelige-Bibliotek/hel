@@ -28,11 +28,7 @@ da:
         record_invalid: 'Ugyldig data'
 
 
-  works:
-    work_form:
-      cancel: "Fortryd"
-    show:
-      edit: "Rediger"
+
 
   authority:
       bases:
@@ -326,6 +322,8 @@ da:
     title:
       close: "Slet titel"
     work_form:
+      language: "Sprog"
+      cancel: "Fortryd"
       import: "Importer fra Aleph"
       work: "Værk"
       error: "prohibited this instance from being saved:"
