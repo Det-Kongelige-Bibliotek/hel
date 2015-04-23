@@ -44,6 +44,12 @@
             </div>
         </fieldset>
         <fieldset class="row">
+          <legend class="col-sm-2">
+            <%= t('works.show.origin_date') %>
+            <%= f.text_field :origin_date, class: 'form-control' %>
+          </legend>
+        </fieldset>
+        <fieldset class="row">
           <legend class="col-sm-12">
             <%= t('.author') %>
             <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="#new_agent_modal">

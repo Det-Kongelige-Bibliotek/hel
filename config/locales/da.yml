@@ -28,12 +28,6 @@ da:
         record_invalid: 'Ugyldig data'
 
 
-  works:
-    work_form:
-      cancel: "Fortryd"
-    show:
-      edit: "Rediger"
-
   authority:
       bases:
         created: "Base was successfully created."
@@ -311,6 +305,7 @@ da:
     creator:
       close: "Slet ophav"
     show:
+      edit: "Rediger"
       titles: "Titler"
       title: "Titel"
       subtitle: "Undertitel"
@@ -321,11 +316,14 @@ da:
       role: "Rolle"
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
+      origin_date: "Oprindelsesdato"
+      page_title: "Værk: "
     subject_authority:
       close: "Slet emne"
     title:
       close: "Slet titel"
     work_form:
+      cancel: "Fortryd"
       import: "Importer fra Aleph"
       work: "Værk"
       error: "prohibited this instance from being saved:"
@@ -344,9 +342,6 @@ da:
       cofirm: "Are you sure?"
     new:
       page_title: "Nyt værk"
-    show:
-      page_title: "Værk: "
-
 
 
 
@@ -369,3 +364,5 @@ da:
     standard_error: 'An error has occurred. Please contact your system administrator'
     file_not_found: 'The file you requested could not be found in Fedora! Please contact your system administrator'
     be_admin: "Du skal være administrator for at kunne opdatere"
+  edtf:
+    error_message: "skal være valid EDTF"
