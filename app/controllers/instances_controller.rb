@@ -47,7 +47,7 @@ class InstancesController < ApplicationController
         flash[:error]  = t('instances.flashmessage.no_ins_data_retrieved')
       end
     end
-    @instance.work << @work
+    @instance.work = @work
   end
 
   # GET /instances/1/edit
