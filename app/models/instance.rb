@@ -5,16 +5,16 @@
 # should live in separate modules and
 # be mixed in.
 class Instance < ActiveFedora::Base
-  include Bibframe::Instance
+ # include Bibframe::Instance
   include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
-  include Concerns::UUIDGenerator
   include Concerns::Preservation
   include Concerns::Renderers
   include Datastreams::TransWalker
   include Concerns::CustomValidations
 
-  has_and_belongs_to_many :work, class_name: 'Work', property: :instance_of, inverse_of: :has_instance
+  belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
+=begin
   has_many :content_files, property: :content_for
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
   has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
@@ -153,4 +153,5 @@ class Instance < ActiveFedora::Base
     docs = ActiveFedora::SolrService.query("activity_name_sim:#{activity}")
     docs.map { |d| Instance.find(d['id']) }
   end
+=end
 end
