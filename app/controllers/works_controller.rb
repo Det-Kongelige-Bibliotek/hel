@@ -123,7 +123,7 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(titles_attributes: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]], subjects: [[:id]], note:[]).tap do |fields|
+    params[:work].permit(:language, titles_attributes: [[:id, :value, :subtitle, :lang, :type]], creators: [[:id, :type]], subjects: [[:id]], note:[]).tap do |fields|
       # remove any inputs with blank values
       fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? }
     end
