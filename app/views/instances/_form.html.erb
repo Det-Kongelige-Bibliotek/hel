@@ -25,7 +25,7 @@
         <%= render partial: 'sidebar' %>
     </div>
     <div class="col-sm-9">
-      <%= f.input :set_work, as: :hidden %>
+      <%= f.input :work, as: :hidden %>
       <%= render partial: 'bibliographic', locals: { builder: f } %>
       <%= render partial: 'administrative', locals: { builder: f }  %>
       <%= render partial: 'upload', locals: { builder: f }  %>
