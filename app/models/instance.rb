@@ -14,6 +14,8 @@ class Instance < ActiveFedora::Base
   include Concerns::CustomValidations
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
+  property :languages, predicate: ::RDF::Vocab::Bibframe.language
+  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13
 =begin
   has_many :content_files, property: :content_for
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
