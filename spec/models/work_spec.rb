@@ -169,4 +169,13 @@ describe Work do
       @work.title_values.should == ['Title1','Title3']
     end
   end
+
+  describe 'originDate' do
+    it 'can have an origin date' do
+      @valid_work.origin_date = '1985'
+      expect(@valid_work.origin_date).to eql '1985'
+    end
+    it 'validates origin date as EDTF'
+  end
+
 end

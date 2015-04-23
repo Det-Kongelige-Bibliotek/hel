@@ -10,6 +10,7 @@ module Bibframe
 
       has_metadata name: 'bfMetadata', type: Datastreams::Bibframe::WorkMetadata
       has_attributes :note, datastream: 'bfMetadata', multiple: true
+      has_attributes :origin_date, datastream: 'bfMetadata', multiple: false
 
     end
   end
