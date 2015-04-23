@@ -5,8 +5,8 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      has_metadata :name => 'adminMetadata', :type => Datastreams::AdminDatastream
-      has_metadata :name => 'permissionMetadata', :type=> Datastreams::PermissionMetadata
+      contains 'adminMetadata', class_name: 'Datastreams::AdminDatastream'
+      contains 'permissionMetadata', class_name: 'Datastreams::PermissionMetadata'
 
       has_attributes :activity, :workflow_status, :embargo, :embargo_date, :embargo_condition, :access_condition,
                      :copyright, :material_type, :availability, :collection, :type, :external_repository, :validation_status,
