@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rdf:RDF xmlns:bf="http://bibframe.org/vocab/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:relators="http://id.loc.gov/vocabulary/relators/"
+	 xmlns:schema="http://schema.org/"> 
+
+  <bf:Work  rdf:about="http://example.org/text">
+    <rdf:type rdf:resource="http://bibframe.org/vocab/Text"/>
+    <bf:title>Kære Victor</bf:title>
+    <bf:relator  rdf:nodeID="bnode-tove"/>
+    <bf:relator  rdf:nodeID="bnode-vicke"/>
+  </bf:Work>
+
+  <!-- BIBFRAME Relator-->
+  <bf:Relator  rdf:nodeID="bnode-tove">
+    <bf:relatorRole rdf:resource="http://id.loc.gov/vocabulary/relators/aut"/>
+    <bf:agent rdf:nodeID="bnode-tove-the-person"/>
+  </bf:Relator>
+
+  <bf:Relator  rdf:nodeID="bnode-vicke">
+    <bf:relatorRole rdf:resource="http://id.loc.gov/vocabulary/relators/edt"/>
+    <bf:agent rdf:nodeID="bnode-vicke-the-person"/>
+  </bf:Relator>
+
+  <!-- BIBFRAME Authority-->
+  <bf:Person rdf:nodeID="bnode-vicke-the-person">
+    <bf:hasAuthority 
+	rdf:resource="http://viaf.org/viaf/293747331"/>
+  </bf:Person>
+
+  <bf:Person rdf:nodeID="bnode-tove-the-person">
+    <bf:hasAuthority  
+	rdf:resource="http://viaf.org/viaf/32787734"/>
+  </bf:Person>
+
+  <schema:Person rdf:about="http://viaf.org/viaf/32787734">
+    <schema:givenName>Tove Irma Margit</schema:givenName>
+    <schema:familyName>Ditlevsen</schema:familyName>
+    <schema:birthDate>1918</schema:birthDate>
+    <schema:deathDate>1976</schema:deathDate>
+    <schema:description>dansk skribent og poet</schema:description>
+  </schema:Person>
+  
+  <schema:Person rdf:about="http://viaf.org/viaf/293747331">
+    <schema:givenName>Victor Johannes</schema:givenName>
+    <schema:familyName>Andreasen</schema:familyName>
+    <schema:birthDate>1920</schema:birthDate>
+    <schema:deathDate>2000</schema:deathDate>
+    <schema:description>dansk journalist og forfatter</schema:description>
+  </schema:Person>
+  
+</rdf:RDF>
