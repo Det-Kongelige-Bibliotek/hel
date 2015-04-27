@@ -1,5 +1,5 @@
 module Authority
-  class Person < ActiveFedora::Base
+  class Person < Agent
     property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false
     property :given_name, predicate: ::RDF::Vocab::SCHEMA.givenName, multiple: false
     property :full_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false
@@ -20,6 +20,13 @@ module Authority
       value += "#{birth_date}-" if birth_date.present?
       value += "#{death_date}" if death_date.present?
       value
+    end
+
+    def to_solr(solr_doc = {})
+      solr_doc = super
+      Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+      Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
+      solr_doc
     end
   end
 end
