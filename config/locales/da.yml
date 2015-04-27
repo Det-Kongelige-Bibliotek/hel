@@ -317,6 +317,7 @@ da:
       role: "Rolle"
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
+      agent_relations: "Relaterede agenter"
     subject_authority:
       close: "Slet emne"
     title:

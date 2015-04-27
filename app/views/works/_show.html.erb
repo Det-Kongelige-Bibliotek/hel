@@ -48,7 +48,7 @@
       <% end %>
       </tbody>
     </table>
-    <h4><%= t('.author') %></h4>
+    <h4><%= t('.agent_relations') %></h4>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -57,17 +57,16 @@
         </tr>
       </thead>
       <tbody>
-    <%# @work.creators.each do |creator| %>
+    <% @work.relators.each do |relator| %>
       <tr>
         <td>
-          <%# TODO  make this more general for other types of agents %>
-          <strong><%#= link_to creator['display_value'], authority_person_path(creator['id']) %></strong>
+          <strong><%= link_to relator.agent.display_value, relator.agent rescue nil %></strong>
         </td>
         <td>
-          <span><%#= t("roles.#{creator['type']}") %></span>
+          <span><%= link_to Administration::ListEntry.get_label(relator.role), relator.role %></span>
         </td>
       </tr>
-    <%# end %>
+    <% end %>
     </tbody></table>
     <%# if @work.subjects.present? %>
         <h4><%#= t('.subject') %></h4>

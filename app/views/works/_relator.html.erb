@@ -1,0 +1,6 @@
+<%= work_form.simple_fields_for :relators, defaults: { wrapper_html: { class: 'form-group' },
+                                                      input_html: { class: 'form-control' }
+} do |rel_fields| %>
+    <%= rel_fields.input :agent_id, collection: Authority::Person.all, label_method: :display_value, wrapper_html: { class: 'col-sm-6' } %>
+    <%= rel_fields.input :role, collection: get_list_with_labels('Relators'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-2' }  %>
+<% end %>

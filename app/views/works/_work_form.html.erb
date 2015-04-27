@@ -39,16 +39,7 @@
             </a>
           </legend>
 
-          <%# if @work.creators.length >0 %>
-          <%# @work.creators.each_with_index do |creator,index| %>
-          <%#= render partial: 'works/creator', locals: {creator: creator, index: index, hidden:false} %>
-          <%# end %>
-          <%#= render partial: 'works/creator', locals: {creator: {},index: @work.creators.length, hidden: true}%>
-          <%# else %>
-          <%#= render partial: 'works/creator', locals: {creator: {},index: 0, hidden: false}%>
-          <%#= render partial: 'works/creator', locals: {creator: {},index: 1, hidden: true}%>
-          <%# end %>
-
+          <%= render partial: 'relator', locals: { work_form: f } %>
 
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-creator">
