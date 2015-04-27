@@ -20,6 +20,8 @@ $(document).ready(function(){
     // TODO: this stuff needs to be cleaned up
     // e.g. refactor into functions, remove unused code (some of the combobox stuff)
     title_counter = $(".title, .new-title, .hidden-title").length;
+    // when user clicks on new title button, clone fields, empty values
+    // rename them and paste into form
     $('[data-function="new-title"]').click(function(e){
         e.preventDefault();
         var $fields = $('.title_fields:last');
