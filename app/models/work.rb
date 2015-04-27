@@ -12,9 +12,10 @@ class Work < ActiveFedora::Base
 
   property :language, predicate: ::RDF::Vocab::Bibframe::language, multiple: false
   has_many :titles
-  has_many :instances, predicate: ::RDF::Vocab::Bibframe.hasInstance
+  has_many :instances
+  has_many :relators
 
-  accepts_nested_attributes_for :titles
+  accepts_nested_attributes_for :titles, :relators
 
   def uuid
     self.id
