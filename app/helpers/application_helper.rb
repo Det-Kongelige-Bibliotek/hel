@@ -47,14 +47,23 @@ module ApplicationHelper
                { include_blank: true, class: 'combobox form-control input-large', data_function: 'title-selected' }
   end
 
-    #Renders a list of Agents for a typeahead field
-    def get_agent_list
-      results = Authority::Agent.get_typeahead_objs
-      agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
-      agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
-    end
+  #Renders a list of Agents for a typeahead field
+  def get_agent_list
+    results = Authority::Agent.get_typeahead_objs
+    agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
+    agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
+  end
 
-    private
+  # Given a url from a ControlledList, create a link to this url
+  # with the value of the corresponding label.
+  # E.g. given the corresponding entry in the system
+  # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
+  # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
+  def rdf_resource_link(entry)
+    link_to Administration::ListEntry.get_label(entry), entry
+  end
+
+  private
 
 
     def collect_title(titles,id)
@@ -78,4 +87,4 @@ module ApplicationHelper
       end
     end
 
-end
+  end
