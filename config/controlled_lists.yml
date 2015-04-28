@@ -73,420 +73,490 @@ languages:
   name: Languages
   source: ISO-639-2
   entries:
-    aar: Afar
-    abk: Abkhaziansk
-    ace: Akinesisk
-    ach: Acoli
-    ada: Adangme
-    afa: Afro-Asiatisk (Andre)
-    afh: Afrihili (Kunstsprog)
-    afr: Afrikaans
-    ajm: Aljamia (udgået)
-    aka: Akan
-    akk: Akkadiansk
-    ale: Aleutisk
-    alg: Algonquianske sprog
-    amh: Amharisk
-    ang: Engelsk, Gammel (Anglo-Saxisk ca. 450-1100)
-    apa: Apache sprog
-    ara: Arabisk
-    arc: Aramæisk
-    arn: Araucaniansk
-    arp: Arapaho
-    art: Kunstsprog (Andre)
-    arw: Arawak
-    asm: Assamesisk
-    ath: Athapascanske sprog
-    ava: Avarisk
-    ave: Avestansk
-    awa: Awandhi
-    aym: Aymara
-    aze: Azerbaijansk
-    bad: Banda
-    bai: Bamileke sprog
-    bak: Bashkir
-    bal: Baluchi
-    bam: Bambara
-    ban: Balinesisk
-    bas: Basa
-    bat: Baltisk (Andre)
-    bej: Beja
-    bel: Byelorussisk
-    bem: Bemba
-    ben: Bengalsk (Bangla)
-    ber: Berber sprog
-    bho: Bhojpuri
-    bih: Bihari
-    bik: Bikol
-    bin: Bini
-    bis: Bislama
-    bla: Siksika (Blackfoot)
-    bnt: Bantu (Andre)
-    bod: Tibetansk
-    bra: Braj
-    bre: Bretonsk
-    btk: Batak
-    bug: Buginesisk
-    bul: Bulgarsk
-    cad: Caddo
-    cai: Centralamerikansk Indiansk (Andre)
-    cam: Cambodiansk
-    car: Caribisk
-    cat: Catalansk
-    cau: Kaukasisk (Andre)
-    ceb: Cebuano
-    cel: Keltisk (Andre)
-    ces: Tjekkisk
-    cha: Chamorro
-    chb: Chibcha
-    che: Chechen
-    chg: Chagatai
-    chn: Chinook jargon
-    cho: Choctaw
-    chr: Cherokee
-    chu: Kirkelig Slavisk
-    chv: Chuvash
-    chy: Cheyenne
-    cmc: Chamiske sprog
-    cop: Koptisk
-    cor: Cornisk
-    cos: Korsikansk
-    cpe: Creolsk og pidgin, engelsk baseret (Andre)
-    cpf: Creolsk og pidgin, fransk baseret (Andre)
-    cpp: Creolsk og pidgin, portugisisk baseret (Andre)
-    cre: Cree
-    crp: Creolsk og pidgin (Andre)
-    cus: Cushitisk (Andre)
-    cym: Walisisk
-    dak: Dakota
-    dan: Dansk
-    day: Dayak
-    del: Delaware
-    deu: Tysk
-    din: Dinka
-    div: Divehi
-    doi: Dogri
-    dra: Dravidiansk (Andre)
-    dua: Duala
-    dum: Hollandsk, Middelalder (ca. 1050-1350)
-    dyu: Dyula
-    dzo: Dzongkha
-    efi: Efik
-    egy: Egyptisk (Oldtids)
-    eka: Ekajuk
-    ell: Græsk, Moderne (fra 1453)
-    elx: Elamitisk
-    eng: Engelsk
-    enm: Engelsk, Middelalder (1100-1500)
-    epo: Esperanto
-    esk: Eskimoisk (Andre)
-    esl: Spansk (Castiliansk)
-    est: Estisk
-    eth: Ethiopisk
-    eus: Baskisk
-    ewe: Ewe
-    ewo: Ewondo
-    fan: Fang
-    fao: Færøsk
-    fas: Persisk (Farsi)
-    fat: Fanti
-    fij: Fiji
-    fin: Finsk
-    fiu: Finno-Ugrisk (Andre)
-    fon: Fon
-    fre: Fransk
-    frm: Fransk, Middelalder (ca. 1400-1600)
-    fro: Fransk, Gammel (ca. 842-1400)
-    fry: Frisisk
-    ful: Fulah
-    gaa: Ga (Gþ)
-    gag: Gallegan
-    gai: Irsk
-    gay: Gayo
-    gba: Gbaya
-    gdh: Gælisk, Skotsk
-    gem: Germansk (Andre)
-    gil: Gilbertesisk
-    gmh: Tysk, Middelalder Høj (ca. 1050-1500)
-    goh: Tysk, Gammel Høj (ca. 750-1050)
-    gon: Gondi
-    gor: Gorontalo
-    got: Gothisk
-    grb: Grebo
-    grc: Græsk, Oldtids (til 1453)
-    grn: Guarani
-    guj: Gujarati
-    hai: Haida
-    hau: Hausa
-    haw: Hawaiiansk
-    heb: Hebraisk
-    her: Herero
-    hil: Hiligaynon
-    him: Himachali
-    hin: Hindi
-    hmn: Hmong
-    hmo: Hiri Motu
-    hun: Ungarsk
-    hup: Hupa
-    hye: Armensk
-    iba: Iban
-    ibo: Igbo
-    ijo: Ijo
-    iku: Inuktitut (Eskimoisk)
-    ile: Interlingue
-    ilo: Iloko
-    ina: Interlingua (Internat. Auxilary Language Assoc.)
-    inc: Indisk (Andre)
-    ind: Indonesisk
-    ine: Indo-Europæisk (Andre)
-    ipk: Inupiak
-    ira: Iransk (Andre)
-    iro: Irokesiske sprog
-    isl: Islandsk
-    ita: Italiensk
-    jaw: Javanesisk
-    jpn: Japansk
-    jpr: Judeo-Persisk
-    jrb: Judeo-Arabisk
-    kaa: Kara-Kalpak
-    kab: Kabyle
-    kac: Kachin
-    kal: Grønlandsk
-    kam: Kamba
-    kan: Kannada
-    kar: Karen
-    kas: Kashmirsk
-    kat: Georgisk
-    kau: Kanuri
-    kaw: Kawi
-    kaz: Kazakh
-    kha: Khasi
-    khi: Khoisan (Andre)
-    khm: Khmer
-    kho: Khotanesisk
-    kik: Kikuyu
-    kin: Kinyarwanda
-    kir: Kirghisisk
-    kmb: Kimbundu
-    kok: Konkani
-    kon: Kongo
-    kor: Koreansk
-    kpe: Kpelle
-    kro: Kru
-    kru: Kurukh
-    kua: Kuanyama
-    kur: Kurdisk
-    kus: Kusaie
-    kut: Kutenai
-    lad: Ladino
-    lah: Lahnda
-    lam: Lamba (Sprog brugt i TV-serien Star Trek)
-    lao: Laothisk (Lao)
-    lap: Lappiske sprog
-    lat: Latin
-    lav: Lettisk)
-    lin: Lingala
-    lit: Lithauisk
-    lol: Mongo (Lolo, Bantu)
-    loz: Lozi
-    lua: Luba-Lulua
-    lub: Luba-Katanga
-    lug: Ganda (Luganda)
-    lui: Luiseno
-    lun: Lunda
-    luo: Luo (Kenya og Tanzania)
-    lus: Lushai
-    mad: Maduresisk
-    mag: Magahi
-    mah: Marshall
-    mai: Maithili
-    mak: Makasar
-    mal: Malayalam
-    man: Mandingo
-    map: Austronesisk (Malayo-Polynesisk)
-    mar: Marathi
-    mas: Masai
-    max: Manx
-    mdr: Mandar
-    men: Mende
-    mic: Micmac
-    min: Minangkabau
-    mis: Blandede (Andre)
-    mke: Makedonisk
-    mkh: Mon-Khmer (Andre)
-    mlg: Malagasy
-    mlt: Maltesisk
-    mni: Manipuri
-    mno: Manobo srog
-    moh: Mohawk
-    mol: Moldavisk
-    mon: Mongolsk
-    mos: Mossi
-    mri: Maori
-    msa: Malaysisk
-    mul: Multiple sprog
-    mun: Munda (Andre)
-    mus: Creek (Muskogee)
-    mwr: Marwari
-    mya: Burmesisk
-    myn: Maya sprog
-    nah: Aztekisk (Nahuatlan)
-    nai: Nordamerikansk Indiansk (Andre)
-    nau: Nauru
-    nav: Navajo
-    nde: Ndebele (Zimbabwe)
-    ndo: Ndonga
-    nep: Nepalesisk
-    new: Newari
-    nia: Nias
-    nic: Niger-Kordofaniansk (Niger-Congo)
-    niu: Niuean
-    nld: Hollandsk
-    non: Norse, Gammel
-    nor: Norsk
-    nso: Nordlig Sotho
-    nub: Nubiske sprog
-    nya: Nyanja
-    nym: Nyamwezi
-    nyn: Nyankole
-    nyo: Nyoro
-    nzi: Nzima
-    oci: Occitan, Langue d'oc (efter 1500)
-    oji: Ojibwa
-    ori: Oriya
-    orm: Oromo (Afan, Galla)
-    osa: Osage
-    oss: Ossetisk
-    ota: Tyrkisk, Osmannisk
-    oto: Otomianske sprog
-    paa: Papuan-Australsk (Andre)
-    pag: Pangasinsk
-    pal: Pahlavi
-    pam: Pampanga
-    pan: Panjabi (Punjabi)
-    pap: Papiamento
-    pau: Palauansk
-    peo: Persisk, Gammel (ca. 600-400 F.K.)
-    phi: Philippinsk (Andre)
-    pli: Pali
-    pol: Polsk
-    pon: Ponape
-    por: Portugisisk
-    pra: Prakrit sprog
-    pro: Provencalsk, Gammel (til 1500)
-    pus: Pushto (Pashto)
-    que: Quechua
-    raj: Rajasthansk
-    rap: Rapanui
-    rar: Rarotongan
-    roa: Romansk (Andre)
-    roh: Rhaeto-Romansk
-    rom: Romani
-    ron: Rumænsk
-    run: Kirundi (Rundi)
-    rus: Russisk
-    sad: Sandawe
-    sag: Sango
-    sai: Sydamerikansk Indiansk (Andre)
-    sal: Salishanske sprog
-    sam: Samaritansk Aramæisk
-    san: Sanskrit
-    sas: Sasak
-    sat: Santali
-    scc: Serbo-Kroatisk (Cyrillisk)
-    sco: Skotsk
-    scr: Serbo-Kroatisk (Romansk)
-    sel: Selkup
-    sem: Semitisk (Andre)
-    sgn: Tegnsprog
-    shn: Shan
-    sid: Sidamo
-    sin: Singhalesisk
-    sio: Sioux sprog
-    sit: Sino-Tibetansk (Andre)
-    sla: Slavisk (Andre)
-    slk: Slovakisk
-    slv: Slovensk
-    smo: Samoansk
-    sna: Shona
-    snd: Sindhi
-    snk: Soninke
-    sog: Sogdiansk
-    som: Somalisk
-    son: Songhai
-    sot: Sotho
-    sqi: Albansk
-    srr: Serer
-    ssa: Nilo-Saharansk (Sub-Saharansk Afrikansk)
-    sso: Sydlig Sotho (Sesotho)
-    ssw: Swazi
-    suk: Sukuma
-    sun: Sundanesisk
-    sus: Susu
-    sux: Sumerisk
-    sve: Svensk
-    swa: Swahili
-    syr: Syrisk
-    tah: Tahitiansk
-    tai: Tai (Andre)
-    tam: Tamilsk
-    tat: Tatar
-    tel: Telugu
-    tem: Timne (Temne)
-    ter: Tereno
-    tet: Tetum
-    tgk: Tajik
-    tgl: Tagalog
-    tha: Thai
-    tig: Tigre
-    tir: Tigrinya
-    tiv: Tivi
-    tkl: Tokelauisk
-    tli: Tlingit
-    tmh: Tamashek
-    tog: Tonga (Nyasa)
-    ton: Tonga (Tonga Islands)
-    tpi: Tok Pisin
-    tru: Truk
-    tsi: Tsimshiansk
-    tsn: Tswana
-    tso: Tsonga
-    tuk: Turkmenisk
-    tum: Tumbuka
-    tur: Tyrkisk
-    tut: Altaisk (Turko-Tatarisk)
-    tvl: Tuvalu
-    twi: Twi
-    uga: Ugaritisk
-    uig: Uigur
-    ukr: Ukrainisk
-    umb: Umbundu
-    und: Ubestemt
-    urd: Urdu
-    uzb: Uzbekisk
-    vai: Vai
-    ven: Venda
-    vie: Vietnamesisk
-    vol: Volapük
-    vot: Votisk
-    wak: Wakashanske sprog
-    wal: Walamo
-    war: Waray
-    was: Washo
-    wen: Sorbianske sprog (Wendisk)
-    wol: Wolof
-    xho: Xhosa
-    yao: Yao (Bantu)
-    yap: Yap
-    yid: Jiddisch
-    yor: Yoruba
-    zap: Zapotec
-    zen: Zenaga
-    zha: Zhuang
-    zho: Kinesisk
-    znd: Zande
-    zul: Zulu
-    zun: Zuni
+    'http://id.loc.gov/vocabulary/languages/aar': Afar
+    'http://id.loc.gov/vocabulary/languages/abk': Abkhaz
+    'http://id.loc.gov/vocabulary/languages/ace': Achinese
+    'http://id.loc.gov/vocabulary/languages/ach': Acoli
+    'http://id.loc.gov/vocabulary/languages/ada': Adangme
+    'http://id.loc.gov/vocabulary/languages/ady': Adygei
+    'http://id.loc.gov/vocabulary/languages/afa': Afroasiatic (Other)
+    'http://id.loc.gov/vocabulary/languages/afh': Afrihili (Artificial language)
+    'http://id.loc.gov/vocabulary/languages/afr': Afrikaans
+    'http://id.loc.gov/vocabulary/languages/ain': Ainu
+    'http://id.loc.gov/vocabulary/languages/aka': Akan
+    'http://id.loc.gov/vocabulary/languages/akk': Akkadian
+    'http://id.loc.gov/vocabulary/languages/alb': Albanian
+    'http://id.loc.gov/vocabulary/languages/ale': Aleut
+    'http://id.loc.gov/vocabulary/languages/alg': Algonquian (Other)
+    'http://id.loc.gov/vocabulary/languages/alt': Altai
+    'http://id.loc.gov/vocabulary/languages/amh': Amharic
+    'http://id.loc.gov/vocabulary/languages/ang': English, Old (ca. 450-1100)
+    'http://id.loc.gov/vocabulary/languages/anp': Angika
+    'http://id.loc.gov/vocabulary/languages/apa': Apache languages
+    'http://id.loc.gov/vocabulary/languages/ara': Arabic
+    'http://id.loc.gov/vocabulary/languages/arc': Aramaic
+    'http://id.loc.gov/vocabulary/languages/arg': Aragonese
+    'http://id.loc.gov/vocabulary/languages/arm': Armenian
+    'http://id.loc.gov/vocabulary/languages/arn': Mapuche
+    'http://id.loc.gov/vocabulary/languages/arp': Arapaho
+    'http://id.loc.gov/vocabulary/languages/art': Artificial (Other)
+    'http://id.loc.gov/vocabulary/languages/arw': Arawak
+    'http://id.loc.gov/vocabulary/languages/asm': Assamese
+    'http://id.loc.gov/vocabulary/languages/ast': Bable
+    'http://id.loc.gov/vocabulary/languages/ath': Athapascan (Other)
+    'http://id.loc.gov/vocabulary/languages/aus': Australian languages
+    'http://id.loc.gov/vocabulary/languages/ava': Avaric
+    'http://id.loc.gov/vocabulary/languages/ave': Avestan
+    'http://id.loc.gov/vocabulary/languages/awa': Awadhi
+    'http://id.loc.gov/vocabulary/languages/aym': Aymara
+    'http://id.loc.gov/vocabulary/languages/aze': Azerbaijani
+    'http://id.loc.gov/vocabulary/languages/bad': Banda languages
+    'http://id.loc.gov/vocabulary/languages/bai': Bamileke languages
+    'http://id.loc.gov/vocabulary/languages/bak': Bashkir
+    'http://id.loc.gov/vocabulary/languages/bal': Baluchi
+    'http://id.loc.gov/vocabulary/languages/bam': Bambara
+    'http://id.loc.gov/vocabulary/languages/ban': Balinese
+    'http://id.loc.gov/vocabulary/languages/baq': Basque
+    'http://id.loc.gov/vocabulary/languages/bas': Basa
+    'http://id.loc.gov/vocabulary/languages/bat': Baltic (Other)
+    'http://id.loc.gov/vocabulary/languages/bej': Beja
+    'http://id.loc.gov/vocabulary/languages/bel': Belarusian
+    'http://id.loc.gov/vocabulary/languages/bem': Bemba
+    'http://id.loc.gov/vocabulary/languages/ben': Bengali
+    'http://id.loc.gov/vocabulary/languages/ber': Berber (Other)
+    'http://id.loc.gov/vocabulary/languages/bho': Bhojpuri
+    'http://id.loc.gov/vocabulary/languages/bih': Bihari (Other)
+    'http://id.loc.gov/vocabulary/languages/bik': Bikol
+    'http://id.loc.gov/vocabulary/languages/bin': Edo
+    'http://id.loc.gov/vocabulary/languages/bis': Bislama
+    'http://id.loc.gov/vocabulary/languages/bla': Siksika
+    'http://id.loc.gov/vocabulary/languages/bnt': Bantu (Other)
+    'http://id.loc.gov/vocabulary/languages/bos': Bosnian
+    'http://id.loc.gov/vocabulary/languages/bra': Braj
+    'http://id.loc.gov/vocabulary/languages/bre': Breton
+    'http://id.loc.gov/vocabulary/languages/btk': Batak
+    'http://id.loc.gov/vocabulary/languages/bua': Buriat
+    'http://id.loc.gov/vocabulary/languages/bug': Bugis
+    'http://id.loc.gov/vocabulary/languages/bul': Bulgarian
+    'http://id.loc.gov/vocabulary/languages/bur': Burmese
+    'http://id.loc.gov/vocabulary/languages/byn': Bilin
+    'http://id.loc.gov/vocabulary/languages/cad': Caddo
+    'http://id.loc.gov/vocabulary/languages/cai': Central American Indian (Other)
+    'http://id.loc.gov/vocabulary/languages/car': Carib
+    'http://id.loc.gov/vocabulary/languages/cat': Catalan
+    'http://id.loc.gov/vocabulary/languages/cau': Caucasian (Other)
+    'http://id.loc.gov/vocabulary/languages/ceb': Cebuano
+    'http://id.loc.gov/vocabulary/languages/cel': Celtic (Other)
+    'http://id.loc.gov/vocabulary/languages/cha': Chamorro
+    'http://id.loc.gov/vocabulary/languages/chb': Chibcha
+    'http://id.loc.gov/vocabulary/languages/che': Chechen
+    'http://id.loc.gov/vocabulary/languages/chg': Chagatai
+    'http://id.loc.gov/vocabulary/languages/chi': Chinese
+    'http://id.loc.gov/vocabulary/languages/chk': Chuukese
+    'http://id.loc.gov/vocabulary/languages/chm': Mari
+    'http://id.loc.gov/vocabulary/languages/chn': Chinook jargon
+    'http://id.loc.gov/vocabulary/languages/cho': Choctaw
+    'http://id.loc.gov/vocabulary/languages/chp': Chipewyan
+    'http://id.loc.gov/vocabulary/languages/chr': Cherokee
+    'http://id.loc.gov/vocabulary/languages/chu': Church Slavic
+    'http://id.loc.gov/vocabulary/languages/chv': Chuvash
+    'http://id.loc.gov/vocabulary/languages/chy': Cheyenne
+    'http://id.loc.gov/vocabulary/languages/cmc': Chamic languages
+    'http://id.loc.gov/vocabulary/languages/cop': Coptic
+    'http://id.loc.gov/vocabulary/languages/cor': Cornish
+    'http://id.loc.gov/vocabulary/languages/cos': Corsican
+    'http://id.loc.gov/vocabulary/languages/cpe': Creoles and Pidgins, English-based (Other)
+    'http://id.loc.gov/vocabulary/languages/cpf': Creoles and Pidgins, French-based (Other)
+    'http://id.loc.gov/vocabulary/languages/cpp': Creoles and Pidgins, Portuguese-based (Other)
+    'http://id.loc.gov/vocabulary/languages/cre': Cree
+    'http://id.loc.gov/vocabulary/languages/crh': Crimean Tatar
+    'http://id.loc.gov/vocabulary/languages/crp': Creoles and Pidgins (Other)
+    'http://id.loc.gov/vocabulary/languages/csb': Kashubian
+    'http://id.loc.gov/vocabulary/languages/cus': Cushitic (Other)
+    'http://id.loc.gov/vocabulary/languages/cze': Czech
+    'http://id.loc.gov/vocabulary/languages/dak': Dakota
+    'http://id.loc.gov/vocabulary/languages/dan': Danish
+    'http://id.loc.gov/vocabulary/languages/dar': Dargwa
+    'http://id.loc.gov/vocabulary/languages/day': Dayak
+    'http://id.loc.gov/vocabulary/languages/del': Delaware
+    'http://id.loc.gov/vocabulary/languages/den': Slavey
+    'http://id.loc.gov/vocabulary/languages/dgr': Dogrib
+    'http://id.loc.gov/vocabulary/languages/din': Dinka
+    'http://id.loc.gov/vocabulary/languages/div': Divehi
+    'http://id.loc.gov/vocabulary/languages/doi': Dogri
+    'http://id.loc.gov/vocabulary/languages/dra': Dravidian (Other)
+    'http://id.loc.gov/vocabulary/languages/dsb': Lower Sorbian
+    'http://id.loc.gov/vocabulary/languages/dua': Duala
+    'http://id.loc.gov/vocabulary/languages/dum': Dutch, Middle (ca. 1050-1350)
+    'http://id.loc.gov/vocabulary/languages/dut': Dutch
+    'http://id.loc.gov/vocabulary/languages/dyu': Dyula
+    'http://id.loc.gov/vocabulary/languages/dzo': Dzongkha
+    'http://id.loc.gov/vocabulary/languages/efi': Efik
+    'http://id.loc.gov/vocabulary/languages/egy': Egyptian
+    'http://id.loc.gov/vocabulary/languages/eka': Ekajuk
+    'http://id.loc.gov/vocabulary/languages/elx': Elamite
+    'http://id.loc.gov/vocabulary/languages/eng': English
+    'http://id.loc.gov/vocabulary/languages/enm': English, Middle (1100-1500)
+    'http://id.loc.gov/vocabulary/languages/epo': Esperanto
+    'http://id.loc.gov/vocabulary/languages/est': Estonian
+    'http://id.loc.gov/vocabulary/languages/ewe': Ewe
+    'http://id.loc.gov/vocabulary/languages/ewo': Ewondo
+    'http://id.loc.gov/vocabulary/languages/fan': Fang
+    'http://id.loc.gov/vocabulary/languages/fao': Faroese
+    'http://id.loc.gov/vocabulary/languages/fat': Fanti
+    'http://id.loc.gov/vocabulary/languages/fij': Fijian
+    'http://id.loc.gov/vocabulary/languages/fil': Filipino
+    'http://id.loc.gov/vocabulary/languages/fin': Finnish
+    'http://id.loc.gov/vocabulary/languages/fiu': Finno-Ugrian (Other)
+    'http://id.loc.gov/vocabulary/languages/fon': Fon
+    'http://id.loc.gov/vocabulary/languages/fre': French
+    'http://id.loc.gov/vocabulary/languages/frm': French, Middle (ca. 1300-1600)
+    'http://id.loc.gov/vocabulary/languages/fro': French, Old (ca. 842-1300)
+    'http://id.loc.gov/vocabulary/languages/frr': North Frisian
+    'http://id.loc.gov/vocabulary/languages/frs': East Frisian
+    'http://id.loc.gov/vocabulary/languages/fry': Frisian
+    'http://id.loc.gov/vocabulary/languages/ful': Fula
+    'http://id.loc.gov/vocabulary/languages/fur': Friulian
+    'http://id.loc.gov/vocabulary/languages/gaa': Gã
+    'http://id.loc.gov/vocabulary/languages/gay': Gayo
+    'http://id.loc.gov/vocabulary/languages/gba': Gbaya
+    'http://id.loc.gov/vocabulary/languages/gem': Germanic (Other)
+    'http://id.loc.gov/vocabulary/languages/geo': Georgian
+    'http://id.loc.gov/vocabulary/languages/ger': German
+    'http://id.loc.gov/vocabulary/languages/gez': Ethiopic
+    'http://id.loc.gov/vocabulary/languages/gil': Gilbertese
+    'http://id.loc.gov/vocabulary/languages/gla': Scottish Gaelic
+    'http://id.loc.gov/vocabulary/languages/gle': Irish
+    'http://id.loc.gov/vocabulary/languages/glg': Galician
+    'http://id.loc.gov/vocabulary/languages/glv': Manx
+    'http://id.loc.gov/vocabulary/languages/gmh': German, Middle High (ca. 1050-1500)
+    'http://id.loc.gov/vocabulary/languages/goh': German, Old High (ca. 750-1050)
+    'http://id.loc.gov/vocabulary/languages/gon': Gondi
+    'http://id.loc.gov/vocabulary/languages/gor': Gorontalo
+    'http://id.loc.gov/vocabulary/languages/got': Gothic
+    'http://id.loc.gov/vocabulary/languages/grb': Grebo
+    'http://id.loc.gov/vocabulary/languages/grc': Greek, Ancient (to 1453)
+    'http://id.loc.gov/vocabulary/languages/gre': Greek, Modern (1453- )
+    'http://id.loc.gov/vocabulary/languages/grn': Guarani
+    'http://id.loc.gov/vocabulary/languages/gsw': Swiss German
+    'http://id.loc.gov/vocabulary/languages/guj': Gujarati
+    'http://id.loc.gov/vocabulary/languages/gwi': Gwich'in
+    'http://id.loc.gov/vocabulary/languages/hai': Haida
+    'http://id.loc.gov/vocabulary/languages/hat': Haitian French Creole
+    'http://id.loc.gov/vocabulary/languages/hau': Hausa
+    'http://id.loc.gov/vocabulary/languages/haw': Hawaiian
+    'http://id.loc.gov/vocabulary/languages/heb': Hebrew
+    'http://id.loc.gov/vocabulary/languages/her': Herero
+    'http://id.loc.gov/vocabulary/languages/hil': Hiligaynon
+    'http://id.loc.gov/vocabulary/languages/him': Western Pahari languages
+    'http://id.loc.gov/vocabulary/languages/hin': Hindi
+    'http://id.loc.gov/vocabulary/languages/hit': Hittite
+    'http://id.loc.gov/vocabulary/languages/hmn': Hmong
+    'http://id.loc.gov/vocabulary/languages/hmo': Hiri Motu
+    'http://id.loc.gov/vocabulary/languages/hrv': Croatian
+    'http://id.loc.gov/vocabulary/languages/hsb': Upper Sorbian
+    'http://id.loc.gov/vocabulary/languages/hun': Hungarian
+    'http://id.loc.gov/vocabulary/languages/hup': Hupa
+    'http://id.loc.gov/vocabulary/languages/iba': Iban
+    'http://id.loc.gov/vocabulary/languages/ibo': Igbo
+    'http://id.loc.gov/vocabulary/languages/ice': Icelandic
+    'http://id.loc.gov/vocabulary/languages/ido': Ido
+    'http://id.loc.gov/vocabulary/languages/iii': Sichuan Yi
+    'http://id.loc.gov/vocabulary/languages/ijo': Ijo
+    'http://id.loc.gov/vocabulary/languages/iku': Inuktitut
+    'http://id.loc.gov/vocabulary/languages/ile': Interlingue
+    'http://id.loc.gov/vocabulary/languages/ilo': Iloko
+    'http://id.loc.gov/vocabulary/languages/ina': Interlingua (International Auxiliary Language Association)
+    'http://id.loc.gov/vocabulary/languages/inc': Indic (Other)
+    'http://id.loc.gov/vocabulary/languages/ind': Indonesian
+    'http://id.loc.gov/vocabulary/languages/ine': Indo-European (Other)
+    'http://id.loc.gov/vocabulary/languages/inh': Ingush
+    'http://id.loc.gov/vocabulary/languages/ipk': Inupiaq
+    'http://id.loc.gov/vocabulary/languages/ira': Iranian (Other)
+    'http://id.loc.gov/vocabulary/languages/iro': Iroquoian (Other)
+    'http://id.loc.gov/vocabulary/languages/ita': Italian
+    'http://id.loc.gov/vocabulary/languages/jav': Javanese
+    'http://id.loc.gov/vocabulary/languages/jbo': Lojban (Artificial language)
+    'http://id.loc.gov/vocabulary/languages/jpn': Japanese
+    'http://id.loc.gov/vocabulary/languages/jpr': Judeo-Persian
+    'http://id.loc.gov/vocabulary/languages/jrb': Judeo-Arabic
+    'http://id.loc.gov/vocabulary/languages/kaa': Kara-Kalpak
+    'http://id.loc.gov/vocabulary/languages/kab': Kabyle
+    'http://id.loc.gov/vocabulary/languages/kac': Kachin
+    'http://id.loc.gov/vocabulary/languages/kal': Kalâtdlisut
+    'http://id.loc.gov/vocabulary/languages/kam': Kamba
+    'http://id.loc.gov/vocabulary/languages/kan': Kannada
+    'http://id.loc.gov/vocabulary/languages/kar': Karen languages
+    'http://id.loc.gov/vocabulary/languages/kas': Kashmiri
+    'http://id.loc.gov/vocabulary/languages/kau': Kanuri
+    'http://id.loc.gov/vocabulary/languages/kaw': Kawi
+    'http://id.loc.gov/vocabulary/languages/kaz': Kazakh
+    'http://id.loc.gov/vocabulary/languages/kbd': Kabardian
+    'http://id.loc.gov/vocabulary/languages/kha': Khasi
+    'http://id.loc.gov/vocabulary/languages/khi': Khoisan (Other)
+    'http://id.loc.gov/vocabulary/languages/khm': Khmer
+    'http://id.loc.gov/vocabulary/languages/kho': Khotanese
+    'http://id.loc.gov/vocabulary/languages/kik': Kikuyu
+    'http://id.loc.gov/vocabulary/languages/kin': Kinyarwanda
+    'http://id.loc.gov/vocabulary/languages/kir': Kyrgyz
+    'http://id.loc.gov/vocabulary/languages/kmb': Kimbundu
+    'http://id.loc.gov/vocabulary/languages/kok': Konkani
+    'http://id.loc.gov/vocabulary/languages/kom': Komi
+    'http://id.loc.gov/vocabulary/languages/kon': Kongo
+    'http://id.loc.gov/vocabulary/languages/kor': Korean
+    'http://id.loc.gov/vocabulary/languages/kos': Kosraean
+    'http://id.loc.gov/vocabulary/languages/kpe': Kpelle
+    'http://id.loc.gov/vocabulary/languages/krc': Karachay-Balkar
+    'http://id.loc.gov/vocabulary/languages/krl': Karelian
+    'http://id.loc.gov/vocabulary/languages/kro': Kru (Other)
+    'http://id.loc.gov/vocabulary/languages/kru': Kurukh
+    'http://id.loc.gov/vocabulary/languages/kua': Kuanyama
+    'http://id.loc.gov/vocabulary/languages/kum': Kumyk
+    'http://id.loc.gov/vocabulary/languages/kur': Kurdish
+    'http://id.loc.gov/vocabulary/languages/kut': Kootenai
+    'http://id.loc.gov/vocabulary/languages/lad': Ladino
+    'http://id.loc.gov/vocabulary/languages/lah': Lahndā
+    'http://id.loc.gov/vocabulary/languages/lam': Lamba (Zambia and Congo)
+    'http://id.loc.gov/vocabulary/languages/lao': Lao
+    'http://id.loc.gov/vocabulary/languages/lat': Latin
+    'http://id.loc.gov/vocabulary/languages/lav': Latvian
+    'http://id.loc.gov/vocabulary/languages/lez': Lezgian
+    'http://id.loc.gov/vocabulary/languages/lim': Limburgish
+    'http://id.loc.gov/vocabulary/languages/lin': Lingala
+    'http://id.loc.gov/vocabulary/languages/lit': Lithuanian
+    'http://id.loc.gov/vocabulary/languages/lol': Mongo-Nkundu
+    'http://id.loc.gov/vocabulary/languages/loz': Lozi
+    'http://id.loc.gov/vocabulary/languages/ltz': Luxembourgish
+    'http://id.loc.gov/vocabulary/languages/lua': Luba-Lulua
+    'http://id.loc.gov/vocabulary/languages/lub': Luba-Katanga
+    'http://id.loc.gov/vocabulary/languages/lug': Ganda
+    'http://id.loc.gov/vocabulary/languages/lui': Luiseño
+    'http://id.loc.gov/vocabulary/languages/lun': Lunda
+    'http://id.loc.gov/vocabulary/languages/luo': Luo (Kenya and Tanzania)
+    'http://id.loc.gov/vocabulary/languages/lus': Lushai
+    'http://id.loc.gov/vocabulary/languages/mac': Macedonian
+    'http://id.loc.gov/vocabulary/languages/mad': Madurese
+    'http://id.loc.gov/vocabulary/languages/mag': Magahi
+    'http://id.loc.gov/vocabulary/languages/mah': Marshallese
+    'http://id.loc.gov/vocabulary/languages/mai': Maithili
+    'http://id.loc.gov/vocabulary/languages/mak': Makasar
+    'http://id.loc.gov/vocabulary/languages/mal': Malayalam
+    'http://id.loc.gov/vocabulary/languages/man': Mandingo
+    'http://id.loc.gov/vocabulary/languages/mao': Maori
+    'http://id.loc.gov/vocabulary/languages/map': Austronesian (Other)
+    'http://id.loc.gov/vocabulary/languages/mar': Marathi
+    'http://id.loc.gov/vocabulary/languages/mas': Maasai
+    'http://id.loc.gov/vocabulary/languages/may': Malay
+    'http://id.loc.gov/vocabulary/languages/mdf': Moksha
+    'http://id.loc.gov/vocabulary/languages/mdr': Mandar
+    'http://id.loc.gov/vocabulary/languages/men': Mende
+    'http://id.loc.gov/vocabulary/languages/mga': Irish, Middle (ca. 1100-1550)
+    'http://id.loc.gov/vocabulary/languages/mic': Micmac
+    'http://id.loc.gov/vocabulary/languages/min': Minangkabau
+    'http://id.loc.gov/vocabulary/languages/mis': Miscellaneous languages
+    'http://id.loc.gov/vocabulary/languages/mkh': Mon-Khmer (Other)
+    'http://id.loc.gov/vocabulary/languages/mlg': Malagasy
+    'http://id.loc.gov/vocabulary/languages/mlt': Maltese
+    'http://id.loc.gov/vocabulary/languages/mnc': Manchu
+    'http://id.loc.gov/vocabulary/languages/mni': Manipuri
+    'http://id.loc.gov/vocabulary/languages/mno': Manobo languages
+    'http://id.loc.gov/vocabulary/languages/moh': Mohawk
+    'http://id.loc.gov/vocabulary/languages/mon': Mongolian
+    'http://id.loc.gov/vocabulary/languages/mos': Mooré
+    'http://id.loc.gov/vocabulary/languages/mul': Multiple languages
+    'http://id.loc.gov/vocabulary/languages/mun': Munda (Other)
+    'http://id.loc.gov/vocabulary/languages/mus': Creek
+    'http://id.loc.gov/vocabulary/languages/mwl': Mirandese
+    'http://id.loc.gov/vocabulary/languages/mwr': Marwari
+    'http://id.loc.gov/vocabulary/languages/myn': Mayan languages
+    'http://id.loc.gov/vocabulary/languages/myv': Erzya
+    'http://id.loc.gov/vocabulary/languages/nah': Nahuatl
+    'http://id.loc.gov/vocabulary/languages/nai': North American Indian (Other)
+    'http://id.loc.gov/vocabulary/languages/nap': Neapolitan Italian
+    'http://id.loc.gov/vocabulary/languages/nau': Nauru
+    'http://id.loc.gov/vocabulary/languages/nav': Navajo
+    'http://id.loc.gov/vocabulary/languages/nbl': Ndebele (South Africa)
+    'http://id.loc.gov/vocabulary/languages/nde': Ndebele (Zimbabwe)
+    'http://id.loc.gov/vocabulary/languages/ndo': Ndonga
+    'http://id.loc.gov/vocabulary/languages/nds': Low German
+    'http://id.loc.gov/vocabulary/languages/nep': Nepali
+    'http://id.loc.gov/vocabulary/languages/new': Newari
+    'http://id.loc.gov/vocabulary/languages/nia': Nias
+    'http://id.loc.gov/vocabulary/languages/nic': Niger-Kordofanian (Other)
+    'http://id.loc.gov/vocabulary/languages/niu': Niuean
+    'http://id.loc.gov/vocabulary/languages/nno': Norwegian (Nynorsk)
+    'http://id.loc.gov/vocabulary/languages/nob': Norwegian (Bokmål)
+    'http://id.loc.gov/vocabulary/languages/nog': Nogai
+    'http://id.loc.gov/vocabulary/languages/non': Old Norse
+    'http://id.loc.gov/vocabulary/languages/nor': Norwegian
+    'http://id.loc.gov/vocabulary/languages/nqo': N'Ko
+    'http://id.loc.gov/vocabulary/languages/nso': Northern Sotho
+    'http://id.loc.gov/vocabulary/languages/nub': Nubian languages
+    'http://id.loc.gov/vocabulary/languages/nwc': Newari, Old
+    'http://id.loc.gov/vocabulary/languages/nya': Nyanja
+    'http://id.loc.gov/vocabulary/languages/nym': Nyamwezi
+    'http://id.loc.gov/vocabulary/languages/nyn': Nyankole
+    'http://id.loc.gov/vocabulary/languages/nyo': Nyoro
+    'http://id.loc.gov/vocabulary/languages/nzi': Nzima
+    'http://id.loc.gov/vocabulary/languages/oci': Occitan (post-1500)
+    'http://id.loc.gov/vocabulary/languages/oji': Ojibwa
+    'http://id.loc.gov/vocabulary/languages/ori': Oriya
+    'http://id.loc.gov/vocabulary/languages/orm': Oromo
+    'http://id.loc.gov/vocabulary/languages/osa': Osage
+    'http://id.loc.gov/vocabulary/languages/oss': Ossetic
+    'http://id.loc.gov/vocabulary/languages/ota': Turkish, Ottoman
+    'http://id.loc.gov/vocabulary/languages/oto': Otomian languages
+    'http://id.loc.gov/vocabulary/languages/paa': Papuan (Other)
+    'http://id.loc.gov/vocabulary/languages/pag': Pangasinan
+    'http://id.loc.gov/vocabulary/languages/pal': Pahlavi
+    'http://id.loc.gov/vocabulary/languages/pam': Pampanga
+    'http://id.loc.gov/vocabulary/languages/pan': Panjabi
+    'http://id.loc.gov/vocabulary/languages/pap': Papiamento
+    'http://id.loc.gov/vocabulary/languages/pau': Palauan
+    'http://id.loc.gov/vocabulary/languages/peo': Old Persian (ca. 600-400 B.C.)
+    'http://id.loc.gov/vocabulary/languages/per': Persian
+    'http://id.loc.gov/vocabulary/languages/phi': Philippine (Other)
+    'http://id.loc.gov/vocabulary/languages/phn': Phoenician
+    'http://id.loc.gov/vocabulary/languages/pli': Pali
+    'http://id.loc.gov/vocabulary/languages/pol': Polish
+    'http://id.loc.gov/vocabulary/languages/pon': Pohnpeian
+    'http://id.loc.gov/vocabulary/languages/por': Portuguese
+    'http://id.loc.gov/vocabulary/languages/pra': Prakrit languages
+    'http://id.loc.gov/vocabulary/languages/pro': Provençal (to 1500)
+    'http://id.loc.gov/vocabulary/languages/pus': Pushto
+    'http://id.loc.gov/vocabulary/languages/que': Quechua
+    'http://id.loc.gov/vocabulary/languages/raj': Rajasthani
+    'http://id.loc.gov/vocabulary/languages/rap': Rapanui
+    'http://id.loc.gov/vocabulary/languages/rar': Rarotongan
+    'http://id.loc.gov/vocabulary/languages/roa': Romance (Other)
+    'http://id.loc.gov/vocabulary/languages/roh': Raeto-Romance
+    'http://id.loc.gov/vocabulary/languages/rom': Romani
+    'http://id.loc.gov/vocabulary/languages/rum': Romanian
+    'http://id.loc.gov/vocabulary/languages/run': Rundi
+    'http://id.loc.gov/vocabulary/languages/rup': Aromanian
+    'http://id.loc.gov/vocabulary/languages/rus': Russian
+    'http://id.loc.gov/vocabulary/languages/sad': Sandawe
+    'http://id.loc.gov/vocabulary/languages/sag': Sango (Ubangi Creole)
+    'http://id.loc.gov/vocabulary/languages/sah': Yakut
+    'http://id.loc.gov/vocabulary/languages/sai': South American Indian (Other)
+    'http://id.loc.gov/vocabulary/languages/sal': Salishan languages
+    'http://id.loc.gov/vocabulary/languages/sam': Samaritan Aramaic
+    'http://id.loc.gov/vocabulary/languages/san': Sanskrit
+    'http://id.loc.gov/vocabulary/languages/sas': Sasak
+    'http://id.loc.gov/vocabulary/languages/sat': Santali
+    'http://id.loc.gov/vocabulary/languages/scn': Sicilian Italian
+    'http://id.loc.gov/vocabulary/languages/sco': Scots
+    'http://id.loc.gov/vocabulary/languages/sel': Selkup
+    'http://id.loc.gov/vocabulary/languages/sem': Semitic (Other)
+    'http://id.loc.gov/vocabulary/languages/sga': Irish, Old (to 1100)
+    'http://id.loc.gov/vocabulary/languages/sgn': Sign languages
+    'http://id.loc.gov/vocabulary/languages/shn': Shan
+    'http://id.loc.gov/vocabulary/languages/sid': Sidamo
+    'http://id.loc.gov/vocabulary/languages/sin': Sinhalese
+    'http://id.loc.gov/vocabulary/languages/sio': Siouan (Other)
+    'http://id.loc.gov/vocabulary/languages/sit': Sino-Tibetan (Other)
+    'http://id.loc.gov/vocabulary/languages/sla': Slavic (Other)
+    'http://id.loc.gov/vocabulary/languages/slo': Slovak
+    'http://id.loc.gov/vocabulary/languages/slv': Slovenian
+    'http://id.loc.gov/vocabulary/languages/sma': Southern Sami
+    'http://id.loc.gov/vocabulary/languages/sme': Northern Sami
+    'http://id.loc.gov/vocabulary/languages/smi': Sami
+    'http://id.loc.gov/vocabulary/languages/smj': Lule Sami
+    'http://id.loc.gov/vocabulary/languages/smn': Inari Sami
+    'http://id.loc.gov/vocabulary/languages/smo': Samoan
+    'http://id.loc.gov/vocabulary/languages/sms': Skolt Sami
+    'http://id.loc.gov/vocabulary/languages/sna': Shona
+    'http://id.loc.gov/vocabulary/languages/snd': Sindhi
+    'http://id.loc.gov/vocabulary/languages/snk': Soninke
+    'http://id.loc.gov/vocabulary/languages/sog': Sogdian
+    'http://id.loc.gov/vocabulary/languages/som': Somali
+    'http://id.loc.gov/vocabulary/languages/son': Songhai
+    'http://id.loc.gov/vocabulary/languages/sot': Sotho
+    'http://id.loc.gov/vocabulary/languages/spa': Spanish
+    'http://id.loc.gov/vocabulary/languages/srd': Sardinian
+    'http://id.loc.gov/vocabulary/languages/srn': Sranan
+    'http://id.loc.gov/vocabulary/languages/srp': Serbian
+    'http://id.loc.gov/vocabulary/languages/srr': Serer
+    'http://id.loc.gov/vocabulary/languages/ssa': Nilo-Saharan (Other)
+    'http://id.loc.gov/vocabulary/languages/ssw': Swazi
+    'http://id.loc.gov/vocabulary/languages/suk': Sukuma
+    'http://id.loc.gov/vocabulary/languages/sun': Sundanese
+    'http://id.loc.gov/vocabulary/languages/sus': Susu
+    'http://id.loc.gov/vocabulary/languages/sux': Sumerian
+    'http://id.loc.gov/vocabulary/languages/swa': Swahili
+    'http://id.loc.gov/vocabulary/languages/swe': Swedish
+    'http://id.loc.gov/vocabulary/languages/syc': Syriac
+    'http://id.loc.gov/vocabulary/languages/syr': Syriac, Modern
+    'http://id.loc.gov/vocabulary/languages/tah': Tahitian
+    'http://id.loc.gov/vocabulary/languages/tai': Tai (Other)
+    'http://id.loc.gov/vocabulary/languages/tam': Tamil
+    'http://id.loc.gov/vocabulary/languages/tat': Tatar
+    'http://id.loc.gov/vocabulary/languages/tel': Telugu
+    'http://id.loc.gov/vocabulary/languages/tem': Temne
+    'http://id.loc.gov/vocabulary/languages/ter': Terena
+    'http://id.loc.gov/vocabulary/languages/tet': Tetum
+    'http://id.loc.gov/vocabulary/languages/tgk': Tajik
+    'http://id.loc.gov/vocabulary/languages/tgl': Tagalog
+    'http://id.loc.gov/vocabulary/languages/tha': Thai
+    'http://id.loc.gov/vocabulary/languages/tib': Tibetan
+    'http://id.loc.gov/vocabulary/languages/tig': Tigré
+    'http://id.loc.gov/vocabulary/languages/tir': Tigrinya
+    'http://id.loc.gov/vocabulary/languages/tiv': Tiv
+    'http://id.loc.gov/vocabulary/languages/tkl': Tokelauan
+    'http://id.loc.gov/vocabulary/languages/tlh': Klingon (Artificial language)
+    'http://id.loc.gov/vocabulary/languages/tli': Tlingit
+    'http://id.loc.gov/vocabulary/languages/tmh': Tamashek
+    'http://id.loc.gov/vocabulary/languages/tog': Tonga (Nyasa)
+    'http://id.loc.gov/vocabulary/languages/ton': Tongan
+    'http://id.loc.gov/vocabulary/languages/tpi': Tok Pisin
+    'http://id.loc.gov/vocabulary/languages/tsi': Tsimshian
+    'http://id.loc.gov/vocabulary/languages/tsn': Tswana
+    'http://id.loc.gov/vocabulary/languages/tso': Tsonga
+    'http://id.loc.gov/vocabulary/languages/tuk': Turkmen
+    'http://id.loc.gov/vocabulary/languages/tum': Tumbuka
+    'http://id.loc.gov/vocabulary/languages/tup': Tupi languages
+    'http://id.loc.gov/vocabulary/languages/tur': Turkish
+    'http://id.loc.gov/vocabulary/languages/tut': Altaic (Other)
+    'http://id.loc.gov/vocabulary/languages/tvl': Tuvaluan
+    'http://id.loc.gov/vocabulary/languages/twi': Twi
+    'http://id.loc.gov/vocabulary/languages/tyv': Tuvinian
+    'http://id.loc.gov/vocabulary/languages/udm': Udmurt
+    'http://id.loc.gov/vocabulary/languages/uga': Ugaritic
+    'http://id.loc.gov/vocabulary/languages/uig': Uighur
+    'http://id.loc.gov/vocabulary/languages/ukr': Ukrainian
+    'http://id.loc.gov/vocabulary/languages/umb': Umbundu
+    'http://id.loc.gov/vocabulary/languages/und': Undetermined
+    'http://id.loc.gov/vocabulary/languages/urd': Urdu
+    'http://id.loc.gov/vocabulary/languages/uzb': Uzbek
+    'http://id.loc.gov/vocabulary/languages/vai': Vai
+    'http://id.loc.gov/vocabulary/languages/ven': Venda
+    'http://id.loc.gov/vocabulary/languages/vie': Vietnamese
+    'http://id.loc.gov/vocabulary/languages/vol': Volapük
+    'http://id.loc.gov/vocabulary/languages/vot': Votic
+    'http://id.loc.gov/vocabulary/languages/wak': Wakashan languages
+    'http://id.loc.gov/vocabulary/languages/wal': Wolayta
+    'http://id.loc.gov/vocabulary/languages/war': Waray
+    'http://id.loc.gov/vocabulary/languages/was': Washoe
+    'http://id.loc.gov/vocabulary/languages/wel': Welsh
+    'http://id.loc.gov/vocabulary/languages/wen': Sorbian (Other)
+    'http://id.loc.gov/vocabulary/languages/wln': Walloon
+    'http://id.loc.gov/vocabulary/languages/wol': Wolof
+    'http://id.loc.gov/vocabulary/languages/xal': Oirat
+    'http://id.loc.gov/vocabulary/languages/xho': Xhosa
+    'http://id.loc.gov/vocabulary/languages/yao': Yao (Africa)
+    'http://id.loc.gov/vocabulary/languages/yap': Yapese
+    'http://id.loc.gov/vocabulary/languages/yid': Yiddish
+    'http://id.loc.gov/vocabulary/languages/yor': Yoruba
+    'http://id.loc.gov/vocabulary/languages/ypk': Yupik languages
+    'http://id.loc.gov/vocabulary/languages/zap': Zapotec
+    'http://id.loc.gov/vocabulary/languages/zbl': Blissymbolics
+    'http://id.loc.gov/vocabulary/languages/zen': Zenaga
+    'http://id.loc.gov/vocabulary/languages/zha': Zhuang
+    'http://id.loc.gov/vocabulary/languages/znd': Zande languages
+    'http://id.loc.gov/vocabulary/languages/zul': Zulu
+    'http://id.loc.gov/vocabulary/languages/zun': Zuni
+    'http://id.loc.gov/vocabulary/languages/zxx': No linguistic content
+    'http://id.loc.gov/vocabulary/languages/zza': Zaza
 countries:
   name: Country codes
   source: ISO-3166
