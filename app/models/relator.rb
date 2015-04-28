@@ -7,7 +7,7 @@ class Relator < ActiveFedora::Base
 
   # we show the uri
   def role
-    self.relator_role.to_term.value if self.relator_role.present?
+    self.relator_role.to_term.value unless self.relator_role.nil?
   end
 
   # When the value being set is a rdf:resource,
