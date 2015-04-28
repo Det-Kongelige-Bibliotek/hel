@@ -318,6 +318,7 @@ da:
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
       agent_relations: "Relaterede agenter"
+      page_title: "Værk: "
     subject_authority:
       close: "Slet emne"
     title:
@@ -343,8 +344,7 @@ da:
       cofirm: "Are you sure?"
     new:
       page_title: "Nyt værk"
-    show:
-      page_title: "Værk: "
+
 
 
 
