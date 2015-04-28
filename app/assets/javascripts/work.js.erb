@@ -20,16 +20,23 @@ $(document).ready(function(){
     // TODO: this stuff needs to be cleaned up
     // e.g. refactor into functions, remove unused code (some of the combobox stuff)
     title_counter = $(".title, .new-title, .hidden-title").length;
-    // when user clicks on new title button, clone fields, empty values
+    // when user clicks on new title or new author button, clone fields, empty values
     // rename them and paste into form
-    $('[data-function="new-title"]').click(function(e){
+    $('[data-function="clone-fields"]').click(function(e){
         e.preventDefault();
-        var $fields = $('.title_fields:last');
+        var selector = $(this).data('selector');
+        var $fields = $(selector);
         var $new_fields = $fields.clone(true);
         var regex = new RegExp(/[0-9]/);
         // Update all name and id attributes before pasting in the clone
-        $new_fields.find('input').each(function(index, input){
-            var num = parseInt(regex.exec(input.name));
+        $new_fields.find(':input').each(function(index, input){
+            // some of the inputs have no id, some have no name!
+            var num;
+            if (input.name.length > 0) {
+                num = parseInt(regex.exec(input.name));
+            } else {
+                num = parseInt(regex.exec(input.id));
+            }
             var inc = num + 1;
             var updated_name = input.name.replace(num.toString(), inc.toString());
             var updated_id = input.id.replace(num.toString(), inc.toString());
@@ -37,7 +44,18 @@ $(document).ready(function(){
             $(input).attr('id', updated_id);
             $(input).val('');
         });
+        // combobox specific stuff - because combobox fucks up the DOM, we need to remake the pre-combobox DOM
+        // with the correct ids and names and everything
+        var hidden_input_name = $new_fields.find('.combobox-container').children('input:first').attr('name');
+        var $combobox = $new_fields.find('select.combobox');
+        var combobox_id = $combobox.attr('id');
+        $combobox.attr('name', hidden_input_name);
+        $new_fields.find('.combobox-container').remove();
+        $combobox.show();
+        //now - stick them into the DOM!
         $new_fields.insertAfter($fields);
+        //TODO: This doesn't work for some reason fix it
+        $('#' + combobox_id).combobox();
     });
     $('[data-function="delete-title"]').click(function(){
         $(this).parent().parent().remove();

@@ -25,13 +25,13 @@
           <% end %>
 
           <div class='col-sm-12'>
-            <a class="btn btn-sm btn-success" href="#" data-function="new-title">
+            <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".title_fields:last">
               <span class="glyphicon glyphicon-plus"></span>
               <%= t('.add_title') %>
             </a>
           </div>
         </fieldset>
-        <fieldset class="row">
+        <fieldset>
           <legend class="col-sm-12">
             <%= t('.author') %>
             <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="#new_agent_modal">
@@ -43,7 +43,7 @@
           <%= render partial: 'relator', locals: { work_form: f } %>
 
           <div class='col-sm-12'>
-            <a class="btn btn-sm btn-success" href="#" data-function="new-creator">
+            <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
               <span class="glyphicon glyphicon-plus"></span>
               <%= t('.add_author') %>
             </a>
