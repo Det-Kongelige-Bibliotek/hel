@@ -54,6 +54,11 @@ module ApplicationHelper
     agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
   end
 
+  def subjects_for_select
+    docs = Finder.all_people + Finder.all_works
+    docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
+  end
+
   # Given a url from a ControlledList, create a link to this url
   # with the value of the corresponding label.
   # E.g. given the corresponding entry in the system
