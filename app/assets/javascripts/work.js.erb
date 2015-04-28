@@ -57,9 +57,10 @@ $(document).ready(function(){
         //TODO: This doesn't work for some reason fix it
         $('#' + combobox_id).combobox();
     });
-    $('[data-function="delete-title"]').click(function(){
-        $(this).parent().parent().remove();
-        return false;
+    $('[data-function="delete-fields"]').click(function(e){
+        e.preventDefault();
+        var selector = $(this).data('target');
+        $(selector).remove();
     });
 
     // Add/remove creator functions

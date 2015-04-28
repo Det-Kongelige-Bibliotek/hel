@@ -3,9 +3,9 @@
                                             input_html: { class: 'form-control' }
                                 } do |title_fields| %>
 
-    <% hidden_class = hidden ? 'hide' : '' %>
-    <div class="title_fields <%= hidden_class %>">
-      <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-title">
+    <% id = "title#{title_fields.index }" %>
+    <div id="<%= id %>" class="title_fields">
+      <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-fields" data-target="#<%=id %>">
         <span class="glyphicon glyphicon-minus"></span>
         <%= t('.close') %>
       </a>
