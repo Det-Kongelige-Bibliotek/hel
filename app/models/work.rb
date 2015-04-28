@@ -24,6 +24,17 @@ class Work < ActiveFedora::Base
   def title_values
     titles.collect(&:value)
   end
+
+  def display_value
+    title_values.first
+  end
+
+  def to_solr(solr_doc = {})
+    solr_doc = super
+    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+    solr_doc
+  end
+
 =begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
   has_and_belongs_to_many :related_works, class_name: 'Work', property: :related_work, inverse_of: :related_work
@@ -31,7 +42,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
-  has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
+
   belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
 
   before_save :set_rights_metadata
