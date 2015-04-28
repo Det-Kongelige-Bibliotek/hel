@@ -16,13 +16,7 @@
         <%= @work.errors.messages if @work.errors.present? %>
         <fieldset class="row">
           <legend class="col-sm-12"><%= t('.titles') %></legend>
-          <% if @work.titles.size > 0  %>
-              <% @work.titles.each_with_index do |title,index| %>
-                  <%= render  partial: 'works/title',  locals: { work_form: f, title: title , index: index, hidden:false } %>
-              <% end%>
-          <% else %>
-              <%= render partial: 'works/title', locals: { work_form: f, title: Title.new, index: 0, hidden: false } %>
-          <% end %>
+          <%= render  partial: 'works/title',  locals: { work_form: f } %>
 
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".title_fields:last">
