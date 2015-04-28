@@ -79,14 +79,20 @@
   <xsl:template match="t:body">
     <ul style="list-style-type: none">
       <xsl:for-each select="//t:div[@n &lt; 5 ]">
-	<li title="click to select">
-	  <xsl:attribute name="onclick"> 
-	    <xsl:text>closeopen('</xsl:text>
-	    <xsl:value-of select="concat('letter',@xml:id)"/>
-	    <xsl:text>')</xsl:text>
-	  </xsl:attribute>
-	<strong><xsl:value-of select="@n"/></strong><xsl:text>
-	</xsl:text><xsl:call-template name="letter_title"/>
+	<li>
+	  <strong>
+	    <xsl:value-of select="@n"/>
+	  </strong>
+	  <xsl:text>
+	  </xsl:text>
+	  <a title="click to select">
+	    <xsl:attribute name="href"> 
+	      <xsl:text>javascript:closeopen('</xsl:text>
+	      <xsl:value-of select="concat('letter',@xml:id)"/>
+	      <xsl:text>')</xsl:text>
+	    </xsl:attribute>
+	    <xsl:call-template name="letter_title"/>
+	  </a>
 	</li>
       </xsl:for-each>
     </ul>
