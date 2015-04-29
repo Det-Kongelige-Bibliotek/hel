@@ -5,7 +5,6 @@
 # should live in separate modules and
 # be mixed in.
 class Work < ActiveFedora::Base
-  # include Bibframe::Work
   include Hydra::AccessControls::Permissions
   include Concerns::Renderers
   include Datastreams::TransWalker
@@ -18,6 +17,23 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :preceding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::precededBy, inverse_of: :succeeding_works
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::succeededBy, inverse_of: :preceding_works
   accepts_nested_attributes_for :titles, :relators
+
+  validate :has_a_title,:has_a_creator
+
+  # Validation methods
+  def has_a_title
+    unless titles.size > 0
+      errors.add(:titles,"Et værk skal have mindst en titel")
+    end
+  end
+
+  # TODO: this should check all creative relation types
+  # we need therefore a subset of relators which are *creative*
+  def has_a_creator
+    unless authors.size > 0
+      errors.add(:creators,"Et værk skal have mindst et ophav")
+    end
+  end
 
   def uuid
     self.id
@@ -135,7 +151,7 @@ class Work < ActiveFedora::Base
   belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
 
   before_save :set_rights_metadata
-  validate :has_a_title,:has_a_creator
+
 
   # This method i insertet to make cancan authorization work with nested ressources and subclassing
   def trykforlaegs
@@ -225,22 +241,7 @@ class Work < ActiveFedora::Base
     self.edit_groups = ['Chronos-Alle']
   end
 
-  def display_value
-    title_values.first
-  end
 
-  # Validation methods
-  def has_a_title
-    if titles.blank?
-      errors.add(:titles,"Et værk skal have mindst en titel")
-    end
-  end
-
-  def has_a_creator
-    if creators.blank?
-      errors.add(:creators,"Et værk skal have mindst et ophav")
-    end
-  end
 
   # Static methods
   def self.get_title_typeahead_objs

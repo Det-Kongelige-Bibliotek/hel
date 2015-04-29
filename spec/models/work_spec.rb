@@ -10,10 +10,25 @@ describe Work do
   end
   describe 'on creation' do
     it 'should have a uuid on creation' do
-      w = Work.new
+      w = Work.new(work_params)
       expect(w.uuid).to be_nil
+      w.add_author(person)
       w.save
       expect(w.uuid.present?).to be true
+    end
+  end
+
+  describe 'validation' do
+    it 'should require a title' do
+      w = Work.new
+      expect(w.valid?).to eql false
+      expect(w.errors.messages.keys).to include :titles
+    end
+
+    it 'should require a creator' do
+      w = Work.new
+      expect(w.valid?).to eql false
+      expect(w.errors.messages.keys).to include :creators
     end
   end
 
