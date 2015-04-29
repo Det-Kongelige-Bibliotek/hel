@@ -13,6 +13,8 @@ module Authority
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
     property :image, predicate: ::RDF::Vocab::SCHEMA.image
 
+    has_many :relators
+
     def display_value
       value = ''
       value += "#{family_name}, " if family_name.present?
