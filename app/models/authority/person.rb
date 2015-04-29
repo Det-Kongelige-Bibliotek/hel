@@ -16,13 +16,18 @@ module Authority
     has_many :relators
 
     def display_value
-      value = ''
-      value += "#{family_name}, " if family_name.present?
-      value += "#{given_name}" if given_name.present?
+      value = full_name
       value += ', ' if birth_date.present? || death_date.present?
       value += "#{birth_date}-" if birth_date.present?
       value += "#{death_date}" if death_date.present?
       value
+    end
+
+    def full_name
+      full_name = ''
+      full_name += "#{family_name}, " if family_name.present?
+      full_name += "#{given_name}" if given_name.present?
+      full_name
     end
 
     # Method wrapper for backwards compatibility - do not use this in new code!
