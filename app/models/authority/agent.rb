@@ -6,7 +6,7 @@ module Authority
 
 
     #TODO move this to a background job
-    after_save :reindex_related_works
+    # after_save :reindex_related_works
     # def reindex_related_works
     #   authored_works.each { |w| w.update_index }
     #   received_works.each { |w| w.update_index }

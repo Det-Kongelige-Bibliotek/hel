@@ -9,33 +9,40 @@ describe Instance do
   include_context 'shared'
 
   let(:work_attributes) do
-    agent = Authority::Person.create(
-        'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-    )
-    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
+    agent = Authority::Person.create( 'given_name'=> 'Fornavn', 'family_name' => 'Efternavn',  'birth_date' => '1932' , 'death_date' => '2009'    )
+    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'}  }}
   end
 
-  before :all do
-    ActiveFedora::Base.delete_all
-  end
+# 'scheme' => 'KB',
+# , creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'
+
+
+#  before :all do
+#    ActiveFedora::Base.delete_all
+#  end
 
   before :each do
-    @instance = Instance.new(instance_params)
+    @instance = Instance.new()
+#    @instance = Instance.new(instance_params)
+    puts "getting to test 0"
   end
 
   describe 'relations' do
-    it 'has many files' do
-      expect(@instance.content_files.size).to eql 0
-    end
+#    it 'has many files' do
+#      expect(@instance.content_files.size).to eql 0
+#    end
 
     it 'can have an equivalent instance' do
+      puts "getting to test"
       i = Instance.new(instance_params)
-      @instance.has_equivalent << i
+      @instance.has_equivalent = [i]
       @instance.save
       expect(@instance.has_equivalent).to include i
       expect(i.has_equivalent).to include @instance
     end
-
+    
+  end
+=begin
     describe 'to work' do
       before :each do
         @i = Instance.create(instance_params)
@@ -164,5 +171,7 @@ describe Instance do
       set = Instance.find_by_activity('test').map{|i| i.pid}
       expect(set).to include i.pid
     end
+
   end
+=end
 end

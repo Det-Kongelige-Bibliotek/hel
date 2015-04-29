@@ -21,7 +21,14 @@ class Instance < ActiveFedora::Base
   property :note, predicate: ::RDF::Vocab::Bibframe.note
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
+  has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
   has_many :content_files, property: :content_for
+
+  def uuid
+    self.id
+  end
+
+
 =begin
 
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of

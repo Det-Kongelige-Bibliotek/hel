@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This class represents a Work model in
 # Fedora. Only KB specific logic should
 # live in this class. All domain logic
