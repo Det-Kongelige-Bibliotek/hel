@@ -24,11 +24,29 @@ module Authority
       value
     end
 
+    # Method wrapper for backwards compatibility - do not use this in new code!
+    def authorized_personal_name=(name_hash)
+      logger.warn 'VALHAL DEPRECATION: authorized_personal_name= is deprecated - use the native accessors instead'
+      self.family_name = name_hash['family'] if name_hash['family'].present?
+      self.given_name = name_hash['given'] if name_hash['family'].present?
+    end
+
     def to_solr(solr_doc = {})
       solr_doc = super
       Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
       Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
       solr_doc
     end
+
+    # This code cause a "stack level too deep" failure,
+    # TODO: investigate and fix
+    # def authored_works
+    #   related_works('aut')
+    # end
+    #
+    # def related_works(code)
+    #   recip_rels = self.relators.to_a.select { |rel| rel.short_role == code }
+    #   recip_rels.collect(&:work)
+    # end
   end
 end

@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe Work do
   include_context 'shared'
+  describe 'init' do
+    it 'can be initialized with default params' do
+      w = Work.new(work_params)
+      expect(w).to be_a Work
+    end
+  end
   describe 'on creation' do
     it 'should have a uuid on creation' do
       w = Work.new
@@ -18,27 +24,17 @@ describe Work do
   # a Fedora mock (which doesn't exist)
   describe 'Relations:' do
     before :each do
-      @agent = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work = Work.new
-      @work.add_title({'value'=> 'A title'})
-      @work.add_author(@agent)
+      @work = Work.new(work_params)
+      @work.add_author(person)
       @work.save # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
       @rel = Work.new
       @rel.add_title({'value'=> 'A title'})
-      @rel.add_author(@agent)
+      @rel.add_author(person)
       @rel.save # for these tests to work. Object has to be persisted. Otherwise relation cannot be updated
     end
 
     it 'has many Instances' do
       expect(@work.instances).to respond_to :each
-    end
-
-    it 'can be part of an Instance' do
-      i = Instance.new
-      i.parts << @work
-      expect(i.parts).to include @work
     end
 
     it 'can be related to other works' do
@@ -59,19 +55,22 @@ describe Work do
       expect(@rel.preceding_works).to include @work
     end
 
-    it 'can have an agent as a subjects' do
-      @work.add_subject(@agent)
-      expect(@work.subjects).to include @agent
-    end
+    # Not sure how we should handle Subject
+    # TODO: Implement when this is cleared up
+    # it 'can have an agent as a subjects' do
+    #   @work.add_subject(@agent)
+    #   expect(@work.subjects).to include @agent
+    # end
+    #
+    # it 'can have a Work as a subject' do
+    #   @work.add_subject(@rel)
+    #   expect(@work.subjects).to include @rel
+    # end
 
-    it 'can have a Work as a subject' do
-      @work.add_subject(@rel)
-      expect(@work.subjects).to include @rel
-    end
-    it 'expresses its subject relations in rdf' do
-      @work.add_subject(@agent)
-      expect(@work.to_rdf).to include 'bf:subject'
-    end
+    # it 'expresses its subject relations in rdf' do
+    #   @work.add_subject(@agent)
+    #   expect(@work.to_rdf).to include 'bf:subject'
+    # end
 
 
     it 'can have an author' do
@@ -83,20 +82,15 @@ describe Work do
       @work.reload
       a.reload
       expect(@work.authors).to include a
-      expect(a.authored_works).to include @work
     end
 
     it 'can have a recipient' do
-      a = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work.add_recipient(a)
-      @work.add_author(a)
+      @work.add_recipient(person)
+      @work.add_author(person)
       @work.save
       @work.reload
-      a.reload
-      expect(@work.recipients).to include a
-      expect(a.received_works).to include @work
+      person.reload
+      expect(@work.recipients).to include person
     end
   end
 

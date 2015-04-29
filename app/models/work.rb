@@ -14,7 +14,9 @@ class Work < ActiveFedora::Base
   has_many :titles
   has_many :instances
   has_many :relators
-
+  has_and_belongs_to_many :related_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::relatedWork, inverse_of: :related_works
+  has_and_belongs_to_many :preceding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::precededBy, inverse_of: :succeeding_works
+  has_and_belongs_to_many :succeeding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::succeededBy, inverse_of: :preceding_works
   accepts_nested_attributes_for :titles, :relators
 
   def uuid
@@ -35,11 +37,57 @@ class Work < ActiveFedora::Base
     solr_doc
   end
 
+  def add_title(title_hash)
+    title_hash.delete(:lang)
+    title = Title.new(title_hash)
+    self.titles += [title]
+  end
+
+  def add_author(agent)
+    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/aut', agent: agent)
+    self.relators += [author_relation]
+  end
+
+  def add_recipient(agent)
+    recipient_relation = Relator.from_rel('rcp', agent)
+    self.relators += [recipient_relation]
+  end
+
+  def recipients
+    related_agents('rcp')
+  end
+
+  def authors
+    related_agents('aut')
+  end
+
+  # Given a short relator code, find all the related agents
+  # with this code
+  # e.g. w.related_agents('rcp') will return all recipients
+  def related_agents(code)
+    recip_rels = self.relators.to_a.select { |rel| rel.short_role == code }
+    recip_rels.collect(&:agent)
+  end
+
+  def add_related(work)
+    logger.warn 'VALHAL DEPRECATION: work.add_related is deprecated - use work.related_works += [work] instead'
+    self.related_works += [work]
+  end
+
+  def add_preceding(work)
+    self.preceding_works += [work]
+  end
+
+  def add_succeeding(work)
+    self.succeeding_works += [work]
+  end
+
+
+
 =begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
-  has_and_belongs_to_many :related_works, class_name: 'Work', property: :related_work, inverse_of: :related_work
-  has_and_belongs_to_many :preceding_works, class_name: 'Work', property: :preceded_by, inverse_of: :succeeded_by
-  has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
+
+
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
 
@@ -68,25 +116,11 @@ class Work < ActiveFedora::Base
     work.instances << instance
   end
 
-  def add_related(work)
-    related_works << work
-  end
 
-  def add_preceding(work)
-    preceding_works << work
-  end
 
-  def add_succeeding(work)
-    succeeding_works << work
-  end
 
-  def add_author(agent)
-    authors << agent
-  end
 
-  def add_recipient(agent)
-    recipients << agent
-  end
+
 
   def titles=(val)
     remove_titles
@@ -163,9 +197,6 @@ class Work < ActiveFedora::Base
     authors=[]
   end
 
-  def add_subject(rel)
-    subjects << rel
-  end
 
   def subjects=(val)
     remove_subjects
