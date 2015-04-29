@@ -14,13 +14,14 @@ class Instance < ActiveFedora::Base
   include Concerns::CustomValidations
 
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
-  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13
-  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10
-  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance
-  property :extent, predicate: ::RDF::Vocab::Bibframe.extent
-  property :note, predicate: ::RDF::Vocab::Bibframe.note
+  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13, multiple: false
+  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10, multiple: false
+  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance, multiple: false
+  property :extent, predicate: ::RDF::Vocab::Bibframe.extent, multiple: false
+  property :note, predicate: ::RDF::Vocab::Bibframe.note, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
+
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
   has_many :content_files, property: :content_for
 
@@ -28,11 +29,6 @@ class Instance < ActiveFedora::Base
     self.id
   end
 
-
-=begin
-
-  has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
-  has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
 
   validates :activity, :collection, :copyright, presence: true
 
@@ -60,6 +56,29 @@ class Instance < ActiveFedora::Base
       nil
     end
   end
+
+  def set_equivalent=(instance_input)
+    if instance_input.is_a? String
+      instance = Instance.find(instance_input)
+    elsif instance_input.is_a? Instance
+      instance = instance_input
+    else
+      fail "Can only take args of type Instance or String where string represents a Work's pid"
+    end
+    begin
+      self.instances.push(instance)
+      instance
+    rescue ActiveFedora::RecordInvalid => exception
+      logger.error("set_work failed #{exception}")
+      nil
+    end
+  end
+
+
+=begin
+
+  has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
+  has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
 
   # This is actually a getter!
   # In order to wrap work= as above, we also

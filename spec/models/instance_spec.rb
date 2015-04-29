@@ -8,11 +8,12 @@ require 'spec_helper'
 describe Instance do
   include_context 'shared'
 
-  let(:work_attributes) do
-    agent = Authority::Person.create( 'given_name'=> 'Fornavn', 'family_name' => 'Efternavn',  'birth_date' => '1932' , 'death_date' => '2009'    )
-    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'}  }}
-  end
-
+  puts "getting to test 0"
+#  let(:work_attributes) do
+#    agent = Authority::Person.create( 'given_name'=> 'Fornavn', 'family_name' => 'Efternavn',  'birth_date' => '1932' , 'death_date' => '2009'    )
+#    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'}  }}
+#  end
+    puts "getting to test 1"
 # 'scheme' => 'KB',
 # , creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'
 
@@ -22,23 +23,29 @@ describe Instance do
 #  end
 
   before :each do
-    @instance = Instance.new()
-#    @instance = Instance.new(instance_params)
-    puts "getting to test 0"
+    puts valid_trykforlaeg
+    puts instance_params
+    puts "getting to test 2"
+#    @instance = Instance.new()
+    @instance = Instance.new(valid_trykforlaeg)
+    puts "getting to test 3"
   end
 
   describe 'relations' do
 #    it 'has many files' do
 #      expect(@instance.content_files.size).to eql 0
 #    end
-
+    puts "getting to test 4"
     it 'can have an equivalent instance' do
-      puts "getting to test"
-      i = Instance.new(instance_params)
-      @instance.has_equivalent = [i]
+      puts "getting to test 5"
+#      i = Instance.new()
+      i = Instance.new(valid_trykforlaeg)
+      puts i
+      puts @instance
+      @instance.set_equivalent(i)
       @instance.save
-      expect(@instance.has_equivalent).to include i
-      expect(i.has_equivalent).to include @instance
+      expect(@instance.equivalents).to include i
+      expect(i.equivalents).to include @instance
     end
     
   end
