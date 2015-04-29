@@ -92,6 +92,24 @@ describe Work do
       person.reload
       expect(@work.recipients).to include person
     end
+
+    describe 'author_names' do
+      it 'returns a hash of all author names' do
+        authors = @work.author_names
+        expect(authors.keys.first).to be_a String
+        expect(authors.values.first).to be_an Authority::Person
+      end
+    end
+
+    describe 'find_matching_author' do
+      it 'returns an author object for the name fragment supplied' do
+        expect(@work.find_matching_author('James')).to be_an Authority::Person
+      end
+
+      it 'returns nil if no match is found' do
+        expect(@work.find_matching_author('Niall')).to eql nil
+      end
+    end
   end
 
   # In the absence of a proper RDF validator on Ruby
