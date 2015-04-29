@@ -31,12 +31,6 @@ class Work < ActiveFedora::Base
     title_values.first
   end
 
-  def to_solr(solr_doc = {})
-    solr_doc = super
-    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
-    solr_doc
-  end
-
   def add_title(title_hash)
     title_hash.delete(:lang)
     title = Title.new(title_hash)
@@ -80,6 +74,23 @@ class Work < ActiveFedora::Base
 
   def add_succeeding(work)
     self.succeeding_works += [work]
+  end
+
+  def to_solr(solr_doc = {})
+    solr_doc.merge!(super)
+    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+    titles.each do |title|
+      Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
+      Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
+    end
+    authors.each do |aut|
+      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable)
+    end
+    instances.each do |i|
+      Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
+      Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)
+    end
+    solr_doc
   end
 
 
@@ -210,23 +221,7 @@ class Work < ActiveFedora::Base
   end
 
 
-  def to_solr(solr_doc = {})
-    super
-    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
-    titles.each do |title|
-      Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
-      Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
 
-    end
-    authors.each do |aut|
-      Solrizer.insert_field(solr_doc, 'author', aut.all_names,:stored_searchable, :facetable, :displayable)
-    end
-    self.instances.each do |i|
-      Solrizer.insert_field(solr_doc, 'work_activity',i.activity, :facetable)
-      Solrizer.insert_field(solr_doc, 'work_collection',i.collection, :facetable)
-    end
-    solr_doc
-  end
 
   # method to set the rights metadata stream based on activity
   def set_rights_metadata

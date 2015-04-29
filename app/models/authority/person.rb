@@ -18,7 +18,8 @@ module Authority
     def display_value
       value = ''
       value += "#{family_name}, " if family_name.present?
-      value += "#{given_name}, " if given_name.present?
+      value += "#{given_name}" if given_name.present?
+      value += ', ' if birth_date.present? || death_date.present?
       value += "#{birth_date}-" if birth_date.present?
       value += "#{death_date}" if death_date.present?
       value

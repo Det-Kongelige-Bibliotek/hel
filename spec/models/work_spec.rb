@@ -145,22 +145,8 @@ describe Work do
       aut = Authority::Person.create(
           'authorized_personal_name' => { 'scheme' => 'viaf', 'family' => 'Joyce', 'given' => 'James', 'date' => '1932/2009' })
       @work.add_author(aut)
-      puts("creators #{@work.creators}")
       vals = @work.to_solr.values.flatten
       expect(vals).to include 'Joyce, James'
-    end
-
-    it 'should be able to add a list of title hash' do
-      title1 = HashWithIndifferentAccess.new
-      title2 = HashWithIndifferentAccess.new
-      title3 = HashWithIndifferentAccess.new
-      title1[:value] = "Title1"
-      title2[:value] = "Title2"
-      title3[:value] = "Title3"
-      @work.titles = {'0' => title1,'1' => title2}
-      @work.title_values.should == ['Title1','Title2']
-      @work.titles = {'0' => title1,'1' => title3}
-      @work.title_values.should == ['Title1','Title3']
     end
   end
 end
