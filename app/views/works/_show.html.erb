@@ -105,6 +105,13 @@
           <%= "Opret Instans" %> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
+          <% if can?(:create, Instance) %>
+              <li>
+                <a href="<%= new_work_instance_path(@work) %>">
+                  <%= t('.new_instance') %>
+                </a>
+              </li>
+          <% end %>
           <% if can?(:create, Trykforlaeg) %>
               <li>
                 <a href="<%= new_work_trykforlaeg_path(@work) %>">
