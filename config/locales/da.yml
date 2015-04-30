@@ -322,6 +322,7 @@ da:
       origin_date: "Oprindelsesdato"
       page_title: "Værk: "
       agent_relations: "Relaterede agenter"
+      new_instance: "Ny instans"
     subject_authority:
       close: "Slet emne"
     title:
