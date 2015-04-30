@@ -8,6 +8,14 @@ module Authority
     property :name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
+    def same_as_uri=(uri)
+      self.same_as = ::RDF::URI.new(uri)
+    end
+
+    def same_as_uri
+      self.same_as
+    end
+
     def display_value
       value = ''
       value += name if name.present?
@@ -22,6 +30,8 @@ module Authority
       Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
       solr_doc
     end
+
+    
 
   end
 end
