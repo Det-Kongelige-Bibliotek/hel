@@ -182,4 +182,22 @@ describe Work do
       expect(vals).to include 'Joyce, James'
     end
   end
+
+  describe 'originDate' do
+    it 'can have an origin date' do
+      @valid_work.origin_date = '1985'
+      expect(@valid_work.origin_date).to eql '1985'
+    end
+    it 'will not save an invalid EDTF date' do
+      expect(@valid_work.valid?).to be true
+      @valid_work.origin_date = 'sometime last week'
+      expect(@valid_work.valid?).to be false
+    end
+
+    it 'will save a valid EDTF date' do
+      @valid_work.origin_date = '2004-02-01/2005'
+      expect(@valid_work.valid?).to be true
+    end
+  end
+
 end

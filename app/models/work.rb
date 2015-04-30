@@ -22,6 +22,10 @@ class Work < ActiveFedora::Base
 
   before_save :set_rights_metadata
 
+  validates_each :origin_date do |record, attr, val|
+    record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
+  end
+
   # Validation methods
   def has_a_title
     unless titles.size > 0
@@ -153,15 +157,15 @@ class Work < ActiveFedora::Base
 
 =begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
-
-
+  has_and_belongs_to_many :related_works, class_name: 'Work', property: :related_work, inverse_of: :related_work
+  has_and_belongs_to_many :preceding_works, class_name: 'Work', property: :preceded_by, inverse_of: :succeeded_by
+  has_and_belongs_to_many :succeeding_works, class_name: 'Work', property: :succeeded_by, inverse_of: :preceded_by
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
+  has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
 
-  belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
-
-
-
+  before_save :set_rights_metadata
+  validate :has_a_title,:has_a_creator
 
   # This method i insertet to make cancan authorization work with nested ressources and subclassing
   def trykforlaegs
@@ -198,20 +202,6 @@ class Work < ActiveFedora::Base
     end
     creators
   end
-
-
-  def agents
-    agents = []
-    authors.each do |a|
-      agents.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
-    end
-    recipients.each do |rcp|
-      agents.push({"id" => rcp.id, "type"=> 'rcp', 'display_value' => rcp.display_value})
-    end
-    agents
-  end
-
-
 
   def creators=(val)
     remove_creators

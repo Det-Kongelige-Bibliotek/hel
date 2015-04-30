@@ -111,6 +111,7 @@ da:
       license: "Vælg licens"
       preservation: "Bevaring"
       preserv_profile: "Preservation profile"
+      is_available: "Må tilgængeliggøres?"
     image_found:
       check: "Check tei pagebreaks"
     image_found_modal:
@@ -307,6 +308,7 @@ da:
     creator:
       close: "Slet ophav"
     show:
+      edit: "Rediger"
       titles: "Titler"
       title: "Titel"
       subtitle: "Undertitel"
@@ -317,8 +319,9 @@ da:
       role: "Rolle"
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
-      agent_relations: "Relaterede agenter"
+      origin_date: "Oprindelsesdato"
       page_title: "Værk: "
+      agent_relations: "Relaterede agenter"
     subject_authority:
       close: "Slet emne"
     title:
@@ -348,7 +351,6 @@ da:
 
 
 
-
   content_file:
     flashmessage:
       file_uploaded: "Filen er uploaded"
@@ -368,3 +370,5 @@ da:
     standard_error: 'An error has occurred. Please contact your system administrator'
     file_not_found: 'The file you requested could not be found in Fedora! Please contact your system administrator'
     be_admin: "Du skal være administrator for at kunne opdatere"
+  edtf:
+    error_message: "skal være valid EDTF"

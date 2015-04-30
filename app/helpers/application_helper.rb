@@ -20,7 +20,8 @@ module ApplicationHelper
   end
 
   def get_entry_label(list_name, entry_name)
-    Administration::ControlledList.with(:name, list_name).elements.find(name: entry_name).first.label
+    entry = Administration::ControlledList.with(:name, list_name).elements.find(name: entry_name).first
+    entry.label.present? ? entry.label : entry.name
   end
 
   def get_preservation_profiles_for_select
