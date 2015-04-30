@@ -23,7 +23,9 @@ class Instance < ActiveFedora::Base
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
+
   has_many :content_files, property: :content_for
+  has_many :relators
 
   def uuid
     self.id

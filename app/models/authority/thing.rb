@@ -13,7 +13,7 @@ module Authority
     end
 
     def same_as_uri
-      self.same_as
+      self.same_as.to_term.value unless self.same_as.nil?
     end
 
     def display_value
