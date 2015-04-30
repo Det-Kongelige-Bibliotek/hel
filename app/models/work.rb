@@ -20,6 +20,8 @@ class Work < ActiveFedora::Base
 
   validate :has_a_title,:has_a_creator
 
+  before_save :set_rights_metadata
+
   # Validation methods
   def has_a_title
     unless titles.size > 0
@@ -139,6 +141,14 @@ class Work < ActiveFedora::Base
     solr_doc
   end
 
+  # method to set the rights metadata stream based on activity
+  def set_rights_metadata
+    self.discover_groups = ['Chronos-Alle']
+    self.read_groups = ['Chronos-Alle']
+    self.edit_groups = ['Chronos-Alle']
+  end
+
+
 
 
 =begin
@@ -150,7 +160,7 @@ class Work < ActiveFedora::Base
 
   belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
 
-  before_save :set_rights_metadata
+
 
 
   # This method i insertet to make cancan authorization work with nested ressources and subclassing
@@ -230,18 +240,6 @@ class Work < ActiveFedora::Base
   def remove_subjects
     subjects=[]
   end
-
-
-
-
-  # method to set the rights metadata stream based on activity
-  def set_rights_metadata
-    self.discover_groups = ['Chronos-Alle']
-    self.read_groups = ['Chronos-Alle']
-    self.edit_groups = ['Chronos-Alle']
-  end
-
-
 
   # Static methods
   def self.get_title_typeahead_objs
