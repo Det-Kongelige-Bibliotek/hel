@@ -6,17 +6,42 @@
 # should live in separate modules and
 # be mixed in.
 class Work < ActiveFedora::Base
-  # include Bibframe::Work
   include Hydra::AccessControls::Permissions
   include Concerns::Renderers
   include Datastreams::TransWalker
 
   property :language, predicate: ::RDF::Vocab::Bibframe::language, multiple: false
+  property :origin_date, predicate: ::RDF::Vocab::Bibframe::originDate, multiple: false
   has_many :titles
   has_many :instances
   has_many :relators
-
+  has_and_belongs_to_many :related_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::relatedWork, inverse_of: :related_works
+  has_and_belongs_to_many :preceding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::precededBy, inverse_of: :succeeding_works
+  has_and_belongs_to_many :succeeding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::succeededBy, inverse_of: :preceding_works
   accepts_nested_attributes_for :titles, :relators
+
+  validate :has_a_title,:has_a_creator
+
+  before_save :set_rights_metadata
+
+  validates_each :origin_date do |record, attr, val|
+    record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
+  end
+
+  # Validation methods
+  def has_a_title
+    unless titles.size > 0
+      errors.add(:titles,"Et værk skal have mindst en titel")
+    end
+  end
+
+  # TODO: this should check all creative relation types
+  # we need therefore a subset of relators which are *creative*
+  def has_a_creator
+    unless authors.size > 0
+      errors.add(:creators,"Et værk skal have mindst et ophav")
+    end
+  end
 
   def uuid
     self.id
@@ -25,6 +50,113 @@ class Work < ActiveFedora::Base
   def title_values
     titles.collect(&:value)
   end
+
+  def display_value
+    title_values.first
+  end
+
+  def add_title(title_hash)
+    title_hash.delete(:lang)
+    title = Title.new(title_hash)
+    self.titles += [title]
+  end
+
+  def add_author(agent)
+    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/aut', agent: agent)
+    self.relators += [author_relation]
+  end
+
+  def add_recipient(agent)
+    recipient_relation = Relator.from_rel('rcp', agent)
+    self.relators += [recipient_relation]
+  end
+
+  def recipients
+    related_agents('rcp')
+  end
+
+  def authors
+    related_agents('aut')
+  end
+
+  # Given a short relator code, find all the related agents
+  # with this code
+  # e.g. w.related_agents('rcp') will return all recipients
+  def related_agents(code)
+    recip_rels = self.relators.to_a.select { |rel| rel.short_role == code }
+    recip_rels.collect(&:agent)
+  end
+
+  def add_related(work)
+    logger.warn 'VALHAL DEPRECATION: work.add_related is deprecated - use work.related_works += [work] instead'
+    self.related_works += [work]
+  end
+
+  def add_preceding(work)
+    self.preceding_works += [work]
+  end
+
+  def add_succeeding(work)
+    self.succeeding_works += [work]
+  end
+
+  # this method returns a hash
+  # where every author name is a key
+  # and the object id is a value
+  # e.g. { "Victor Andreasen" => 'valhal:1234' }
+  # It can be used to *guess* the value of an author
+  # based on a string value, e.g. Victor
+  def author_names
+    author_names = {}
+    authors.each do |aut|
+      author_names[aut.full_name] = aut
+    end
+    author_names
+  end
+
+  # Given a name fragment, attempt
+  # to find a Person object from the authors
+  # that matches this string
+  # e.g. given a Work w with author Andreasen, Victor,
+  # w.find_matching_author('Victor') will return
+  # the Authority::Person object Victor Andreasen
+  # If no match is found, return nil
+  def find_matching_author(query)
+    return nil if query.nil?
+    author_names.select do |name, obj|
+      next unless name.present?
+      return obj if name.include?(query)
+    end
+    nil
+  end
+
+  def to_solr(solr_doc = {})
+    solr_doc.merge!(super)
+    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+    titles.each do |title|
+      Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
+      Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
+    end
+    authors.each do |aut|
+      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable)
+    end
+    instances.each do |i|
+      Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
+      Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)
+    end
+    solr_doc
+  end
+
+  # method to set the rights metadata stream based on activity
+  def set_rights_metadata
+    self.discover_groups = ['Chronos-Alle']
+    self.read_groups = ['Chronos-Alle']
+    self.edit_groups = ['Chronos-Alle']
+  end
+
+
+
+
 =begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
   has_and_belongs_to_many :related_works, class_name: 'Work', property: :related_work, inverse_of: :related_work
@@ -33,7 +165,6 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :authors, class_name: 'Authority::Agent',  property: :author, inverse_of: :author_of
   has_and_belongs_to_many :recipients, class_name: 'Authority::Agent', property: :recipient, inverse_of: :recipient_of
   has_and_belongs_to_many :subjects, class_name: 'ActiveFedora::Base', property: :subject
-  belongs_to :is_part_of, class_name: 'Work', property: :is_part_of
 
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
@@ -58,25 +189,6 @@ class Work < ActiveFedora::Base
     work.instances << instance
   end
 
-  def add_related(work)
-    related_works << work
-  end
-
-  def add_preceding(work)
-    preceding_works << work
-  end
-
-  def add_succeeding(work)
-    succeeding_works << work
-  end
-
-  def add_author(agent)
-    authors << agent
-  end
-
-  def add_recipient(agent)
-    recipients << agent
-  end
 
   def titles=(val)
     remove_titles
@@ -91,50 +203,6 @@ class Work < ActiveFedora::Base
       creators.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
     end
     creators
-  end
-
-
-  def agents
-    agents = []
-    authors.each do |a|
-      agents.push({"id" => a.id, "type"=> 'aut', 'display_value' => a.display_value})
-    end
-    recipients.each do |rcp|
-      agents.push({"id" => rcp.id, "type"=> 'rcp', 'display_value' => rcp.display_value})
-    end
-    agents
-  end
-
-  # this method returns a hash
-  # where every author name is a key
-  # and the object id is a value
-  # e.g. { "Victor Andreasen" => 'valhal:1234' }
-  # It can be used to *guess* the value of an author
-  # based on a string value, e.g. Victor
-  def author_names
-    author_names = {}
-    authors.each do |aut|
-      aut.all_names.each do |name|
-        author_names[name] = aut
-      end
-    end
-    author_names
-  end
-
-  # Given a name fragment, attempt
-  # to find a Person object from the authors
-  # that matches this string
-  # e.g. given a Work w with author Andreasen, Victor,
-  # w.find_matching_author('Victor') will return
-  # the Authority::Person object Victor Andreasen
-  # If no match is found, return nil
-  def find_matching_author(query)
-    return nil if query.nil?
-    author_names.select do |name, obj|
-      next unless name.present?
-      return obj if name.include?(query)
-    end
-    nil
   end
 
   def creators=(val)
@@ -153,9 +221,6 @@ class Work < ActiveFedora::Base
     authors=[]
   end
 
-  def add_subject(rel)
-    subjects << rel
-  end
 
   def subjects=(val)
     remove_subjects
@@ -166,49 +231,6 @@ class Work < ActiveFedora::Base
 
   def remove_subjects
     subjects=[]
-  end
-
-
-  def to_solr(solr_doc = {})
-    super
-    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
-    titles.each do |title|
-      Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
-      Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
-
-    end
-    authors.each do |aut|
-      Solrizer.insert_field(solr_doc, 'author', aut.all_names,:stored_searchable, :facetable, :displayable)
-    end
-    self.instances.each do |i|
-      Solrizer.insert_field(solr_doc, 'work_activity',i.activity, :facetable)
-      Solrizer.insert_field(solr_doc, 'work_collection',i.collection, :facetable)
-    end
-    solr_doc
-  end
-
-  # method to set the rights metadata stream based on activity
-  def set_rights_metadata
-    self.discover_groups = ['Chronos-Alle']
-    self.read_groups = ['Chronos-Alle']
-    self.edit_groups = ['Chronos-Alle']
-  end
-
-  def display_value
-    title_values.first
-  end
-
-  # Validation methods
-  def has_a_title
-    if titles.blank?
-      errors.add(:titles,"Et værk skal have mindst en titel")
-    end
-  end
-
-  def has_a_creator
-    if creators.blank?
-      errors.add(:creators,"Et værk skal have mindst et ophav")
-    end
   end
 
   # Static methods

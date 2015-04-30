@@ -5,7 +5,6 @@
 # should live in separate modules and
 # be mixed in.
 class Instance < ActiveFedora::Base
- # include Bibframe::Instance
   include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
 #  include Concerns::Preservation
@@ -14,11 +13,14 @@ class Instance < ActiveFedora::Base
 #  include Concerns::CustomValidations
 
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
-  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13, multiple: false
-  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10, multiple: false
-  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance, multiple: false
-  property :extent, predicate: ::RDF::Vocab::Bibframe.extent, multiple: false
-  property :note, predicate: ::RDF::Vocab::Bibframe.note, multiple: false
+  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13
+  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10
+  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance
+  property :extent, predicate: ::RDF::Vocab::Bibframe.extent
+  property :note, predicate: ::RDF::Vocab::Bibframe.note
+  property :title_statement, predicate: ::RDF::Vocab::Bibframe.titleStatement, multiple: false
+  property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false
+  property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
@@ -27,14 +29,23 @@ class Instance < ActiveFedora::Base
   has_many :content_files, property: :content_for
   has_many :relators
 
+  before_save :set_rights_metadata
+
+  # method to set the rights metadata stream based on activity
+  def set_rights_metadata
+    a = Administration::Activity.find(self.activity)
+    self.discover_groups = a.permissions['instance']['group']['discover']
+    self.read_groups = a.permissions['instance']['group']['read']
+    self.edit_groups = a.permissions['instance']['group']['edit']
+  end
+
+
   def uuid
     self.id
   end
 
-
   validates :activity, :collection, :copyright, presence: true
 
-  before_save :set_rights_metadata
 
   # Use this setter to manage work relations
   # as it ensures relationship symmetry
@@ -47,11 +58,9 @@ class Instance < ActiveFedora::Base
     elsif work_input.is_a? Work
       work = work_input
     else
-      puts work_input.class
       fail "Can only take args of type Work or String where string represents a Work's pid"
     end
     begin
-#      work.instances = self
       self.work = work
       work
     rescue ActiveFedora::RecordInvalid => exception
@@ -120,13 +129,7 @@ class Instance < ActiveFedora::Base
     cf
   end
 
-  # method to set the rights metadata stream based on activity
-  def set_rights_metadata
-    a = Administration::Activity.find(self.activity)
-    self.discover_groups = a.permissions['instance']['group']['discover']
-    self.read_groups = a.permissions['instance']['group']['read']
-    self.edit_groups = a.permissions['instance']['group']['edit']
-  end
+
 
   def set_rights_metadata_on_file(file)
     a = Administration::Activity.find(self.activity)

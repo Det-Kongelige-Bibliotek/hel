@@ -16,11 +16,24 @@ class Relator < ActiveFedora::Base
     self.relator_role = ::RDF::URI.new(uri)
   end
 
+  # retrieve the last part of a role URI
+  # e.g. given a Relator r with role
+  # http://id.loc.gov/vocabulary/relators/rcp
+  # r.short_role => 'rcp'
+  def short_role
+    URI(role).path.split('/').last
+  end
+
   def agent_id=(id)
     self.agent = ActiveFedora::Base.find(id)
   end
 
   def agent_id
     self.agent.try(:id)
+  end
+
+  def self.from_rel(rel, agent)
+    uri = "http://id.loc.gov/vocabulary/relators/#{rel}"
+    self.new(role: uri, agent: agent)
   end
 end

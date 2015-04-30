@@ -49,7 +49,11 @@
       </tbody>
     </table>
 
+    <h4><%= t('.origin_date') %></h4>
+    <span><%= @work.origin_date %></span>
+    
     <h4><%= t('.agent_relations') %></h4>
+    <h4><%= t('.author') %></h4>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -101,6 +105,13 @@
           <%= "Opret Instans" %> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
+          <% if can?(:create, Instance) %>
+              <li>
+                <a href="<%= new_work_instance_path(@work) %>">
+                  <%= t('.new_instance') %>
+                </a>
+              </li>
+          <% end %>
           <% if can?(:create, Trykforlaeg) %>
               <li>
                 <a href="<%= new_work_trykforlaeg_path(@work) %>">

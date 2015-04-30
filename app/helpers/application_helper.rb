@@ -20,7 +20,8 @@ module ApplicationHelper
   end
 
   def get_entry_label(list_name, entry_name)
-    Administration::ControlledList.with(:name, list_name).elements.find(name: entry_name).first.label
+    entry = Administration::ControlledList.with(:name, list_name).elements.find(name: entry_name).first
+    entry.label.present? ? entry.label : entry.name
   end
 
   def get_preservation_profiles_for_select
@@ -52,6 +53,11 @@ module ApplicationHelper
     results = Authority::Agent.get_typeahead_objs
     agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
     agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
+  end
+
+  def subjects_for_select
+    docs = Finder.all_people + Finder.all_works
+    docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
   end
 
   # Given a url from a ControlledList, create a link to this url

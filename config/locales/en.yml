@@ -41,6 +41,7 @@ en:
       cancel: "Cancel"
     show:
       edit: "Edit"
+      origin_date: "Origin date"
   authority:
     people:
       form:
@@ -98,3 +99,5 @@ en:
       element:
         label: "Label"
         entry: "Entry"
+  edtf:
+    error_message: "must be valid EDTF"
