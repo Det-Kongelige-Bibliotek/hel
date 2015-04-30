@@ -7,10 +7,10 @@
 class Instance < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
-  include Concerns::Preservation
+#  include Concerns::Preservation
   include Concerns::Renderers
   include Datastreams::TransWalker
-  include Concerns::CustomValidations
+#  include Concerns::CustomValidations
 
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
   property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13
@@ -23,7 +23,11 @@ class Instance < ActiveFedora::Base
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
+
+  has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
+
   has_many :content_files, property: :content_for
+  has_many :relators
 
   before_save :set_rights_metadata
 
@@ -34,13 +38,13 @@ class Instance < ActiveFedora::Base
     self.read_groups = a.permissions['instance']['group']['read']
     self.edit_groups = a.permissions['instance']['group']['edit']
   end
-=begin
 
-  has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
-  has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
+
+  def uuid
+    self.id
+  end
 
   validates :activity, :collection, :copyright, presence: true
-
 
 
   # Use this setter to manage work relations
@@ -57,14 +61,37 @@ class Instance < ActiveFedora::Base
       fail "Can only take args of type Work or String where string represents a Work's pid"
     end
     begin
-     # work.instances << self
-      self.work << work
+      self.work = work
       work
     rescue ActiveFedora::RecordInvalid => exception
       logger.error("set_work failed #{exception}")
       nil
     end
   end
+
+  def set_equivalent=(instance_input)
+    if instance_input.is_a? String
+      instance = Instance.find(instance_input)
+    elsif instance_input.is_a? Instance
+      instance = instance_input
+    else
+      fail "Can only take args of type Instance or String where string represents a Work's pid"
+    end
+    begin
+      self.equivalents += [instance]
+      instance.equivalents += [self]
+      instance
+    rescue ActiveFedora::RecordInvalid => exception
+      logger.error("set_equivalent failed #{exception}")
+      nil
+    end
+  end
+
+
+=begin
+
+  has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
+  has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
 
   # This is actually a getter!
   # In order to wrap work= as above, we also

@@ -1,5 +1,5 @@
 module Authority
-  class Person < Agent
+  class Person < Thing
     property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false
     property :given_name, predicate: ::RDF::Vocab::SCHEMA.givenName, multiple: false
     property :full_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false
@@ -7,11 +7,7 @@ module Authority
     property :death_date, predicate: ::RDF::Vocab::SCHEMA.deathDate, multiple: false
     property :birth_place, predicate: ::RDF::Vocab::SCHEMA.birthPlace, multiple: false
     property :death_place, predicate: ::RDF::Vocab::SCHEMA.deathPlace, multiple: false
-    property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: false
     property :nationality, predicate: ::RDF::Vocab::SCHEMA.nationality, multiple: false
-    property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false
-    property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
-    property :image, predicate: ::RDF::Vocab::SCHEMA.image
 
     has_many :relators
 
@@ -35,13 +31,6 @@ module Authority
       logger.warn 'VALHAL DEPRECATION: authorized_personal_name= is deprecated - use the native accessors instead'
       self.family_name = name_hash['family'] if name_hash['family'].present?
       self.given_name = name_hash['given'] if name_hash['family'].present?
-    end
-
-    def to_solr(solr_doc = {})
-      solr_doc = super
-      Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
-      Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
-      solr_doc
     end
 
     # This code cause a "stack level too deep" failure,
