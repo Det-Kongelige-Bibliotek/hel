@@ -9,10 +9,10 @@ describe Instance do
   include_context 'shared'
 
   puts "getting to test 0"
-#  let(:work_attributes) do
-#    agent = Authority::Person.create( 'given_name'=> 'Fornavn', 'family_name' => 'Efternavn',  'birth_date' => '1932' , 'death_date' => '2009'    )
+  let(:work_attributes) do
+    agent = Authority::Person.create( 'given_name'=> 'Fornavn', 'family_name' => 'Efternavn',  'birth_date' => '1932' , 'death_date' => '2009'    )
 #    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'}  }}
-#  end
+  end
     puts "getting to test 1"
 # 'scheme' => 'KB',
 # , creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'
@@ -27,7 +27,7 @@ describe Instance do
     puts instance_params
     puts "getting to test 2"
 #    @instance = Instance.new()
-    @instance = Instance.new(valid_trykforlaeg)
+    @instance = Instance.new(instance_params)
     puts "getting to test 3"
   end
 
@@ -38,11 +38,13 @@ describe Instance do
     puts "getting to test 4"
     it 'can have an equivalent instance' do
       puts "getting to test 5"
-#      i = Instance.new()
-      i = Instance.new(valid_trykforlaeg)
-      puts i
-      puts @instance
-      @instance.set_equivalent(i)
+      i = Instance.new(instance_params)
+      @instance.set_equivalent= i
+      puts "@instance.equivalents"
+      puts @instance.equivalents
+      puts "i.equivalents"
+      puts i.equivalents
+      i.save
       @instance.save
       expect(@instance.equivalents).to include i
       expect(i.equivalents).to include @instance

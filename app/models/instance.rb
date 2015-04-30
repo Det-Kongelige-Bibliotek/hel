@@ -8,10 +8,10 @@ class Instance < ActiveFedora::Base
  # include Bibframe::Instance
   include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
-  include Concerns::Preservation
+#  include Concerns::Preservation
   include Concerns::Renderers
   include Datastreams::TransWalker
-  include Concerns::CustomValidations
+#  include Concerns::CustomValidations
 
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
   property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13, multiple: false
@@ -45,11 +45,12 @@ class Instance < ActiveFedora::Base
     elsif work_input.is_a? Work
       work = work_input
     else
+      puts work_input.class
       fail "Can only take args of type Work or String where string represents a Work's pid"
     end
     begin
-     # work.instances << self
-      self.work << work
+#      work.instances = self
+      self.work = work
       work
     rescue ActiveFedora::RecordInvalid => exception
       logger.error("set_work failed #{exception}")
@@ -66,10 +67,11 @@ class Instance < ActiveFedora::Base
       fail "Can only take args of type Instance or String where string represents a Work's pid"
     end
     begin
-      self.instances.push(instance)
+      self.equivalents += [instance]
+      instance.equivalents += [self]
       instance
     rescue ActiveFedora::RecordInvalid => exception
-      logger.error("set_work failed #{exception}")
+      logger.error("set_equivalent failed #{exception}")
       nil
     end
   end
