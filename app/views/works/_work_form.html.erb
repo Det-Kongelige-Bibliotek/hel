@@ -12,7 +12,9 @@
   </div>
 
   <div class="container">
-    <%= simple_form_for(@work, html: { novalidate: true }, input_html: { class: 'form-control' }) do |f| %>
+    <%= simple_form_for(@work, html: { novalidate: true },  defaults: { wrapper_html: { class: 'form-group' },
+                                                                        input_html: { class: 'form-control' } }
+        ) do |f| %>
         <%= @work.errors.messages if @work.errors.present? %>
         <fieldset class="row">
           <legend class="col-sm-12"><%= t('.titles') %></legend>
@@ -25,12 +27,6 @@
             </a>
           </div>
         </fieldset>
-        <fieldset class="row">
-          <legend class="col-sm-2">
-            <%= f.input :origin_date %>
-          </legend>
-        </fieldset>
-        <fieldset>
         <fieldset class="row">
           <legend class="col-sm-12">
             <%= t('.author') %>
@@ -50,18 +46,21 @@
           </div>
         </fieldset>
         <fieldset class="row col-sm-12">
+          <legend><%= t('.language') %> </legend>
           <div class="col-sm-3">
-            <legend><%= t('.language') %> </legend>
             <%= f.input :language, collection: get_list_with_labels('Languages'), label: false,
                         prompt: 'Vælg sprog', input_html: { class: 'form-control combobox' }
             %>
-
           </div>
         </fieldset>
-        <div class='col-sm-12'>
-        </div>
+        <fieldset>
+          <legend class="col-sm-12"><%= t('works.show.origin_date') %> </legend>
+          <div class="col-sm-3">
+            <%= f.input :origin_date, label: false %>
+          </div>
+        </fieldset>
         <fieldset class="row">
-          <legend class="col-sm-12"><%= t('.subject') %></legend>
+          <legend class="col-sm-12"><%#= t('.subject') %></legend>
           <%# if @work.subjects.size > 0  %>
           <%# @work.subjects.each_with_index do |subject,index| %>
           <%#= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>

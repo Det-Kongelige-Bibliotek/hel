@@ -184,6 +184,10 @@ describe Work do
   end
 
   describe 'originDate' do
+    before :each do
+      @valid_work = Work.new(work_params)
+      @valid_work.add_author(person)
+    end
     it 'can have an origin date' do
       @valid_work.origin_date = '1985'
       expect(@valid_work.origin_date).to eql '1985'

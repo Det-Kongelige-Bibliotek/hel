@@ -10,6 +10,7 @@ class Work < ActiveFedora::Base
   include Datastreams::TransWalker
 
   property :language, predicate: ::RDF::Vocab::Bibframe::language, multiple: false
+  property :origin_date, predicate: ::RDF::Vocab::Bibframe::originDate, multiple: false
   has_many :titles
   has_many :instances
   has_many :relators
