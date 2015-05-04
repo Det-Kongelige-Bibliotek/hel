@@ -5,7 +5,7 @@ module Authority
     property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: false
     property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false
     property :image, predicate: ::RDF::Vocab::SCHEMA.image
-    property :name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false
+    property :_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
     def same_as_uri=(uri)
@@ -18,7 +18,7 @@ module Authority
 
     def display_value
       value = ''
-      value += name if name.present?
+      value += _name if name.present?
       value += ", " if alternate_names.present?
       value += alternate_names.join(", ") if alternate_names.present?
       value
