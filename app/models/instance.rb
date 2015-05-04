@@ -99,7 +99,7 @@ class Instance < ActiveFedora::Base
     self.relators += [author_relation]
   end
 
-  def add_printer(agent)
+  def add_scribe(agent)
     author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/scr', agent: agent)
     self.relators += [author_relation]
   end
