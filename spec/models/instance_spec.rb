@@ -9,36 +9,43 @@ describe Instance do
   include_context 'shared'
 
   puts "getting to test 0"
+
+  @org = 
+    Authority::Organization.new(
+               { 'same_as' => 'http://viaf.org/viaf/127954890', 
+                 '_name' => 'Gyldendalske boghandel, Nordisk forlag',
+                 'founding_date' => '1770' })
+  @org.alternate_names.push 'Gyldendal'
+
   let(:work_attributes) do
-    agent = Authority::Person.create( 'given_name'=> 'Fornavn', 'family_name' => 'Efternavn',  'birth_date' => '1932' , 'death_date' => '2009'    )
-#    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'}  }}
+    agent = Authority::Person.create('given_name'=> 'Fornavn', 
+                                     'family_name' => 'Efternavn',
+                                     'birth_date' => '1932' , 
+                                     'death_date' => '2009')
   end
-    puts "getting to test 1"
-# 'scheme' => 'KB',
-# , creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'
 
-
-#  before :all do
-#    ActiveFedora::Base.delete_all
-#  end
-
+  puts "getting to test 1"
   before :each do
     puts valid_trykforlaeg
     puts instance_params
     puts "getting to test 2"
-#    @instance = Instance.new()
     @instance = Instance.new(valid_trykforlaeg)
     @work = Work.new(work_params)
     @instance.set_work=@work
     @work.add_instance(@instance)
+    expect(i.relators)
     puts "getting to test 3"
   end
 
   describe 'relations' do
-#    it 'has many files' do
-#      expect(@instance.content_files.size).to eql 0
-#    end
-    puts "getting to test 4"
+    it 'can published by a publisher' do
+      puts "getting to test 4"
+      i = Instance.new(valid_trykforlaeg)
+      @work.add_instance(i)
+      i.set_work=@work
+      i.add_publisher(@org)
+    end
+
     it 'can have an equivalent instance' do
       puts "getting to test 5"
       i = Instance.new(valid_trykforlaeg)

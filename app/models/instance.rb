@@ -90,18 +90,18 @@ class Instance < ActiveFedora::Base
   end
   
   def add_publisher(agent)
-    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/pbl', agent: agent)
-    self.relators += [author_relation]
+    relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/pbl', agent: agent)
+    self.relators += [relation]
   end
 
   def add_printer(agent)
-    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/prt', agent: agent)
-    self.relators += [author_relation]
+    relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/prt', agent: agent)
+    self.relators += [relation]
   end
 
   def add_scribe(agent)
-    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/scr', agent: agent)
-    self.relators += [author_relation]
+    relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/scr', agent: agent)
+    self.relators += [relation]
   end
 
 
