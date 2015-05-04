@@ -29,6 +29,7 @@ describe Instance do
 #    @instance = Instance.new()
     @instance = Instance.new(valid_trykforlaeg)
     @work = Work.new(work_params)
+    @instance.set_work=@work
     @work.add_instance(@instance)
     puts "getting to test 3"
   end
@@ -43,6 +44,7 @@ describe Instance do
       i = Instance.new(valid_trykforlaeg)
       @work.add_instance(i)
       @instance.set_equivalent = i
+      i.set_work=@work
       puts "@instance.equivalents"
       puts @instance.equivalents
       puts "i.equivalents"

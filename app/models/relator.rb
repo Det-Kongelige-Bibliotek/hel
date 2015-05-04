@@ -1,9 +1,9 @@
 class Relator < ActiveFedora::Base
-  belongs_to :work, predicate: ::RDF::Vocab::Bibframe.relatedTo
+  belongs_to :object, class_name: 'ActiveFedora::Base', predicate: ::RDF::Vocab::Bibframe.relatedTo
   belongs_to :agent, predicate: ::RDF::Vocab::Bibframe.agent, class_name: 'ActiveFedora::Base'
   property :relator_role, predicate: ::RDF::Vocab::Bibframe.relatorRole, multiple: false
 
-  validates :work, :agent, presence: true
+  validates :object, :agent, presence: true
 
   # we show the uri
   def role
