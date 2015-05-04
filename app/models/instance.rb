@@ -13,10 +13,10 @@ class Instance < ActiveFedora::Base
 #  include Concerns::CustomValidations
 
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
-  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13
-  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10
-  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance
-  property :extent, predicate: ::RDF::Vocab::Bibframe.extent
+  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13, multiple: false
+  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10, multiple: false
+  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance, multiple: false
+  property :extent, predicate: ::RDF::Vocab::Bibframe.extent, multiple: false
   property :note, predicate: ::RDF::Vocab::Bibframe.note
   property :title_statement, predicate: ::RDF::Vocab::Bibframe.titleStatement, multiple: false
   property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false

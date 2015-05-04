@@ -154,6 +154,9 @@ class Work < ActiveFedora::Base
     self.edit_groups = ['Chronos-Alle']
   end
 
+  def add_instance(i)
+    self.instances.push(i)
+  end
 
 
 
@@ -185,9 +188,6 @@ class Work < ActiveFedora::Base
   # to save the symetrical relation.
   # 'inverse_of' is only a property for has_and_belongs_to_many
 
-  def add_instance(instance)
-    work.instances << instance
-  end
 
 
   def titles=(val)

@@ -18,7 +18,7 @@ module Authority
 
     def display_value
       value = ''
-      value += _name if name.present?
+      value += _name if _name.present?
       value += ", " if alternate_names.present?
       value += alternate_names.join(", ") if alternate_names.present?
       value

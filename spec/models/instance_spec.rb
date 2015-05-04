@@ -27,7 +27,9 @@ describe Instance do
     puts instance_params
     puts "getting to test 2"
 #    @instance = Instance.new()
-    @instance = Instance.new(instance_params)
+    @instance = Instance.new(valid_trykforlaeg)
+    @work = Work.new(work_params)
+    @work.add_instance(@instance)
     puts "getting to test 3"
   end
 
@@ -38,14 +40,14 @@ describe Instance do
     puts "getting to test 4"
     it 'can have an equivalent instance' do
       puts "getting to test 5"
-      i = Instance.new(instance_params)
-      @instance.set_equivalent= i
+      i = Instance.new(valid_trykforlaeg)
+      @work.add_instance(i)
+      @instance.set_equivalent = i
       puts "@instance.equivalents"
       puts @instance.equivalents
       puts "i.equivalents"
       puts i.equivalents
       i.save
-      @instance.save
       expect(@instance.equivalents).to include i
       expect(i.equivalents).to include @instance
     end
