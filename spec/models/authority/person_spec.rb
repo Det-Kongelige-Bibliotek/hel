@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Authority::Person do
@@ -30,7 +31,10 @@ describe Authority::Person do
       @p.authorized_personal_name = { name: 'James Joyce', same_as: 'http://viaf.org/viaf/44300643' }
       expect(@p.authorized_personal_names[:same_as][:name]).to eql 'James Joyce'
     end
-    it 'should allow us to set a variant name'
+    it 'should allow us to set a variant name' do
+      @p.alternate_names.push "Sunny Jim"
+      expect(@p.alternate_names).to include "Sunny Jim"
+    end
   end
 
   describe 'display_value' do
