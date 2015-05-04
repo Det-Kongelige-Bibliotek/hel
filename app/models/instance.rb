@@ -29,6 +29,8 @@ class Instance < ActiveFedora::Base
   has_many :content_files, property: :content_for
   has_many :relators
 
+  accepts_nested_attributes_for :relators
+
   before_save :set_rights_metadata
 
   # method to set the rights metadata stream based on activity
@@ -86,6 +88,22 @@ class Instance < ActiveFedora::Base
       nil
     end
   end
+  
+  def add_publisher(agent)
+    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/pbl', agent: agent)
+    self.relators += [author_relation]
+  end
+
+  def add_printer(agent)
+    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/prt', agent: agent)
+    self.relators += [author_relation]
+  end
+
+  def add_printer(agent)
+    author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/scr', agent: agent)
+    self.relators += [author_relation]
+  end
+
 
 
 =begin
