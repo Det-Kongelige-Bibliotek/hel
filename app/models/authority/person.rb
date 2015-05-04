@@ -19,10 +19,10 @@ module Authority
     end
 
     def full_name
-      full_name = ''
-      full_name += "#{family_name}, " if family_name.present?
-      full_name += "#{given_name}" if given_name.present?
-      full_name
+      l_full_name = ''
+      l_full_name += "#{family_name}, " if family_name.present?
+      l_full_name += "#{given_name}" if given_name.present?
+      l_full_name
     end
 
     # Method wrapper for backwards compatibility - do not use this in new code!
