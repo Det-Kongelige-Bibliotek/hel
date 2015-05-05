@@ -27,7 +27,7 @@ class Instance < ActiveFedora::Base
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
   has_many :content_files, property: :content_for
-  has_many :relators
+  has_many :relators , predicate: ::RDF::Vocab::Bibframe.relatedTo
 
   accepts_nested_attributes_for :relators
 
@@ -102,22 +102,6 @@ class Instance < ActiveFedora::Base
   def add_scribe(agent)
     relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/scr', agent: agent)
     self.relators += [relation]
-  end
-
-
-
-=begin
-
-  has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
-  has_and_belongs_to_many :has_equivalent, class_name: 'Instance', property: :has_equivalent
-
-  # This is actually a getter!
-  # In order to wrap work= as above, we also
-  # need to provide a reader for our form input
-  # It returns an id because this is what is used
-  # in the form.
-  def set_work
-    work.first.id
   end
 
   def content_files=(files)
@@ -212,5 +196,4 @@ class Instance < ActiveFedora::Base
     docs = ActiveFedora::SolrService.query("activity_name_sim:#{activity}")
     docs.map { |d| Instance.find(d['id']) }
   end
-=end
 end

@@ -32,8 +32,9 @@ describe Instance do
     @instance = Instance.new(valid_trykforlaeg)
     @work = Work.new(work_params)
     @instance.set_work=@work
+    @instance.add_publisher(@org)
     @work.add_instance(@instance)
-    expect(i.relators)
+    expect(@instance.relators).to be_an [Relator]
     puts "getting to test 3"
   end
 
