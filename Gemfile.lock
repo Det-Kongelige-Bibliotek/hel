@@ -1,3 +1,20 @@
+GIT
+  remote: git://github.com/projecthydra/active_fedora.git
+  revision: 8a69ec7620722d4b8d260c49e1d6207b9d5e6562
+  branch: nested_bug
+  specs:
+    active-fedora (9.1.1)
+      active-triples (~> 0.6.0)
+      activesupport (>= 4.1.0)
+      deprecation
+      ldp (~> 0.3.0)
+      linkeddata
+      nom-xml (>= 0.5.1)
+      om (~> 3.1)
+      rdf-ldp
+      rdf-rdfxml (~> 1.1.0)
+      rsolr (~> 1.0.10)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,17 +37,6 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
-    active-fedora (9.0.6)
-      active-triples (~> 0.6.0)
-      activesupport (>= 4.1.0)
-      deprecation
-      ldp (~> 0.2.1)
-      linkeddata
-      nom-xml (>= 0.5.1)
-      om (~> 3.1)
-      rdf-ldp
-      rdf-rdfxml (~> 1.1.0)
-      rsolr (~> 1.0.10)
     active-triples (0.6.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -68,13 +74,13 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    blacklight (5.9.4)
+    blacklight (5.13.1)
       bootstrap-sass (~> 3.2)
       deprecation
-      kaminari (~> 0.13)
+      kaminari (>= 0.15)
       nokogiri (~> 1.6)
       rails (>= 3.2.6, < 5)
-      rsolr (~> 1.0.6)
+      rsolr (~> 1.0.11)
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
@@ -94,7 +100,7 @@ GEM
     coffee-script-source (1.9.1.1)
     daemons (1.2.2)
     debug_inspector (0.0.2)
-    deprecation (0.1.0)
+    deprecation (0.2.2)
       activesupport
     devise (3.4.1)
       bcrypt (~> 3.0)
@@ -142,33 +148,33 @@ GEM
     httparty (0.13.3)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    hydra (9.0.0)
-      active-fedora (~> 9.0.0)
+    hydra (9.1.0.rc1)
+      active-fedora (~> 9.1.1)
       active-triples (~> 0.6.0)
-      blacklight (~> 5.9.0)
-      hydra-head (~> 9.0.0)
+      blacklight (~> 5.13.1)
+      hydra-head (~> 9.1.4)
       jettywrapper (~> 2.0.0)
-      ldp (~> 0.2.2)
+      ldp (~> 0.3.0)
       nokogiri (~> 1.6.5)
       nom-xml (~> 0.5.1)
       om (~> 3.1.0)
       rails (~> 4.1)
       rsolr (~> 1.0.10)
       solrizer (~> 3.3.0)
-    hydra-access-controls (9.0.1)
-      active-fedora (~> 9.0.0)
+    hydra-access-controls (9.1.4)
+      active-fedora (~> 9.0)
       activesupport (~> 4.0)
-      blacklight (~> 5.3)
+      blacklight (~> 5.10)
       cancancan (~> 1.8)
-      deprecation (~> 0.1.0)
+      deprecation (~> 0.1)
       sass-rails
-    hydra-core (9.0.1)
-      hydra-access-controls (= 9.0.1)
+    hydra-core (9.1.4)
+      hydra-access-controls (= 9.1.4)
       jettywrapper (>= 2.0.0)
       rails (~> 4.0)
-    hydra-head (9.0.1)
-      hydra-access-controls (= 9.0.1)
-      hydra-core (= 9.0.1)
+    hydra-head (9.1.4)
+      hydra-access-controls (= 9.1.4)
+      hydra-core (= 9.1.4)
       rails (>= 3.2.6)
     i18n (0.7.0)
     isbn_validation (1.2.1)
@@ -195,7 +201,7 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    ldp (0.2.3)
+    ldp (0.3.0)
       faraday
       http_logger
       linkeddata (>= 1.1)
@@ -299,7 +305,8 @@ GEM
       rdf (>= 1.1)
     rdf-json (1.1.2)
       rdf (~> 1.1)
-    rdf-ldp (0.0.4)
+    rdf-ldp (0.1.0)
+      deprecation
       rdf
     rdf-microdata (2.0.1)
       htmlentities (~> 4.3)
@@ -458,6 +465,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active-fedora!
   amq-protocol (>= 1.9.2)
   better_errors
   binding_of_caller
@@ -470,7 +478,7 @@ DEPENDENCIES
   factory_girl_rails
   fakeredis
   httparty
-  hydra (~> 9.0.0)
+  hydra (>= 9.1.0.rc1)
   isbn_validation
   jbuilder (~> 2.0)
   jettywrapper (~> 2.0.0)
