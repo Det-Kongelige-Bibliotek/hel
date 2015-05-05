@@ -3,6 +3,10 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 4.1.6'
+
+# Using this branch until bugfix makes it into hydra / AF master
+# See https://github.com/projecthydra/active_fedora/pull/781
+gem 'active-fedora', github: 'projecthydra/active_fedora', branch: 'nested_bug'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'uuid'
@@ -23,7 +27,7 @@ gem 'jquery-validation-rails'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'hydra', '~> 9.0.0'
+gem 'hydra', '>= 9.1.0.rc1'
 gem 'simple_form'
 
 # Use ActiveModel has_secure_password
