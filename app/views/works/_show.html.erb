@@ -51,7 +51,7 @@
 
     <h4><%= t('.origin_date') %></h4>
     <span><%= @work.origin_date %></span>
-    
+
     <h4><%= t('.agent_relations') %></h4>
     <h4><%= t('.author') %></h4>
     <table class="table table-striped">
@@ -87,43 +87,45 @@
     </table>
     <%# end %>
     <div class="row">
-
       <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <%= "#{@work.instances.size} instans(er)" %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <% @work.instances.each do |instance| %>
-              <li><%= link_to(t("instances.types.#{instance.class.to_s.downcase} (#{instance.type})"), [@work, instance]) %></li>
+          <%= "#{@work.instances.size} instans(er)" %>
+          <% if @work.instances.present? %>
+              <span class="caret"></span>
           <% end %>
-
-        </ul>
+        </button>
+        <% if @work.instances.present? %>
+            <ul class="dropdown-menu" role="menu">
+              <% @work.instances.each do |instance| %>
+                  <li><%= link_to(t("instances.types.#{instance.class.to_s.downcase} (#{instance.type})"), [@work, instance]) %></li>
+              <% end %>
+            </ul>
+        <% end %>
       </div>
 
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <%= "Opret Instans" %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <% if can?(:create, Instance) %>
+      <% if can?(:create, Instance) %>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <%= "Opret Instans" %> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
               <li>
                 <a href="<%= new_work_instance_path(@work) %>">
                   <%= t('.new_instance') %>
                 </a>
               </li>
-          <% end %>
-          <% if can?(:create, Trykforlaeg) %>
-              <li>
-                <a href="<%= new_work_trykforlaeg_path(@work) %>">
-                  <%= t('.new_tryk') %>
-                </a>
-              </li>
-          <% end %>
-        </ul>
+              <% if can?(:create, Trykforlaeg) %>
+                  <li>
+                    <a href="<%= new_work_trykforlaeg_path(@work) %>">
+                      <%= t('.new_tryk') %>
+                    </a>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+          </div>
+      <% end %>
       </div>
-    </div>
-
-  </div>
 
 </div>
 <!-- Work end -->
