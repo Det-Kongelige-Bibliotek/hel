@@ -14,7 +14,7 @@ class Work < ActiveFedora::Base
   property :origin_date, predicate: ::RDF::Vocab::Bibframe::originDate, multiple: false
   has_many :titles
   has_many :instances
-  has_many :relators
+  has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_and_belongs_to_many :related_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::relatedWork, inverse_of: :related_works
   has_and_belongs_to_many :preceding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::precededBy, inverse_of: :succeeding_works
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::succeededBy, inverse_of: :preceding_works

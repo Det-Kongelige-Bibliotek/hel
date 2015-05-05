@@ -1,9 +1,11 @@
 class Relator < ActiveFedora::Base
-  belongs_to :object, class_name: 'ActiveFedora::Base', predicate: ::RDF::Vocab::Bibframe::instanceOf
+  belongs_to :work, predicate: ::RDF::Vocab::Bibframe::relatedTo
+  belongs_to :instance, predicate: ::RDF::Vocab::Bibframe::relatedTo
   belongs_to :agent, predicate: ::RDF::Vocab::Bibframe.agent, class_name: 'ActiveFedora::Base'
   property :relator_role, predicate: ::RDF::Vocab::Bibframe.relatorRole, multiple: false
 
-  validates :object, :agent, presence: true
+  validates :agent, presence: true
+  validate :work_or_instance_present
 
   # we show the uri
   def role
@@ -35,5 +37,14 @@ class Relator < ActiveFedora::Base
   def self.from_rel(rel, agent)
     uri = "http://id.loc.gov/vocabulary/relators/#{rel}"
     self.new(role: uri, agent: agent)
+  end
+
+  private
+
+  # we should have a work or an instance but not both
+  def work_or_instance_present
+    unless work.blank? ^ instance.blank?
+      errors.add(:base, 'En Relator skal enten have tilknyttet enten et Værk eller en Instans')
+    end
   end
 end
