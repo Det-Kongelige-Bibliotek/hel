@@ -5,7 +5,7 @@ module Datastreams
 
     # Inserted maintain existing naming of solr fields in Activefedora 8
     # And thus avoid anoing deprecation warning messages
-    def prefix
+    def prefix(*args)
       ""
     end
 

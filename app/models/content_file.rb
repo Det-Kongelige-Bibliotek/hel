@@ -7,7 +7,7 @@ class ContentFile < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
   include Concerns::TechMetadata
   include Concerns::Preservation
-  include Concerns::UUIDGenerator
+  include Concerns::FitsCharacterizing
   include Concerns::CustomValidations
 
   belongs_to :instance, property: :content_for
@@ -128,6 +128,8 @@ class ContentFile < ActiveFedora::Base
     self.mime_type = mime_type
     self.size = file.size.to_s
     self.file_uuid = UUID.new.generate
+    self.save!
+    Resque.enqueue(FitsCharacterizingJob,self.pid)
     true
   end
 
@@ -142,10 +144,12 @@ class ContentFile < ActiveFedora::Base
         'image/tiff'
       when '.jpg', '.jpeg'
         'image/jpeg'
-      when '.txt'
+      when '.txt', '.rdf'
         'text/plain'
+      when '.png'
+        'image/png'
       else
-        raise "no mimetype found for extension #{ext}!"
+        raise "no mimetype found for extension #{ext} !"
     end
   end
 

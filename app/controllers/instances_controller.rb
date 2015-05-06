@@ -6,8 +6,8 @@ class InstancesController < ApplicationController
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
   :send_to_preservation, :update_administration, :validate_tei]
 
-  authorize_resource :work
-  authorize_resource :instance, :through => :work
+  # authorize_resource :work
+  # authorize_resource :instance, :through => :work
 
   respond_to :html
   # GET /instances
@@ -48,7 +48,7 @@ class InstancesController < ApplicationController
         flash[:error]  = t('instances.flashmessage.no_ins_data_retrieved')
       end
     end
-    @instance.work << @work
+    @instance.work = @work
   end
 
   # GET /instances/1/edit
@@ -59,11 +59,12 @@ class InstancesController < ApplicationController
   # POST /instances.json
   def create
       @instance = @klazz.new(instance_params)
+      @instance.work = @work
       if @instance.save
         flash[:notice] = t('instances.flashmessage.ins_saved', var: @klazz)
         @instance.cascade_preservation
       else
-        @instance.work << @work
+        flash[:notice] = t('instances.flashmessage.ins_saved_fail', var: @klazz)
       end
       respond_with(@work, @instance)
   end
@@ -73,6 +74,7 @@ class InstancesController < ApplicationController
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
     if @instance.update(instance_params)
+      # TODO: TEI specific logic should be in an after_save hook rather than on the controller
       if @instance.type == 'TEI'
         @instance.content_files.each do |f|
           TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
@@ -86,7 +88,7 @@ class InstancesController < ApplicationController
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
       @instance.cascade_preservation
     end
-    respond_with(@instance.work.first, @instance)
+    respond_with(@instance.work, @instance)
   end
 
   def send_to_preservation
@@ -95,7 +97,11 @@ class InstancesController < ApplicationController
     else
       flash[:notice] = t('instances.flashmessage.no_preserved')
     end
-    redirect_to work_instance_path(@instance.work.first,@instance)
+    redirect_to work_instance_path(@instance.work, @instance)
+  end
+
+  def perform_fits
+    
   end
 
   # DELETE /instances/1
@@ -127,7 +133,7 @@ class InstancesController < ApplicationController
     @instance.validation_status = 'INPROGRESS'
     @instance.save(validate:false)
     Resque.enqueue(ValidateAdlTeiInstance,@instance.pid)
-    redirect_to work_instance_path(@instance.work.first,@instance)
+    redirect_to work_instance_path(@instance.work, @instance)
   end
 
   private
@@ -152,10 +158,10 @@ class InstancesController < ApplicationController
   # Need to do some checking to get rid of blank params here.
   def instance_params
     params.require(@klazz.to_s.downcase.to_sym).permit(:activity, :title_statement, :extent, :copyright,  
-                                     :copyright_date, :published_date, :dimensions, :mode_of_issuance, :isbn13,
+                                     :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :access_condition, :availability, :collection, :preservation_profile,
-                                     :set_work, language: [[:value, :part]], note: [], content_files: []
+                                     note: [], content_files: []
     ).tap { |elems| remove_blanks(elems) }
   end
 

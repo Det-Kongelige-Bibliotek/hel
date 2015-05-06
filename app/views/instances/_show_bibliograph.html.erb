@@ -11,22 +11,6 @@
 <tr>
 <tr>
   <td>
-    <strong><%=  t('.copyright_date') %></strong>
-  </td>
-  <td>
-    <span><%= @instance.copyright_date %></span>
-  </td>
-</tr>
-<tr>
-  <td>
-    <strong><%= t('.published_date') %></strong>
-  </td>
-  <td>
-    <span><%= @instance.published_date %></span>
-  </td>
-</tr>
-<tr>
-  <td>
     <strong><%= t('.mode_of_issuance') %></strong>
   </td>
   <td>
@@ -39,15 +23,6 @@
   </td>
   <td>
     <span><%= @instance.extent %></span>
-  </td>
-</tr>
-<tr>
-  <td>
-    <strong><%= t('.language') %></strong>
-  </td>
-  <td>
-    <%# Show language codes as collection of labels, rather than array of codes %>
-    <span><%= @instance.language_values.collect { |lang| get_entry_label('Languages', lang) }.join(', ') %></span>
   </td>
 </tr>
 <tr>

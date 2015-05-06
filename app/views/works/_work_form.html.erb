@@ -12,36 +12,20 @@
   </div>
 
   <div class="container">
-    <%= form_for(@work) do |f| %>
-        <% if @work.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@work.errors.count, "error") %> <%= t('.error') %></h2>
-
-              <ul>
-                <% @work.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
+    <%= simple_form_for(@work, html: { novalidate: true },  defaults: { wrapper_html: { class: 'form-group' },
+                                                                        input_html: { class: 'form-control' } }
+        ) do |f| %>
+        <%= @work.errors.messages if @work.errors.present? %>
         <fieldset class="row">
-            <legend class="col-sm-12"><%= t('.titles') %></legend>
-            <% if @work.titles.length > 0  %>
-                <% @work.titles.each_with_index do |title,index| %>
-                    <%= render  partial: 'works/title',  locals: {title: title , index: index, hidden:false} %>
-                <% end%>
-              <%= render partial: 'works/title', locals: {title: Datastreams::Bibframe::Title.new, index: @work.titles.length+1, hidden:true} %>
-            <% else %>
-             <%= render partial: 'works/title', locals: {title: Datastreams::Bibframe::Title.new, index: 0, hidden:false} %>
-             <%= render partial: 'works/title', locals: {title: Datastreams::Bibframe::Title.new, index: 1, hidden:true} %>
-            <% end %>
+          <legend class="col-sm-12"><%= t('.titles') %></legend>
+          <%= render  partial: 'works/title',  locals: { work_form: f } %>
 
-            <div class='col-sm-12'>
-                <a class="btn btn-sm btn-success" href="#" data-function="new-title">
-                  <span class="glyphicon glyphicon-plus"></span>
-                  <%= t('.add_title') %>
-                </a>
-            </div>
+          <div class='col-sm-12'>
+            <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".title_fields:last">
+              <span class="glyphicon glyphicon-plus"></span>
+              <%= t('.add_title') %>
+            </a>
+          </div>
         </fieldset>
         <fieldset class="row">
           <legend class="col-sm-12">
@@ -51,37 +35,41 @@
               <%= t('.new_person') %>
             </a>
           </legend>
-          <% if @work.creators.length >0 %>
-              <% @work.creators.each_with_index do |creator,index| %>
-                <%= render partial: 'works/creator', locals: {creator: creator, index: index, hidden:false} %>
-              <% end %>
-              <%= render partial: 'works/creator', locals: {creator: {},index: @work.creators.length, hidden: true}%>
-          <% else %>
-            <%= render partial: 'works/creator', locals: {creator: {},index: 0, hidden: false}%>
-            <%= render partial: 'works/creator', locals: {creator: {},index: 1, hidden: true}%>
-          <% end %>
 
+          <%= render partial: 'relator', locals: { work_form: f } %>
 
           <div class='col-sm-12'>
-            <a class="btn btn-sm btn-success" href="#" data-function="new-creator">
+            <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
               <span class="glyphicon glyphicon-plus"></span>
               <%= t('.add_author') %>
             </a>
           </div>
         </fieldset>
-        <div class='col-sm-12'>
-        </div>
+        <fieldset class="row col-sm-12">
+          <legend><%= t('.language') %> </legend>
+          <div class="col-sm-3">
+            <%= f.input :language, collection: get_list_with_labels('Languages'), label: false,
+                        prompt: 'Vælg sprog', input_html: { class: 'form-control combobox' }
+            %>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="col-sm-12"><%= t('works.show.origin_date') %> </legend>
+          <div class="col-sm-3">
+            <%= f.input :origin_date, label: false %>
+          </div>
+        </fieldset>
         <fieldset class="row">
-          <legend class="col-sm-12"><%= t('.subject') %></legend>
-          <% if @work.subjects.size > 0  %>
-              <% @work.subjects.each_with_index do |subject,index| %>
-                  <%= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
-              <% end%>
-              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: @work.subjects.size, hidden:true} %>
-          <% else %>
-              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
-              <%= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
-          <% end %>
+          <legend class="col-sm-12"><%#= t('.subject') %></legend>
+          <%# if @work.subjects.size > 0  %>
+          <%# @work.subjects.each_with_index do |subject,index| %>
+          <%#= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
+          <%# end%>
+          <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: @work.subjects.size, hidden:true} %>
+          <%# else %>
+          <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
+          <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
+          <%# end %>
 
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
@@ -90,7 +78,7 @@
             </a>
           </div>
         </fieldset>
-        
+
         <div class='col-sm-12'>
         </div>
 

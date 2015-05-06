@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'fakeredis'
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
@@ -55,8 +56,8 @@ RSpec.configure do |config|
   config.before :all do
     ActiveRecord::Base.subclasses.each(&:delete_all)
     ActiveFedora::Base.subclasses.each(&:delete_all)
-    a = Administration::Activity.create("activity"=>"Trygforlæg", "collection"=>"billed", "availability"=>"0", "embargo"=>"0", "access_condition"=>"efter aftale", "preservation_profile"=>"storage", "copyright"=>"Attribution-ShareAlike CC BY-SA", "permissions"=>{"instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-NSA"], "edit"=>["Chronos-Pligtaflevering","Chronos-Admin"]}}, "file"=>{"group"=>{"discover"=>["Chronos-NSA"], "read"=>["Chronos-Pligtaflevering"], "edit"=>["Chronos-Admin"]}}})
-    @default_activity_id = a.id
+    #a = Administration::Activity.create("activity"=>"Trygforlæg", "collection"=>"billed", "availability"=>"0", "embargo"=>"0", "access_condition"=>"efter aftale", "preservation_profile"=>"storage", "copyright"=>"Attribution-ShareAlike CC BY-SA", "permissions"=>{"instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-NSA"], "edit"=>["Chronos-Pligtaflevering","Chronos-Admin"]}}, "file"=>{"group"=>{"discover"=>["Chronos-NSA"], "read"=>["Chronos-Pligtaflevering"], "edit"=>["Chronos-Admin"]}}})
+    #@default_activity_id = a.id
   end
 
   def login_admin

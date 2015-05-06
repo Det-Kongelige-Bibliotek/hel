@@ -28,6 +28,8 @@ da:
         record_invalid: 'Ugyldig data'
 
 
+
+
   authority:
       bases:
         created: "Base was successfully created."
@@ -45,6 +47,7 @@ da:
       ins_data_retrieved: "Instans data er hentet."
       no_ins_data_retrieved: "Kunne ikke hente instans data."
       ins_saved: "%{var} blev gemt"
+      ins_saved_fail: "%{var} kunne ikke gemmes"
       ins_updated: "%{var} er opdateret."
       preserved: 'Instans og indholdsfiler sendt til bevaring'
       no_preserved: 'Kunne ikke send til bevaring'
@@ -60,7 +63,6 @@ da:
       title: "Vis instans til: "
     types:
       trykforlaeg: "Trykforlæg"
-      instance: Instans
     file_input:
       add: "Tilføj flere filer"
     form:
@@ -85,6 +87,12 @@ da:
       upload: "Fil upload"
     show_files:
       label: "Files"
+      file_name: "Filnavn"
+      bev_profil: "Bevarings profil"
+      bev_status: "Bevarings Status"
+      bev_detaljer: "Bevarings Detaljer"
+      download: "Download link"
+      upload: "Upload"
     show_administrative:
       label: "Administrative Data"
       activity: "Aktivitet"
@@ -104,6 +112,7 @@ da:
       license: "Vælg licens"
       preservation: "Bevaring"
       preserv_profile: "Preservation profile"
+      is_available: "Må tilgængeliggøres?"
     image_found:
       check: "Check tei pagebreaks"
     image_found_modal:
@@ -144,7 +153,6 @@ da:
 
   roles:
     aut: 'Forfatter'
-    rcp: 'Modtager'
   devise:
     sessions:
       new:
@@ -236,17 +244,7 @@ da:
         sync_status: "Synkroniserings status"
         sync_date: "Synkroniserings dato"
         log: "Log messages"
-  content_files:
-    file_info:
-      file_name: "Filnavn"
-      bev_profil: "Bevarings profil"
-      bev_status: "Bevarings Status"
-      bev_detaljer: "Bevarings Detaljer"
-      download: "Download"
-      upload: "Upload"
 
-    show:
-      missing_template: "Template <strong>%{template}</strong> findes ikke!"
   authority:
     bases:
       new:
@@ -312,7 +310,6 @@ da:
       close: "Slet ophav"
     show:
       edit: "Rediger"
-      agents: "Ophav"
       titles: "Titler"
       title: "Titel"
       subtitle: "Undertitel"
@@ -323,18 +320,17 @@ da:
       role: "Rolle"
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
+      origin_date: "Oprindelsesdato"
       page_title: "Værk: "
-      rel_works: "Relaterede værker"
-      descr: "Beskrivelse"
-      contained: "En del af"
-      contains: "Indeholder"
-      previous: "Forrige værk"
-      next: "Næste værk"
+      agent_relations: "Relaterede agenter"
+      new_instance: "Ny instans"
     subject_authority:
       close: "Slet emne"
     title:
       close: "Slet titel"
     work_form:
+      language: "Sprog"
+      cancel: "Fortryd"
       import: "Importer fra Aleph"
       work: "Værk"
       error: "prohibited this instance from being saved:"
@@ -345,7 +341,6 @@ da:
       add_author: "Tilføj Ophav"
       subject: "Emner"
       add_subject: "Tilføj Emne"
-      cancel: 'Fortryd'
     edit:
       page_title: "Rediger værk: "
     index:
@@ -354,7 +349,6 @@ da:
       cofirm: "Are you sure?"
     new:
       page_title: "Nyt værk"
-
 
 
 
@@ -378,3 +372,5 @@ da:
     standard_error: 'An error has occurred. Please contact your system administrator'
     file_not_found: 'The file you requested could not be found in Fedora! Please contact your system administrator'
     be_admin: "Du skal være administrator for at kunne opdatere"
+  edtf:
+    error_message: "skal være valid EDTF"

@@ -21,6 +21,7 @@ module Datastreams
         t.language do
           t.Language
         end
+        t.origin_date(path: 'originDate')
       end
 
       define_template :title do |xml, type, subtitle, lang, value|

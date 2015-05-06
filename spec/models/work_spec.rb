@@ -2,12 +2,33 @@ require 'spec_helper'
 
 describe Work do
   include_context 'shared'
+  describe 'init' do
+    it 'can be initialized with default params' do
+      w = Work.new(work_params)
+      expect(w).to be_a Work
+    end
+  end
   describe 'on creation' do
     it 'should have a uuid on creation' do
-      w = Work.new
+      w = Work.new(work_params)
       expect(w.uuid).to be_nil
+      w.add_author(person)
       w.save
       expect(w.uuid.present?).to be true
+    end
+  end
+
+  describe 'validation' do
+    it 'should require a title' do
+      w = Work.new
+      expect(w.valid?).to eql false
+      expect(w.errors.messages.keys).to include :titles
+    end
+
+    it 'should require a creator' do
+      w = Work.new
+      expect(w.valid?).to eql false
+      expect(w.errors.messages.keys).to include :creators
     end
   end
 
@@ -18,27 +39,17 @@ describe Work do
   # a Fedora mock (which doesn't exist)
   describe 'Relations:' do
     before :each do
-      @agent = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work = Work.new
-      @work.add_title({'value'=> 'A title'})
-      @work.add_author(@agent)
+      @work = Work.new(work_params)
+      @work.add_author(person)
       @work.save # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
       @rel = Work.new
       @rel.add_title({'value'=> 'A title'})
-      @rel.add_author(@agent)
+      @rel.add_author(person)
       @rel.save # for these tests to work. Object has to be persisted. Otherwise relation cannot be updated
     end
 
     it 'has many Instances' do
       expect(@work.instances).to respond_to :each
-    end
-
-    it 'can be part of an Instance' do
-      i = Instance.new
-      i.parts << @work
-      expect(i.parts).to include @work
     end
 
     it 'can be related to other works' do
@@ -59,79 +70,60 @@ describe Work do
       expect(@rel.preceding_works).to include @work
     end
 
-    it 'can have an agent as a subjects' do
-      @work.add_subject(@agent)
-      expect(@work.subjects).to include @agent
-    end
+    # Not sure how we should handle Subject
+    # TODO: Implement when this is cleared up
+    # it 'can have an agent as a subjects' do
+    #   @work.add_subject(@agent)
+    #   expect(@work.subjects).to include @agent
+    # end
+    #
+    # it 'can have a Work as a subject' do
+    #   @work.add_subject(@rel)
+    #   expect(@work.subjects).to include @rel
+    # end
 
-    it 'can have a Work as a subject' do
-      @work.add_subject(@rel)
-      expect(@work.subjects).to include @rel
-    end
-    it 'expresses its subject relations in rdf' do
-      @work.add_subject(@agent)
-      expect(@work.to_rdf).to include 'bf:subject'
-    end
+    # it 'expresses its subject relations in rdf' do
+    #   @work.add_subject(@agent)
+    #   expect(@work.to_rdf).to include 'bf:subject'
+    # end
 
-    it 'can be part of a work' do
-      @work.is_part_of = @rel
-      expect(@work.is_part_of).to eql @rel
-    end
-
-    it 'can contain other works' do
-      @work.parts << @rel
-      expect(@work.parts).to include @rel
-    end
-
-  end
-  describe 'person relations' do
-
-    before :all do
-      @victor = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Victor', 'family' => 'Andreasen', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @tove = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Tove', 'family' => 'Ditlevsen', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work2 = Work.new
-      @work2.add_title({'value'=> 'A title'})
-      @work2.add_author(@victor)
-      @work2.add_recipient(@tove)
-      fail unless @work2.save
-      @work2.reload
-      @victor.reload
-      @tove.reload
-    end
 
     it 'can have an author' do
-      expect(@work2.authors).to include @victor
-      expect(@victor.authored_works).to include @work2
+      a = Authority::Person.create(
+          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
+      )
+      @work.add_author(a)
+      @work.save
+      @work.reload
+      a.reload
+      expect(@work.authors).to include a
     end
 
     it 'can have a recipient' do
-      expect(@work2.recipients).to include @tove
-      expect(@tove.received_works).to include @work2
+      @work.add_recipient(person)
+      @work.add_author(person)
+      @work.save
+      @work.reload
+      person.reload
+      expect(@work.recipients).to include person
     end
 
-    it 'can return the names of authors in a searchable hash' do
-      expect(@work2.author_names.keys.first).to eql 'Andreasen, Victor'
+    describe 'author_names' do
+      it 'returns a hash of all author names' do
+        authors = @work.author_names
+        expect(authors.keys.first).to be_a String
+        expect(authors.values.first).to be_an Authority::Person
+      end
     end
 
-    it 'will return the person object matching a given string' do
-      expect(@work2.find_matching_author('Victor').id).to eql @victor.id
-    end
+    describe 'find_matching_author' do
+      it 'returns an author object for the name fragment supplied' do
+        expect(@work.find_matching_author('James')).to be_an Authority::Person
+      end
 
-    it 'will return nil if no matching person object is found' do
-      expect(@work2.find_matching_author('Charles')).to be_nil
-    end
-
-    # I know this doesn't belong in this section
-    # TODO: move into a *general* section
-    it 'should be possible to add a language' do
-      @work2.add_language('eng')
-      @work2.save
-      @work2.reload
-      expect(@work2.language_values).to include 'eng'
+      it 'returns nil if no match is found' do
+        expect(@work.find_matching_author('Niall')).to eql nil
+      end
     end
   end
 
@@ -186,22 +178,30 @@ describe Work do
       aut = Authority::Person.create(
           'authorized_personal_name' => { 'scheme' => 'viaf', 'family' => 'Joyce', 'given' => 'James', 'date' => '1932/2009' })
       @work.add_author(aut)
-      puts("creators #{@work.creators}")
       vals = @work.to_solr.values.flatten
       expect(vals).to include 'Joyce, James'
     end
+  end
 
-    it 'should be able to add a list of title hash' do
-      title1 = HashWithIndifferentAccess.new
-      title2 = HashWithIndifferentAccess.new
-      title3 = HashWithIndifferentAccess.new
-      title1[:value] = "Title1"
-      title2[:value] = "Title2"
-      title3[:value] = "Title3"
-      @work.titles = {'0' => title1,'1' => title2}
-      @work.title_values.should == ['Title1','Title2']
-      @work.titles = {'0' => title1,'1' => title3}
-      @work.title_values.should == ['Title1','Title3']
+  describe 'originDate' do
+    before :each do
+      @valid_work = Work.new(work_params)
+      @valid_work.add_author(person)
+    end
+    it 'can have an origin date' do
+      @valid_work.origin_date = '1985'
+      expect(@valid_work.origin_date).to eql '1985'
+    end
+    it 'will not save an invalid EDTF date' do
+      expect(@valid_work.valid?).to be true
+      @valid_work.origin_date = 'sometime last week'
+      expect(@valid_work.valid?).to be false
+    end
+
+    it 'will save a valid EDTF date' do
+      @valid_work.origin_date = '2004-02-01/2005'
+      expect(@valid_work.valid?).to be true
     end
   end
+
 end

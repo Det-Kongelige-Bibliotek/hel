@@ -20,29 +20,47 @@ $(document).ready(function(){
     // TODO: this stuff needs to be cleaned up
     // e.g. refactor into functions, remove unused code (some of the combobox stuff)
     title_counter = $(".title, .new-title, .hidden-title").length;
-    $('[data-function="new-title"]').click(function(){
-        hidden_title = $("div.hidden-title");
-        new_title = hidden_title.clone(true)
-            .find("input.title-value").attr("name","work[titles]["+title_counter+"][value]").end()
-            .find("select.title-lang").attr("name","work[titles]["+title_counter+"][lang]").end()
-            .find("select.title-type").attr("name","work[titles]["+title_counter+"][type]").end()
-            .find("input.title-subtitle").attr("name","work[titles]["+title_counter+"][subtitle]").end();
-        hidden_title.removeClass('hidden-title').addClass("title");
-        hidden_title.find("select").each(function(index){
-            $(this).addClass("combobox");
-            $(this).combobox();
-            $(this).click(function(){
-                $(this).siblings('.dropdown-toggle').click();
-            });
+    // when user clicks on new title or new author button, clone fields, empty values
+    // rename them and paste into form
+    $('[data-function="clone-fields"]').click(function(e){
+        e.preventDefault();
+        var selector = $(this).data('selector');
+        var $fields = $(selector);
+        var $new_fields = $fields.clone(true);
+        var regex = new RegExp(/[0-9]/);
+        // Update all name and id attributes before pasting in the clone
+        $new_fields.find(':input').each(function(index, input){
+            // some of the inputs have no id, some have no name!
+            var num;
+            if (input.name.length > 0) {
+                num = parseInt(regex.exec(input.name));
+            } else {
+                num = parseInt(regex.exec(input.id));
+            }
+            var inc = num + 1;
+            var updated_name = input.name.replace(num.toString(), inc.toString());
+            var updated_id = input.id.replace(num.toString(), inc.toString());
+            $(input).attr('name', updated_name);
+            $(input).attr('id', updated_id);
+            $(input).val('');
         });
-        hidden_title.show();
-        new_title.insertAfter(hidden_title);
-        title_counter = title_counter +1;
-        return false;
+        // combobox specific stuff - because combobox fucks up the DOM, we need to remake the pre-combobox DOM
+        // with the correct ids and names and everything
+        var hidden_input_name = $new_fields.find('.combobox-container').children('input:first').attr('name');
+        var $combobox = $new_fields.find('select.combobox');
+        var combobox_id = $combobox.attr('id');
+        $combobox.attr('name', hidden_input_name);
+        $new_fields.find('.combobox-container').remove();
+        $combobox.show();
+        //now - stick them into the DOM!
+        $new_fields.insertAfter($fields);
+        //TODO: This doesn't work for some reason fix it
+        $('#' + combobox_id).combobox();
     });
-    $('[data-function="delete-title"]').click(function(){
-        $(this).parent().parent().remove();
-        return false;
+    $('[data-function="delete-fields"]').click(function(e){
+        e.preventDefault();
+        var selector = $(this).data('target');
+        $(selector).remove();
     });
 
     // Add/remove creator functions

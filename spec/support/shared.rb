@@ -8,5 +8,8 @@
 # end
 RSpec.shared_context 'shared' do
   let (:instance_params) { { collection: 'Sample', activity: Administration::Activity.create(activity: 'test').id, copyright: 'cc' }}
-  let (:valid_trykforlaeg) { instance_params.merge(isbn13: '9780521169004', published_date: '2004')}
+  let (:valid_trykforlaeg) { instance_params.merge(isbn13: '9780521169004')} #, published_date: '2004')}
+  let (:title) { Title.new(value: 'Dubliners')}
+  let(:person) { Authority::Person.new(given_name: 'James', family_name: 'Joyce')}
+  let (:work_params) { {titles: [ title ] } }
 end

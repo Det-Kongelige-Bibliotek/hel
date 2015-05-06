@@ -17,7 +17,7 @@
   <% if @instance.languages.empty? %>
       <div class="col-sm-6">
         <label for="language-value"><%=t '.language' %></label>
-        <select id="language-value" name="trykforlaeg[language][][value]" class="form-control">
+        <select id="language-value" name="trykforlaeg[language][][value]" class="form-control combobox">
          <%=  options_for_select(get_list_with_labels('Languages').unshift(['Vælg sprog', '']) ) %>
        </select>
       </div>
@@ -27,10 +27,10 @@
   </div>
 
   <div class="col-sm-6">
-    <%= builder.input :copyright_date %>
+    <%#= builder.input :copyright_date %>
   </div>
   <div class="col-sm-6">
-    <%= builder.input :published_date %>
+    <%#= builder.input :published_date %>
  </div>
 
   <div class="col-sm-6">

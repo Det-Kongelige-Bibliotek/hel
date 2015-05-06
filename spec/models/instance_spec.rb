@@ -8,34 +8,62 @@ require 'spec_helper'
 describe Instance do
   include_context 'shared'
 
+  puts "getting to test 0"
+
+  @org = 
+    Authority::Organization.new(
+               { 'same_as' => 'http://viaf.org/viaf/127954890', 
+                 '_name' => 'Gyldendalske boghandel, Nordisk forlag',
+                 'founding_date' => '1770' })
+  @org.alternate_names.push 'Gyldendal'
+
   let(:work_attributes) do
-    agent = Authority::Person.create(
-        'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-    )
-    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
+    agent = Authority::Person.create('given_name'=> 'Fornavn', 
+                                     'family_name' => 'Efternavn',
+                                     'birth_date' => '1932' , 
+                                     'death_date' => '2009')
   end
 
-  before :all do
-    ActiveFedora::Base.delete_all
-  end
-
+  puts "getting to test 1"
   before :each do
-    @instance = Instance.new(instance_params)
+    puts valid_trykforlaeg
+    puts instance_params
+    puts "getting to test 2"
+    @instance = Instance.new(valid_trykforlaeg)
+    @work = Work.new(work_params)
+    @instance.set_work=@work
+    @instance.add_publisher(@org)
+    @work.add_instance(@instance)
+    expect(@instance.relators).to be_an [Relator]
+    puts "getting to test 3"
   end
 
   describe 'relations' do
-    it 'has many files' do
-      expect(@instance.content_files.size).to eql 0
+    it 'can published by a publisher' do
+      puts "getting to test 4"
+      i = Instance.new(valid_trykforlaeg)
+      @work.add_instance(i)
+      i.set_work=@work
+      i.add_publisher(@org)
     end
 
     it 'can have an equivalent instance' do
-      i = Instance.new(instance_params)
-      @instance.has_equivalent << i
-      @instance.save
-      expect(@instance.has_equivalent).to include i
-      expect(i.has_equivalent).to include @instance
+      puts "getting to test 5"
+      i = Instance.new(valid_trykforlaeg)
+      @work.add_instance(i)
+      @instance.set_equivalent = i
+      i.set_work=@work
+      puts "@instance.equivalents"
+      puts @instance.equivalents
+      puts "i.equivalents"
+      puts i.equivalents
+      i.save
+      expect(@instance.equivalents).to include i
+      expect(i.equivalents).to include @instance
     end
-
+    
+  end
+=begin
     describe 'to work' do
       before :each do
         @i = Instance.create(instance_params)
@@ -164,25 +192,7 @@ describe Instance do
       set = Instance.find_by_activity('test').map{|i| i.pid}
       expect(set).to include i.pid
     end
-  end
 
-  describe 'from activity' do
-    it 'should create an instance with the same values as the activity' do
-      act = Administration::Activity.create(
-          collection: 'Håndskriftsamlingen', copyright: 'CC BY ND', preservation_profile: 'ETERNITY'
-      )
-      inst = Instance.from_activity(act)
-      expect(inst.collection).to eql 'Håndskriftsamlingen'
-      expect(inst.copyright).to eql 'CC BY ND'
-      expect(inst.preservation_profile).to eql 'ETERNITY'
-    end
   end
-
-  describe 'isbn10' do
-    it 'should be possible to get and set an isbn10' do
-      instance = Instance.new
-      instance.isbn10 = '87-00-69074-0'
-      expect(instance.isbn10).to eql '87-00-69074-0'
-    end
-  end
+=end
 end

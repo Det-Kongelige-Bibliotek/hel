@@ -6,24 +6,6 @@ workflow_status:
     Ingested:
     'Metadata complete':
     'Færdig forvaltet':
-# TODO: update this list with a complete representation
-# e.g. http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
-languages:
-  name: Languages
-  entries:
-    da: Dansk
-    sv: Svensk
-    nb: Norsk Bokmål
-    nn: Nynorsk
-    en: Engelsk
-    fr: Fransk
-    de: Tysk
-    es: Spansk
-    nl: Hollandsk
-    it: Italiensk
-    pl: Polsk
-    ro: Rumænsk
-    fi: Finsk
 title_type:
   name: Title types
   entries:
@@ -87,3 +69,1015 @@ hydra_access_types:
     discover:
     read:
     edit:
+languages:
+  name: Languages
+  source: ISO-639-2
+  entries:
+    'http://id.loc.gov/vocabulary/languages/aar': Afar
+    'http://id.loc.gov/vocabulary/languages/abk': Abkhaz
+    'http://id.loc.gov/vocabulary/languages/ace': Achinese
+    'http://id.loc.gov/vocabulary/languages/ach': Acoli
+    'http://id.loc.gov/vocabulary/languages/ada': Adangme
+    'http://id.loc.gov/vocabulary/languages/ady': Adygei
+    'http://id.loc.gov/vocabulary/languages/afa': Afroasiatic (Other)
+    'http://id.loc.gov/vocabulary/languages/afh': Afrihili (Artificial language)
+    'http://id.loc.gov/vocabulary/languages/afr': Afrikaans
+    'http://id.loc.gov/vocabulary/languages/ain': Ainu
+    'http://id.loc.gov/vocabulary/languages/aka': Akan
+    'http://id.loc.gov/vocabulary/languages/akk': Akkadian
+    'http://id.loc.gov/vocabulary/languages/alb': Albanian
+    'http://id.loc.gov/vocabulary/languages/ale': Aleut
+    'http://id.loc.gov/vocabulary/languages/alg': Algonquian (Other)
+    'http://id.loc.gov/vocabulary/languages/alt': Altai
+    'http://id.loc.gov/vocabulary/languages/amh': Amharic
+    'http://id.loc.gov/vocabulary/languages/ang': English, Old (ca. 450-1100)
+    'http://id.loc.gov/vocabulary/languages/anp': Angika
+    'http://id.loc.gov/vocabulary/languages/apa': Apache languages
+    'http://id.loc.gov/vocabulary/languages/ara': Arabic
+    'http://id.loc.gov/vocabulary/languages/arc': Aramaic
+    'http://id.loc.gov/vocabulary/languages/arg': Aragonese
+    'http://id.loc.gov/vocabulary/languages/arm': Armenian
+    'http://id.loc.gov/vocabulary/languages/arn': Mapuche
+    'http://id.loc.gov/vocabulary/languages/arp': Arapaho
+    'http://id.loc.gov/vocabulary/languages/art': Artificial (Other)
+    'http://id.loc.gov/vocabulary/languages/arw': Arawak
+    'http://id.loc.gov/vocabulary/languages/asm': Assamese
+    'http://id.loc.gov/vocabulary/languages/ast': Bable
+    'http://id.loc.gov/vocabulary/languages/ath': Athapascan (Other)
+    'http://id.loc.gov/vocabulary/languages/aus': Australian languages
+    'http://id.loc.gov/vocabulary/languages/ava': Avaric
+    'http://id.loc.gov/vocabulary/languages/ave': Avestan
+    'http://id.loc.gov/vocabulary/languages/awa': Awadhi
+    'http://id.loc.gov/vocabulary/languages/aym': Aymara
+    'http://id.loc.gov/vocabulary/languages/aze': Azerbaijani
+    'http://id.loc.gov/vocabulary/languages/bad': Banda languages
+    'http://id.loc.gov/vocabulary/languages/bai': Bamileke languages
+    'http://id.loc.gov/vocabulary/languages/bak': Bashkir
+    'http://id.loc.gov/vocabulary/languages/bal': Baluchi
+    'http://id.loc.gov/vocabulary/languages/bam': Bambara
+    'http://id.loc.gov/vocabulary/languages/ban': Balinese
+    'http://id.loc.gov/vocabulary/languages/baq': Basque
+    'http://id.loc.gov/vocabulary/languages/bas': Basa
+    'http://id.loc.gov/vocabulary/languages/bat': Baltic (Other)
+    'http://id.loc.gov/vocabulary/languages/bej': Beja
+    'http://id.loc.gov/vocabulary/languages/bel': Belarusian
+    'http://id.loc.gov/vocabulary/languages/bem': Bemba
+    'http://id.loc.gov/vocabulary/languages/ben': Bengali
+    'http://id.loc.gov/vocabulary/languages/ber': Berber (Other)
+    'http://id.loc.gov/vocabulary/languages/bho': Bhojpuri
+    'http://id.loc.gov/vocabulary/languages/bih': Bihari (Other)
+    'http://id.loc.gov/vocabulary/languages/bik': Bikol
+    'http://id.loc.gov/vocabulary/languages/bin': Edo
+    'http://id.loc.gov/vocabulary/languages/bis': Bislama
+    'http://id.loc.gov/vocabulary/languages/bla': Siksika
+    'http://id.loc.gov/vocabulary/languages/bnt': Bantu (Other)
+    'http://id.loc.gov/vocabulary/languages/bos': Bosnian
+    'http://id.loc.gov/vocabulary/languages/bra': Braj
+    'http://id.loc.gov/vocabulary/languages/bre': Breton
+    'http://id.loc.gov/vocabulary/languages/btk': Batak
+    'http://id.loc.gov/vocabulary/languages/bua': Buriat
+    'http://id.loc.gov/vocabulary/languages/bug': Bugis
+    'http://id.loc.gov/vocabulary/languages/bul': Bulgarian
+    'http://id.loc.gov/vocabulary/languages/bur': Burmese
+    'http://id.loc.gov/vocabulary/languages/byn': Bilin
+    'http://id.loc.gov/vocabulary/languages/cad': Caddo
+    'http://id.loc.gov/vocabulary/languages/cai': Central American Indian (Other)
+    'http://id.loc.gov/vocabulary/languages/car': Carib
+    'http://id.loc.gov/vocabulary/languages/cat': Catalan
+    'http://id.loc.gov/vocabulary/languages/cau': Caucasian (Other)
+    'http://id.loc.gov/vocabulary/languages/ceb': Cebuano
+    'http://id.loc.gov/vocabulary/languages/cel': Celtic (Other)
+    'http://id.loc.gov/vocabulary/languages/cha': Chamorro
+    'http://id.loc.gov/vocabulary/languages/chb': Chibcha
+    'http://id.loc.gov/vocabulary/languages/che': Chechen
+    'http://id.loc.gov/vocabulary/languages/chg': Chagatai
+    'http://id.loc.gov/vocabulary/languages/chi': Chinese
+    'http://id.loc.gov/vocabulary/languages/chk': Chuukese
+    'http://id.loc.gov/vocabulary/languages/chm': Mari
+    'http://id.loc.gov/vocabulary/languages/chn': Chinook jargon
+    'http://id.loc.gov/vocabulary/languages/cho': Choctaw
+    'http://id.loc.gov/vocabulary/languages/chp': Chipewyan
+    'http://id.loc.gov/vocabulary/languages/chr': Cherokee
+    'http://id.loc.gov/vocabulary/languages/chu': Church Slavic
+    'http://id.loc.gov/vocabulary/languages/chv': Chuvash
+    'http://id.loc.gov/vocabulary/languages/chy': Cheyenne
+    'http://id.loc.gov/vocabulary/languages/cmc': Chamic languages
+    'http://id.loc.gov/vocabulary/languages/cop': Coptic
+    'http://id.loc.gov/vocabulary/languages/cor': Cornish
+    'http://id.loc.gov/vocabulary/languages/cos': Corsican
+    'http://id.loc.gov/vocabulary/languages/cpe': Creoles and Pidgins, English-based (Other)
+    'http://id.loc.gov/vocabulary/languages/cpf': Creoles and Pidgins, French-based (Other)
+    'http://id.loc.gov/vocabulary/languages/cpp': Creoles and Pidgins, Portuguese-based (Other)
+    'http://id.loc.gov/vocabulary/languages/cre': Cree
+    'http://id.loc.gov/vocabulary/languages/crh': Crimean Tatar
+    'http://id.loc.gov/vocabulary/languages/crp': Creoles and Pidgins (Other)
+    'http://id.loc.gov/vocabulary/languages/csb': Kashubian
+    'http://id.loc.gov/vocabulary/languages/cus': Cushitic (Other)
+    'http://id.loc.gov/vocabulary/languages/cze': Czech
+    'http://id.loc.gov/vocabulary/languages/dak': Dakota
+    'http://id.loc.gov/vocabulary/languages/dan': Danish
+    'http://id.loc.gov/vocabulary/languages/dar': Dargwa
+    'http://id.loc.gov/vocabulary/languages/day': Dayak
+    'http://id.loc.gov/vocabulary/languages/del': Delaware
+    'http://id.loc.gov/vocabulary/languages/den': Slavey
+    'http://id.loc.gov/vocabulary/languages/dgr': Dogrib
+    'http://id.loc.gov/vocabulary/languages/din': Dinka
+    'http://id.loc.gov/vocabulary/languages/div': Divehi
+    'http://id.loc.gov/vocabulary/languages/doi': Dogri
+    'http://id.loc.gov/vocabulary/languages/dra': Dravidian (Other)
+    'http://id.loc.gov/vocabulary/languages/dsb': Lower Sorbian
+    'http://id.loc.gov/vocabulary/languages/dua': Duala
+    'http://id.loc.gov/vocabulary/languages/dum': Dutch, Middle (ca. 1050-1350)
+    'http://id.loc.gov/vocabulary/languages/dut': Dutch
+    'http://id.loc.gov/vocabulary/languages/dyu': Dyula
+    'http://id.loc.gov/vocabulary/languages/dzo': Dzongkha
+    'http://id.loc.gov/vocabulary/languages/efi': Efik
+    'http://id.loc.gov/vocabulary/languages/egy': Egyptian
+    'http://id.loc.gov/vocabulary/languages/eka': Ekajuk
+    'http://id.loc.gov/vocabulary/languages/elx': Elamite
+    'http://id.loc.gov/vocabulary/languages/eng': English
+    'http://id.loc.gov/vocabulary/languages/enm': English, Middle (1100-1500)
+    'http://id.loc.gov/vocabulary/languages/epo': Esperanto
+    'http://id.loc.gov/vocabulary/languages/est': Estonian
+    'http://id.loc.gov/vocabulary/languages/ewe': Ewe
+    'http://id.loc.gov/vocabulary/languages/ewo': Ewondo
+    'http://id.loc.gov/vocabulary/languages/fan': Fang
+    'http://id.loc.gov/vocabulary/languages/fao': Faroese
+    'http://id.loc.gov/vocabulary/languages/fat': Fanti
+    'http://id.loc.gov/vocabulary/languages/fij': Fijian
+    'http://id.loc.gov/vocabulary/languages/fil': Filipino
+    'http://id.loc.gov/vocabulary/languages/fin': Finnish
+    'http://id.loc.gov/vocabulary/languages/fiu': Finno-Ugrian (Other)
+    'http://id.loc.gov/vocabulary/languages/fon': Fon
+    'http://id.loc.gov/vocabulary/languages/fre': French
+    'http://id.loc.gov/vocabulary/languages/frm': French, Middle (ca. 1300-1600)
+    'http://id.loc.gov/vocabulary/languages/fro': French, Old (ca. 842-1300)
+    'http://id.loc.gov/vocabulary/languages/frr': North Frisian
+    'http://id.loc.gov/vocabulary/languages/frs': East Frisian
+    'http://id.loc.gov/vocabulary/languages/fry': Frisian
+    'http://id.loc.gov/vocabulary/languages/ful': Fula
+    'http://id.loc.gov/vocabulary/languages/fur': Friulian
+    'http://id.loc.gov/vocabulary/languages/gaa': Gã
+    'http://id.loc.gov/vocabulary/languages/gay': Gayo
+    'http://id.loc.gov/vocabulary/languages/gba': Gbaya
+    'http://id.loc.gov/vocabulary/languages/gem': Germanic (Other)
+    'http://id.loc.gov/vocabulary/languages/geo': Georgian
+    'http://id.loc.gov/vocabulary/languages/ger': German
+    'http://id.loc.gov/vocabulary/languages/gez': Ethiopic
+    'http://id.loc.gov/vocabulary/languages/gil': Gilbertese
+    'http://id.loc.gov/vocabulary/languages/gla': Scottish Gaelic
+    'http://id.loc.gov/vocabulary/languages/gle': Irish
+    'http://id.loc.gov/vocabulary/languages/glg': Galician
+    'http://id.loc.gov/vocabulary/languages/glv': Manx
+    'http://id.loc.gov/vocabulary/languages/gmh': German, Middle High (ca. 1050-1500)
+    'http://id.loc.gov/vocabulary/languages/goh': German, Old High (ca. 750-1050)
+    'http://id.loc.gov/vocabulary/languages/gon': Gondi
+    'http://id.loc.gov/vocabulary/languages/gor': Gorontalo
+    'http://id.loc.gov/vocabulary/languages/got': Gothic
+    'http://id.loc.gov/vocabulary/languages/grb': Grebo
+    'http://id.loc.gov/vocabulary/languages/grc': Greek, Ancient (to 1453)
+    'http://id.loc.gov/vocabulary/languages/gre': Greek, Modern (1453- )
+    'http://id.loc.gov/vocabulary/languages/grn': Guarani
+    'http://id.loc.gov/vocabulary/languages/gsw': Swiss German
+    'http://id.loc.gov/vocabulary/languages/guj': Gujarati
+    'http://id.loc.gov/vocabulary/languages/gwi': Gwich'in
+    'http://id.loc.gov/vocabulary/languages/hai': Haida
+    'http://id.loc.gov/vocabulary/languages/hat': Haitian French Creole
+    'http://id.loc.gov/vocabulary/languages/hau': Hausa
+    'http://id.loc.gov/vocabulary/languages/haw': Hawaiian
+    'http://id.loc.gov/vocabulary/languages/heb': Hebrew
+    'http://id.loc.gov/vocabulary/languages/her': Herero
+    'http://id.loc.gov/vocabulary/languages/hil': Hiligaynon
+    'http://id.loc.gov/vocabulary/languages/him': Western Pahari languages
+    'http://id.loc.gov/vocabulary/languages/hin': Hindi
+    'http://id.loc.gov/vocabulary/languages/hit': Hittite
+    'http://id.loc.gov/vocabulary/languages/hmn': Hmong
+    'http://id.loc.gov/vocabulary/languages/hmo': Hiri Motu
+    'http://id.loc.gov/vocabulary/languages/hrv': Croatian
+    'http://id.loc.gov/vocabulary/languages/hsb': Upper Sorbian
+    'http://id.loc.gov/vocabulary/languages/hun': Hungarian
+    'http://id.loc.gov/vocabulary/languages/hup': Hupa
+    'http://id.loc.gov/vocabulary/languages/iba': Iban
+    'http://id.loc.gov/vocabulary/languages/ibo': Igbo
+    'http://id.loc.gov/vocabulary/languages/ice': Icelandic
+    'http://id.loc.gov/vocabulary/languages/ido': Ido
+    'http://id.loc.gov/vocabulary/languages/iii': Sichuan Yi
+    'http://id.loc.gov/vocabulary/languages/ijo': Ijo
+    'http://id.loc.gov/vocabulary/languages/iku': Inuktitut
+    'http://id.loc.gov/vocabulary/languages/ile': Interlingue
+    'http://id.loc.gov/vocabulary/languages/ilo': Iloko
+    'http://id.loc.gov/vocabulary/languages/ina': Interlingua (International Auxiliary Language Association)
+    'http://id.loc.gov/vocabulary/languages/inc': Indic (Other)
+    'http://id.loc.gov/vocabulary/languages/ind': Indonesian
+    'http://id.loc.gov/vocabulary/languages/ine': Indo-European (Other)
+    'http://id.loc.gov/vocabulary/languages/inh': Ingush
+    'http://id.loc.gov/vocabulary/languages/ipk': Inupiaq
+    'http://id.loc.gov/vocabulary/languages/ira': Iranian (Other)
+    'http://id.loc.gov/vocabulary/languages/iro': Iroquoian (Other)
+    'http://id.loc.gov/vocabulary/languages/ita': Italian
+    'http://id.loc.gov/vocabulary/languages/jav': Javanese
+    'http://id.loc.gov/vocabulary/languages/jbo': Lojban (Artificial language)
+    'http://id.loc.gov/vocabulary/languages/jpn': Japanese
+    'http://id.loc.gov/vocabulary/languages/jpr': Judeo-Persian
+    'http://id.loc.gov/vocabulary/languages/jrb': Judeo-Arabic
+    'http://id.loc.gov/vocabulary/languages/kaa': Kara-Kalpak
+    'http://id.loc.gov/vocabulary/languages/kab': Kabyle
+    'http://id.loc.gov/vocabulary/languages/kac': Kachin
+    'http://id.loc.gov/vocabulary/languages/kal': Kalâtdlisut
+    'http://id.loc.gov/vocabulary/languages/kam': Kamba
+    'http://id.loc.gov/vocabulary/languages/kan': Kannada
+    'http://id.loc.gov/vocabulary/languages/kar': Karen languages
+    'http://id.loc.gov/vocabulary/languages/kas': Kashmiri
+    'http://id.loc.gov/vocabulary/languages/kau': Kanuri
+    'http://id.loc.gov/vocabulary/languages/kaw': Kawi
+    'http://id.loc.gov/vocabulary/languages/kaz': Kazakh
+    'http://id.loc.gov/vocabulary/languages/kbd': Kabardian
+    'http://id.loc.gov/vocabulary/languages/kha': Khasi
+    'http://id.loc.gov/vocabulary/languages/khi': Khoisan (Other)
+    'http://id.loc.gov/vocabulary/languages/khm': Khmer
+    'http://id.loc.gov/vocabulary/languages/kho': Khotanese
+    'http://id.loc.gov/vocabulary/languages/kik': Kikuyu
+    'http://id.loc.gov/vocabulary/languages/kin': Kinyarwanda
+    'http://id.loc.gov/vocabulary/languages/kir': Kyrgyz
+    'http://id.loc.gov/vocabulary/languages/kmb': Kimbundu
+    'http://id.loc.gov/vocabulary/languages/kok': Konkani
+    'http://id.loc.gov/vocabulary/languages/kom': Komi
+    'http://id.loc.gov/vocabulary/languages/kon': Kongo
+    'http://id.loc.gov/vocabulary/languages/kor': Korean
+    'http://id.loc.gov/vocabulary/languages/kos': Kosraean
+    'http://id.loc.gov/vocabulary/languages/kpe': Kpelle
+    'http://id.loc.gov/vocabulary/languages/krc': Karachay-Balkar
+    'http://id.loc.gov/vocabulary/languages/krl': Karelian
+    'http://id.loc.gov/vocabulary/languages/kro': Kru (Other)
+    'http://id.loc.gov/vocabulary/languages/kru': Kurukh
+    'http://id.loc.gov/vocabulary/languages/kua': Kuanyama
+    'http://id.loc.gov/vocabulary/languages/kum': Kumyk
+    'http://id.loc.gov/vocabulary/languages/kur': Kurdish
+    'http://id.loc.gov/vocabulary/languages/kut': Kootenai
+    'http://id.loc.gov/vocabulary/languages/lad': Ladino
+    'http://id.loc.gov/vocabulary/languages/lah': Lahndā
+    'http://id.loc.gov/vocabulary/languages/lam': Lamba (Zambia and Congo)
+    'http://id.loc.gov/vocabulary/languages/lao': Lao
+    'http://id.loc.gov/vocabulary/languages/lat': Latin
+    'http://id.loc.gov/vocabulary/languages/lav': Latvian
+    'http://id.loc.gov/vocabulary/languages/lez': Lezgian
+    'http://id.loc.gov/vocabulary/languages/lim': Limburgish
+    'http://id.loc.gov/vocabulary/languages/lin': Lingala
+    'http://id.loc.gov/vocabulary/languages/lit': Lithuanian
+    'http://id.loc.gov/vocabulary/languages/lol': Mongo-Nkundu
+    'http://id.loc.gov/vocabulary/languages/loz': Lozi
+    'http://id.loc.gov/vocabulary/languages/ltz': Luxembourgish
+    'http://id.loc.gov/vocabulary/languages/lua': Luba-Lulua
+    'http://id.loc.gov/vocabulary/languages/lub': Luba-Katanga
+    'http://id.loc.gov/vocabulary/languages/lug': Ganda
+    'http://id.loc.gov/vocabulary/languages/lui': Luiseño
+    'http://id.loc.gov/vocabulary/languages/lun': Lunda
+    'http://id.loc.gov/vocabulary/languages/luo': Luo (Kenya and Tanzania)
+    'http://id.loc.gov/vocabulary/languages/lus': Lushai
+    'http://id.loc.gov/vocabulary/languages/mac': Macedonian
+    'http://id.loc.gov/vocabulary/languages/mad': Madurese
+    'http://id.loc.gov/vocabulary/languages/mag': Magahi
+    'http://id.loc.gov/vocabulary/languages/mah': Marshallese
+    'http://id.loc.gov/vocabulary/languages/mai': Maithili
+    'http://id.loc.gov/vocabulary/languages/mak': Makasar
+    'http://id.loc.gov/vocabulary/languages/mal': Malayalam
+    'http://id.loc.gov/vocabulary/languages/man': Mandingo
+    'http://id.loc.gov/vocabulary/languages/mao': Maori
+    'http://id.loc.gov/vocabulary/languages/map': Austronesian (Other)
+    'http://id.loc.gov/vocabulary/languages/mar': Marathi
+    'http://id.loc.gov/vocabulary/languages/mas': Maasai
+    'http://id.loc.gov/vocabulary/languages/may': Malay
+    'http://id.loc.gov/vocabulary/languages/mdf': Moksha
+    'http://id.loc.gov/vocabulary/languages/mdr': Mandar
+    'http://id.loc.gov/vocabulary/languages/men': Mende
+    'http://id.loc.gov/vocabulary/languages/mga': Irish, Middle (ca. 1100-1550)
+    'http://id.loc.gov/vocabulary/languages/mic': Micmac
+    'http://id.loc.gov/vocabulary/languages/min': Minangkabau
+    'http://id.loc.gov/vocabulary/languages/mis': Miscellaneous languages
+    'http://id.loc.gov/vocabulary/languages/mkh': Mon-Khmer (Other)
+    'http://id.loc.gov/vocabulary/languages/mlg': Malagasy
+    'http://id.loc.gov/vocabulary/languages/mlt': Maltese
+    'http://id.loc.gov/vocabulary/languages/mnc': Manchu
+    'http://id.loc.gov/vocabulary/languages/mni': Manipuri
+    'http://id.loc.gov/vocabulary/languages/mno': Manobo languages
+    'http://id.loc.gov/vocabulary/languages/moh': Mohawk
+    'http://id.loc.gov/vocabulary/languages/mon': Mongolian
+    'http://id.loc.gov/vocabulary/languages/mos': Mooré
+    'http://id.loc.gov/vocabulary/languages/mul': Multiple languages
+    'http://id.loc.gov/vocabulary/languages/mun': Munda (Other)
+    'http://id.loc.gov/vocabulary/languages/mus': Creek
+    'http://id.loc.gov/vocabulary/languages/mwl': Mirandese
+    'http://id.loc.gov/vocabulary/languages/mwr': Marwari
+    'http://id.loc.gov/vocabulary/languages/myn': Mayan languages
+    'http://id.loc.gov/vocabulary/languages/myv': Erzya
+    'http://id.loc.gov/vocabulary/languages/nah': Nahuatl
+    'http://id.loc.gov/vocabulary/languages/nai': North American Indian (Other)
+    'http://id.loc.gov/vocabulary/languages/nap': Neapolitan Italian
+    'http://id.loc.gov/vocabulary/languages/nau': Nauru
+    'http://id.loc.gov/vocabulary/languages/nav': Navajo
+    'http://id.loc.gov/vocabulary/languages/nbl': Ndebele (South Africa)
+    'http://id.loc.gov/vocabulary/languages/nde': Ndebele (Zimbabwe)
+    'http://id.loc.gov/vocabulary/languages/ndo': Ndonga
+    'http://id.loc.gov/vocabulary/languages/nds': Low German
+    'http://id.loc.gov/vocabulary/languages/nep': Nepali
+    'http://id.loc.gov/vocabulary/languages/new': Newari
+    'http://id.loc.gov/vocabulary/languages/nia': Nias
+    'http://id.loc.gov/vocabulary/languages/nic': Niger-Kordofanian (Other)
+    'http://id.loc.gov/vocabulary/languages/niu': Niuean
+    'http://id.loc.gov/vocabulary/languages/nno': Norwegian (Nynorsk)
+    'http://id.loc.gov/vocabulary/languages/nob': Norwegian (Bokmål)
+    'http://id.loc.gov/vocabulary/languages/nog': Nogai
+    'http://id.loc.gov/vocabulary/languages/non': Old Norse
+    'http://id.loc.gov/vocabulary/languages/nor': Norwegian
+    'http://id.loc.gov/vocabulary/languages/nqo': N'Ko
+    'http://id.loc.gov/vocabulary/languages/nso': Northern Sotho
+    'http://id.loc.gov/vocabulary/languages/nub': Nubian languages
+    'http://id.loc.gov/vocabulary/languages/nwc': Newari, Old
+    'http://id.loc.gov/vocabulary/languages/nya': Nyanja
+    'http://id.loc.gov/vocabulary/languages/nym': Nyamwezi
+    'http://id.loc.gov/vocabulary/languages/nyn': Nyankole
+    'http://id.loc.gov/vocabulary/languages/nyo': Nyoro
+    'http://id.loc.gov/vocabulary/languages/nzi': Nzima
+    'http://id.loc.gov/vocabulary/languages/oci': Occitan (post-1500)
+    'http://id.loc.gov/vocabulary/languages/oji': Ojibwa
+    'http://id.loc.gov/vocabulary/languages/ori': Oriya
+    'http://id.loc.gov/vocabulary/languages/orm': Oromo
+    'http://id.loc.gov/vocabulary/languages/osa': Osage
+    'http://id.loc.gov/vocabulary/languages/oss': Ossetic
+    'http://id.loc.gov/vocabulary/languages/ota': Turkish, Ottoman
+    'http://id.loc.gov/vocabulary/languages/oto': Otomian languages
+    'http://id.loc.gov/vocabulary/languages/paa': Papuan (Other)
+    'http://id.loc.gov/vocabulary/languages/pag': Pangasinan
+    'http://id.loc.gov/vocabulary/languages/pal': Pahlavi
+    'http://id.loc.gov/vocabulary/languages/pam': Pampanga
+    'http://id.loc.gov/vocabulary/languages/pan': Panjabi
+    'http://id.loc.gov/vocabulary/languages/pap': Papiamento
+    'http://id.loc.gov/vocabulary/languages/pau': Palauan
+    'http://id.loc.gov/vocabulary/languages/peo': Old Persian (ca. 600-400 B.C.)
+    'http://id.loc.gov/vocabulary/languages/per': Persian
+    'http://id.loc.gov/vocabulary/languages/phi': Philippine (Other)
+    'http://id.loc.gov/vocabulary/languages/phn': Phoenician
+    'http://id.loc.gov/vocabulary/languages/pli': Pali
+    'http://id.loc.gov/vocabulary/languages/pol': Polish
+    'http://id.loc.gov/vocabulary/languages/pon': Pohnpeian
+    'http://id.loc.gov/vocabulary/languages/por': Portuguese
+    'http://id.loc.gov/vocabulary/languages/pra': Prakrit languages
+    'http://id.loc.gov/vocabulary/languages/pro': Provençal (to 1500)
+    'http://id.loc.gov/vocabulary/languages/pus': Pushto
+    'http://id.loc.gov/vocabulary/languages/que': Quechua
+    'http://id.loc.gov/vocabulary/languages/raj': Rajasthani
+    'http://id.loc.gov/vocabulary/languages/rap': Rapanui
+    'http://id.loc.gov/vocabulary/languages/rar': Rarotongan
+    'http://id.loc.gov/vocabulary/languages/roa': Romance (Other)
+    'http://id.loc.gov/vocabulary/languages/roh': Raeto-Romance
+    'http://id.loc.gov/vocabulary/languages/rom': Romani
+    'http://id.loc.gov/vocabulary/languages/rum': Romanian
+    'http://id.loc.gov/vocabulary/languages/run': Rundi
+    'http://id.loc.gov/vocabulary/languages/rup': Aromanian
+    'http://id.loc.gov/vocabulary/languages/rus': Russian
+    'http://id.loc.gov/vocabulary/languages/sad': Sandawe
+    'http://id.loc.gov/vocabulary/languages/sag': Sango (Ubangi Creole)
+    'http://id.loc.gov/vocabulary/languages/sah': Yakut
+    'http://id.loc.gov/vocabulary/languages/sai': South American Indian (Other)
+    'http://id.loc.gov/vocabulary/languages/sal': Salishan languages
+    'http://id.loc.gov/vocabulary/languages/sam': Samaritan Aramaic
+    'http://id.loc.gov/vocabulary/languages/san': Sanskrit
+    'http://id.loc.gov/vocabulary/languages/sas': Sasak
+    'http://id.loc.gov/vocabulary/languages/sat': Santali
+    'http://id.loc.gov/vocabulary/languages/scn': Sicilian Italian
+    'http://id.loc.gov/vocabulary/languages/sco': Scots
+    'http://id.loc.gov/vocabulary/languages/sel': Selkup
+    'http://id.loc.gov/vocabulary/languages/sem': Semitic (Other)
+    'http://id.loc.gov/vocabulary/languages/sga': Irish, Old (to 1100)
+    'http://id.loc.gov/vocabulary/languages/sgn': Sign languages
+    'http://id.loc.gov/vocabulary/languages/shn': Shan
+    'http://id.loc.gov/vocabulary/languages/sid': Sidamo
+    'http://id.loc.gov/vocabulary/languages/sin': Sinhalese
+    'http://id.loc.gov/vocabulary/languages/sio': Siouan (Other)
+    'http://id.loc.gov/vocabulary/languages/sit': Sino-Tibetan (Other)
+    'http://id.loc.gov/vocabulary/languages/sla': Slavic (Other)
+    'http://id.loc.gov/vocabulary/languages/slo': Slovak
+    'http://id.loc.gov/vocabulary/languages/slv': Slovenian
+    'http://id.loc.gov/vocabulary/languages/sma': Southern Sami
+    'http://id.loc.gov/vocabulary/languages/sme': Northern Sami
+    'http://id.loc.gov/vocabulary/languages/smi': Sami
+    'http://id.loc.gov/vocabulary/languages/smj': Lule Sami
+    'http://id.loc.gov/vocabulary/languages/smn': Inari Sami
+    'http://id.loc.gov/vocabulary/languages/smo': Samoan
+    'http://id.loc.gov/vocabulary/languages/sms': Skolt Sami
+    'http://id.loc.gov/vocabulary/languages/sna': Shona
+    'http://id.loc.gov/vocabulary/languages/snd': Sindhi
+    'http://id.loc.gov/vocabulary/languages/snk': Soninke
+    'http://id.loc.gov/vocabulary/languages/sog': Sogdian
+    'http://id.loc.gov/vocabulary/languages/som': Somali
+    'http://id.loc.gov/vocabulary/languages/son': Songhai
+    'http://id.loc.gov/vocabulary/languages/sot': Sotho
+    'http://id.loc.gov/vocabulary/languages/spa': Spanish
+    'http://id.loc.gov/vocabulary/languages/srd': Sardinian
+    'http://id.loc.gov/vocabulary/languages/srn': Sranan
+    'http://id.loc.gov/vocabulary/languages/srp': Serbian
+    'http://id.loc.gov/vocabulary/languages/srr': Serer
+    'http://id.loc.gov/vocabulary/languages/ssa': Nilo-Saharan (Other)
+    'http://id.loc.gov/vocabulary/languages/ssw': Swazi
+    'http://id.loc.gov/vocabulary/languages/suk': Sukuma
+    'http://id.loc.gov/vocabulary/languages/sun': Sundanese
+    'http://id.loc.gov/vocabulary/languages/sus': Susu
+    'http://id.loc.gov/vocabulary/languages/sux': Sumerian
+    'http://id.loc.gov/vocabulary/languages/swa': Swahili
+    'http://id.loc.gov/vocabulary/languages/swe': Swedish
+    'http://id.loc.gov/vocabulary/languages/syc': Syriac
+    'http://id.loc.gov/vocabulary/languages/syr': Syriac, Modern
+    'http://id.loc.gov/vocabulary/languages/tah': Tahitian
+    'http://id.loc.gov/vocabulary/languages/tai': Tai (Other)
+    'http://id.loc.gov/vocabulary/languages/tam': Tamil
+    'http://id.loc.gov/vocabulary/languages/tat': Tatar
+    'http://id.loc.gov/vocabulary/languages/tel': Telugu
+    'http://id.loc.gov/vocabulary/languages/tem': Temne
+    'http://id.loc.gov/vocabulary/languages/ter': Terena
+    'http://id.loc.gov/vocabulary/languages/tet': Tetum
+    'http://id.loc.gov/vocabulary/languages/tgk': Tajik
+    'http://id.loc.gov/vocabulary/languages/tgl': Tagalog
+    'http://id.loc.gov/vocabulary/languages/tha': Thai
+    'http://id.loc.gov/vocabulary/languages/tib': Tibetan
+    'http://id.loc.gov/vocabulary/languages/tig': Tigré
+    'http://id.loc.gov/vocabulary/languages/tir': Tigrinya
+    'http://id.loc.gov/vocabulary/languages/tiv': Tiv
+    'http://id.loc.gov/vocabulary/languages/tkl': Tokelauan
+    'http://id.loc.gov/vocabulary/languages/tlh': Klingon (Artificial language)
+    'http://id.loc.gov/vocabulary/languages/tli': Tlingit
+    'http://id.loc.gov/vocabulary/languages/tmh': Tamashek
+    'http://id.loc.gov/vocabulary/languages/tog': Tonga (Nyasa)
+    'http://id.loc.gov/vocabulary/languages/ton': Tongan
+    'http://id.loc.gov/vocabulary/languages/tpi': Tok Pisin
+    'http://id.loc.gov/vocabulary/languages/tsi': Tsimshian
+    'http://id.loc.gov/vocabulary/languages/tsn': Tswana
+    'http://id.loc.gov/vocabulary/languages/tso': Tsonga
+    'http://id.loc.gov/vocabulary/languages/tuk': Turkmen
+    'http://id.loc.gov/vocabulary/languages/tum': Tumbuka
+    'http://id.loc.gov/vocabulary/languages/tup': Tupi languages
+    'http://id.loc.gov/vocabulary/languages/tur': Turkish
+    'http://id.loc.gov/vocabulary/languages/tut': Altaic (Other)
+    'http://id.loc.gov/vocabulary/languages/tvl': Tuvaluan
+    'http://id.loc.gov/vocabulary/languages/twi': Twi
+    'http://id.loc.gov/vocabulary/languages/tyv': Tuvinian
+    'http://id.loc.gov/vocabulary/languages/udm': Udmurt
+    'http://id.loc.gov/vocabulary/languages/uga': Ugaritic
+    'http://id.loc.gov/vocabulary/languages/uig': Uighur
+    'http://id.loc.gov/vocabulary/languages/ukr': Ukrainian
+    'http://id.loc.gov/vocabulary/languages/umb': Umbundu
+    'http://id.loc.gov/vocabulary/languages/und': Undetermined
+    'http://id.loc.gov/vocabulary/languages/urd': Urdu
+    'http://id.loc.gov/vocabulary/languages/uzb': Uzbek
+    'http://id.loc.gov/vocabulary/languages/vai': Vai
+    'http://id.loc.gov/vocabulary/languages/ven': Venda
+    'http://id.loc.gov/vocabulary/languages/vie': Vietnamese
+    'http://id.loc.gov/vocabulary/languages/vol': Volapük
+    'http://id.loc.gov/vocabulary/languages/vot': Votic
+    'http://id.loc.gov/vocabulary/languages/wak': Wakashan languages
+    'http://id.loc.gov/vocabulary/languages/wal': Wolayta
+    'http://id.loc.gov/vocabulary/languages/war': Waray
+    'http://id.loc.gov/vocabulary/languages/was': Washoe
+    'http://id.loc.gov/vocabulary/languages/wel': Welsh
+    'http://id.loc.gov/vocabulary/languages/wen': Sorbian (Other)
+    'http://id.loc.gov/vocabulary/languages/wln': Walloon
+    'http://id.loc.gov/vocabulary/languages/wol': Wolof
+    'http://id.loc.gov/vocabulary/languages/xal': Oirat
+    'http://id.loc.gov/vocabulary/languages/xho': Xhosa
+    'http://id.loc.gov/vocabulary/languages/yao': Yao (Africa)
+    'http://id.loc.gov/vocabulary/languages/yap': Yapese
+    'http://id.loc.gov/vocabulary/languages/yid': Yiddish
+    'http://id.loc.gov/vocabulary/languages/yor': Yoruba
+    'http://id.loc.gov/vocabulary/languages/ypk': Yupik languages
+    'http://id.loc.gov/vocabulary/languages/zap': Zapotec
+    'http://id.loc.gov/vocabulary/languages/zbl': Blissymbolics
+    'http://id.loc.gov/vocabulary/languages/zen': Zenaga
+    'http://id.loc.gov/vocabulary/languages/zha': Zhuang
+    'http://id.loc.gov/vocabulary/languages/znd': Zande languages
+    'http://id.loc.gov/vocabulary/languages/zul': Zulu
+    'http://id.loc.gov/vocabulary/languages/zun': Zuni
+    'http://id.loc.gov/vocabulary/languages/zxx': No linguistic content
+    'http://id.loc.gov/vocabulary/languages/zza': Zaza
+countries:
+  name: Country codes
+  source: ISO-3166
+  entries:
+    af: Afghanistan
+    ax: Åland Islands
+    al: Albania
+    dz: Algeria
+    as: American Samoa
+    ad: Andorra
+    ao: Angola
+    ai: Anguilla
+    aq: Antarctica
+    ag: Antigua and Barbuda
+    ar: Argentina
+    am: Armenia
+    aw: Aruba
+    au: Australia
+    at: Austria
+    az: Azerbaijan
+    bs: Bahamas
+    bh: Bahrain
+    bd: Bangladesh
+    bb: Barbados
+    by: Belarus
+    be: Belgium
+    bz: Belize
+    bj: Benin
+    bm: Bermuda
+    bt: Bhutan
+    bo: Bolivia, Plurinational State of
+    bq: Bonaire, Sint Eustatius and Saba
+    ba: Bosnia and Herzegovina
+    bw: Botswana
+    bv: Bouvet Island
+    br: Brazil
+    io: British Indian Ocean Territory
+    bn: Brunei Darussalam
+    bg: Bulgaria
+    bf: Burkina Faso
+    bi: Burundi
+    kh: Cambodia
+    cm: Cameroon
+    ca: Canada
+    cv: Cape Verde
+    ky: Cayman Islands
+    cf: Central African Republic
+    td: Chad
+    cl: Chile
+    cn: China
+    cx: Christmas Island
+    cc: Cocos (Keeling) Islands
+    co: Colombia
+    km: Comoros
+    cg: Congo
+    cd: Congo, the Democratic Republic of the
+    ck: Cook Islands
+    cr: Costa Rica
+    ci: Côte d'Ivoire
+    hr: Croatia
+    cu: Cuba
+    cw: Curaçao
+    cy: Cyprus
+    cz: Czech Republic
+    dk: Denmark
+    dj: Djibouti
+    dm: Dominica
+    do: Dominican Republic
+    ec: Ecuador
+    eg: Egypt
+    sv: El Salvador
+    gq: Equatorial Guinea
+    er: Eritrea
+    ee: Estonia
+    et: Ethiopia
+    fk: Falkland Islands (Malvinas)
+    fo: Faroe Islands
+    fj: Fiji
+    fi: Finland
+    fr: France
+    gf: French Guiana
+    pf: French Polynesia
+    tf: French Southern Territories
+    ga: Gabon
+    gm: Gambia
+    ge: Georgia
+    de: Germany
+    gh: Ghana
+    gi: Gibraltar
+    gr: Greece
+    gl: Greenland
+    gd: Grenada
+    gp: Guadeloupe
+    gu: Guam
+    gt: Guatemala
+    gg: Guernsey
+    gn: Guinea
+    gw: Guinea-Bissau
+    gy: Guyana
+    ht: Haiti
+    hm: Heard Island and McDonald Islands
+    va: Holy See (Vatican City State)
+    hn: Honduras
+    hk: Hong Kong
+    hu: Hungary
+    is: Iceland
+    in: India
+    id: Indonesia
+    ir: Iran, Islamic Republic of
+    iq: Iraq
+    ie: Ireland
+    im: Isle of Man
+    il: Israel
+    it: Italy
+    jm: Jamaica
+    jp: Japan
+    je: Jersey
+    jo: Jordan
+    kz: Kazakhstan
+    ke: Kenya
+    ki: Kiribati
+    kp: Korea, Democratic People's Republic of
+    kr: Korea, Republic of
+    kw: Kuwait
+    kg: Kyrgyzstan
+    la: Lao People's Democratic Republic
+    lv: Latvia
+    lb: Lebanon
+    ls: Lesotho
+    lr: Liberia
+    ly: Libya
+    li: Liechtenstein
+    lt: Lithuania
+    lu: Luxembourg
+    mo: Macao
+    mk: Macedonia, the former Yugoslav Republic of
+    mg: Madagascar
+    mw: Malawi
+    my: Malaysia
+    mv: Maldives
+    ml: Mali
+    mt: Malta
+    mh: Marshall Islands
+    mq: Martinique
+    mr: Mauritania
+    mu: Mauritius
+    yt: Mayotte
+    mx: Mexico
+    fm: Micronesia, Federated States of
+    md: Moldova, Republic of
+    mc: Monaco
+    mn: Mongolia
+    me: Montenegro
+    ms: Montserrat
+    ma: Morocco
+    mz: Mozambique
+    mm: Myanmar
+    na: Namibia
+    nr: Nauru
+    np: Nepal
+    nl: Netherlands
+    nc: New Caledonia
+    nz: New Zealand
+    ni: Nicaragua
+    ne: Niger
+    ng: Nigeria
+    nu: Niue
+    nf: Norfolk Island
+    mp: Northern Mariana Islands
+    no: Norway
+    om: Oman
+    pk: Pakistan
+    pw: Palau
+    ps: Palestine, State of
+    pa: Panama
+    pg: Papua New Guinea
+    py: Paraguay
+    pe: Peru
+    ph: Philippines
+    pn: Pitcairn
+    pl: Poland
+    pt: Portugal
+    pr: Puerto Rico
+    qa: Qatar
+    re: Réunion
+    ro: Romania
+    ru: Russian Federation
+    rw: Rwanda
+    bl: Saint Barthélemy
+    sh: Saint Helena, Ascension and Tristan da Cunha
+    kn: Saint Kitts and Nevis
+    lc: Saint Lucia
+    mf: Saint Martin (French part)
+    pm: Saint Pierre and Miquelon
+    vc: Saint Vincent and the Grenadines
+    ws: Samoa
+    sm: San Marino
+    st: Sao Tome and Principe
+    sa: Saudi Arabia
+    sn: Senegal
+    rs: Serbia
+    sc: Seychelles
+    sl: Sierra Leone
+    sg: Singapore
+    sx: Sint Maarten (Dutch part)
+    sk: Slovakia
+    si: Slovenia
+    sb: Solomon Islands
+    so: Somalia
+    za: South Africa
+    gs: South Georgia and the South Sandwich Islands
+    ss: South Sudan
+    es: Spain
+    lk: Sri Lanka
+    sd: Sudan
+    sr: Suriname
+    sj: Svalbard and Jan Mayen
+    sz: Swaziland
+    se: Sweden
+    ch: Switzerland
+    sy: Syrian Arab Republic
+    tw: Taiwan, Province of China
+    tj: Tajikistan
+    tz: Tanzania, United Republic of
+    th: Thailand
+    tl: Timor-Leste
+    tg: Togo
+    tk: Tokelau
+    to: Tonga
+    tt: Trinidad and Tobago
+    tn: Tunisia
+    tr: Turkey
+    tm: Turkmenistan
+    tc: Turks and Caicos Islands
+    tv: Tuvalu
+    ug: Uganda
+    ua: Ukraine
+    ae: United Arab Emirates
+    gb: United Kingdom
+    us: United States
+    um: United States Minor Outlying Islands
+    uy: Uruguay
+    uz: Uzbekistan
+    vu: Vanuatu
+    ve: Venezuela, Bolivarian Republic of
+    vn: Viet Nam
+    vg: Virgin Islands, British
+    vi: Virgin Islands, U.S.
+    wf: Wallis and Futuna
+    eh: Western Sahara
+    ye: Yemen
+    zm: Zambia
+    zw: Zimbabwe
+relators:
+  name: Relators
+  entries:
+    'http://id.loc.gov/vocabulary/relators/abr': Abridger
+    'http://id.loc.gov/vocabulary/relators/acp': Art copyist
+    'http://id.loc.gov/vocabulary/relators/act': Actor
+    'http://id.loc.gov/vocabulary/relators/adi': Art director
+    'http://id.loc.gov/vocabulary/relators/adp': Adapter
+    'http://id.loc.gov/vocabulary/relators/aft': Author of afterword, colophon, etc.
+    'http://id.loc.gov/vocabulary/relators/anl': Analyst
+    'http://id.loc.gov/vocabulary/relators/anm': Animator
+    'http://id.loc.gov/vocabulary/relators/ann': Annotator
+    'http://id.loc.gov/vocabulary/relators/ant': Bibliographic antecedent
+    'http://id.loc.gov/vocabulary/relators/ape': Appellee
+    'http://id.loc.gov/vocabulary/relators/apl': Appellant
+    'http://id.loc.gov/vocabulary/relators/app': Applicant
+    'http://id.loc.gov/vocabulary/relators/aqt': Author in quotations or text abstracts
+    'http://id.loc.gov/vocabulary/relators/arc': Architect
+    'http://id.loc.gov/vocabulary/relators/ard': Artistic director
+    'http://id.loc.gov/vocabulary/relators/arr': Arranger
+    'http://id.loc.gov/vocabulary/relators/art': Artist
+    'http://id.loc.gov/vocabulary/relators/asg': Assignee
+    'http://id.loc.gov/vocabulary/relators/asn': Associated name
+    'http://id.loc.gov/vocabulary/relators/ato': Autographer
+    'http://id.loc.gov/vocabulary/relators/att': Attributed name
+    'http://id.loc.gov/vocabulary/relators/auc': Auctioneer
+    'http://id.loc.gov/vocabulary/relators/aud': Author of dialog
+    'http://id.loc.gov/vocabulary/relators/aui': Author of introduction, etc.
+    'http://id.loc.gov/vocabulary/relators/aus': Screenwriter
+    'http://id.loc.gov/vocabulary/relators/aut': Author
+    'http://id.loc.gov/vocabulary/relators/bdd': Binding designer
+    'http://id.loc.gov/vocabulary/relators/bjd': Bookjacket designer
+    'http://id.loc.gov/vocabulary/relators/bkd': Book designer
+    'http://id.loc.gov/vocabulary/relators/bkp': Book producer
+    'http://id.loc.gov/vocabulary/relators/blw': Blurb writer
+    'http://id.loc.gov/vocabulary/relators/bnd': Binder
+    'http://id.loc.gov/vocabulary/relators/bpd': Bookplate designer
+    'http://id.loc.gov/vocabulary/relators/brd': Broadcaster
+    'http://id.loc.gov/vocabulary/relators/brl': Braille embosser
+    'http://id.loc.gov/vocabulary/relators/bsl': Bookseller
+    'http://id.loc.gov/vocabulary/relators/cas': Caster
+    'http://id.loc.gov/vocabulary/relators/ccp': Conceptor
+    'http://id.loc.gov/vocabulary/relators/chr': Choreographer
+    'http://id.loc.gov/vocabulary/relators/cli': Client
+    'http://id.loc.gov/vocabulary/relators/cll': Calligrapher
+    'http://id.loc.gov/vocabulary/relators/clr': Colorist
+    'http://id.loc.gov/vocabulary/relators/clt': Collotyper
+    'http://id.loc.gov/vocabulary/relators/cmm': Commentator
+    'http://id.loc.gov/vocabulary/relators/cmp': Composer
+    'http://id.loc.gov/vocabulary/relators/cmt': Compositor
+    'http://id.loc.gov/vocabulary/relators/cnd': Conductor
+    'http://id.loc.gov/vocabulary/relators/cng': Cinematographer
+    'http://id.loc.gov/vocabulary/relators/cns': Censor
+    'http://id.loc.gov/vocabulary/relators/coe': Contestant-appellee
+    'http://id.loc.gov/vocabulary/relators/col': Collector
+    'http://id.loc.gov/vocabulary/relators/com': Compiler
+    'http://id.loc.gov/vocabulary/relators/con': Conservator
+    'http://id.loc.gov/vocabulary/relators/cor': Collection registrar
+    'http://id.loc.gov/vocabulary/relators/cos': Contestant
+    'http://id.loc.gov/vocabulary/relators/cot': Contestant-appellant
+    'http://id.loc.gov/vocabulary/relators/cou': Court governed
+    'http://id.loc.gov/vocabulary/relators/cov': Cover designer
+    'http://id.loc.gov/vocabulary/relators/cpc': Copyright claimant
+    'http://id.loc.gov/vocabulary/relators/cpe': Complainant-appellee
+    'http://id.loc.gov/vocabulary/relators/cph': Copyright holder
+    'http://id.loc.gov/vocabulary/relators/cpl': Complainant
+    'http://id.loc.gov/vocabulary/relators/cpt': Complainant-appellant
+    'http://id.loc.gov/vocabulary/relators/cre': Creator
+    'http://id.loc.gov/vocabulary/relators/crp': Correspondent
+    'http://id.loc.gov/vocabulary/relators/crr': Corrector
+    'http://id.loc.gov/vocabulary/relators/crt': Court reporter
+    'http://id.loc.gov/vocabulary/relators/csl': Consultant
+    'http://id.loc.gov/vocabulary/relators/csp': Consultant to a project
+    'http://id.loc.gov/vocabulary/relators/cst': Costume designer
+    'http://id.loc.gov/vocabulary/relators/ctb': Contributor
+    'http://id.loc.gov/vocabulary/relators/cte': Contestee-appellee
+    'http://id.loc.gov/vocabulary/relators/ctg': Cartographer
+    'http://id.loc.gov/vocabulary/relators/ctr': Contractor
+    'http://id.loc.gov/vocabulary/relators/cts': Contestee
+    'http://id.loc.gov/vocabulary/relators/ctt': Contestee-appellant
+    'http://id.loc.gov/vocabulary/relators/cur': Curator
+    'http://id.loc.gov/vocabulary/relators/cwt': Commentator for written text
+    'http://id.loc.gov/vocabulary/relators/dbp': Distribution place
+    'http://id.loc.gov/vocabulary/relators/dfd': Defendant
+    'http://id.loc.gov/vocabulary/relators/dfe': Defendant-appellee
+    'http://id.loc.gov/vocabulary/relators/dft': Defendant-appellant
+    'http://id.loc.gov/vocabulary/relators/dgg': Degree granting institution
+    'http://id.loc.gov/vocabulary/relators/dgs': Degree supervisor
+    'http://id.loc.gov/vocabulary/relators/dis': Dissertant
+    'http://id.loc.gov/vocabulary/relators/dln': Delineator
+    'http://id.loc.gov/vocabulary/relators/dnc': Dancer
+    'http://id.loc.gov/vocabulary/relators/dnr': Donor
+    'http://id.loc.gov/vocabulary/relators/dpc': Depicted
+    'http://id.loc.gov/vocabulary/relators/dpt': Depositor
+    'http://id.loc.gov/vocabulary/relators/drm': Draftsman
+    'http://id.loc.gov/vocabulary/relators/drt': Director
+    'http://id.loc.gov/vocabulary/relators/dsr': Designer
+    'http://id.loc.gov/vocabulary/relators/dst': Distributor
+    'http://id.loc.gov/vocabulary/relators/dtc': Data contributor
+    'http://id.loc.gov/vocabulary/relators/dte': Dedicatee
+    'http://id.loc.gov/vocabulary/relators/dtm': Data manager
+    'http://id.loc.gov/vocabulary/relators/dto': Dedicator
+    'http://id.loc.gov/vocabulary/relators/dub': Dubious author
+    'http://id.loc.gov/vocabulary/relators/edc': Editor of compilation
+    'http://id.loc.gov/vocabulary/relators/edm': Editor of moving image work
+    'http://id.loc.gov/vocabulary/relators/edt': Editor
+    'http://id.loc.gov/vocabulary/relators/egr': Engraver
+    'http://id.loc.gov/vocabulary/relators/elg': Electrician
+    'http://id.loc.gov/vocabulary/relators/elt': Electrotyper
+    'http://id.loc.gov/vocabulary/relators/eng': Engineer
+    'http://id.loc.gov/vocabulary/relators/enj': Enacting jurisdiction
+    'http://id.loc.gov/vocabulary/relators/etr': Etcher
+    'http://id.loc.gov/vocabulary/relators/evp': Event place
+    'http://id.loc.gov/vocabulary/relators/exp': Expert
+    'http://id.loc.gov/vocabulary/relators/fac': Facsimilist
+    'http://id.loc.gov/vocabulary/relators/fds': Film distributor
+    'http://id.loc.gov/vocabulary/relators/fld': Field director
+    'http://id.loc.gov/vocabulary/relators/flm': Film editor
+    'http://id.loc.gov/vocabulary/relators/fmd': Film director
+    'http://id.loc.gov/vocabulary/relators/fmk': Filmmaker
+    'http://id.loc.gov/vocabulary/relators/fmo': Former owner
+    'http://id.loc.gov/vocabulary/relators/fmp': Film producer
+    'http://id.loc.gov/vocabulary/relators/fnd': Funder
+    'http://id.loc.gov/vocabulary/relators/fpy': First party
+    'http://id.loc.gov/vocabulary/relators/frg': Forger
+    'http://id.loc.gov/vocabulary/relators/gis': Geographic information specialist
+    'http://id.loc.gov/vocabulary/relators/his': Host institution
+    'http://id.loc.gov/vocabulary/relators/hnr': Honoree
+    'http://id.loc.gov/vocabulary/relators/hst': Host
+    'http://id.loc.gov/vocabulary/relators/ill': Illustrator
+    'http://id.loc.gov/vocabulary/relators/ilu': Illuminator
+    'http://id.loc.gov/vocabulary/relators/ins': Inscriber
+    'http://id.loc.gov/vocabulary/relators/inv': Inventor
+    'http://id.loc.gov/vocabulary/relators/isb': Issuing body
+    'http://id.loc.gov/vocabulary/relators/itr': Instrumentalist
+    'http://id.loc.gov/vocabulary/relators/ive': Interviewee
+    'http://id.loc.gov/vocabulary/relators/ivr': Interviewer
+    'http://id.loc.gov/vocabulary/relators/jud': Judge
+    'http://id.loc.gov/vocabulary/relators/jug': Jurisdiction governed
+    'http://id.loc.gov/vocabulary/relators/lbr': Laboratory
+    'http://id.loc.gov/vocabulary/relators/lbt': Librettist
+    'http://id.loc.gov/vocabulary/relators/ldr': Laboratory director
+    'http://id.loc.gov/vocabulary/relators/led': Lead
+    'http://id.loc.gov/vocabulary/relators/lee': Libelee-appellee
+    'http://id.loc.gov/vocabulary/relators/lel': Libelee
+    'http://id.loc.gov/vocabulary/relators/len': Lender
+    'http://id.loc.gov/vocabulary/relators/let': Libelee-appellant
+    'http://id.loc.gov/vocabulary/relators/lgd': Lighting designer
+    'http://id.loc.gov/vocabulary/relators/lie': Libelant-appellee
+    'http://id.loc.gov/vocabulary/relators/lil': Libelant
+    'http://id.loc.gov/vocabulary/relators/lit': Libelant-appellant
+    'http://id.loc.gov/vocabulary/relators/lsa': Landscape architect
+    'http://id.loc.gov/vocabulary/relators/lse': Licensee
+    'http://id.loc.gov/vocabulary/relators/lso': Licensor
+    'http://id.loc.gov/vocabulary/relators/ltg': Lithographer
+    'http://id.loc.gov/vocabulary/relators/lyr': Lyricist
+    'http://id.loc.gov/vocabulary/relators/mcp': Music copyist
+    'http://id.loc.gov/vocabulary/relators/mdc': Metadata contact
+    'http://id.loc.gov/vocabulary/relators/med': Medium
+    'http://id.loc.gov/vocabulary/relators/mfp': Manufacture place
+    'http://id.loc.gov/vocabulary/relators/mfr': Manufacturer
+    'http://id.loc.gov/vocabulary/relators/mod': Moderator
+    'http://id.loc.gov/vocabulary/relators/mon': Monitor
+    'http://id.loc.gov/vocabulary/relators/mrb': Marbler
+    'http://id.loc.gov/vocabulary/relators/mrk': Markup editor
+    'http://id.loc.gov/vocabulary/relators/msd': Musical director
+    'http://id.loc.gov/vocabulary/relators/mte': Metal-engraver
+    'http://id.loc.gov/vocabulary/relators/mtk': Minute taker
+    'http://id.loc.gov/vocabulary/relators/mus': Musician
+    'http://id.loc.gov/vocabulary/relators/nrt': Narrator
+    'http://id.loc.gov/vocabulary/relators/opn': Opponent
+    'http://id.loc.gov/vocabulary/relators/org': Originator
+    'http://id.loc.gov/vocabulary/relators/orm': Organizer
+    'http://id.loc.gov/vocabulary/relators/osp': Onscreen presenter
+    'http://id.loc.gov/vocabulary/relators/oth': Other
+    'http://id.loc.gov/vocabulary/relators/own': Owner
+    'http://id.loc.gov/vocabulary/relators/pan': Panelist
+    'http://id.loc.gov/vocabulary/relators/pat': Patron
+    'http://id.loc.gov/vocabulary/relators/pbd': Publishing director
+    'http://id.loc.gov/vocabulary/relators/pbl': Publisher
+    'http://id.loc.gov/vocabulary/relators/pdr': Project director
+    'http://id.loc.gov/vocabulary/relators/pfr': Proofreader
+    'http://id.loc.gov/vocabulary/relators/pht': Photographer
+    'http://id.loc.gov/vocabulary/relators/plt': Platemaker
+    'http://id.loc.gov/vocabulary/relators/pma': Permitting agency
+    'http://id.loc.gov/vocabulary/relators/pmn': Production manager
+    'http://id.loc.gov/vocabulary/relators/pop': Printer of plates
+    'http://id.loc.gov/vocabulary/relators/ppm': Papermaker
+    'http://id.loc.gov/vocabulary/relators/ppt': Puppeteer
+    'http://id.loc.gov/vocabulary/relators/pra': Praeses
+    'http://id.loc.gov/vocabulary/relators/prc': Process contact
+    'http://id.loc.gov/vocabulary/relators/prd': Production personnel
+    'http://id.loc.gov/vocabulary/relators/pre': Presenter
+    'http://id.loc.gov/vocabulary/relators/prf': Performer
+    'http://id.loc.gov/vocabulary/relators/prg': Programmer
+    'http://id.loc.gov/vocabulary/relators/prm': Printmaker
+    'http://id.loc.gov/vocabulary/relators/prn': Production company
+    'http://id.loc.gov/vocabulary/relators/pro': Producer
+    'http://id.loc.gov/vocabulary/relators/prp': Production place
+    'http://id.loc.gov/vocabulary/relators/prs': Production designer
+    'http://id.loc.gov/vocabulary/relators/prt': Printer
+    'http://id.loc.gov/vocabulary/relators/prv': Provider
+    'http://id.loc.gov/vocabulary/relators/pta': Patent applicant
+    'http://id.loc.gov/vocabulary/relators/pte': Plaintiff-appellee
+    'http://id.loc.gov/vocabulary/relators/ptf': Plaintiff
+    'http://id.loc.gov/vocabulary/relators/pth': Patent holder
+    'http://id.loc.gov/vocabulary/relators/ptt': Plaintiff-appellant
+    'http://id.loc.gov/vocabulary/relators/pup': Publication place
+    'http://id.loc.gov/vocabulary/relators/rbr': Rubricator
+    'http://id.loc.gov/vocabulary/relators/rcd': Recordist
+    'http://id.loc.gov/vocabulary/relators/rce': Recording engineer
+    'http://id.loc.gov/vocabulary/relators/rcp': Addressee
+    'http://id.loc.gov/vocabulary/relators/rdd': Radio director
+    'http://id.loc.gov/vocabulary/relators/red': Redaktor
+    'http://id.loc.gov/vocabulary/relators/ren': Renderer
+    'http://id.loc.gov/vocabulary/relators/res': Researcher
+    'http://id.loc.gov/vocabulary/relators/rev': Reviewer
+    'http://id.loc.gov/vocabulary/relators/rpc': Radio producer
+    'http://id.loc.gov/vocabulary/relators/rps': Repository
+    'http://id.loc.gov/vocabulary/relators/rpt': Reporter
+    'http://id.loc.gov/vocabulary/relators/rpy': Responsible party
+    'http://id.loc.gov/vocabulary/relators/rse': Respondent-appellee
+    'http://id.loc.gov/vocabulary/relators/rsg': Restager
+    'http://id.loc.gov/vocabulary/relators/rsp': Respondent
+    'http://id.loc.gov/vocabulary/relators/rsr': Restorationist
+    'http://id.loc.gov/vocabulary/relators/rst': Respondent-appellant
+    'http://id.loc.gov/vocabulary/relators/rth': Research team head
+    'http://id.loc.gov/vocabulary/relators/rtm': Research team member
+    'http://id.loc.gov/vocabulary/relators/sad': Scientific advisor
+    'http://id.loc.gov/vocabulary/relators/sce': Scenarist
+    'http://id.loc.gov/vocabulary/relators/scl': Sculptor
+    'http://id.loc.gov/vocabulary/relators/scr': Scribe
+    'http://id.loc.gov/vocabulary/relators/sds': Sound designer
+    'http://id.loc.gov/vocabulary/relators/sec': Secretary
+    'http://id.loc.gov/vocabulary/relators/sgd': Stage director
+    'http://id.loc.gov/vocabulary/relators/sgn': Signer
+    'http://id.loc.gov/vocabulary/relators/sht': Supporting host
+    'http://id.loc.gov/vocabulary/relators/sll': Seller
+    'http://id.loc.gov/vocabulary/relators/sng': Singer
+    'http://id.loc.gov/vocabulary/relators/spk': Speaker
+    'http://id.loc.gov/vocabulary/relators/spn': Sponsor
+    'http://id.loc.gov/vocabulary/relators/spy': Second party
+    'http://id.loc.gov/vocabulary/relators/srv': Surveyor
+    'http://id.loc.gov/vocabulary/relators/std': Set designer
+    'http://id.loc.gov/vocabulary/relators/stg': Setting
+    'http://id.loc.gov/vocabulary/relators/stl': Storyteller
+    'http://id.loc.gov/vocabulary/relators/stm': Stage manager
+    'http://id.loc.gov/vocabulary/relators/stn': Standards body
+    'http://id.loc.gov/vocabulary/relators/str': Stereotyper
+    'http://id.loc.gov/vocabulary/relators/tcd': Technical director
+    'http://id.loc.gov/vocabulary/relators/tch': Teacher
+    'http://id.loc.gov/vocabulary/relators/ths': Thesis advisor
+    'http://id.loc.gov/vocabulary/relators/tld': Television director
+    'http://id.loc.gov/vocabulary/relators/tlp': Television producer
+    'http://id.loc.gov/vocabulary/relators/trc': Transcriber
+    'http://id.loc.gov/vocabulary/relators/trl': Translator
+    'http://id.loc.gov/vocabulary/relators/tyd': Type designer
+    'http://id.loc.gov/vocabulary/relators/tyg': Typographer
+    'http://id.loc.gov/vocabulary/relators/uvp': University place
+    'http://id.loc.gov/vocabulary/relators/vac': Voice actor
+    'http://id.loc.gov/vocabulary/relators/vdg': Videographer
+    'http://id.loc.gov/vocabulary/relators/wac': Writer of added commentary
+    'http://id.loc.gov/vocabulary/relators/wal': Writer of added lyrics
+    'http://id.loc.gov/vocabulary/relators/wam': Writer of accompanying material
+    'http://id.loc.gov/vocabulary/relators/wat': Writer of added text
+    'http://id.loc.gov/vocabulary/relators/wdc': Woodcutter
+    'http://id.loc.gov/vocabulary/relators/wde': Wood engraver
+    'http://id.loc.gov/vocabulary/relators/win': Writer of introduction
+    'http://id.loc.gov/vocabulary/relators/wit': Witness
+    'http://id.loc.gov/vocabulary/relators/wpr': Writer of preface
+    'http://id.loc.gov/vocabulary/relators/wst': Writer of supplementary textual content

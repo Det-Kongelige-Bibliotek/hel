@@ -1,7 +1,6 @@
      
       <% # header bar for doc items in index view -%>
       <div class="documentHeader row">
-        
         <%# main title container for doc partial view 
             How many bootstrap columns need to be reserved
             for bookmarks control depends on size. 
@@ -12,8 +11,8 @@
          <%= t('blacklight.search.documents.counter', :counter => counter) if counter %>
          </span>
            <% #Override the main title container view in Blacklight so that the hyperlink for the Book or Person links to the landing page for it  %>
-           <a href="<%= "/#{document["active_fedora_model_ssi"].underscore.pluralize.to_s.downcase}/#{document.id.to_s}" %>">
-             <%=(document[document_show_link_field].blank?) ? "No Title" : document[document_show_link_field].first%>
+           <a href="<%= "/#{document["active_fedora_model_ssi"].underscore.pluralize.to_s.downcase}/#{CGI.escape(document.id)}" %>">
+             <%=(document[document_show_link_field].blank?) ? "Ukendt" : document[document_show_link_field].first%>
            </a>
         </h5>
 

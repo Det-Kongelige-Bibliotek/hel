@@ -13,22 +13,19 @@
     <hr>
   </div>
   <div class="col-sm-12">
-      <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection') %>
+    <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection') %>
     <hr>
   </div>
-
-  <fieldset class="row">
     <legend class="col-sm-12">
       <h4><%= t('.availability') %></h4>
     </legend>
 
-
       <div class="col-sm-3">
         <%= builder.input :embargo, as: :boolean, boolean_style: :inline,
-                      label_html: { class: 'checkbox-inline' }, wrapper_html: { class: ''  },
-                      input_html: { class: '', data: { toggle: 'embargo_detailed' } } %>
+                          label_html: { class: 'checkbox-inline' }, wrapper_html: { class: ''  },
+                          input_html: { class: '', data: { toggle: 'embargo_detailed' } } %>
 
-        </div>
+      </div>
       <div class="col-sm-3">
         <%= builder.input :embargo_date, input_html: { data: { hook: 'embargo_detailed' }} %>
       </div>
@@ -36,29 +33,35 @@
         <%= builder.input :embargo_condition, input_html: { data: { hook: 'embargo_detailed' }} %>
       </div>
 
+      <div class="col-sm-6">
+        <%= builder.input :access_condition, collection: get_controlled_vocab('Access types'),  prompt: t('.klaus') %>
+      </div>
 
-
-    <div class="col-sm-3">
-      <%= builder.input :access_condition, collection: get_controlled_vocab('Access types'),  prompt: t('.klaus') %>
-    </div>
-
-      <div class="col-sm-3">
+      <div class="col-sm-6">
         <%= builder.input :copyright, collection: get_controlled_vocab('Copyright Licenses'),  prompt: t('.license') %>
       </div>
-    </fieldset>
 
+      <div class="row">
+      <div class="col-sm-3">
+        <%= builder.input :availability, as: :boolean, boolean_style: :inline,
+                          label: t('.is_available'), label_html: { class: 'checkbox-inline' },
+                          wrapper_html: { class: ''  }, input_html: { class: '' }
+        %>
+        </div>
+
+    </div>
+</fieldset>
   <fieldset class="row">
-  <legend class="col-sm-12">
-    <h4><%= t('.preservation') %></h4>
-  </legend>
+    <legend class="col-sm-12">
+      <h4><%= t('.preservation') %></h4>
+    </legend>
 
 
     <div class="col-sm-4">
       <%= builder.label :preservation_profile, t('.preserv_profile') %>
       <%= builder.select :preservation_profile, options_for_select(get_preservation_profiles_for_select,
-          @instance.blank? ? '' :  @instance.preservation_profile)%>
+                                                                   @instance.blank? ? '' :  @instance.preservation_profile)%>
     </div>
   </fieldset>
 
 
-</fieldset>

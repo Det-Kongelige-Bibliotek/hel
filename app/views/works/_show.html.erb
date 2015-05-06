@@ -37,148 +37,95 @@
               <span><%= title.subtitle%></span>
             </td>
             <td>
-              <% unless title.lang.blank? %>
-                  <span><%= get_entry_label('Languages', title.lang) %></span>
-              <% end %>
+              <%# unless title.lang.blank? %>
+              <span><%#= get_entry_label('Languages', title.lang) %></span>
+              <%# end %>
             </td>
             <td>
-              <span><%= title.type %></span>
+              <span><%= title.variant %></span>
             </td>
           </tr>
       <% end %>
       </tbody>
     </table>
-    <h4><%= t('.lang') %></h4>
-    <% @work.language_values.each do |lang| %>
-        <%= lang %>
-    <% end %>
-    <h4><%= t('.agents') %></h4>
+
+    <h4><%= t('.origin_date') %></h4>
+    <span><%= @work.origin_date %></span>
+
+    <h4><%= t('.agent_relations') %></h4>
+    <h4><%= t('.author') %></h4>
     <table class="table table-striped">
       <thead>
       <tr>
-        <th><%= t('works.show.name') %></th>
+        <th><%= t('.name') %></th>
         <th><%= t('.role') %></th>
       </tr>
       </thead>
       <tbody>
-      <% @work.agents.each do |agent| %>
+      <% @work.relators.each do |relator| %>
           <tr>
             <td>
-              <strong><%= link_to agent['display_value'], authority_person_path(agent['id']) %></strong>
+              <strong><%= link_to relator.agent.display_value, relator.agent rescue nil %></strong>
             </td>
             <td>
-              <span><%= t("roles.#{agent['type']}") %></span>
+              <span><%= rdf_resource_link(relator.role) %></span>
             </td>
           </tr>
       <% end %>
+      </tbody></table>
+    <h4><%= t('.lang') %></h4>
+    <%= rdf_resource_link(@work.language) %>
+    <%# if @work.subjects.present? %>
+    <h4><%#= t('.subject') %></h4>
+    <table class="table table-striped">
+      <tbody>
+      <%# Subject could either be a Work or an Authority %>
+      <%# @work.subjects.each do |subj| %>
+      <tr><td><%#= link_to subj.display_value, subj %></td></tr>
+      <%# end %>
       </tbody>
     </table>
-    <% if @work.subjects.present? %>
-        <h4><%= t('.subject') %></h4>
-        <table class="table table-striped">
-          <tbody>
-          <%# Subject could either be a Work or an Authority %>
-          <% @work.subjects.each do |subj| %>
-              <tr><td><%= link_to subj.display_value, subj %></td></tr>
-          <% end %>
-          </tbody>
-        </table>
-    <% end %>
-
-    <% if @work.is_part_of.present? %>
-        <h4> <%= t('.rel_works') %></h4>
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th><%= t('.descr') %></th>
-            <th><%= t('.title') %></th>
-          </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>
-                  <span><%= t('.contained') %></span>
-                </td>
-                <td>
-                  <strong><%= link_to @work.is_part_of.titles.first.value, work_path(@work.is_part_of) %></strong>
-                </td>
-              </tr>
-              <% unless @work.preceding_works.empty? %>
-              <tr>
-                <td>
-                  <span><%= t('.previous') %></span>
-                </td>
-                <td>
-                  <strong><%= link_to @work.preceding_works.last.titles.first.value , work_path(@work.preceding_works.last) %></strong>
-                </td>
-              </tr>
-              <tr>
-              <% end %>
-              <% unless @work.succeeding_works.empty? %>
-              <td>
-                <span><%= t('.next') %></span>
-              </td>
-              <td>
-                <strong><%= link_to @work.succeeding_works.first.titles.first.value , work_path(@work.succeeding_works.first) %></strong>
-              </td>
-              </tr>
-              <% end %>
-          </tbody>
-        </table>
-    <% elsif  @work.parts.present?%>
-        <h4><%= t('.contains') %></h4>
-        <div class="table-scroll">
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th><%= t('.title') %></th>
-              </tr>
-              </thead>
-              <tbody>
-              <% @work.parts.each do |rel| %>
-                  <tr>
-                    <td>
-                      <strong><%= link_to rel.titles.first.value, work_path(rel) %></strong>
-                    </td>
-                  </tr>
-              <% end %>
-              </tbody>
-            </table>
-        </div>
-    <% end %>
-
-
+    <%# end %>
     <div class="row">
-
       <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <%= "#{@work.instances.size} instans(er)" %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <% @work.instances.each do |instance| %>
-              <li><%= link_to("#{t('instances.types.' + instance.class.to_s.downcase)} (#{instance.type})", [@work, instance]) %></li>
+          <%= "#{@work.instances.size} instans(er)" %>
+          <% if @work.instances.present? %>
+              <span class="caret"></span>
           <% end %>
-
-        </ul>
+        </button>
+        <% if @work.instances.present? %>
+            <ul class="dropdown-menu" role="menu">
+              <% @work.instances.each do |instance| %>
+                  <li><%= link_to(t("instances.types.#{instance.class.to_s.downcase} (#{instance.type})"), [@work, instance]) %></li>
+              <% end %>
+            </ul>
+        <% end %>
       </div>
 
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <%= "Opret Instans" %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <% if can?(:create, Trykforlaeg) %>
+      <% if can?(:create, Instance) %>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <%= "Opret Instans" %> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
               <li>
-                <a href="<%= new_work_trykforlaeg_path(@work) %>">
-                  <%= t('.new_tryk') %>
+                <a href="<%= new_work_instance_path(@work) %>">
+                  <%= t('.new_instance') %>
                 </a>
               </li>
-          <% end %>
-        </ul>
+              <% if can?(:create, Trykforlaeg) %>
+                  <li>
+                    <a href="<%= new_work_trykforlaeg_path(@work) %>">
+                      <%= t('.new_tryk') %>
+                    </a>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+          </div>
+      <% end %>
       </div>
-    </div>
-
-  </div>
 
 </div>
 <!-- Work end -->

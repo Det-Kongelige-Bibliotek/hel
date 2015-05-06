@@ -16,9 +16,9 @@ module Authority
     end
 
     def authority_base_params
-      params.require(:authority_person).permit(authorized_personal_name: [
-        [:scheme, :full, :family, :given, :date]
-      ])
+      params.require(:authority_person).permit(:given_name, :family_name, :name,
+                                               :same_as, :description, :birth_date, :death_date
+      )
     end
   end
 end
