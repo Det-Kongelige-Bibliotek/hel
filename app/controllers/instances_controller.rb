@@ -32,6 +32,7 @@ class InstancesController < ApplicationController
   # If work_id is given in the params, add this to the object.
   def new
     @instance = @klazz.new
+    @instance.relators.build
     @work = Work.find(params[:work_id])
     if params[:query] 
       service = AlephService.new
@@ -52,6 +53,7 @@ class InstancesController < ApplicationController
 
   # GET /instances/1/edit
   def edit
+    @instance.relators.build
   end
 
   # POST /instances
@@ -160,7 +162,7 @@ class InstancesController < ApplicationController
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :access_condition, :availability, :collection, :preservation_profile,
-                                     note: [], content_files: []
+                                     note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
     ).tap { |elems| remove_blanks(elems) }
   end
 
