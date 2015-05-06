@@ -3,8 +3,10 @@ require 'blacklight/catalog'
 
 class ContentFilesController < ApplicationController
 
-  before_action :set_file, only: [:download, :upload, :update]
+  before_action :set_file, only: [:download, :upload, :update, :show]
 
+  def show
+  end
 
   # Retrieve the content file for a given ContentFile.
   # If a wrong BasicFile-id, then a 404 is returned.

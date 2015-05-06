@@ -33,7 +33,11 @@ class AlephService
   # Find the first record matching the query
   def find_first(field, value)
     set = find_set("#{field}=#{value}")
-    return nil unless set[:set_num].present? && set[:num_entries].present?
+    if set[:set_num].empty? || set[:num_entries].empty?
+      Rails.logger.debug "No entries with field #{field} and value #{value} found"
+      Rails.logger.debug set
+      return nil
+    end
     get_record(set[:set_num], '1')
   end
 

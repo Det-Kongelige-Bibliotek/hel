@@ -76,6 +76,12 @@ module Datastreams
         languages.map(&:value)
       end
 
+      # use this method when we're not
+      # concerned about the language part
+      def add_language(value)
+        add_to_sibling(:language, :language, nil, value)
+      end
+
       def language=(langs)
         language_nodeset.each { |n| n.remove }
         langs.each do |lang|

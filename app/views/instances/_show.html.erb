@@ -20,7 +20,7 @@
             <%= link_to 'Rediger', edit_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
         <% end %>
       </div>
-      <h1><%= t("instances.types.#{@klazz.to_s.downcase}") %></h1>
+      <h1><%= "#{t('instances.types.' + @klazz.to_s.downcase)} (#{@instance.type})" %></h1>
     </div>
   </div>
 
