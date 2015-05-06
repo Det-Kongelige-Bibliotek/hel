@@ -47,6 +47,7 @@ da:
       ins_data_retrieved: "Instans data er hentet."
       no_ins_data_retrieved: "Kunne ikke hente instans data."
       ins_saved: "%{var} blev gemt"
+      ins_saved_fail: "%{var} kunne ikke gemmes"
       ins_updated: "%{var} er opdateret."
       preserved: 'Instans og indholdsfiler sendt til bevaring'
       no_preserved: 'Kunne ikke send til bevaring'
