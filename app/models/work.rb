@@ -158,7 +158,7 @@ class Work < ActiveFedora::Base
     self.instances.push(i)
   end
 
-
+end
 
 =begin
   has_and_belongs_to_many :instances, class_name: 'Instance', property: :has_instance, inverse_of: :instance_of
@@ -233,19 +233,52 @@ class Work < ActiveFedora::Base
     subjects=[]
   end
 
+
+  def to_solr(solr_doc = {})
+    super
+    Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+    titles.each do |title|
+      Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
+      Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
+
+    end
+    authors.each do |aut|
+      Solrizer.insert_field(solr_doc, 'author', aut.all_names,:stored_searchable, :facetable, :displayable)
+    end
+    self.instances.each do |i|
+      Solrizer.insert_field(solr_doc, 'work_activity',i.activity, :facetable)
+      Solrizer.insert_field(solr_doc, 'work_collection',i.collection, :facetable)
+    end
+    solr_doc
+  end
+
+  # method to set the rights metadata stream based on activity
+  def set_rights_metadata
+    self.discover_groups = ['Chronos-Alle']
+    self.read_groups = ['Chronos-Alle']
+    self.edit_groups = ['Chronos-Alle']
+  end
+
+  def display_value
+    title_values.first
+  end
+
+  # Validation methods
+  def has_a_title
+    if titles.blank?
+      errors.add(:titles,"Et værk skal have mindst en titel")
+    end
+  end
+
+  def has_a_creator
+    if creators.blank?
+      errors.add(:creators,"Et værk skal have mindst et ophav")
+    end
+  end
+
   # Static methods
   def self.get_title_typeahead_objs
     ActiveFedora::SolrService.query("title_tesim:* && active_fedora_model_ssi:Work",
                                     {:rows => ActiveFedora::SolrService.count("title_tesim:* && active_fedora_model_ssi:Work")})
   end
-
-  # Given an activity name, find all the works
-  # that belong to that activity
-  # @param activity String
-  # @return ['id', 'id']
-  def self.find_by_activity(activity)
-    docs = ActiveFedora::SolrService.query("work_collection_sim:#{activity} && active_fedora_model_ssi:Work")
-    docs.collect { |doc| doc['id'] }
-  end
-=end
 end
