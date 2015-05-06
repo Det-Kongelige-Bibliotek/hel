@@ -7,34 +7,11 @@
   <div class="col-sm-6">
     <%= builder.input :title_statement %>
   </div>
-  <%# In this case we need to manually create the input as language is not a simple accessor %>
-  <% @instance.languages.each do |lang| %>
-  <div class="col-sm-6">
-    <div class="form-group">
-     <label for="language-value">
-       <%= t '.language' %>
-     </label>
-      <select id="language-value" name="instance[language][][value]" class="form-control">
-        <%=  options_for_select(get_list_with_labels('Languages'), selected: lang.value) %>
-      </select>
-    </div>
-  </div>
-  <% end %>
-  <% if @instance.languages.empty? %>
-      <div class="col-sm-6">
-        <label for="language-value"><%=t '.language' %></label>
-        <select id="language-value" name="instance[language][][value]" class="form-control combobox">
-         <%=  options_for_select(get_list_with_labels('Languages').unshift(['Vælg sprog', '']) ) %>
-       </select>
-      </div>
-  <% end %>
 
   <div class="col-sm-6">
-    <%#= builder.input :copyright_date %>
+    <%= builder.input :isbn13 %>
   </div>
-  <div class="col-sm-6">
-    <%#= builder.input :published_date %>
- </div>
+
   <div class="col-sm-6">
     <%= builder.input :dimensions %>
   </div>
