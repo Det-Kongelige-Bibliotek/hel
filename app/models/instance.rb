@@ -5,9 +5,9 @@
 # should live in separate modules and
 # be mixed in.
 class Instance < ActiveFedora::Base
-  include Hydra::AccessControls::Permissions
+ # include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
-#  include Concerns::Preservation
+  include Concerns::Preservation
   include Concerns::Renderers
   include Datastreams::TransWalker
 #  include Concerns::CustomValidations
@@ -31,7 +31,7 @@ class Instance < ActiveFedora::Base
 
   accepts_nested_attributes_for :relators
 
-  before_save :set_rights_metadata
+  #before_save :set_rights_metadata
 
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
@@ -46,7 +46,7 @@ class Instance < ActiveFedora::Base
     self.id
   end
 
-  validates :activity, :collection, :copyright, presence: true
+  validates :collection, :copyright, presence: true
 
 
   # Use this setter to manage work relations
@@ -184,8 +184,8 @@ class Instance < ActiveFedora::Base
 
   def to_solr(solr_doc = {} )
     super
-    activity_name = Administration::Activity.find(activity).activity
-    Solrizer.insert_field(solr_doc, 'activity_name', activity_name, :stored_searchable, :facetable)
+    #activity_name = Administration::Activity.find(activity).activity
+    #Solrizer.insert_field(solr_doc, 'activity_name', activity_name, :stored_searchable, :facetable)
   end
 
 
