@@ -33,8 +33,10 @@ class InstancesController < ApplicationController
   # If work_id is given in the params, add this to the object.
   def new
     @instance = @klazz.new
+    @instance.relators.build
     @work = Work.find(params[:work_id])
-    if params[:query] 
+    # TODO: Refactor to use ConversionService.instance_from_aleph
+    if params[:query]
       service = AlephService.new
       query = params[:query] 
       set=service.find_set(query) 
@@ -53,6 +55,7 @@ class InstancesController < ApplicationController
 
   # GET /instances/1/edit
   def edit
+    @instance.relators.build
   end
 
   # POST /instances
@@ -77,7 +80,7 @@ class InstancesController < ApplicationController
       # TODO: TEI specific logic should be in an after_save hook rather than on the controller
       if @instance.type == 'TEI'
         @instance.content_files.each do |f|
-          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
                                        f.external_file_path,@instance)
           f.update_tech_metadata_for_external_file
           f.save(validate: false)
@@ -161,7 +164,7 @@ class InstancesController < ApplicationController
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :access_condition, :availability, :collection, :preservation_profile,
-                                     note: [], content_files: []
+                                     note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
     ).tap { |elems| remove_blanks(elems) }
   end
 

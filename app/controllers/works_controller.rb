@@ -46,20 +46,10 @@ class WorksController < ApplicationController
     end
   end
 
+  # For testing: knausgård is isbn=9788711396322
   def aleph
-    service = AlephService.new
-    # :field, :value read as aleph_params["field"] and aleph_params["value"],
-    # respectively. 
-    # For testing: knausgård is isbn=9788711396322
-    rec = service.find_first(aleph_params['field'], aleph_params['value'])
-    if rec.present?
-      converter = ConversionService.new(rec)
-      doc = converter.to_mods
-      mods = Datastreams::Mods.from_xml(doc)
-
-      @work = Work.new
-      @work.from_mods(mods)
-
+    @work = ConversionService.work_from_aleph(aleph_params['field'], aleph_params['value'])
+    if @work.present?
       if @work.save
         flash[:notice] = I18n.t('work.aleph.success_message')
         query =  "#{aleph_params[:field]}=#{aleph_params[:value]}"
@@ -82,7 +72,7 @@ class WorksController < ApplicationController
         @work.instances.each do |i|
           if i.type == 'TEI'
             i.content_files.each do |f|
-                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_sed.xsl'),
+                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
                 f.external_file_path,i)
                 f.update_tech_metadata_for_external_file
                 f.save(validate: false)

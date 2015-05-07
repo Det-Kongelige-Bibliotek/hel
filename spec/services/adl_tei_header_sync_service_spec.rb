@@ -14,7 +14,7 @@ describe  TeiHeaderSyncService do
       "mkdir -p #{work_dir};" + 
       "cp #{source_file} #{@tei_file}"
 
-    @xsl  = "#{Rails.root}/app/services/xslt/tei_header_sed.xsl"
+    @xsl  = "#{Rails.root}/app/services/xslt/tei_header_update.xsl"
 
     self.executor(cmd)
     @xdoc = Nokogiri::XML.parse(File.new(@tei_file)) { |config| config.strict }
@@ -47,7 +47,6 @@ describe  TeiHeaderSyncService do
       surname  = "New surname"
       person   = Authority::Person.find_or_create_person(forename,surname)
       work.add_author(person)
-      author   = work.authors.first
       cf       = SyncExtRepoADL.add_contentfile_to_instance(@tei_file,instance)
       result   = TeiHeaderSyncService.perform(@xsl,@tei_file,instance)
 

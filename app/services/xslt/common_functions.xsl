@@ -7,8 +7,6 @@
 	       exclude-result-prefixes="my xsl t"
 	       version="1.0">
 
-  <xsl:param name="aid" select="''"/>
-
 <!-- 
      This terrible list of param elements is due to the fact valhal cannot do
      a decent xml serialization of the metadata, that I and ruby nokogiri
@@ -45,21 +43,7 @@
   <xsl:param name="publisher" select="''"/>
   <xsl:param name="pub_place" select="''"/>
                   
-  <xsl:output encoding="UTF-8"
-	      indent="yes" />
-
-  <xsl:template match="t:sourceDesc/t:bibl">
-    <bibl>
-      <xsl:apply-templates select="@*"/>
-      <xsl:apply-templates 
-	  mode="bibl" 
-	  select="t:pubPlace|t:date|t:publisher|t:title[1]|t:author[1]"/>
-      <xsl:apply-templates
-	  select="t:editor|t:ref|t:relatedItem|t:respStmt|t:textLang"/>
-    </bibl>
-  </xsl:template>
-
-  <xsl:template mode="bibl" match="t:pubPlace">
+  <xsl:template name="pub_place" mode="bibl" match="t:pubPlace">
     <pubPlace>
       <xsl:copy-of select="@*"/>
       <xsl:choose>
@@ -73,7 +57,7 @@
     </pubPlace>
   </xsl:template>
 
-  <xsl:template mode="bibl" match="t:date">
+  <xsl:template name="date"  mode="bibl" match="t:date">
     <date>
       <xsl:copy-of select="@*"/>
       <xsl:choose>
@@ -87,14 +71,14 @@
     </date>
   </xsl:template>
 
-  <xsl:template mode="bibl" match="t:publisher">
+  <xsl:template name="publisher" mode="bibl" match="t:publisher">
     <publisher>
       <xsl:copy-of select="@*"/>
       <xsl:value-of select="$publisher"/>
     </publisher>
   </xsl:template>
 
-  <xsl:template mode="bibl" match="t:title">
+  <xsl:template name="title"  mode="bibl" match="t:title">
     <xsl:if test="$title0">
       <xsl:element name="title">
 	<xsl:copy-of select="@*"/>
@@ -145,7 +129,7 @@
   </xsl:template>
 
 
-  <xsl:template mode="bibl" match="t:author">
+  <xsl:template name="author"  mode="bibl" match="t:author">
     <xsl:if test="$last0 and $first0">
       <xsl:call-template name="encode_aut">
 	<xsl:with-param name="autfirst" select="$first0" />
@@ -177,10 +161,4 @@
     </author>
   </xsl:template>
 
-
-  <xsl:template match="@*|node()">
-    <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
-    </xsl:copy>
-  </xsl:template>
 </xsl:transform>
