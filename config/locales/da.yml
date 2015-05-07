@@ -298,6 +298,10 @@ da:
       title: "Listing Trykforlaegs"
       confirm: "Are you sure?"
 
+  relators:
+    name: "Navn"
+    role: "Rolle"
+
   works:
     add_instance:
       add: "Tilføj ny instans"
@@ -316,8 +320,6 @@ da:
       lang: "Sprog"
       type: "Type"
       author: "Ophav"
-      name: "Navn"
-      role: "Rolle"
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
       origin_date: "Oprindelsesdato"

@@ -32,4 +32,6 @@
     <%= builder.input :note , input_html: { value: '', name: 'instance[note][]'} %>
   </div>
 
+  <%= render partial: 'relators/form', locals: { builder: builder } %>
+
 </fieldset>

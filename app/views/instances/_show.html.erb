@@ -32,6 +32,8 @@
       </div>
       <div class="col-sm-9">
         <%= render partial:  'instances/show_bibliograph' %>
+        <h4><%= t 'works.show.agent_relations' %></h4>
+        <%= render partial:  'relators/show', locals: { object: @instance } %>
         <%= render partial:  'instances/show_administrative' %>
         <%= render partial:  'instances/show_files' %>
       </div>
