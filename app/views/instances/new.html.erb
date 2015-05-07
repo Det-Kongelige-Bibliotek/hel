@@ -1,4 +1,4 @@
-<% @page_title= t('.title') + @work.titles.first.value  %>
+<% @page_title = "#{t('.title')} #{@work.display_value}" %>
 <%= render partial: 'works/show' %>
 <%= render 'form' %>
 

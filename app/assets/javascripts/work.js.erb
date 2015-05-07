@@ -158,9 +158,9 @@ function attachInstanceBindings(){
 // call the Activity show.json
 // and populate the form fields with its values
 function fetchActivityData(){
-    var activity_id = $(this).val();
+    var activity_id = encodeURIComponent($(this).val());
+    if (activity_id.length == 0) throw 'ActivityID undefined!';
     var activity_url = "<%= Rails.application.routes.url_helpers.administration_activities_path %>/" + activity_id + '.json';
-
     $.get(activity_url, function(data) {
         // iterate over response and apply values to the corresponding inputs
         $.each(data, function(i, item){
