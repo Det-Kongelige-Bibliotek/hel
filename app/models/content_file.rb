@@ -41,7 +41,7 @@ class ContentFile < ActiveFedora::Base
     mime_type = mime_type_from_ext(file_name)
 
     attrs = {:dsLocation => "file://#{path}", :controlGroup => 'E', :mimeType => mime_type, :prefix=>''}
-    ds = ActiveFedora::Datastream.new(inner_object,'content',attrs)
+    ds = ActiveFedora::Datastream.new('content',attrs)
 
     file_object = File.new(path)
     set_file_timestamps(file_object)
