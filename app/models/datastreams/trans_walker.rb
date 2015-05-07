@@ -26,7 +26,7 @@ module Datastreams
       
       self.add_title(tit)
 
-      mods.person.nodeset.each { |p|
+      mods.person.nodeset.each do |p|
         ns = p.namespace.href
         family = p.xpath('car:namePart[@type="family"]','car'=>ns).text
         given  = p.xpath('car:namePart[@type="given"]','car'=>ns).text
@@ -41,8 +41,13 @@ module Datastreams
         name={authorized_personal_name: nhash }
         mads=Authority::Person.create(name)
         self.add_author(mads)
-      }
+      end
 
+      self.origin_date  = mods.dateIssued.first
+
+      place = Authority::Place.create(_name: mods.originPlace.first)
+      self.origin_place = place
+      self
     end
 
     def to_instance(mods)
@@ -78,9 +83,11 @@ module Datastreams
 
       # Don't know what happens if these are repeated.
 
-      self.published_date  = mods.dateIssued.first
-      self.publisher_name  = mods.publisher.first
-      self.published_place = mods.originPlace.first
+      # this should use the relator style instead
+      pub = Authority::Organization.create(_name: mods.publisher.first)
+      self.add_publisher(pub)
+
+
     end
 
     
