@@ -281,4 +281,4 @@ end
     ActiveFedora::SolrService.query("title_tesim:* && active_fedora_model_ssi:Work",
                                     {:rows => ActiveFedora::SolrService.count("title_tesim:* && active_fedora_model_ssi:Work")})
   end
-end
+=end
