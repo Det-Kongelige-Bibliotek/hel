@@ -12,6 +12,7 @@ class Work < ActiveFedora::Base
 
   property :language, predicate: ::RDF::Vocab::Bibframe::language, multiple: false
   property :origin_date, predicate: ::RDF::Vocab::Bibframe::originDate, multiple: false
+  belongs_to :origin_place, predicate: ::RDF::Vocab::Bibframe::originPlace, class_name: 'Authority::Place'
   has_many :titles
   has_many :instances
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo

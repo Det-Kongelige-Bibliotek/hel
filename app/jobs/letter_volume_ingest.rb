@@ -18,14 +18,15 @@ class LetterVolumeIngest
     activity = Administration::Activity.find(activity: 'Danmarks Breve').first
     fail 'Activity Danmarks Breve not defined!' unless activity.present?
 
-    instance_tei.work << work
+
+    instance_tei.work = work
     instance_tei.type = 'TEI'
     instance_tei.activity = activity.pid
     instance_tei.collection = activity.collection
     instance_tei.copyright = activity.copyright
     instance_tei.preservation_profile = activity.preservation_profile
 
-    instance_jpg.work << work
+    instance_jpg.work = work
     instance_jpg.type = 'JPG'
     instance_jpg.activity = activity.pid
     instance_jpg.collection = activity.collection

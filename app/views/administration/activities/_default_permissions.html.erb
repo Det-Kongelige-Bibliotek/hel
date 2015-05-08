@@ -4,8 +4,8 @@
     <% get_controlled_vocab('Hydra Access Types').each do |access_type| %>
       <div class="col-sm-4">
         <%= builder.label "permissions[instance][group][#{access_type}]", access_type %>
-        <%= select_tag "administration_activity[permissions][instance][group][#{access_type}][]",
-                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.permissions['instance']['group'][access_type]), {:multiple => :multiple} %>
+        <%= select_tag "administration_activity[activity_permissions][instance][group][#{access_type}][]",
+                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.activity_permissions['instance']['group'][access_type]), {:multiple => :multiple} %>
         </div>
     <% end %>
 </fieldset>
@@ -15,8 +15,8 @@
   <% get_controlled_vocab('Hydra Access Types').each do |access_type| %>
       <div class="col-sm-4">
         <%= builder.label "permissions[file][group][#{access_type}]", access_type %>
-        <%= select_tag "administration_activity[permissions][file][group][#{access_type}][]",
-                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.permissions['file']['group'][access_type]), {:multiple => :multiple} %>
+        <%= select_tag "administration_activity[activity_permissions][file][group][#{access_type}][]",
+                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.activity_permissions['file']['group'][access_type]), {:multiple => :multiple} %>
       </div>
   <% end %>
 </fieldset>
