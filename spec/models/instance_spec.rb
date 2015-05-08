@@ -34,7 +34,7 @@ describe Instance do
     @instance.set_work=@work
     @instance.add_publisher(@org)
     @work.add_instance(@instance)
-    expect(@instance.relators).to be_an [Relator]
+    expect(@instance.relators.shift).to be_an Relator
     puts "getting to test 3"
   end
 

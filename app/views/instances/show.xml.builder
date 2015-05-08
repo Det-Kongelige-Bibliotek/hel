@@ -9,7 +9,7 @@ xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3', 'xmlns:xsi' => "http://www.w3
       end
     end
   end
-  @w.relators.each do |rel|
+  (@w.relators + @instance.relators).each do |rel|
     role_uri = rel.role
     role = role_uri.split("/").last
     agent = rel.agent 
@@ -41,12 +41,14 @@ xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3', 'xmlns:xsi' => "http://www.w3
       end
     elsif agent.class == Authority::Organization then
       xml.name("authorityURI" => agent.uri, "type" => "corporate") do
+        xml.namePart(agent.display_value)
         xml.role do
           xml.roleTerm(role, "authorityURI" => agent.uri, "type"=>"code")
         end
       end
     else
       xml.name("authorityURI" => agent.uri, "type" => "undef") do
+        xml.namePart(agent.display_value)
         xml.role do
           xml.roleTerm(role, "authorityURI" => agent.uri, "type"=>"code")
         end
