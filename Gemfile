@@ -66,6 +66,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'byebug'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'rack-mini-profiler'
