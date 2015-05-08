@@ -133,6 +133,7 @@ class ContentFile < ActiveFedora::Base
     true
   end
 
+  # TODO - there is a standard Rails method of doing this MIME something
   def mime_type_from_ext(file_name)
     ext =  File.extname(file_name)
     case ext
