@@ -1,5 +1,5 @@
 xml.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
-xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3'}) do 
+xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3', 'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",  'xsi:schemaLocation' => "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd",'version' => "3.5"}) do 
   @w = @instance.work
   @w.titles.each do |tit|
     xml.titleInfo do |title|
@@ -14,7 +14,7 @@ xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3'}) do
     role = role_uri.split("/").last
     agent = rel.agent 
     if agent.class == Authority::Person then
-      xml.name("type" => "personal") do
+      xml.name("type" => "personal", "valueURI" => agent.uri, ) do
         if agent.family_name.present? then
           xml.namePart(agent.family_name,"type" => "family")
         end
@@ -35,7 +35,7 @@ xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3'}) do
           end
           xml.namePart(date, "type" => "date")
           xml.role do
-            xml.roleTerm(role, "authorityURI" => agent.uri, "type"=>"code")
+            xml.roleTerm(role, "authorityURI" => role_uri, "type"=>"code")
           end
         end
       end
