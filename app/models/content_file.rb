@@ -16,6 +16,7 @@ class ContentFile < ActiveFedora::Base
   #
   # @param path external url to the firl
 
+  before_validation :set_rights_metadata, on: :create
   ### custom validations
   ## run through the list of validators in self.validators
   ## check if it is a valid validator and validates the content file with it
@@ -32,6 +33,14 @@ class ContentFile < ActiveFedora::Base
     end
     valid
   end
+
+  def set_rights_metadata
+    a = Administration::Activity.find(self.instance.activity)
+    self.discover_groups = a.activity_permissions['file']['group']['discover']
+    self.read_groups = a.activity_permissions['file']['group']['read']
+    self.edit_groups = a.activity_permissions['file']['group']['edit']
+  end
+
 
   # Adds a content datastream to the object as an external managed file in fedore
   # Note that this should be an absolute path!
@@ -133,6 +142,7 @@ class ContentFile < ActiveFedora::Base
     true
   end
 
+  # TODO - there is a standard Rails method of doing this MIME something
   def mime_type_from_ext(file_name)
     ext =  File.extname(file_name)
     case ext

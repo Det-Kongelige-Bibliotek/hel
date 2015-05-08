@@ -150,6 +150,8 @@ da:
   models:
     work: 'Værk'
     authority_person: 'Person'
+    authority_place: 'Sted'
+    authority_organization: 'Organisation'
 
   roles:
     aut: 'Forfatter'

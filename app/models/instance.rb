@@ -5,7 +5,7 @@
 # should live in separate modules and
 # be mixed in.
 class Instance < ActiveFedora::Base
- # include Hydra::AccessControls::Permissions
+  include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
   include Concerns::Preservation
   include Concerns::Renderers
@@ -31,14 +31,14 @@ class Instance < ActiveFedora::Base
 
   accepts_nested_attributes_for :relators
 
-  #before_save :set_rights_metadata
+  before_save :set_rights_metadata
 
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
-    a = Administration::Activity.where(self.activity)
-    self.discover_groups = a.permissions['instance']['group']['discover']
-    self.read_groups = a.permissions['instance']['group']['read']
-    self.edit_groups = a.permissions['instance']['group']['edit']
+    a = Administration::Activity.find(self.activity)
+    self.discover_groups = a.activity_permissions['instance']['group']['discover']
+    self.read_groups = a.activity_permissions['instance']['group']['read']
+    self.edit_groups = a.activity_permissions['instance']['group']['edit']
   end
 
 
@@ -124,17 +124,16 @@ class Instance < ActiveFedora::Base
         cf.add_external_file(file)
       end
     end
-    set_rights_metadata_on_file(cf)
+    cf.instance = self
     cf.validators = validators
     cf.save(validate: run_custom_validators)
-    content_files << cf
     cf
   end
 
 
 
   def set_rights_metadata_on_file(file)
-    a = Administration::Activity.where(self.activity)
+    a = Administration::Activity.find(self.activity)
     file.discover_groups = a.permissions['file']['group']['discover']
     file.read_groups = a.permissions['file']['group']['read']
     file.edit_groups = a.permissions['file']['group']['edit']

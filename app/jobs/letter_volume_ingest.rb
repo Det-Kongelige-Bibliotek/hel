@@ -51,8 +51,7 @@ class LetterVolumeIngest
     c = ContentFile.new
     c.add_external_file(abs_path)
     c.instance = instance_tei
-    c.save
-    puts "TEI file id #{c.id}"
+    fail "TEI file could not be saved! #{c.errors.messages}" unless c.save
     c.id
   end
 

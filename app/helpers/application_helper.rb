@@ -33,7 +33,7 @@ module ApplicationHelper
   end
 
   def translate_model_names(name)
-    I18n.t("models.#{name.parameterize('_')}")
+    I18n.t("models.#{name.parameterize('_')}", default: name)
   end
 
   # Renders a title type ahead field

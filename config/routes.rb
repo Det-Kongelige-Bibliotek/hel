@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :authority do
-    resources :people
+    resources :people, :organizations, :places
   end
 
   get 'resources/:id' => 'resources#show'
