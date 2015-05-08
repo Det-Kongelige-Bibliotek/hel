@@ -34,29 +34,40 @@ xml.mods({'xmlns' => 'http://www.loc.gov/mods/v3', 'xmlns:xsi' => "http://www.w3
             end
           end
           xml.namePart(date, "type" => "date")
-          xml.role do
-            xml.roleTerm(role, "authorityURI" => role_uri, "type"=>"code")
-          end
+        end
+        xml.role do
+          xml.roleTerm(role, "authorityURI" => role_uri, "type"=>"code")
         end
       end
     elsif agent.class == Authority::Organization then
       xml.name("authorityURI" => agent.uri, "type" => "corporate") do
         xml.namePart(agent.display_value)
+        if agent.founding_date.present? || agent.dissolution_date.present? then
+          date = ""
+          if agent.founding_date.present? then
+            date += agent.founding_date + "-"
+          end
+          if agent.dissolution_date.present?  then
+            if agent.founding_date.present? then
+              date += agent.dissolution_date
+            else
+              date = "-" + agent.dissolution_date
+            end
+          end
+          xml.namePart(date, "type" => "date")
+        end
         xml.role do
-          xml.roleTerm(role, "authorityURI" => agent.uri, "type"=>"code")
+          xml.roleTerm(role, "authorityURI" => role_uri, "type"=>"code")
         end
       end
     else
       xml.name("authorityURI" => agent.uri, "type" => "undef") do
-        xml.namePart(agent.display_value)
+        xml.namePart(agent.display_value )
         xml.role do
-          xml.roleTerm(role, "authorityURI" => agent.uri, "type"=>"code")
+          xml.roleTerm(role, "authorityURI" => role_uri, "type"=>"code")
         end
       end
     end
-#    xml.name(agent.class)
-#    xml.name(rel.methods)
-#    xml.name(agent.methods)
   end
 end
 
