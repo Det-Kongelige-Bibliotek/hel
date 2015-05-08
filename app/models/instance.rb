@@ -5,7 +5,7 @@
 # should live in separate modules and
 # be mixed in.
 class Instance < ActiveFedora::Base
- # include Hydra::AccessControls::Permissions
+  include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
   include Concerns::Preservation
   include Concerns::Renderers
@@ -31,14 +31,14 @@ class Instance < ActiveFedora::Base
 
   accepts_nested_attributes_for :relators
 
-  #before_save :set_rights_metadata
+  before_save :set_rights_metadata
 
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
     a = Administration::Activity.find(self.activity)
-    self.discover_groups = a.permissions['instance']['group']['discover']
-    self.read_groups = a.permissions['instance']['group']['read']
-    self.edit_groups = a.permissions['instance']['group']['edit']
+    self.discover_groups = a.activity_permissions['instance']['group']['discover']
+    self.read_groups = a.activity_permissions['instance']['group']['read']
+    self.edit_groups = a.activity_permissions['instance']['group']['edit']
   end
 
 
