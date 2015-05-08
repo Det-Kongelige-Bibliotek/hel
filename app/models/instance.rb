@@ -124,22 +124,12 @@ class Instance < ActiveFedora::Base
         cf.add_external_file(file)
       end
     end
-    set_rights_metadata_on_file(cf)
+    cf.instance = self
     cf.validators = validators
     cf.save(validate: run_custom_validators)
-    content_files << cf
     cf
   end
-
-
-
-  def set_rights_metadata_on_file(file)
-    a = Administration::Activity.find(self.activity)
-    file.discover_groups = a.permissions['file']['group']['discover']
-    file.read_groups = a.permissions['file']['group']['read']
-    file.edit_groups = a.permissions['file']['group']['edit']
-  end
-
+  
   ## Model specific preservation functionallity
 
   # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)
