@@ -26,7 +26,7 @@ class SyncExtRepoADL
     if (success)
       repo.add_sync_message('Git update success')
 
-      adl_activity = Administration::Activity.find(repo.activity)
+      adl_activity = Administration::Activity.where(repo.activity)
 
       Dir.glob("#{repo.base_dir}/*/*.xml").each do |fname|
         Resque.logger.debug "file #{fname}"
@@ -124,7 +124,7 @@ class SyncExtRepoADL
   def self.find_instance(sysno)
     result = ActiveFedora::SolrService.query('system_number_tesim:"'+sysno+'" && active_fedora_model_ssi:Instance')
     if (result.size > 0)
-      Instance.find(result[0]['id'])
+      Instance.where(result[0]['id'])
     else
       nil
     end

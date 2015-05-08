@@ -9,7 +9,7 @@ class LetterVolumeSplitter
   def self.perform(work_pid, xml_pid)
     master_work = Work.find(work_pid)
     xml = ContentFile.find(xml_pid)
-    activity = Administration::Activity.find(activity: 'Danmarks Breve').first
+    activity = Administration::Activity.where(activity: 'Danmarks Breve').first
 
     raise "Work with pid #{work_pid} not found!" unless master_work
     raise "ContentFile with pid #{xml_pid} not found!" unless xml

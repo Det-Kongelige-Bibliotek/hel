@@ -15,20 +15,20 @@ class LetterVolumeIngest
     # create Valhal objects
     fail "Work could not be saved #{work.errors.messages}" unless work.save
     # create TEI and JPG instances
-    activity = Administration::Activity.find(activity: 'Danmarks Breve').first
+    activity = Administration::Activity.where(activity: 'Danmarks Breve').first
     fail 'Activity Danmarks Breve not defined!' unless activity.present?
 
 
     instance_tei.work = work
     instance_tei.type = 'TEI'
-    instance_tei.activity = activity.pid
+    instance_tei.activity = activity.id
     instance_tei.collection = activity.collection
     instance_tei.copyright = activity.copyright
     instance_tei.preservation_profile = activity.preservation_profile
 
     instance_jpg.work = work
     instance_jpg.type = 'JPG'
-    instance_jpg.activity = activity.pid
+    instance_jpg.activity = activity.id
     instance_jpg.collection = activity.collection
     instance_jpg.copyright = activity.copyright
     instance_jpg.preservation_profile = activity.preservation_profile
@@ -39,7 +39,7 @@ class LetterVolumeIngest
     tei_id = ingest_tei_file(pathname, instance_tei)
     ingest_jpg_files(pathname, instance_jpg)
     Resque.logger.info "Letter Volume #{pathname.basename.to_s} imported with id #{work.id}"
-    Resque.enqueue(LetterVolumeSplitter, work.pid, tei_id)
+    Resque.enqueue(LetterVolumeSplitter, work.id, tei_id)
   end
 
   # Find TEI file
