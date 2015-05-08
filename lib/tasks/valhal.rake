@@ -25,7 +25,10 @@ namespace :valhal do
 
   desc 'Reindex all activefedora objects'
   task reindex: :environment do
-    ActiveFedora::Base.all.each {|obj| obj.update_index}
+    puts "deleting all documents from Solr"
+    system "curl -H 'Content-Type: text/xml' http://localhost:8983/solr/update?commit=true --data-binary '<delete><query>*:*</query></delete>'"
+    puts "updating index"
+    ActiveFedora::Base.reindex_everything
   end
 
   private
