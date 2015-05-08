@@ -8,7 +8,7 @@ module Authority
     property :death_place, predicate: ::RDF::Vocab::SCHEMA.deathPlace, multiple: false
     property :nationality, predicate: ::RDF::Vocab::SCHEMA.nationality, multiple: false
 
-    has_many :relators
+    has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
 
     def display_value
       value = full_name

@@ -26,7 +26,7 @@ class Instance < ActiveFedora::Base
 
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
-  has_many :content_files, property: :content_for
+  has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
 
   accepts_nested_attributes_for :relators
@@ -35,7 +35,7 @@ class Instance < ActiveFedora::Base
 
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
-    a = Administration::Activity.find(self.activity)
+    a = Administration::Activity.where(self.activity)
     self.discover_groups = a.permissions['instance']['group']['discover']
     self.read_groups = a.permissions['instance']['group']['read']
     self.edit_groups = a.permissions['instance']['group']['edit']
@@ -56,7 +56,7 @@ class Instance < ActiveFedora::Base
   # @params Work | String (pid)
   def set_work=(work_input)
     if work_input.is_a? String
-      work = Work.find(work_input)
+      work = Work.where(work_input)
     elsif work_input.is_a? Work
       work = work_input
     else
@@ -73,7 +73,7 @@ class Instance < ActiveFedora::Base
 
   def set_equivalent=(instance_input)
     if instance_input.is_a? String
-      instance = Instance.find(instance_input)
+      instance = Instance.where(instance_input)
     elsif instance_input.is_a? Instance
       instance = instance_input
     else
@@ -134,7 +134,7 @@ class Instance < ActiveFedora::Base
 
 
   def set_rights_metadata_on_file(file)
-    a = Administration::Activity.find(self.activity)
+    a = Administration::Activity.where(self.activity)
     file.discover_groups = a.permissions['file']['group']['discover']
     file.read_groups = a.permissions['file']['group']['read']
     file.edit_groups = a.permissions['file']['group']['edit']
