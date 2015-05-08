@@ -15,7 +15,7 @@ module Concerns
       def add_fits_metadata_datastream(file)
         logger.info 'Characterizing file using FITS tool'
         begin
-          fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub!(' ', '_'), :fits)
+          fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub(' ', '_'), :fits)
         rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
           logger.error tnfe.to_s
           logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'

@@ -18,8 +18,6 @@ describe 'Send object to preservation' do
 
 
   describe 'perform' do
-
-
     after :each do
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
     end

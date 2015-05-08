@@ -7,8 +7,8 @@ Rails.application.initialize!
 require 'resque'
 
 def initialize_listener_jobs
-  puts "Enqueueing ReceivePreservationResponseJob"
-  Resque.enqueue(ReceivePreservationResponseJob, nil)
+  #puts "Enqueueing ReceivePreservationResponseJob"
+  Resque.enqueue(ReceivePreservationResponseJob)
 end
 
 if defined?(PhusionPassenger)

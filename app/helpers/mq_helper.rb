@@ -9,7 +9,7 @@ module MqHelper
   def send_message_to_preservation(message)
     destination = MQ_CONFIG['preservation']['destination']
 
-    send_on_rabbitmq(message, destination, {
+    MqHelper.send_on_rabbitmq(message, destination, {
         'content_type' => 'application/json',
         'type' => MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
     })

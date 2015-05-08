@@ -31,7 +31,7 @@ describe 'Receive preservation response messages' do
       destination = MQ_CONFIG['preservation']['response']
       MqHelper.send_on_rabbitmq(@m.to_json, destination, @o)
 
-      sleep 10.seconds
+      #sleep 10.seconds
       ReceivePreservationResponseJob.perform
       @i.reload
       @i.preservation_state.should eql PRESERVATION_PACKAGE_COMPLETE.keys.first
