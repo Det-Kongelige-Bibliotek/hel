@@ -4,7 +4,7 @@ namespace :adl do
   task :init, [:git_url, :base_dir,:branch, :image_dir] => :environment do |task, args|
     adl_activity = Administration::Activity.create(activity: "ADL", embargo: "0", access_condition: "",
       copyright: "Attribution-NonCommercial-ShareAlike CC BY-NC-SA", collection: "dasam3", preservation_profile: "storage")
-    adl_activity.permissions = {"file"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}},
+    adl_activity.activity_permissions = {"file"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}},
                                 "instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}}
     adl_activity.save
 
