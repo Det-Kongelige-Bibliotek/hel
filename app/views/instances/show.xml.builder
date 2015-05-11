@@ -44,9 +44,10 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
     end
     if @instance.collection.present? then
       xml.relatedItem("type" => "host") do
-        xml.title do
-            xml.titleInfo(instance.collection)
+        xml.titleInfo do
+            xml.title(@instance.collection)
         end
+        xml.typeOfResource("collection" => "yes")
       end
     end
   end
