@@ -42,6 +42,13 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
       xml << render(:partial => 'instances/mods_name', 
                     :locals => { :agent => agent, :rel =>rel } )
     end
+    if @instance.collection.present? then
+      xml.relatedItem("type" => "host") do
+        xml.title do
+            xml.titleInfo(instance.collection)
+        end
+      end
+    end
   end
 end
 
