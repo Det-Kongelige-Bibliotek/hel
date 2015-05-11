@@ -10,7 +10,7 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
     xml.titleInfo do |title|
       xml.title(tit.value)
       if tit.subtitle.present?
-          xml.subTitle(tit.subtitle + @w.id)
+          xml.subTitle(tit.subtitle)
       end
     end
   end
@@ -42,6 +42,9 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
       xml << render(:partial => 'instances/mods_name', 
                     :locals => { :agent => agent, :rel =>rel } )
     end
+    if @instance.uri then 
+      xml.identifier(@instance.uri,"type" => "uri")
+    end
     if @instance.collection.present? then
       xml.relatedItem("type" => "host") do
         xml.titleInfo do
@@ -50,6 +53,24 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
         xml.typeOfResource("collection" => "yes")
       end
     end
+
+    @w.preceding_works.each do |pre|
+      xml.relatedItem("type" => "preceding") do
+        xml.identifier do
+            xml.identifier(pre.uri,"type" => "uri")
+        end
+      end
+    end
+
+    @w.succeeding_works.each do |succ|
+      xml.relatedItem("type" => "preceding") do
+        xml.identifier do
+            xml.identifier(succ.uri,"type" => "uri")
+        end
+      end
+    end
+
+
   end
 end
 
