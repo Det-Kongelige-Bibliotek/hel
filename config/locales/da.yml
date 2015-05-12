@@ -53,6 +53,8 @@ da:
       tei_warning: "Når du opdaterer instansen opdaterer du samtidigt headers i TEI-filerne"
     show_bibliograph:
       copyright_date: "Dato for ophavsret"
+      publisher_name: "Udgiver"
+      published_place: "Udgivelsessted"
       published_date: "Udgivelsedato"
       mode_of_issuance: "Udgivelseform"
       extent: "Omfang"
@@ -75,6 +77,8 @@ da:
     labels:
       defaults:
         copyright_date: Dato for ophavsret
+        publisher_name: "Udgiver"
+        published_place: "Udgivelsessted"
         published_date: Udgivelsedato
         mode_of_issuance: Udgivelseform
         extent: Omfang
