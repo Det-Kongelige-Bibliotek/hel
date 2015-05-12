@@ -1,0 +1,19 @@
+ if agent.class is_a? Authority::Person
+      xml.name("authorityURI" => agent.uri, type => "personal") do
+        xml.role do
+          xml.roleTerm(role)
+        end
+      end
+    elsif agent.class is_a? Authority::Organization
+      xml.name("authorityURI" => agent.uri, type => "corporate") do
+        xml.role do
+          xml.roleTerm(role)
+        end
+      end
+    else
+      xml.name("authorityURI" => agent.uri) do
+        xml.role do
+          xml.roleTerm(role)
+        end
+      end
+    end

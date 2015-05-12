@@ -24,7 +24,7 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
   end
   (@w.relators + @instance.relators).each do |rel|
     role_uri = rel.role
-    role = role_uri.split("/").last
+    role  = rel.short_role
     agent = rel.agent 
 #    "production", "publication", "distribution", "manufacture" 
     if role == "pbl" then
@@ -40,7 +40,7 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
                     )
     else
       xml << render(:partial => 'instances/mods_name', 
-                    :locals => { :agent => agent, :rel =>rel } )
+                    :locals => { :agent => agent, :rel =>rel , :role => role , :role_uri => role_uri } )
     end
     if @instance.uri then 
       xml.identifier(@instance.uri,"type" => "uri")

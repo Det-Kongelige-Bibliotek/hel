@@ -1,5 +1,3 @@
-role_uri = rel.role
-role = role_uri.split("/").last
 agent = rel.agent 
 
 if agent.class == Authority::Person then
