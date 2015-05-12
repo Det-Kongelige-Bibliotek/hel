@@ -23,7 +23,6 @@ class InstancesController < ApplicationController
       format.html
       format.xml
       format.rdf { render rdf: @instance }
-      format.mods { render mods: @instance }
     end
   end
 
