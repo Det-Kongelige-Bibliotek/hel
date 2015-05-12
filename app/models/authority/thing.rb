@@ -5,7 +5,9 @@ module Authority
     property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: false
     property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false
     property :image, predicate: ::RDF::Vocab::SCHEMA.image
-    property :_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false
+    property :_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false do |index|
+      index.as :stored_searchable
+    end
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
     def same_as_uri=(uri)
@@ -46,7 +48,18 @@ module Authority
       solr_doc
     end
 
-    
+
+    # Given a set of parameters, attempt to find a matching object
+    # if no object is found create a new one with these params
+    def self.find_or_create(search_params)
+      results = self.where(search_params)
+      if results.size > 0
+        logger.error "Multiple objects found with search_params #{search_params}" if results.size > 1
+        results.first
+      else
+        self.create(search_params)
+      end
+    end
 
   end
 end
