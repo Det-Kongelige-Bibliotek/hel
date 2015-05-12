@@ -82,6 +82,15 @@ class Instance < ActiveFedora::Base
     cf
   end
 
+  def create_structMap
+    self.structMap.clear_structMap
+    order = 1
+    self.content_files.each do |cf|
+      self.structMap.add_file(order.to_s,cf.original_filename)
+      order += 1
+    end
+  end
+
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
     a = Administration::Activity.find(self.activity)

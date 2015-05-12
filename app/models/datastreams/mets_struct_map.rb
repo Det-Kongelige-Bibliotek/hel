@@ -41,9 +41,15 @@ module Datastreams
       result
     end
 
+    def clear_structMap
+      structMap = find_by_terms(:structMap).first
+      structMap.children.remove
+      content_will_change!
+    end
+
 
     def self.xml_template
-      Nokogiri::XML.parse('<mets><structMap/><structMap/></mets>')
+      Nokogiri::XML.parse('<mets><structMap><structMap/></mets>')
     end
   end
 end
