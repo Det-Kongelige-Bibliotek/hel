@@ -42,51 +42,51 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
       xml << render(:partial => 'instances/mods_name', 
                     :locals => { :agent => agent, :rel =>rel , :role => role , :role_uri => role_uri } )
     end
-    if @instance.uri then 
-      xml.identifier(@instance.uri,"type" => "uri")
-    end
-    if @instance.collection.present? then
-      xml.relatedItem("type" => "host") do
-        xml.titleInfo do
-            xml.title(@instance.collection)
-        end
-        xml.typeOfResource("collection" => "yes")
-      end
-    end
+  end 
+  if @instance.uri then 
+    xml.identifier(@instance.uri,"type" => "uri")
+  end
 
-    @w.related_works.each do |pre|
-      xml.relatedItem("type" => "preceding") do
-        pre.titles.each do |tit|
-          xml.titleInfo do
-            xml.title(tit.value)
-            if tit.subtitle.present?
-              xml.subTitle(tit.subtitle)
-            end
+  if @instance.collection.present? then
+    xml.relatedItem("type" => "host") do
+      xml.titleInfo do
+        xml.title(@instance.collection)
+      end
+      xml.typeOfResource("collection" => "yes")
+    end
+  end
+
+  @w.related_works.each do |pre|
+    xml.relatedItem("type" => "preceding") do
+      pre.titles.each do |tit|
+        xml.titleInfo do
+          xml.title(tit.value)
+          if tit.subtitle.present?
+            xml.subTitle(tit.subtitle)
           end
         end
-        xml.identifier do
-          xml.identifier(pre.uri,"type" => "uri")
-        end
+      end
+      xml.identifier do
+        xml.identifier(pre.uri,"type" => "uri")
       end
     end
-
-    @w.preceding_works.each do |pre|
-      xml.relatedItem("type" => "preceding") do
-        xml.identifier do
-            xml.identifier(pre.uri,"type" => "uri")
-        end
-      end
-    end
-
-    @w.succeeding_works.each do |succ|
-      xml.relatedItem("type" => "succeeding") do
-        xml.identifier do
-            xml.identifier(succ.uri,"type" => "uri")
-        end
-      end
-    end
-
-
   end
+
+  @w.preceding_works.each do |pre|
+    xml.relatedItem("type" => "preceding") do
+      xml.identifier do
+        xml.identifier(pre.uri,"type" => "uri")
+      end
+    end
+  end
+
+  @w.succeeding_works.each do |succ|
+    xml.relatedItem("type" => "succeeding") do
+      xml.identifier do
+        xml.identifier(succ.uri,"type" => "uri")
+      end
+    end
+  end
+
 end
 
