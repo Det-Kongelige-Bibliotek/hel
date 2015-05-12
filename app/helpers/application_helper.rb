@@ -61,7 +61,7 @@ module ApplicationHelper
   # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
   # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
   def rdf_resource_link(entry)
-    link_to Administration::ListEntry.get_label(entry), entry
+    link_to Administration::ListEntry.get_label(entry), entry if entry.present?
   end
 
   private
