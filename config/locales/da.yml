@@ -35,6 +35,7 @@ da:
   works:
     work_form:
       cancel: "Fortryd"
+      tei_warning: "Når du opdaterer værket opdaterer du samtidigt headers i TEI-filerne"
     show:
       edit: "Rediger"
   authority:
@@ -49,6 +50,7 @@ da:
     form:
       cancel: "Fortryd"
       could_not_be_saved: "Instansen kunne ikke gemmes"
+      tei_warning: "Når du opdaterer instansen opdaterer du samtidigt headers i TEI-filerne"
     show_bibliograph:
       copyright_date: "Dato for ophavsret"
       published_date: "Udgivelsedato"

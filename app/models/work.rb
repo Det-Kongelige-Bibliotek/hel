@@ -151,6 +151,13 @@ class Work < ActiveFedora::Base
     end
   end
 
+  def has_tei_instance
+    self.instances.each do |i|
+      return true if i.type == 'TEI'
+    end
+    false
+  end
+
   # Static methods
   def self.get_title_typeahead_objs
     ActiveFedora::SolrService.query("title_tesim:* && active_fedora_model_ssi:Work",

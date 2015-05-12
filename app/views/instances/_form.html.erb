@@ -34,7 +34,7 @@
 
       <div class="btn-group pull-right col-sm-offset-9">
         <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
-        <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
+        <%= f.button :button, 'Gem', class: 'btn btn-success', data: @instance.type == 'TEI' ? { confirm: t('.tei_warning') } : {} do %>
             <span class="glyphicon glyphicon-save"></span>
             Gem
         <% end %>
