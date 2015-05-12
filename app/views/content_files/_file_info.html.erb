@@ -24,8 +24,8 @@
 <tr>
   <td><strong><%= t('.download')%></strong></td>
   <td>
-    <%if can?(:download,instance.content_files.first) %>
-        <%= link_to "Download", download_content_file_path(f)%>
+    <%if can?(:download, file) %>
+        <%= link_to "Download", download_content_file_path(file)%>
     <% end %>
   </td>
 </tr>
@@ -33,7 +33,7 @@
     <tr>
       <td><strong><%= t('.upload')%></strong></td>
       <td>
-        <%if can?(:download,instance.content_files.first) %>
+        <%if can?(:download, file) %>
             <%= link_to "Upload", '#upload_file_modal', {"data-toggle" => "modal", "data-target" => "#upload_file_modal"} %>
         <% end %>
       </td>
