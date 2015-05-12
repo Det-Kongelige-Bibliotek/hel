@@ -21,8 +21,8 @@ class InstancesController < ApplicationController
   def show
     respond_to do |format|
       format.html
+      format.xml
       format.rdf { render rdf: @instance }
-      format.mods { render mods: @instance }
     end
   end
 

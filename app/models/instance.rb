@@ -26,7 +26,7 @@ class Instance < ActiveFedora::Base
 
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
-  has_many :content_files, property: :content_for
+  has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
 
   accepts_nested_attributes_for :relators
@@ -56,7 +56,7 @@ class Instance < ActiveFedora::Base
   # @params Work | String (pid)
   def set_work=(work_input)
     if work_input.is_a? String
-      work = Work.find(work_input)
+      work = Work.where(work_input)
     elsif work_input.is_a? Work
       work = work_input
     else
@@ -73,7 +73,7 @@ class Instance < ActiveFedora::Base
 
   def set_equivalent=(instance_input)
     if instance_input.is_a? String
-      instance = Instance.find(instance_input)
+      instance = Instance.where(instance_input)
     elsif instance_input.is_a? Instance
       instance = instance_input
     else
@@ -89,19 +89,24 @@ class Instance < ActiveFedora::Base
     end
   end
   
-  def add_publisher(agent)
-    relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/pbl', agent: agent)
+  def add_relator(agent,role)
+    relation = Relator.new(agent: agent, role: role)
     self.relators += [relation]
+  end
+
+  def add_publisher(agent)
+    role = 'http://id.loc.gov/vocabulary/relators/pbl'
+    self.add_relator(agent,role)
   end
 
   def add_printer(agent)
-    relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/prt', agent: agent)
-    self.relators += [relation]
+    role = 'http://id.loc.gov/vocabulary/relators/prt'
+    self.add_relator(agent,role)
   end
 
   def add_scribe(agent)
-    relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/scr', agent: agent)
-    self.relators += [relation]
+    role = 'http://id.loc.gov/vocabulary/relators/scr'
+    self.add_relator(agent,role)
   end
 
   def content_files=(files)
@@ -129,7 +134,16 @@ class Instance < ActiveFedora::Base
     cf.save(validate: run_custom_validators)
     cf
   end
-  
+
+
+
+  def set_rights_metadata_on_file(file)
+    a = Administration::Activity.find(self.activity)
+    file.discover_groups = a.permissions['file']['group']['discover']
+    file.read_groups = a.permissions['file']['group']['read']
+    file.edit_groups = a.permissions['file']['group']['edit']
+  end
+
   ## Model specific preservation functionallity
 
   # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)

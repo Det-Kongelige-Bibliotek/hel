@@ -10,10 +10,19 @@ module Concerns
       include ActiveFedora::Callbacks # to be able to define the 'before_validation' method
       include Rails.application.routes.url_helpers
 
-      has_metadata :name => 'preservationMetadata', :type => Datastreams::PreservationDatastream
-      has_attributes :preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date,
-                     :preservation_comment, :warc_id, :preservation_bitsafety, :preservation_confidentiality,
-                     datastream: 'preservationMetadata', :multiple => false
+      contains 'preservationMetadata', class_name: 'Datastreams::PreservationDatastream'
+      #has_attributes :preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date,
+      #               :preservation_comment, :warc_id, :preservation_bitsafety, :preservation_confidentiality,
+      #               datastream: 'preservationMetadata', :multiple => false
+
+      property :preservation_profile,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_state,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_details,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_modify_date,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_comment,  delegate_to: 'preservationMetadata', :multiple => false
+      property :warc_id,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_bitsafety,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_confidentiality,  delegate_to: 'preservationMetadata', :multiple => false
 
       validate :validate_preservation
 

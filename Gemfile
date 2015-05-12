@@ -70,6 +70,7 @@ group :development, :test do
   gem 'jettywrapper', '~> 2.0.0'
   gem 'thin'
   gem 'linkeddata'
+  gem 'rsolr'
 end
 
 group :development do

@@ -5,8 +5,8 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      has_metadata :name => 'fitsMetadata', :type => ActiveFedora::OmDatastream
-
+      #has_metadata :name => 'fitsMetadata', :type => ActiveFedora::OmDatastream
+      contains 'fitsMetadata', class_name: 'ActiveFedora::OmDatastream'
       #function for extracting FITS metadata from the file data associated with this GenericFile
       #and storing the XML produced as a datastream on the GenericFile Fedora object.
       #If something goes wrong with the file extraction, the RuntimeError is caught, logged and the function
