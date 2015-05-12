@@ -13,15 +13,23 @@ module Authority
     def display_value
       value = full_name
       value += ', ' if birth_date.present? || death_date.present?
-      value += "#{birth_date}-" if birth_date.present?
-      value += "#{death_date}" if death_date.present?
+      value += self.display_date
       value
+    end
+
+    def display_date
+      date = self.date_range(:start_date =>  birth_date ,
+                             :end_date   => death_date )
+      date
     end
 
     def full_name
       l_full_name = ''
-      l_full_name += "#{family_name}, " if family_name.present?
-      l_full_name += "#{given_name}" if given_name.present?
+      l_full_name += "#{family_name}"
+      if given_name.present? then
+        l_full_name += ", " if family_name.present?
+        l_full_name += "#{given_name}" 
+      end
       l_full_name
     end
 

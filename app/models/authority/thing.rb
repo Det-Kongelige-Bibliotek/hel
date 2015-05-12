@@ -19,9 +19,24 @@ module Authority
     def display_value
       value = ''
       value += _name if _name.present?
-      value += ", " if alternate_names.present?
-      value += alternate_names.join(", ") if alternate_names.present?
+      if alternate_names.present? then
+        value += ", " 
+        value += alternate_names.join(", ")
+      end
       value
+    end
+
+    def date_range(dates={})
+      date = ""
+      date += "#{dates[:start_date]}-" if dates[:start_date]
+      if  dates[:end_date] then
+        if  dates[:start_date] then
+          date += "#{dates[:end_date]}" 
+        else
+          date += "-" + "#{dates[:end_date]}" 
+        end
+      end
+      date
     end
 
     def to_solr(solr_doc = {})
