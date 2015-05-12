@@ -7,7 +7,7 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
          ) do 
   @w = @instance.work
   @w.titles.each do |tit|
-    xml.titleInfo do |title|
+    xml.titleInfo do
       xml.title(tit.value)
       if tit.subtitle.present?
           xml.subTitle(tit.subtitle)
