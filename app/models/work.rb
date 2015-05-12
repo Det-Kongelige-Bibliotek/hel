@@ -144,6 +144,7 @@ class Work < ActiveFedora::Base
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
       Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)
+      Solrizer.insert_field(solr_doc, 'instances', i.id, :displayable)
     end
     solr_doc
   end
