@@ -54,6 +54,22 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
       end
     end
 
+    @w.related_works.each do |pre|
+      xml.relatedItem("type" => "preceding") do
+        pre.titles.each do |tit|
+          xml.titleInfo do
+            xml.title(tit.value)
+            if tit.subtitle.present?
+              xml.subTitle(tit.subtitle)
+            end
+          end
+        end
+        xml.identifier do
+          xml.identifier(pre.uri,"type" => "uri")
+        end
+      end
+    end
+
     @w.preceding_works.each do |pre|
       xml.relatedItem("type" => "preceding") do
         xml.identifier do
@@ -63,7 +79,7 @@ xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
     end
 
     @w.succeeding_works.each do |succ|
-      xml.relatedItem("type" => "preceding") do
+      xml.relatedItem("type" => "succeeding") do
         xml.identifier do
             xml.identifier(succ.uri,"type" => "uri")
         end
