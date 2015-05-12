@@ -53,8 +53,18 @@ module Concerns
       end
 
       def validate_preservation
+        inherit_rights_metadata
         if (self.preservation_profile != 'Undefined' && (!PRESERVATION_CONFIG['preservation_profile'].include? self.preservation_profile))
           errors.add(:preservation_profile,'Ugyldig Bevaringsprofil')
+        end
+      end
+
+      # This is a hack because the before_validation hook is not working in AF9
+      # TODO: remove this once set_rights_metadata can be called from before_validation
+      def inherit_rights_metadata
+        if preservation_profile.blank? && self.respond_to?(:set_rights_metadata)
+          update_preservation_profile # this is also a hack
+          set_rights_metadata
         end
       end
 

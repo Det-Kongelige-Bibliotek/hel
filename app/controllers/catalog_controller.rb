@@ -34,7 +34,7 @@ class CatalogController < ApplicationController
 
     def unwanted_models
       [Instance, Trykforlaeg, ContentFile, Administration::Activity,
-       Authority::Place, Title, Hydra::AccessControls::Permission]
+       Authority::Place, Title, Hydra::AccessControls::Permission, Relator]
     end
 
     # solr field configuration for search results/index views

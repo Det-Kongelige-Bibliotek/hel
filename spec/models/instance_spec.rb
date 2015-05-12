@@ -8,10 +8,7 @@ require 'spec_helper'
 describe Instance do
   include_context 'shared'
 
-  puts "getting to test 0"
-
-  @org = 
-    Authority::Organization.new(
+  @org =  Authority::Organization.new(
                { 'same_as' => 'http://viaf.org/viaf/127954890', 
                  '_name' => 'Gyldendalske boghandel, Nordisk forlag',
                  'founding_date' => '1770' })
@@ -24,23 +21,17 @@ describe Instance do
                                      'death_date' => '2009')
   end
 
-  puts "getting to test 1"
   before :each do
-    puts valid_trykforlaeg
-    puts instance_params
-    puts "getting to test 2"
     @instance = Instance.new(valid_trykforlaeg)
     @work = Work.new(work_params)
     @instance.set_work=@work
     @instance.add_publisher(@org)
     @work.add_instance(@instance)
     expect(@instance.relators.shift).to be_an Relator
-    puts "getting to test 3"
   end
 
   describe 'relations' do
     it 'can published by a publisher' do
-      puts "getting to test 4"
       i = Instance.new(valid_trykforlaeg)
       @work.add_instance(i)
       i.set_work=@work
@@ -48,7 +39,6 @@ describe Instance do
     end
 
     it 'can have an equivalent instance' do
-      puts "getting to test 5"
       i1 = Instance.create(valid_trykforlaeg)
       i2 = Instance.create(valid_trykforlaeg)
       i1.add_publisher @org
@@ -61,14 +51,20 @@ describe Instance do
       i2.save
       i1.set_equivalent= i2
       i2.set_equivalent= i1
-#      puts "instances to compare"
-#      puts i1.equivalents.shift.id
-#      puts i2.equivalents.shift.id
-#      expect(i1.equivalents.shift.id).to eql i2.id
-#      expect(i2.equivalents.shift.id).to eql i1.id
       expect(1).to eql 1
     end
     
+  end
+
+  describe 'adding a file' do
+    it 'adds a file' do
+      i = Instance.new(valid_trykforlaeg)
+      i.activity = Administration::Activity.last.id
+      f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+      i.add_file(f)
+      i.save
+      expect(i.content_files.size).to eql 1
+    end
   end
 =begin
     describe 'to work' do
