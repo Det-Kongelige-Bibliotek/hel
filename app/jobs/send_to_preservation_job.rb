@@ -8,7 +8,7 @@ class SendToPreservationJob
     obj = nil
     begin
       obj = ActiveFedora::Base.find(pid)
-    rescue ObjectNotFoundError
+    rescue ActiveFedora::ObjectNotFoundError
       raise ArgumentError.new "No object with pid #{pid} found"
     end
 

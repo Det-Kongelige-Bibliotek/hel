@@ -15,7 +15,7 @@ module Concerns
       def add_fits_metadata_datastream(file)
         logger.info 'Characterizing file using FITS tool'
         begin
-          fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub!(' ', '_'), :fits)
+          fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub(' ', '_'), :fits)
         rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
           logger.error tnfe.to_s
           logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
@@ -48,6 +48,7 @@ module Concerns
         self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty?
         self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty?
         self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty?
+        self.format_pronom_id = 'unknown' unless self.format_pronom_id
 
         self.save
       end

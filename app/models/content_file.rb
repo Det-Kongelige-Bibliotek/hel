@@ -101,8 +101,8 @@ class ContentFile < ActiveFedora::Base
   # basic_files may either be File or UploadedFile objects.
   #
   # @param file (ActionDispatch::Http:UploadedFile | File)
-  # @param skip_fits boolean
-  def add_file(file)
+  # @param characterize Whether or not to put a characterization job on the queue. Default true.
+  def add_file(file, characterize=true)
     if file.class == ActionDispatch::Http::UploadedFile
       file_object = file.tempfile
       file_name = file.original_filename
@@ -124,7 +124,7 @@ class ContentFile < ActiveFedora::Base
     self.size = file.size.to_s
     self.file_uuid = UUID.new.generate
     self.save!
-    Resque.enqueue(FitsCharacterizingJob,self.pid)
+    Resque.enqueue(FitsCharacterizingJob,self.pid) if characterize
     true
   end
 

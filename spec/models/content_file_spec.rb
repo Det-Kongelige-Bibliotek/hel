@@ -5,7 +5,10 @@ describe 'content' do
   it 'should allow us to upload a file' do
     c = ContentFile.new
     f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+    expect(c.datastreams.keys).not_to include 'content'
     c.add_file(f)
+    expect(c.datastreams.keys).to include 'content'
+    expect(c.content.content).not_to be_nil
   end
 
   it 'has a relation to an instance' do
@@ -35,6 +38,7 @@ describe 'content' do
     describe 'content of fitsmetadata' do
       before :all do
         @c = ContentFile.new
+        @c.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
         @c.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
       end
 
@@ -184,7 +188,6 @@ describe 'content' do
           @f.last_modified = DateTime.now.strftime("%FT%T.%L%:z")
           @f.save
           @f.reload
-          puts @f.create_preservation_message
           expect(@f.create_preservation_message).to have_key 'File_UUID'
           expect(@f.create_preservation_message).to have_key 'Content_URI'
         end

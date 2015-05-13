@@ -83,9 +83,9 @@ module Concerns
           self.save
         else
           self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
-          message = create_preservation_message
           logger.debug "saving object #{self.preservation_state}"
           if self.save
+            message = create_preservation_message
             send_message_to_preservation(message.to_json)
           else
             raise "Initate_Preservation: Failed to update preservation data"
@@ -129,6 +129,7 @@ module Concerns
       def create_message_metadata
         content = self.create_preservation_message_metadata
         metadata = "<metadata>#{content}</metadata>"
+        logger.info "Created metadata content for message: #{metadata}"
         metadata
       end
 
