@@ -22,13 +22,12 @@ class Instance < ActiveFedora::Base
   property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
 
-  property :struct_map, predicate: Datastreams::MetsStructMap, multiple: false
-
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
   has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
+  has_many :struct_map, predicate: Datastreams::MetsStructMap
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
 
   accepts_nested_attributes_for :relators
