@@ -16,7 +16,10 @@ class ContentFile < ActiveFedora::Base
   #
   # @param path external url to the firl
 
-  before_validation :set_rights_metadata, on: :create
+  before_save :set_rights_metadata, on: :create, if: 'preservation_profile.blank?'
+  after_save on: :create do
+    Resque.enqueue(FitsCharacterizingJob,self.id)
+  end
   ### custom validations
   ## run through the list of validators in self.validators
   ## check if it is a valid validator and validates the content file with it
@@ -35,6 +38,7 @@ class ContentFile < ActiveFedora::Base
   end
 
   def set_rights_metadata
+    fail 'No activity' unless self.instance.activity
     a = Administration::Activity.find(self.instance.activity)
     self.discover_groups = a.activity_permissions['file']['group']['discover']
     self.read_groups = a.activity_permissions['file']['group']['read']
@@ -47,7 +51,7 @@ class ContentFile < ActiveFedora::Base
   # @param path external url to the file
   def add_external_file(path)
     file_name = Pathname.new(path).basename.to_s
-    mime_type = mime_type_from_ext(file_name)
+    mime_type = MIME::Types.type_for(file_name).first.content_type
 
     attrs = {:dsLocation => "file://#{path}", :controlGroup => 'E', :mimeType => mime_type, :prefix=>''}
     ds = ActiveFedora::Datastream.new('content',attrs)
@@ -125,41 +129,24 @@ class ContentFile < ActiveFedora::Base
     elsif file.class == File
       file_object = file
       file_name = Pathname.new(file.path).basename.to_s
-      mime_type = mime_type_from_ext(file_name)
+      # TODO: this could be improved through use of filemagick https://github.com/ricardochimal/ruby-filemagic
+      mime_type = MIME::Types.type_for(file_name).first.content_type
     else
       return false
     end
 
-    self.add_file_datastream(file_object, label:  file_name, mimeType: mime_type, dsid: 'content')
+    #self.add_file_datastream(file_object, label:  file_name, mimeType: mime_type, dsid: 'content')
     set_file_timestamps(file_object)
     self.checksum = generate_checksum(file_object)
     self.original_filename = file_name
     self.mime_type = mime_type
     self.size = file.size.to_s
     self.file_uuid = UUID.new.generate
-    self.save!
-    Resque.enqueue(FitsCharacterizingJob,self.pid)
-    true
-  end
-
-  # TODO - there is a standard Rails method of doing this MIME something
-  def mime_type_from_ext(file_name)
-    ext =  File.extname(file_name)
-    case ext
-      when '.pdf'
-        'application/pdf'
-      when '.xml'
-        'text/xml'
-      when '.tif', '.tiff'
-        'image/tiff'
-      when '.jpg', '.jpeg'
-        'image/jpeg'
-      when '.txt', '.rdf'
-        'text/plain'
-      when '.png'
-        'image/png'
-      else
-        raise "no mimetype found for extension #{ext} !"
+    if self.save
+      true
+    else
+      logger.error "Error adding file to ContentFile #{self.errors.messages}"
+      false
     end
   end
 

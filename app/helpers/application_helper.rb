@@ -61,7 +61,7 @@ module ApplicationHelper
   # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
   # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
   def rdf_resource_link(entry)
-    link_to Administration::ListEntry.get_label(entry), entry
+    link_to Administration::ListEntry.get_label(entry), entry if entry.present?
   end
 
   private
@@ -85,9 +85,9 @@ module ApplicationHelper
       if doc.nil?
         link_to 'Work', work_path(work_id)
       elsif doc['active_fedora_model_ssi'] == 'Trygforlaeg'
-        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_trykforlaeg_path(work_id,inst_id)
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_trykforlaeg_path(work_id, inst_id)
       else
-        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_instance_path(work_id,inst_id)
+        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_instance_path(work_id, inst_id)
       end
     end
 

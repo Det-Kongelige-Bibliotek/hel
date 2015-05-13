@@ -4,6 +4,9 @@ module Authority
     property :dissolution_date, predicate: ::RDF::Vocab::SCHEMA.dissolutionDate, multiple: false
     property :location, predicate: ::RDF::Vocab::SCHEMA.location 
 
+    def display_date
+      self.date_range(start_date: founding_date, end_date: dissolution_date )
+    end
   end
 end
 

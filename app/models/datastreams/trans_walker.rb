@@ -45,7 +45,7 @@ module Datastreams
 
       self.origin_date  = mods.dateIssued.first
 
-      place = Authority::Place.create(_name: mods.originPlace.first)
+      place = Authority::Place.find_or_create(_name: mods.originPlace.first)
       self.origin_place = place
       self
     end
@@ -83,8 +83,7 @@ module Datastreams
 
       # Don't know what happens if these are repeated.
 
-      # this should use the relator style instead
-      pub = Authority::Organization.create(_name: mods.publisher.first)
+      pub = Authority::Organization.find_or_create(_name: mods.publisher.first)
       self.add_publisher(pub)
 
 
