@@ -14,6 +14,9 @@ class Instance < ActiveFedora::Base
   include Datastreams::TransWalker
   include Concerns::CustomValidations
 
+  has_metadata(name: 'structMap',
+               type: Datastreams::MetsStructMap)
+
   has_and_belongs_to_many :work, class_name: 'Work', property: :instance_of, inverse_of: :has_instance
   has_many :content_files, property: :content_for
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
@@ -80,6 +83,15 @@ class Instance < ActiveFedora::Base
     cf.save(validate: run_custom_validators)
     content_files << cf
     cf
+  end
+
+  def create_structMap
+    self.structMap.clear_structMap
+    order = 1
+    self.content_files.each do |cf|
+      self.structMap.add_file(order.to_s,cf.uuid.to_s)
+      order += 1
+    end
   end
 
   # method to set the rights metadata stream based on activity
