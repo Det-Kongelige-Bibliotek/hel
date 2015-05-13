@@ -89,7 +89,7 @@ class Instance < ActiveFedora::Base
     self.structMap.clear_structMap
     order = 1
     self.content_files.each do |cf|
-      self.structMap.add_file(order.to_s,cf.original_filename)
+      self.structMap.add_file(order.to_s,cf.uuid.to_s)
       order += 1
     end
   end
