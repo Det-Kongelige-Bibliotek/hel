@@ -64,6 +64,8 @@ gem 'httparty'
 gem 'resque'
 gem 'rdf-vocab', '>= 0.6.0'
 
+gem 'jquery-ui-rails'
+
 group :development, :test do
   gem 'simplecov'
   gem 'rspec-rails'

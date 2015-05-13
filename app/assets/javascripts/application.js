@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.validate
 //= require jquery.validate.additional-methods
+//= require jquery-ui
 //
 // Required by Blacklight
 //= require blacklight/blacklight
