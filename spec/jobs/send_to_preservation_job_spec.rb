@@ -7,8 +7,10 @@ describe 'Send object to preservation' do
 
   describe 'on an Instance' do
     before :all do
-      valid_attributes = { activity: @default_activity_id, copyright: 'Some Copyright',  collection: 'Some Collection'}
+      a = Administration::Activity.create("activity"=>"Something")
+      valid_attributes = { activity: a.id, copyright: 'Some Copyright',  collection: 'Some Collection'}
       @i = Instance.create(valid_attributes)
+
     end
 
     before :each do

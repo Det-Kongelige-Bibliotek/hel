@@ -40,55 +40,53 @@ module ApplicationHelper
   def render_title_typeahead_field
     results = Work.get_title_typeahead_objs
     select_tag 'work[titles][][value]', options_for_select(results.map { |result| collect_title(result['title_tesim'],result['id']) }.flatten(1)),
-               { include_blank: true, class: 'combobox form-control input-large', data_function: 'title-selected' }
+    { include_blank: true, class: 'combobox form-control input-large', data_function: 'title-selected' }
+  end
+
+  #Renders a list of Agents for a typeahead field
+  def get_agent_list
+    results = Authority::Agent.get_typeahead_objs
+    agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
+    agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
+  end
+
+  def subjects_for_select
+    docs = Finder.all_people + Finder.all_works
+    docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
+  end
+
+  # Given a url from a ControlledList, create a link to this url
+  # with the value of the corresponding label.
+  # E.g. given the corresponding entry in the system
+  # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
+  # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
+  def rdf_resource_link(entry)
+    link_to Administration::ListEntry.get_label(entry), entry if entry.present?
+  end
+
+  private
+
+  def collect_title(titles,id)
+    titles.collect {|title| [title,id]}
+  end
+
+  def get_activity_name(id)
+    Administration::Activity.find(id).activity
+  end
+
+
+  # Generate a link to a instance given a work_id and instance id
+  # Note: This code could be made much simpler if we
+  def get_work_instance_link_for_search_result(work_id,inst_id)
+    solr_id = inst_id.gsub(':','\:')
+    doc =ActiveFedora::SolrService.query("id:#{solr_id}").first
+    # catch cases where instance isn't present for some reason
+    if doc.nil?
+      link_to 'Work', work_path(work_id)
+    elsif doc['active_fedora_model_ssi'] == 'Trygforlaeg'
+      link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_trykforlaeg_path(work_id, inst_id)
+    else
+      link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_instance_path(work_id, inst_id)
     end
-
-    #Renders a list of Agents for a typeahead field
-    def get_agent_list
-      results = Authority::Agent.get_typeahead_objs
-      agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
-      agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
-    end
-
-    def subjects_for_select
-      docs = Finder.all_people + Finder.all_works
-      docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
-    end
-
-    # Given a url from a ControlledList, create a link to this url
-    # with the value of the corresponding label.
-    # E.g. given the corresponding entry in the system
-    # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
-    # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
-    def rdf_resource_link(entry)
-      link_to Administration::ListEntry.get_label(entry), entry if entry.present?
-    end
-
-    private
-
-    def collect_title(titles,id)
-      titles.collect {|title| [title,id]}
-    end
-
-    def get_activity_name(id)
-      Administration::Activity.find(id).activity
-    end
-
-
-    # Generate a link to a instance given a work_id and instance id
-    # Note: This code could be made much simpler if we
-    def get_work_instance_link_for_search_result(work_id,inst_id)
-      solr_id = inst_id.gsub(':','\:')
-      doc =ActiveFedora::SolrService.query("id:#{solr_id}").first
-      # catch cases where instance isn't present for some reason
-      if doc.nil?
-        link_to 'Work', work_path(work_id)
-      elsif doc['active_fedora_model_ssi'] == 'Trygforlaeg'
-        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_trykforlaeg_path(work_id, inst_id)
-      else
-        link_to "#{doc['active_fedora_model_ssi']} (#{doc['type_ssm'].first})", work_instance_path(work_id, inst_id)
-      end
-    end
-
   end
 end

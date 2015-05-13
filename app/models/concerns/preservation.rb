@@ -51,7 +51,7 @@ module Concerns
       end
 
       def validate_preservation
-        inherit_rights_metadata
+#        inherit_rights_metadata
         if (self.preservation_profile != 'Undefined' && (!PRESERVATION_CONFIG['preservation_profile'].include? self.preservation_profile))
           errors.add(:preservation_profile,'Ugyldig Bevaringsprofil')
         end
