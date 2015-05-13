@@ -49,7 +49,7 @@ module Datastreams
 
 
     def self.xml_template
-      Nokogiri::XML.parse('<mets><structMap><structMap/></mets>')
+      Nokogiri::XML.parse('<mets><structMap></structMap></mets>')
     end
   end
 end

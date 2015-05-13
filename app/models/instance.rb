@@ -14,6 +14,9 @@ class Instance < ActiveFedora::Base
   include Datastreams::TransWalker
   include Concerns::CustomValidations
 
+  has_metadata(name: 'structMap',
+               type: Datastreams::MetsStructMap)
+
   has_and_belongs_to_many :work, class_name: 'Work', property: :instance_of, inverse_of: :has_instance
   has_many :content_files, property: :content_for
   has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
