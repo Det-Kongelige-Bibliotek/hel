@@ -4,6 +4,6 @@
   <h1><%= @authority_object.display_value %></h1>
 
   <%= @authority_object.description %>
-  <%= link_to('same as', @authority_object.same_as) if @authority_object.same_as.present? %>
+  <%= link_to('same as', @authority_object.same_as_uri) if @authority_object.same_as_uri.present? %>
   <%= link_to 'Edit', edit_authority_person_path(@authority_object) %>
 </div>
