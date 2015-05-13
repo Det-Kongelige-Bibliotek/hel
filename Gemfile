@@ -17,7 +17,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer'
 
 gem 'rouge' # syntax highlighting gem for display of XML data
 
@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'hydra', '>= 9.1.0.rc1'
+gem 'hydra-file_characterization', '~> 0.3.1'
 gem 'simple_form'
 
 # Use ActiveModel has_secure_password
@@ -45,7 +46,7 @@ gem 'simple_form'
 # gem 'debugger', group: [:development, :test]
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin]
+gem 'tzinfo-data'
 # Preservation
 gem 'bunny', '~> 1.1.0'
 gem 'amq-protocol', '>= 1.9.2'
@@ -76,6 +77,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'byebug'
   gem 'better_errors'
   gem 'binding_of_caller'
 #  gem 'rack-mini-profiler'

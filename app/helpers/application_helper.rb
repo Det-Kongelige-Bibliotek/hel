@@ -41,31 +41,30 @@ module ApplicationHelper
     results = Work.get_title_typeahead_objs
     select_tag 'work[titles][][value]', options_for_select(results.map { |result| collect_title(result['title_tesim'],result['id']) }.flatten(1)),
                { include_blank: true, class: 'combobox form-control input-large', data_function: 'title-selected' }
-  end
+    end
 
-  #Renders a list of Agents for a typeahead field
-  def get_agent_list
-    results = Authority::Agent.get_typeahead_objs
-    agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
-    agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
-  end
+    #Renders a list of Agents for a typeahead field
+    def get_agent_list
+      results = Authority::Agent.get_typeahead_objs
+      agents = results.nil? ? [] : results.collect{|result| [result['display_value_ssm'].first,result['id']]}
+      agents.sort {|a,b| a.first.downcase <=> b.first.downcase }
+    end
 
-  def subjects_for_select
-    docs = Finder.all_people + Finder.all_works
-    docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
-  end
+    def subjects_for_select
+      docs = Finder.all_people + Finder.all_works
+      docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
+    end
 
-  # Given a url from a ControlledList, create a link to this url
-  # with the value of the corresponding label.
-  # E.g. given the corresponding entry in the system
-  # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
-  # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
-  def rdf_resource_link(entry)
-    link_to Administration::ListEntry.get_label(entry), entry if entry.present?
-  end
+    # Given a url from a ControlledList, create a link to this url
+    # with the value of the corresponding label.
+    # E.g. given the corresponding entry in the system
+    # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
+    # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
+    def rdf_resource_link(entry)
+      link_to Administration::ListEntry.get_label(entry), entry if entry.present?
+    end
 
-  private
-
+    private
 
     def collect_title(titles,id)
       titles.collect {|title| [title,id]}
@@ -92,3 +91,4 @@ module ApplicationHelper
     end
 
   end
+end

@@ -7,8 +7,8 @@ describe 'Characterizing content files with FITS' do
   describe 'of a content file' do
     before :each do
       @f = ContentFile.create
-      @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
-      @f.save
+      @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
+      @f.save!
     end
 
     it 'should perform the fits characterization' do
@@ -33,6 +33,7 @@ describe 'Characterizing content files with FITS' do
       FitsCharacterizingJob.perform(@f.pid)
       @f.reload
       expect(@f.fitsMetadata.content).to include('<identity format="Portable Network Graphics" mimetype="image/png"')
+      expect(@f.format_pronom_id).to eq 'fmt/11'
     end
   end
 

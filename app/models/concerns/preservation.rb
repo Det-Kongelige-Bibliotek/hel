@@ -11,9 +11,6 @@ module Concerns
       include Rails.application.routes.url_helpers
 
       contains 'preservationMetadata', class_name: 'Datastreams::PreservationDatastream'
-      #has_attributes :preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date,
-      #               :preservation_comment, :warc_id, :preservation_bitsafety, :preservation_confidentiality,
-      #               datastream: 'preservationMetadata', :multiple => false
 
       property :preservation_profile,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_state,  delegate_to: 'preservationMetadata', :multiple => false
@@ -23,6 +20,8 @@ module Concerns
       property :warc_id,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_bitsafety,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_confidentiality,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_initiated_date,  delegate_to: 'preservationMetadata', :multiple => false
+      property :file_warc_id, delegate_to: 'preservationMetadata', :multiple => false
 
       validate :validate_preservation
 
@@ -39,7 +38,6 @@ module Concerns
         self.save
         Resque.enqueue(SendToPreservationJob,self.pid)
       end
-
 
       def update_preservation_profile
         self.preservation_profile = 'Undefined' if self.preservation_profile.blank?
@@ -59,21 +57,8 @@ module Concerns
         end
       end
 
-      # This is a hack because the before_validation hook is not working in AF9
-      # TODO: remove this once set_rights_metadata can be called from before_validation
-      def inherit_rights_metadata
-        if preservation_profile.blank? && self.respond_to?(:set_rights_metadata)
-          update_preservation_profile # this is also a hack
-          set_rights_metadata
-        end
-      end
-
-
-      # Check whether it should be cascading, and also perform the cascading.
-      # @param params The parameter from the controller. Contains the parameter for whether the preservation
-      # should be cascaded.
-      # @param element The element to have stuff cascaded.
-      def cascade_preservation
+      # Cascades the preservation profile, if it can be cascaded.
+      def cascade_preservation_profile
         self.reload
         if self.can_perform_cascading?
           self.cascading_elements.each do |pib|
@@ -83,11 +68,23 @@ module Concerns
         end
       end
 
+      # Cascades the preservation, if possible.
+      def cascade_preservation
+        self.reload
+        if self.can_perform_cascading?
+          self.cascading_elements.each do |pib|
+            pib.preservation_profile = self.preservation_profile
+            pib.save
+            pib.initiate_preservation
+          end
+        end
+      end
 
       # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
       # @param element The element to perform the preservation upon.
       def initiate_preservation(cascade = true)
         profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
+        cascade_preservation if(cascade)
 
         if profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
           self.preservation_state = PRESERVATION_STATE_NOT_LONGTERM.keys.first
@@ -95,17 +92,19 @@ module Concerns
           self.save
         else
           self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
-          message = create_preservation_message
           logger.debug "saving object #{self.preservation_state}"
           if self.save
-            send_message_to_preservation(message)
+            message = create_preservation_message
+            send_message_to_preservation(message.to_json)
           else
             raise "Initate_Preservation: Failed to update preservation data"
           end
         end
+        self.set_preservation_initiated_time
       end
 
       #private
+      # Delivers the preservation message as a Hash. Needs to be converted into JSON before sending.
       def create_preservation_message
         message = Hash.new
         message['UUID'] = self.uuid
@@ -115,14 +114,23 @@ module Concerns
 
         if self.kind_of?(ContentFile)
           message['File_UUID'] = self.file_uuid
-          app_url = CONFIG[Rails.env.to_sym][:application_url]
-          path = url_for(:controller => 'view_file', :action => 'show', :pid =>self.pid, :only_path => true)
-          message['Content_URI'] = "#{app_url}#{path}"
+
+          # Only add the content uri, if the file is not older than the latest preservation initiation date.
+          if self.file_warc_id.nil? || self.preservation_initiated_date.nil? || DateTime.parse(self.preservation_initiated_date) <= DateTime.parse(self.last_modified)
+            message['file_warc_id'] = self.file_warc_id
+            app_url = CONFIG[Rails.env.to_sym][:application_url]
+            path = url_for(:controller => 'view_file', :action => 'show', :pid =>self.pid, :only_path => true)
+            message['Content_URI'] = "#{app_url}#{path}"
+          end
+        end
+
+        unless self.warc_id.nil? || self.warc_id.empty?
+          message['warc_id'] = self.warc_id
         end
 
         metadata = create_message_metadata
         message['metadata'] = metadata
-        message.to_json
+        message
       end
 
       # Creates the metadata part of the message.
@@ -130,11 +138,16 @@ module Concerns
       def create_message_metadata
         content = self.create_preservation_message_metadata
         metadata = "<metadata>#{content}</metadata>"
+        logger.info "Created metadata content for message: #{metadata}"
         metadata
       end
 
       def set_preservation_modified_time
         self.preservationMetadata.preservation_modify_date = DateTime.now.strftime("%FT%T.%L%:z")
+      end
+
+      def set_preservation_initiated_time
+        self.preservationMetadata.preservation_initiated_date = DateTime.now.strftime("%FT%T.%L%:z")
       end
     end
   end

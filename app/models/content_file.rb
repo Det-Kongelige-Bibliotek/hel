@@ -103,8 +103,6 @@ class ContentFile < ActiveFedora::Base
     false
   end
 
-
-
   def update_external_file_content(new_content)
     raise "Only content of external files can be overwritten" unless self.datastreams['content'].controlGroup == 'E'
     raise "Content of this file cannot be updated files" unless self.content_can_be_changed?
@@ -120,8 +118,8 @@ class ContentFile < ActiveFedora::Base
   # basic_files may either be File or UploadedFile objects.
   #
   # @param file (ActionDispatch::Http:UploadedFile | File)
-  # @param skip_fits boolean
-  def add_file(file)
+  # @param characterize Whether or not to put a characterization job on the queue. Default true.
+  def add_file(file, characterize=true)
     if file.class == ActionDispatch::Http::UploadedFile
       file_object = file.tempfile
       file_name = file.original_filename
@@ -132,6 +130,7 @@ class ContentFile < ActiveFedora::Base
       # TODO: this could be improved through use of filemagick https://github.com/ricardochimal/ruby-filemagic
       mime_type = MIME::Types.type_for(file_name).first.content_type
     else
+      logger.warn "Could not add file #{file.inspect}"
       return false
     end
 
@@ -143,6 +142,7 @@ class ContentFile < ActiveFedora::Base
     self.size = file.size.to_s
     self.file_uuid = UUID.new.generate
     if self.save
+      Resque.enqueue(FitsCharacterizingJob,self.pid) if characterize
       true
     else
       logger.error "Error adding file to ContentFile #{self.errors.messages}"
@@ -150,24 +150,22 @@ class ContentFile < ActiveFedora::Base
     end
   end
 
-  # Extracts the timestamps from the file and inserts them into the technical metadata.
-  # @param file The file to extract the timestamps of.
-  def set_file_timestamps(file)
-    self.created = file.ctime.to_s
-    self.last_accessed = file.atime.to_s
-    self.last_modified = file.mtime.to_s
-  end
-
 
   ## Model specific preservation functionallity
   def create_preservation_message_metadata
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
+    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>\n"
     res +="<preservationMetadata>"
     res += self.preservationMetadata.content
-    res +="</preservationMetadata>"
+    res +="</preservationMetadata>\n"
     res +="<techMetadata>"
     res += self.techMetadata.content
-    res +="</techMetadata>"
+    res +="</techMetadata>\n"
+    unless self.fitsMetadata.nil? || self.fitsMetadata.content.nil? || self.fitsMetadata.content.empty?
+      res +="<fitsMetadata>"
+      res += self.fitsMetadata.content
+      res +="</fitsMetadata>\n"
+    end
+    res
   end
 
   def can_perform_cascading?

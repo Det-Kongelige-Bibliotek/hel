@@ -5,7 +5,10 @@ describe 'content' do
   it 'should allow us to upload a file' do
     c = ContentFile.new
     f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+    expect(c.datastreams.keys).not_to include 'content'
     c.add_file(f)
+    expect(c.datastreams.keys).to include 'content'
+    expect(c.content.content).not_to be_nil
   end
 
   it 'has a relation to an instance' do
@@ -23,33 +26,205 @@ describe 'content' do
 
     it 'should have a fits datastream' do
       c = ContentFile.new
-      c.datastreams.keys.should include 'fitsMetadata'
+      expect(c.datastreams.keys).to include 'fitsMetadata'
     end
 
     it 'fits datastream should initially be nil' do
       c = ContentFile.new
-      c.datastreams['fitsMetadata'].content.should be_nil
-      c.fitsMetadata.content.should be_nil
+      expect(c.datastreams['fitsMetadata'].content).to be_nil
+      expect(c.fitsMetadata.content).to be_nil
     end
 
     describe 'content of fitsmetadata' do
       before :all do
         @c = ContentFile.new
+        @c.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
         @c.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
       end
 
       it 'should not be nil' do
-        @c.fitsMetadata.content.should_not be_nil
+        expect(@c.fitsMetadata.content).not_to be_nil
       end
 
       it 'should not be empty' do
-        @c.fitsMetadata.content.should_not be_empty
+        expect(@c.fitsMetadata.content).not_to be_empty
       end
 
       it 'should have a fits as root' do
         xml = Nokogiri::XML(@c.fitsMetadata.content)
-        puts xml.root.name.should eq "fits"
+        expect(xml.root.name).to eq "fits"
       end
+
+      it 'should set format name' do
+        expect(@c.format_name).not_to be_nil
+        expect(@c.format_name).to eq 'Extensible Markup Language'
+      end
+
+      it 'should set format mimetype' do
+        expect(@c.format_mimetype).not_to be_nil
+        expect(@c.format_mimetype).to eq 'text/xml'
+      end
+
+      it 'should set format version' do
+        expect(@c.format_version).not_to be_nil
+        expect(@c.format_version).to eq '1.0'
+      end
+
+      it 'should set pronom id' do
+        expect(@c).to respond_to(:format_pronom_id)
+        expect(@c.format_pronom_id).to be_nil
+      end
+
+    end
+  end
+
+  describe '#techMetadata' do
+    it 'should have a tectMetadata datastream' do
+      c = ContentFile.new
+      expect(c.datastreams.keys).to include 'techMetadata'
+    end
+
+    it 'should have a format variables' do
+      c = ContentFile.new
+      expect(c).to respond_to :format_name, :format_version, :format_mimetype
+    end
+
+    it 'should have most fields set by adding the file' do
+      c = ContentFile.new
+      f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+      expect(c.last_modified).to be_nil
+      expect(c.created).to be_nil
+      expect(c.last_accessed).to be_nil
+      expect(c.original_filename).to be_nil
+      expect(c.mime_type).to be_nil
+      expect(c.file_uuid).to be_nil
+      expect(c.checksum).to be_nil
+      expect(c.size).to be_nil
+
+      c.add_file(f)
+      c.save!
+      c.reload
+
+      expect(c.last_modified).not_to be_nil
+      expect(c.created).not_to be_nil
+      expect(c.last_accessed).not_to be_nil
+      expect(c.original_filename).not_to be_nil
+      expect(c.mime_type).not_to be_nil
+      expect(c.file_uuid).not_to be_nil
+      expect(c.checksum).not_to be_nil
+      expect(c.size).not_to be_nil
+    end
+
+    it 'should have be able to set the format variables' do
+      c = ContentFile.new
+      c.format_name = 'format_name'
+      c.format_mimetype = 'format_mimetype'
+      c.format_version = 'format_version'
+      c.save!
+      c.reload
+      expect(c.format_name).to eq 'format_name'
+      expect(c.format_mimetype).to eq 'format_mimetype'
+      expect(c.format_version).to eq 'format_version'
+    end
+  end
+
+  describe '#preservation' do
+    describe '#create_preservation_message' do
+      before :each do
+        @f = ContentFile.create
+      end
+      it 'should contain UUID' do
+        expect(@f.create_preservation_message).to have_key 'UUID'
+        expect(@f.create_preservation_message['UUID']).to eq @f.uuid
+      end
+      it 'should contain Preservation_profile' do
+        expect(@f.create_preservation_message).to have_key 'Preservation_profile'
+      end
+      it 'should contain Valhal_ID' do
+        expect(@f.create_preservation_message).to have_key 'Valhal_ID'
+        expect(@f.create_preservation_message['Valhal_ID']).to eq @f.pid
+      end
+      it 'should contain Model' do
+        expect(@f.create_preservation_message).to have_key 'Model'
+        expect(@f.create_preservation_message['Model']).to eq @f.class.name
+      end
+      it 'should contain File_UUID' do
+        expect(@f.create_preservation_message).to have_key 'File_UUID'
+      end
+      it 'should contain Content_URI' do
+        expect(@f.create_preservation_message).to have_key 'Content_URI'
+      end
+      it 'should not contain warc_id when not preserved' do
+        expect(@f.create_preservation_message).not_to have_key 'warc_id'
+      end
+      it 'should contain warc_id when preserved' do
+        @f.warc_id = 'WARC_ID.warc'
+        @f.save
+        @f.reload
+        expect(@f.create_preservation_message).to have_key 'warc_id'
+      end
+
+      it 'should contain metadata' do
+        expect(@f.create_preservation_message).to have_key 'metadata'
+      end
+
+      describe '#Update' do
+        it 'should contain File_UUID but not Content_URI, when initiation date is newer than last modified.' do
+          @f.file_warc_id = "file_warc.id"
+          f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+          @f.add_file(f)
+          @f.preservation_initiated_date = DateTime.now.strftime("%FT%T.%L%:z")
+          @f.save
+          @f.reload
+          expect(@f.create_preservation_message).to have_key 'File_UUID'
+          expect(@f.create_preservation_message).not_to have_key 'Content_URI'
+        end
+
+        it 'should contain File_UUID and Content_URI, when initiation date is later than last modified.' do
+          @f.preservation_initiated_date = DateTime.now.strftime("%FT%T.%L%:z")
+          @f.file_warc_id = "file_warc.id"
+          f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+          @f.add_file(f)
+          @f.last_modified = DateTime.now.strftime("%FT%T.%L%:z")
+          @f.save
+          @f.reload
+          expect(@f.create_preservation_message).to have_key 'File_UUID'
+          expect(@f.create_preservation_message).to have_key 'Content_URI'
+        end
+
+      end
+    end
+
+    describe '#create_message_metadata' do
+      before :each do
+        @f = ContentFile.create
+        f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+        @f.add_file(f)
+        @f.save
+        @f.reload
+      end
+
+      it 'should have provenanceMetadata' do
+        expect(@f.create_message_metadata).to include '<provenanceMetadata>'
+      end
+      it 'should have techMetadata' do
+        expect(@f.create_message_metadata).to include '<techMetadata>'
+      end
+      it 'should have preservationMetadata' do
+        expect(@f.create_message_metadata).to include '<preservationMetadata>'
+      end
+      describe '#fitsMetadata' do
+        it 'should not have fitsMetadata before running characterization' do
+          expect(@f.create_message_metadata).not_to include '<fitsMetadata>'
+        end
+        it 'should have fitsMetadata after running characterization' do
+          @f.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
+          @f.save!
+          @f.reload
+          expect(@f.create_message_metadata).to include '<fitsMetadata>'
+        end
+      end
+
     end
   end
 end

@@ -197,5 +197,104 @@ describe Instance do
     end
 
   end
+
+  describe 'preservation' do
+    before :each do
+      @i = Instance.create(instance_params)
+    end
+
+    describe '#can_perform_cascading?' do
+      it 'should be true for instances' do
+        expect(@i.can_perform_cascading?).to be true
+      end
+    end
+
+    describe '#cascading_elements' do
+      it 'should return an empty list, when it has no files.' do
+        expect(@i.cascading_elements).to be_empty
+      end
+
+      it 'should return a list containing the files' do
+        cf = ContentFile.create
+        @i.content_files << cf
+        @i.save
+        @i.reload
+        expect(@i.cascading_elements).not_to be_empty
+        expect(@i.cascading_elements).to include cf
+      end
+    end
+
+    describe '#create_message_metadata' do
+      before :each do
+        @w = Work.create(work_attributes)
+        @i.set_work = @w
+        @i.save
+        @i.reload
+        @w.reload
+      end
+
+      it 'should create metadata, which is valid xml' do
+        metadata = @i.create_message_metadata
+        xml = Nokogiri::XML.parse(metadata)
+        expect(metadata).to eq(xml.root.to_s)
+      end
+
+      it 'should create metadata containing uuid fields for the uuids of both instance and work.' do
+        metadata = @i.create_message_metadata
+
+        expect(metadata).to include "<uuid>#{@i.uuid}</uuid>"
+        expect(metadata).to include "<uuid>#{@w.uuid}</uuid>"
+      end
+
+      it 'should contain the WARC id, if it is set' do
+        metadata = @i.create_message_metadata
+        expect(@i.warc_id).to be_nil
+        expect(metadata).not_to include("<warc_id>")
+        @i.warc_id = UUID.new.generate
+        @i.save
+        @i.reload
+        metadata = @i.create_message_metadata
+        expect(@i.warc_id).not_to be_nil
+        expect(metadata).to include("<warc_id>#{@i.warc_id}</warc_id>")
+      end
+    end
+
+    describe '#create_preservation_message' do
+      it 'should contain UUID' do
+        expect(@i.create_preservation_message).to have_key 'UUID'
+        expect(@i.create_preservation_message['UUID']).to eq @i.uuid
+      end
+      it 'should contain Preservation_profile' do
+        expect(@i.create_preservation_message).to have_key 'Preservation_profile'
+      end
+      it 'should contain Valhal_ID' do
+        expect(@i.create_preservation_message).to have_key 'Valhal_ID'
+        expect(@i.create_preservation_message['Valhal_ID']).to eq @i.pid
+      end
+      it 'should contain Model' do
+        expect(@i.create_preservation_message).to have_key 'Model'
+        expect(@i.create_preservation_message['Model']).to eq @i.class.name
+      end
+      it 'should not contain File_UUID' do
+        expect(@i.create_preservation_message).not_to have_key 'File_UUID'
+      end
+      it 'should not contain Content_URI' do
+        expect(@i.create_preservation_message).not_to have_key 'Content_URI'
+      end
+      it 'should not contain warc_id when not preserved' do
+        expect(@i.create_preservation_message).not_to have_key 'warc_id'
+      end
+      it 'should contain warc_id when preserved' do
+        @i.warc_id = 'WARC_ID.warc'
+        @i.save
+        @i.reload
+        expect(@i.create_preservation_message).to have_key 'warc_id'
+      end
+
+      it 'should contain metadata' do
+        expect(@i.create_preservation_message).to have_key 'metadata'
+      end
+    end
+  end
 =end
 end

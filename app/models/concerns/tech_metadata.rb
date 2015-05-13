@@ -7,8 +7,6 @@ module Concerns
     included do
       contains 'techMetadata', class_name: 'Datastreams::TechMetadata'
 
-      #has_attributes :uuid, :last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid,
-      #               :editable, :pb_xml_id, :pb_facs_id, :xml_pointer, datastream: 'techMetadata', :multiple => false
       property :uuid,  delegate_to: 'techMetadata', :multiple => false
       property :last_modified,  delegate_to: 'techMetadata', :multiple => false
       property :created,  delegate_to: 'techMetadata', :multiple => false
@@ -20,6 +18,10 @@ module Concerns
       property :pb_xml_id,  delegate_to: 'techMetadata', :multiple => false
       property :pb_facs_id,  delegate_to: 'techMetadata', :multiple => false
       property :xml_pointer,  delegate_to: 'techMetadata', :multiple => false
+      property :format_mimetype,  delegate_to: 'techMetadata', :multiple => false
+      property :format_version,  delegate_to: 'techMetadata', :multiple => false
+      property :format_pronom_id,  delegate_to: 'techMetadata', :multiple => false
+
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
       property :checksum, delegate_to: 'techMetadata', :at => [:file_checksum], :multiple => false
       property :size, delegate_to: 'techMetadata', :at => [:file_size], :multiple => false
