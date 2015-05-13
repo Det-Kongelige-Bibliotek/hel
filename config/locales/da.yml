@@ -155,12 +155,7 @@ da:
 
   roles:
     aut: 'Forfatter'
-  devise:
-    sessions:
-      new:
-        username: "Brugernavn"
-        password: "Adgangkode"
-        remember_me: "Husk mig"
+
   work:
     update: "Værket er opdateret."
     save: "Værket blev oprettet."
