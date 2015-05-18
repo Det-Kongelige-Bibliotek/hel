@@ -15,6 +15,7 @@ module Datastreams
       t.uuid
       t.file_checksum
       t.original_filename(:type=> :string, :index_as => :stored_searchable)
+      t.external_file_path
       t.mime_type
       t.file_size
       t.last_modified

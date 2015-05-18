@@ -14,6 +14,7 @@ module Concerns
       property :created,  delegate_to: 'techMetadata', :multiple => false
       property :last_accessed,  delegate_to: 'techMetadata', :multiple => false
       property :original_filename,  delegate_to: 'techMetadata', :multiple => false
+      property :external_file_path, delegate_to: 'techMetadata', :multiple => false
       property :mime_type,  delegate_to: 'techMetadata', :multiple => false
       property :file_uuid,  delegate_to: 'techMetadata', :multiple => false
       property :editable,  delegate_to: 'techMetadata', :multiple => false
