@@ -21,4 +21,14 @@ describe LanguageCodeConverter do
       expect(LanguageCodeConverter.two_to_loc_ref('xx')).to be_nil
     end
   end
+
+  describe 'tag_to_loc_ref' do
+    it 'parses the language code and returns an LOC link' do
+      expect(LanguageCodeConverter.tag_to_loc_ref('da-DK')).to eql 'http://id.loc.gov/vocabulary/languages/dan'
+    end
+
+    it 'returns nil if no valid code is found' do
+      expect(LanguageCodeConverter.tag_to_loc_ref('xx-YY')).to be_nil
+    end
+  end
 end
