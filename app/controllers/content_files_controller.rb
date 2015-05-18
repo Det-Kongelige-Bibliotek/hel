@@ -15,7 +15,7 @@ class ContentFilesController < ApplicationController
     # TODO: Find out why this is needed, should be handeled in ability.rb
     authorize! :read, params[:id]
     begin
-      send_data @file.datastreams['content'].content, {:filename => @file.original_filename, :type => @file.mime_type}
+      send_data @file.content, {:filename => @file.original_filename, :type => @file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = t('content_file.flashmessage.basic_file_not_found')
       logger.error obj_not_found.to_s
