@@ -22,11 +22,11 @@ class LetterVolumeSplitter
 
   def self.extract_letters(xml, master_work, activity)
     parent_dir = Pathname.new(xml.external_file_path).parent
-    tei = Nokogiri::XML(xml.datastreams['content'].content)
+    tei = Nokogiri::XML(xml.content)
     divs = tei.css('text body div')
     pb = tei.css('pb')
     # array with all the image refs of the TEI file
-    all_image_refs = pb.collect {|pb| pb['facs'] }
+    all_image_refs = pb.collect { |b| b['facs'] }
     previous_work = nil
     last_img_ref = nil
     divs.each do |div|
@@ -36,7 +36,8 @@ class LetterVolumeSplitter
       # create relationship to previous letter
       work.add_preceding(previous_work) unless previous_work.nil?
       work.add_title(value: letter.title)
-      work.add_language(letter.language) if letter.language.present?
+
+      work.language = letter.language if letter.language.present?
 
       # Using the names from the master work, attempt a *best guess*
       # to find the name of tha author and the recipient
@@ -64,13 +65,13 @@ class LetterVolumeSplitter
       cf.xml_pointer = letter.id
       cf.instance = xml_instance
       cf.save
-      xml_instance.work << work
+      xml_instance.work = work
       fail "XML Instance could not be saved! #{xml_instance.errors.messages}" unless xml_instance.save
 
       # add image references based on pb facs
       jpg_instance = Instance.from_activity(activity)
       jpg_instance.type = 'JPEG'
-      jpg_instance.work << work
+      jpg_instance.work = work
 
       # if the letter starts before its first <pb> - include the previous pb image
       if letter.preceding_page_break? && last_img_ref.present?
@@ -122,7 +123,12 @@ class LetterData
   end
 
   def language
-    @div.attributes['lang'].value if @div.attributes['lang'].present?
+    if @div.attributes['lang'].present?
+      lang_tag = @div.attributes['lang'].value
+      LanguageCodeConverter.tag_to_loc_ref(lang_tag)
+    else
+      nil
+    end
   end
 
   def num
