@@ -21,6 +21,7 @@ class Instance < ActiveFedora::Base
   property :title_statement, predicate: ::RDF::Vocab::Bibframe.titleStatement, multiple: false
   property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
+  property :system_number, predicate: ::RDF::Vocab::Bibframe.systemNumber, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 

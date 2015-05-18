@@ -15,15 +15,15 @@ class AddAdlImageFiles
   def self.perform(content_file_id,base_path)
 
     cf = ContentFile.find(content_file_id)
-    xdoc = Nokogiri::XML.parse(cf.datastreams['content'].content) { |config| config.strict }
+    xdoc = Nokogiri::XML.parse(cf.content) { |config| config.strict }
 
     # only try to load images for tei files that have pagebreaks
     if xdoc.xpath("//xmlns:pb").size > 0
       tei_inst = cf.instance
       tiff_inst = nil
-      if tei_inst.has_equivalent.size > 0
+      if tei_inst.equivalents.size > 0
         #TODO: handle case with more than one equivalent instanse
-        tiff_inst = tei_inst.has_equivalent.first
+        tiff_inst = tei_inst.equivalents.first
       else
         tiff_inst = Instance.new
         # these values should be inherited from the tei_inst
@@ -32,11 +32,12 @@ class AddAdlImageFiles
         tiff_inst.collection = tei_inst.collection
         tiff_inst.preservation_profile = tei_inst.preservation_profile
         tiff_inst.type = 'TIFF'
-        tiff_inst.set_work=tei_inst.work.first
+        tiff_inst.set_work=tei_inst.work
+        tiff_inst.set_equivalent = tei_inst
         unless tiff_inst.save
           raise "error creating tiff instance #{tiff_inst.errors.messages}"
         end
-        tei_inst.has_equivalent << tiff_inst
+        tei_inst.set_equivalent = tiff_inst
         tei_inst.save
       end
 
@@ -72,7 +73,7 @@ class AddAdlImageFiles
           Resque.logger.error("Unable to add file for pb #{n.to_s}: #{e.message}" )
         end
       end
-      Resque.enqueue(ValidateAdlTeiInstance,tei_inst.pid)
+      Resque.enqueue(ValidateAdlTeiInstance,tei_inst.id)
     else
       Resque.logger.error("Content file #{content_file_id} has no tiff files")
     end
