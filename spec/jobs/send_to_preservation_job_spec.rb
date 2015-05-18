@@ -4,19 +4,27 @@ require 'resque'
 
 
 describe 'Send object to preservation' do
-
+  include_context 'shared'
   describe 'on an Instance' do
-    before :all do
-      a = Administration::Activity.create("activity"=>"Something")
-      valid_attributes = { activity: a.id, copyright: 'Some Copyright',  collection: 'Some Collection'}
-      @i = Instance.create(valid_attributes)
-
-    end
-
     before :each do
+#      a = Administration::Activity.create("activity"=>"Something")
+#      valid_attributes = { activity: a.id, copyright: 'Some Copyright',  collection: 'Some Collection'}
+      w = Work.create(work_params)
+      p = Authority::Person.create(
+                               { 'same_as' => 'http://viaf.org/viaf/44300643', 'family_name' => 'Joyce', 'given_name' => 'James', 'birth_date' => '1932', 'death_date' => '2009' })
+      w.add_author(p)
+#      w.add_title(value: 'Vice Squad!')
+      puts "tit = " + w.display_value
+      w.save!
+      @i = Instance.create(instance_params)
+      @i.set_work = w
+#       @i.save!
+#    end
+
+#    before :each do
       @i.preservation_profile = 'eternity'
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
-      @i.save
+      @i.save!
     end
 
     describe 'perform' do
@@ -29,6 +37,7 @@ describe 'Send object to preservation' do
       end
 
       it 'with cascading' do
+        pending
         f = ContentFile.create
         @i.content_files << f
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first

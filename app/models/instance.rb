@@ -148,16 +148,16 @@ class Instance < ActiveFedora::Base
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
     a = Administration::Activity.find(self.activity)
-    self.discover_groups = a.permissions['instance']['group']['discover']
-    self.read_groups = a.permissions['instance']['group']['read']
-    self.edit_groups = a.permissions['instance']['group']['edit']
+    self.discover_groups = a.activity_permissions['instance']['group']['discover']
+    self.read_groups = a.activity_permissions['instance']['group']['read']
+    self.edit_groups = a.activity_permissions['instance']['group']['edit']
   end
 
   def set_rights_metadata_on_file(file)
     a = Administration::Activity.find(self.activity)
-    file.discover_groups = a.permissions['file']['group']['discover']
-    file.read_groups = a.permissions['file']['group']['read']
-    file.edit_groups = a.permissions['file']['group']['edit']
+    file.discover_groups = a.activity_permissions['file']['group']['discover']
+    file.read_groups = a.activity_permissions['file']['group']['read']
+    file.edit_groups = a.activity_permissions['file']['group']['edit']
   end
 
   ## Model specific preservation functionallity
@@ -180,13 +180,28 @@ class Instance < ActiveFedora::Base
   end
 
   def create_preservation_message_metadata
-    res = "<provenanceMetadata>\n  <instance>\n    <uuid>#{self.uuid}</uuid>\n  </instance>\n  <work>\n    <uuid>#{self.work.first.uuid unless self.work.empty?}</uuid>\n  </work>\n</provenanceMetadata>\n"
-    res += "<preservationMetadata>#{self.preservationMetadata.content}</preservationMetadata>\n"
+    res = "<provenanceMetadata>  <instance>    <uuid>#{self.uuid}</uuid>  </instance>  <work>    <uuid>#{self.work.uuid unless self.work.nil?}</uuid>\n  </work>\n</provenanceMetadata>"
+    res += "<preservationMetadata>#{self.preservationMetadata.content}</preservationMetadata>"
+    puts "skit skit skit skit"
+#    uri_string ="http://localhost:3000/instances/45%2F39%2F25%2Fbe%2F453925be-a0da-4438-824f-79657255a2fc.xml"
+    uri_string ="http://localhost:3000/instances/" + self.id.gsub("/","%2F") + ".xml"
+    uri       = URI.parse(uri_string)
+    puts uri_string
+    htres       = Net::HTTP.get_response(uri)
+    mods = ""
+    mods += htres.body
+    #mods = render self.to_mods
+    # mods = ""
+    puts "shit shit shit shit"
 
-    mods = self.to_mods
-    if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
-      mods = Nokogiri::XML.parse(mods).root.to_s
-    end
+    puts mods
+
+   # if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
+    #  mods = Nokogiri::XML.parse(mods).root.to_s
+#    end
+
+
+
     res += mods
 
     #TODO: Update this to handle multiple file instances with structmaps
