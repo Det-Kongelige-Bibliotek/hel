@@ -174,7 +174,7 @@ class ContentFile < ActiveFedora::Base
   end
 
   def content_can_be_changed?
-    self.mime_type == 'text/xml'
+    self.mime_type == 'text/xml' || self.mime_type == 'application/xml'
   end
 
   def self.find_by_original_filename(fname)
