@@ -2,12 +2,24 @@ require 'spec_helper'
 require 'fakeredis'
 require 'resque'
 
-
 describe 'Characterizing content files with FITS' do
+  include_context 'shared'
   describe 'of a content file' do
     before :each do
-      @f = ContentFile.create
-      @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
+      w = Work.create(work_params)
+      p = Authority::Person.create({ 'same_as' => 'http://viaf.org/viaf/44300643',
+                                     'family_name' => 'Joyce',
+                                     'given_name' => 'James',
+                                     'birth_date' => '1932',
+                                     'death_date' => '2009' })
+      w.add_author(p)
+      w.save!
+      @i = Instance.create(valid_trykforlaeg)
+      @i.set_work = w
+      @f = ContentFile.new
+      @f.instance = @i
+      # expect(@f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)).to be_true
+      @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'rails.png')))
       @f.save!
     end
 
