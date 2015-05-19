@@ -74,10 +74,11 @@ da:
     show_bibliograph:
       isbn: ISBN
       copyright_date: "Dato for ophavsret"
-      published_date: "Udgivelsedato"
+      provider_date: "Udgivelsedato"
       mode_of_issuance: "Udgivelseform"
       extent: "Omfang"
       language: "Sprog"
+      dimensions: "Dimensioner"
     bibliographic:
       title: "Bibliografiske metadata"
       language: "Sprog"
