@@ -33,9 +33,9 @@ class InstanceSerializer
           agent = rel.agent 
           #    "production", "publication", "distribution", "manufacture" 
           if role == "pbl" then
-            render_origin_info(@w,agent,instance,role_uri,role,'publication')
+            render_origin_info(xml,@w,agent,instance,role_uri,role,'publication')
           else
-            render_agent(agent,rel,role,role_uri)
+            render_agent(xml,agent,rel,role,role_uri)
           end
         end 
         if instance.uri then 
@@ -89,9 +89,9 @@ class InstanceSerializer
     builder.to_xml
   end
 
-  def self.render_agent (agent,rel,role,role_uri)
+  def self.render_agent (xml,agent,rel,role,role_uri)
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+
       if agent.class == Authority::Person then
         xml.name("type" => "personal", "valueURI" => agent.uri, ) do
           if agent.family_name.present? then
@@ -127,12 +127,11 @@ class InstanceSerializer
           end
         end
       end
-    end
-    builder.to_xml
+
   end
 
-  def self.render_origin_info(work,agent,instance,role_uri,role,event)
-    builder = Nokogiri::XML::Builder.new do |xml|
+  def self.render_origin_info(xml,work,agent,instance,role_uri,role,event)
+
       xml.originInfo('eventType' => event ) do
         if work.origin_place.present? then
           place=work.origin_place
@@ -143,8 +142,6 @@ class InstanceSerializer
         xml.publisher(agent.display_value) #, "xlink:href" => agent.same_as)
         xml.dateCreated(work.origin_date)
       end
-    end
-    builder.to_xml
   end
 
 end
