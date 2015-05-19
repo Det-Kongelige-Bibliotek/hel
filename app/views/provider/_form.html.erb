@@ -1,0 +1,10 @@
+<%= builder.simple_fields_for :publication, defaults: { wrapper_html: { class: 'form-group' },
+                                                        input_html: { class: 'form-control' }
+                                          } do |f| %>
+    <div class="col-sm-6">
+      <%= f.input :copyright_date %>
+    </div>
+    <div class="col-sm-6">
+      <%= f.input :provider_date, label: t('instances.show_bibliograph.provider_date') %>
+    </div>
+<% end %>

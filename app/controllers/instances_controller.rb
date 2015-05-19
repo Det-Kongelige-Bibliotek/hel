@@ -33,6 +33,7 @@ class InstancesController < ApplicationController
   def new
     @instance = @klazz.new
     @instance.relators.build
+    @instance.build_publication
     @work = Work.find(params[:work_id])
     # TODO: Refactor to use ConversionService.instance_from_aleph
     if params[:query]
@@ -55,6 +56,7 @@ class InstancesController < ApplicationController
   # GET /instances/1/edit
   def edit
     @instance.relators.build
+    @instance.build_publication unless @instance.publication.present?
   end
 
   # POST /instances

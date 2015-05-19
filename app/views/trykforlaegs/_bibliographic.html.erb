@@ -47,4 +47,7 @@
     <%= builder.input :note , input_html: { value: '', name: 'trykforlaeg[note][]'} %>
   </div>
 
+  <%= render partial: 'provider/form', locals: { builder: builder } %>
+  <%= render partial: 'relators/form', locals: { builder: builder } %>
+
 </fieldset>
