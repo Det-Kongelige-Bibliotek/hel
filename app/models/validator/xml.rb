@@ -32,7 +32,7 @@ module Validator
       if record.mime_type != "text/xml"
         record.errors[:base] << "This object is not XML"
       else
-        errors = is_valid_xml_content(record.datastreams['content'].content)
+        errors = is_valid_xml_content(record.content)
         unless (errors.blank?)
           record.errors[:base] << errors
           return false

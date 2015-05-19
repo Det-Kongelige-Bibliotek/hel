@@ -26,7 +26,7 @@ class SyncExtRepoADL
     if (success)
       repo.add_sync_message('Git update success')
 
-      adl_activity = Administration::Activity.where(repo.activity)
+      adl_activity = Administration::Activity.find(repo.activity)
 
       Dir.glob("#{repo.base_dir}/*/*.xml").each do |fname|
         Resque.logger.debug "file #{fname}"
@@ -65,14 +65,15 @@ class SyncExtRepoADL
 
             i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
             new_instances=new_instances+1
-            repo.add_sync_message("Created new Work and Instans for '#{i.work.first.display_value}'")
+            repo.add_sync_message("Created new Work and Instans for '#{i.work.display_value}'")
 
             cf = add_contentfile_to_instance(fname,i) unless i.nil?
             added_files=added_files+1
             repo.add_sync_message("Added #{fname}")
-            Resque.enqueue(AddAdlImageFiles,cf.pid,repo.image_dir)
+            Resque.enqueue(AddAdlImageFiles,cf.id,repo.image_dir)
           rescue Exception => e
             Resque.logger.warn "Skipping file #{fname} : #{e.message}"
+            Resque.logger.debug "#{e.backtrace.join("\n")}"
             repo.add_sync_message("Skipping file #{fname} : #{e.message}")
           end
         end
@@ -150,8 +151,8 @@ class SyncExtRepoADL
 
     unless sysno.blank? || sysno == '000000000'
       doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
-        surname = n.xpath("//xmlns:surname").text.mb_chars.titleize
-        forename = n.xpath("//xmlns:forename").text.mb_chars.titleize
+        surname = n.xpath("//xmlns:surname").text.mb_chars.titleize.to_s
+        forename = n.xpath("//xmlns:forename").text.mb_chars.titleize.to_s
         p = Authority::Person.find_or_create_person(forename,surname)
         w.add_author(p)
       end
@@ -177,25 +178,30 @@ class SyncExtRepoADL
 
     i.set_work=w
 
-    i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
-    i.published_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
-    i.publisher_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
+    #TODO: find out where to put published date
+    #i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
+
+    pub_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
+    pub_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
+
+    unless pub_name.blank?
+      org = Authority::Organization.find_or_create_organization(pub_name,pub_place)
+      i.add_publisher(org)
+    end
 
     i.system_number = sysno
-    i.activity = adl_activity.pid
+    i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
     i.collection = adl_activity.collection
     i.preservation_profile = adl_activity.preservation_profile
     i.type = 'TEI'
     i.external_repository = repo_id
 
-    result = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:publicationStmt/xmlns:publisher")
-    i.publisher_name = result[0].text unless result.size == 0
-
     unless i.save
       w.delete
       raise "unable to create instance #{i.errors.messages}"
     end
+    Resque.logger.debug "instance created #{i}"
     i
   end
 

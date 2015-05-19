@@ -1,7 +1,11 @@
 module Authority
   class Person < Thing
-    property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false
-    property :given_name, predicate: ::RDF::Vocab::SCHEMA.givenName, multiple: false
+    property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false do |index|
+      index.as :stored_searchable
+    end
+    property :given_name, predicate: ::RDF::Vocab::SCHEMA.givenName, multiple: false do |index|
+      index.as :stored_searchable
+    end
     property :birth_date, predicate: ::RDF::Vocab::SCHEMA.birthDate, multiple: false
     property :death_date, predicate: ::RDF::Vocab::SCHEMA.deathDate, multiple: false
     property :birth_place, predicate: ::RDF::Vocab::SCHEMA.birthPlace, multiple: false
@@ -50,5 +54,15 @@ module Authority
     #   recip_rels = self.relators.to_a.select { |rel| rel.short_role == code }
     #   recip_rels.collect(&:work)
     # end
+
+    #static methods
+    def self.find_or_create_person(forename,surname)
+      person = Authority::Person.where(:given_name => forename, :family_name => surname).first
+      if person.nil?
+        person = Authority::Person.create(:given_name => forename, :family_name => surname )
+      end
+      person
+    end
+
   end
 end
