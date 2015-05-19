@@ -115,8 +115,14 @@ class Instance < ActiveFedora::Base
     self.add_relator(agent,role)
   end
 
+  # Accessor for backwards compatibility
   def publisher_name
     related_agents('pbl').first.try(:_name)
+  end
+
+  # Accessor for backwards compatibility
+  def published_date
+    publication.provider_date if publication.present?
   end
 
   def content_files=(files)
