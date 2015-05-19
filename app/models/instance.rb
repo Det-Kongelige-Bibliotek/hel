@@ -183,7 +183,7 @@ class Instance < ActiveFedora::Base
     res = "<provenanceMetadata>  <instance>    <uuid>#{self.uuid}</uuid>  </instance>  <work>    <uuid>#{self.work.uuid unless self.work.nil?}</uuid>\n  </work>\n</provenanceMetadata>"
     res += "<preservationMetadata>#{self.preservationMetadata.content}</preservationMetadata>"
     puts "skit skit skit skit"
-#    uri_string ="http://localhost:3000/instances/45%2F39%2F25%2Fbe%2F453925be-a0da-4438-824f-79657255a2fc.xml"
+#   uri_string ="http://localhost:3000/instances/45%2F39%2F25%2Fbe%2F453925be-a0da-4438-824f-79657255a2fc.xml"
     uri_string ="http://localhost:3000/instances/" + self.id.gsub("/","%2F") + ".xml"
     uri       = URI.parse(uri_string)
     puts uri_string

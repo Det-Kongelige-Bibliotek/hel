@@ -14,9 +14,10 @@ describe 'Send object to preservation' do
                                { 'same_as' => 'http://viaf.org/viaf/44300643', 'family_name' => 'Joyce', 'given_name' => 'James', 'birth_date' => '1932', 'death_date' => '2009' })
       w.add_author(p)
 #      w.add_title(value: 'Vice Squad!')
-      puts "tit = " + w.display_value
       w.save!
-      @i = Instance.create(instance_params)
+      puts "title = " + w.display_value
+#      @i = Instance.create(instance_params)
+      @i = Instance.create(valid_trykforlaeg)
       @i.set_work = w
 #       @i.save!
 #    end
@@ -25,6 +26,9 @@ describe 'Send object to preservation' do
       @i.preservation_profile = 'eternity'
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       @i.save!
+      @i.reload
+      puts "just checking " + @i.work.display_value
+      puts "titles #{@i.work.titles.inspect}"
     end
 
     describe 'perform' do
