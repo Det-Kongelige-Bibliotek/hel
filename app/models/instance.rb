@@ -180,39 +180,7 @@ class Instance < ActiveFedora::Base
   end
 
   def create_preservation_message_metadata
-    res = "<provenanceMetadata>  <instance>    <uuid>#{self.uuid}</uuid>  </instance>  <work>    <uuid>#{self.work.uuid unless self.work.nil?}</uuid>\n  </work>\n</provenanceMetadata>"
-    res += "<preservationMetadata>#{self.preservationMetadata.content}</preservationMetadata>"
-    puts "skit skit skit skit"
-#   uri_string ="http://localhost:3000/instances/45%2F39%2F25%2Fbe%2F453925be-a0da-4438-824f-79657255a2fc.xml"
-#    uri_string ="http://localhost:3000/instances/" + self.id.gsub("/","%2F") + ".xml"
-#    uri       = URI.parse(uri_string)
-#    puts uri_string
-    mods = InstanceSerializer.build(self)
-#    htres       = Net::HTTP.get_response(uri)
-#    mods = ""
-#    mods += htres.body
-    #mods = render self.to_mods
-    # mods = ""
-    puts "shit shit shit shit"
-
-    puts mods
-
-   # if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
-    #  mods = Nokogiri::XML.parse(mods).root.to_s
-#    end
-
-
-
-    res += mods
-
-    #TODO: Update this to handle multiple file instances with structmaps
-    if (self.content_files.size  > 0 )
-      content_files.each do |cf|
-        res+="<file><name>#{cf.original_filename}</name>"
-        res+="<uuid>#{cf.uuid}</uuid></file>"
-      end
-    end
-    res
+    XML::InstanceSerializer.preservation_message(self)
   end
 
   def to_solr(solr_doc = {} )

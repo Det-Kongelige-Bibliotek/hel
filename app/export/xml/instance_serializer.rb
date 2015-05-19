@@ -1,14 +1,61 @@
-class InstanceSerializer 
+module XML
+  class InstanceSerializer
 
-  def self.build (instance)
-    
-    builder = Nokogiri::XML::Builder.new do |xml|
-      xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3', 
-                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink', 
-                 'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",  
+    def self.preservation_message(instance)
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.metadata do
+
+          xml.provenanceMetadata do
+            xml.instance do
+              xml.uuid(instance.uuid)
+            end
+            unless instance.work.nil?
+              xml.work do
+                xml.uuid(instance.work.uuid)
+              end
+            end
+          end
+          xml.preservationMetadata(instance.preservationMetadata.content)
+
+          self.mods(xml, instance)
+
+          #TODO: locate and add the structmap
+          # unless instance.structmap.nil
+          #   xml.structMap(instance.structmap.content)
+          # end
+
+          if (instance.content_files.size  > 0 )
+            instance.content_files.each do |cf|
+              xml.file do
+                xml.name(cf.original_filename)
+                xml.uuid(cf.uuid)
+              end
+            end
+          end
+        end
+      end
+
+      builder.to_xml
+    end
+
+    def self.to_mods(instance)
+      builder = Nokogiri::XML::Builder.new do |xml|
+        self.mods(xml, instance)
+      end
+      builder.to_xml
+
+    end
+
+
+    #private
+    def self.mods (xml, instance)
+
+      xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
+                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
+                 'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
                  'xsi:schemaLocation' => "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd",
                  'version' => "3.5"}
-               ) do 
+      ) do
         @w = instance.work
         @w.titles.each do |tit|
           xml.titleInfo do
@@ -20,25 +67,25 @@ class InstanceSerializer
         end
         if @w.language.present? then
           xml.language do
-            xml.languageTerm( @w.language.split("/").last, 
+            xml.languageTerm( @w.language.split("/").last,
                               "valueURI" => @w.language,
-                              "type" => "code", 
+                              "type" => "code",
                               "authority" => "iso639-2b")
           end
         end
         (@w.relators + instance.relators).each do |rel|
-          
+
           role_uri = rel.role
           role  = rel.short_role
-          agent = rel.agent 
-          #    "production", "publication", "distribution", "manufacture" 
+          agent = rel.agent
+          #    "production", "publication", "distribution", "manufacture"
           if role == "pbl" then
             render_origin_info(xml,@w,agent,instance,role_uri,role,'publication')
           else
             render_agent(xml,agent,rel,role,role_uri)
           end
-        end 
-        if instance.uri then 
+        end
+        if instance.uri then
           xml.identifier(instance.uri,"type" => "uri")
         end
 
@@ -86,12 +133,8 @@ class InstanceSerializer
       end
 
     end
-    builder.to_xml
-  end
 
-  def self.render_agent (xml,agent,rel,role,role_uri)
-
-
+    def self.render_agent (xml,agent,rel,role,role_uri)
       if agent.class == Authority::Person then
         xml.name("type" => "personal", "valueURI" => agent.uri, ) do
           if agent.family_name.present? then
@@ -128,20 +171,21 @@ class InstanceSerializer
         end
       end
 
-  end
+    end
 
-  def self.render_origin_info(xml,work,agent,instance,role_uri,role,event)
+    def self.render_origin_info(xml,work,agent,instance,role_uri,role,event)
 
       xml.originInfo('eventType' => event ) do
         if work.origin_place.present? then
           place=work.origin_place
-          xml.place do 
+          xml.place do
             xml.placeTerm(place.display_value, "valueURI" => place.same_as)
           end
         end
         xml.publisher(agent.display_value) #, "xlink:href" => agent.same_as)
         xml.dateCreated(work.origin_date)
       end
-  end
+    end
 
+  end
 end

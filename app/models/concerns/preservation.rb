@@ -109,7 +109,7 @@ module Concerns
         message = Hash.new
         message['UUID'] = self.uuid
         message['Preservation_profile'] = self.preservationMetadata.preservation_profile.first
-        message['Valhal_ID'] = self.pid
+        message['Valhal_ID'] = self.id
         message['Model'] = self.class.name
 
         if self.kind_of?(ContentFile)
@@ -128,18 +128,9 @@ module Concerns
           message['warc_id'] = self.warc_id
         end
 
-        metadata = create_message_metadata
+        metadata = self.create_preservation_message_metadata
         message['metadata'] = metadata
         message
-      end
-
-      # Creates the metadata part of the message.
-      # @return The metadata for the element.
-      def create_message_metadata
-        content = self.create_preservation_message_metadata
-        metadata = "<metadata>#{content}</metadata>"
-        logger.info "Created metadata content for message: #{metadata}"
-        metadata
       end
 
       def set_preservation_modified_time
