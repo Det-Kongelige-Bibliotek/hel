@@ -28,4 +28,18 @@ describe Provider do
     provider.role = 'publisher'
     expect(provider.role).to eql'publisher'
   end
+
+  it 'only accepts valid EDTF date values for copyright date' do
+    provider.copyright_date = 'abcd'
+    expect(provider.valid?).to eql false
+    provider.copyright_date = '1983'
+    expect(provider.valid?).to eql true
+  end
+
+  it 'only accepts valid EDTF date values for provider date' do
+    provider.provider_date = 'abcd'
+    expect(provider.valid?).to eql false
+    provider.provider_date = '1983'
+    expect(provider.valid?).to eql true
+  end
 end
