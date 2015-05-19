@@ -16,7 +16,7 @@ class TeiHeaderSyncService
     parameters = {}
 
     # authors is assigned to the work
-    work = inst.work.first
+    work = inst.work
     author = work.authors.first
 
     # we loop through the authors. As of writing this, the sheet only supports
@@ -50,7 +50,7 @@ class TeiHeaderSyncService
 
     work.titles.each_with_index do |tit,i|
       parameters["title#{i}"]          = tit.value
-      parameters["title_lang#{i}"]     = tit.lang
+      parameters["title_lang#{i}"]     = tit.language
       parameters["sub_title#{i}"] = tit.subtitle
     end
 
@@ -58,7 +58,6 @@ class TeiHeaderSyncService
     # The remaining instance data
     #
     parameters[:publisher] = inst.publisher_name
-    parameters[:pub_place] = inst.published_place
     parameters[:date]      = inst.published_date
     xslt  = Nokogiri.XSLT(File.open(sheet, 'rb'))
     doc = Nokogiri::XML.parse(File.read(tei_file)) { |config| config.strict }

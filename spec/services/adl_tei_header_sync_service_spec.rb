@@ -35,8 +35,6 @@ describe  TeiHeaderSyncService do
                                                                  @xdoc,
                                                                  adl_activity)
 
-      instance.published_place = "The end of the universe"
-
       work = instance.work.first
       work.add_title(
                      { value: 'The Importance of Being Earnest', 

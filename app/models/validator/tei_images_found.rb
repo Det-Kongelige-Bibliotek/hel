@@ -5,7 +5,7 @@ module Validator
       if (record.is_a? Instance) && !record.blank?  && (record.type == 'TEI')
 
         record.content_files.each do |cf|
-          xdoc = Nokogiri::XML.parse(cf.datastreams['content'].content) { |config| config.strict }
+          xdoc = Nokogiri::XML.parse(cf.content) { |config| config.strict }
           xdoc.xpath("//xmlns:pb").each do |n|
             res = ActiveFedora::SolrService.query("pb_xml_id_tesim:#{n.attr('xml:id')} && pb_facs_id_tesim:#{n.attr('facs')}")
 

@@ -8,6 +8,7 @@
 class Work < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
   include Concerns::Renderers
+  include Concerns::RelatorMethods
   include Datastreams::TransWalker
 
   property :language, predicate: ::RDF::Vocab::Bibframe::language, multiple: false
@@ -80,14 +81,6 @@ class Work < ActiveFedora::Base
 
   def authors
     related_agents('aut')
-  end
-
-  # Given a short relator code, find all the related agents
-  # with this code
-  # e.g. w.related_agents('rcp') will return all recipients
-  def related_agents(code)
-    recip_rels = self.relators.to_a.select { |rel| rel.short_role == code }
-    recip_rels.collect(&:agent)
   end
 
   def add_related(work)

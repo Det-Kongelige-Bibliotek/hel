@@ -9,6 +9,7 @@ class Instance < ActiveFedora::Base
   include Concerns::AdminMetadata
   include Concerns::Preservation
   include Concerns::Renderers
+  include Concerns::RelatorMethods
   include Datastreams::TransWalker
 #  include Concerns::CustomValidations
 
@@ -21,6 +22,7 @@ class Instance < ActiveFedora::Base
   property :title_statement, predicate: ::RDF::Vocab::Bibframe.titleStatement, multiple: false
   property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
+  property :system_number, predicate: ::RDF::Vocab::Bibframe.systemNumber, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
@@ -111,6 +113,10 @@ class Instance < ActiveFedora::Base
   def add_scribe(agent)
     role = 'http://id.loc.gov/vocabulary/relators/scr'
     self.add_relator(agent,role)
+  end
+
+  def publisher_name
+    related_agents('pbl').first.try(:_name)
   end
 
   def content_files=(files)
