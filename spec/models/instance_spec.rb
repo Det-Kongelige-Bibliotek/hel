@@ -59,7 +59,7 @@ describe Instance do
       let (:publication_event) { Provider.new }
 
       it 'can have a publication event' do
-        instance.publication = publication_event
+        instance.publications << publication_event
         expect(instance.publication).to eql publication_event
       end
     end

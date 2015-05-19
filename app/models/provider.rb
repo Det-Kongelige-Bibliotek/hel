@@ -4,6 +4,7 @@ class Provider < ActiveFedora::Base
   property :role, predicate: ::RDF::Vocab::Bibframe.providerRole, multiple: false
   belongs_to :agent, predicate: ::RDF::Vocab::Bibframe.providerName, class_name: 'Authority::Organization'
   belongs_to :place, predicate: ::RDF::Vocab::Bibframe.providerPlace, class_name: 'Authority::Place'
+  belongs_to :instance, predicate: ::RDF::Vocab::Bibframe.publication
 
   validates_each :copyright_date, :provider_date do |record, attr, val|
     record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?

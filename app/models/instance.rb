@@ -23,18 +23,20 @@ class Instance < ActiveFedora::Base
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
-  # this is set as a belongs_to relation in order to ensure the correct cardinality
-  belongs_to :publication, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
   has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
+  has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 
-  accepts_nested_attributes_for :relators, :publication
+  accepts_nested_attributes_for :relators, :publications
 
   before_save :set_rights_metadata
 
+  def publication
+    publications.first
+  end
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
     a = Administration::Activity.find(self.activity)
