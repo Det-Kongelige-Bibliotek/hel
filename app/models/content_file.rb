@@ -146,22 +146,9 @@ class ContentFile < ActiveFedora::Base
     end
   end
 
-
   ## Model specific preservation functionallity
   def create_preservation_message_metadata
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>\n"
-    res +="<preservationMetadata>"
-    res += self.preservationMetadata.content
-    res +="</preservationMetadata>\n"
-    res +="<techMetadata>"
-    res += self.techMetadata.content
-    res +="</techMetadata>\n"
-    unless self.fitsMetadata.nil? || self.fitsMetadata.content.nil? || self.fitsMetadata.content.empty?
-      res +="<fitsMetadata>"
-      res += self.fitsMetadata.content
-      res +="</fitsMetadata>\n"
-    end
-    res
+    XML::ContentFileSerializer.preservation_message(self)
   end
 
   def can_perform_cascading?
