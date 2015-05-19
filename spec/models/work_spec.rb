@@ -70,6 +70,12 @@ describe Work do
       expect(@rel.preceding_works).to include @work
     end
 
+    it 'has many parts' do
+      @work.parts << @rel
+      expect(@work.parts).to include @rel
+      expect(@rel.is_part_of).to eql @work
+    end
+
     # Not sure how we should handle Subject
     # TODO: Implement when this is cleared up
     # it 'can have an agent as a subjects' do

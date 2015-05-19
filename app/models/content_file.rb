@@ -12,6 +12,8 @@ class ContentFile < ActiveFedora::Base
 
   belongs_to :instance, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
 
+  contains "fileContent"
+
   # Adds a content datastream to the object as an external managed file in fedore
   #
   # @param path external url to the firl
@@ -53,9 +55,7 @@ class ContentFile < ActiveFedora::Base
     file_name = Pathname.new(path).basename.to_s
     mime_type = MIME::Types.type_for(file_name).first.content_type
 
-    attrs = {:dsLocation => "file://#{path}", :controlGroup => 'E', :mimeType => mime_type, :prefix=>''}
-    ds = ActiveFedora::Datastream.new('content',attrs)
-
+    self.external_file_path = path
     file_object = File.new(path)
     set_file_timestamps(file_object)
     self.checksum = generate_checksum(file_object)
@@ -64,24 +64,20 @@ class ContentFile < ActiveFedora::Base
     self.size = file_object.size.to_s
     self.file_uuid = UUID.new.generate
     file_object.close
-    datastreams['content'] = ds
   end
 
-
-  # Get the path of the external file
-  def external_file_path
-    path = nil
-    if self.datastreams['content'].controlGroup == 'E'
-      path = self.datastreams['content'].dsLocation
-      if path.start_with? 'file://'
-        path.slice! 'file://'
-      end
-    end
-    path
-  end
 
   def content
-    self.datastreams['content'].content if self.datastreams['content'].present?
+    content = nil
+    #if the file is external fetch the content of the file and return it
+    if self.external_file_path.present?
+      f = File.new(self.external_file_path)
+      content = f.read
+      f.close
+    else
+      content = self.datastreams['content'].content if self.datastreams['content'].present?
+    end
+    content
   end
 
 
@@ -104,7 +100,7 @@ class ContentFile < ActiveFedora::Base
   end
 
   def update_external_file_content(new_content)
-    raise "Only content of external files can be overwritten" unless self.datastreams['content'].controlGroup == 'E'
+    raise "Only content of external files can be overwritten" unless self.external_file_path.present?
     raise "Content of this file cannot be updated files" unless self.content_can_be_changed?
     file_location = self.external_file_path
     file_object = File.open(file_location,"w:UTF-8")
@@ -134,7 +130,7 @@ class ContentFile < ActiveFedora::Base
       return false
     end
 
-    #self.add_file_datastream(file_object, label:  file_name, mimeType: mime_type, dsid: 'content')
+    self.fileContent.content = file_object
     set_file_timestamps(file_object)
     self.checksum = generate_checksum(file_object)
     self.original_filename = file_name

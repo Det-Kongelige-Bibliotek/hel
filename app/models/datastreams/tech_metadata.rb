@@ -15,6 +15,7 @@ module Datastreams
       t.uuid(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'UUID for the Fedora object')
       t.file_checksum
       t.original_filename(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Original filename')
+      t.external_file_path
       t.mime_type
       t.file_size
       t.last_modified
