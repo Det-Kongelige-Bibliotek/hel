@@ -33,7 +33,7 @@ class InstancesController < ApplicationController
   def new
     @instance = @klazz.new
     @instance.relators.build
-    @instance.build_publication
+    @instance.publications.build
     @work = Work.find(params[:work_id])
     # TODO: Refactor to use ConversionService.instance_from_aleph
     if params[:query]
@@ -56,7 +56,7 @@ class InstancesController < ApplicationController
   # GET /instances/1/edit
   def edit
     @instance.relators.build
-    @instance.build_publication unless @instance.publication.present?
+    @instance.publications.build unless @instance.publication.present?
   end
 
   # POST /instances
@@ -166,6 +166,7 @@ class InstancesController < ApplicationController
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :access_condition, :availability, :collection, :preservation_profile,
                                      note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
+                                     publications_attributes: [[:copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }
   end
 
