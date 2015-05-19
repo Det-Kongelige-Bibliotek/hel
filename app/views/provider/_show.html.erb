@@ -1,0 +1,22 @@
+<%  if provider.present? %>
+    <% if provider.provider_date.present? %>
+        <tr>
+          <td>
+            <strong><%= t('instances.show_bibliograph.provider_date') %></strong>
+          </td>
+          <td>
+            <span><%= provider.provider_date %></span>
+          </td>
+        </tr>
+    <% end %>
+    <% if provider.copyright_date.present? %>
+        <tr>
+          <td>
+            <strong><%= t('instances.show_bibliograph.copyright_date') %></strong>
+          </td>
+          <td>
+            <span><%= provider.copyright_date %></span>
+          </td>
+        </tr>
+    <% end %>
+<% end %>
