@@ -44,6 +44,12 @@ module Authority
       self.given_name = name_hash['given'] if name_hash['family'].present?
     end
 
+    # As above - backwards compatibility
+    def authorized_personal_names
+      logger.warn 'VALHAL DEPRECATION: authorized_personal_name= is deprecated - use the native accessors instead'
+      { kb: { family: self.family_name, given: self.given_name } }
+    end
+
     # This code cause a "stack level too deep" failure,
     # TODO: investigate and fix
     # def authored_works

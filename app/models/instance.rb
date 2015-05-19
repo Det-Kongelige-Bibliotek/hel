@@ -9,6 +9,7 @@ class Instance < ActiveFedora::Base
   include Concerns::AdminMetadata
   include Concerns::Preservation
   include Concerns::Renderers
+  include Concerns::RelatorMethods
   include Datastreams::TransWalker
 #  include Concerns::CustomValidations
 
@@ -29,11 +30,15 @@ class Instance < ActiveFedora::Base
 
   has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
+  has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 
-  accepts_nested_attributes_for :relators
+  accepts_nested_attributes_for :relators, :publications
 
   before_save :set_rights_metadata
 
+  def publication
+    publications.first
+  end
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
     a = Administration::Activity.find(self.activity)
@@ -108,6 +113,16 @@ class Instance < ActiveFedora::Base
   def add_scribe(agent)
     role = 'http://id.loc.gov/vocabulary/relators/scr'
     self.add_relator(agent,role)
+  end
+
+  # Accessor for backwards compatibility
+  def publisher_name
+    related_agents('pbl').first.try(:_name)
+  end
+
+  # Accessor for backwards compatibility
+  def published_date
+    publication.provider_date if publication.present?
   end
 
   def content_files=(files)

@@ -28,7 +28,7 @@ class Ability
       test_read(cf.pid)
     end
 
-    can [:upload, :update] do |cf|
+    can [:upload, :update], ContentFile do |cf|
       test_edit(cf.pid)
     end
 

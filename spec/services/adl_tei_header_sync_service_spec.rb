@@ -35,12 +35,10 @@ describe  TeiHeaderSyncService do
                                                                  @xdoc,
                                                                  adl_activity)
 
-      instance.published_place = "The end of the universe"
-
-      work = instance.work.first
+      work = instance.work
       work.add_title(
                      { value: 'The Importance of Being Earnest', 
-                       type: 'Uniform',
+                       variant: 'Uniform',
                        subtitle: 'and other encounters', lang: 'en' }
                      )
       forename = "New forename"

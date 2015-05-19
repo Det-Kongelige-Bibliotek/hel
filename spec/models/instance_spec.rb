@@ -53,7 +53,16 @@ describe Instance do
       i2.set_equivalent= i1
       expect(1).to eql 1
     end
-    
+
+    describe 'publication' do
+      let (:instance) { Instance.new }
+      let (:publication_event) { Provider.new }
+
+      it 'can have a publication event' do
+        instance.publications << publication_event
+        expect(instance.publication).to eql publication_event
+      end
+    end
   end
 
   describe 'adding a file' do
