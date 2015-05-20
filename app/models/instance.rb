@@ -126,9 +126,9 @@ class Instance < ActiveFedora::Base
     publication.provider_date if publication.present?
   end
 
-  def published_date=(date)
-    publications << Provider.new if publications.empty?
-    publications.first.provider_date=(date)
+  def add_published_date(date)
+    publications ||= [ Provider.new ]
+    publications.first.provider_date=date
   end
 
   def content_files=(files)
