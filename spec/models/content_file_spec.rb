@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 describe 'content' do
+  include_context 'shared'
 
   it 'should allow us to upload a file' do
+    i = Instance.new(instance_params)
     c = ContentFile.new
+    c.instance = i
     f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
     c.add_file(f)
   end
@@ -23,7 +26,7 @@ describe 'content' do
 
     it 'should have a fits datastream' do
       c = ContentFile.new
-      c.datastreams.keys.should include 'fitsMetadata'
+      c.datastreams.keys.should include :fitsMetadata
     end
 
     it 'fits datastream should initially be nil' do
