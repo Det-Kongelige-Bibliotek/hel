@@ -72,5 +72,20 @@
     <span><%= @instance.preservation_details %></span>
   </td>
 </tr>
-
+<tr>
+  <td>
+    <strong><%= t('.preservation_date') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.preservation_modify_date %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t('.warc_id') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.warc_id %></span>
+  </td>
+</tr>
 </tbody></table>

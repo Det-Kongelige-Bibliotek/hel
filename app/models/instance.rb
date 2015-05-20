@@ -29,6 +29,7 @@ class Instance < ActiveFedora::Base
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
   has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
+  has_many :struct_map, predicate: Datastreams::MetsStructMap
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 
@@ -151,13 +152,28 @@ class Instance < ActiveFedora::Base
     cf
   end
 
+  def create_structMap
+    self.structMap.clear_structMap
+    order = 1
+    self.content_files.each do |cf|
+      self.structMap.add_file(order.to_s,cf.uuid.to_s)
+      order += 1
+    end
+  end
 
+  # method to set the rights metadata stream based on activity
+  def set_rights_metadata
+    a = Administration::Activity.find(self.activity)
+    self.discover_groups = a.activity_permissions['instance']['group']['discover']
+    self.read_groups = a.activity_permissions['instance']['group']['read']
+    self.edit_groups = a.activity_permissions['instance']['group']['edit']
+  end
 
   def set_rights_metadata_on_file(file)
     a = Administration::Activity.find(self.activity)
-    file.discover_groups = a.permissions['file']['group']['discover']
-    file.read_groups = a.permissions['file']['group']['read']
-    file.edit_groups = a.permissions['file']['group']['edit']
+    file.discover_groups = a.activity_permissions['file']['group']['discover']
+    file.read_groups = a.activity_permissions['file']['group']['read']
+    file.edit_groups = a.activity_permissions['file']['group']['edit']
   end
 
   ## Model specific preservation functionallity
@@ -180,26 +196,7 @@ class Instance < ActiveFedora::Base
   end
 
   def create_preservation_message_metadata
-
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
-    res +="<preservationMetadata>"
-    res += self.preservationMetadata.content
-    res +="</preservationMetadata>"
-
-    mods = self.to_mods
-    if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
-      mods = Nokogiri::XML.parse(mods).root.to_s
-    end
-    res += mods
-
-    #TODO: Update this to handle multiple file instances with structmaps
-    if (self.content_files.size  > 0 )
-      cf = content_files.each do |cf|
-        res+="<file><name>#{cf.original_filename}</name>"
-        res+="<uuid>#{cf.uuid}</uuid></file>"
-      end
-    end
-    res
+    XML::InstanceSerializer.preservation_message(self)
   end
 
   def to_solr(solr_doc = {} )

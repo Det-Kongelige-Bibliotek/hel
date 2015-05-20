@@ -104,6 +104,8 @@ da:
       preservation_profile: "Bevaring Profil"
       preservation_state: "Bevaring Status"
       preservaton_details: "Bevaring detaljer"
+      preservation_date: "Bevarings dato"
+      warc_id: "WARC id"
     activity_input:
       activity: "Aktivitet"
     administrative:
