@@ -126,6 +126,11 @@ class Instance < ActiveFedora::Base
     publication.provider_date if publication.present?
   end
 
+  def published_date=(date)
+    publications << Provider.new if publications.empty?
+    publications.first.provider_date=(date)
+  end
+
   def content_files=(files)
     # ensure instance is valid before saving files
     return unless self.valid?
