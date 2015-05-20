@@ -6,13 +6,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      # has_metadata :name => 'fitsMetadata', :type => ActiveFedora::OmDatastream
-      contains 'fitsMetadata', class_name:  'Datastreams::TechMetadata'
-
-      property :format_name,  delegate_to: 'fitsMetadata', :multiple => false
-      property :format_mimetype,  delegate_to: 'fitsMetadata', :multiple => false
-      property :format_version,  delegate_to: 'fitsMetadata', :multiple => false
-      property :format_pronom_id,  delegate_to: 'fitsMetadata', :multiple => false
+     contains 'fitsMetadata'
 
       #function for extracting FITS metadata from the file data associated with this GenericFile
       #and storing the XML produced as a datastream on the GenericFile Fedora object.

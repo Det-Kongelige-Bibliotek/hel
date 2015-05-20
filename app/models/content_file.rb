@@ -71,7 +71,6 @@ class ContentFile < ActiveFedora::Base
     self.external_file_path.present?
   end
 
-
   def content
     content = nil
     #if the file is external fetch the content of the file and return it
@@ -133,6 +132,7 @@ class ContentFile < ActiveFedora::Base
       logger.warn "Could not add file #{file.inspect}"
       return false
     end
+    self.file_uuid = UUID.new.generate
 
     self.fileContent.content = file_object
     set_file_timestamps(file_object)
