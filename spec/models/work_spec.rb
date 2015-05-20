@@ -133,36 +133,6 @@ describe Work do
     end
   end
 
-  # In the absence of a proper RDF validator on Ruby
-  # these tests are mainly thought of as smoke tests;
-  # they will catch the worst bugs, but not subtle problems
-  # with invalid RDF output.
-  describe 'to_rdf' do
-    before :all do
-      agent = Authority::Person.create(
-          'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-      )
-      @work = Work.new
-      @work.add_title({'value'=> 'A title'})
-      @work.add_author(agent)
-      @work.save # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
-    end
-    # This test will only catch the worst errors
-    # as the Reader is very forgiving
-    # TODO: Find a more stringent validator
-    it 'is valid rdf' do
-      expect {
-        RDF::RDFXML::Reader.new(@work.to_rdf, validate: true)
-      }.not_to raise_error
-    end
-
-    it 'includes the hasInstance relations' do
-      @work.instances << Instance.new(instance_params)
-      @work.save
-      expect(@work.to_rdf).to include('hasInstance')
-    end
-  end
-
   describe 'to_solr' do
     before :each do
       agent = Authority::Person.create(
