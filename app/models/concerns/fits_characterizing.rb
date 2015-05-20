@@ -22,10 +22,6 @@ module Concerns
         logger.info 'Characterizing file using FITS tool'
         begin
           fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub(' ', '_'), :fits)
-
-          puts "xpath = " +XPATH_FORMAT_NAME 
-          puts "shit = " + fits_meta_data
-
         rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
           logger.error tnfe.to_s
           logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'

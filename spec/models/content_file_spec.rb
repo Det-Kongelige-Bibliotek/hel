@@ -42,6 +42,7 @@ describe 'content' do
         f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
         @c.add_file(f, false)
         @c.add_fits_metadata_datastream(f)
+        @c.save!
       end
 
       it 'should not be nil' do
@@ -74,7 +75,7 @@ describe 'content' do
 
       it 'should set pronom id' do
         expect(@c).to respond_to(:format_pronom_id)
-        expect(@c.format_pronom_id).to be_nil
+        expect(@c.format_pronom_id).to eq "unknown"
       end
 
     end
@@ -83,7 +84,7 @@ describe 'content' do
   describe '#techMetadata' do
     it 'should have a tectMetadata datastream' do
       c = ContentFile.new
-      expect(c.datastreams.keys).to include 'techMetadata'
+      expect(c.reflections.keys).to include :techMetadata
     end
 
     it 'should have a format variables' do

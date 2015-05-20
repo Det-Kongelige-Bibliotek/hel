@@ -19,25 +19,26 @@ describe 'Characterizing content files with FITS' do
       @f = ContentFile.new
       @f.instance = @i
       # expect(@f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)).to be_true
-      @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'rails.png')))
+      @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
       @f.save!
     end
 
     it 'should perform the fits characterization' do
+      expect(@f.fileContent.content).not_to be_nil
       expect(@f.fitsMetadata.content).to be_nil
-      FitsCharacterizingJob.perform(@f.pid)
+      FitsCharacterizingJob.perform(@f.id)
       @f.reload
       expect(@f.fitsMetadata.content).not_to be_nil
     end
 
     it 'should identify it as an xml file' do
-      FitsCharacterizingJob.perform(@f.pid)
+      FitsCharacterizingJob.perform(@f.id)
       @f.reload
       expect(@f.fitsMetadata.content).to include('<identity format="Extensible Markup Language" mimetype="text/xml"')
     end
 
     it 'should identify the new format, if the content file is overriden' do
-      FitsCharacterizingJob.perform(@f.pid)
+      FitsCharacterizingJob.perform(@f.id)
       @f.reload
       expect(@f.fitsMetadata.content).to include('<identity format="Extensible Markup Language" mimetype="text/xml"')
       @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'rails.png')))
@@ -55,7 +56,7 @@ describe 'Characterizing content files with FITS' do
 
   it 'should throw error, when given an instance' do
     @i = Instance.create(activity: @default_activity_id, copyright: 'Some Copyright',  collection: 'Some Collection')
-    expect{FitsCharacterizingJob.perform(@i.pid)}.to raise_error(ArgumentError)
+    expect{FitsCharacterizingJob.perform(@i.id)}.to raise_error(ArgumentError)
   end
 end
 
