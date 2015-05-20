@@ -180,6 +180,15 @@ describe Work do
       expect(vals).to include 'Vice Squad!'
     end
 
+    it 'should update the index when the title value changes' do
+      title = Title.new(value: 'A terrible title')
+      @work.titles << title
+      @work.save
+      expect(Finder.works_by_title('A terrible title').size).to eql 1
+      title.update(value: 'A somewhat better title')
+      expect(Finder.works_by_title('A somewhat better title').size).to eql 1
+    end
+
     it 'should contain all author names' do
       aut = Authority::Person.create(
           'authorized_personal_name' => { 'scheme' => 'viaf', 'family' => 'Joyce', 'given' => 'James', 'date' => '1932/2009' })

@@ -13,7 +13,7 @@ class FitsCharacterizingJob
 
     tmpfile = Tempfile.new(name)
     tmpfile.binmode # ensures, that non-UTF8 can be written.
-    tmpfile.write(cf.datastreams['content'].content)
+    tmpfile.write(cf.datastreams['fileContent'].content)
     tmpfile.rewind
 
     cf.add_fits_metadata_datastream(tmpfile)

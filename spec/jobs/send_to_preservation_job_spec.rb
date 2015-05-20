@@ -33,10 +33,10 @@ describe 'Send object to preservation' do
       end
 
       it 'with cascading' do
-        pending 'Issues with ContentFile needs to be solved'
-        f = ContentFile.create
+        f = ContentFile.new
         @i.content_files << f
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+        f.save!
         @i.save!
         @i.reload
         SendToPreservationJob.perform(@i.id,true)

@@ -6,13 +6,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      # has_metadata :name => 'fitsMetadata', :type => ActiveFedora::OmDatastream
-      contains 'fitsMetadata', class_name:  'Datastreams::TechMetadata'
-
-      property :format_name,  delegate_to: 'fitsMetadata', :multiple => false
-      property :format_mimetype,  delegate_to: 'fitsMetadata', :multiple => false
-      property :format_version,  delegate_to: 'fitsMetadata', :multiple => false
-      property :format_pronom_id,  delegate_to: 'fitsMetadata', :multiple => false
+     contains 'fitsMetadata'
 
       #function for extracting FITS metadata from the file data associated with this GenericFile
       #and storing the XML produced as a datastream on the GenericFile Fedora object.
@@ -22,10 +16,6 @@ module Concerns
         logger.info 'Characterizing file using FITS tool'
         begin
           fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub(' ', '_'), :fits)
-
-          puts "xpath = " +XPATH_FORMAT_NAME 
-          puts "shit = " + fits_meta_data
-
         rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
           logger.error tnfe.to_s
           logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
@@ -35,7 +25,7 @@ module Concerns
           logger.error 'Something went wrong with extraction of file metadata using FITS'
           logger.error re.to_s
           logger.info 'Continuing with normal processing...'
-          if re.to_s.include? "command not found" #if for some reason the fits command cannot be run from the shell, this hack will get round it
+          if re.to_s.include? "not found" #if for some reason the fits command cannot be run from the shell, this hack will get round it
             fits_home = `locate fits.sh`.rstrip
             `export FITS_HOME=#{fits_home}`
             stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")

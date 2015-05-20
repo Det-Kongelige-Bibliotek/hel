@@ -1,16 +1,14 @@
 require 'spec_helper'
 
 describe 'content' do
+  include_context 'shared'
 
   it 'should allow us to upload a file' do
+    i = Instance.new(instance_params)
     c = ContentFile.new
+    c.instance = i
     f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
-    #
-    # 
-    #
-#    expect(c.datastreams.keys).not_to include :fileContent
     c.add_file(f)
-#    expect(c.datastreams.keys).to include :fileContent
     expect(c.fileContent.content).not_to be_nil
   end
 
@@ -29,12 +27,11 @@ describe 'content' do
 
     it 'should have a fits datastream' do
       c = ContentFile.new
-      expect(c.datastreams.keys).to include :fitsMetadata
+      expect(c.reflections.keys).to include :fitsMetadata
     end
 
     it 'fits datastream should initially be nil' do
       c = ContentFile.new
-      expect(c.datastreams['fitsMetadata'].content).to be_nil
       expect(c.fitsMetadata.content).to be_nil
     end
 
@@ -44,6 +41,7 @@ describe 'content' do
         f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
         @c.add_file(f, false)
         @c.add_fits_metadata_datastream(f)
+        @c.save!
       end
 
       it 'should not be nil' do
@@ -76,7 +74,7 @@ describe 'content' do
 
       it 'should set pronom id' do
         expect(@c).to respond_to(:format_pronom_id)
-        expect(@c.format_pronom_id).to be_nil
+        expect(@c.format_pronom_id).to eq "unknown"
       end
 
     end
@@ -85,7 +83,7 @@ describe 'content' do
   describe '#techMetadata' do
     it 'should have a tectMetadata datastream' do
       c = ContentFile.new
-      expect(c.datastreams.keys).to include 'techMetadata'
+      expect(c.reflections.keys).to include :techMetadata
     end
 
     it 'should have a format variables' do
@@ -105,6 +103,7 @@ describe 'content' do
       expect(c.checksum).to be_nil
       expect(c.size).to be_nil
 
+      c.instance = Instance.create(instance_params)
       c.add_file(f)
       c.save!
       c.reload
@@ -199,7 +198,7 @@ describe 'content' do
       end
     end
 
-    describe '#create_message_metadata' do
+    describe '#create_preservation_message_metadata' do
       pending "Renamed method for creating metadata"
       before :each do
         @f = ContentFile.create
@@ -210,23 +209,23 @@ describe 'content' do
       end
 
       it 'should have provenanceMetadata' do
-        expect(@f.create_message_metadata).to include '<provenanceMetadata>'
+        expect(@f.create_preservation_message_metadata).to include '<provenanceMetadata>'
       end
       it 'should have techMetadata' do
-        expect(@f.create_message_metadata).to include '<techMetadata>'
+        expect(@f.create_preservation_message_metadata).to include '<techMetadata>'
       end
       it 'should have preservationMetadata' do
-        expect(@f.create_message_metadata).to include '<preservationMetadata>'
+        expect(@f.create_preservation_message_metadata).to include '<preservationMetadata>'
       end
       describe '#fitsMetadata' do
         it 'should not have fitsMetadata before running characterization' do
-          expect(@f.create_message_metadata).not_to include '<fitsMetadata>'
+          expect(@f.create_preservation_message_metadata).not_to include '<fitsMetadata>'
         end
         it 'should have fitsMetadata after running characterization' do
           @f.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
           @f.save!
           @f.reload
-          expect(@f.create_message_metadata).to include '<fitsMetadata>'
+          expect(@f.create_preservation_message_metadata).to include 'fitsMetadata'
         end
       end
 

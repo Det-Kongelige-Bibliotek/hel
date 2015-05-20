@@ -194,7 +194,7 @@ class Instance < ActiveFedora::Base
   def cascading_elements
     res = []
     content_files.each do |f|
-      res << ContentFile.find(f.pid)
+      res << ContentFile.find(f.id)
     end
     logger.debug "Found following inheritable objects: #{res}"
     res

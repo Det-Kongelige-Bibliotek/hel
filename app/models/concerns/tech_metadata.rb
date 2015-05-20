@@ -19,6 +19,7 @@ module Concerns
       property :pb_xml_id,  delegate_to: 'techMetadata', :multiple => false
       property :pb_facs_id,  delegate_to: 'techMetadata', :multiple => false
       property :xml_pointer,  delegate_to: 'techMetadata', :multiple => false
+      property :format_name,  delegate_to: 'techMetadata', :multiple => false
       property :format_mimetype,  delegate_to: 'techMetadata', :multiple => false
       property :format_version,  delegate_to: 'techMetadata', :multiple => false
       property :format_pronom_id,  delegate_to: 'techMetadata', :multiple => false
