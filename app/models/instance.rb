@@ -8,10 +8,9 @@ class Instance < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
   include Concerns::Preservation
-  include Concerns::Renderers
   include Concerns::RelatorMethods
   include Datastreams::TransWalker
-#  include Concerns::CustomValidations
+  include Concerns::CustomValidations
 
   property :languages, predicate: ::RDF::Vocab::Bibframe.language
   property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13, multiple: false

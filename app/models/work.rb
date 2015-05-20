@@ -7,7 +7,6 @@
 # be mixed in.
 class Work < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
-  include Concerns::Renderers
   include Concerns::RelatorMethods
   include Datastreams::TransWalker
 

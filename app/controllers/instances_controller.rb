@@ -22,7 +22,6 @@ class InstancesController < ApplicationController
     respond_to do |format|
       format.html
       format.xml
-      format.rdf { render rdf: @instance }
     end
   end
 
