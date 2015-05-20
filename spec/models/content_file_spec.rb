@@ -5,12 +5,8 @@ describe 'content' do
   it 'should allow us to upload a file' do
     c = ContentFile.new
     f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
-    #
-    # 
-    #
-#    expect(c.datastreams.keys).not_to include :fileContent
     c.add_file(f)
-#    expect(c.datastreams.keys).to include :fileContent
+    expect(c.datastreams.keys).to include :fileContent
     expect(c.fileContent.content).not_to be_nil
   end
 
@@ -44,6 +40,7 @@ describe 'content' do
         f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
         @c.add_file(f, false)
         @c.add_fits_metadata_datastream(f)
+        @c.save!
       end
 
       it 'should not be nil' do
@@ -55,7 +52,8 @@ describe 'content' do
       end
 
       it 'should have a fits as root' do
-        xml = Nokogiri::XML(@c.fitsMetadata.content)
+        xml = Nokogiri::XML(@c.datastreams['fitsMetadata'].content)
+        #puts "XML: #{xml}"
         expect(xml.root.name).to eq "fits"
       end
 
@@ -76,7 +74,7 @@ describe 'content' do
 
       it 'should set pronom id' do
         expect(@c).to respond_to(:format_pronom_id)
-        expect(@c.format_pronom_id).to be_nil
+        expect(@c.format_pronom_id).to eq "unknown"
       end
 
     end
@@ -85,7 +83,7 @@ describe 'content' do
   describe '#techMetadata' do
     it 'should have a tectMetadata datastream' do
       c = ContentFile.new
-      expect(c.datastreams.keys).to include 'techMetadata'
+      expect(c.datastreams.keys).to include :techMetadata
     end
 
     it 'should have a format variables' do
