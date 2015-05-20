@@ -14,7 +14,7 @@ module XML
 
           xml.techMetadata(file.techMetadata.content)
 
-          unless self.fitsMetadata.nil? || self.fitsMetadata.content.nil? || self.fitsMetadata.content.empty?
+          unless file.fitsMetadata.nil? || file.fitsMetadata.content.nil? || file.fitsMetadata.content.empty?
             xml.fitsMetadata(file.fitsMetadata.content)
           end
 

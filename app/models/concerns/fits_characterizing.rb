@@ -31,7 +31,7 @@ module Concerns
           logger.error 'Something went wrong with extraction of file metadata using FITS'
           logger.error re.to_s
           logger.info 'Continuing with normal processing...'
-          if re.to_s.include? "command not found" #if for some reason the fits command cannot be run from the shell, this hack will get round it
+          if re.to_s.include? "not found" #if for some reason the fits command cannot be run from the shell, this hack will get round it
             fits_home = `locate fits.sh`.rstrip
             `export FITS_HOME=#{fits_home}`
             stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")
