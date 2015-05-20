@@ -55,6 +55,16 @@ module ApplicationHelper
     docs.map {|doc| [ doc['display_value_ssm'].try(:first), doc['id'] ] }
   end
 
+  #Returns a list of select options
+  #Param query_result : a solr query
+  #Param display_field : the solr field to be used as display field
+  def select_fields(query_result,display_field = 'display_value_ssm')
+    result = query_result.nil? ? [] : query_result.collect{|val| [val[display_field].first,val['id']]}
+    result.sort {|a,b| a.first.downcase <=> b.first.downcase }
+  end
+
+
+
   # Given a url from a ControlledList, create a link to this url
   # with the value of the corresponding label.
   # E.g. given the corresponding entry in the system
