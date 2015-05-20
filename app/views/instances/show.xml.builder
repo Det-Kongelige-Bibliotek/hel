@@ -1,4 +1,3 @@
-xml.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
 xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3', 
            'xmlns:xlink' => 'http://www.w3.org/1999/xlink', 
            'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",  
