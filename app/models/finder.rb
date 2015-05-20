@@ -4,6 +4,10 @@ class Finder
     ActiveFedora::SolrService.query(model_query('Authority*Person'))
   end
 
+  def self.all_organizations
+    ActiveFedora::SolrService.query("active_fedora_model_ssi:Authority*Organization")
+  end
+
   def self.all_works
     ActiveFedora::SolrService.query(model_query('Work'))
   end
@@ -15,4 +19,5 @@ class Finder
   def self.model_query(model)
     "active_fedora_model_ssi: #{model}"
   end
+
 end
