@@ -9,7 +9,7 @@ module MqHelper
   def send_message_to_preservation(message)
     destination = MQ_CONFIG['preservation']['destination']
 
-    send_on_rabbitmq(message, destination, {
+    MqHelper.send_on_rabbitmq(message, destination, {
         'content_type' => 'application/json',
         'type' => MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
     })
@@ -25,9 +25,9 @@ module MqHelper
   # @param destination The destination on the MQ where the message is sent.
   # @param options Is a hash with header values for the message, e.g. content-type, type.
   # @return True, if the message is sent successfully. Otherwise false
-  def send_on_rabbitmq(message, destination, options={})
+  def self.send_on_rabbitmq(message, destination, options={})
     uri = MQ_CONFIG['mq_uri']
-    logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
+    # logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
 
     conn = Bunny.new(uri)
     conn.start
@@ -42,7 +42,7 @@ module MqHelper
     begin
       conn.close
     rescue => error
-      logger.error "error closing mq connection #{error.message} #{conn.status}"
+      # logger.error "error closing mq connection #{error.message} #{conn.status}"
     end
     true
   end

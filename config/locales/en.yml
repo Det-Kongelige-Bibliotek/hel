@@ -71,6 +71,8 @@ en:
       preservation_profile: "Preservation Profile"
       preservation_state: "Preservation State"
       preservaton_details: "Preservation details"
+      preservation_date: "Preservation date"
+      warc_id: "WARC id"
   trykforlaegs:
     bibliographic:
       language: "Language"

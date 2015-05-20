@@ -14,7 +14,7 @@ module MqListenerHelper
     end
 
     element = find_element(message['id'], message['model'])
-    puts"Updating preservation metadata for: #{element}"
+    puts "Updating preservation metadata for: #{element}"
     update_preservation_metadata_for_element(message, element)
   end
 

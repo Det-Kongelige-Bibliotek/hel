@@ -5,7 +5,6 @@
 module PreservationHelper
   include MqHelper # methods: send_message_to_preservation
 
-
   # Updates the preservation state metadata from the controller.
   # Expected to receive parameters:
   # params[:preservation][:preservation_state]
@@ -15,14 +14,13 @@ module PreservationHelper
   # @param element The element to have its preservation settings updated.
   # @return The http response code.
   def update_preservation_metadata_for_element(params, element)
-    puts "Updating preservation metadata for element #{element} with parameters #{params}"
     ensure_preservation_state_allows_update_from_controller(element.preservation_state)
 
     if set_preservation_metadata(params['preservation'], element)
-      puts "Preservation metadata updated successfully for #{element}"
+      # logger.debug "Preservation metadata updated successfully for #{element}"
       true
     else
-      puts "Failed to update preservation metadata for #{element}"
+      # logger.debug "Failed to update preservation metadata for #{element}"
       false
     end
   end
@@ -49,7 +47,6 @@ module PreservationHelper
       return false
     end
 
-    puts "Updating '#{element.to_s}' with preservation metadata '#{metadata}'"
     updated = false
 
     unless (metadata['preservation_state'].blank? || metadata['preservation_state'] == element.preservationMetadata.preservation_state.first)
@@ -69,6 +66,11 @@ module PreservationHelper
     unless (metadata['warc_id'].blank? || metadata['warc_id'] == element.preservationMetadata.warc_id.first)
       updated = true
       element.preservationMetadata.warc_id = metadata['warc_id']
+    end
+
+    unless (metadata['file_warc_id'].blank? || metadata['file_warc_id'] == element.preservationMetadata.file_warc_id.first)
+      updated = true
+      element.preservationMetadata.file_warc_id = metadata['file_warc_id']
     end
 
     if updated
@@ -107,9 +109,7 @@ module PreservationHelper
   # @param state The state to validate.
   def ensure_preservation_state_allows_update_from_controller(state)
     if !state.blank? && state == PRESERVATION_STATE_NOT_STARTED.keys.first
-      raise ValhalErrors::InvalidStateError, 'Cannot update preservation state, when preservation has not yet started.'
+      raise ArgumentError, 'Cannot update preservation state, when preservation has not yet started.'
     end
   end
-
-
 end
