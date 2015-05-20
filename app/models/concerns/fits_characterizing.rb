@@ -6,8 +6,14 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      #has_metadata :name => 'fitsMetadata', :type => ActiveFedora::OmDatastream
-      contains 'fitsMetadata', class_name: 'ActiveFedora::OmDatastream'
+      # has_metadata :name => 'fitsMetadata', :type => ActiveFedora::OmDatastream
+      contains 'fitsMetadata', class_name:  'Datastreams::TechMetadata'
+
+      property :format_name,  delegate_to: 'fitsMetadata', :multiple => false
+      property :format_mimetype,  delegate_to: 'fitsMetadata', :multiple => false
+      property :format_version,  delegate_to: 'fitsMetadata', :multiple => false
+      property :format_pronom_id,  delegate_to: 'fitsMetadata', :multiple => false
+
       #function for extracting FITS metadata from the file data associated with this GenericFile
       #and storing the XML produced as a datastream on the GenericFile Fedora object.
       #If something goes wrong with the file extraction, the RuntimeError is caught, logged and the function
@@ -16,6 +22,10 @@ module Concerns
         logger.info 'Characterizing file using FITS tool'
         begin
           fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename.gsub(' ', '_'), :fits)
+
+          puts "xpath = " +XPATH_FORMAT_NAME 
+          puts "shit = " + fits_meta_data
+
         rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
           logger.error tnfe.to_s
           logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
@@ -39,7 +49,7 @@ module Concerns
         # Ensure UTF8 encoding
         fits_meta_data = fits_meta_data.encode(Encoding::UTF_8)
 
-        xml = Nokogiri::XML(fits_meta_data)
+        xml = Nokogiri::XML.parse(fits_meta_data) { |config| config.strict }
 
         # If datastream already exists, then set it
         self.fitsMetadata.content = fits_meta_data
