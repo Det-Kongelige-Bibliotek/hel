@@ -175,20 +175,16 @@ class SyncExtRepoADL
 
     Resque.logger.debug "Creating new instance"
     i = Instance.new
-
     i.set_work=w
-
-    #TODO: find out where to put published date
-    #i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
 
     pub_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
     pub_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
-
     unless pub_name.blank?
       org = Authority::Organization.find_or_create_organization(pub_name,pub_place)
       i.add_publisher(org)
     end
 
+    i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
     i.system_number = sysno
     i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
