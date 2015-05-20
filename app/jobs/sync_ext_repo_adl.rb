@@ -184,7 +184,7 @@ class SyncExtRepoADL
       i.add_publisher(org)
     end
 
-    i.published_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
+    i.add_published_date(doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text)
     i.system_number = sysno
     i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
