@@ -8,26 +8,29 @@ require 'spec_helper'
 describe Instance do
   include_context 'shared'
 
-  @org =  Authority::Organization.new(
-      { 'same_as' => 'http://viaf.org/viaf/127954890',
-        '_name' => 'Gyldendalske boghandel, Nordisk forlag',
-        'founding_date' => '1770' })
-  @org.alternate_names.push 'Gyldendal'
+
 
   let(:work_attributes) do
+
+  end
+
+  before :each do
     agent = Authority::Person.create('given_name'=> 'Fornavn',
                                      'family_name' => 'Efternavn',
                                      'birth_date' => '1932' ,
                                      'death_date' => '2009')
-  end
-
-  before :each do
+    @org =  Authority::Organization.new(same_as: 'http://viaf.org/viaf/127954890',
+                                        _name: 'Gyldendalske boghandel, Nordisk forlag',
+                                        founding_date: '1770')
+    @org.alternate_names.push 'Gyldendal'
+    @org.save
     @instance = Instance.new(valid_trykforlaeg)
     @work = Work.new(work_params)
+    @work.add_author(agent)
     @instance.set_work=@work
     @instance.add_publisher(@org)
-    @work.add_instance(@instance)
-    expect(@instance.relators.shift).to be_an Relator
+    @work.instances += [@instance]
+    @work.save!
   end
 
   describe 'relations' do
@@ -228,28 +231,28 @@ describe Instance do
       end
     end
 
-    describe '#create_message_metadata' do
+    describe '#create_preservation_message_metadata' do
       it 'should create metadata, which is valid xml' do
-        metadata = @instance.create_message_metadata
-        xml = Nokogiri::XML.parse(metadata)
-        expect(metadata).to eq(xml.root.to_s)
+        metadata = @instance.create_preservation_message_metadata
+        expect {
+          Nokogiri::XML.parse(metadata) {|config| config.strict}
+        }.to_not raise_error
       end
 
       it 'should create metadata containing uuid fields for the uuids of both instance and work.' do
-        metadata = @instance.create_message_metadata
-
-        expect(metadata).to include "<uuid>#{@instance.uuid}</uuid>"
-        expect(metadata).to include "<uuid>#{@work.uuid}</uuid>"
+        metadata = @instance.create_preservation_message_metadata
+        expect(metadata).to include "<uuid>#{@instance.id}</uuid>"
+        expect(metadata).to include "<uuid>#{@work.id}</uuid>"
       end
 
       it 'should contain the WARC id, if it is set' do
-        metadata = @instance.create_message_metadata
+        metadata = @instance.create_preservation_message_metadata
         expect(@instance.warc_id).to be_nil
         expect(metadata).not_to include("<warc_id>")
         @instance.warc_id = UUID.new.generate
         @instance.save
         @instance.reload
-        metadata = @instance.create_message_metadata
+        metadata = @instance.create_preservation_message_metadata
         expect(@instance.warc_id).not_to be_nil
         expect(metadata).to include("<warc_id>#{@instance.warc_id}</warc_id>")
       end
@@ -265,7 +268,7 @@ describe Instance do
       end
       it 'should contain Valhal_ID' do
         expect(@instance.create_preservation_message).to have_key 'Valhal_ID'
-        expect(@instance.create_preservation_message['Valhal_ID']).to eq @instance.pid
+        expect(@instance.create_preservation_message['Valhal_ID']).to eq @instance.id
       end
       it 'should contain Model' do
         expect(@instance.create_preservation_message).to have_key 'Model'
@@ -283,7 +286,6 @@ describe Instance do
       it 'should contain warc_id when preserved' do
         @instance.warc_id = 'WARC_ID.warc'
         @instance.save
-        @instance.reload
         expect(@instance.create_preservation_message).to have_key 'warc_id'
       end
 
