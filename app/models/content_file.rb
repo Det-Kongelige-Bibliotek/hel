@@ -89,7 +89,7 @@ class ContentFile < ActiveFedora::Base
   # This function checks if the content of an external mannaged file
   # has changed, and updates the tech metadata 
   def update_tech_metadata_for_external_file
-    if self.is_external_file
+    if self.is_external_file?
       path = self.external_file_path
       file_object = File.new(path)
       new_checksum = generate_checksum(file_object)
