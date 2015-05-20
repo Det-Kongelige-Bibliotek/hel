@@ -14,7 +14,8 @@ class ContentFile < ActiveFedora::Base
 
   contains "fileContent"
 
-  # Adds a content datastream to the object as an external managed file in fedore
+  # Adds a content datastream to the object as an external managed file in
+  # fedore
   #
   # @param path external url to the firl
 
@@ -138,7 +139,7 @@ class ContentFile < ActiveFedora::Base
     self.size = file.size.to_s
     self.file_uuid = UUID.new.generate
     if self.save
-      Resque.enqueue(FitsCharacterizingJob,self.pid) if characterize
+      Resque.enqueue(FitsCharacterizingJob,self.id) if characterize
       true
     else
       logger.error "Error adding file to ContentFile #{self.errors.messages}"

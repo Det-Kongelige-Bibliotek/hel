@@ -5,10 +5,13 @@ describe 'content' do
   it 'should allow us to upload a file' do
     c = ContentFile.new
     f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
-    expect(c.datastreams.keys).not_to include 'content'
+    #
+    # 
+    #
+#    expect(c.datastreams.keys).not_to include :fileContent
     c.add_file(f)
-    expect(c.datastreams.keys).to include 'content'
-    expect(c.content.content).not_to be_nil
+#    expect(c.datastreams.keys).to include :fileContent
+    expect(c.fileContent.content).not_to be_nil
   end
 
   it 'has a relation to an instance' do
@@ -26,7 +29,7 @@ describe 'content' do
 
     it 'should have a fits datastream' do
       c = ContentFile.new
-      expect(c.datastreams.keys).to include 'fitsMetadata'
+      expect(c.datastreams.keys).to include :fitsMetadata
     end
 
     it 'fits datastream should initially be nil' do
@@ -38,8 +41,9 @@ describe 'content' do
     describe 'content of fitsmetadata' do
       before :all do
         @c = ContentFile.new
-        @c.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
-        @c.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
+        f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
+        @c.add_file(f, false)
+        @c.add_fits_metadata_datastream(f)
       end
 
       it 'should not be nil' do
@@ -142,7 +146,7 @@ describe 'content' do
       end
       it 'should contain Valhal_ID' do
         expect(@f.create_preservation_message).to have_key 'Valhal_ID'
-        expect(@f.create_preservation_message['Valhal_ID']).to eq @f.pid
+        expect(@f.create_preservation_message['Valhal_ID']).to eq @f.id
       end
       it 'should contain Model' do
         expect(@f.create_preservation_message).to have_key 'Model'

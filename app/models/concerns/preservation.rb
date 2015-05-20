@@ -36,7 +36,7 @@ module Concerns
         self.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
         self.preservation_details = 'The preservation button has been pushed.'
         self.save
-        Resque.enqueue(SendToPreservationJob,self.pid)
+        Resque.enqueue(SendToPreservationJob,self.id)
       end
 
       def update_preservation_profile
@@ -120,7 +120,7 @@ module Concerns
           if self.file_warc_id.nil? || self.preservation_initiated_date.nil? || DateTime.parse(self.preservation_initiated_date) <= DateTime.parse(self.last_modified)
             message['file_warc_id'] = self.file_warc_id
             app_url = CONFIG[Rails.env.to_sym][:application_url]
-            path = url_for(:controller => 'view_file', :action => 'show', :pid =>self.pid, :only_path => true)
+            path = url_for(:controller => 'view_file', :action => 'show', :id =>self.id, :only_path => true)
             message['Content_URI'] = "#{app_url}#{path}"
           end
         end
