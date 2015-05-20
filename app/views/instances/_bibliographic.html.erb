@@ -21,16 +21,19 @@
   <div class="col-sm-6">
     <%= builder.input :contents_note %>
   </div>
+
   <% if @instance.note.present? %>
-  <% @instance.note.each do |n| %>
-      <div class="col-sm-6">
-        <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
-      </div>
+      <% @instance.note.each do |n| %>
+          <div class="col-sm-6">
+            <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
+          </div>
+      <% end %>
   <% end %>
-<% end %>
   <div class="col-sm-6">
     <%= builder.input :note , input_html: { value: '', name: 'instance[note][]'} %>
   </div>
+
+  <%= render partial: 'provider/form', locals: { builder: builder } %>
 
   <%= render partial: 'relators/form', locals: { builder: builder } %>
 

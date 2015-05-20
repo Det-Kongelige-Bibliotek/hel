@@ -67,16 +67,20 @@ class ContentFile < ActiveFedora::Base
     file_object.close
   end
 
+  def is_external_file?
+    self.external_file_path.present?
+  end
+
 
   def content
     content = nil
     #if the file is external fetch the content of the file and return it
-    if self.external_file_path.present?
+    if self.is_external_file?
       f = File.new(self.external_file_path)
       content = f.read
       f.close
     else
-      content = self.datastreams['content'].content if self.datastreams['content'].present?
+      content = self.fileContent.content if self.fileContent.present?
     end
     content
   end
@@ -85,11 +89,10 @@ class ContentFile < ActiveFedora::Base
   # This function checks if the content of an external mannaged file
   # has changed, and updates the tech metadata 
   def update_tech_metadata_for_external_file
-    if self.datastreams['content'].controlGroup == 'E'
+    if self.is_external_file
       path = self.external_file_path
       file_object = File.new(path)
       new_checksum = generate_checksum(file_object)
-      logger.debug("#{path} checksums #{self.checksum} #{new_checksum}")
       if (new_checksum != self.checksum)
         set_file_timestamps(file_object)
         self.checksum = new_checksum
@@ -101,7 +104,7 @@ class ContentFile < ActiveFedora::Base
   end
 
   def update_external_file_content(new_content)
-    raise "Only content of external files can be overwritten" unless self.external_file_path.present?
+    raise "Only content of external files can be overwritten" unless self.is_external_file?
     raise "Content of this file cannot be updated files" unless self.content_can_be_changed?
     file_location = self.external_file_path
     file_object = File.open(file_location,"w:UTF-8")
@@ -137,7 +140,7 @@ class ContentFile < ActiveFedora::Base
     self.original_filename = file_name
     self.mime_type = mime_type
     self.size = file.size.to_s
-    self.file_uuid = UUID.new.generate
+    self.external_file_path = nil
     if self.save
       Resque.enqueue(FitsCharacterizingJob,self.id) if characterize
       true
