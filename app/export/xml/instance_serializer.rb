@@ -15,7 +15,9 @@ module XML
               end
             end
           end
-          xml.preservationMetadata(instance.preservationMetadata.content)
+          xml.preservationMetadata do
+            xml.parent << instance.preservationMetadata.content
+          end
 
           self.mods(xml, instance)
 
