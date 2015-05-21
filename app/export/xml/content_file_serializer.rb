@@ -10,14 +10,19 @@ module XML
               xml.uuid(file.uuid)
             end
           end
-          xml.preservationMetadata(file.preservationMetadata.content)
-
-          xml.techMetadata(file.techMetadata.content)
-
-          unless file.fitsMetadata.nil? || file.fitsMetadata.content.nil? || file.fitsMetadata.content.empty?
-            xml.fitsMetadata(file.fitsMetadata.content)
+          xml.preservationMetadata do
+            xml.parent << file.preservationMetadata.content
           end
 
+          xml.techMetadata do
+            xml.parent << file.techMetadata.content
+          end
+
+          unless file.fitsMetadata.nil? || file.fitsMetadata.content.nil? || file.fitsMetadata.content.empty?
+            xml.fitsMetadata do
+              xml.parent << file.fitsMetadata.content
+            end
+          end
         end
       end
 

@@ -30,6 +30,10 @@ class ContentFile < ActiveFedora::Base
   ## this enables us to dynamically add validation to individual content files
   validate :custom_validations
 
+  def uuid
+    self.id
+  end
+
   def custom_validations
     valid = true
     self.validators.each do |vname|

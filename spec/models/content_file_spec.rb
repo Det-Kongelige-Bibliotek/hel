@@ -135,9 +135,11 @@ describe 'content' do
     describe '#create_preservation_message' do
       before :each do
         @f = ContentFile.create
+        @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
       end
       it 'should contain UUID' do
         expect(@f.create_preservation_message).to have_key 'UUID'
+        expect(@f.create_preservation_message['UUID']).not_to be_nil
         expect(@f.create_preservation_message['UUID']).to eq @f.uuid
       end
       it 'should contain Preservation_profile' do
@@ -145,10 +147,12 @@ describe 'content' do
       end
       it 'should contain Valhal_ID' do
         expect(@f.create_preservation_message).to have_key 'Valhal_ID'
+        expect(@f.create_preservation_message['Valhal_ID']).not_to be_nil
         expect(@f.create_preservation_message['Valhal_ID']).to eq @f.id
       end
       it 'should contain Model' do
         expect(@f.create_preservation_message).to have_key 'Model'
+        expect(@f.create_preservation_message['Model']).not_to be_nil
         expect(@f.create_preservation_message['Model']).to eq @f.class.name
       end
       it 'should contain File_UUID' do
@@ -194,12 +198,10 @@ describe 'content' do
           expect(@f.create_preservation_message).to have_key 'File_UUID'
           expect(@f.create_preservation_message).to have_key 'Content_URI'
         end
-
       end
     end
 
     describe '#create_preservation_message_metadata' do
-      pending "Renamed method for creating metadata"
       before :each do
         @f = ContentFile.create
         f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
@@ -208,15 +210,34 @@ describe 'content' do
         @f.reload
       end
 
-      it 'should have provenanceMetadata' do
-        expect(@f.create_preservation_message_metadata).to include '<provenanceMetadata>'
+      it 'should have provenanceMetadata and a uuid' do
+        metadata = @f.create_preservation_message_metadata
+        expect(metadata).to include "<provenanceMetadata>"
+        expect(metadata).to include "<uuid>#{@f.id}</uuid>"
       end
       it 'should have techMetadata' do
-        expect(@f.create_preservation_message_metadata).to include '<techMetadata>'
+        metadata = @f.create_preservation_message_metadata
+        expect(metadata).to include '<techMetadata>'
+        expect(metadata).to include "<file_uuid>#{@f.file_uuid}</file_uuid>"
+        expect(metadata).to include "<mime_type>#{@f.mime_type}</mime_type>"
+        expect(metadata).to include "<file_checksum>#{@f.checksum}</file_checksum>"
+        expect(metadata).to include "<file_size>#{@f.size}</file_size>"
       end
       it 'should have preservationMetadata' do
         expect(@f.create_preservation_message_metadata).to include '<preservationMetadata>'
       end
+      it 'should contain the WARC id, if it is set' do
+        metadata = @f.create_preservation_message_metadata
+        expect(@f.warc_id).to be_nil
+        expect(metadata).not_to include("<warc_id>")
+        @f.warc_id = UUID.new.generate
+        @f.save
+        @f.reload
+        metadata = @f.create_preservation_message_metadata
+        expect(@f.warc_id).not_to be_nil
+        expect(metadata).to include("<warc_id>#{@f.warc_id}</warc_id>")
+      end
+
       describe '#fitsMetadata' do
         it 'should not have fitsMetadata before running characterization' do
           expect(@f.create_preservation_message_metadata).not_to include '<fitsMetadata>'
@@ -225,7 +246,9 @@ describe 'content' do
           @f.add_fits_metadata_datastream(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
           @f.save!
           @f.reload
-          expect(@f.create_preservation_message_metadata).to include 'fitsMetadata'
+          metadata = @f.create_preservation_message_metadata
+          expect(metadata).to include 'fitsMetadata'
+          expect(metadata).to include '<identity format="Extensible Markup Language" mimetype="text/xml" toolname="FITS" '
         end
       end
 
