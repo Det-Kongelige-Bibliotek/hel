@@ -34,6 +34,7 @@ describe 'Send object to preservation' do
 
       it 'with cascading' do
         f = ContentFile.new
+        #f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)
         @i.content_files << f
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
         f.save!

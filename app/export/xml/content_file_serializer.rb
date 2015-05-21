@@ -14,11 +14,13 @@ module XML
             xml.parent << file.preservationMetadata.content
           end
 
-          xml.techMetadata do
-            xml.parent << file.techMetadata.content
+          if file.techMetadata.present? && file.techMetadata.content.present?
+            xml.techMetadata do
+              xml.parent << file.techMetadata.content
+            end
           end
 
-          unless file.fitsMetadata.nil? || file.fitsMetadata.content.nil? || file.fitsMetadata.content.empty?
+          if file.fitsMetadata.present? && file.fitsMetadata.content.present?
             xml.fitsMetadata do
               xml.parent << file.fitsMetadata.content
             end
