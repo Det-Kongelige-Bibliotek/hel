@@ -15,7 +15,6 @@ class WorksController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.rdf { render rdf: @work }
     end
   end
 
