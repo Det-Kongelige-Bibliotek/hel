@@ -22,7 +22,7 @@ module XML
 
           if file.fitsMetadata.present? && file.fitsMetadata.content.present?
             xml.fitsMetadata do
-              xml.parent << file.fitsMetadata.content
+              xml.parent << Nokogiri::XML.parse(file.fitsMetadata.content).root.to_s
             end
           end
         end

@@ -37,6 +37,7 @@ module Concerns
         self.preservation_details = 'The preservation button has been pushed.'
         self.save
         Resque.enqueue(SendToPreservationJob,self.id)
+        logger.info "Sending #{self.class.name + ':' + self.id} to preservation"
       end
 
       def update_preservation_profile
