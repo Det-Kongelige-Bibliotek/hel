@@ -13,6 +13,12 @@ title_type:
     Abbreviated:
     Translated:
     Alternative:
+instance_type:
+  name: Instance types
+  entries:
+    Trykforlaeg:
+    TIFF:
+    TEI:
 collections:
   name: Collections
   entries:

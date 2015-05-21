@@ -175,7 +175,7 @@ class SyncExtRepoADL
 
     Resque.logger.debug "Creating new instance"
     i = Instance.new
-    i.set_work=w
+    i.work=w
 
     pub_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
     pub_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
@@ -198,6 +198,10 @@ class SyncExtRepoADL
       raise "unable to create instance #{i.errors.messages}"
     end
     Resque.logger.debug "instance created #{i}"
+    Resque.logger.debug "Work has #{i.work.instances.size} instances"
+    w.reload
+    Resque.logger.debug "Work has #{i.work.instances.size} instances"
+    w.update_index
     i
   end
 

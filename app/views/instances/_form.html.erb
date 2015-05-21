@@ -26,6 +26,7 @@
     </div>
     <div class="col-sm-9">
       <%= f.input :work, as: :hidden %>
+      <%= render partial: 'type', locals: {builder: f} %>
       <%= render partial: 'bibliographic', locals: { builder: f } %>
       <%= render partial: 'administrative', locals: { builder: f }  %>
       <%= render partial: 'upload', locals: { builder: f }  %>

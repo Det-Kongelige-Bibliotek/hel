@@ -36,6 +36,11 @@ class Instance < ActiveFedora::Base
 
   before_save :set_rights_metadata
 
+  after_save do
+    logger.debug("updating index for work #{self.work.instances.size}")
+    self.work.update_index if work.present?
+  end
+
   def publication
     publications.first
   end
@@ -52,8 +57,14 @@ class Instance < ActiveFedora::Base
     self.id
   end
 
-  validates :collection, :copyright, presence: true
+  validates :collection, :copyright, :type, presence: true
+  validates :isbn13, isbn_format: { with: :isbn13 }, if: "isbn13.present?"
+  validates :isbn13, presence: true, if: :is_trykforlaeg?
 
+
+  def is_trykforlaeg?
+    self.type == 'Trykforlaeg'
+  end
 
   # Use this setter to manage work relations
   # as it ensures relationship symmetry
@@ -208,6 +219,14 @@ class Instance < ActiveFedora::Base
     #activity_name = Administration::Activity.find(activity).activity
     #Solrizer.insert_field(solr_doc, 'activity_name', activity_name, :stored_searchable, :facetable)
   end
+
+
+  def valid_trykforlaeg
+    if self.is_trykforlaeg?
+      errors.add(:published_date,'Et trykforlæg skal have en udgivelses dato') unless self.published_date.present?
+    end
+  end
+
 
 
   # given an activity name, return a set of Instances
