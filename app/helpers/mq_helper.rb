@@ -42,7 +42,7 @@ module MqHelper
     begin
       conn.close
     rescue => error
-      # logger.error "error closing mq connection #{error.message} #{conn.status}"
+      puts "error closing mq connection: #{error.message}. Current connection status: #{conn.status}"
     end
     true
   end

@@ -11,7 +11,7 @@ module XML
             end
           end
           xml.preservationMetadata do
-            xml.parent << file.preservationMetadata.content
+            xml.parent << Nokogiri::XML.parse(file.preservationMetadata.content).root.to_s
           end
 
           if file.techMetadata.present? && file.techMetadata.content.present?

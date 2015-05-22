@@ -48,7 +48,7 @@ gem 'simple_form'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 # Preservation
-gem 'bunny', '~> 1.1.0'
+gem 'bunny', '>= 1.7.0'
 gem 'amq-protocol', '>= 1.9.2'
 
 gem 'isbn_validation'

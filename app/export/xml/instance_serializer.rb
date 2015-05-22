@@ -16,7 +16,7 @@ module XML
             end
           end
           xml.preservationMetadata do
-            xml.parent << instance.preservationMetadata.content
+            xml.parent << Nokogiri::XML.parse(instance.preservationMetadata.content).root.to_s
           end
 
           self.mods(xml, instance)

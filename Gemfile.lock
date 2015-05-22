@@ -85,7 +85,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
     builder (3.2.2)
-    bunny (1.1.9)
+    bunny (1.7.0)
       amq-protocol (>= 1.9.2)
     byebug (4.0.5)
       columnize (= 0.9.0)
@@ -479,7 +479,7 @@ DEPENDENCIES
   amq-protocol (>= 1.9.2)
   better_errors
   binding_of_caller
-  bunny (~> 1.1.0)
+  bunny (>= 1.7.0)
   byebug
   coffee-rails (~> 4.0.0)
   devise

@@ -36,8 +36,8 @@ module Concerns
         self.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
         self.preservation_details = 'The preservation button has been pushed.'
         self.save
+        puts "Sending #{self.class.name + ':' + self.id} to preservation"
         Resque.enqueue(SendToPreservationJob,self.id)
-        logger.info "Sending #{self.class.name + ':' + self.id} to preservation"
       end
 
       def update_preservation_profile
@@ -53,7 +53,7 @@ module Concerns
 
       def validate_preservation
         inherit_rights_metadata if self.respond_to? :inherit_rights_metadata
-        update_preservation_profile if self.preservation_profile.blank?
+        update_preservation_profile
         if (self.preservation_profile != 'Undefined' && (!PRESERVATION_CONFIG['preservation_profile'].include? self.preservation_profile))
           errors.add(:preservation_profile,'Ugyldig Bevaringsprofil')
         end
@@ -70,23 +70,9 @@ module Concerns
         end
       end
 
-      # Cascades the preservation, if possible.
-      def cascade_preservation
-        self.reload
-        if self.can_perform_cascading?
-          self.cascading_elements.each do |pib|
-            pib.preservation_profile = self.preservation_profile
-            pib.save
-            pib.initiate_preservation
-          end
-        end
-      end
-
       # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
-      # @param element The element to perform the preservation upon.
-      def initiate_preservation(cascade = true)
+      def initiate_preservation
         profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
-        cascade_preservation if(cascade)
 
         if profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
           self.preservation_state = PRESERVATION_STATE_NOT_LONGTERM.keys.first
@@ -94,7 +80,8 @@ module Concerns
           self.save
         else
           self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
-          logger.debug "saving object #{self.preservation_state}"
+          self.update_preservation_profile
+          puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
           if self.save
             message = create_preservation_message
             send_message_to_preservation(message.to_json)

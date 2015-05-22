@@ -10,7 +10,7 @@ describe 'Receive preservation response messages' do
     # The instance to test upon
     @i = Instance.create(valid_attributes)
     # The message to send.
-    @m = {'id' => @i.pid, 'model' => @i.class.name, 'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_COMPLETE.keys.first}}
+    @m = {'id' => @i.id, 'model' => @i.class.name, 'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_COMPLETE.keys.first}}
     # The options for the message.
     @o = {'content_type' => 'application/json', 'type' => 'PreservationResponse'}
   end

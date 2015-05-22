@@ -42,7 +42,7 @@ module Concerns
         xml = Nokogiri::XML.parse(fits_meta_data) { |config| config.strict }
 
         # If datastream already exists, then set it
-        self.fitsMetadata.content = fits_meta_data
+        self.fitsMetadata.content = xml.root.to_s
 
         self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).empty?
         self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty?

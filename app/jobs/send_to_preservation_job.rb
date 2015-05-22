@@ -16,11 +16,11 @@ class SendToPreservationJob
       raise ArgumentError.new "Object #{pid} of type #{obj.class.name} is not preservable"
     end
 
-    obj.initiate_preservation(cascade)
+    obj.initiate_preservation
 
     if cascade && obj.respond_to?('can_perform_cascading?') && obj.can_perform_cascading?
       obj.cascading_elements.each do |pe|
-        Resque.enqueue(SendToPreservationJob,pe.id,cascade)
+        pe.send_to_preservation
       end
     end
 
