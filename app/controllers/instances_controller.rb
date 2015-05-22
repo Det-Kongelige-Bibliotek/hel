@@ -76,6 +76,7 @@ class InstancesController < ApplicationController
   # PATCH/PUT /instances/1.json
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
+    logger.debug("#{@instance}")
     if @instance.update(instance_params)
       # TODO: TEI specific logic should be in an after_save hook rather than on the controller
       if @instance.type == 'TEI'
@@ -86,10 +87,13 @@ class InstancesController < ApplicationController
           f.save(validate: false)
         end
         repo = Administration::ExternalRepository[@instance.external_repository]
-        repo.push
+        repo.push if repo.present?
       end
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
       @instance.cascade_preservation
+    else
+      @instance.relators.build
+      @instance.publications.build unless @instance.publication.present?
     end
     respond_with(@instance.work, @instance)
   end
@@ -160,12 +164,12 @@ class InstancesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   # Need to do some checking to get rid of blank params here.
   def instance_params
-    params.require(@klazz.to_s.downcase.to_sym).permit(:activity, :title_statement, :extent, :copyright,  
+    params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :access_condition, :availability, :collection, :preservation_profile,
                                      note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
-                                     publications_attributes: [[:copyright_date, :provider_date ]]
+                                     publications_attributes: [[:id, :copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }
   end
 
@@ -174,14 +178,26 @@ class InstancesController < ApplicationController
   def remove_blanks(param_hash)
     param_hash.each do |k, v|
       if v.is_a? String
-        param_hash.delete(k) unless v.present?
+      #  param_hash.delete(k) unless v.present?
       elsif v.is_a? Array
         param_hash[k] = v.reject(&:blank?)
       elsif v.is_a? Hash
-        param_hash[k] = remove_blanks(v)
+        param_hash[k] = clean_hash(v)
         param_hash.delete(k) unless param_hash[k].present?
       end
     end
     param_hash
+  end
+
+  def clean_hash(value_hash)
+    value_hash.each do |k, v|
+      if v.is_a? String
+        value_hash.delete(k) unless v.present?
+      elsif
+        value_hash[k] = clean_hash(v)
+        value_hash.delete(k) unless value_hash[k].present?
+      end
+    end
+    value_hash
   end
 end

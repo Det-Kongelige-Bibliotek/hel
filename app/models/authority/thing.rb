@@ -43,7 +43,7 @@ module Authority
 
     def to_solr(solr_doc = {})
       solr_doc.merge!(super)
-      Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+      Solrizer.insert_field(solr_doc, 'display_value', display_value, :stored_searchable, :displayable)
       Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
       solr_doc
     end

@@ -9,4 +9,5 @@ class Provider < ActiveFedora::Base
   validates_each :copyright_date, :provider_date do |record, attr, val|
     record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
   end
+
 end
