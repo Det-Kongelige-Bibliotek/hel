@@ -43,7 +43,7 @@ describe 'Characterizing content files with FITS' do
       expect(@f.fitsMetadata.content).to include('<identity format="Extensible Markup Language" mimetype="text/xml"')
       @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'rails.png')))
       @f.save
-      FitsCharacterizingJob.perform(@f.pid)
+      FitsCharacterizingJob.perform(@f.id)
       @f.reload
       expect(@f.fitsMetadata.content).to include('<identity format="Portable Network Graphics" mimetype="image/png"')
       expect(@f.format_pronom_id).to eq 'fmt/11'
