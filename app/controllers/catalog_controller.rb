@@ -14,7 +14,7 @@ class CatalogController < ApplicationController
 
   configure_blacklight do |config|
     config.default_solr_params = {
-      :qf => 'author_tesim title_tesim person_name_tesim',
+      :qf => 'author_tesim title_tesim display_value_tesim',
       :qt => 'search',
     #  :fq => "-active_fedora_model_ssi:(Instance OR Trykforlaeg OR ContentFile)", # exclude fileresults and instances from search result
       :rows => 10
@@ -80,7 +80,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_index_field solr_name('subtitle', :stored_searchable, type: :string), :label => 'Undertitel'
     config.add_index_field solr_name('author', :stored_searchable, type: :string), :label => 'Forfatter'
-    config.add_index_field solr_name('person_name', :stored_searchable, type: :string), :label => 'Navn'
+    config.add_index_field solr_name('display_value', :stored_searchable, type: :string), :label => 'Navn'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -138,8 +138,7 @@ class CatalogController < ApplicationController
     config.add_search_field('Personer') do |field|
       field.qt = 'search'
       field.solr_local_parameters = {
-        :qf => '$subject_qf',
-        :pf => '$subject_pf'
+        :qf => 'display_value_tesim',
       }
     end
 
