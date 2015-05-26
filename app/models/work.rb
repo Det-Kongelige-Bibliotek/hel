@@ -139,13 +139,18 @@ class Work < ActiveFedora::Base
       Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
     end
     authors.each do |aut|
-      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable)
+      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable) unless aut.nil?
     end
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
       Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)
       Solrizer.insert_field(solr_doc, 'instances', i.id, :displayable)
     end
+    Solrizer.insert_field(solr_doc, 'spotlight_exhibit_slug_default-exhibit', true)
+    Solrizer.insert_field(solr_doc, 'thumbnail_url', 'http://dia-test-img-01.kb.dk/online_master_arkiv_11/non-archival/Images/BILLED/2012/feb/KENDIS/ke019653/full/100,/0/native.jpg', :displayable)
+    Solrizer.insert_field(solr_doc, 'thumbnail_square_url', 'http://dia-test-img-01.kb.dk/online_master_arkiv_11/non-archival/Images/BILLED/2012/feb/KENDIS/ke019653/full/100,/0/native.jpg', :displayable)
+    Solrizer.insert_field(solr_doc, 'content_metadata_image_iiif_info',
+                          'http://dia-test-img-01.kb.dk/online_master_arkiv_11/non-archival/Images/BILLED/2012/feb/KENDIS/ke019653/info.json', :displayable)
     solr_doc
   end
 

@@ -135,6 +135,7 @@ da:
         embargo_condition: Klausulering betingelser
         access_condition: Adgang betingelser
         copyright: Licens
+        given_name: 'Fornavn'
 
   trykforlaegs:
     bibliographic:

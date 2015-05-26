@@ -41,7 +41,10 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :authority do
-    resources :people, :organizations, :places
+    resources :people do
+      get 'viaf', on: :collection
+    end
+    resources :organizations, :places
   end
 
   get 'resources/:id' => 'resources#show'

@@ -96,5 +96,19 @@
  }
 
 
+ /*.form-group {*/
+     /*width: auto;*/
+ /*}*/
+
+ /*.input-group > .form-control {*/
+     /*width: 550px*/
+ /*}*/
+
+ #myViafId{
+     width: 550px
+ }
+
+
+
 
 
