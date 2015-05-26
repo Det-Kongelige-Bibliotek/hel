@@ -37,7 +37,6 @@ class Instance < ActiveFedora::Base
   before_save :set_rights_metadata
 
   after_save do
-    logger.debug("updating index for work #{self.work.instances.size}")
     self.work.update_index if work.present?
   end
 

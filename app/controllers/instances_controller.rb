@@ -90,7 +90,7 @@ class InstancesController < ApplicationController
         repo.push if repo.present?
       end
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
-      @instance.cascade_preservation
+      @instance.cascade_preservation_profile
     else
       @instance.relators.build
       @instance.publications.build unless @instance.publication.present?
