@@ -11,7 +11,7 @@ module Authority
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
     def same_as_uri=(uri)
-      self.same_as = ::RDF::URI.new(uri)
+      self.same_as = ::RDF::URI.new(uri) if uri.present?
     end
 
     def same_as_uri
