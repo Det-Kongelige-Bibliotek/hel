@@ -49,7 +49,7 @@ module Administration
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_controlled_list
-      @controlled_list = ControlledList[params[:id]]
+      @controlled_list = ControlledList[URI.unescape(params[:id])]
     end
 
     # Only allow a trusted parameter "white list" through.

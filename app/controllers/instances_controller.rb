@@ -154,11 +154,11 @@ class InstancesController < ApplicationController
   def set_instance
     set_klazz if @klazz.nil?
     set_work if @work.nil? && params[:work_id].present?
-    @instance = @klazz.find(params[:id])
+    @instance = @klazz.find(URI.unescape(params[:id]))
   end
 
   def set_work
-    @work = Work.find(params[:work_id])
+    @work = Work.find(URI.unescape(params[:work_id]))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

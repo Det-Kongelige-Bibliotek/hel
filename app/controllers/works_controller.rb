@@ -103,7 +103,7 @@ class WorksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_work
-    @work = Work.find(params[:id])
+    @work = Work.find(URI.unescape(params[:id]))
   end
 
   # special whitelist for when we're importing from Aleph

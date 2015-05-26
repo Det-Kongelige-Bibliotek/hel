@@ -64,6 +64,6 @@ class ContentFilesController < ApplicationController
   end
 
   def set_file
-    @file = ContentFile.find(params[:id])
+    @file = ContentFile.find(URI.unescape(params[:id]))
   end
 end

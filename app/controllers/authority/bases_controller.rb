@@ -70,7 +70,7 @@ module Authority
 
     # Use callbacks to share common setup or constraints between actions.
     def set_object
-      @authority_object = ActiveFedora::Base.find(params[:id])
+      @authority_object = ActiveFedora::Base.find(URI.unescape(params[:id]))
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
