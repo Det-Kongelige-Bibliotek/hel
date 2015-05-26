@@ -6,8 +6,8 @@ class InstancesController < ApplicationController
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
   :send_to_preservation, :update_administration, :validate_tei]
 
-  # authorize_resource :work
-  # authorize_resource :instance, :through => :work
+  authorize_resource :work
+  authorize_resource :instance, :through => :work
 
   respond_to :html
   # GET /instances
