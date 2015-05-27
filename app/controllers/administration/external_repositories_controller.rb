@@ -20,7 +20,7 @@ module Administration
     end
 
     def set_external_repository
-      @external_repository = ExternalRepository[params[:id]]
+      @external_repository = ExternalRepository[URI.unescape(params[:id])]
     end
   end
 end

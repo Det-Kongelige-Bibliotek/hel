@@ -1,6 +1,7 @@
 module Authority
   # Get most functionality from BasesController
   class PeopleController < Authority::BasesController
+    include Concerns::RemoveBlanks
     def destroy
       @authority_object.destroy
       respond_to do |format|
@@ -19,7 +20,7 @@ module Authority
       params.require(:authority_person).permit(:given_name, :family_name, :name,
                                                :description, :birth_date, :death_date,
                                                :same_as_uri
-      )
+      ).tap { |elems| remove_blanks(elems) }
     end
   end
 end

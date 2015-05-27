@@ -14,6 +14,6 @@ class ResourcesController < ApplicationController
   private
 
   def set_resource
-    @resource = ActiveFedora::Base.find(params[:id])
+    @resource = ActiveFedora::Base.find(URI.unescape(params[:id]))
   end
 end

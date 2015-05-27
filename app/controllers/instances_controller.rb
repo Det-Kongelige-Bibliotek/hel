@@ -1,13 +1,14 @@
 # Perform actions on Instances
 class InstancesController < ApplicationController
   include PreservationHelper
+  include Concerns::RemoveBlanks
   before_action :set_work, only: [:create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
   :send_to_preservation, :update_administration, :validate_tei]
 
-  # authorize_resource :work
-  # authorize_resource :instance, :through => :work
+  authorize_resource :work
+  authorize_resource :instance, :through => :work
 
   respond_to :html
   # GET /instances
@@ -154,11 +155,11 @@ class InstancesController < ApplicationController
   def set_instance
     set_klazz if @klazz.nil?
     set_work if @work.nil? && params[:work_id].present?
-    @instance = @klazz.find(params[:id])
+    @instance = @klazz.find(URI.unescape(params[:id]))
   end
 
   def set_work
-    @work = Work.find(params[:work_id])
+    @work = Work.find(URI.unescape(params[:work_id]))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -173,31 +174,5 @@ class InstancesController < ApplicationController
     ).tap { |elems| remove_blanks(elems) }
   end
 
-  # Remove any blank attribute values, including those found in Arrays and Hashes
-  # to prevent AF being updated with empty values.
-  def remove_blanks(param_hash)
-    param_hash.each do |k, v|
-      if v.is_a? String
-      #  param_hash.delete(k) unless v.present?
-      elsif v.is_a? Array
-        param_hash[k] = v.reject(&:blank?)
-      elsif v.is_a? Hash
-        param_hash[k] = clean_hash(v)
-        param_hash.delete(k) unless param_hash[k].present?
-      end
-    end
-    param_hash
-  end
 
-  def clean_hash(value_hash)
-    value_hash.each do |k, v|
-      if v.is_a? String
-        value_hash.delete(k) unless v.present?
-      elsif
-        value_hash[k] = clean_hash(v)
-        value_hash.delete(k) unless value_hash[k].present?
-      end
-    end
-    value_hash
-  end
 end

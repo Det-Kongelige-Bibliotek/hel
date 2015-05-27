@@ -41,7 +41,7 @@ module Administration
 
     private
     def set_activity
-      @activity = Administration::Activity.find(params[:id])
+      @activity = Administration::Activity.find(URI.unescape(params[:id]))
     end
 
     def activity_params

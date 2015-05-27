@@ -2,7 +2,7 @@
 # Handle actions on Works
 class WorksController < ApplicationController
   before_action :set_work, only: [:show, :edit, :update, :destroy]
-  #authorize_resource
+  authorize_resource
 
   # GET /works
   # GET /works.json
@@ -103,7 +103,7 @@ class WorksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_work
-    @work = Work.find(params[:id])
+    @work = Work.find(URI.unescape(params[:id]))
   end
 
   # special whitelist for when we're importing from Aleph
