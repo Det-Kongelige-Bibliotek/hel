@@ -33,6 +33,7 @@ describe 'Send object to preservation' do
       end
 
       it 'with cascading' do
+        pending 'Does not perform cascading, only adds new jobs to the queue for the cascading elements'
         f = ContentFile.new
         @i.content_files << f
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first

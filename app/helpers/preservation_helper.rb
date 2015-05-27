@@ -17,10 +17,10 @@ module PreservationHelper
     ensure_preservation_state_allows_update_from_controller(element.preservation_state)
 
     if set_preservation_metadata(params['preservation'], element)
-      # logger.debug "Preservation metadata updated successfully for #{element}"
+      # puts "Preservation metadata updated successfully for #{element}"
       true
     else
-      # logger.debug "Failed to update preservation metadata for #{element}"
+      # puts "Failed to update preservation metadata for #{element}"
       false
     end
   end
@@ -52,8 +52,8 @@ module PreservationHelper
     unless (metadata['preservation_state'].blank? || metadata['preservation_state'] == element.preservationMetadata.preservation_state.first)
       updated = true
       unless PRESERVATION_STATES.keys.include? metadata['preservation_state']
-        puts("Undefined preservation state #{metadata['preservation_state']} not among the defined ones:" +
-                        "#{PRESERVATION_STATES.keys.to_s}")
+        puts "Undefined preservation state #{metadata['preservation_state']} not among the defined ones:" +
+                        "#{PRESERVATION_STATES.keys.to_s}"
       end
       element.preservationMetadata.preservation_state = metadata['preservation_state']
     end

@@ -226,8 +226,6 @@ class Instance < ActiveFedora::Base
     end
   end
 
-
-
   # given an activity name, return a set of Instances
   # belonging to that activity
   # note the mapping to AF objects will take a bit of time

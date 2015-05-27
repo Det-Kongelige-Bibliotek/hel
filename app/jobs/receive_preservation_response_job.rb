@@ -6,7 +6,7 @@ class ReceivePreservationResponseJob
 
   @queue = 'receive_preservation_response'
 
-  def self.perform
+  def self.perform(repeat=true)
     if MQ_CONFIG['preservation']['response'].blank?
       puts 'No preservation response queue defined -> Not listening'
       return
@@ -24,7 +24,7 @@ class ReceivePreservationResponseJob
       puts 'Connection to RabbitMQ failed'
       puts e.to_s
     ensure
-      schedule_new_job
+      schedule_new_job if repeat
     end
   end
 
