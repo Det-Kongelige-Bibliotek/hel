@@ -53,13 +53,13 @@
             %>
           </div>
         </fieldset>
-        <fieldset>
+        <fieldset class="row col-sm-12">
           <legend class="col-sm-12"><%= t('works.show.origin_date') %> </legend>
           <div class="col-sm-3">
             <%= f.input :origin_date, label: false %>
           </div>
         </fieldset>
-        <fieldset class="row">
+        <fieldset class="row col-sm-12">
           <legend class="col-sm-12"><%#= t('.subject') %></legend>
           <%# if @work.subjects.size > 0  %>
           <%# @work.subjects.each_with_index do |subject,index| %>
@@ -70,13 +70,14 @@
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
           <%# end %>
-
+<!--
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
               <span class="glyphicon glyphicon-plus"></span>
-              <%= t('.add_subject') %>
+              <%#= t('.add_subject') %>
             </a>
           </div>
+-->
         </fieldset>
 
         <div class='col-sm-12'>
