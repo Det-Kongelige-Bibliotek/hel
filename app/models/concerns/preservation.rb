@@ -73,6 +73,7 @@ module Concerns
       # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
       def initiate_preservation
         profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
+        self.update_preservation_profile
 
         if profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
           self.preservation_state = PRESERVATION_STATE_NOT_LONGTERM.keys.first
@@ -80,7 +81,6 @@ module Concerns
           self.save
         else
           self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
-          self.update_preservation_profile
           puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
           if self.save
             message = create_preservation_message
