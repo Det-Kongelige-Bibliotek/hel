@@ -36,6 +36,10 @@ module Concerns
           end
         end
 
+        # Remove any warnings
+        unless fits_meta_data.start_with? '<'
+          fits_meta_data = fits_meta_data[fits_meta_data.index('<')..-1]
+        end
         # Ensure UTF8 encoding
         fits_meta_data = fits_meta_data.encode(Encoding::UTF_8)
 
@@ -49,7 +53,6 @@ module Concerns
         self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty?
         self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty?
         self.format_pronom_id = 'unknown' unless self.format_pronom_id
-
         self.save
       end
 

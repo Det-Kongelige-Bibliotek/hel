@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   get "view_file/show"
+  get 'statistics' => 'statistics#show'
+
 
   resources :instances do
     member do
