@@ -1,25 +1,25 @@
 <h1>Statistics from SOLR</h1>
 
-Found <%= @response["response"]["numFound"] %> results:
-<% @response["response"]["docs"].each do |doc|  %>
-    <hr/>
-    <p><%= "filename: #{doc['original_filename_tesim']}" %></p>
-    <p><%= "format_pronom_id_tesim: #{doc['format_pronom_id_tesim']}" unless doc['format_pronom_id_tesim'].blank? %></p>
-    <p><%= "format_name_ssm: #{doc['format_name_ssm']}" unless doc['format_name_ssm'].blank? %></p>
-    <p><%= "format_version_ssm: #{doc['format_version_ssm']}" unless doc['format_version_ssm'].blank? %></p>
-    <p><%= "format_mimetype_ssm: #{doc['format_mimetype_ssm']}" unless doc['format_mimetype_ssm'].blank? %></p>
-<%- end %>
+<%= form_tag("/statistics", method: "get") do %>
+    <%= label_tag(:format_name_tesim, "Search for format name:") %>
+    <%= text_field_tag(:format_name_tesim) %>
+    <br/>
+    <%= label_tag(:format_version_tesim, "Search for format version:") %>
+    <%= text_field_tag(:format_version_tesim) %>
+    <br/>
+    <%= label_tag(:format_mimetype_tesim, "Search for mimetype:") %>
+    <%= text_field_tag(:format_mimetype_tesim) %>
+    <br/>
+    <%= label_tag(:format_pronom_id_si, "Search for pronom id:") %>
+    <%= text_field_tag(:format_pronom_id_si) %>
+    <br/>
+    <%= submit_tag("Search") %>
+<% end %>
 
-<hr/>
+<%= @params.inspect %>
+<br/>
+<%= "q:#{@q}" %>
+<br/>
 
-Found <%= @group["grouped"]["format_pronom_id_si"]["matches"] %> different format types:
 
-<% @group["grouped"]["format_pronom_id_si"]["groups"].each do |group| %>
-    <hr/>
-    <p><%= "#{group["doclist"]["numFound"]} files in format with pronom id: #{group["groupValue"] || 'unknown'}" %></p>
-<%- end %>
-
-<hr/>
-<verbatim>
-  <%= @group %>
-</verbatim>
+<%= render partial: 'show_solr_results' %>
