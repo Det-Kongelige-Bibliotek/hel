@@ -2,7 +2,7 @@
 class InstancesController < ApplicationController
   include PreservationHelper
   include Concerns::RemoveBlanks
-  before_action :set_work, only: [:create, :send_to_preservation]
+  before_action :set_work, only: [:new, :create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
   :send_to_preservation, :update_administration, :validate_tei]
@@ -34,7 +34,6 @@ class InstancesController < ApplicationController
     @instance = @klazz.new
     @instance.relators.build
     @instance.publications.build
-    @work = Work.find(params[:work_id])
     # TODO: Refactor to use ConversionService.instance_from_aleph
     if params[:query]
       service = AlephService.new
