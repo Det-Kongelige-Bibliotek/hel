@@ -56,7 +56,7 @@ class Instance < ActiveFedora::Base
     self.id
   end
 
-  validates :collection, :copyright, :type, presence: true
+  validates :collection, :activity, :copyright, :type, presence: true
   validates :isbn13, isbn_format: { with: :isbn13 }, if: "isbn13.present?"
   validates :isbn13, presence: true, if: :is_trykforlaeg?
 
