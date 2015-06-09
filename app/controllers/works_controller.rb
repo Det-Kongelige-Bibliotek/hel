@@ -52,7 +52,7 @@ class WorksController < ApplicationController
       if @work.save
         flash[:notice] = I18n.t('work.aleph.success_message')
         query =  "#{aleph_params[:field]}=#{aleph_params[:value]}"
-        redirect_to new_work_trykforlaeg_path work_id: @work.pid, query: query and return
+        redirect_to new_work_instance_path work_id: @work.pid, query: query and return
       else
         error = I18n.t('work.save_error')
       end
