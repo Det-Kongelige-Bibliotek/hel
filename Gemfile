@@ -64,7 +64,7 @@ gem 'httparty'
 
 gem 'resque'
 gem 'rdf-vocab', '>= 0.6.0'
-
+gem 'rsolr'
 gem 'jquery-ui-rails'
 
 group :development, :test do
@@ -73,8 +73,8 @@ group :development, :test do
   gem 'jettywrapper', '~> 2.0.0'
   gem 'thin'
   gem 'linkeddata'
-  gem 'rsolr'
 end
+
 
 group :development do
   gem 'byebug'
