@@ -73,6 +73,8 @@ group :development, :test do
   gem 'jettywrapper', '~> 2.0.0'
   gem 'thin'
   gem 'linkeddata'
+  gem 'cucumber-rails', require: false
+  gem 'launchy'
 end
 
 
