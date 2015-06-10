@@ -1,23 +1,28 @@
 # This class should be called statically to execute common Solr queries
 class Finder
+
   def self.all_people
-    ActiveFedora::SolrService.query(model_query('Authority*Person'))
+    ActiveFedora::SolrService.query(model_query('Authority*Person'), :rows => max_rows)
   end
 
   def self.all_organizations
-    ActiveFedora::SolrService.query("active_fedora_model_ssi:Authority*Organization")
+    ActiveFedora::SolrService.query("active_fedora_model_ssi:Authority*Organization", :rows => max_rows)
   end
 
   def self.all_works
-    ActiveFedora::SolrService.query(model_query('Work'))
+    ActiveFedora::SolrService.query(model_query('Work'), :rows => max_rows)
   end
 
   def self.works_by_title(title)
-    ActiveFedora::SolrService.query("#{model_query('Work')} && title_tesim: \"#{title}\"")
+    ActiveFedora::SolrService.query("#{model_query('Work')} && title_tesim: \"#{title}\"", :rows => max_rows)
   end
 
   def self.model_query(model)
     "active_fedora_model_ssi: #{model}"
+  end
+
+  def self.max_rows
+    1000000
   end
 
 end
