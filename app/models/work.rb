@@ -15,7 +15,6 @@ class Work < ActiveFedora::Base
   belongs_to :origin_place, predicate: ::RDF::Vocab::Bibframe::originPlace, class_name: 'Authority::Place'
   has_many :titles
   has_many :instances
-  has_many :trykforlaegs
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_and_belongs_to_many :related_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::relatedWork, inverse_of: :related_works
   has_and_belongs_to_many :preceding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::precededBy, inverse_of: :succeeding_works
@@ -169,10 +168,6 @@ end
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
 
-  # This method i insertet to make cancan authorization work with nested ressources and subclassing
-  def trykforlaegs
-    instances.where(class: 'Trygforlaeg')
-  end
 
   # In general use these accessors when you want
   # to add a relationship. These will ensure
