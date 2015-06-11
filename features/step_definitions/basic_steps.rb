@@ -55,7 +55,7 @@ And(/^the user fills out the work form$/) do
   within '#new_work' do
     fill_in 'work_titles_attributes_0_value', with: 'Ulysses'
     select 'Joyce, James', from: 'Agent'
-    select 'Author', from: 'Role'
+    select 'Author', from: 'Rolle'
     select 'English', from: 'work_language'
     fill_in 'work_origin_date', with: '1922'
   end
@@ -83,4 +83,17 @@ When(/^the user fills out the aleph import form with (ISBN|system nummer) (\d+)$
     fill_in 'aleph[value]', with: val
   end
   click_button 'Import'
+end
+
+When(/^the user fills out the person form$/) do
+  within '#new_authority_person' do
+    fill_in 'Fornavn', with: 'Siri'
+    fill_in 'Efternavn', with: 'Hustvedt'
+    fill_in 'Fødselsdato', with: '1955'
+  end
+  click_button 'Gem person'
+end
+
+Then(/^the person should be created$/) do
+  page.has_content? 'oprettet'
 end
