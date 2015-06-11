@@ -1,8 +1,9 @@
 Given(/^There are ojects in the system$/) do
-  aut = Authority::Person.create(_name: 'Test Author')
+  aut = Authority::Person.create!(given_name: 'James', family_name: 'Joyce')
   work = Work.new
   work.add_title(value: 'Sample title')
   work.add_author(aut)
+  work.save!
 end
 
 Given(/^the user is on the login page$/) do
@@ -45,10 +46,6 @@ end
 Given(/^the user is not logged in$/) do
 end
 
-And(/^the user visits the (.*)$/) do |path|
-  visit path
-end
-
 Then(/^the page should not return successfully$/) do
   page.status_code != 200
 end
@@ -56,4 +53,30 @@ end
 Then(/^the user should be redirected to the (.*)$/) do |path|
   page.status_code == 302
   current_path == path
+end
+
+And(/^the user fills out the work form$/) do
+  within '#new_work' do
+    fill_in 'work_titles_attributes_0_value', with: 'Ulysses'
+    select 'Joyce, James', from: 'Agent'
+    select 'Author', from: 'Role'
+    select 'English', from: 'work_language'
+    fill_in 'work_origin_date', with: '1922'
+  end
+  click_button 'Gem værk'
+end
+
+And(/^the user goes to the (.*) page$/) do |path|
+  route = send(path + '_path')
+  visit route
+end
+
+
+# A helper to show the current page for debugging purposes
+Then(/^show me the page$/) do
+  save_and_open_page
+end
+
+Then(/^the work should be saved successfully$/) do
+  page.has_content? I18n.t('work.save')
 end
