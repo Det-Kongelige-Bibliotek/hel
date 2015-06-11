@@ -58,12 +58,15 @@ module ApplicationHelper
   #Returns a list of select options
   #Param query_result : a solr query
   #Param display_field : the solr field to be used as display field
-  def select_fields(query_result,display_field = 'display_value_ssm')
-    result = query_result.nil? ? [] : query_result.collect{|val| [val[display_field].first,val['id']]}
-    result.sort {|a,b| a.first.downcase <=> b.first.downcase }
+  def select_fields(query_result, display_field = 'display_value_ssm')
+    result = query_result.nil? ? [] : query_result.collect { |val| [ display_value(val, display_field), val['id'] ] }
+    result.sort { |a,b| a.first.downcase <=> b.first.downcase }
   end
 
-
+  # Given a solr doc and a display field, show the field or 'Unknown'
+  def display_value(val, display_field)
+    val[display_field].first rescue t :unknown
+  end
 
   # Given a url from a ControlledList, create a link to this url
   # with the value of the corresponding label.

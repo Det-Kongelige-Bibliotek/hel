@@ -28,19 +28,17 @@ module Datastreams
 
       mods.person.nodeset.each do |p|
         ns = p.namespace.href
-        family = p.xpath('car:namePart[@type="family"]','car'=>ns).text
-        given  = p.xpath('car:namePart[@type="given"]','car'=>ns).text
-        date   = p.xpath('car:namePart[@type="date"]','car'=>ns).text
+        family = p.xpath('mods:namePart[@type="family"]','mods'=>ns).text.delete("\n").delete("\t")
+        given  = p.xpath('mods:namePart[@type="given"]','mods'=>ns).text.delete("\n").delete("\t")
+        full  = p.xpath('mods:namePart','mods'=>ns).text.delete("\n").delete("\t")
+        date   = p.xpath('mods:namePart[@type="date"]','mods'=>ns).text
 
-        if(!family.blank? or !given.blank?) then
-          nhash = {'scheme' => 'KB', 'family' => family, 'given' => given, 'date' => date}
+        if family.present? || given.present?
+          author = Authority::Person.new(given_name: given, family_name: family)
         else
-          full  = p.xpath('car:namePart','car'=>ns).text
-          nhash = {'scheme' => 'KB', 'full' => full, 'date' => date}
+          author = Authority::Person.new(_name: full)
         end
-        name={authorized_personal_name: nhash }
-        mads=Authority::Person.create(name)
-        self.add_author(mads)
+        self.add_author(author)
       end
 
       self.origin_date  = mods.dateIssued.first

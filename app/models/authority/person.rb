@@ -22,19 +22,17 @@ module Authority
     end
 
     def display_date
-      date = self.date_range(:start_date =>  birth_date ,
-                             :end_date   => death_date )
-      date
+      self.date_range(start_date: birth_date, end_date: death_date)
     end
 
     def full_name
-      l_full_name = ''
-      l_full_name += "#{family_name}"
-      if given_name.present? then
-        l_full_name += ", " if family_name.present?
-        l_full_name += "#{given_name}" 
+      if family_name.present?
+        full = "#{family_name}"
+        full += ", #{given_name}" if given_name.present?
+      else
+        full = _name
       end
-      l_full_name
+      full
     end
 
     # Method wrapper for backwards compatibility - do not use this in new code!

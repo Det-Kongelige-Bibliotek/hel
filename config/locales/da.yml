@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 da:
+  unknown: Ukendt
   blacklight:
     application_name: 'Valhal'
   activefedora:
