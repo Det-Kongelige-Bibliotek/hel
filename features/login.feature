@@ -11,10 +11,10 @@ Feature: User log in
 
   Scenario: A logged in user attempts to create a work
     Given the user is logged in
-    And the user visits the new_work_path
+    And the user goes to the new_work page
     Then the page should return successfully
 
   Scenario: A non-logged in user attempts to create a work
     Given the user is not logged in
-    And the user visits the new_work_path
+    And the user goes to the new_work page
     Then the user should be redirected to the root_path
