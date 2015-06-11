@@ -28,20 +28,29 @@ da:
       messages:
         record_invalid: 'Ugyldig data'
 
-
-
-
   authority:
-      bases:
-        created: "Base was successfully created."
-        updated: "Base was successfully updated."
-        destroyed: "Base was successfully destroyed."
-      people:
-        destroyed: "Person was successfully destroyed."
+    bases:
+      created: "%{name} blev oprettet"
+      updated: "%{name} blev opdateret"
+      destroyed: "%{name} blev slettet"
+      new:
+        title: "New authority_basis"
+    people:
       form:
-        cancel: "Fortryd"
-      show:
-        authorized_names: "Autoriserede navne"
+        no_save_error: "prohibited this authority_basis from being saved:"
+        person: "Person"
+      destroyed: "Person was successfully destroyed."
+      edit:
+        editing: "Redigerer person"
+      index:
+        confirm: "Er du sikker?"
+        list: "Viser %{var} objekter"
+      new:
+        title: "Opretter person"
+    form:
+      cancel: "Fortryd"
+    show:
+      authorized_names: "Autoriserede navne"
 
   instances:
     flashmessage:
@@ -272,29 +281,6 @@ da:
         sync_status: "Synkroniseringsstatus"
         sync_date: "Synkroniseringsdato"
         log: "Logbeskeder"
-
-  authority:
-    bases:
-      new:
-        title: "New authority_basis"
-    people:
-      form:
-        no_save_error: "prohibited this authority_basis from being saved:"
-        person: "Person"
-      name:
-        scheme: "Skema"
-        given: "Fornavn"
-        family: "Efternavn"
-        date: "Fødselsår - dødsår"
-        born: "Født"
-        die: "Død"
-      edit:
-        editing: "Redigerer person"
-      index:
-        confirm: "Er du sikker?"
-        list: "Viser %{var} objekter"
-      new:
-        title: "Opretter person"
 
   catalog:
     home_text:
