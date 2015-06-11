@@ -77,6 +77,10 @@ Then(/^the work should be saved successfully$/) do
   page.has_content? I18n.t('work.save')
 end
 
-When(/^the user fills out the aleph import form with (isbn|sysnumber) (\d+)$/) do |field, val|
-  pending
+When(/^the user fills out the aleph import form with (ISBN|system nummer) (\d+)$/) do |field, val|
+  within '#aleph_import' do
+    select field
+    fill_in 'aleph[value]', with: val
+  end
+  click_button 'Import'
 end
