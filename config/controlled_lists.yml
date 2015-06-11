@@ -3,9 +3,9 @@
 workflow_status:
   name: Workflow status
   entries:
-    Ingested:
-    'Metadata complete':
-    'Færdig forvaltet':
+    Indlæst:
+    'Metadata færdig':
+    'Færdigforvaltet':
 title_type:
   name: Title types
   entries:
@@ -47,7 +47,7 @@ access_types:
     læsesal:
     'ingen adgang':
 preservation_profiles:
-  name: Preservation Profiles
+  name: Bevarings profiler
   entries:
     simple:
     storage:
