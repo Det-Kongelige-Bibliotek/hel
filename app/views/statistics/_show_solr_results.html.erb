@@ -8,7 +8,10 @@ Found <%= @group["grouped"]["format_pronom_id_si"]["matches"] %> files found in 
     <p><%= "Format mimetype: #{group["doclist"]["docs"].first['format_mimetype_tesim'].first}" %></p>
     <ul>
       <% group["doclist"]["docs"].each do |doc| %>
-          <li><%= link_to doc['original_filename_tesim'].first, controller: "content_files", action: "show", id: doc['id'] %></li>
+          <li><%= link_to doc['original_filename_tesim'].first, controller: "content_files", action: "show", id: doc['id'] %>
+            <%= "(Activity: #{doc['activity_tesim'].first}) " unless doc['activity_tesim'].nil? %>
+            <%= "(Collection: #{doc['collection_tesim'].first}) " unless doc['collection_tesim'].nil? %>
+          </li>
       <%- end %>
     </ul>
 

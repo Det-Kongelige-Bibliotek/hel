@@ -174,6 +174,13 @@ class ContentFile < ActiveFedora::Base
     end
   end
 
+  def to_solr(solr_doc = {})
+    solr_doc.merge!(super)
+    Solrizer.insert_field(solr_doc, 'activity', instance.activity, :stored_searchable) if instance && instance.activity
+    Solrizer.insert_field(solr_doc, 'collection', instance.collection, :stored_searchable) if instance && instance.collection
+    solr_doc
+  end
+
   private
   def generate_checksum(file)
     Digest::MD5.file(file).hexdigest

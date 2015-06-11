@@ -1,25 +1,12 @@
 <h1>Statistics from SOLR</h1>
 
-<%= form_tag("/statistics", method: "get") do %>
-    <%= label_tag(:format_name_tesim, "Search for format name:") %>
-    <%= text_field_tag(:format_name_tesim) %>
-    <br/>
-    <%= label_tag(:format_version_tesim, "Search for format version:") %>
-    <%= text_field_tag(:format_version_tesim) %>
-    <br/>
-    <%= label_tag(:format_mimetype_tesim, "Search for mimetype:") %>
-    <%= text_field_tag(:format_mimetype_tesim) %>
-    <br/>
-    <%= label_tag(:format_pronom_id_si, "Search for pronom id:") %>
-    <%= text_field_tag(:format_pronom_id_si) %>
-    <br/>
-    <%= submit_tag("Search") %>
-<% end %>
+<%= render partial: 'search_form' %>
 
-<%= @params.inspect %>
-<br/>
-<%= "q:#{@q}" %>
-<br/>
+<hr/>
+<!--<%= @params.inspect %>-->
+<!--<br/>-->
+<!--<%= "q:#{@q}" %>-->
+<!--<br/>-->
 
 
 <%= render partial: 'show_solr_results' %>
