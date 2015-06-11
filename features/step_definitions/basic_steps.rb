@@ -6,10 +6,6 @@ Given(/^There are ojects in the system$/) do
   work.save!
 end
 
-Given(/^the user is on the login page$/) do
-  visit '/users/sign_in'
-end
-
 Given /^the user logs in as (.*) with password (.*)$/ do |name, password|
   within '#new_user' do
     fill_in 'user_username', with: name
@@ -35,7 +31,7 @@ Then(/^they should not be allowed to login$/) do
 end
 
 Given(/^the user is logged in$/) do
-  step 'the user is on the login page'
+  step 'the user is on the new_user_session page'
   step 'the user enters correct login details'
 end
 
@@ -66,7 +62,7 @@ And(/^the user fills out the work form$/) do
   click_button 'Gem værk'
 end
 
-And(/^the user goes to the (.*) page$/) do |path|
+And(/^the user (goes to|is on) the (.*) page$/) do |method, path|
   route = send(path + '_path')
   visit route
 end
@@ -79,4 +75,8 @@ end
 
 Then(/^the work should be saved successfully$/) do
   page.has_content? I18n.t('work.save')
+end
+
+When(/^the user fills out the aleph import form with (isbn|sysnumber) (\d+)$/) do |field, val|
+  pending
 end
