@@ -53,7 +53,7 @@ da:
       preserved: 'Instans og indholdsfiler sendt til bevaring'
       no_preserved: 'Kunne ikke send til bevaring'
       destroy: "%{var} er slettet"
-      admin_updated: "Administrativ metadata er opdateret"
+      admin_updated: "Administrative metadata er opdateret"
     index:
       title: "Liste over instanser"
       list: "Listing instances"
@@ -75,8 +75,8 @@ da:
     show_bibliograph:
       isbn: ISBN
       copyright_date: "Dato for ophavsret"
-      provider_date: "Udgivelsedato"
-      mode_of_issuance: "Udgivelseform"
+      provider_date: "Udgivelsesdato"
+      mode_of_issuance: "Udgivelsesform"
       extent: "Omfang"
       language: "Sprog"
       dimensions: "Dimensioner"
@@ -84,16 +84,16 @@ da:
       title: "Bibliografiske metadata"
       language: "Sprog"
     sidebar:
-      go_to: "Gå Til:"
+      go_to: "Gå til:"
       bibliographic: "Bibliografiske metadata"
       administrative: "Administrative metadata"
       upload: "Fil upload"
     show_files:
-      label: "Files"
+      label: "Filer"
       file_name: "Filnavn"
-      bev_profil: "Bevarings profil"
-      bev_status: "Bevarings Status"
-      bev_detaljer: "Bevarings Detaljer"
+      bev_profil: "Bevaringsprofil"
+      bev_status: "Bevaringsstatus"
+      bev_detaljer: "Bevaringsdetaljer"
       download: "Download link"
       upload: "Upload"
     show_administrative:
@@ -101,50 +101,62 @@ da:
       activity: "Aktivitet"
       collection: "Samling"
       copyright: "Licens"
-      embargo_condition: "Klausulering betingelser"
-      preservation_profile: "Bevaring Profil"
-      preservation_state: "Bevaring Status"
-      preservaton_details: "Bevaring detaljer"
-      preservation_date: "Bevarings dato"
+      embargo_condition: "Klausuleringsbetingelser"
+      preservation_profile: "Bevaringsprofil"
+      preservation_state: "Bevaringsstatus"
+      preservaton_details: "Bevaringsdetaljer"
+      preservation_date: "Bevaringsdato"
       warc_id: "WARC id"
     activity_input:
       activity: "Aktivitet"
     administrative:
-      admin_header: "Administrativ metadata"
+      admin_header: "Administrative metadata"
       collection: "Samling"
       availability: "Tilgængelighed"
       klaus: "Klausuleringstype"
       license: "Vælg licens"
       preservation: "Bevaring"
-      preserv_profile: "Preservation profile"
+      preserv_profile: "Bevaringsprofil"
       is_available: "Må tilgængeliggøres?"
     image_found:
-      check: "Check tei pagebreaks"
+      check: "Tjek TEI-linjeskift"
     image_found_modal:
-      tiff: "Manglende tiff billeder"
-      wait: "Please wait ..."
+      tiff: "Manglende TIFF-billeder"
+      wait: "Vent venligst ..."
       luk: "Luk"
 
   simple_form:
     labels:
       defaults:
         copyright_date: Dato for ophavsret
-        published_date: Udgivelsedato
-        mode_of_issuance: Udgivelseform
+        published_date: Udgivelsesdato
+        mode_of_issuance: Udgivelsesform
         extent: Omfang
         language-value: Sprog
         activity: Aktivitet
         collection: Samling
         embargo: Klausulering
-        embargo_date: Klausulering dato
-        embargo_condition: Klausulering betingelser
-        access_condition: Adgang betingelser
+        embargo_date: Klausuleringsdato
+        embargo_condition: Klausuleringsbetingelser
+        access_condition: Adgangsbetingelser
+        dimensions: Dimensioner
         copyright: Licens
+        contents_note: Bemærkninger til indhold
+        isbn13: ISBN13
+        role: Rolle
+        content_files: Indholdsfiler
+        given_name: Fornavn
+        family_name: Efternavn
+        birth_date: Fødselsdato
+        death_date: Dødsdato
+        description: Beskrivelse
+        same_as: Identisk med
+
 
   trykforlaegs:
     bibliographic:
       language: "Sprog"
-  embargo_date: "Klausulering dato"
+  embargo_date: "Klausuleringsdato"
 
   Title types:
       Uniform: 'Uniform'
@@ -166,31 +178,45 @@ da:
     save: "Værket blev oprettet."
     destroy: "Værket blev slettet."
     aleph:
-      error_message: "Ingen data fundet i aleph for %{field} %{value}"
+      error_message: "Ingen data fundet i Aleph for %{field} %{value}"
       success_message: "Værk oprettet med data fra Aleph"
     save_error: "Værk kunne ikke gemmes"
 
+  read: Læs
+  discover: Find
+  edit: Rediger
+  workflow_status: Workflowstatus
+  title_types: Titeltyper
+  instance_types: Instanstyper
+  collections: Samlinger
+  access_types: Adgangsbetingelser
+  preservation_profiles: Bevaringsprofiler
+  copyright_licenses: Copyrightlicenser
+  hydra_access_groups: Adgangsgrupper
+  hydra_access_types: Adgangstyper
+  languages: Sprog
+  country_codes: Landekoder
   administration:
     activities:
       flashmessage:
-        created: "Activity was successfully created."
-        updated: "Activity was successfully updated."
-        destroyed: "Activity was successfully destroyed."
+        created: "Aktivitet blev oprettet"
+        updated: "Aktivitet blev opdateret."
+        destroyed: "Aktivitet blev slettet."
       activity_input:
         activity: "Aktivitet"
       default_permissions:
-        ins_permissions: "Instance Permissions"
-        file_permissions: "File Permissions"
+        ins_permissions: "Rettigheder for instans"
+        file_permissions: "Rettigheder for filer"
       form:
-        no_save_error: "prohibited this activity from being saved:"
+        no_save_error: "betød at aktivitet ikke kunne gemmes:"
         gem: "Gem"
       show:
-        access: "Access condition"
-        availability: "Availability"
-        collection: "Collection"
-        embargo: "Embargo"
-        em_condition: "Embargo condition"
-        pres_profile: "Preservation Profile"
+        access: "Adgangsbetingelse"
+        availability: "Tilgængelig"
+        collection: "Samling"
+        embargo: "Klausulering"
+        em_condition: "Klausuleringsbetingelse"
+        pres_profile: "Bevaringsprofil"
       index:
         header: "Aktiviteter"
         name: "Navn"
@@ -232,20 +258,20 @@ da:
       flashmessage:
         synchronizing: "Synkronisering startet"
       index:
-        header: "Externe Repositorier"
+        header: "Eksterne repositorier"
         show: "Vis"
         syncronise: "Synkroniser"
         name: "Navn"
       show:
-        title: "Externt Repositorie"
+        title: "Eksternt repositorie"
         branch: "Branch"
         activity: "Aktivitet"
-        base: "Base Directory"
-        image: "Image Directory"
-        sync: "Synkroniserings metode"
-        sync_status: "Synkroniserings status"
-        sync_date: "Synkroniserings dato"
-        log: "Log messages"
+        base: "Rodkatalog"
+        image: "Billedekatalog"
+        sync: "Synkroniseringsmetoder"
+        sync_status: "Synkroniseringsstatus"
+        sync_date: "Synkroniseringsdato"
+        log: "Logbeskeder"
 
   authority:
     bases:
@@ -259,20 +285,20 @@ da:
         scheme: "Skema"
         given: "Fornavn"
         family: "Efternavn"
-        date: "Fødsels-Dødsår"
+        date: "Fødselsår - dødsår"
         born: "Født"
         die: "Død"
       edit:
-        editing: "Editing person"
+        editing: "Redigerer person"
       index:
-        confirm: "Are you sure?"
-        list: "Listing %{var} objects"
+        confirm: "Er du sikker?"
+        list: "Viser %{var} objekter"
       new:
-        title: "New Person"
+        title: "Opretter person"
 
   catalog:
     home_text:
-      title: "Velkommen til Valhal!"
+      title: "Velkommen til Valhal"
     index_work:
       ins: "instans(er)"
 
@@ -365,6 +391,7 @@ da:
 
 
   back: "Tilbage"
+  cancel: "Fortryd"
   show: "Vis"
   edit: "Rediger"
   error: "Fejl"

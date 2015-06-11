@@ -1,11 +1,8 @@
-$("div.creator").each(function(){
-   $(this).find("select.creator-id").append($(document.createElement("option")).
-           attr("value","<%=  @authority_object.id %>").text("<%=  @authority_object.display_value %>"));
-});
-$("div.hidden-creator").each(function(){
-    $(this).find("select.creator-id").append($(document.createElement("option")).
+$("select[id$='agent_id']").each(function() {
+    $(this).append($(document.createElement("option")).
             attr("value","<%=  @authority_object.id %>").text("<%=  @authority_object.display_value %>"));
 });
-$("div.creator").find("select.creator-id").last().val("<%= @authority_object.id %>");
+
+$("select[id$='agent_id']:last").val("<%= @authority_object.id %>");
 $("#new_agent_modal").modal('hide');
 $("#new_agent_modal").find('form input[type!="submit"]').val('');

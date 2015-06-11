@@ -8,7 +8,7 @@
 <%= simple_form_for(@file, html: { multipart: true, class: 'form-horizontal' }, defaults: {
         wrapper_html: { class: 'form-group', acceptcharset: "UTF-8" }, input_html: { class: 'form-control' } }) do |f| %>
     <div class="input file optional">
-      <label class="file mandatory">Content files</label>
+      <label class="file mandatory">Indholdsfiler</label>
       <input class="file mandatory" name="file" type="file" required>
     </div>
     <input type="submit" class="btn btn-default" value="upload" />
