@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     post 'aleph', on: :collection
   end
 
+  resources :mixed_materials
+
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
       get 'show'

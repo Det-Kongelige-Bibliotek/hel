@@ -36,14 +36,15 @@ Given(/^the user is logged in$/) do
 end
 
 Then(/^the page should return successfully$/) do
-  page.status_code == 200
+  expect(page.status_code).to eql 200
 end
 
 Given(/^the user is not logged in$/) do
+  visit root_path
 end
 
 Then(/^the page should not return successfully$/) do
-  page.status_code != 200
+  expect(page.status_code).not_to eql 200
 end
 
 Then(/^the user should be redirected to the (.*)$/) do |path|
@@ -96,4 +97,12 @@ end
 
 Then(/^the person should be created$/) do
   page.has_content? 'oprettet'
+end
+
+When(/^the user clicks on the '(.+)' link$/) do |link_title|
+  click_link link_title
+end
+
+Then(/^the content '(.+)' should not be present$/) do |text|
+  page.should have_no_content(text)
 end
