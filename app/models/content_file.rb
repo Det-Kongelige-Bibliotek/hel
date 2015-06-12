@@ -174,10 +174,20 @@ class ContentFile < ActiveFedora::Base
     end
   end
 
+  # Adding instance variables to the SOLR document for improving the search for statistics.
   def to_solr(solr_doc = {})
     solr_doc.merge!(super)
     Solrizer.insert_field(solr_doc, 'activity', instance.activity, :stored_searchable) if instance && instance.activity
     Solrizer.insert_field(solr_doc, 'collection', instance.collection, :stored_searchable) if instance && instance.collection
+    Solrizer.insert_field(solr_doc, 'embargo', instance.embargo, :stored_searchable) if instance && instance.embargo
+    Solrizer.insert_field(solr_doc, 'instance_type', instance.type, :stored_searchable) if instance && instance.type
+    Solrizer.insert_field(solr_doc, 'material_type', instance.material_type, :stored_searchable) if instance && instance.material_type
+    # Aktivitet
+    # Samling
+    # Klausulering
+    # Materialetype
+    # Bevaringsprofil
+
     solr_doc
   end
 

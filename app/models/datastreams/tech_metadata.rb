@@ -19,7 +19,7 @@ module Datastreams
       t.mime_type
       t.file_size
       t.last_modified
-      t.created
+      t.created(:type => :time, :index_as => :stored_searchable, :label => 'Create date')
       t.last_accessed
       t.file_uuid(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'UUID for the actual file')
       t.editable
