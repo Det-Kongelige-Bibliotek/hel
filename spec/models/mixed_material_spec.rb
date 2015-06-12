@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe MixedMaterials do
-  let (:archive) { MixedMaterials.new }
+describe MixedMaterial do
+  let (:archive) { MixedMaterial.new }
   let (:instance) { Instance.new }
 
   it 'should be possible to add instances' do
