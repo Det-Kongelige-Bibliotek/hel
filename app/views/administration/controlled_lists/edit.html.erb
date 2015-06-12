@@ -1,5 +1,5 @@
 <div class="container">
-<h1><%= t '.header', name: @controlled_list.name %> </h1>
+<h1><%= t '.header', name: t(@controlled_list.name.parameterize.underscore).downcase %> </h1>
 <%= render 'form' %>
 <%= link_to t(:show), @controlled_list %> |
 <%= link_to t(:back), administration_controlled_lists_path %>

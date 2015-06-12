@@ -1,6 +1,6 @@
 <div class="container">
   <h1>
-    <%= @controlled_list.name %>
+    <%= t(@controlled_list.name.parameterize.underscore) %>
   </h1>
   <dl class="dl-horizontal">
     <% @controlled_list.elements.each do |element| %>
