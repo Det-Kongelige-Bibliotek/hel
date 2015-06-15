@@ -27,7 +27,7 @@ class CatalogController < ApplicationController
 
     def exclude_unwanted_models(solr_parameters, user_parameters)
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "has_model_ssim: (#{Work.to_class_uri} OR #{Authority::Person.to_class_uri.gsub(':', '\:')})"
+      solr_parameters[:fq] << "has_model_ssim: (#{Work.to_class_uri} OR #{Authority::Person.to_class_uri.gsub(':', '\:')} OR #{MixedMaterial.to_class_uri})"
     end
 
     # solr field configuration for search results/index views
