@@ -42,7 +42,7 @@ da:
       signed_in: "Du er nu logget ind."
       new:
         username: Brugernavn
-        password: Adgangkode
+        password: Adgangskode
         remember_me: "Husk mig"
       signed_out: "Du er nu logget ud."
     unlocks:

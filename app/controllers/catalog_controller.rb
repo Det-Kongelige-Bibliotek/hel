@@ -27,14 +27,7 @@ class CatalogController < ApplicationController
 
     def exclude_unwanted_models(solr_parameters, user_parameters)
       solr_parameters[:fq] ||= []
-      unwanted_models.each do |model|
-        solr_parameters[:fq] << "-has_model_ssim:\"#{model.to_class_uri}\""
-      end
-    end
-
-    def unwanted_models
-      [Instance, Trykforlaeg, ContentFile, Administration::Activity,
-       Authority::Place, Title, Hydra::AccessControls::Permission, Relator]
+      solr_parameters[:fq] << "has_model_ssim: (#{Work.to_class_uri} OR #{Authority::Person.to_class_uri.gsub(':', '\:')})"
     end
 
     # solr field configuration for search results/index views
@@ -107,7 +100,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'Alle Felter'
+    config.add_search_field 'all_fields', :label => 'Alle felter'
 
 
     # Now we see how to over-ride Solr request handler defaults, in this
