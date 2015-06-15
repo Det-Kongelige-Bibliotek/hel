@@ -15,8 +15,12 @@ Found <%= @group["grouped"]["format_pronom_id_si"]["matches"] %> files found in 
             <%= "(InstanceType: #{doc['instance_type_tesim'].first}) " unless doc['instance_type_tesim'].nil? %>
             <%= "(MaterialType: #{doc['material_type_tesim'].first}) " unless doc['material_type_tesim'].nil? %>
             <%= "(Date: #{doc['created_dtsim'].first}) " unless doc['created_dtsim'].nil? %>
+            <%= "(Size: #{doc['file_size_tesim'].first}) " unless doc['file_size_tesim'].nil? %>
           </li>
       <%- end %>
+      <% if group["doclist"]["numFound"] > group["doclist"]["docs"].size %>
+          <li><p>More results exists. Use the CSV extraction to see them all.</p></li>
+      <% end %>
     </ul>
 
 <%- end %>

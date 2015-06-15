@@ -17,7 +17,7 @@ module Datastreams
       t.original_filename(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable], :label=>'Original filename')
       t.external_file_path
       t.mime_type
-      t.file_size
+      t.file_size(:type => :string, :index_as => :stored_searchable, :label => 'File size', :path=>'file_size')
       t.last_modified
       t.created(:type => :time, :index_as => :stored_searchable, :label => 'Create date')
       t.last_accessed

@@ -1,4 +1,4 @@
-<%= form_tag("/statistics", method: "get") do |f| %>
+<%= form_tag("/statistics", method: "get") do %>
     <%= label_tag(:format_name_tesim, "Search for format name:") %>
     <%= text_field_tag(:format_name_tesim) %>
     <br/>
@@ -36,4 +36,5 @@
     <%= datetime_select(:created_dtsim, :max_time, include_blank: true) %>
     <br/>
     <%= submit_tag("Search") %>
+    <%= submit_tag("Extract as CSV") %>
 <% end %>
