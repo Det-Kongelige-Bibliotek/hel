@@ -14,8 +14,7 @@ Feature: Null Workflow
     And there is a test activity in the system
     And the user is on the new_mixed_material page
     When the user fills out the mixed material form
-    Then show me the page
-    Then the mixed material should be saved successfully
+    Then the material should be created
 
 
   Scenario: Non-logged in user

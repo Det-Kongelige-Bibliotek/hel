@@ -92,7 +92,7 @@ When(/^the user fills out the person form$/) do
   click_button 'Gem person'
 end
 
-Then(/^the person should be created$/) do
+Then(/^the (.+) should be created$/) do |obj|
   page.has_content? 'oprettet'
 end
 

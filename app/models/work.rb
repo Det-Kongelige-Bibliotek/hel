@@ -42,7 +42,7 @@ class Work < ActiveFedora::Base
   # we need therefore a subset of relators which are *creative*
   def has_a_creator
     unless authors.size > 0
-      errors.add(:creators,"Et værk skal have mindst et ophav")
+      errors.add(:creator,"et værk skal have mindst et ophav")
     end
   end
 
