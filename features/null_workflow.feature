@@ -10,8 +10,11 @@ Feature: Null Workflow
 
   Scenario: Filling out the form
     Given the user is logged in
+    And There are person objects in the system
+    And there is a test activity in the system
     And the user is on the new_mixed_material page
     When the user fills out the mixed material form
+    Then show me the page
     Then the mixed material should be saved successfully
 
 

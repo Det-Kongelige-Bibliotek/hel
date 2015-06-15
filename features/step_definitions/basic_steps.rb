@@ -108,7 +108,15 @@ When(/^the user fills out the mixed material form$/) do
   within '#new_mixed_material' do
     fill_in 'Titel', with: 'André The Giant Has A Posse'
     select 'Fairey, Shepard', from: 'Agent'
-    select 'Author', from: 'Rolle'
-    fill_in 'mixed_material_origin_date', with: '1922'
+    select 'Creator', from: 'Rolle'
+    fill_in 'mixed_material_origin_date', with: '1989'
+    select 'Test', from: 'Aktivitet'
+    select 'Småtrykssamlingen', from: 'Samling'
+    select 'CC BY', from: 'Licens'
   end
+  click_button 'Opret arkiv'
+end
+
+And(/^there is a test activity in the system$/) do
+  Administration::Activity.create(activity: "Test")
 end

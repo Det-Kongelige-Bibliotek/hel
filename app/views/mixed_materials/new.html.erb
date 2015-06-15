@@ -9,14 +9,15 @@
             <%= t 'instances.bibliographic.title' %>
           </legend>
           <%= render  partial: 'works/simple_title',  locals: { builder: builder } %>
-          <%= builder.input :origin_date %>
           <%= render partial: 'relators/form', locals: { builder: builder } %>
+          <%= builder.input :origin_date %>
         </fieldset>
 
         <%= builder.simple_fields_for :instances do |fields_builder| %>
             <%= render partial: 'instances/administrative', locals: { builder: fields_builder }  %>
             <%= render partial: 'instances/upload', locals: { builder: fields_builder }  %>
         <% end %>
+    <%= builder.submit t(:create_model, model: t('models.mixed_material').downcase), class: 'btn btn-lg btn-success' %>
     <% end %>
   </div>
 </div>

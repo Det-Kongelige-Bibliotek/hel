@@ -21,6 +21,7 @@
 
 da:
   unknown: Ukendt
+  create_model: 'Opret %{model}'
   blacklight:
     application_name: 'Valhal'
   activefedora:
@@ -184,6 +185,7 @@ da:
     authority_person: 'Person'
     authority_place: 'Sted'
     authority_organization: 'Organisation'
+    mixed_material: Arkiv
 
   roles:
     aut: 'Forfatter'
