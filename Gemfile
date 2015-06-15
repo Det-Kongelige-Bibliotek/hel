@@ -94,3 +94,5 @@ end
 gem 'log4r', '1.1.10'
 gem 'quiet_assets'
 #logging end
+
+gem 'rsolr'

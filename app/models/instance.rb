@@ -38,6 +38,7 @@ class Instance < ActiveFedora::Base
 
   after_save do
     self.work.update_index if work.present?
+    self.send_to_extsolr
   end
 
   def publication
@@ -243,5 +244,13 @@ class Instance < ActiveFedora::Base
     i.copyright = activity.copyright
     i.preservation_profile = activity.preservation_profile
     i
+  end
+
+  # Send the instance to the rsolr
+  def send_to_extsolr
+     i = self.to_solr()
+     solr = RSolr.connect :url => CONFIG[:external_solr]
+     solr.add i
+     solr.commit
   end
 end
