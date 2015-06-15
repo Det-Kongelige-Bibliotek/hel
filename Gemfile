@@ -32,6 +32,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'hydra', '>= 9.1.0.rc1'
 gem 'hydra-file_characterization', '~> 0.3.1'
 gem 'simple_form'
+gem 'lograge'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
