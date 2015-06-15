@@ -121,6 +121,7 @@ da:
     administrative:
       admin_header: "Administrative metadata"
       collection: "Samling"
+      embargo: "Klausulering"
       availability: "Tilgængelighed"
       klaus: "Klausuleringstype"
       license: "Vælg licens"
@@ -146,7 +147,7 @@ da:
         collection: Samling
         embargo: Klausulering
         embargo_date: Klausuleringsdato
-        embargo_condition: Klausuleringsbetingelser
+        embargo_condition: Klausuleringsnote
         access_condition: Adgangsbetingelser
         dimensions: Dimensioner
         copyright: Licens
