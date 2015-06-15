@@ -1,24 +1,58 @@
 # -*- encoding : utf-8 -*-
 #Controller for dealing with statistics
 class StatisticsController < ApplicationController
-  # Shows the statistics page.
+
+  SOLR_FL = 'format_*, original_filename_tesim, id, activity_tesim, collection_tesim, file_size_tesim,
+                                  preservation_profile_tesim, embargo_tesim, instance_type_tesim, material_type_tesim,
+                                  created_dtsim'
+  SOLR_MAX = 10000000
+
+  # Shows the statistics page, or sends CSV file back to the user.
   def show
     @params = params
 
+    if(params[:commit] == "Extract as CSV")
+      extract_cvs(params)
+    else
+      retrieve_group_from_solr(params)
+    end
+  end
+
+  # Extracts all the
+  # Sends the CSV results back to the user.
+  #
+  # @param params The parameters to be translated into SOLR search parameters.
+  def extract_cvs(params)
     solr = RSolr.connect :url => CONFIG[:solr_url]
     q = extract_params(params)
     q << 'has_model_ssim:ContentFile'
     @q = q.join(' AND ')
-#    @response = solr.get 'select', :params => {:q => 'has_model_ssim:ContentFile'}
-    @group = solr.get 'select', :params => {
-                          :q => @q,
-                          :fl => 'format_*, original_filename_tesim, id, activity_tesim, collection_tesim,
-                                  preservation_profile_tesim, embargo_tesim, instance_type_tesim, material_type_tesim,
-                                  created_dtsim',
-                          :group => true,
-                          :'group.field' => 'format_pronom_id_si',
-                          :'group.limit' => 5
+    group = solr.get 'select', :params => {
+                                  :q => @q,
+                                  :fl => SOLR_FL,
+                                  :rows => SOLR_MAX,
+                                  :wt => 'csv'
                               }
+    send_data group.gsub(',', ';'), {:filename => 'statistics.csv', :type => 'text/csv'}
+  end
+
+  # Retrieves grouped results from SOLR. Grouped around the pronom id.
+  # Used for the viewing of results.
+  #
+  # @param params the parameters to be translated into SOLR parameters.
+  def retrieve_group_from_solr(params)
+    solr = RSolr.connect :url => CONFIG[:solr_url]
+    q = extract_params(params)
+    q << 'has_model_ssim:ContentFile'
+    @q = q.join(' AND ')
+    @group = solr.get 'select', :params => {
+                                  :q => @q,
+                                  :fl => SOLR_FL,
+                                  :group => true,
+                                  :'group.field' => 'format_pronom_id_si',
+                                  :'group.limit' => 5
+                              }
+
   end
 
   def extract_params(params)
@@ -45,7 +79,6 @@ class StatisticsController < ApplicationController
   def extract_min_date
     return nil if @params[:created_dtsim]['min_time(1i)'].blank?
     "#{@params[:created_dtsim]['min_time(1i)']}-#{@params[:created_dtsim]['min_time(2i)']}-#{@params[:created_dtsim]['min_time(3i)']}T#{@params[:created_dtsim]['min_time(4i)']}:#{@params[:created_dtsim]['min_time(5i)']}:00Z "
-
   end
 
   def extract_max_date
