@@ -12,8 +12,10 @@
     <%= render partial: 'activity_input', locals: { builder: builder } %>
     <hr>
   </div>
+
   <div class="col-sm-12">
-    <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection') %>
+    <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection'),
+                      input_html: { class: 'selectpicker', multiple: true}%>
     <hr>
   </div>
 

@@ -19,5 +19,6 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require bootstrap-combobox
+//= require bootstrap-select.min
 //= require_tree .
 //= require jquery.are-you-sure
