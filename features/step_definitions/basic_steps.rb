@@ -93,7 +93,7 @@ When(/^the user fills out the person form$/) do
 end
 
 Then(/^the (.+) should be created$/) do |obj|
-  page.has_content? 'oprettet'
+  expect(page.has_content?('oprettet')).to eql true
 end
 
 When(/^the user clicks on the '(.+)' link$/) do |link_title|
@@ -113,10 +113,19 @@ When(/^the user fills out the mixed material form$/) do
     select 'Test', from: 'Aktivitet'
     select 'Småtrykssamlingen', from: 'Samling'
     select 'CC BY', from: 'Licens'
+    select 'TEI', from: 'Type'
   end
   click_button 'Opret arkiv'
 end
 
 And(/^there is a test activity in the system$/) do
   Administration::Activity.create(activity: "Test")
+end
+
+And(/^the user has created a mixed material object$/) do
+  step 'There are person objects in the system'
+  step 'there is a test activity in the system'
+  step 'the user is on the new_mixed_material page'
+  step 'the user fills out the mixed material form'
+  step 'the material should be created'
 end

@@ -1,7 +1,7 @@
 class MixedMaterialsController < ApplicationController
   authorize_resource
   respond_to :html
-  before_action :set_mixed_material, only: [:show]
+  before_action :set_mixed_material, only: [:show, :edit]
 
   def new
     @mixed_material = MixedMaterial.new
@@ -18,6 +18,9 @@ class MixedMaterialsController < ApplicationController
       flash[:error] = t(:model_creation_failed, model: t('models.mixed_material'))
     end
     respond_with @mixed_material
+  end
+
+  def edit
   end
 
   def show

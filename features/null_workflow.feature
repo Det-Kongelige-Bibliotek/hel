@@ -16,6 +16,12 @@ Feature: Null Workflow
     When the user fills out the mixed material form
     Then the material should be created
 
+  Scenario: Editing a MixedMaterial object
+    Given the user is logged in
+    And the user has created a mixed material object
+    When the user clicks on the 'Rediger' link
+    Then the page should return successfully
+    Then show me the page
 
   Scenario: Non-logged in user
     When the user is not logged in

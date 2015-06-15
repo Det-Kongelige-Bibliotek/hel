@@ -191,6 +191,7 @@ da:
     authority_place: 'Sted'
     authority_organization: 'Organisation'
     mixed_material: Arkiv
+    mixedmaterial: Arkiv
 
   roles:
     aut: 'Forfatter'
@@ -405,4 +406,6 @@ da:
     error_message: "skal være valid EDTF"
   mixed_materials:
     new:
-      header: "Nyt arkiv"
+      header: "Nyt %{model}"
+    edit:
+      header: "Redigerer %{model}"
