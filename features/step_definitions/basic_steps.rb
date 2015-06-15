@@ -1,9 +1,6 @@
-Given(/^There are ojects in the system$/) do
-  aut = Authority::Person.create!(given_name: 'James', family_name: 'Joyce')
-  work = Work.new
-  work.add_title(value: 'Sample title')
-  work.add_author(aut)
-  work.save!
+Given(/^There are person objects in the system$/) do
+  Authority::Person.create!(given_name: 'James', family_name: 'Joyce')
+  Authority::Person.create!(given_name: 'Shepard', family_name: 'Fairey')
 end
 
 Given /^the user logs in as (.*) with password (.*)$/ do |name, password|
@@ -105,4 +102,13 @@ end
 
 Then(/^the content '(.+)' should not be present$/) do |text|
   page.should have_no_content(text)
+end
+
+When(/^the user fills out the mixed material form$/) do
+  within '#new_mixed_material' do
+    fill_in 'Titel', with: 'André The Giant Has A Posse'
+    select 'Fairey, Shepard', from: 'Agent'
+    select 'Author', from: 'Rolle'
+    fill_in 'mixed_material_origin_date', with: '1922'
+  end
 end
