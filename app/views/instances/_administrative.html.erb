@@ -15,7 +15,8 @@
 
   <div class="col-sm-12">
     <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection'),
-                      input_html: { class: 'selectpicker', multiple: true}%>
+                      input_html: { class: 'selectpicker', multiple: true,
+                                    data: { title: t('.choose_collection'), width: '100%'}}%>
     <hr>
   </div>
 

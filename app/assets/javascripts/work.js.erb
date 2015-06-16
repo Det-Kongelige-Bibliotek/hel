@@ -15,9 +15,7 @@ $(document).ready(function(){
         activateLoaderListener();
     });
 
-    $('.selectpicker').selectpicker({
-        width: '100%'
-    });
+    $('.selectpicker').selectpicker();
 
     $('[data-hook="work-input-form"]').on('ajax:success', restyleButton);
     // Add/remove title functions

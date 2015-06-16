@@ -128,6 +128,7 @@ da:
       preservation: "Bevaring"
       preserv_profile: "Bevaringsprofil"
       is_available: "Må tilgængeliggøres?"
+      choose_collection: 'Vælg en eller flere samlinger'
     image_found:
       check: "Tjek TEI-linjeskift"
     image_found_modal:
@@ -392,3 +393,4 @@ da:
     be_admin: "Du skal være administrator for at kunne opdatere"
   edtf:
     error_message: "skal være valid EDTF"
+
