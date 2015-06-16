@@ -1,4 +1,5 @@
 <% @page_title = @mixed_material.display_value %>
+<% @instance ||= @mixed_material.instances.first %>
 <div class="work previewMode">
   <div class="container">
 
@@ -12,6 +13,9 @@
           </h1>
       <h4><%= t('works.show.author') %></h4>
       <%= render partial: 'relators/show', locals: { object: @mixed_material } %>
+      <h4><%= t('works.show.origin_date') %></h4>
+      <%= @mixed_material.origin_date %>
+      <%= render partial: 'instances/show_files' %>
     </div>
   </div>
 </div>
