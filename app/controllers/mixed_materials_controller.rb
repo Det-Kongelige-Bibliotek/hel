@@ -1,7 +1,7 @@
 class MixedMaterialsController < ApplicationController
   authorize_resource
   respond_to :html
-  before_action :set_mixed_material, only: [:show, :edit]
+  before_action :set_mixed_material, only: [:show, :edit, :update]
 
   def new
     @mixed_material = MixedMaterial.new
@@ -22,6 +22,14 @@ class MixedMaterialsController < ApplicationController
 
   def edit
   end
+
+  def update
+    if @mixed_material.update(mixed_material_params)
+      flash[:notice] =  t(:model_updated, model: t('models.mixed_material'))
+    end
+    respond_with @mixed_material
+  end
+
 
   def show
   end

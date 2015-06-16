@@ -23,6 +23,7 @@ da:
   unknown: Ukendt
   create_model: 'Opret %{model}'
   model_created: "%{model} blev oprettet"
+  model_updated: "%{model} blev opdateret"
   model_creation_failed: "%{model} kunne ikke gemmes"
   blacklight:
     application_name: 'Valhal'
