@@ -15,6 +15,7 @@
       <%= render partial: 'relators/show', locals: { object: @mixed_material } %>
       <h4><%= t('works.show.origin_date') %></h4>
       <%= @mixed_material.origin_date %>
+      <%= render partial: 'instances/show_administrative' %>
       <%= render partial: 'instances/show_files' %>
     </div>
   </div>

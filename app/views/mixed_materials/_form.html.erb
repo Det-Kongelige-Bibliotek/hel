@@ -29,6 +29,7 @@
       <%= builder.simple_fields_for :instances do |fields_builder| %>
           <%= render partial: 'instances/type', locals: { builder: fields_builder } %>
           <%= render partial: 'instances/administrative', locals: { builder: fields_builder }  %>
+          <%# file_field_tag 'mixed_material[content_files][]', type: :file, multiple: true %>
           <%= render partial: 'instances/upload', locals: { builder: fields_builder }  %>
       <% end %>
       <%= builder.submit t(:create_model, model: t('models.mixed_material').downcase), class: 'btn btn-lg btn-success' %>
