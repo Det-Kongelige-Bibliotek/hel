@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
   get 'resources/:id' => 'resources#show'
 
+  get 'solrwrapper/:q', to: 'solr_wrapper#search'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # See how all your routes lay out with "rake routes".

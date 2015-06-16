@@ -1,12 +1,12 @@
 # This class should be called statically to execute common Solr queries
 class Finder
 
-  def self.all_people
-    ActiveFedora::SolrService.query(model_query('Authority*Person'), :rows => max_rows)
+  def self.all_people(q=nil)
+    ActiveFedora::SolrService.query(model_query('Authority*Person') + (q.nil? ? '' : ' && '+typeahead_query(q)), :rows => max_rows)
   end
 
-  def self.all_organizations
-    ActiveFedora::SolrService.query("active_fedora_model_ssi:Authority*Organization", :rows => max_rows)
+  def self.all_organizations(q=nil)
+    ActiveFedora::SolrService.query("active_fedora_model_ssi:Authority*Organization" + (q.nil? ? '' : ' && '+typeahead_query(q)), :rows => max_rows)
   end
 
   def self.all_works
@@ -19,6 +19,10 @@ class Finder
 
   def self.model_query(model)
     "active_fedora_model_ssi: #{model}"
+  end
+
+  def self.typeahead_query(q)
+    "typeahead_tesim:#{q}*"
   end
 
   def self.max_rows
