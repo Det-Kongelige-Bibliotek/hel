@@ -6,7 +6,7 @@ gem 'rails', '>= 4.1.6'
 
 # Using this branch until bugfix makes it into hydra / AF master
 # See https://github.com/projecthydra/active_fedora/pull/781
-gem 'active-fedora', github: 'projecthydra/active_fedora', branch: 'nested_bug'
+gem 'active-fedora', '>= 9.1.2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'uuid'
