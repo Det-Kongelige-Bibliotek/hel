@@ -114,6 +114,8 @@ When(/^the user fills out the mixed material form$/) do
     select 'Småtrykssamlingen', from: 'Samling'
     select 'CC BY', from: 'Licens'
     select 'TEI', from: 'Type'
+    file_path = Rails.root.join('spec', 'fixtures', 'blank_file.txt')
+    attach_file 'upload_file', file_path
   end
   click_button 'Opret arkiv'
 end
