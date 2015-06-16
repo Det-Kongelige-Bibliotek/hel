@@ -138,6 +138,8 @@ da:
       wait: "Vent venligst ..."
       luk: "Luk"
 
+    upload:
+      no_access: "Du har ikke adgang til at se filerne"
   simple_form:
     labels:
       defaults:
