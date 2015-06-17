@@ -42,4 +42,27 @@ namespace :valhal do
       puts "Error setting rights on #{obj.class} #{obj.pid} #{e}"
     end
   end
+
+
+  desc 'Configure solr by adding an extra public core for development purposes'
+  task :configure_solr do
+    # Create directory in jetty by copying over dev dir
+    solr_dir = Rails.root.join('jetty', 'solr')
+    dev_core = solr_dir.join('development-core')
+    public_core = solr_dir.join('development-public')
+    FileUtils.copy_entry(dev_core, public_core)
+    data_dir = public_core.join('data')
+
+    # Delete dev data files
+    index_files = Dir.glob(File.join(data_dir, 'index', '*'))
+    spell_files = Dir.glob(File.join(data_dir, 'spell', '*'))
+    tlog_files = Dir.glob(File.join(data_dir, 'tlog', '*'))
+    FileUtils.rm index_files
+    FileUtils.rm spell_files
+    FileUtils.rm tlog_files
+
+    # Update solr.xml
+    solr_conf = Rails.root.join('solr_conf', 'solr.xml')
+    FileUtils.cp solr_conf, solr_dir
+  end
 end
