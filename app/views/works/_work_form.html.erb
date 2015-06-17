@@ -36,8 +36,9 @@
             </a>
           </legend>
 
-          <%= render partial: 'relators/form', locals: { builder: f } %>
-
+          <div class="col-sm-12">
+            <%= render partial: 'relators/form', locals: { builder: f } %>
+          </div>
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
               <span class="glyphicon glyphicon-plus"></span>
@@ -70,7 +71,7 @@
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
           <%# end %>
-<!--
+          <!--
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
               <span class="glyphicon glyphicon-plus"></span>
