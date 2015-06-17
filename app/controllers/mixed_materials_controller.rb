@@ -21,6 +21,7 @@ class MixedMaterialsController < ApplicationController
   end
 
   def edit
+    @mixed_material.relators.build
   end
 
   def update
