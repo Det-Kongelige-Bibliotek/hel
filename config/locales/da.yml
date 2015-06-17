@@ -109,6 +109,7 @@ da:
       bev_detaljer: "Bevaringsdetaljer"
       download: "Download link"
       upload: "Upload"
+      details: "Detaljer"
     show_administrative:
       label: "Administrative Data"
       activity: "Aktivitet"
