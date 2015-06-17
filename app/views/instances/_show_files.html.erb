@@ -2,8 +2,10 @@
 <% @instance.content_files.each do |f| %>
     <strong>
       <%= f.original_filename %>
+      <% if can?(:download, f) %>
       <%= link_to(t(:show), f, class: 'btn btn-default') %>
       <%= link_to(t('.download'), download_content_file_path(f), class: 'btn btn-default') %>
+      <% end %>
     </strong>
     <%= render partial: 'content_files/file_info', locals: { file: f, instance: @instance } %>
     <%= render partial: 'instances/upload_file_modal', :locals => { :file => f }%>
