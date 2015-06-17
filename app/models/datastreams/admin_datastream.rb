@@ -41,6 +41,7 @@ module Datastreams
                      :path=>'external_repository', :label=>'External Repository')
       t.validation_status(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                            :path=>'validation_status', :label=>'Validation Status')
+      t.dissemination_profiles(type: :string, path: 'dissemination_profile')
     end
     def self.xml_template
       Nokogiri::XML.parse('<fields/>')
