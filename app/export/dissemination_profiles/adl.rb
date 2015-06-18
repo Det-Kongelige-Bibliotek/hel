@@ -7,5 +7,15 @@ module DisseminationProfiles
     def self.disseminate(instance)
       puts "disseminating #{instance.id}"
     end
+
+    # Given a path to a TEI file, call the XSLT
+    # script on it
+    def self.transform(tei_file)
+      puts tei_file
+      doc = Nokogiri::XML(File.read(tei_file))
+      stylesheet_path = Rails.root.join('app', 'export', 'transforms', 'adder.xsl')
+      stylesheet = Nokogiri::XSLT(File.read(stylesheet_path))
+      stylesheet.transform(doc)
+    end
   end
 end
