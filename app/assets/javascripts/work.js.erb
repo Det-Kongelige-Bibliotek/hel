@@ -24,6 +24,7 @@ $(document).ready(function(){
     // rename them and paste into form
     $('[data-function="clone-fields"]').click(function(e){
         e.preventDefault();
+        disableAgentTypeahead(); // This is
         var selector = $(this).data('selector');
         var $fields = $(selector);
         var $new_fields = $fields.clone(true);
@@ -56,6 +57,8 @@ $(document).ready(function(){
         $new_fields.insertAfter($fields);
         //TODO: This doesn't work for some reason fix it
         $('#' + combobox_id).combobox();
+
+        enableAgentTypeahead();
     });
     $('[data-function="delete-fields"]').click(function(e){
         e.preventDefault();
@@ -124,6 +127,8 @@ $(document).ready(function(){
     $("#imageFoundBtn").on('click',renderImageFoundModal);
 
     $(".upload-file-form").on('submit',function(event){ButtonClicked();return true});
+
+    enableAgentTypeahead();
 
 });
 
@@ -253,4 +258,55 @@ function ButtonClicked()
     document.getElementById("submit-button").style.display = "none"; // to undisplay
     document.getElementById("button-loading").style.display = ""; // to display
     return true;
+}
+
+
+
+
+//
+function disableAgentTypeahead() {
+    $(".agent-typeahead").typeahead('destroy');
+}
+
+// Typeahead functionallity
+function enableAgentTypeahead() {
+    var agents = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/solrwrapper/search/%QUERY',
+            wildcard: '%QUERY'
+        }
+    });
+
+    $(".agent-typeahead").typeahead({
+                minLength: 1,
+                highlight: true },
+            {
+                name: 'Agents',
+                source: agents,
+                displayKey: 'val',
+                templates: {
+                    empty: '<div class="empty-message">Ingen agenter fundet. Opret evt. en ny</div>'
+                }
+            }).bind('typeahead:select', function(event, suggestion) {
+                $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
+            });
+
+    $(".agent-typeahead[id$='agent_label']").each(function(){
+        console.log("hejsa");
+        id = $(this).parent().parent().parent().find("input[id$='agent_id']").val();
+        console.log("id:"+id);
+        label_obj = $(this)
+
+        $.ajax({
+            type: 'GET',
+            url: '/solrwrapper/getobj/'+encodeURIComponent(id),
+            dataType: 'json',
+            success: function (data) {
+                label_obj.val(data.val);
+            }
+        });
+
+    });
 }

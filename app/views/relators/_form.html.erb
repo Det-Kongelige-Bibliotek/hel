@@ -1,17 +1,15 @@
 <% remote ||= false %>
 
 
-<script>
+<!--script>
     $(function () {
-
         var agents = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
-                url: 'http://localhost:3000/solrwrapper/%QUERY',
+                url: 'http://localhost:3000/solrwrapper/search/%QUERY',
                 wildcard: '%QUERY'
             }
-
         });
 
         $(".agent-typeahead").typeahead({
@@ -28,8 +26,25 @@
             $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
         });
 
+        $(".agent-typeahead[id$='agent_label']").each(function(){
+            console.log("hejsa");
+            id = $(this).parent().parent().parent().find("input[id$='agent_id']").val();
+            console.log("id:"+id);
+            label_obj = $(this)
+
+            $.ajax({
+                type: 'GET',
+                url: '/solrwrapper/getobj/'+encodeURIComponent(id),
+                dataType: 'json',
+                success: function (data) {
+                    label_obj.val(data.val);
+                }
+            });
+
+        });
+
     });
-</script>
+</script-->
 
 
 <%= builder.simple_fields_for :relators, defaults: { wrapper_html: { class: 'form-group' },
@@ -37,12 +52,12 @@
                                          } do |rel_fields| %>
     <div class="row relator_fields">
       <div class="col-sm-12">
-        <div class="input string optional work_relators_agent_name col-sm-6">
-          <label class="string optional" for="work_relators_attributes_0_agent_label">Agent Navn</label>
-          <input class="string optional form-control agent-typeahead" name="work[blah][]" id="work_relators_attributes_0_agent_label" type="text">
+        <div class="input string optional work_relators_agent_label col-sm-6">
+          <label class="string optional" for="work_relators_attributes_agent_label">Agent</label>
+          <input class="string optional form-control agent-typeahead" name="work[blah][]" id="work_relators_attributes_agent_label" type="text">
         </div>
-        <%= rel_fields.hidden_field :agent_id, wrapper_html: { class: 'col-sm-6' } %>
         <%= rel_fields.input :role, collection: get_list_with_labels('Relators'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-2' }  %>
+        <%= rel_fields.hidden_field :agent_id %>
       </div>
     </div>
 <% end %>

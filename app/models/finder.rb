@@ -1,6 +1,10 @@
 # This class should be called statically to execute common Solr queries
 class Finder
 
+  def self.obj(id)
+    ActiveFedora::SolrService.query("id:#{id}")
+  end
+
   def self.all_people(q=nil)
     ActiveFedora::SolrService.query(model_query('Authority*Person') + (q.nil? ? '' : ' && '+typeahead_query(q)), :rows => max_rows)
   end
