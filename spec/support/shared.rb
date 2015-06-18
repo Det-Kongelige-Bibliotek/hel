@@ -11,6 +11,7 @@ RSpec.shared_context 'shared' do
   let (:valid_trykforlaeg) { instance_params.merge(isbn13: '9780521169004', type: 'trykforlæg')} #, published_date: '2004')}
   let (:title) { Title.new(value: 'Dubliners')}
   let(:person) { Authority::Person.new(given_name: 'James', family_name: 'Joyce')}
-  let (:work_params) { {titles: [ title ] } }
+  let (:relator) { Relator.from_rel('aut', person ) }
+  let (:work_params) { {titles: [ title ], relators: [relator] } }
   let (:org_params) {  { same_as: 'http://viaf.org/viaf/127954890', _name: 'Gyldendalske boghandel, Nordisk forlag', founding_date: '1770' }}
 end
