@@ -1,33 +1,22 @@
 <% remote ||= false %>
-<script type="text/javascript">
-    // Function for the VIAF autocomplete
-    $(function() {
-        $("#myViafId").viafautox( {
-            select: function(event, ui){
-                var item = ui.item;
-                // Create the URI and give it as input
-                $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + item.id)
-            },
-            nomatch: function(event, ui) {
-                // Alert box if there is no match
-                var val = $(event.target).val();
-                alert("No match was found for: " + val);
-            }
-        });
-    });
-
-</script>
 <% @authority_object ||= Authority::Person.new %>
 <%= simple_form_for(@authority_object, remote: remote, html: { class: 'form-horizontal' },
                     defaults: { input_html: { class: 'form-control' }, wrapper_html: { class: 'form-group' }}  ) do |f| %>
+    <div class="form-inline">
+      <%= f.input :same_as, :input_html => {
+              :id => "myViafId"
+      }
+      %>
+      <button class="btn btn-default" type="button" onclick="viafImport();">
+        Import from VIAF
+      </button>
+    </div>
+
     <%= f.input :given_name %>
     <%= f.input :family_name %>
     <%= f.input :birth_date %>
     <%= f.input :death_date %>
     <%= f.input :description %>
-    <%= f.input :same_as, :input_html => {
-            :id => "myViafId"
-    }%>
     <%= #Hidden field for the URI
         f.input :same_as_uri, as: :hidden %>
 

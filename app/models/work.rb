@@ -134,7 +134,7 @@ class Work < ActiveFedora::Base
       Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
     end
     authors.each do |aut|
-      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable)
+      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable) unless aut.nil?
     end
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
