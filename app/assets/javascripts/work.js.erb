@@ -270,7 +270,7 @@ function disableAgentTypeahead() {
 
 // Typeahead functionallity
 function enableAgentTypeahead() {
-    var agents = new Bloodhound({
+    var localagents = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
@@ -279,19 +279,47 @@ function enableAgentTypeahead() {
         }
     });
 
+    var viafagents = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: 'http://viaf.org/viaf/AutoSuggest?query=%QUERY&callback=?',
+            wildcard: '%QUERY',
+            ajax: {
+                jsonp: 'callback',
+                type: 'GET',
+                dataType: 'jsonp'
+            },
+            filter: function(data) {
+                console.log(JSON.stringify(data));
+                return data.result;
+            }
+        }
+    });
+
     $(".agent-typeahead").typeahead({
-                minLength: 1,
-                highlight: true },
-            {
-                name: 'Agents',
-                source: agents,
-                displayKey: 'val',
+        minLength: 1,
+        highlight: true },
+    {
+        name: 'Agents',
+        source: localagents,
+        displayKey: 'val',
+        templates: {
+            header: '<h3 class="agent-source">Valhal</h3>',
+            empty: '<div class="empty-message">Ingen agenter fundet. Opret evt. en ny</div>'
+        }
+    }, {
+                name: 'ViafAgents',
+                source: viafagents,
+                displayKey: 'term',
                 templates: {
-                    empty: '<div class="empty-message">Ingen agenter fundet. Opret evt. en ny</div>'
+                    header: '<h3 class="agent-source">VIAF</h3>',
+                    empty: '<div class="empty-message">Ingen viaf agenter fundet</div>'
                 }
             }).bind('typeahead:select', function(event, suggestion) {
-                $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
-            });
+        console.log(JSON.stringify(suggestion));
+        $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
+    });
 
     $(".agent-typeahead[id$='agent_label']").each(function(){
         console.log("hejsa");
