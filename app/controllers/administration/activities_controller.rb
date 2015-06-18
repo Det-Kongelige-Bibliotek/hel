@@ -53,7 +53,8 @@ module Administration
                                                        :embargo_condition,
                                                        :preservation_profile,
                                                        :copyright,
-                                                       activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
+                                                       activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]],
+                                                       dissemination_profiles: []
       )
     end
   end

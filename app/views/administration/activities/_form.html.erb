@@ -14,7 +14,8 @@
     <div class="row">
       <div class="col-sm-9">
         <%= render partial: 'instances/administrative', locals: { builder: f } %>
-        <%= render partial: 'default_permissions', locals: {builder: f} %>
+        <%= render partial: 'default_permissions', locals: { builder: f } %>
+        <%= render partial: 'dissemination', locals: { builder: f } %>
         <div class="btn-group pull-right">
           <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
               <span class="glyphicon glyphicon-save"></span>

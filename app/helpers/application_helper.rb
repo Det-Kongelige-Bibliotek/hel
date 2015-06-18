@@ -7,6 +7,18 @@ module ApplicationHelper
     list.nil? ? [] : list.elements.map(&:name)
   end
 
+  # Find the available dissemination profiles from the relevant directory
+  # and return an array of arrays suitable for a form in the style
+  # ['DisseminationProfiles::Adl', 'Adl']
+  def dissemination_profiles
+    dir = Rails.root.join('app','export', 'dissemination_profiles')
+    Pathname.new(dir).children.collect do |c|
+      profile_name = c.basename.to_s.split('.').first.titleize
+      class_name = "dissemination_profiles/#{profile_name}".classify
+      [ class_name, profile_name]
+    end
+  end
+
   # Given a list name, return a list of arrays
   # suitable for dropdowns, whereby the string
   # displayed is either the element's label if present

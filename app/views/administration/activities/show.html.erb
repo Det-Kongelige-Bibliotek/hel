@@ -27,6 +27,11 @@
     <td><%= t('.pres_profile') %></td>
     <td><%= @activity.preservation_profile %></td>
   </tr>
+
+  <tr>
+    <td><%= t('administration.activities.dissemination.dissemination') %></td>
+    <td><%= @activity.dissemination_profiles.to_sentence %></td>
+  </tr>
 </table>
 
 <%= link_to 'Edit', edit_administration_activity_path(@activity) %> |
