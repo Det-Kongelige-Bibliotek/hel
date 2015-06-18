@@ -4,8 +4,8 @@ module DisseminationProfiles
   # This may be a file server, Solr index etc
   # It must have one method disseminate. This takes an instance as its argument.
   class Adl
-    def disseminate(instance)
-      puts "some sample code"
+    def self.disseminate(instance)
+      puts "disseminating #{instance.id}"
     end
   end
 end

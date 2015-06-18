@@ -37,8 +37,8 @@ class Instance < ActiveFedora::Base
   before_save :set_rights_metadata
 
   after_save do
-    self.work.update_index if work.present?
-    self.send_to_extsolr
+    work.update_index if work.present?
+    self.disseminate
   end
 
   def publication
@@ -247,10 +247,17 @@ class Instance < ActiveFedora::Base
   end
 
   # Send the instance to the rsolr
-  def send_to_extsolr
-     i = self.to_solr()
-     solr = RSolr.connect :url => CONFIG[:external_solr]
-     solr.add i
-     solr.commit
+  def disseminate
+    activity_obj = Administration::Activity.find(activity)
+    activity_obj.dissemination_profiles.each do |profile|
+      disseminator = profile.safe_constantize
+      if disseminator
+        disseminator.disseminate(self)
+      end
+    end
+    # i = self.to_solr()
+    # solr = RSolr.connect :url => CONFIG[:external_solr]
+    # solr.add i
+    # solr.commit
   end
 end
