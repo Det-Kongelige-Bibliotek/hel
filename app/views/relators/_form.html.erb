@@ -4,15 +4,65 @@
 <script>
     $(function () {
 
+//        var agents = new Bloodhound({
+//            datumTokenizer: Bloodhound.tokenizers.whitespace,
+//            queryTokenizer: Bloodhound.tokenizers.whitespace,
+//            remote: {
+//                url: 'http://localhost:3000/solrwrapper/%QUERY',
+//                wildcard: '%QUERY'
+//            }
+//
+//        });
+//
+//        $.ajax({
+//            url: "http://viaf.org/viaf/AutoSuggest?query=mch",
+//
+//            // The name of the callback parameter, as specified by the YQL service
+//            jsonp: "callback",
+//            // Tell jQuery we're expecting JSONP
+//            dataType: "jsonp",
+//            // Tell YQL what we want and that we want JSON
+//            data: {
+//                //q: "where query=\"mch\"",
+//                format: "json"
+//            },
+//            // Work with the response
+//            success: function( response ) {
+//                console.log( response.result ); // server response
+//
+//            }
+//        });
+
+        var showResults = function (data) {
+            console.log(JSON.stringify(data));
+         /*   var arr = $.map(data, function (item) {
+                return {
+                    term: item.term
+                };
+            }); */
+            //console.log(JSON.stringify(arr));
+            return data.result;
+        };
+
+
         var agents = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
-                url: 'http://localhost:3000/solrwrapper/%QUERY',
-                wildcard: '%QUERY'
+                url: 'http://viaf.org/viaf/AutoSuggest?query=%QUERY&callback=?',
+                wildcard: '%QUERY',
+                ajax: {
+                    jsonp: 'callback',
+                    type: 'GET',
+                    dataType: 'jsonp'
+                },
+                filter: showResults
             }
 
         });
+
+        console.log( agents );
+        agents.initialize();
 
         $(".agent-typeahead").typeahead({
             minLength: 1,
@@ -20,7 +70,7 @@
         {
             name: 'Agents',
             source: agents,
-            displayKey: 'val',
+            displayKey: 'term',
             templates: {
                 empty: '<div class="empty-message">We should do somthing with empty results</div>'
             }
