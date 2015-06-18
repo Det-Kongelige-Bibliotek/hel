@@ -8,6 +8,15 @@ class SolrWrapperController < ApplicationController
       result = map_result(Finder.obj(params[:id]))
       render json: result[0] unless result.blank?
   end
+  
+  def search_by_same_as_uri
+      result = map_result(Finder.search_by_same_as_uri(params[:uri]))
+      if result.blank?
+        render :nothing => true, :status => '404'
+      else
+        render json: result[0]
+      end
+  end
 
   private
 

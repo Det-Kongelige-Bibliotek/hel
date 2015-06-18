@@ -21,6 +21,10 @@ class Finder
     ActiveFedora::SolrService.query("#{model_query('Work')} && title_tesim: \"#{title}\"", :rows => max_rows)
   end
 
+  def self.search_by_same_as_uri(uri)
+    ActiveFedora::SolrService.query("same_as_uri_tesim:\"#{uri}\" ")
+  end
+
   def self.model_query(model)
     "active_fedora_model_ssi: #{model}"
   end
