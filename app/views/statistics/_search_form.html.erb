@@ -43,7 +43,6 @@
     <%= text_field_tag(:file_size_isim) %>
     <br/>
 
-
     <%# Technical fields %>
     <%= label_tag(:format_name_tesim, "Search for format name:") %>
     <%= text_field_tag(:format_name_tesim) %>
@@ -57,6 +56,10 @@
     <%= label_tag(:creating_application_tesim, "Search for creating application:") %>
     <%= text_field_tag(:creating_application_tesim) %>
     <br/>
+    <%= label_tag(:field_list, "Limit results type:") %>
+    <%= select_tag(:field_list, options_for_select({'Descriptive' => 'SOLR_FL_DESCRIPTIVE', 'Technical' => 'SOLR_FL_TECHNICAL'}), include_blank: true )%>
+    <br/>
+
     <%= submit_tag("Search") %>
     <%= submit_tag("Extract as CSV") %>
 <% end %>

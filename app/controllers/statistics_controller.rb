@@ -2,10 +2,25 @@
 #Controller for dealing with statistics
 class StatisticsController < ApplicationController
 
-  SOLR_FL = 'format_*, original_filename_tesim, id, activity_tesim, collection_tesim, file_size_isim,
-             preservation_profile_tesim, embargo_tesim, embargo_date_tesim, instance_type_tesim,
-             material_type_tesim, created_dtsim, creating_application_tesim, work_id_tesim,
-             instance_id_tesim'
+  SOLR_FL_DESCRIPTIVE = ['activity_tesim',
+             'collection_tesim',
+             'material_type_tesim',
+             'embargo_tesim',
+             'embargo_date_tesim',
+             'work_id_tesim',
+             'instance_id_tesim',
+             'instance_type_tesim']
+  SOLR_FL_COMMON = ['preservation_profile_tesim',
+             'format_mimetype_tesim',
+             'created_dtsim',
+             'file_size_isim',
+             'original_filename_tesim',
+             'id']
+  SOLR_FL_TECHNICAL = ['format_name_tesim',
+             'format_version_tesim',
+             'format_pronom_id_si',
+             'creating_application_tesim']
+  SOLR_FL_ALL = SOLR_FL_DESCRIPTIVE + SOLR_FL_COMMON + SOLR_FL_TECHNICAL
   SOLR_MAX = 10000000
 
   # Shows the statistics page, or sends CSV file back to the user.
@@ -28,9 +43,10 @@ class StatisticsController < ApplicationController
     q = extract_search_query(params)
     q << 'has_model_ssim:ContentFile'
     @q = q.join(' AND ')
+    @fl = extract_field_list(params).join(',')
     group = solr.get 'select', :params => {
                                   :q => @q,
-                                  :fl => SOLR_FL,
+                                  :fl => @fl,
                                   :rows => SOLR_MAX,
                                   :wt => 'csv'
                               }
@@ -46,14 +62,27 @@ class StatisticsController < ApplicationController
     q = extract_search_query(params)
     q << 'has_model_ssim:ContentFile'
     @q = q.join(' AND ')
+    @fl = extract_field_list(params).join(',')
     @group = solr.get 'select', :params => {
                                   :q => @q,
-                                  :fl => SOLR_FL,
+                                  :fl => @fl,
                                   :group => true,
                                   :'group.field' => 'format_pronom_id_si',
                                   :'group.limit' => 5
                               }
+  end
 
+  def extract_field_list(params)
+    if params[:field_list]
+      if params[:field_list] == 'SOLR_FL_DESCRIPTIVE'
+        return SOLR_FL_DESCRIPTIVE + SOLR_FL_COMMON
+      end
+      if params[:field_list] == 'SOLR_FL_TECHNICAL'
+        return SOLR_FL_TECHNICAL + SOLR_FL_COMMON
+      end
+
+    end
+    SOLR_FL_ALL
   end
 
   def extract_search_query(params)

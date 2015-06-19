@@ -2,9 +2,11 @@ Found <%= @group["grouped"]["format_pronom_id_si"]["matches"] %> files found in 
 
 <% @group["grouped"]["format_pronom_id_si"]["groups"].each do |group| %>
     <hr/>
-    <p><%= "#{group["doclist"]["numFound"]} files in format '#{group["doclist"]["docs"].first['format_name_tesim'].first}'
-    in version '#{(group["doclist"]["docs"].first['format_version_tesim'] || ['unknown']).first}'
-    with mimetype '#{group["doclist"]["docs"].first['format_mimetype_tesim'].first}' and pronom id: '#{group["groupValue"] || 'unknown'}':" %></p>
+    <p><%= "#{group["doclist"]["numFound"]} files " %>
+      <%= "in format '#{group["doclist"]["docs"].first['format_name_tesim'].first}'
+    in version '#{group["doclist"]["docs"].first['format_version_tesim'].first}' " unless group["doclist"]["docs"].first['format_name_tesim'].blank? %>
+    <%= "with mimetype '#{group["doclist"]["docs"].first['format_mimetype_tesim'].first}' and " unless group["doclist"]["docs"].first['format_mimetype_tesim'].blank? %>
+    <%= " pronom id: '#{group["groupValue"] || 'unknown'}':" %></p>
     <ul>
       <% group["doclist"]["docs"].each do |doc| %>
           <li><%= link_to doc['original_filename_tesim'].first, controller: "content_files", action: "show", id: doc['id'] %>
