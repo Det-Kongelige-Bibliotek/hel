@@ -3,19 +3,24 @@ Found <%= @group["grouped"]["format_pronom_id_si"]["matches"] %> files found in 
 <% @group["grouped"]["format_pronom_id_si"]["groups"].each do |group| %>
     <hr/>
     <p><%= "#{group["doclist"]["numFound"]} files in format '#{group["doclist"]["docs"].first['format_name_tesim'].first}'
-    in version '#{group["doclist"]["docs"].first['format_version_tesim'].first}'
+    in version '#{(group["doclist"]["docs"].first['format_version_tesim'] || ['unknown']).first}'
     with mimetype '#{group["doclist"]["docs"].first['format_mimetype_tesim'].first}' and pronom id: '#{group["groupValue"] || 'unknown'}':" %></p>
     <ul>
       <% group["doclist"]["docs"].each do |doc| %>
           <li><%= link_to doc['original_filename_tesim'].first, controller: "content_files", action: "show", id: doc['id'] %>
             <%= link_to 'activity', controller: "administration/activities", action: "show", id: doc['activity_tesim'] unless doc['activity_tesim'].nil?%>
             <%= "(Collection: #{doc['collection_tesim'].first}) " unless doc['collection_tesim'].nil? %>
-            <%= "(PreservationProfile: #{doc['preservation_profile_tesim'].first}) " unless doc['preservation_profile_tesim'].nil? %>
-            <%= "(Embargo: #{doc['embargo_tesim'].first == '1' ? 'true' : 'false'}) " unless doc['embargo_tesim'].nil? %>
-            <%= "(InstanceType: #{doc['instance_type_tesim'].first}) " unless doc['instance_type_tesim'].nil? %>
             <%= "(MaterialType: #{doc['material_type_tesim'].first}) " unless doc['material_type_tesim'].nil? %>
-            <%= "(Date: #{doc['created_dtsim'].first}) " unless doc['created_dtsim'].nil? %>
-            <%= "(Size: #{doc['file_size_tesim'].first}) " unless doc['file_size_tesim'].nil? %>
+            <%= "(Embargo: #{doc['embargo_tesim'].first == '1' ? 'true' : 'false'} #{doc['embargo_date_tesim'].first unless doc['embargo_date_tesim'].nil?}) " unless doc['embargo_tesim'].nil? %>
+            <%= link_to 'work', controller: "works", action: "show", id: doc['work_id_tesim'] unless doc['work_id_tesim'].nil? %>
+            <%= link_to 'instance', controller: "instances", action: "show", id: doc['instance_id_tesim'], work_id: doc['work_id_tesim'] unless doc['instance_id_tesim'].nil? || doc['work_id_tesim'].nil? %>
+            <%= "(InstanceType: #{doc['instance_type_tesim'].first}) " unless doc['instance_type_tesim'].nil? %>
+
+            <%= "(PreservationProfile: #{doc['preservation_profile_tesim'].first}) " unless doc['preservation_profile_tesim'].nil? %>
+            <%= "(Created date: #{doc['created_dtsim'].first}) " unless doc['created_dtsim'].nil? %>
+            <%= "(Size: #{doc['file_size_isim'].first}) " unless doc['file_size_isim'].nil? %>
+
+            <%= "(CreatingApplication: #{doc['creating_application_tesim'].first}) " unless doc['creating_application_tesim'].nil? %>
           </li>
       <%- end %>
       <% if group["doclist"]["numFound"] > group["doclist"]["docs"].size %>

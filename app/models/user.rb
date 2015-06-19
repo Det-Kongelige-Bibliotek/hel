@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
   def groups
     groups = []
     groups << 'Chronos-Alle' unless (self.new_record?)
-    #groups << 'Chronos-Admin' unless (self.new_record?)
+    groups << 'Chronos-Admin' unless (self.new_record?)
 
     unless self.member_of.blank?
       if self.member_of.include? 'CN=Chronos-Pligtaflevering,OU=SIFD,OU=Adgangsstyring,DC=kb,DC=dk'
