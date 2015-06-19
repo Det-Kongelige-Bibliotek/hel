@@ -291,7 +291,6 @@ function enableAgentTypeahead() {
                 dataType: 'jsonp'
             },
             filter: function(data) {
-                console.log(JSON.stringify(data));
                 return data.result;
             }
         }
@@ -317,14 +316,36 @@ function enableAgentTypeahead() {
                     empty: '<div class="empty-message">Ingen viaf agenter fundet</div>'
                 }
             }).bind('typeahead:select', function(event, suggestion) {
-        console.log(JSON.stringify(suggestion));
-        $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
-    });
+                // If the selection is from Valhal
+                if('id' in suggestion){
+                    $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
+                }
+                // If the selection is from Viaf
+                else if('viafid' in suggestion){
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/solrwrapper/searchbysameasuri?uri=http://viaf.org/viaf/'+suggestion.viafid,
+                        dataType: 'json',
+                        success: function (data) {
+
+                            $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(data.id);
+                        },
+                        error: function (data) {
+                            $('#new_agent_modal').modal();
+                            $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
+                            $('#myViafId').prop('disabled', 'disabled');;
+                            $('#new_authority_person #import_viaf').prop('disabled', 'disabled');
+                            viafImport();
+                        }
+                    });
+                }
+            });
 
     $(".agent-typeahead[id$='agent_label']").each(function(){
-        console.log("hejsa");
+        //console.log("hejsa");
         id = $(this).parent().parent().parent().find("input[id$='agent_id']").val();
-        console.log("id:"+id);
+        //console.log("id:"+id);
         label_obj = $(this)
 
         $.ajax({
