@@ -107,6 +107,11 @@
      width: 550px
  }
 
+ #loading-indicator {
+     position: relative;
+     left: 130px;
+     top: 10px;
+ }
 
 
 
