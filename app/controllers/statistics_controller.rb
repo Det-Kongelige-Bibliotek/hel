@@ -2,7 +2,7 @@
 #Controller for dealing with statistics
 class StatisticsController < ApplicationController
 
-  SOLR_FL_DESCRIPTIVE = ['activity_tesim',
+  SOLR_FL_ADMINISTRATIVE = ['activity_tesim',
              'collection_tesim',
              'material_type_tesim',
              'embargo_tesim',
@@ -20,7 +20,7 @@ class StatisticsController < ApplicationController
              'format_version_tesim',
              'format_pronom_id_si',
              'creating_application_tesim']
-  SOLR_FL_ALL = SOLR_FL_DESCRIPTIVE + SOLR_FL_COMMON + SOLR_FL_TECHNICAL
+  SOLR_FL_ALL = SOLR_FL_ADMINISTRATIVE + SOLR_FL_COMMON + SOLR_FL_TECHNICAL
   SOLR_MAX = 10000000
 
   # Shows the statistics page, or sends CSV file back to the user.
@@ -50,7 +50,9 @@ class StatisticsController < ApplicationController
                                   :rows => SOLR_MAX,
                                   :wt => 'csv'
                               }
-    send_data group.gsub(',', ';'), {:filename => 'statistics.csv', :type => 'text/csv'}
+    @csv = create_cvs_prefix(params)
+
+    send_data "#{@csv}\n\n#{group.gsub(',', ';')}", {:filename => 'statistics.csv', :type => 'text/csv'}
   end
 
   # Retrieves grouped results from SOLR. Grouped around the pronom id.
@@ -72,15 +74,15 @@ class StatisticsController < ApplicationController
                               }
   end
 
+  # Extract the list of fields to query SOLR.
   def extract_field_list(params)
     if params[:field_list]
-      if params[:field_list] == 'SOLR_FL_DESCRIPTIVE'
-        return SOLR_FL_DESCRIPTIVE + SOLR_FL_COMMON
+      if params[:field_list] == 'SOLR_FL_ADMINISTRATIVE'
+        return SOLR_FL_ADMINISTRATIVE + SOLR_FL_COMMON
       end
       if params[:field_list] == 'SOLR_FL_TECHNICAL'
         return SOLR_FL_TECHNICAL + SOLR_FL_COMMON
       end
-
     end
     SOLR_FL_ALL
   end
@@ -119,13 +121,47 @@ class StatisticsController < ApplicationController
     res
   end
 
+  # Extracts the minimum created date in the format 'YYYY-MM-DDThh:mm:ssZ'
   def extract_min_date
     return nil if @params[:created_dtsim]['min_time(1i)'].blank?
-    "#{@params[:created_dtsim]['min_time(1i)']}-#{@params[:created_dtsim]['min_time(2i)']}-#{@params[:created_dtsim]['min_time(3i)']}T#{@params[:created_dtsim]['min_time(4i)']}:#{@params[:created_dtsim]['min_time(5i)']}:00Z "
+    res = "#{@params[:created_dtsim]['min_time(1i)']}"
+    res += "-"
+    res += @params[:created_dtsim]['min_time(2i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(2i)']}"
+    res += "-"
+    res += @params[:created_dtsim]['min_time(3i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(3i)']}"
+    res += "T"
+    res += @params[:created_dtsim]['min_time(4i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(4i)']}"
+    res += ":"
+    res += @params[:created_dtsim]['min_time(5i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(5i)']}"
+    res + ":00Z "
   end
 
+  # Extracts the maximum created date in the format 'YYYY-MM-DDThh:mm:ssZ'
   def extract_max_date
     return nil if @params[:created_dtsim]['max_time(1i)'].blank?
-    "#{@params[:created_dtsim]['max_time(1i)']}-#{@params[:created_dtsim]['max_time(2i)']}-#{@params[:created_dtsim]['max_time(3i)']}T#{@params[:created_dtsim]['max_time(4i)']}:#{@params[:created_dtsim]['max_time(5i)']}:00Z "
+    res = "#{@params[:created_dtsim]['max_time(1i)']}"
+    res += "-"
+    res += @params[:created_dtsim]['max_time(2i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(2i)']}"
+    res += "-"
+    res += @params[:created_dtsim]['max_time(3i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(3i)']}"
+    res += "T"
+    res += @params[:created_dtsim]['max_time(4i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(4i)']}"
+    res += ":"
+    res += @params[:created_dtsim]['max_time(5i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(5i)']}"
+    res + ":00Z "
+  end
+
+
+  def create_cvs_prefix(params, query=nil)
+    res = ""
+    SOLR_FL_ALL.each do |p|
+      # Show hash values as comma separated, and only if they contain values.
+      if params[p].is_a?(Hash)
+        res += "#{p};#{params[p].values.join(';') unless params[p].values.join.blank?}\n"
+      else
+        res += "#{p};#{params[p]}\n"
+      end
+    end
+    res
   end
 end

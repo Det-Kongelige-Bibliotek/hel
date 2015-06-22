@@ -1,63 +1,68 @@
 <%= form_tag("/statistics", method: "get") do %>
-    <%# Search fields for curator %>
-    <%= label_tag(:activity_tesim, "Search for activity:") %>
+    <%# Administrative fields %>
+    <%= label_tag(:activity_tesim, t('statistics.search_for_activity')) %>
     <%= select_tag(:activity_tesim, options_for_select(Administration::Activity.all.collect {|a| [ a.activity, a.id ] }), include_blank: true)  %>
     <br/>
-    <%= label_tag(:collection_tesim, "Search for collection:") %>
+    <%= label_tag(:collection_tesim, t('statistics.search_for_collection')) %>
     <%= select_tag(:collection_tesim, options_for_select(get_list_with_labels('Collections')), include_blank: true ) %>
     <br/>
-    <%= label_tag(:material_type_tesim, "Search for material type:") %>
+    <%= label_tag(:material_type_tesim, t('statistics.search_for_material_type')) %>
     <%= text_field_tag(:material_type_tesim) %>
     <br/>
-    <%= label_tag(:embargo_tesim, "Search for embargo:") %>
-    <%= select_tag(:embargo_tesim, options_for_select({"embargoed" => '1', "Not embargoed" => '0'}), include_blank: true ) %>
+    <%= label_tag(:embargo_tesim, t('statistics.search_for_embargo')) %>
+    <%= select_tag(:embargo_tesim, options_for_select({t('statistics.embargo.embargoed') => '1', t('statistics.embargo.not_embargoed') => '0'}), include_blank: true ) %>
     <br/>
-    <%= label_tag(:embargo_date_tesim, "Search for embargo expiration year:") %>
+    <%= label_tag(:embargo_date_tesim, t('statistics.search_for_embargo_expiration_year')) %>
     <%= text_field_tag(:embargo_date_tesim) %>
     <br/>
-    <%= label_tag(:work_id_tesim, "Search for files belonging to a given work:") %>
+    <%= label_tag(:work_id_tesim, t('statistics.search_for_files_belonging_to_a_given_work')) %>
     <%= text_field_tag(:work_id_tesim)  %>
     <br/>
-    <%= label_tag(:instance_id_tesim, "Search for files belonging to a given instance:") %>
+    <%= label_tag(:instance_id_tesim, t('statistics.search_for_files_belonging_to_a_given_instance')) %>
     <%= text_field_tag(:instance_id_tesim)  %>
     <br/>
-    <%= label_tag(:instance_type_tesim, "Search for files belonging to instance types:") %>
+    <%= label_tag(:instance_type_tesim, t('statistics.search_for_files_belonging_to_instance_of_type')) %>
     <%= select_tag(:instance_type_tesim, options_for_select(get_list_with_labels('Instance types')), include_blank: true ) %>
-    <br/>
 
-    <%# Common items %>
-    <%= label_tag(:preservation_profile_tesim, "Search for preservation profile:") %>
+    <hr/>
+    <%# Common fields %>
+    <%= label_tag(:preservation_profile_tesim, t('statistics.search_for_preservation_profile')) %>
     <%= text_field_tag(:preservation_profile_tesim) %>
     <br/>
-    <%= label_tag(:format_mimetype_tesim, "Search for mimetype:") %>
+    <%= label_tag(:format_mimetype_tesim, t('statistics.search_for_mimetype')) %>
     <%= text_field_tag(:format_mimetype_tesim) %>
     <br/>
-    <%= label_tag(:created_dtsim_min, "Lower datetime limit:") %>
+    <%= label_tag(:created_dtsim_min, t('statistics.lower_datetime_limit')) %>
     <%= datetime_select(:created_dtsim, :min_time, include_blank: true) %>
     <br/>
-    <%= label_tag(:created_dtsim_max, "Upper datetime limit:") %>
+    <%= label_tag(:created_dtsim_max, t('statistics.upper_datetime_limit')) %>
     <%= datetime_select(:created_dtsim, :max_time, include_blank: true) %>
     <br/>
-    <%= label_tag(:file_size, "File size:") %>
-    <%= select_tag(:file_size_type, options_for_select({'Larger than' => '>', 'Smaller than' => '<'}), include_blank: true )%>
+    <%= label_tag(:file_size, t('statistics.file_size')) %>
+    <%= select_tag(:file_size_type, options_for_select({t('statistics.filesize.larger_than') => '>', t('statistics.filesize.smaller_than') => '<'}), include_blank: true )%>
     <%= text_field_tag(:file_size_isim) %>
-    <br/>
 
+    <hr/>
     <%# Technical fields %>
-    <%= label_tag(:format_name_tesim, "Search for format name:") %>
+    <%= label_tag(:format_name_tesim, t('statistics.search_for_format_name')) %>
     <%= text_field_tag(:format_name_tesim) %>
     <br/>
-    <%= label_tag(:format_version_tesim, "Search for format version:") %>
+    <%= label_tag(:format_version_tesim, t('statistics.search_for_format_version')) %>
     <%= text_field_tag(:format_version_tesim) %>
     <br/>
-    <%= label_tag(:format_pronom_id_si, "Search for pronom id:") %>
+    <%= label_tag(:format_pronom_id_si, t('statistics.search_for_pronom_id')) %>
     <%= text_field_tag(:format_pronom_id_si) %>
     <br/>
-    <%= label_tag(:creating_application_tesim, "Search for creating application:") %>
+    <%= label_tag(:creating_application_tesim, t('statistics.search_for_creating_application')) %>
     <%= text_field_tag(:creating_application_tesim) %>
-    <br/>
-    <%= label_tag(:field_list, "Limit results type:") %>
-    <%= select_tag(:field_list, options_for_select({'Descriptive' => 'SOLR_FL_DESCRIPTIVE', 'Technical' => 'SOLR_FL_TECHNICAL'}), include_blank: true )%>
+
+    <hr/>
+    <%# Limit fields%>
+    <%= label_tag(:field_list, t('statistics.limit_results_type')) %>
+    <%= select_tag(:field_list, options_for_select(
+                    {t('statistics.result_types.all') => 'SOLR_FL_ALL',
+                     t('statistics.result_types.administrative') => 'SOLR_FL_ADMINISTRATIVE',
+                     t('statistics.result_types.technical') => 'SOLR_FL_TECHNICAL'})) %>
     <br/>
 
     <%= submit_tag("Search") %>
