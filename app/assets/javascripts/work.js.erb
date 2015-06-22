@@ -334,7 +334,7 @@ function enableAgentTypeahead() {
                         error: function (data) {
                             $('#new_agent_modal').modal();
                             $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
-                            $('#myViafId').prop('disabled', 'disabled');;
+                            $('#myViafId').prop('disabled', 'disabled');
                             $('#new_authority_person #import_viaf').prop('disabled', 'disabled');
                             viafImport();
                         }

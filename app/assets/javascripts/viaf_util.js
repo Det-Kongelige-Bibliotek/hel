@@ -25,17 +25,39 @@ function viafImport() {
     });
 }
 // Function for the VIAF autocomplete
-$(function() {
-    $("#myViafId").viafautox( {
-        select: function(event, ui){
-            var item = ui.item;
-            // Create the URI and give it as input
-            $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + item.id)
-        },
-        nomatch: function(event, ui) {
-            // Alert box if there is no match
-            var val = $(event.target).val();
-            alert("No match was found for: " + val);
+$(document).ready(function(){
+
+    var viafagents2 = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: 'http://viaf.org/viaf/AutoSuggest?query=%QUERY&callback=?',
+            wildcard: '%QUERY',
+            ajax: {
+                jsonp: 'callback',
+                type: 'GET',
+                dataType: 'jsonp'
+            },
+            filter: function(data) {
+                return data.result;
+            }
         }
     });
+
+    $("#myViafId").typeahead({
+            minLength: 1,
+            highlight: true },
+         {
+            name: 'ViafAgents',
+            source: viafagents2,
+            displayKey: 'term',
+            templates: {
+                header: '<h3 class="agent-source">VIAF</h3>',
+                empty: '<div class="empty-message">Ingen viaf agenter fundet</div>'
+            }
+        }).bind('typeahead:select', function(event, suggestion) {
+            $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid)
+        });
+
+
 });
