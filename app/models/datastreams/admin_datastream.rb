@@ -41,6 +41,8 @@ module Datastreams
                      :path=>'external_repository', :label=>'External Repository')
       t.validation_status(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                            :path=>'validation_status', :label=>'Validation Status')
+      t.copyright_status(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
+                          :path=>'copyright_status', :label=>'Copyright Status')
     end
     def self.xml_template
       Nokogiri::XML.parse('<fields/>')
