@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Handle actions on Works
 class WorksController < ApplicationController
+  include Concerns::RemoveBlanks
   before_action :set_work, only: [:show, :edit, :update, :destroy]
   authorize_resource
 
@@ -117,6 +118,7 @@ class WorksController < ApplicationController
                          relators_attributes: [[ :id, :agent_id, :role ]], subjects: [[:id]], note:[]).tap do |fields|
       # remove any inputs with blank values
       fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? }
+      remove_blanks(fields)
     end
   end
 end

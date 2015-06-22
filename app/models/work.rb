@@ -23,7 +23,7 @@ class Work < ActiveFedora::Base
   belongs_to :is_part_of, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::partOf
   accepts_nested_attributes_for :titles, :relators
 
-  validate :has_a_title,:has_a_creator
+  validate :has_a_title,:add_unknown_author
 
   before_save :set_rights_metadata
 
@@ -67,6 +67,14 @@ class Work < ActiveFedora::Base
   def add_author(agent)
     author_relation = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/aut', agent: agent)
     self.relators += [author_relation]
+  end
+
+  def add_unknown_author
+    if creative_roles.size == 0
+      person = Authority::Person.create(_name: I18n.t(:unknown))
+      unknown_author = Relator.new(role: 'http://id.loc.gov/vocabulary/relators/cre', agent: person)
+      self.relators += [unknown_author]
+    end
   end
 
   def add_recipient(agent)
