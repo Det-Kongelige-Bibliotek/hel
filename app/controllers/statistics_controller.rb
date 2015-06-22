@@ -50,9 +50,10 @@ class StatisticsController < ApplicationController
                                   :rows => SOLR_MAX,
                                   :wt => 'csv'
                               }
-    @csv = create_cvs_prefix(params)
+    csv_prefix = create_cvs_prefix(params)
+    line_count = group.lines.count
 
-    send_data "#{@csv}\n\n#{group.gsub(',', ';')}", {:filename => 'statistics.csv', :type => 'text/csv'}
+    send_data "#{csv_prefix }\nNumber of results;#{line_count}\n\n#{group.gsub(',', ';')}", {:filename => 'statistics.csv', :type => 'text/csv'}
   end
 
   # Retrieves grouped results from SOLR. Grouped around the pronom id.
