@@ -14,8 +14,10 @@
   <xsl:param name="uri_base"  select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url"       select="concat($uri_base,$file)"/>
 
-  <xsl:variable name="volume_title" select="t:TEI/t:teiHeader/t:fileDesc/t:titleStmt/t:title"/>
-  <xsl:variable name="author" select="t:TEI/t:teiHeader/t:fileDesc/t:titleStmt/t:author"/>
+  <xsl:variable name="volume_title" 
+		select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:title"/>
+  <xsl:variable name="author" 
+		select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:author"/>
 
   <xsl:template match="/">
     <xsl:element name="add">
@@ -52,6 +54,7 @@
       <xsl:apply-templates select=".">
 	<xsl:with-param name="workid" select="$workid"/>
 	<xsl:with-param name="worktitle" select="$worktitle"/>
+	<xsl:with-param name="position" select="position()"/>
       </xsl:apply-templates>
     </xsl:for-each>
   </xsl:template>
@@ -59,6 +62,7 @@
   <xsl:template match="t:sp">
     <xsl:param name="workid" select="''"/>
     <xsl:param name="worktitle" select="''"/>
+    <xsl:param name="position" select="''"/>
 
     <doc>
 
@@ -71,7 +75,9 @@
 	</xsl:element>
       </xsl:if>
 
-      <xsl:call-template name="add_globals"/>
+      <xsl:call-template name="add_globals">
+	<xsl:with-param name="position" select="$position"/>
+      </xsl:call-template>
       
       <xsl:element name="field">
 	<xsl:attribute name="name">cat</xsl:attribute>
@@ -96,6 +102,7 @@
   <xsl:template match="t:lg">
     <xsl:param name="workid" select="''"/>
     <xsl:param name="worktitle" select="''"/>
+    <xsl:param name="position" select="''"/>
 
     <doc>
 
@@ -108,7 +115,9 @@
 	</xsl:element>
       </xsl:if>
 
-      <xsl:call-template name="add_globals"/>
+      <xsl:call-template name="add_globals">
+	<xsl:with-param name="position" select="$position"/>
+      </xsl:call-template>
      
       <xsl:element name="field">
 	<xsl:attribute name="name">cat</xsl:attribute>
@@ -125,6 +134,7 @@
 
     <xsl:param name="workid" select="''"/>
     <xsl:param name="worktitle" select="''"/>
+    <xsl:param name="position" select="''"/>
 
     <doc>
 
@@ -137,7 +147,9 @@
 	</xsl:element>
       </xsl:if>
 
-      <xsl:call-template name="add_globals"/>
+      <xsl:call-template name="add_globals">
+	<xsl:with-param name="position" select="$position"/>
+      </xsl:call-template>
 
       <xsl:element name="field">
 	<xsl:attribute name="name">cat</xsl:attribute>
@@ -159,6 +171,9 @@
 </xsl:text></xsl:template>
 
   <xsl:template name="add_globals">
+
+    <xsl:param name="position" select="''"/>
+
     <xsl:element name="field">
       <xsl:attribute name="name">id</xsl:attribute>
       <xsl:value-of select="concat($file,'#',@xml:id)"/>
@@ -185,6 +200,13 @@
 	<xsl:attribute name="name">author</xsl:attribute>
 	<xsl:value-of select="$author"/>
       </xsl:element>
+
+      <xsl:if test="$position">
+	<xsl:element name="field">
+	  <xsl:attribute name="name">position</xsl:attribute>
+	  <xsl:value-of select="$position"/>
+	</xsl:element>
+      </xsl:if>
 
   </xsl:template>
 
