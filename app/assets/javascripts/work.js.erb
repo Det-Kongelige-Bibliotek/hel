@@ -369,8 +369,6 @@ function enableAgentTypeahead(obj) {
                             $('#new_agent_modal').modal();
                             $('#loading').modal();
                             $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
-                            $('#myViafId').prop('disabled', 'disabled');
-                            $('#new_authority_person #import_viaf').prop('disabled', 'disabled');
                             $(event.target).val('');
                             viafImport();
                         }
