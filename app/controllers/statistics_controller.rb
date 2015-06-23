@@ -51,7 +51,8 @@ class StatisticsController < ApplicationController
                                   :wt => 'csv'
                               }
     csv_prefix = create_cvs_prefix(params)
-    line_count = group.lines.count
+    # Extract number of results (number of lines - 1 for the header line)
+    line_count = group.lines.count-1
 
     send_data "#{csv_prefix }\nNumber of results;#{line_count}\n\n#{group.gsub(',', ';')}", {:filename => 'statistics.csv', :type => 'text/csv'}
   end

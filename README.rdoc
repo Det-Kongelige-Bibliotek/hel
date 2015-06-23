@@ -78,6 +78,10 @@ Start the workflow engine (must be running in a separate terminal or as a backgr
 
 $ rake resque:work QUEUE='*'
 
+Start a job for receiving responses from preservation (does not require its own terminal):
+
+$ rake valhal:schedule_preservation_receiver
+
 The interface can be started on localhost:3000 by:
 
 $ rails server
