@@ -36,6 +36,17 @@ function updateIndex(index,input) {
 }
 
 $(document).ready(function(){
+
+    $(document).ajaxSend(function(event, request, settings) {
+        $('#new_authority_person :input').prop('disabled', true);
+        $('#loading-indicator').show();
+    });
+
+    $(document).ajaxComplete(function(event, request, settings) {
+        $('#new_authority_person :input').prop('disabled', false);
+        $('#loading-indicator').hide();
+    });
+
     // Inform users that there are unsaved data in the form
     $('form').areYouSure( {'message':'Er du sikker? Du har ikke gemt din formular!'} );
 
@@ -356,6 +367,7 @@ function enableAgentTypeahead(obj) {
                         },
                         error: function (data) {
                             $('#new_agent_modal').modal();
+                            $('#loading').modal();
                             $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
                             $('#myViafId').prop('disabled', 'disabled');
                             $('#new_authority_person #import_viaf').prop('disabled', 'disabled');

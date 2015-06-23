@@ -12,6 +12,9 @@
       </button>
     </div>
 
+
+
+
     <%= f.input :given_name %>
     <%= f.input :family_name %>
     <%= f.input :birth_date %>
@@ -22,6 +25,9 @@
 
     <div class="actions">
     <%= f.submit 'Gem person', class: 'btn btn-lg btn-success' %>
+      <img src="/assets/loading.gif" id="loading-indicator" style="display:none" />
     </div>
+
+
 
 <% end %>
