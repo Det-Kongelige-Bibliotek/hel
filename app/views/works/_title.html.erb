@@ -10,7 +10,7 @@
         <%= t('.close') %>
       </a>
       <div class='col-sm-8'>
-        <%= title_fields.input :value, placeholder: 'Titel' %>
+        <%= title_fields.input :value, placeholder: 'Titel', required:true %>
       </div>
       <div class='col-sm-2'>
         <%= title_fields.input :variant, collection: get_controlled_vocab('Title types'), label: 'Type', input_html: { class: 'combobox form-control' }  %>
