@@ -2,6 +2,39 @@ var creator_counter = 0;
 var title_counter = 0;
 
 
+function updateIndex(index,input) {
+    var regex = new RegExp(/[0-9]/);
+    // some of the inputs have no id, some have no name!
+    var num;
+    if (typeof(input.name) !== 'undefined' && input.name.length > 0) {
+        num = parseInt(regex.exec(input.name));
+    } else {
+        if (typeof(input.id !== 'undefined') && input.id.length > 0) {
+            num = parseInt(regex.exec(input.id));
+        } else {
+            if (typeof($(input).attr('data-target')) !== 'undefined') {
+                num = parseInt(regex.exec($(input).attr('data-target')))
+            }
+        }
+    }
+    if (typeof(num) !== 'undefined') {
+        var inc = num + 1;
+        if (typeof(input.name) !== 'undefined') {
+            var updated_name = input.name.replace(num.toString(), inc.toString());
+            $(input).attr('name', updated_name);
+        }
+        if (typeof(input.id) !== 'undefined') {
+            var updated_id = input.id.replace(num.toString(), inc.toString());
+            $(input).attr('id', updated_id);
+        }
+        if (typeof($(input).attr('data-target')) !== 'undefined') {
+            var updated_id = $(input).attr('data-target').replace(num.toString(), inc.toString());
+            $(input).attr('data-target', updated_id)
+        }
+        $(input).val('');
+    }
+}
+
 $(document).ready(function(){
     // Inform users that there are unsaved data in the form
     $('form').areYouSure( {'message':'Er du sikker? Du har ikke gemt din formular!'} );
@@ -24,27 +57,14 @@ $(document).ready(function(){
     // rename them and paste into form
     $('[data-function="clone-fields"]').click(function(e){
         e.preventDefault();
-        disableAgentTypeahead(); // This is
         var selector = $(this).data('selector');
         var $fields = $(selector);
+        disableAgentTypeahead($fields)
         var $new_fields = $fields.clone(true);
-        var regex = new RegExp(/[0-9]/);
         // Update all name and id attributes before pasting in the clone
-        $new_fields.find(':input').each(function(index, input){
-            // some of the inputs have no id, some have no name!
-            var num;
-            if (input.name.length > 0) {
-                num = parseInt(regex.exec(input.name));
-            } else {
-                num = parseInt(regex.exec(input.id));
-            }
-            var inc = num + 1;
-            var updated_name = input.name.replace(num.toString(), inc.toString());
-            var updated_id = input.id.replace(num.toString(), inc.toString());
-            $(input).attr('name', updated_name);
-            $(input).attr('id', updated_id);
-            $(input).val('');
-        });
+        $new_fields.find(':input').each(updateIndex);
+        $new_fields.find('a[data-target]').each(updateIndex);
+        $($new_fields).each(updateIndex);
         // combobox specific stuff - because combobox fucks up the DOM, we need to remake the pre-combobox DOM
         // with the correct ids and names and everything
         var hidden_input_name = $new_fields.find('.combobox-container').children('input:first').attr('name');
@@ -58,12 +78,15 @@ $(document).ready(function(){
         //TODO: This doesn't work for some reason fix it
         $('#' + combobox_id).combobox();
 
-        enableAgentTypeahead();
+        enableAgentTypeahead($fields);
+        enableAgentTypeahead($new_fields);
+        $new_fields.show();
     });
     $('[data-function="delete-fields"]').click(function(e){
         e.preventDefault();
         var selector = $(this).data('target');
-        $(selector).remove();
+        $(selector).hide();
+        $(selector).find("input[id$='_destroy']").val('1');
     });
 
     // Add/remove creator functions
@@ -128,7 +151,7 @@ $(document).ready(function(){
 
     $(".upload-file-form").on('submit',function(event){ButtonClicked();return true});
 
-    enableAgentTypeahead();
+    enableAgentTypeahead($(":root"));
 
 });
 
@@ -264,12 +287,12 @@ function ButtonClicked()
 
 
 //
-function disableAgentTypeahead() {
-    $(".agent-typeahead").typeahead('destroy');
+function disableAgentTypeahead(obj) {
+    obj.find(".agent-typeahead").typeahead('destroy');
 }
 
 // Typeahead functionallity
-function enableAgentTypeahead() {
+function enableAgentTypeahead(obj) {
     var localagents = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -296,7 +319,7 @@ function enableAgentTypeahead() {
         }
     });
 
-    $(".agent-typeahead").typeahead({
+    obj.find(".agent-typeahead").typeahead({
         minLength: 1,
         highlight: true },
     {
@@ -336,26 +359,32 @@ function enableAgentTypeahead() {
                             $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
                             $('#myViafId').prop('disabled', 'disabled');
                             $('#new_authority_person #import_viaf').prop('disabled', 'disabled');
+                            $(event.target).val('');
                             viafImport();
                         }
                     });
                 }
             });
 
-    $(".agent-typeahead[id$='agent_label']").each(function(){
-        //console.log("hejsa");
-        id = $(this).parent().parent().parent().find("input[id$='agent_id']").val();
-        //console.log("id:"+id);
-        label_obj = $(this)
 
+    function update_agent_label(label_obj,agent_id) {
         $.ajax({
             type: 'GET',
-            url: '/solrwrapper/getobj/'+encodeURIComponent(id),
+            url: '/solrwrapper/getobj/'+encodeURIComponent(agent_id),
             dataType: 'json',
             success: function (data) {
                 label_obj.val(data.val);
             }
         });
+    }
 
+    $(".agent-typeahead[id$='agent_label']").each(function(){
+        id = $(this).parentsUntil("div.relator_fields").find("input[id$='agent_id']").val();
+        label_obj = $(this);
+        if (id != '') {
+            update_agent_label(label_obj,id);
+        }
     });
+
+
 }

@@ -22,7 +22,8 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::succeededBy, inverse_of: :preceding_works
   has_and_belongs_to_many :parts, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::hasPart, inverse_of: :is_part_of
   belongs_to :is_part_of, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::partOf
-  accepts_nested_attributes_for :titles, :relators
+  accepts_nested_attributes_for :titles, :allow_destroy => true
+  accepts_nested_attributes_for :relators, :allow_destroy => true
 
   validate :has_a_title,:has_a_creator
 
@@ -154,6 +155,8 @@ class Work < ActiveFedora::Base
   def add_instance(i)
     self.instances.push(i)
   end
+
+
 
 end
 

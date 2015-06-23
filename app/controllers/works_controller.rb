@@ -39,6 +39,8 @@ class WorksController < ApplicationController
         format.html { redirect_to @work, notice: t('work.save') }
         format.json { render :show, status: :created, location: @work }
       else
+        @work.titles.build unless @work.titles.present?
+        @work.relators.build unless @work.relators.present?
         format.html { render :new }
         format.json { render json: @work.errors, status: :unprocessable_entity }
       end
@@ -113,10 +115,15 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type]],
-                         relators_attributes: [[ :id, :agent_id, :role ]], subjects: [[:id]], note:[]).tap do |fields|
+    params[:work].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type, :_destroy]],
+                         relators_attributes: [[ :id, :agent_id, :role, :_destroy ]], subjects: [[:id]], note:[]).tap do |fields|
       # remove any inputs with blank values
       fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? }
+
+      #remove any agents whit blank agent_id
+      #remove any agents whith no relator_id and destroy set to true (this happens when a user has added a relator in the interface
+      # and deleted it again before saving)
+      fields['relators_attributes'] = fields['relators_attributes'].select {|k,v| v['agent_id'].present? && (v['id'].present? || v['_destroy'] != '1')}
     end
   end
 end
