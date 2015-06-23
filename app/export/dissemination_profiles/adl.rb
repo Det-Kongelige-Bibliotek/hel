@@ -18,7 +18,7 @@ module DisseminationProfiles
       stylesheet.transform(doc, ['file', "'#{filename}'", 'uri_base', "'http://adl.kb.dk/'"]) #
     end
 
-    # Given a solr doc in XML, add to solr index
+    # Given a solr doc in XML string, add to solr index
     def self.add_to_solr(solr_doc)
       solr = RSolr.connect :url => CONFIG[:external_solr]
       solr.update(data: solr_doc)
@@ -27,7 +27,7 @@ module DisseminationProfiles
 
     def self.transform_and_disseminate(tei_file_path)
       doc = self.transform(tei_file_path)
-      self.add_to_solr(doc)
+      self.add_to_solr(doc.to_xml)
     end
   end
 end
