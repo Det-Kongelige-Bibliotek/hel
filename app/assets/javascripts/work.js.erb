@@ -1,5 +1,6 @@
 var creator_counter = 0;
 var title_counter = 0;
+var modal_agent_field;
 
 
 function updateIndex(index,input) {
@@ -359,13 +360,11 @@ function enableAgentTypeahead(obj) {
                 }
                 // If the selection is from Viaf
                 else if('viafid' in suggestion){
-
                     $.ajax({
                         type: 'GET',
                         url: '/solrwrapper/searchbysameasuri?uri=http://viaf.org/viaf/'+suggestion.viafid,
                         dataType: 'json',
                         success: function (data) {
-
                             $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(data.id);
                         },
                         error: function (data) {
@@ -373,6 +372,8 @@ function enableAgentTypeahead(obj) {
                             $('#loading').modal();
                             $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
                             $(event.target).val('');
+                            modal_agent_field = event.target.id;
+                            console.log("modal_agent_field "+modal_agent_field);
                             viafImport();
                         }
                     });

@@ -13,7 +13,7 @@
       <div class="col-sm-12">
         <div class="input string optional work_relators_agent_name col-sm-6">
           <label class="string optional" for="<%= id %>_agent_label">Agent Navn</label>
-          <input class="string optional form-control agent-typeahead" name="work[blah][]" id="<%= id %>_agent_label" type="text">
+          <input class="string optional form-control agent-typeahead" name="work[blah][<%= rel_fields.index %>]" id="<%= id %>_agent_label" type="text">
         </div>
         <%= rel_fields.hidden_field :agent_id %>
         <%= rel_fields.hidden_field :_destroy %>
