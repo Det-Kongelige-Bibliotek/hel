@@ -1,4 +1,5 @@
 <% remote ||= false %>
+<% delete_label = 'slet relator' unless delete_label.present? %>
 
 <%= builder.simple_fields_for :relators, defaults: { wrapper_html: { class: 'form-group' },
                                                        input_html: { class: 'form-control' }

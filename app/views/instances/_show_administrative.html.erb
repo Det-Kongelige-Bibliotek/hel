@@ -88,19 +88,21 @@
     <span><%= @instance.warc_id %></span>
   </td>
 </tr>
-<tr>
-  <td>
-    <strong><%= t('.copyright_status') %></strong>
-  </td>
-  <td>
-    <span>
-    <% if @instance.copyright_status == ('Ukendt' or 'Udloebet') %>
-       <%= @instance.copyright_status %>
-    <% else %>
-       <% agent = Authority::Person.find(@instance.copyright_status) %>
-       <%= link_to  agent.display_value, agent %>
-    <% end %>
-        </span>
-  </td>
-</tr>
+<% if @instance.copyright_status.present? %>
+    <tr>
+      <td>
+        <strong><%= t('.copyright_status') %></strong>
+      </td>
+      <td>
+        <span>
+        <% if @instance.copyright_status == ('Ukendt' or 'Udloebet') %>
+           <%= @instance.copyright_status %>
+        <% else %>
+           <% agent = Authority::Person.find(@instance.copyright_status) %>
+           <%= link_to  agent.display_value, agent %>
+        <% end %>
+            </span>
+      </td>
+    </tr>
+<% end %>
 </tbody></table>
