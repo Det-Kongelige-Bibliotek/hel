@@ -126,12 +126,14 @@ da:
     administrative:
       admin_header: "Administrative metadata"
       collection: "Samling"
+      embargo: "Klausulering"
       availability: "Tilgængelighed"
       klaus: "Klausuleringstype"
       license: "Vælg licens"
       preservation: "Bevaring"
       preserv_profile: "Bevaringsprofil"
       is_available: "Må tilgængeliggøres?"
+      choose_collection: 'Vælg en eller flere samlinger'
     image_found:
       check: "Tjek TEI-linjeskift"
     image_found_modal:
@@ -154,7 +156,7 @@ da:
         collection: Samling
         embargo: Klausulering
         embargo_date: Klausuleringsdato
-        embargo_condition: Klausuleringsbetingelser
+        embargo_condition: Klausuleringsnote
         access_condition: Adgangsbetingelser
         dimensions: Dimensioner
         copyright: Licens
@@ -354,6 +356,7 @@ da:
       author: "Ophav"
       subject: "Emne(r)"
       new_tryk: "Nyt Trykforlæg"
+      origin_date: "Oprindelsesdato"
       page_title: "Værk: "
       agent_relations: "Relaterede agenter"
       new_instance: "Ny instans"
@@ -408,6 +411,7 @@ da:
     be_admin: "Du skal være administrator for at kunne opdatere"
   edtf:
     error_message: "skal være valid EDTF"
+
   mixed_materials:
     new:
       header: "Nyt %{model}"
