@@ -11,17 +11,20 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 
 declare option exist:serialize "method=xml media-type=text/html"; 
-declare variable $document := request:get-parameter("doc", "");
-declare variable $fragment := request:get-parameter("id", "");
+declare variable $document := request:get-parameter("doc","");
+declare variable $frag := request:get-parameter("id","");
+declare variable $coll := concat("/db/adl/",request:get-parameter("coll","texts"));
 
+(:[ft:query(@xml:id,$frag)]:)
+(: [@xml:id=$frag] :)
 
 let $list := 
-  if($fragment) then
-    for $doc in collection("/db/adl/texts")//node()[ft:query(@xml:id,$fragment)]
+  if($frag) then
+    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
     return $doc
   else
-    for $doc in collection("/db/adl/texts")
+    for $doc in collection($coll)
     where util:document-name($doc)=$document
     return $doc
 
@@ -29,9 +32,9 @@ let $params :=
 <parameters>
    <param name="hostname" value="{request:get-header('HOST')}"/>
    <param name="doc" value="{$document}"/>
-   <param name="id" value="{$fragment}"/>
+   <param name="id" value="{$frag}"/>
 </parameters>
 
 for $doc in $list
-return transform:transform($doc,doc("/db/adl/render.xsl"),$params)
+return transform:transform($doc,doc("/db/adl/render.xsl"),$params) 
  
