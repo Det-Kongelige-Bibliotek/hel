@@ -180,6 +180,7 @@ da:
       defaults:
         value: Titel eller label
 
+
   trykforlaegs:
     bibliographic:
       language: "Sprog"
@@ -412,6 +413,37 @@ da:
     be_admin: "Du skal være administrator for at kunne opdatere"
   edtf:
     error_message: "skal være valid EDTF"
+
+  statistics:
+    preservation_statistics_based_on_solr: "Bevaring statistik baseret på SOLR"
+    search_for_activity: 'Søg efter aktivitet: '
+    search_for_collection: 'Søg efter samling: '
+    search_for_material_type: 'Søg efter materiale type: '
+    search_for_embargo: 'Søg efter embargo: '
+    embargo:
+      embargoed: 'Embargo'
+      not_embargoed: 'Ikke embargo'
+    search_for_embargo_expiration_year: 'Søg efter embargo udløbsår: '
+    search_for_files_belonging_to_a_given_work: 'Søg efter filer tilhørende et givent værk: '
+    search_for_files_belonging_to_a_given_instance: 'Søg efter filer tilhørende en given instans: '
+    search_for_files_belonging_to_instance_of_type: 'Søg efter filer tilhørende en instans af typen: '
+    search_for_preservation_profile: 'Søg efter bevarings profil: '
+    search_for_mimetype: 'Søg efter mimetype: '
+    lower_datetime_limit: 'Nedre grænse for datostempel: '
+    upper_datetime_limit: 'Øvre grænse for datostempel: '
+    file_size: 'Fil størrelse: '
+    filesize:
+      larger_than: 'Mindre end'
+      smaller_than: 'Større end'
+    search_for_format_name: 'Søg efter format navn: '
+    search_for_format_version: 'Søg efter format version: '
+    search_for_pronom_id: 'Søg efter pronom id: '
+    search_for_creating_application: 'Søg efter creating application: '
+    limit_results_type: 'Begræns resulter: '
+    result_types:
+      all: 'Alle'
+      administrative: 'Administrative'
+      technical: 'Tekniske'
 
   mixed_materials:
     new:
