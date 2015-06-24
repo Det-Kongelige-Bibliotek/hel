@@ -15,11 +15,10 @@
 //= require jquery.validate
 //= require jquery.validate.additional-methods
 //= require jquery-ui
-//= require jquery-ui/autocomplete
 //
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require bootstrap-combobox
+//= require bootstrap-select.min
 //= require_tree .
 //= require jquery.are-you-sure
-

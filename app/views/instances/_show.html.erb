@@ -14,11 +14,8 @@
             <% end %>
         <% end %>
         <%= link_to 'Send til Bevaring', send_to_preservation_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
-        <% if @instance.is_a? Trykforlaeg %>
-            <%= link_to 'Rediger', edit_work_trykforlaeg_url(@work,@instance), class: 'btn btn-primary' %>
-        <% else %>
-            <%= link_to 'Rediger', edit_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
-        <% end %>
+        <%= link_to 'Rediger', edit_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
+
       </div>
       <h1><%= "Instance #{@instance.type}" %></h1>
     </div>

@@ -36,14 +36,15 @@ class Work < ActiveFedora::Base
   def has_a_title
     unless titles.size > 0
       errors.add(:titles,"Et værk skal have mindst en titel")
+      #fail("Et værk skal have mindst en titel")
     end
   end
 
   # TODO: this should check all creative relation types
   # we need therefore a subset of relators which are *creative*
   def has_a_creator
-    unless authors.size > 0
-      errors.add(:creators,"Et værk skal have mindst et ophav")
+    if creative_roles.size == 0
+      errors.add(:creator,"et værk skal have mindst et ophav")
     end
   end
 
@@ -81,6 +82,14 @@ class Work < ActiveFedora::Base
 
   def authors
     related_agents('aut')
+  end
+
+  def creators
+    related_agents('cre')
+  end
+
+  def creative_roles
+    authors + creators
   end
 
   def add_related(work)
@@ -171,10 +180,6 @@ end
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
 
-  # This method i insertet to make cancan authorization work with nested ressources and subclassing
-  def trykforlaegs
-    instances.where(class: 'Trygforlaeg')
-  end
 
   # In general use these accessors when you want
   # to add a relationship. These will ensure

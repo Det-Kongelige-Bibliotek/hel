@@ -33,8 +33,15 @@
     <%= builder.input :note , input_html: { value: '', name: 'instance[note][]'} %>
   </div>
 
-  <%= render partial: 'provider/form', locals: { builder: builder } %>
+  <div class="col-sm-12">
+    <legend class="col-sm-12" >
+      <%= "Ophavsret:" %>
+    </legend>
 
-  <%= render partial: 'relators/form', locals: { builder: builder } %>
+    <%= render partial: 'provider/form2', locals: { builder: builder } %>
+
+    <%= render partial: 'relators/form2', locals: { builder: builder } %>
+  </div>
+
 
 </fieldset>

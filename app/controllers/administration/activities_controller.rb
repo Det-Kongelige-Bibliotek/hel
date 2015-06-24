@@ -53,6 +53,7 @@ module Administration
                                                        :embargo_condition,
                                                        :preservation_profile,
                                                        :copyright,
+                                                       :ophavsret,
                                                        activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
       )
     end

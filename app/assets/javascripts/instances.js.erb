@@ -1,0 +1,20 @@
+/**
+ * Created by nkh on 6/16/15.
+ */
+
+$(document).ready(function () {
+    $('input[name="instance[copyright_status]"]').change(function (e) {
+        if ($('input[value=addagent]')[0].checked) {
+            $('#addagent').slideDown();
+
+        } else {
+            $('#addagent').slideUp();
+        }
+//        $('input[name=copyright_status]')[$('input[value=addagent]')[0].checked ? 'slideDown' : 'slideUp']();
+    });
+    $('#addagent select').change(function (e) {
+        $('input[value=addagent]')[0].value = e.target.options[e.target.selectedIndex].value;
+    })
+});
+
+
