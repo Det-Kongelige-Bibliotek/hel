@@ -34,17 +34,17 @@
     </xsl:variable>
 
     <doc>
-      <xsl:element name="field"><xsl:attribute name="name">type</xsl:attribute>trunk</xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
       
       <xsl:element name="field">
-	<xsl:attribute name="name">work_title</xsl:attribute>
+	<xsl:attribute name="name">work_title_tesim</xsl:attribute>
 	<xsl:value-of  select="$worktitle"/>
       </xsl:element>
 
       <xsl:call-template name="add_globals"/>     
 
       <xsl:element name="field">
-	<xsl:attribute name="name">text</xsl:attribute>
+	<xsl:attribute name="name">text_tesim</xsl:attribute>
 	  <xsl:apply-templates select="descendant::text()"/>
       </xsl:element>
     </doc>
@@ -66,11 +66,11 @@
 
     <doc>
 
-      <xsl:element name="field"><xsl:attribute name="name">type</xsl:attribute>leaf</xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:if test="$workid">
 	<xsl:element name="field">
-	  <xsl:attribute name="name">part_of</xsl:attribute>
+	  <xsl:attribute name="name">part_of_ssi</xsl:attribute>
 	  <xsl:value-of select="$workid"/>
 	</xsl:element>
       </xsl:if>
@@ -80,17 +80,17 @@
       </xsl:call-template>
       
       <xsl:element name="field">
-	<xsl:attribute name="name">cat</xsl:attribute>
+	<xsl:attribute name="name">cat_ssi</xsl:attribute>
 	<xsl:text>play</xsl:text>
       </xsl:element>
 
       <xsl:element name="field">
-	<xsl:attribute name="name">speaker</xsl:attribute>
+	<xsl:attribute name="name">speaker_name</xsl:attribute>
 	<xsl:value-of select="t:speaker"/>
       </xsl:element>
 
       <xsl:element name="field">
-      <xsl:attribute name="name">text</xsl:attribute>
+      <xsl:attribute name="name">text_tesim</xsl:attribute>
       <xsl:apply-templates select="t:p"/>
       </xsl:element>
 
@@ -106,11 +106,11 @@
 
     <doc>
 
-      <xsl:element name="field"><xsl:attribute name="name">type</xsl:attribute>leaf</xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:if test="$workid">
 	<xsl:element name="field">
-	  <xsl:attribute name="name">part_of</xsl:attribute>
+	  <xsl:attribute name="name">part_of_ssi</xsl:attribute>
 	  <xsl:value-of select="$workid"/>
 	</xsl:element>
       </xsl:if>
@@ -120,12 +120,12 @@
       </xsl:call-template>
      
       <xsl:element name="field">
-	<xsl:attribute name="name">cat</xsl:attribute>
+	<xsl:attribute name="name">cat_ssi</xsl:attribute>
 	<xsl:text>poetry</xsl:text>
       </xsl:element>
 
       <xsl:for-each select="t:l">
-	<xsl:element name="field"><xsl:attribute name="name">text</xsl:attribute><xsl:apply-templates/></xsl:element>
+	<xsl:element name="field"><xsl:attribute name="name">text_tesim</xsl:attribute><xsl:apply-templates/></xsl:element>
       </xsl:for-each>
     </doc>
   </xsl:template>
@@ -138,11 +138,11 @@
 
     <doc>
 
-      <xsl:element name="field"><xsl:attribute name="name">type</xsl:attribute>leaf</xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:if test="$workid">
 	<xsl:element name="field">
-	  <xsl:attribute name="name">part_of</xsl:attribute>
+	  <xsl:attribute name="name">part_of_ssi</xsl:attribute>
 	  <xsl:value-of select="$workid"/>
 	</xsl:element>
       </xsl:if>
@@ -152,12 +152,12 @@
       </xsl:call-template>
 
       <xsl:element name="field">
-	<xsl:attribute name="name">cat</xsl:attribute>
+	<xsl:attribute name="name">cat_ssi</xsl:attribute>
 	<xsl:text>prose</xsl:text>
       </xsl:element>
 
       <xsl:element name="field">
-	<xsl:attribute name="name">text</xsl:attribute>
+	<xsl:attribute name="name">text_tesim</xsl:attribute>
 	<xsl:apply-templates/>
       </xsl:element>
     </doc>
@@ -180,30 +180,30 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">url</xsl:attribute>
+      <xsl:attribute name="name">url_ssi</xsl:attribute>
       <xsl:value-of select="concat($url,'#',@xml:id)"/>
     </xsl:element>
 
       <xsl:element name="field">
-	<xsl:attribute name="name">volume_title</xsl:attribute>
+	<xsl:attribute name="name">volume_title_tesim</xsl:attribute>
 	<xsl:value-of select="$volume_title"/>
       </xsl:element>
 
       <xsl:if test="t:head|../t:head">
 	<xsl:element name="field">
-	  <xsl:attribute name="name">head</xsl:attribute>
+	  <xsl:attribute name="name">head_tesim</xsl:attribute>
 	  <xsl:value-of select="t:head|../t:head[1]"/>
 	</xsl:element>
       </xsl:if>
 
       <xsl:element name="field">
-	<xsl:attribute name="name">author</xsl:attribute>
+	<xsl:attribute name="name">author_name</xsl:attribute>
 	<xsl:value-of select="$author"/>
       </xsl:element>
 
       <xsl:if test="$position">
 	<xsl:element name="field">
-	  <xsl:attribute name="name">position</xsl:attribute>
+	  <xsl:attribute name="name">position_isi</xsl:attribute>
 	  <xsl:value-of select="$position"/>
 	</xsl:element>
       </xsl:if>
