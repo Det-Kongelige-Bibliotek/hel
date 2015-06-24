@@ -19,3 +19,4 @@ an eXist DB
   of the TEI upon delivery.
 * [collection.xconf](./collection.xconf) is the [definition of the index](http://exist-db.org/exist/apps/doc/indexing.xml) for the store.
 
+

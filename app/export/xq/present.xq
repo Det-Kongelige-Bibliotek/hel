@@ -13,7 +13,8 @@ declare namespace ft="http://exist-db.org/xquery/lucene";
 declare option exist:serialize "method=xml media-type=text/html"; 
 declare variable $document := request:get-parameter("doc","");
 declare variable $frag := request:get-parameter("id","");
-declare variable $coll := concat("/db/adl/",request:get-parameter("coll","texts"));
+declare variable $c := request:get-parameter("c","texts");
+declare variable $coll := concat("/db/adl/",$c);
 
 (:[ft:query(@xml:id,$frag)]:)
 (: [@xml:id=$frag] :)
@@ -33,6 +34,7 @@ let $params :=
    <param name="hostname" value="{request:get-header('HOST')}"/>
    <param name="doc" value="{$document}"/>
    <param name="id" value="{$frag}"/>
+   <param name="c" value="{$c}"/>
 </parameters>
 
 for $doc in $list
