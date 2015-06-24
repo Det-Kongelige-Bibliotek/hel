@@ -377,6 +377,7 @@ da:
       add_author: "Tilføj Ophav"
       subject: "Emner"
       add_subject: "Tilføj Emne"
+      delete_creator: 'Slet Ophav'
     edit:
       page_title: "Rediger værk: "
     index:

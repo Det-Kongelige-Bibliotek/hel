@@ -43,10 +43,18 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :authority do
-    resources :people, :organizations, :places
+    resources :people do
+      get 'viaf', on: :collection
+    end
+    resources :organizations, :places
   end
 
   get 'resources/:id' => 'resources#show'
+
+  get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
+  get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
+  get 'solrwrapper/searchbysameasuri/', to: 'solr_wrapper#search_by_same_as_uri'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

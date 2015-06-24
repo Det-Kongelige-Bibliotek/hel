@@ -45,6 +45,8 @@ module Authority
       solr_doc.merge!(super)
       Solrizer.insert_field(solr_doc, 'display_value', display_value, :stored_searchable, :displayable)
       Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
+      Solrizer.insert_field(solr_doc, 'same_as_uri', same_as_uri, :stored_searchable)
+
       solr_doc
     end
 
