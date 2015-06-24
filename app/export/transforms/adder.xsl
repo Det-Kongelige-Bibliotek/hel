@@ -184,33 +184,47 @@
       <xsl:value-of select="concat($url,'#',@xml:id)"/>
     </xsl:element>
 
+    <xsl:call-template name="page_info"/>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">volume_title_tesim</xsl:attribute>
+      <xsl:value-of select="$volume_title"/>
+    </xsl:element>
+
+    <xsl:if test="t:head|../t:head">
       <xsl:element name="field">
-	<xsl:attribute name="name">volume_title_tesim</xsl:attribute>
-	<xsl:value-of select="$volume_title"/>
+	<xsl:attribute name="name">head_tesim</xsl:attribute>
+	<xsl:value-of select="t:head|../t:head[1]"/>
       </xsl:element>
+    </xsl:if>
 
-      <xsl:if test="t:head|../t:head">
-	<xsl:element name="field">
-	  <xsl:attribute name="name">head_tesim</xsl:attribute>
-	  <xsl:value-of select="t:head|../t:head[1]"/>
-	</xsl:element>
-      </xsl:if>
+    <xsl:element name="field">
+      <xsl:attribute name="name">author_name</xsl:attribute>
+      <xsl:value-of select="$author"/>
+    </xsl:element>
 
+    <xsl:if test="$position">
       <xsl:element name="field">
-	<xsl:attribute name="name">author_name</xsl:attribute>
-	<xsl:value-of select="$author"/>
+	<xsl:attribute name="name">position_isi</xsl:attribute>
+	<xsl:value-of select="$position"/>
       </xsl:element>
-
-      <xsl:if test="$position">
-	<xsl:element name="field">
-	  <xsl:attribute name="name">position_isi</xsl:attribute>
-	  <xsl:value-of select="$position"/>
-	</xsl:element>
-      </xsl:if>
+    </xsl:if>
 
   </xsl:template>
 
   <xsl:template name="page_info">
+    <xsl:if test="preceding::t:pb[1]/@n|descendant::t:pb">
+      <xsl:element name="field">
+	<xsl:attribute name="name">page_ssi</xsl:attribute>
+	<xsl:value-of 
+	    select="preceding::t:pb[1]/@n|descendant::t:pb/@n[1]"/>
+      </xsl:element>
+      <xsl:element name="field">
+	<xsl:attribute name="name">page_id_ssi</xsl:attribute>
+	<xsl:value-of 
+	    select="preceding::t:pb[1]/@xml:id|descendant::t:pb/@xml:id[1]"/>
+      </xsl:element>
+    </xsl:if>
   </xsl:template>
 
 </xsl:transform>
