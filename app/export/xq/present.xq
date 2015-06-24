@@ -33,5 +33,5 @@ let $params :=
 </parameters>
 
 for $doc in $list
-return $doc (:transform:transform($doc,doc("/db/adl/render.xsl"),$params) :)
+return transform:transform($doc,doc("/db/adl/render.xsl"),$params)
  

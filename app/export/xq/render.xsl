@@ -56,7 +56,6 @@
   <xsl:template match="t:front">
     <div>
       <xsl:call-template name="add_id"/>
-      <h2>hitting front</h2>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -64,7 +63,6 @@
   <xsl:template match="t:body">
     <div>
       <xsl:call-template name="add_id"/>
-      <h2>hitting body</h2>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -107,6 +105,12 @@
     </p>
   </xsl:template>
 
+ <xsl:template match="t:lb">
+   <xsl:element name="br">
+     <xsl:call-template name="add_id"/>
+   </xsl:element>
+ </xsl:template>
+
   <xsl:template match="t:lg">
     <p>
       <xsl:call-template name="add_id"/>
@@ -132,27 +136,27 @@
   </xsl:template>
 
   <xsl:template match="t:list[@type='ordered']">
-    <ol><xsl:apply-templates/></ol>
+    <ol><xsl:call-template name="add_id"/><xsl:apply-templates/></ol>
   </xsl:template>
 
   <xsl:template match="t:list">
-    <ul><xsl:apply-templates/></ul>
+    <ul><xsl:call-template name="add_id"/><xsl:apply-templates/></ul>
   </xsl:template>
 
   <xsl:template match="t:hi[@rend='bold']|t:emph[@rend='bold']">
-    <strong><xsl:apply-templates/></strong>
+    <strong> <xsl:call-template name="add_id"/><xsl:apply-templates/></strong>
   </xsl:template>
 
   <xsl:template match="t:hi[@rend='italics']|t:emph[@rend='italics']">
-    <em><xsl:apply-templates/></em>
+    <em><xsl:call-template name="add_id"/><xsl:apply-templates/></em>
   </xsl:template>
 
   <xsl:template match="t:hi[@rend='spat']">
-    <em><xsl:apply-templates/></em>
+    <em><xsl:call-template name="add_id"/><xsl:apply-templates/></em>
   </xsl:template>
 
   <xsl:template match="t:item">
-    <li><xsl:apply-templates/></li>
+    <li><xsl:call-template name="add_id"/><xsl:apply-templates/></li>
   </xsl:template>
 
   <xsl:template match="t:figure">
@@ -194,7 +198,9 @@
       <xsl:call-template name="add_id"/>
       <dt>
 	<xsl:apply-templates select="t:speaker"/>
-	<xsl:apply-templates select="t:stage"/>
+	<xsl:if test="t:stage">
+	  <em>(<xsl:apply-templates select="t:stage"/>)</em>
+	</xsl:if>
       </dt>
       <dd>
 	<xsl:apply-templates select="t:p|t:lg|t:pb"/>
@@ -202,9 +208,18 @@
     </dl>
   </xsl:template>
 
-  <xsl:template match="t:pb">
-    <xsl:element name="span"><xsl:text>[</xsl:text>
+  <xsl:template match="t:speaker|t:stage">
+    <xsl:element name="span">
       <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </xsl:element>
+    <xsl:text>
+    </xsl:text>
+  </xsl:template>
+
+  <xsl:template match="t:pb">
+    <xsl:element name="span">
+      <xsl:call-template name="add_id"/><xsl:text>[</xsl:text>
       <xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
       <xsl:text>]</xsl:text></xsl:element>
   </xsl:template>
