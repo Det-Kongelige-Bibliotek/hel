@@ -17,11 +17,20 @@
             </ul>
           </div>
       <% end %>
+
       <fieldset>
         <legend class="col-sm-12">
           <%= t 'instances.bibliographic.title' %>
         </legend>
         <%= render  partial: 'works/simple_title',  locals: { builder: builder } %>
+
+        <legend class="col-sm-12">
+          <%= t('.author') %>
+          <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="#new_agent_modal">
+            <span class="glyphicon glyphicon-plus"></span>
+            <%= t('.new_person') %>
+          </a>
+        </legend>
         <%= render partial: 'relators/form', locals: { builder: builder } %>
         <%= builder.input :origin_date %>
       </fieldset>
@@ -36,3 +45,5 @@
   <% end %>
 </div>
 </div>
+
+<%= render partial: 'works/new_agent_modal' %>

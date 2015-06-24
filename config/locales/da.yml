@@ -450,3 +450,6 @@ da:
       header: "Nyt %{model}"
     edit:
       header: "Redigerer %{model}"
+    form:
+      new_person: "Opret ny person"
+      author: "Ophav"
