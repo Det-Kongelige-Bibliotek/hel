@@ -87,6 +87,11 @@ module ApplicationHelper
     Administration::Activity.find(id).activity
   end
 
+  # Convert the field symbol given by an error into a name
+  def just_field_name(field_sym)
+    field_sym.to_s.split('.').last
+  end
+
 
   # Generate a link to a instance given a work_id and instance id
   # Note: This code could be made much simpler if we

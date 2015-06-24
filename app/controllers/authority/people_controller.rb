@@ -10,6 +10,22 @@ module Authority
       end
     end
 
+    def viaf
+      reader = RDF::Reader.open(params[:url])
+      stats = reader.each_statement.to_a
+
+      unless stats.empty?
+        first_name = stats.select {|s| s.predicate == 'http://schema.org/givenName' }.first.object.value
+        family_name = stats.select {|s| s.predicate == 'http://schema.org/familyName' }.first.object.value
+        alternate_name = stats.select {|s| s.predicate == 'http://schema.org/alternateName' }.first.object.value
+      end
+
+      json_file = {:first_name => first_name, :family_name => family_name, :alternate_name => alternate_name}
+      logger.info json_file
+      render json: json_file.to_json
+    end
+
+
     private
 
     def set_klazz
