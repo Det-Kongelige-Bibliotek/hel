@@ -27,7 +27,7 @@ class CatalogController < ApplicationController
 
     def exclude_unwanted_models(solr_parameters, user_parameters)
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "has_model_ssim: (#{Work.to_class_uri} OR #{Authority::Person.to_class_uri.gsub(':', '\:')})"
+      solr_parameters[:fq] << "has_model_ssim: (#{Work.to_class_uri} OR #{Authority::Person.to_class_uri.gsub(':', '\:')} OR #{MixedMaterial.to_class_uri})"
     end
 
     # solr field configuration for search results/index views
@@ -54,7 +54,7 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    config.add_facet_field solr_name('author', :facetable), :label => 'Forfatter'
+    config.add_facet_field solr_name('author', :facetable), :label => 'Ophav'
     config.add_facet_field 'active_fedora_model_ssi', :label => 'Indhold', helper_method: :translate_model_names
     config.add_facet_field solr_name('work_collection',:facetable), :label => 'Samling'
     config.add_facet_field solr_name('work_activity',:facetable), :label => 'Aktivitet', helper_method: :get_activity_name

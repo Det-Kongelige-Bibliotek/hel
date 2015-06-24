@@ -27,7 +27,7 @@ class Relator < ActiveFedora::Base
   end
 
   def agent_id=(id)
-    self.agent = ActiveFedora::Base.find(id)
+    self.agent = ActiveFedora::Base.find(id) if id.present?
   end
 
   def agent_id

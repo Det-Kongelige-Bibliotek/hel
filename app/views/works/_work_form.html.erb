@@ -36,8 +36,9 @@
             </a>
           </legend>
 
-          <%= render partial: 'relators/form', locals: { builder: f } %>
-
+          <div class="col-sm-12">
+            <%= render partial: 'relators/form', locals: { builder: f } %>
+          </div>
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
               <span class="glyphicon glyphicon-plus"></span>
@@ -54,7 +55,7 @@
           </div>
         </fieldset>
         <fieldset class="row col-sm-12">
-          <legend class="col-sm-12"><%= t('works.show.origin_date') %> </legend>
+          <legend class="col-sm-12"><%= t('simple_form.labels.defaults.origin_date') %> </legend>
           <div class="col-sm-3">
             <%= f.input :origin_date, label: false %>
           </div>
@@ -70,7 +71,7 @@
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
           <%# end %>
-<!--
+          <!--
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
               <span class="glyphicon glyphicon-plus"></span>

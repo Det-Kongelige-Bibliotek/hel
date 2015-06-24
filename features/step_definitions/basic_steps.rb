@@ -1,9 +1,6 @@
-Given(/^There are ojects in the system$/) do
-  aut = Authority::Person.create!(given_name: 'James', family_name: 'Joyce')
-  work = Work.new
-  work.add_title(value: 'Sample title')
-  work.add_author(aut)
-  work.save!
+Given(/^There are person objects in the system$/) do
+  Authority::Person.create!(given_name: 'James', family_name: 'Joyce')
+  Authority::Person.create!(given_name: 'Shepard', family_name: 'Fairey')
 end
 
 Given /^the user logs in as (.*) with password (.*)$/ do |name, password|
@@ -36,14 +33,15 @@ Given(/^the user is logged in$/) do
 end
 
 Then(/^the page should return successfully$/) do
-  page.status_code == 200
+  expect(page.status_code).to eql 200
 end
 
 Given(/^the user is not logged in$/) do
+  visit root_path
 end
 
 Then(/^the page should not return successfully$/) do
-  page.status_code != 200
+  expect(page.status_code).not_to eql 200
 end
 
 Then(/^the user should be redirected to the (.*)$/) do |path|
@@ -94,6 +92,42 @@ When(/^the user fills out the person form$/) do
   click_button 'Gem person'
 end
 
-Then(/^the person should be created$/) do
-  page.has_content? 'oprettet'
+Then(/^the (.+) should be created$/) do |obj|
+  expect(page.has_content?('oprettet')).to eql true
+end
+
+When(/^the user clicks on the '(.+)' link$/) do |link_title|
+  click_link link_title
+end
+
+Then(/^the content '(.+)' should not be present$/) do |text|
+  page.should have_no_content(text)
+end
+
+When(/^the user fills out the mixed material form$/) do
+  within '#new_mixed_material' do
+    fill_in 'Titel', with: 'André The Giant Has A Posse'
+    select 'Fairey, Shepard', from: 'Agent'
+    select 'Creator', from: 'Rolle'
+    fill_in 'mixed_material_origin_date', with: '1989'
+    select 'Test', from: 'Aktivitet'
+    select 'Småtrykssamlingen', from: 'Samling'
+    select 'CC BY', from: 'Licens'
+    select 'TEI', from: 'Type'
+    file_path = Rails.root.join('spec', 'fixtures', 'blank_file.txt')
+    attach_file 'upload_file', file_path
+  end
+  click_button 'Opret arkiv'
+end
+
+And(/^there is a test activity in the system$/) do
+  Administration::Activity.create(activity: "Test")
+end
+
+And(/^the user has created a mixed material object$/) do
+  step 'There are person objects in the system'
+  step 'there is a test activity in the system'
+  step 'the user is on the new_mixed_material page'
+  step 'the user fills out the mixed material form'
+  step 'the material should be created'
 end

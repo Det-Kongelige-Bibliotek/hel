@@ -19,7 +19,7 @@ class ContentFile < ActiveFedora::Base
   #
   # @param path external url to the firl
 
-  before_save :set_rights_metadata, on: :create, if: 'preservation_profile.blank?'
+  before_save :set_rights_metadata
 
   ### custom validations
   ## run through the list of validators in self.validators
