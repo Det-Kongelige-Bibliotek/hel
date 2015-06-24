@@ -210,7 +210,7 @@
 
   </xsl:template>
 
-    <xsl:template name="add_globals">
-  
+  <xsl:template name="page_info">
+  </xsl:template>
 
 </xsl:transform>
