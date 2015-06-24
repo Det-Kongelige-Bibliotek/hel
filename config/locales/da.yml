@@ -21,6 +21,10 @@
 
 da:
   unknown: Ukendt
+  create_model: 'Opret %{model}'
+  model_created: "%{model} blev oprettet"
+  model_updated: "%{model} blev opdateret"
+  model_creation_failed: "%{model} kunne ikke gemmes"
   blacklight:
     application_name: 'Valhal'
   activefedora:
@@ -105,6 +109,7 @@ da:
       bev_detaljer: "Bevaringsdetaljer"
       download: "Download link"
       upload: "Upload"
+      details: "Detaljer"
     show_administrative:
       label: "Administrative Data"
       activity: "Aktivitet"
@@ -136,9 +141,12 @@ da:
       wait: "Vent venligst ..."
       luk: "Luk"
 
+    upload:
+      no_access: "Du har ikke adgang til at se filerne"
   simple_form:
     labels:
       defaults:
+        origin_date: "Oprindelsesdato"
         copyright_date: Dato for ophavsret
         published_date: Udgivelsesdato
         mode_of_issuance: Udgivelsesform
@@ -162,7 +170,15 @@ da:
         death_date: Dødsdato
         description: Beskrivelse
         same_as: Identisk med
-
+        value: Titel
+        type: Type
+        agent: Agent
+        creator: Ophav
+      mixed_material:
+        origin_date: Datering
+    placeholders:
+      defaults:
+        value: Titel eller label
 
   trykforlaegs:
     bibliographic:
@@ -180,6 +196,8 @@ da:
     authority_person: 'Person'
     authority_place: 'Sted'
     authority_organization: 'Organisation'
+    mixed_material: Arkiv
+    mixedmaterial: Arkiv
 
   roles:
     aut: 'Forfatter'
@@ -394,3 +412,8 @@ da:
   edtf:
     error_message: "skal være valid EDTF"
 
+  mixed_materials:
+    new:
+      header: "Nyt %{model}"
+    edit:
+      header: "Redigerer %{model}"

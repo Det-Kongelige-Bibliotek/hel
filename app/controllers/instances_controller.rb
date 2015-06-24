@@ -54,7 +54,7 @@ class InstancesController < ApplicationController
 
   # GET /instances/1/edit
   def edit
-    @instance.relators.build
+    @instance.relators.build unless @instance.relators.present?
     @instance.publications.build unless @instance.publication.present?
   end
 

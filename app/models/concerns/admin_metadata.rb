@@ -9,6 +9,7 @@ module Concerns
 
       #has_attributes :activity, :workflow_status, :embargo, :embargo_date, :embargo_condition, :access_condition,
       #               :copyright, :material_type, :availability, :collection, :type, :external_repository, :validation_status,
+      #               :ophavsret_status
       #               datastream: 'adminMetadata', :multiple => false
       property :activity,  delegate_to: 'adminMetadata', :multiple => false
       property :workflow_status,  delegate_to: 'adminMetadata', :multiple => false
@@ -23,6 +24,7 @@ module Concerns
       property :type,  delegate_to: 'adminMetadata', :multiple => false
       property :external_repository,  delegate_to: 'adminMetadata', :multiple => false
       property :validation_status,  delegate_to: 'adminMetadata', :multiple => false
+      property :copyright_status, delegate_to: 'adminMetadata', :multiple => false
 
       property :validation_message,  delegate_to: 'adminMetadata', :multiple => true
 

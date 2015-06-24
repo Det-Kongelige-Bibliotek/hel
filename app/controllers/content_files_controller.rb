@@ -13,7 +13,7 @@ class ContentFilesController < ApplicationController
   # If something goes wrong server-side, then a 500 is returned.
   def download
     # TODO: Find out why this is needed, should be handeled in ability.rb
-    authorize! :read, params[:id]
+    authorize! :read, URI.unescape(params[:id])
     begin
       send_data @file.content, {:filename => @file.original_filename, :type => @file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
@@ -29,11 +29,11 @@ class ContentFilesController < ApplicationController
   end
 
   def upload
-    authorize! :edit, params[:id]
+    authorize! :edit, URI.unescape(params[:id])
   end
 
   def update
-    authorize! :edit, params[:id]
+    authorize! :edit, URI.unescape(params[:id])
 
     uploaded_file = params[:file]
 
