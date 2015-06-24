@@ -118,7 +118,7 @@ class WorksController < ApplicationController
     params[:work].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type, :_destroy]],
                          relators_attributes: [[ :id, :agent_id, :role, :_destroy ]], subjects: [[:id]], note:[]).tap do |fields|
       # remove any inputs with blank values
-      fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? }
+      fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? && (v['id'].present? || v['_destroy'] != '1')}
 
       #remove any agents whit blank agent_id
       #remove any agents whith no relator_id and destroy set to true (this happens when a user has added a relator in the interface
