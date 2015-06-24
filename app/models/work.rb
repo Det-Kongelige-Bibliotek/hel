@@ -35,6 +35,7 @@ class Work < ActiveFedora::Base
   def has_a_title
     unless titles.size > 0
       errors.add(:titles,"Et værk skal have mindst en titel")
+      #fail("Et værk skal have mindst en titel")
     end
   end
 
