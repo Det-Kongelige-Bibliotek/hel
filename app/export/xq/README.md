@@ -17,7 +17,5 @@ an eXist DB
   taken for granted that all files live in /dir/adl/texts 
 * [render.xsl](./render.xsl) is an xslt script creating an html fragment out
   of the TEI upon delivery.
-* [collection.xconf](./collection.xconf) is the
-  [definition of the index](http://exist-db.org/exist/apps/doc/indexing.xml)
-  for the store.
+* [collection.xconf](./collection.xconf) is the [definition of the index](http://exist-db.org/exist/apps/doc/indexing.xml) for the store.
 
