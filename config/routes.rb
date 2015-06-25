@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   get "view_file/show"
+  get 'statistics' => 'statistics#show'
+
 
   resources :instances do
     member do
@@ -18,6 +20,8 @@ Rails.application.routes.draw do
     resources :trykforlaegs
     post 'aleph', on: :collection
   end
+
+  resources :mixed_materials
 
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
@@ -41,10 +45,18 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :authority do
-    resources :people, :organizations, :places
+    resources :people do
+      get 'viaf', on: :collection
+    end
+    resources :organizations, :places
   end
 
   get 'resources/:id' => 'resources#show'
+
+  get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
+  get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
+  get 'solrwrapper/searchbysameasuri/', to: 'solr_wrapper#search_by_same_as_uri'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -103,3 +103,34 @@ en:
         entry: "Entry"
   edtf:
     error_message: "must be valid EDTF"
+
+  statistics:
+    preservation_statistics_based_on_solr: 'Preservation statistics based on SOLR'
+    search_for_activity: 'Search for activity: '
+    search_for_collection: 'Search for collection: '
+    search_for_material_type: 'Search for material type: '
+    search_for_embargo: 'Search for embargo: '
+    embargo:
+      embargoed: 'Embargoed'
+      not_embargoed: 'Not embargoed'
+    search_for_embargo_expiration_year: 'Search for embargo expiration year: '
+    search_for_files_belonging_to_a_given_work: 'Search for files belonging to a given work: '
+    search_for_files_belonging_to_a_given_instance: 'Search for files belonging to a given instance: '
+    search_for_files_belonging_to_instance_of_type: 'Search for files belonging to instance of type: '
+    search_for_preservation_profile: 'Search for preservation profile: '
+    search_for_mimetype: 'Search for mimetype: '
+    lower_datetime_limit: 'Lower datetime limit: '
+    upper_datetime_limit: 'Upper datetime limit: '
+    file_size: 'File size: '
+    filesize:
+      larger_than: 'Larger than'
+      smaller_than: 'Smaller than'
+    search_for_format_name: 'Search for format name: '
+    search_for_format_version: 'Search for format version: '
+    search_for_pronom_id: 'Search for pronom id: '
+    search_for_creating_application: 'Search for creating application: '
+    limit_results_type: 'Limit results type: '
+    result_types:
+      all: 'All'
+      administrative: 'Administrative'
+      technical: 'Technical'

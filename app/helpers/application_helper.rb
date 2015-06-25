@@ -14,7 +14,7 @@ module ApplicationHelper
   # The list is sorted by the value of the labels ascending
   def get_list_with_labels(list_name)
     list = Administration::ControlledList.with(:name, list_name)
-    elements = list.elements.to_a
+    elements = list.nil? ? [] : list.elements.to_a
     elements.map!{ |e| [ (e.label.present? ? e.label : e.name), e.name] }
     elements.sort { |x,y| x.first <=> y.first }
   end
@@ -85,6 +85,11 @@ module ApplicationHelper
 
   def get_activity_name(id)
     Administration::Activity.find(id).activity
+  end
+
+  # Convert the field symbol given by an error into a name
+  def just_field_name(field_sym)
+    field_sym.to_s.split('.').last
   end
 
 

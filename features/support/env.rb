@@ -57,3 +57,4 @@ ActionController::Base.allow_rescue = true
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
 Authority::Person.delete_all
+Administration::Activity.delete_all

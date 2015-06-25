@@ -1,0 +1,49 @@
+<%# This is necessary to use the instance partials in this context as they depend on @instance being defined %>
+<% @instance ||= @mixed_material.instances.first %>
+<div class="instans container">
+  <div class="page-header">
+    <h1><%= header %></h1>
+  </div>
+<div class="row col-sm-10 col-sm-offset-1">
+  <%= simple_form_for @mixed_material, html: { multipart: true } do |builder| %>
+      <% if @mixed_material.errors.any? %>
+          <div id="error_explanation">
+            <ul>
+              <% @mixed_material.errors.messages.each do |field, message| %>
+                  <li>
+                    <%= "#{t('simple_form.labels.defaults.' + just_field_name(field), default: just_field_name(field))} #{message.join(', ')}" %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <fieldset>
+        <legend class="col-sm-12">
+          <%= t 'instances.bibliographic.title' %>
+        </legend>
+        <%= render  partial: 'works/simple_title',  locals: { builder: builder } %>
+
+        <legend class="col-sm-12">
+          <%= t('.author') %>
+          <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="#new_agent_modal">
+            <span class="glyphicon glyphicon-plus"></span>
+            <%= t('.new_person') %>
+          </a>
+        </legend>
+        <%= render partial: 'relators/form', locals: { builder: builder } %>
+        <%= builder.input :origin_date %>
+      </fieldset>
+
+      <%= builder.simple_fields_for :instances do |fields_builder| %>
+          <%= render partial: 'instances/type', locals: { builder: fields_builder } %>
+          <%= render partial: 'instances/administrative', locals: { builder: fields_builder }  %>
+          <%# file_field_tag 'mixed_material[content_files][]', type: :file, multiple: true %>
+          <%= render partial: 'instances/upload', locals: { builder: fields_builder }  %>
+      <% end %>
+      <%= builder.submit t(:create_model, model: t('models.mixed_material').downcase), class: 'btn btn-lg btn-success' %>
+  <% end %>
+</div>
+</div>
+
+<%= render partial: 'works/new_agent_modal' %>

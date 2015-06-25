@@ -19,7 +19,7 @@ class ContentFile < ActiveFedora::Base
   #
   # @param path external url to the firl
 
-  before_save :set_rights_metadata, on: :create, if: 'preservation_profile.blank?'
+  before_save :set_rights_metadata
 
   ### custom validations
   ## run through the list of validators in self.validators
@@ -172,6 +172,27 @@ class ContentFile < ActiveFedora::Base
     else
       nil
     end
+  end
+
+  # Adding instance variables to the SOLR document for improving the search for statistics.
+  # TODO: embargo_date should be in date format - though it is currently a string in the instance.
+  def to_solr(solr_doc = {})
+    solr_doc.merge!(super)
+    Solrizer.insert_field(solr_doc, 'activity', instance.activity, :stored_searchable) if instance && instance.activity
+    Solrizer.insert_field(solr_doc, 'collection', instance.collection, :stored_searchable) if instance && instance.collection
+    Solrizer.insert_field(solr_doc, 'embargo', instance.embargo, :stored_searchable) if instance && instance.embargo
+    Solrizer.insert_field(solr_doc, 'embargo_date', instance.embargo_date, :stored_searchable) if instance && instance.embargo_date
+    Solrizer.insert_field(solr_doc, 'material_type', instance.material_type, :stored_searchable) if instance && instance.material_type
+    Solrizer.insert_field(solr_doc, 'instance_type', instance.type, :stored_searchable) if instance && instance.type
+    Solrizer.insert_field(solr_doc, 'instance_id', instance.id, :stored_searchable) if instance && instance.id
+    Solrizer.insert_field(solr_doc, 'work_id', instance.work.id, :stored_searchable) if instance && instance.work && instance.work.id
+    # Aktivitet
+    # Samling
+    # Klausulering
+    # Materialetype
+    # Bevaringsprofil
+
+    solr_doc
   end
 
   private

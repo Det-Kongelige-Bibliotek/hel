@@ -36,7 +36,7 @@
             </a>
           </legend>
 
-          <%= render partial: 'relators/form', locals: { builder: f } %>
+          <%= render partial: 'relators/form', locals: { builder: f, id: 'work_agent', delete_label: t('.delete_creator') } %>
 
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
@@ -70,7 +70,7 @@
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
           <%# end %>
-<!--
+          <!--
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
               <span class="glyphicon glyphicon-plus"></span>

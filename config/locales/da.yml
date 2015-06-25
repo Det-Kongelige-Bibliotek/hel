@@ -21,6 +21,10 @@
 
 da:
   unknown: Ukendt
+  create_model: 'Opret %{model}'
+  model_created: "%{model} blev oprettet"
+  model_updated: "%{model} blev opdateret"
+  model_creation_failed: "%{model} kunne ikke gemmes"
   blacklight:
     application_name: 'Valhal'
   activefedora:
@@ -105,6 +109,7 @@ da:
       bev_detaljer: "Bevaringsdetaljer"
       download: "Download link"
       upload: "Upload"
+      details: "Detaljer"
     show_administrative:
       label: "Administrative Data"
       activity: "Aktivitet"
@@ -121,12 +126,14 @@ da:
     administrative:
       admin_header: "Administrative metadata"
       collection: "Samling"
+      embargo: "Klausulering"
       availability: "Tilgængelighed"
       klaus: "Klausuleringstype"
       license: "Vælg licens"
       preservation: "Bevaring"
       preserv_profile: "Bevaringsprofil"
       is_available: "Må tilgængeliggøres?"
+      choose_collection: 'Vælg en eller flere samlinger'
     image_found:
       check: "Tjek TEI-linjeskift"
     image_found_modal:
@@ -134,9 +141,12 @@ da:
       wait: "Vent venligst ..."
       luk: "Luk"
 
+    upload:
+      no_access: "Du har ikke adgang til at se filerne"
   simple_form:
     labels:
       defaults:
+        origin_date: "Oprindelsesdato"
         copyright_date: Dato for ophavsret
         published_date: Udgivelsesdato
         mode_of_issuance: Udgivelsesform
@@ -146,7 +156,7 @@ da:
         collection: Samling
         embargo: Klausulering
         embargo_date: Klausuleringsdato
-        embargo_condition: Klausuleringsbetingelser
+        embargo_condition: Klausuleringsnote
         access_condition: Adgangsbetingelser
         dimensions: Dimensioner
         copyright: Licens
@@ -160,6 +170,15 @@ da:
         death_date: Dødsdato
         description: Beskrivelse
         same_as: Identisk med
+        value: Titel
+        type: Type
+        agent: Agent
+        creator: Ophav
+      mixed_material:
+        origin_date: Datering
+    placeholders:
+      defaults:
+        value: Titel eller label
 
 
   trykforlaegs:
@@ -178,6 +197,8 @@ da:
     authority_person: 'Person'
     authority_place: 'Sted'
     authority_organization: 'Organisation'
+    mixed_material: Arkiv
+    mixedmaterial: Arkiv
 
   roles:
     aut: 'Forfatter'
@@ -357,6 +378,7 @@ da:
       add_author: "Tilføj Ophav"
       subject: "Emner"
       add_subject: "Tilføj Emne"
+      delete_creator: 'Slet Ophav'
     edit:
       page_title: "Rediger værk: "
     index:
@@ -391,3 +413,43 @@ da:
     be_admin: "Du skal være administrator for at kunne opdatere"
   edtf:
     error_message: "skal være valid EDTF"
+
+  statistics:
+    preservation_statistics_based_on_solr: "Bevaring statistik baseret på SOLR"
+    search_for_activity: 'Søg efter aktivitet: '
+    search_for_collection: 'Søg efter samling: '
+    search_for_material_type: 'Søg efter materiale type: '
+    search_for_embargo: 'Søg efter embargo: '
+    embargo:
+      embargoed: 'Embargo'
+      not_embargoed: 'Ikke embargo'
+    search_for_embargo_expiration_year: 'Søg efter embargo udløbsår: '
+    search_for_files_belonging_to_a_given_work: 'Søg efter filer tilhørende et givent værk: '
+    search_for_files_belonging_to_a_given_instance: 'Søg efter filer tilhørende en given instans: '
+    search_for_files_belonging_to_instance_of_type: 'Søg efter filer tilhørende en instans af typen: '
+    search_for_preservation_profile: 'Søg efter bevarings profil: '
+    search_for_mimetype: 'Søg efter mimetype: '
+    lower_datetime_limit: 'Nedre grænse for datostempel: '
+    upper_datetime_limit: 'Øvre grænse for datostempel: '
+    file_size: 'Fil størrelse: '
+    filesize:
+      larger_than: 'Mindre end'
+      smaller_than: 'Større end'
+    search_for_format_name: 'Søg efter format navn: '
+    search_for_format_version: 'Søg efter format version: '
+    search_for_pronom_id: 'Søg efter pronom id: '
+    search_for_creating_application: 'Søg efter creating application: '
+    limit_results_type: 'Begræns resulter: '
+    result_types:
+      all: 'Alle'
+      administrative: 'Administrative'
+      technical: 'Tekniske'
+
+  mixed_materials:
+    new:
+      header: "Nyt %{model}"
+    edit:
+      header: "Redigerer %{model}"
+    form:
+      new_person: "Opret ny person"
+      author: "Ophav"
