@@ -19,10 +19,14 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	      omit-xml-declaration="yes"/>
 
   <xsl:template match="/">
-    <xsl:apply-templates/>
+    <div>
+      <ul>
+	<xsl:apply-templates select="./t:div|./t:text|descendant::t:text"/>
+      </ul>
+    </div>
   </xsl:template>
 
-  <xsl:template match="/t:div">
+  <xsl:template match="t:div">
     <div>
       <ul>
 	<xsl:apply-templates select="child::node()[@decls]"/>
@@ -33,7 +37,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
     <xsl:element name="li">
       <xsl:attribute name="id">
-	<xsl:value-of select="concat('#','toc',@id)"/>
+	<xsl:value-of select="concat('#','toc',@xml:id)"/>
       </xsl:attribute>
 
       <xsl:call-template name="add_anchor"/>
@@ -59,7 +63,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template name="add_anchor">
     <xsl:element name="a">
       <xsl:attribute name="href">
-	<xsl:value-of select="concat('#',@id)"/>
+	<xsl:value-of select="concat('#',@xml:id)"/>
       </xsl:attribute>
       <xsl:choose>
 	<xsl:when test="t:head">
@@ -82,7 +86,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="t:front"/>
 
   <xsl:template match="t:text">
-    <xsl:apply-templates select="body"/>
+    <xsl:apply-templates select="t:body"/>
   </xsl:template>
 
   <xsl:template match="t:body">
