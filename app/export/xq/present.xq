@@ -14,7 +14,9 @@ declare option exist:serialize "method=xml media-type=text/html";
 declare variable $document := request:get-parameter("doc","");
 declare variable $frag := request:get-parameter("id","");
 declare variable $c := request:get-parameter("c","texts");
+declare variable $o := request:get-parameter("op","render");
 declare variable $coll := concat("/db/adl/",$c);
+declare variable $op := concat($o,".xsl");
 
 (:[ft:query(@xml:id,$frag)]:)
 (: [@xml:id=$frag] :)
@@ -39,4 +41,4 @@ let $params :=
 </parameters>
 
 for $doc in $list
-return  transform:transform($doc,doc("/db/adl/render.xsl"),$params) 
+return  transform:transform($doc,doc(concat("/db/adl/",$op)),$params) 
