@@ -22,7 +22,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :parts, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::hasPart, inverse_of: :is_part_of
   belongs_to :is_part_of, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::partOf
   accepts_nested_attributes_for :titles, :allow_destroy => true
-  accepts_nested_attributes_for :relators, :allow_destroy => true
+  accepts_nested_attributes_for :relators, :allow_destroy => true, reject_if: proc { |attrs| attrs['agent_id'].blank? }
 
   validate :has_a_title,:has_a_creator
 
