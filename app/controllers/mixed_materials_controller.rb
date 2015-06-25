@@ -1,4 +1,6 @@
 class MixedMaterialsController < ApplicationController
+  include Concerns::RemoveBlanks
+
   authorize_resource
   respond_to :html
   before_action :set_mixed_material, only: [:show, :edit, :update]
@@ -50,6 +52,7 @@ class MixedMaterialsController < ApplicationController
                          :embargo_date, :embargo_condition, :access_condition, :availability,
                          :preservation_profile, collection: [], note: [],
                          relators_attributes: [[ :id, :agent_id, :role ]],
-                         publications_attributes: [[:id, :copyright_date, :provider_date ]] ]], content_files: [])
+                         publications_attributes: [[:id, :copyright_date, :provider_date ]] ]], content_files: []
+    ).tap { |elems| remove_blanks(elems)}
   end
 end
