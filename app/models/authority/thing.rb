@@ -30,9 +30,9 @@ module Authority
 
     def date_range(dates={})
       date = ""
-      date += "#{dates[:start_date]}-" if dates[:start_date]
-      if  dates[:end_date] then
-        if  dates[:start_date] then
+      date += "#{dates[:start_date]}-" if dates[:start_date].present?
+      if  dates[:end_date].present? then
+        if  dates[:start_date].present? then
           date += "#{dates[:end_date]}" 
         else
           date += "-" + "#{dates[:end_date]}" 
