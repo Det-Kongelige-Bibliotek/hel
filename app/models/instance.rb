@@ -33,7 +33,8 @@ class Instance < ActiveFedora::Base
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 
-  accepts_nested_attributes_for :relators, :publications
+  accepts_nested_attributes_for :relators, reject_if: proc { |attrs| attrs['role'].blank? }
+  accepts_nested_attributes_for :publications
 
   before_save :set_rights_metadata
 
