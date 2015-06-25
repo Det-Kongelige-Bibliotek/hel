@@ -168,7 +168,7 @@ class ContentFile < ActiveFedora::Base
   def self.find_by_original_filename(fname)
     result = ActiveFedora::SolrService.query('original_filename_tesim:"'+fname+'"')
     if result.size > 0
-      ContentFile.where(result[0]['id'])
+      ContentFile.where(id: result[0]['id']).first
     else
       nil
     end
