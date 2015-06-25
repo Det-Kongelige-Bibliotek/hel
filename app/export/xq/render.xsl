@@ -3,7 +3,6 @@
 <xsl:stylesheet 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:t="http://www.tei-c.org/ns/1.0"
-    xmlns="http://www.w3.org/1999/xhtml" 
     exclude-result-prefixes="t"
     version="1.0">
 
@@ -20,27 +19,10 @@
   </xsl:template>
 
   <xsl:template match="t:TEI">
-    <xsl:element name="html">
-      <xsl:element name="head">
-	<xsl:element name="meta">
-	  <xsl:attribute name="http-equiv">Content-Type</xsl:attribute>
-	  <xsl:attribute name="content">text/html;charset=UTF-8</xsl:attribute>
-	</xsl:element>
-	<xsl:element name="title">
-	  <xsl:apply-templates 
-	      select="t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:title"/>
-	</xsl:element>
-      </xsl:element>
-      <xsl:element name="body">
-	<p>
-	  <xsl:value-of select="$id"/> |<br/>
-	  <xsl:value-of select="$doc"/> |<br/>
-	  <xsl:value-of select="$hostname"/>
-	</p>
-	<xsl:apply-templates/>
-      </xsl:element>
-    </xsl:element>
+    <xsl:apply-templates/>
   </xsl:template>
+
+  <xsl:template match="t:teiHeader"/>
 
   <xsl:template match="t:group">
     <xsl:apply-templates select="t:text"/>

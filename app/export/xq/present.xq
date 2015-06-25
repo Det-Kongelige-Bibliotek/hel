@@ -35,8 +35,8 @@ let $params :=
    <param name="doc" value="{$document}"/>
    <param name="id" value="{$frag}"/>
    <param name="c" value="{$c}"/>
+   <param name="coll" value="{$coll}"/>
 </parameters>
 
 for $doc in $list
-return transform:transform($doc,doc("/db/adl/render.xsl"),$params) 
- 
+return  transform:transform($doc,doc("/db/adl/render.xsl"),$params) 
