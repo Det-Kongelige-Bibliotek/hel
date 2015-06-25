@@ -147,7 +147,7 @@ da:
     labels:
       defaults:
         origin_date: "Oprindelsesdato"
-        copyright_date: Dato for ophavsret
+        copyright_date: Udløbsdato
         published_date: Udgivelsesdato
         mode_of_issuance: Udgivelsesform
         extent: Omfang
