@@ -30,18 +30,42 @@
       <% end %>
   <% end %>
   <div class="col-sm-6">
-    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]'} %>
+    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]' } %>
   </div>
-
-  <div class="col-sm-12">
+</fieldset>
+<fieldset>
     <legend class="col-sm-12" >
       <%= "Ophavsret:" %>
     </legend>
 
-    <%= render partial: 'provider/form2', locals: { builder: builder } %>
+  <%= builder.simple_fields_for :relators do |rel_fields| %>
+      <div class="row relator_fields">
+        <div class="col-sm-12">
+          <label class="radio-inline">
+            <input type="radio" class="udloeb" name="instance[copyright_status]"  id="copyright_status" value="udloebet">Udløbet
+          </label>
+          <label class="radio-inline">
+            <input type="radio" class="ukendt" name="instance[copyright_status]"  id="copyright_status" value="ukendt">Ukendt
+          </label>
+          <label class="radio-inline">
+            <input type="radio" class="addagent" name="instance[copyright_status]"  id="copyright_status" value='addagent' data-toggle="copyright_fields">Agent
+          </label>
 
-    <%= render partial: 'relators/form2', locals: { builder: builder } %>
-  </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+      <div id="addagent" class="collapse">
 
+          <%= rel_fields.input :agent_id, collection: select_fields(Finder.all_people + Finder.all_organizations), wrapper_html: { class: 'col-sm-4' } %>
+          <%= rel_fields.input :role, as: :hidden, value: 'http://id.loc.gov/vocabulary/relators/cph' %>
+          <%= builder.simple_fields_for :publications do |f| %>
+              <div class="col-sm-4">
+                <%= f.input :copyright_date %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+
+  <% end %>
 
 </fieldset>
