@@ -15,7 +15,7 @@ module Authority
     has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
 
     def display_value
-      value = (full_name.present?) ? '' : full_name
+      value = (full_name.present?) ? full_name : ''
       value += ', ' if birth_date.present? || death_date.present?
       value += self.display_date if self.display_date.present?
       value
