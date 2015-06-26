@@ -13,21 +13,19 @@
     </div>
 
 
-
-
     <%= f.input :given_name %>
     <%= f.input :family_name %>
     <%= f.input :birth_date %>
     <%= f.input :death_date %>
     <%= f.input :description %>
     <%= #Hidden field for the URI
-        f.input :same_as_uri, as: :hidden %>
+        f.input :same_as_uri, as: :hidden,  input_html: {multiple: true} %>
+
+
 
     <div class="actions">
     <%= f.submit 'Gem person', class: 'btn btn-lg btn-success' %>
       <img src="/assets/loading.gif" id="loading-indicator" style="display:none" />
     </div>
-
-
 
 <% end %>
