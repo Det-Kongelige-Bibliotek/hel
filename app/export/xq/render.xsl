@@ -180,23 +180,36 @@
       <xsl:call-template name="add_id"/>
       <dt>
 	<xsl:apply-templates select="t:speaker"/>
-	<xsl:if test="t:stage">
-	  <em>(<xsl:apply-templates select="t:stage"/>)</em>
-	</xsl:if>
       </dt>
       <dd>
-	<xsl:apply-templates select="t:p|t:lg|t:pb"/>
+	<xsl:apply-templates select="t:stage|t:p|t:lg|t:pb"/>
       </dd>
     </dl>
   </xsl:template>
 
-  <xsl:template match="t:speaker|t:stage">
+  <xsl:template match="t:speaker">
     <xsl:element name="span">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </xsl:element>
     <xsl:text>
     </xsl:text>
+  </xsl:template>
+
+  <xsl:template match="t:sp/t:stage|t:p/t:stage|t:lg/t:stage|t:l/t:stage">
+    <em><xsl:text>
+      (</xsl:text><xsl:element name="span">
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </xsl:element><xsl:text>) </xsl:text></em>
+  </xsl:template>
+
+
+  <xsl:template match="t:stage">
+    <xsl:element name="p">
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="t:pb">
