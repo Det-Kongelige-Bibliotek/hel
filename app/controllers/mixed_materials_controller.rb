@@ -9,7 +9,7 @@ class MixedMaterialsController < ApplicationController
     @mixed_material = MixedMaterial.new
     @mixed_material.titles.build
     @mixed_material.relators.build
-    @mixed_material.instances.build
+    @mixed_material.instances.build(:type => 'MixedMaterial')
   end
 
   def create

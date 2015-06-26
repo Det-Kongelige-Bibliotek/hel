@@ -19,6 +19,7 @@ instance_type:
     Trykforlaeg:
     TIFF:
     TEI:
+    MixedMaterial:
 collections:
   name: Collections
   entries:
