@@ -21,7 +21,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="/">
     <div>
       <ul>
-	<xsl:apply-templates select="./t:div|./t:text|descendant::t:text"/>
+	<xsl:apply-templates select="./t:div|./t:text"/>
       </ul>
     </div>
   </xsl:template>
@@ -90,7 +90,15 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   </xsl:template>
 
   <xsl:template match="t:body">
-    <xsl:apply-templates/>
+    <li>
+      <xsl:call-template name="add_anchor"/>
+      <xsl:if test="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
+	<ul>
+	  <xsl:apply-templates
+	      select="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5"/>
+	</ul>
+      </xsl:if>
+    </li>
   </xsl:template>
 
   <xsl:template match="t:hi">
