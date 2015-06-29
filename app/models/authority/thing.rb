@@ -2,7 +2,7 @@ module Authority
   # To be subclassed by Person, Organisation, etc.
   class Thing < ActiveFedora::Base
 
-    property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: false
+    property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: true
     property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false
     property :image, predicate: ::RDF::Vocab::SCHEMA.image
     property :_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false do |index|
@@ -10,12 +10,18 @@ module Authority
     end
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
-    def same_as_uri=(uri)
-      self.same_as = ::RDF::URI.new(uri) if uri.present?
+    def same_as_uri=(uris)
+      uris.each do |uri|
+        self.same_as += [::RDF::URI.new(uri)] if uri.present?
+      end
     end
 
     def same_as_uri
-      self.same_as.to_term.value unless self.same_as.nil?
+      result = []
+      self.same_as.each do |s|
+        result << s.to_term.value unless s.nil?
+      end
+      result
     end
 
     def display_value

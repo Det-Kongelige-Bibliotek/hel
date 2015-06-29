@@ -16,11 +16,15 @@ function viafImport() {
             if (response.first_name){
                 $('#authority_person_given_name').val(response.first_name);
                 $('#authority_person_family_name').val(response.family_name);
-                $('#authority_person_alternate_names').val(response.alternate_name);
             }else{
                 // If the json file is empty, an alert message appears.
                 alert("No data to import.");
             }
+            $('#authority_person_alternate_names').val(response.alternate_name);
+            var old_field = $('#authority_person_same_as_uri');
+            var new_field = old_field.clone(true);
+            new_field.val(response.isni_uri);
+            new_field.insertAfter(old_field);
         }
     });
 }
