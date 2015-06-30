@@ -19,30 +19,30 @@
       </div>
 
     <div class="container">
-    <div class="row">
+        <div class="row">
 
-    <div class="col-sm-3">
-        <%= render partial: 'sidebar' %>
-    </div>
-    <div class="col-sm-9">
-      <%= f.input :work, as: :hidden %>
-      <%= render partial: 'type', locals: {builder: f} %>
-      <%= render partial: 'bibliographic', locals: { builder: f } %>
-      <%= render partial: 'administrative', locals: { builder: f }  %>
-      <%= render partial: 'upload', locals: { builder: f }  %>
+            <div class="col-sm-3">
+                <%= render partial: 'sidebar' %>
+            </div>
+            <div class="col-sm-9">
+              <%= f.input :work, as: :hidden %>
+              <%= render partial: 'type', locals: {builder: f} %>
+              <%= render partial: 'bibliographic', locals: { builder: f } %>
+              <%= render partial: 'administrative', locals: { builder: f }  %>
+              <%= render partial: 'upload', locals: { builder: f }  %>
 
-    </div>
+            </div>
 
-      <div class="btn-group pull-right col-sm-offset-9">
-        <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
-        <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
-            <span class="glyphicon glyphicon-save"></span>
-            <%= t('.gem') %>
-        <% end %>
+              <div class="btn-group pull-right col-sm-offset-9">
+                <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
+                <%= f.button :button, 'Gem', class: 'btn btn-success', :id => 'instance_submit' do %>
+                    <span class="glyphicon glyphicon-save"></span>
+                    <%= t('.gem') %>
+                <% end %>
 
-    </div>
+            </div>
 
-    </div>
+        </div>
     </div>
 </div>
 

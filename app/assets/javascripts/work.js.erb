@@ -36,6 +36,18 @@ function updateIndex(index,input) {
     }
 }
 
+//If no content file is uploaded a confirm dialog appears
+function check_upload_file(){
+    var file = $('#upload_file').val();
+    console.log('my function: '+file);
+    if (file == null || file == ''){
+        var r = confirm('Er du sikker? Du har ikke uploadet en fil!');
+        if (r == true) return true;
+        if (r == false) return false;
+    }
+    return true;
+}
+
 $(document).ready(function(){
 
     $(document).ajaxSend(function(event, request, settings) {
@@ -167,6 +179,11 @@ $(document).ready(function(){
     $(".upload-file-form").on('submit',function(event){ButtonClicked();return true});
 
     enableAgentTypeahead($(":root"));
+
+    //When submitting the form the check_upload_file function is called to check if a content file is uploaded
+   $("#new_instance").on('submit',function(event){
+      return check_upload_file();
+   });
 
 });
 
