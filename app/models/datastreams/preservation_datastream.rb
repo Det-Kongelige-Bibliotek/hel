@@ -4,7 +4,7 @@ module Datastreams
   class PreservationDatastream < ActiveFedora::OmDatastream
 
     # Inserted maintain existing naming of solr fields in Activefedora 8
-    # And thus avoid anoing deprecation warning messages
+    # And thus avoid annoying deprecation warning messages
     def prefix(*args)
       ""
     end
