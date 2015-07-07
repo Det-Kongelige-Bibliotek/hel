@@ -19,8 +19,7 @@ describe Instance do
                                      'family_name' => 'Efternavn',
                                      'birth_date' => '1932' ,
                                      'death_date' => '2009')
-    @org =  Authority::Organization.new(same_as: 'http://viaf.org/viaf/127954890',
-                                        _name: 'Gyldendalske boghandel, Nordisk forlag',
+    @org =  Authority::Organization.new(_name: 'Gyldendalske boghandel, Nordisk forlag',
                                         founding_date: '1770')
     @org.alternate_names.push 'Gyldendal'
     @org.save
@@ -74,7 +73,8 @@ describe Instance do
       i.activity = Administration::Activity.last.id
       f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml'))
       i.add_file(f)
-      i.save
+      i.save!
+      i.reload
       expect(i.content_files.size).to eql 1
     end
   end
@@ -222,8 +222,10 @@ describe Instance do
       end
 
       it 'should return a list containing the files' do
-        cf = ContentFile.create
-        @instance.content_files << cf
+        cf = ContentFile.new
+        cf.instance = @instance
+        cf.save!
+        @instance.add_file(cf)
         @instance.save
         @instance.reload
         expect(@instance.cascading_elements).not_to be_empty

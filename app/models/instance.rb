@@ -153,7 +153,7 @@ class Instance < ActiveFedora::Base
   end
 
   def add_file(file, validators=[],run_custom_validators = true)
-    cf = ContentFile.newdate_range
+    cf = ContentFile.new
     cf.instance=self
     if (file.is_a? File) || (file.is_a? ActionDispatch::Http::UploadedFile)
       cf.add_file(file)
