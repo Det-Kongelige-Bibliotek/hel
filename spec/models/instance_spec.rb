@@ -290,10 +290,36 @@ describe Instance do
         @instance.save
         expect(@instance.create_preservation_message).to have_key 'warc_id'
       end
-
       it 'should contain metadata' do
         expect(@instance.create_preservation_message).to have_key 'metadata'
       end
+    end
+
+    describe 'update' do
+      it 'should not initially have preservation update' do
+        expect(@instance.preservationMetadata.get_updates).to be_empty
+      end
+
+      it 'should have a update, when added a update' do
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test.warc', 'uuid' => 'uuid-test-1234', 'date' => '2015-07-05'})
+        expect(@instance.preservationMetadata.get_updates).not_to be_empty
+        expect(@instance.preservationMetadata.get_updates.size).to eq 1
+      end
+
+      it 'should have 3 updates, when adding 3 different updates' do
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test1.warc', 'uuid' => 'uuid-test-1234', 'date' => '2015-07-05'})
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test2.warc', 'uuid' => 'uuid-test-1235', 'date' => '2015-07-06'})
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test3.warc', 'uuid' => 'uuid-test-1236', 'date' => '2015-07-07'})
+        expect(@instance.preservationMetadata.get_updates.size).to eq 3
+      end
+
+      it 'should have one update, when adding the same update several times' do
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test.warc', 'uuid' => 'uuid-test-1234', 'date' => '2015-07-05'})
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test.warc', 'uuid' => 'uuid-test-1234', 'date' => '2015-07-05'})
+        @instance.preservationMetadata.insert_update({'warc_id' => 'test.warc', 'uuid' => 'uuid-test-1234', 'date' => '2015-07-05'})
+        expect(@instance.preservationMetadata.get_updates.size).to eq 1
+      end
+
     end
   end
 end
