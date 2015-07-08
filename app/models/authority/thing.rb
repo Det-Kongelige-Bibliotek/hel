@@ -2,7 +2,7 @@ module Authority
   # To be subclassed by Person, Organisation, etc.
   class Thing < ActiveFedora::Base
 
-    property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: false
+    property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: true
     property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false
     property :image, predicate: ::RDF::Vocab::SCHEMA.image
     property :_name, predicate: ::RDF::Vocab::SCHEMA.name, multiple: false do |index|
@@ -10,12 +10,18 @@ module Authority
     end
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
-    def same_as_uri=(uri)
-      self.same_as = ::RDF::URI.new(uri) if uri.present?
+    def same_as_uri=(uris)
+      uris.each do |uri|
+        self.same_as += [::RDF::URI.new(uri)] if uri.present?
+      end
     end
 
     def same_as_uri
-      self.same_as.to_term.value unless self.same_as.nil?
+      result = []
+      self.same_as.each do |s|
+        result << s.to_term.value unless s.nil?
+      end
+      result
     end
 
     def display_value
@@ -30,9 +36,9 @@ module Authority
 
     def date_range(dates={})
       date = ""
-      date += "#{dates[:start_date]}-" if dates[:start_date]
-      if  dates[:end_date] then
-        if  dates[:start_date] then
+      date += "#{dates[:start_date]}-" if dates[:start_date].present?
+      if  dates[:end_date].present? then
+        if  dates[:start_date].present? then
           date += "#{dates[:end_date]}" 
         else
           date += "-" + "#{dates[:end_date]}" 
@@ -45,6 +51,8 @@ module Authority
       solr_doc.merge!(super)
       Solrizer.insert_field(solr_doc, 'display_value', display_value, :stored_searchable, :displayable)
       Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
+      Solrizer.insert_field(solr_doc, 'same_as_uri', same_as_uri, :stored_searchable)
+
       solr_doc
     end
 

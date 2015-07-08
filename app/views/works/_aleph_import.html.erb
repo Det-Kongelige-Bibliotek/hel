@@ -6,7 +6,7 @@
         <h4 class="modal-title" id="myModalLabel"><%= t('.import') %></h4>
       </div>
       <div class="modal-body">
-        <%= simple_form_for(@work, url: aleph_works_path) do |f| %>
+        <%= simple_form_for(@work, url: aleph_works_path, html: { id: 'aleph_import' }) do |f| %>
             <select name="aleph[field]">
               <option value="isbn" selected>ISBN</option>
               <option value="SYS" selected><%= t('.number') %></option>

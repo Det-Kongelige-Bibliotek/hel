@@ -28,11 +28,13 @@ class Instance < ActiveFedora::Base
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
   has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
-  has_many :struct_map, predicate: Datastreams::MetsStructMap
+  #This makes no sense, you can't have a datastream as a predicate, and there is no class name StructMap
+ #has_many :struct_map, predicate: Datastreams::MetsStructMap
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 
-  accepts_nested_attributes_for :relators, :publications
+  accepts_nested_attributes_for :relators, reject_if: proc { |attrs| attrs['role'].blank? }
+  accepts_nested_attributes_for :publications
 
   before_save :set_rights_metadata
 
@@ -57,7 +59,7 @@ class Instance < ActiveFedora::Base
     self.id
   end
 
-  validates :collection, :copyright, :type, presence: true
+  validates :collection, :activity, :copyright, :type, presence: true
   validates :isbn13, isbn_format: { with: :isbn13 }, if: "isbn13.present?"
   validates :isbn13, presence: true, if: :is_trykforlaeg?
 

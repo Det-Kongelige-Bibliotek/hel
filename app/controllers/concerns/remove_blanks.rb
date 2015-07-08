@@ -22,9 +22,11 @@ module Concerns
         value_hash.each do |k, v|
           if v.is_a? String
             value_hash.delete(k) unless v.present?
-          elsif
-          value_hash[k] = clean_hash(v)
+          elsif v.is_a? Hash
+            value_hash[k] = clean_hash(v)
             value_hash.delete(k) unless value_hash[k].present?
+          elsif v.is_a? Array
+            value_hash[k] = v.reject {|n| n.blank?}
           end
         end
         value_hash

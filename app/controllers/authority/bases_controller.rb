@@ -31,7 +31,9 @@ module Authority
 
       respond_to do |format|
         if @authority_object.save
-          format.html { redirect_to @authority_object, notice: t('authority.bases.created') }
+          format.html { redirect_to @authority_object,
+                                    notice: "#{t('authority.bases.created',
+                                                                name: t('models.' + @authority_object.class.name.parameterize.underscore))}" }
           format.json { render :show, status: :created, location: @authority_object }
           format.js { render :show, status: :created, location: @authority_object  }
         else
@@ -47,7 +49,8 @@ module Authority
     def update
       respond_to do |format|
         if @authority_object.update(authority_base_params)
-          format.html { redirect_to @authority_object, notice: t('authority.bases.updated') }
+          format.html { redirect_to @authority_object, notice: t('authority.bases.updated',
+                                                                 name: t('models.' + @authority_object.class.name.parameterize.underscore)) }
           format.json { render :show, status: :ok, location: @authority_object }
         else
           format.html { render :edit }

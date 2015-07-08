@@ -27,14 +27,13 @@ class CatalogController < ApplicationController
 
     def exclude_unwanted_models(solr_parameters, user_parameters)
       solr_parameters[:fq] ||= []
-      unwanted_models.each do |model|
-        solr_parameters[:fq] << "-has_model_ssim:\"#{model.to_class_uri}\""
-      end
+      solr_parameters[:fq] << wanted_models
     end
 
-    def unwanted_models
-      [Instance, Trykforlaeg, ContentFile, Administration::Activity,
-       Authority::Place, Title, Hydra::AccessControls::Permission, Relator]
+    def wanted_models
+      rule = "has_model_ssim: ("
+      models = [Work, Authority::Person, MixedMaterial, Authority::Organization]
+      rule + models.join(' OR ').gsub(':', '\:') + ')'
     end
 
     # solr field configuration for search results/index views
@@ -61,7 +60,7 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    config.add_facet_field solr_name('author', :facetable), :label => 'Forfatter'
+    config.add_facet_field solr_name('author', :facetable), :label => 'Ophav'
     config.add_facet_field 'active_fedora_model_ssi', :label => 'Indhold', helper_method: :translate_model_names
     config.add_facet_field solr_name('work_collection',:facetable), :label => 'Samling'
     config.add_facet_field solr_name('work_activity',:facetable), :label => 'Aktivitet', helper_method: :get_activity_name
@@ -107,7 +106,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'Alle Felter'
+    config.add_search_field 'all_fields', :label => 'Alle felter'
 
 
     # Now we see how to over-ride Solr request handler defaults, in this

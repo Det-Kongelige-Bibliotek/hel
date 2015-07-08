@@ -1,5 +1,6 @@
 module Administration
   class ActivitiesController < ApplicationController
+    include Concerns::RemoveBlanks
     before_action :set_activity, only: [:show, :edit, :update, :destroy]
     authorize_resource
 
@@ -53,9 +54,10 @@ module Administration
                                                        :embargo_condition,
                                                        :preservation_profile,
                                                        :copyright,
-                                                       activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]],
-                                                       dissemination_profiles: []
-      )
+                                                       :ophavsret,
+                                                       collection:[],
+                                                       activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
+      ).tap { |elems| remove_blanks(elems) }
     end
   end
 end
