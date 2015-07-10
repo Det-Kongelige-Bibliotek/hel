@@ -1,0 +1,2 @@
+class DisseminateJob
+end

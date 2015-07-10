@@ -11,19 +11,17 @@
               method="xml"/>
 
   <xsl:param name="file" select="''"/>
+  <xsl:param name="author" select="''"/>
+  <xsl:param name="author_id" select="''"/>
+  <xsl:param name="copyright" select="''"/>
+  <xsl:param name="editor" select="''"/>
+  <xsl:param name="editor_id" select="''"/>
+  <xsl:param name="volume_title" select="''"/>
+  <xsl:param name="publisher" select="''"/>
+  <xsl:param name="published_place" select="''"/>
+  <xsl:param name="published_date" select="''"/>
   <xsl:param name="uri_base" select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url" select="concat($uri_base,$file)"/>
-
-  <xsl:variable name="volume_title"
-                select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:title"/>
-  <xsl:variable name="author"
-                select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:author"/>
-  <xsl:variable name="publisher"
-                select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:publisher"/>
-  <xsl:variable name="published_place"
-                select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:pubPlace"/>
-  <xsl:variable name="published_date"
-                select="t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:date"/>
 
   <xsl:template match="/">
     <xsl:element name="add">
@@ -43,11 +41,8 @@
     <doc>
 
 
-      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk
-      </xsl:element>
-      <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work
-      </xsl:element>
-
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work</xsl:element>
 
       <xsl:element name="field">
         <xsl:attribute name="name">work_title_tesim</xsl:attribute>
@@ -79,8 +74,7 @@
 
     <doc>
 
-      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf
-      </xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:if test="$workid">
         <xsl:element name="field">
@@ -119,8 +113,7 @@
 
     <doc>
 
-      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf
-      </xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:if test="$workid">
         <xsl:element name="field">
@@ -155,8 +148,7 @@
 
     <doc>
 
-      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf
-      </xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:if test="$workid">
         <xsl:element name="field">
@@ -192,14 +184,9 @@
   </xsl:template>
 
   <xsl:template name="generate_volume_doc">
-    <xsl:variable name="workid" select="$file"/>
-    <xsl:variable name="worktitle" select="$volume_title"/>
     <doc>
-	<xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk
-      </xsl:element>
-      <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work
-      </xsl:element>
-
+	<xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work</xsl:element>
     	<xsl:call-template name="add_globals" />
     </doc>
   </xsl:template>
@@ -249,6 +236,26 @@
       <xsl:value-of select="$author"/>
     </xsl:element>
 
+    <xsl:element name="field">
+      <xsl:attribute name="name">author_id_ssi</xsl:attribute>
+      <xsl:value-of select="$author_id"/>
+    </xsl:element>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">copyright_ssi</xsl:attribute>
+      <xsl:value-of select="$copyright"/>
+    </xsl:element>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">editor_ssi</xsl:attribute>
+      <xsl:value-of select="$editor"/>
+    </xsl:element>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">editor_id_ssi</xsl:attribute>
+      <xsl:value-of select="$editor_id"/>
+    </xsl:element>
+
     <xsl:if test="$publisher">
       <xsl:element name="field">
         <xsl:attribute name="name">publisher_ssi</xsl:attribute>
@@ -256,14 +263,14 @@
       </xsl:element>
     </xsl:if>
 
-    <xsl:if test="$publisher">
+    <xsl:if test="$published_date">
       <xsl:element name="field">
         <xsl:attribute name="name">published_date_ssi</xsl:attribute>
         <xsl:value-of select="$published_date"/>
       </xsl:element>
     </xsl:if>
 
-    <xsl:if test="$publisher">
+    <xsl:if test="$published_place">
       <xsl:element name="field">
         <xsl:attribute name="name">published_place_ssi</xsl:attribute>
         <xsl:value-of select="$published_place"/>
