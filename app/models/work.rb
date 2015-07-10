@@ -88,6 +88,10 @@ class Work < ActiveFedora::Base
     related_agents('cre')
   end
 
+  def editors
+    related_agents('edt')
+  end
+
   def creative_roles
     authors + creators
   end
