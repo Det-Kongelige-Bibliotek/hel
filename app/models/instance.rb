@@ -40,7 +40,7 @@ class Instance < ActiveFedora::Base
 
   after_save do
     work.update_index if work.present?
-    self.disseminate
+    Resque.enqueue(DisseminateJob,self.id)
   end
 
   def publication
@@ -128,9 +128,14 @@ class Instance < ActiveFedora::Base
     self.add_relator(agent,role)
   end
 
+
   # Accessor for backwards compatibility
   def publisher_name
     related_agents('pbl').first.try(:_name)
+  end
+
+  def publisher_place
+    related_agents('pbl').first.try(:location)
   end
 
   # Accessor for backwards compatibility
