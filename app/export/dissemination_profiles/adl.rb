@@ -41,7 +41,8 @@ module DisseminationProfiles
 
     # Given a solr doc in XML string, add to solr index
     def self.add_to_solr(solr_doc)
-      solr = RSolr.connect :url => CONFIG[:external_solr]
+      #solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:adl_bifrost_solr_url]
+      solr = RSolr.connect :url => 'http://localhost:8984/solr/blacklight-core'
       solr.update(data: solr_doc)
       solr.commit
     end
