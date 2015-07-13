@@ -15,12 +15,12 @@ module DisseminationProfiles
           filename = File.basename(tei_file_path,File.extname(tei_file_path))
           vars = build_variable_array(filename,w,instance)
           doc = transform(tei_file_path,vars)
+          add_to_solr(doc.to_xml)
           author_xml = generate_person_doc(w.authors.first) if w.authors.present?
+          add_to_solr(author_xml)
           # uncomment the following lines to get solr_docs printed to files
           #File.open("seed_docs/#{filename}.xml", 'w') { |f| f.print(doc.to_xml) }
           #File.open("seed_docs/#{w.authors.first.family_name}_person.xml",'w') {|f| f.print(author_xml)}
-          add_to_solr(doc.to_xml)
-          add_to_solr(author_xml)
         end
       end
 
@@ -41,8 +41,7 @@ module DisseminationProfiles
 
     # Given a solr doc in XML string, add to solr index
     def self.add_to_solr(solr_doc)
-      #solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:adl_bifrost_solr_url]
-      solr = RSolr.connect :url => 'http://localhost:8984/solr/blacklight-core'
+      solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_adl_solr_url]
       solr.update(data: solr_doc)
       solr.commit
     end
