@@ -187,6 +187,10 @@
     <doc>
 	<xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
       <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work</xsl:element>
+      <xsl:element name="field">
+        <xsl:attribute name="name">work_title_tesim</xsl:attribute>
+        <xsl:value-of select="$volume_title"/>
+      </xsl:element>
     	<xsl:call-template name="add_globals" />
     </doc>
   </xsl:template>
