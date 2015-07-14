@@ -21,8 +21,10 @@ describe 'Receive preservation response messages' do
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       @i.save!
       @i.reload
-      # The message to send.
+      # The preservation message to send.
       @m = {'id' => @i.id, 'model' => @i.class.name, 'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_COMPLETE.keys.first}}
+      # The update preservation message to send.
+      @u = {'id' => @i.id, 'model' => @i.class.name, 'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_COMPLETE.keys.first}, 'update' => {'uuid' => 'random_uuid', 'warc_id' => 'random-warc-id'}}
       # The options for the message.
       @o = {'content_type' => 'application/json', 'type' => 'PreservationResponse'}
 
@@ -37,18 +39,32 @@ describe 'Receive preservation response messages' do
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       end
 
-      it 'receiving response message' do
+      it 'should receiving and handle preservation response message' do
         destination = MQ_CONFIG['preservation']['response']
         MqHelper.send_on_rabbitmq(@m.to_json, destination, @o)
 
-        puts "sending #{@m.to_json} on #{destination}"
+        #puts "sending #{@m.to_json} on #{destination}"
         ReceivePreservationResponseJob.perform(false)
         sleep 1.seconds
         @i.reload
-        @i.preservation_state.should eql PRESERVATION_PACKAGE_COMPLETE.keys.first
+        expect(@i.preservation_state).to eq PRESERVATION_PACKAGE_COMPLETE.keys.first
       end
+
+      it 'should receiving and handle preservation response message for updated preservation' do
+        destination = MQ_CONFIG['preservation']['response']
+        MqHelper.send_on_rabbitmq(@u.to_json, destination, @o)
+
+        #puts "sending #{@u.to_json} on #{destination}"
+        ReceivePreservationResponseJob.perform(false)
+        sleep 1.seconds
+        @i.reload
+        expect(@i.preservation_state).to eq PRESERVATION_PACKAGE_COMPLETE.keys.first
+        expect(@i.preservationMetadata.get_updates.size).to eq 1
+        expect(@i.preservationMetadata.get_updates.first['uuid']).to eq 'random_uuid'
+        expect(@i.preservationMetadata.get_updates.first['warc_id']).to eq 'random-warc-id'
+      end
+
     end
   end
-
 end
 

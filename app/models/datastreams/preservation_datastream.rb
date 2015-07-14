@@ -36,6 +36,8 @@ module Datastreams
         t.warc_id()
         t.uuid()
         t.date()
+        t.file_uuid()
+        t.file_warc_id()
       }
     end
 
@@ -44,15 +46,17 @@ module Datastreams
         xml.warc_id {xml.text(val['warc_id'])}
         xml.uuid {xml.text(val['uuid'])}
         xml.date {xml.text(val['date'])}
+        xml.file_uuid {xml.text(val['file_uuid'])}
+        xml.file_warc_id {xml.text(val['file_warc_id'])}
       }
     end
 
-    # Ignores a duplicate UUIDs
+    # Ignores a duplicate UUIDs, both for 'uuid' and for 'file_uuid' fields.
     # @param val Must be a Hash containing at least 'uuid'.
     def insert_update(val)
       raise ArgumentError.new 'Can only create the update element from a Hash map' unless val.is_a? Hash
-      raise ArgumentError.new 'Requires a \'uuid\' field in the Hash map to create the update element' if val['uuid'].blank?
-      duplicate = find_by_terms_and_value(:update, :uuid => val['uuid'])
+      raise ArgumentError.new 'Requires a \'uuid\' field in the Hash map to create the update element' if val['uuid'].blank? && val['file_uuid'].blank?
+      duplicate = find_by_terms_and_value(:update, :uuid => val['uuid']) || find_by_terms_and_value(:update, :file_uuid => val['file_uuid'])
 
       if duplicate.blank?
         sibling = find_by_terms(:update).last

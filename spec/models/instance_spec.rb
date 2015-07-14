@@ -8,12 +8,6 @@ require 'spec_helper'
 describe Instance do
   include_context 'shared'
 
-
-
-  let(:work_attributes) do
-
-  end
-
   before :each do
     agent = Authority::Person.create('given_name'=> 'Fornavn',
                                      'family_name' => 'Efternavn',
@@ -295,7 +289,7 @@ describe Instance do
       end
     end
 
-    describe 'update' do
+    describe 'update element' do
       it 'should not initially have preservation update' do
         expect(@instance.preservationMetadata.get_updates).to be_empty
       end
@@ -319,7 +313,218 @@ describe Instance do
         @instance.preservationMetadata.insert_update({'warc_id' => 'test.warc', 'uuid' => 'uuid-test-1234', 'date' => '2015-07-05'})
         expect(@instance.preservationMetadata.get_updates.size).to eq 1
       end
+    end
 
+    describe 'a preservable element' do
+      describe 'with initial preservation metadata' do
+        it 'should have a preservation metadata stream' do
+          @instance.save!
+          @instance.preservationMetadata.should be_kind_of Datastreams::PreservationDatastream
+        end
+        it 'should have a non-empty preservation profile, both as attribute and in the metadatastream.' do
+          @instance.save!
+          @instance.preservation_profile.should be_kind_of String
+          @instance.preservation_profile.should_not be_blank
+          @instance.preservationMetadata.preservation_profile.first.should be_kind_of String
+          @instance.preservationMetadata.preservation_profile.first.should_not be_blank
+        end
+        it 'should have an empty preservation comment, both as attribute and in the metadatastream.' do
+          @instance.save!
+          @instance.preservation_comment.should be_blank
+          @instance.preservationMetadata.preservation_comment.should be_empty
+        end
+        it 'should have a non-empty preservation state, both as attribute and in the metadatastream.' do
+          @instance.save!
+          @instance.preservation_state.should be_kind_of String
+          @instance.preservation_state.should_not be_blank
+          @instance.preservationMetadata.preservation_state.first.should be_kind_of String
+          @instance.preservationMetadata.preservation_state.first.should_not be_blank
+        end
+        it 'should have a non-empty preservation details, both as attribute and in the metadatastream.' do
+          @instance.save!
+          @instance.preservation_details.should be_kind_of String
+          @instance.preservation_details.should_not be_blank
+          @instance.preservationMetadata.preservation_details.first.should be_kind_of String
+          @instance.preservationMetadata.preservation_details.first.should_not be_blank
+        end
+        it 'should have a non-empty preservation modify date, both as attribute and in the metadatastream.' do
+          @instance.save!
+          @instance.preservation_modify_date.should be_kind_of String
+          @instance.preservation_modify_date.should_not be_blank
+          @instance.preservationMetadata.preservation_modify_date.first.should be_kind_of String
+          @instance.preservationMetadata.preservation_modify_date.first.should_not be_blank
+        end
+      end
+      describe 'changing the preservation metadata' do
+        it 'should be possible to assign and save a preservation profile.' do
+          profile = PRESERVATION_CONFIG['preservation_profile'].keys[rand(PRESERVATION_CONFIG['preservation_profile'].size)]
+          @instance.preservation_profile = profile
+          @instance.save!
+          e2 = @instance.reload
+          e2.preservation_profile.should == profile
+          e2.preservationMetadata.preservation_profile.first.should == profile
+        end
+        it 'should not be possible to assign and save a preservation profile, which is not in the configuration.' do
+          profile = "Preservation-Profile-#{Time.now.to_s}"
+          @instance.preservation_profile = profile
+          expect{@instance.save!}.to raise_error
+        end
+        it 'should be possible to assign and save a preservation state.' do
+          state = "Preservation-State-#{Time.now.to_s}"
+          @instance.preservation_state = state
+          @instance.save!
+          e2 = @instance.reload
+          e2.preservation_state.should == state
+          e2.preservationMetadata.preservation_state.first.should == state
+        end
+        it 'should be possible to assign and save a preservation details.' do
+          details = "Preservation-Details-#{Time.now.to_s}"
+          @instance.preservation_details = details
+          @instance.save!
+          e2 = @instance.reload
+          e2.preservation_details.should == details
+          e2.preservationMetadata.preservation_details.first.should == details
+        end
+        it 'should be possible to assign and save a preservation profile.' do
+          comment = "Preservation-Comment-#{Time.now.to_s}"
+          @instance.preservation_comment = comment
+          @instance.save!
+          e2 = @instance.reload
+          e2.preservation_comment.should == comment
+          e2.preservationMetadata.preservation_comment.first.should == comment
+        end
+      end
+      describe 'using PreservationHelper' do
+        include PreservationHelper
+        it 'should change the preservation timestamp with #set_preservation_modified_time' do
+          set_preservation_modified_time(@instance)
+          @instance.save!
+          time = @instance.preservationMetadata.preservation_modify_date
+          sleep 2
+          set_preservation_modified_time(@instance)
+          @instance.save!
+          expect(time).not_to equal(@instance.preservationMetadata.preservation_modify_date)
+        end
+        describe '#update_preservation_metadata_for_element' do
+          describe 'preservation element' do
+            it 'should be able to update all the preservation metadata fields' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              @instance.save!
+              metadata = {'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first,
+                                             'preservation_details' => 'From preservation shared spec', 'warc_id' => 'WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              @instance.preservationMetadata.preservation_state.first.should == PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+              @instance.preservationMetadata.preservation_details.first.should == 'From preservation shared spec'
+              @instance.preservationMetadata.warc_id.first.should == 'WARC_ID'
+            end
+            it 'should be able to update only the preservation state' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              @instance.save!
+              metadata = {'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              @instance.preservationMetadata.preservation_state.first.should == PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+              @instance.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'
+              @instance.preservationMetadata.warc_id.first.should_not == 'WARC_ID'
+            end
+            it 'should be able to update only the preservation details' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              @instance.save!
+              metadata = {'preservation' => {'preservation_details' => 'From preservation shared spec'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              @instance.preservationMetadata.preservation_state.first.should_not == PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+              @instance.preservationMetadata.preservation_details.first.should == 'From preservation shared spec'
+              @instance.preservationMetadata.warc_id.first.should_not == 'WARC_ID'
+            end
+            it 'should be able to update only the warc-id' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              @instance.save!
+              metadata = {'preservation' => {'warc_id' => 'WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              @instance.preservationMetadata.preservation_state.first.should_not == PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+              @instance.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'
+              @instance.preservationMetadata.warc_id.first.should == 'WARC_ID'
+            end
+            it 'should be able to update only the file-warc-id' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              @instance.save!
+              metadata = {'preservation' => {'file_warc_id' => 'FILE_WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              @instance.preservationMetadata.preservation_state.first.should_not == PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+              @instance.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'
+              @instance.preservationMetadata.file_warc_id.first.should == 'FILE_WARC_ID'
+            end
+          end
+          describe 'update element' do
+            it 'should be able to update all the update metadata fields' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              expect(@instance.preservationMetadata.get_updates.size).to eq 0
+              @instance.save!
+              metadata = {'preservation' => {}, 'update' => {'uuid' => 'PRESERVATION_UPDATE_UUID', 'warc_id' => 'WARC_ID', 'date' => 'date', 'file_uuid' => 'file_uuid', 'file_warc_id' => 'FILE_WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(@instance.preservationMetadata.get_updates.size).to eq 1
+              expect(@instance.preservationMetadata.get_updates.first['uuid']).to eq 'PRESERVATION_UPDATE_UUID'
+              expect(@instance.preservationMetadata.get_updates.first['warc_id']).to eq 'WARC_ID'
+              expect(@instance.preservationMetadata.get_updates.first['date']).to eq 'date'
+              expect(@instance.preservationMetadata.get_updates.first['file_warc_id']).to eq 'FILE_WARC_ID'
+              expect(@instance.preservationMetadata.get_updates.first['file_uuid']).to eq 'file_uuid'
+            end
+            it 'should only update once, when using the same uuid' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              expect(@instance.preservationMetadata.get_updates.size).to eq 0
+              @instance.save!
+              metadata = {'preservation' => {}, 'update' => {'uuid' => 'PRESERVATION_UPDATE_UUID', 'warc_id' => 'WARC_ID', 'date' => 'date', 'file_uuid' => 'file_uuid', 'file_warc_id' => 'FILE_WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(@instance.preservationMetadata.get_updates.size).to eq 1
+            end
+            it 'should only update once, when using the same file_uuid' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              expect(@instance.preservationMetadata.get_updates.size).to eq 0
+              @instance.save!
+              metadata = {'preservation' => {}, 'update' => {'file_uuid' => 'file_uuid', 'file_warc_id' => 'FILE_WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(@instance.preservationMetadata.get_updates.size).to eq 1
+            end
+            it 'should be able to update the non-file fields of the update metadata' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              expect(@instance.preservationMetadata.get_updates.size).to eq 0
+              @instance.save!
+              metadata = {'preservation' => {}, 'update' => {'uuid' => 'PRESERVATION_UPDATE_UUID', 'warc_id' => 'WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(@instance.preservationMetadata.get_updates.size).to eq 1
+              expect(@instance.preservationMetadata.get_updates.first['uuid']).to eq 'PRESERVATION_UPDATE_UUID'
+              expect(@instance.preservationMetadata.get_updates.first['warc_id']).to eq 'WARC_ID'
+              expect(@instance.preservationMetadata.get_updates.first['date']).to be_blank
+              expect(@instance.preservationMetadata.get_updates.first['file_warc_id']).to be_blank
+              expect(@instance.preservationMetadata.get_updates.first['file_uuid']).to be_blank
+            end
+            it 'should be able to update the file fields of the update metadata' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              expect(@instance.preservationMetadata.get_updates.size).to eq 0
+              @instance.save!
+              metadata = {'preservation' => {}, 'update' => {'file_uuid' => 'file_uuid', 'file_warc_id' => 'FILE_WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(@instance.preservationMetadata.get_updates.size).to eq 1
+              expect(@instance.preservationMetadata.get_updates.first['uuid']).to be_blank
+              expect(@instance.preservationMetadata.get_updates.first['warc_id']).to be_blank
+              expect(@instance.preservationMetadata.get_updates.first['date']).to be_blank
+              expect(@instance.preservationMetadata.get_updates.first['file_warc_id']).to eq 'FILE_WARC_ID'
+              expect(@instance.preservationMetadata.get_updates.first['file_uuid']).to eq 'file_uuid'
+            end
+            it 'should be able to make two updates' do
+              @instance.preservationMetadata.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+              expect(@instance.preservationMetadata.get_updates.size).to eq 0
+              @instance.save!
+              metadata = {'preservation' => {}, 'update' => {'file_uuid' => 'file_uuid', 'file_warc_id' => 'FILE_WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              metadata = {'preservation' => {}, 'update' => {'uuid' => 'PRESERVATION_UPDATE_UUID', 'warc_id' => 'WARC_ID'}}
+              expect(update_preservation_metadata_for_element(metadata, @instance)).to be == true
+              expect(@instance.preservationMetadata.get_updates.size).to eq 2
+            end
+          end
+        end
+      end
     end
   end
 end
