@@ -24,6 +24,7 @@ module Concerns
       property :format_version, delegate_to: 'techMetadata', :multiple => false
       property :format_pronom_id, delegate_to: 'techMetadata', :multiple => false
       property :creating_application, delegate_to: 'techMetadata', :multiple => false
+      property :characterization_tools, delegate_to: 'techMetadata', :multiple => true
 
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
       property :checksum, delegate_to: 'techMetadata', :at => [:file_checksum], :multiple => false

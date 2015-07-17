@@ -6,7 +6,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-     contains 'fitsMetadata'
+      contains 'fitsMetadata'
 
       #function for extracting FITS metadata from the file data associated with this GenericFile
       #and storing the XML produced as a datastream on the GenericFile Fedora object.
@@ -48,12 +48,33 @@ module Concerns
         # If datastream already exists, then set it
         self.fitsMetadata.content = xml.root.to_s
 
+        extract_techMetadata_from_fits_xml(xml)
+
+        self.save
+      end
+
+      # Extracts the fields for the techMetadata from the XML in the FITS metadata datastream.
+      def extract_techMetadata_from_fits_datastream
+        return false if self.fitsMetadata.nil? || self.fitsMetadata.content.blank?
+        xml = Nokogiri::XML.parse(self.fitsMetadata.content) { |config| config.strict }
+        extract_techMetadata_from_fits_xml(xml)
+        self.save
+      end
+
+      # Extracts the fields for the techMetadata from the FITS xml.
+      # @param xml The xml with the characterization output from FITS.
+      def extract_techMetadata_from_fits_xml(xml)
         self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s
         self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s
         self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s
         self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s
         self.creating_application = xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).first.to_s
-        self.save
+
+        tools = []
+        xml.xpath('fits:fits/fits:identification/fits:identity/fits:tool', {'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}).each do |x|
+          tools << "#{x.xpath('@toolname', 'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output')},  #{x.xpath('@toolversion', 'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output')}"
+        end
+        self.characterization_tools = tools
       end
 
       XPATH_FORMAT_NAME = 'fits:fits/fits:identification/fits:identity/@format'
