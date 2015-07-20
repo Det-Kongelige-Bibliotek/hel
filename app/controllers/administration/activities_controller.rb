@@ -55,6 +55,7 @@ module Administration
                                                        :preservation_profile,
                                                        :copyright,
                                                        :ophavsret,
+                                                       dissemination_profiles: [],
                                                        collection:[],
                                                        activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
       ).tap { |elems| remove_blanks(elems) }
