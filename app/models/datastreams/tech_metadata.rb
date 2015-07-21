@@ -33,7 +33,7 @@ module Datastreams
       t.format_version(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Format version', :path=>'format_version')
       t.format_pronom_id(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Pronom ID (format identification)', :path=>'format_pronom_id')
       t.creating_application(:type => :string, :index_as => [:stored_searchable, :sortable], :label => 'Creating Application Name', :path => 'creating_application')
-      t.characterization_tools(:type => :string, :index_as => [:stored_searchable, :sortable], :label => 'Characterization tools', :path => 'characterization_tools')
+      t.characterization_tools(:type => :text, :index_as => [:stored_searchable], :label => 'Characterization tools', :path => 'characterization_tools')
     end
 
     def self.xml_template

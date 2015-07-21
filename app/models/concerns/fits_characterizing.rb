@@ -71,8 +71,8 @@ module Concerns
         self.creating_application = xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).first.to_s
 
         tools = []
-        xml.xpath('fits:fits/fits:identification/fits:identity/fits:tool', {'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}).each do |x|
-          tools << "#{x.xpath('@toolname', 'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output')},  #{x.xpath('@toolversion', 'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output')}"
+        xml.xpath(XPATH_CHARACTERIZATION_TOOLS, NAMESPACE).each do |x|
+          tools << "#{x.xpath('@toolname', NAMESPACE)} #{x.xpath('@toolversion', NAMESPACE)}"
         end
         self.characterization_tools = tools
       end
@@ -82,6 +82,7 @@ module Concerns
       XPATH_FORMAT_PRONOM_ID = 'fits:fits/fits:identification/fits:identity/fits:externalIdentifier/text()'
       XPATH_FORMAT_VERSION = 'fits:fits/fits:identification/fits:identity/fits:version/text()'
       XPATH_CREATING_APPLICATION = 'fits:fits/fits:fileinfo/fits:creatingApplicationName/text()'
+      XPATH_CHARACTERIZATION_TOOLS = 'fits:fits/fits:identification/fits:identity/fits:tool'
       NAMESPACE={'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}
     end
   end
