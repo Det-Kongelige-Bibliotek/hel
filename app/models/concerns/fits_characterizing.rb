@@ -36,6 +36,10 @@ module Concerns
           end
         end
 
+        # Remove any warnings from FITS
+        unless fits_meta_data.start_with? '<'
+          fits_meta_data = fits_meta_data[fits_meta_data.index('<')..-1]
+        end
         # Ensure UTF8 encoding
         fits_meta_data = fits_meta_data.encode(Encoding::UTF_8)
 
@@ -44,12 +48,11 @@ module Concerns
         # If datastream already exists, then set it
         self.fitsMetadata.content = xml.root.to_s
 
-        self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).empty?
-        self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty?
-        self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty?
-        self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s unless xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty?
-        self.format_pronom_id = 'unknown' unless self.format_pronom_id
-
+        self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s
+        self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s
+        self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s
+        self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s
+        self.creating_application = xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).first.to_s
         self.save
       end
 
@@ -57,6 +60,7 @@ module Concerns
       XPATH_FORMAT_MIMETYPE = 'fits:fits/fits:identification/fits:identity/@mimetype'
       XPATH_FORMAT_PRONOM_ID = 'fits:fits/fits:identification/fits:identity/fits:externalIdentifier/text()'
       XPATH_FORMAT_VERSION = 'fits:fits/fits:identification/fits:identity/fits:version/text()'
+      XPATH_CREATING_APPLICATION = 'fits:fits/fits:fileinfo/fits:creatingApplicationName/text()'
       NAMESPACE={'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}
     end
   end

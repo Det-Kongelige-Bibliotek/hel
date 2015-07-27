@@ -1,28 +1,28 @@
 <table class="table table-striped"><tbody>
 <tr>
-  <td> <strong><%= t('.file_name')%></strong></td>
+  <td> <strong><%= t('instances.show_files.file_name')%></strong></td>
   <td>
     <%= file.original_filename %>
   </td>
 </tr>
 <tr>
   <td>
-    <strong><%= t('.bev_profil')%></strong>
+    <strong><%= t('instances.show_files.bev_profil')%></strong>
   </td>
   <td>
     <span><%= instance.preservation_profile %></span>
   </td>
 </tr>
 <tr>
-  <td><strong><%= t('.bev_status')%></strong></td>
+  <td><strong><%= t('instances.show_files.bev_status')%></strong></td>
   <td><%= file.preservation_state %></td>
 </tr>
 <tr>
-  <td><strong><%= t('.bev_detaljer')%></strong></td>
+  <td><strong><%= t('instances.show_files.bev_detaljer')%></strong></td>
   <td><%= file.preservation_details %></td>
 </tr>
 <tr>
-  <td><strong><%= t('.download')%></strong></td>
+  <td><strong><%= t('instances.show_files.download')%></strong></td>
   <td>
     <%if can?(:download, file) %>
         <%= link_to "Download", download_content_file_path(file)%>
@@ -31,7 +31,7 @@
 </tr>
 <% if file.content_can_be_changed? %>
     <tr>
-      <td><strong><%= t('.upload')%></strong></td>
+      <td><strong><%= t('instances.show_files.upload')%></strong></td>
       <td>
         <%if can?(:download, file) %>
             <%= link_to "Upload", '#upload_file_modal', {"data-toggle" => "modal", "data-target" => "#upload_file_modal"} %>

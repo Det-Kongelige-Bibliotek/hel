@@ -12,30 +12,40 @@
     <%= render partial: 'activity_input', locals: { builder: builder } %>
     <hr>
   </div>
+
   <div class="col-sm-12">
-    <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection') %>
+    <%= builder.input :collection, collection: get_list_with_labels('Collections'), prompt: t('.collection'),
+                      input_html: { class: 'selectpicker', multiple: true,
+                                    data: { title: t('.choose_collection'), width: '100%'}}%>
     <hr>
   </div>
+
     <legend class="col-sm-12">
-      <h4><%= t('.availability') %></h4>
+      <h4><%= t('.embargo') %></h4>
     </legend>
 
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <%= builder.input :embargo, as: :boolean, boolean_style: :inline,
                           label_html: { class: 'checkbox-inline' }, wrapper_html: { class: ''  },
                           input_html: { class: '', data: { toggle: 'embargo_detailed' } } %>
 
       </div>
+
       <div class="col-sm-3">
         <%= builder.input :embargo_date, input_html: { data: { hook: 'embargo_detailed' }} %>
       </div>
-      <div class="col-sm-5">
+
+      <div class="col-sm-3">
         <%= builder.input :embargo_condition, input_html: { data: { hook: 'embargo_detailed' }} %>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-3 col-md-offset-1">
         <%= builder.input :access_condition, collection: get_controlled_vocab('Access types'),  prompt: t('.klaus') %>
       </div>
+
+      <legend class="col-sm-12">
+        <h4><%= t('.availability') %></h4>
+      </legend>
 
       <div class="col-sm-6">
         <%= builder.input :copyright, collection: get_controlled_vocab('Copyright Licenses'),  prompt: t('.license') %>

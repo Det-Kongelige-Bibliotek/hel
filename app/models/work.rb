@@ -15,35 +15,44 @@ class Work < ActiveFedora::Base
   belongs_to :origin_place, predicate: ::RDF::Vocab::Bibframe::originPlace, class_name: 'Authority::Place'
   has_many :titles
   has_many :instances
-  has_many :trykforlaegs
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_and_belongs_to_many :related_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::relatedWork, inverse_of: :related_works
   has_and_belongs_to_many :preceding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::precededBy, inverse_of: :succeeding_works
   has_and_belongs_to_many :succeeding_works, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::succeededBy, inverse_of: :preceding_works
   has_and_belongs_to_many :parts, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::hasPart, inverse_of: :is_part_of
   belongs_to :is_part_of, class_name: 'Work', predicate: ::RDF::Vocab::Bibframe::partOf
-  accepts_nested_attributes_for :titles, :relators
+  accepts_nested_attributes_for :titles, :allow_destroy => true
+  accepts_nested_attributes_for :relators, :allow_destroy => true, reject_if: proc { |attrs| attrs['agent_id'].blank? }
 
   validate :has_a_title,:has_a_creator
 
   before_save :set_rights_metadata
 
+  after_save :disseminate_all_instances
+
   validates_each :origin_date do |record, attr, val|
     record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
+  end
+
+  def disseminate_all_instances
+    self.instances.each do |i|
+      Resque.enqueue(DisseminateJob,i.id)
+    end
   end
 
   # Validation methods
   def has_a_title
     unless titles.size > 0
       errors.add(:titles,"Et værk skal have mindst en titel")
+      #fail("Et værk skal have mindst en titel")
     end
   end
 
   # TODO: this should check all creative relation types
   # we need therefore a subset of relators which are *creative*
   def has_a_creator
-    unless authors.size > 0
-      errors.add(:creators,"Et værk skal have mindst et ophav")
+    if creative_roles.size == 0
+      errors.add(:creator,"et værk skal have mindst et ophav")
     end
   end
 
@@ -81,6 +90,18 @@ class Work < ActiveFedora::Base
 
   def authors
     related_agents('aut')
+  end
+
+  def creators
+    related_agents('cre')
+  end
+
+  def editors
+    related_agents('edt')
+  end
+
+  def creative_roles
+    authors + creators
   end
 
   def add_related(work)
@@ -134,7 +155,7 @@ class Work < ActiveFedora::Base
       Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
     end
     authors.each do |aut|
-      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable)
+      Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable) unless aut.nil?
     end
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
@@ -155,6 +176,8 @@ class Work < ActiveFedora::Base
     self.instances.push(i)
   end
 
+
+
 end
 
 =begin
@@ -169,10 +192,6 @@ end
   before_save :set_rights_metadata
   validate :has_a_title,:has_a_creator
 
-  # This method i insertet to make cancan authorization work with nested ressources and subclassing
-  def trykforlaegs
-    instances.where(class: 'Trygforlaeg')
-  end
 
   # In general use these accessors when you want
   # to add a relationship. These will ensure

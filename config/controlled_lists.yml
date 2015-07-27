@@ -3,9 +3,9 @@
 workflow_status:
   name: Workflow status
   entries:
-    Ingested:
-    'Metadata complete':
-    'Færdig forvaltet':
+    Indlæst:
+    'Metadata færdig':
+    'Færdigforvaltet':
 title_type:
   name: Title types
   entries:
@@ -19,6 +19,7 @@ instance_type:
     Trykforlaeg:
     TIFF:
     TEI:
+    MixedMaterial:
 collections:
   name: Collections
   entries:
@@ -47,7 +48,7 @@ access_types:
     læsesal:
     'ingen adgang':
 preservation_profiles:
-  name: Preservation Profiles
+  name: Bevarings profiler
   entries:
     simple:
     storage:
@@ -55,13 +56,9 @@ preservation_profiles:
 copyrights:
   name: Copyright Licenses
   entries:
-    'All Rights Reserved':
-    CC BY: Attribution
-    CC BY-SA: Attribution-ShareAlike
-    CC BY-ND: Attribution-NoDerivs
-    CC BY-NC: Attribution-NonCommercial
-    CC BY-NC-SA: Attribution-NonCommercial-ShareAlike
     CC BY-NC-ND: Attribution-NonCommercial-NoDerivs
+    CC BY: Attribution
+    PD:
 hydra_access_groups:
   name: Hydra Access Groups
   entries:
@@ -69,6 +66,12 @@ hydra_access_groups:
     Chronos-Admin:
     Chronos-Pligtaflevering:
     Chronos-NSA:
+ophavsret:
+  name: Ophavsret
+  entries:
+    Udløbet:
+    Ukendt:
+    Navngiven person(er)/Organisation(er):
 hydra_access_types:
   name: Hydra Access Types
   entries:

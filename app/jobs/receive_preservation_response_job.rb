@@ -50,8 +50,10 @@ class ReceivePreservationResponseJob
     if polling_interval.nil? || polling_interval.to_i == 0
       puts 'Will not schedule ReceivePreservationResponseJob without a polling interval.'
     else
-      #sleep polling_interval.minutes
-      Resque.enqueue(ReceivePreservationResponseJob)
+      # Only add another, if the queue is empty/nil.
+      if(Resque.peek(@queue).nil?)
+        Resque.enqueue_at(polling_interval.minutes, ReceivePreservationResponseJob)
+      end
     end
   end
 end

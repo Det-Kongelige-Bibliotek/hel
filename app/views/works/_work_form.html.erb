@@ -6,7 +6,7 @@
         <span class="glyphicon glyphicon-import"></span>
         <%= t('.import') %>
       </button>
-      <h1><%= t('.work') %> <small id="headerTitle"><%= @work.title_values.first%></small></h1>
+      <h1><%= t('.work') %> <small id="headerTitle"><%= @work.title_values.first %></small></h1>
 
     </div>
   </div>
@@ -36,7 +36,7 @@
             </a>
           </legend>
 
-          <%= render partial: 'relators/form', locals: { builder: f } %>
+          <%= render partial: 'relators/form', locals: { builder: f, id: 'work_agent', delete_label: t('.delete_creator') } %>
 
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
@@ -54,9 +54,9 @@
           </div>
         </fieldset>
         <fieldset class="row col-sm-12">
-          <legend class="col-sm-12"><%= t('works.show.origin_date') %> </legend>
+          <legend class="col-sm-12"><%= t('works.show.origin_date') %></legend>
           <div class="col-sm-3">
-            <%= f.input :origin_date, label: false %>
+            <%= f.input :origin_date, label: false, input_html: {value: '?'} %>
           </div>
         </fieldset>
         <fieldset class="row col-sm-12">
@@ -70,7 +70,7 @@
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
           <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
           <%# end %>
-<!--
+          <!--
           <div class='col-sm-12'>
             <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
               <span class="glyphicon glyphicon-plus"></span>

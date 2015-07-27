@@ -1,2 +1,9 @@
 @import 'bootstrap';
 @import 'blacklight/blacklight';
+
+@media print{
+  a:after {
+    display: none;
+  }
+}
+
