@@ -13,6 +13,10 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	       xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	       exclude-result-prefixes="t">
 
+  <xsl:param name="id" select="''"/>
+  <xsl:param name="doc" select="''"/>
+  <xsl:param name="hostname" select="''"/>
+
   <xsl:output encoding="UTF-8"
 	      indent="yes"
 	      method="xml"
@@ -21,30 +25,43 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="/">
     <div>
       <ul>
-	<xsl:apply-templates select="./t:div|./t:text"/>
+	<xsl:choose>
+	  <xsl:when test="$id">
+	    <xsl:apply-templates select="//node()[@xml:id=$id]"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:choose>
+	      <xsl:when test="./t:div|./t:text">
+		<xsl:apply-templates select="./t:div|./t:text"/>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:apply-templates/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:otherwise>
+	</xsl:choose>
       </ul>
     </div>
   </xsl:template>
 
-  <xsl:template match="t:div">
-    <div>
-      <ul>
-	<xsl:apply-templates select="child::node()[@decls]"/>
-      </ul>
-    </div>
+  <xsl:template match="t:teiHeader|t:front|t:back"/>
+
+  <xsl:template match="t:group|t:text[not(t:head)]|t:body">
+    <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
+
+  <xsl:template match="t:text[t:head]|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
     <xsl:element name="li">
       <xsl:attribute name="id">
 	<xsl:value-of select="concat('#','toc',@xml:id)"/>
       </xsl:attribute>
 
       <xsl:call-template name="add_anchor"/>
-      <xsl:if test="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
+      <xsl:if test="t:text|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
 	<ul>
 	  <xsl:apply-templates
-	      select="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5"/>
+	      select="t:text|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5"/>
 	</ul>
       </xsl:if>
     </xsl:element>
@@ -58,6 +75,10 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="t:lb">
     <xsl:text> 
     </xsl:text>
+  </xsl:template>
+
+  <xsl:template match="t:hi">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template name="add_anchor">
@@ -81,29 +102,6 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="t:teiHeader"/>
-
-  <xsl:template match="t:front"/>
-
-  <xsl:template match="t:text">
-    <xsl:apply-templates select="t:body"/>
-  </xsl:template>
-
-  <xsl:template match="t:body">
-    <li>
-      <xsl:call-template name="add_anchor"/>
-      <xsl:if test="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
-	<ul>
-	  <xsl:apply-templates
-	      select="t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5"/>
-	</ul>
-      </xsl:if>
-    </li>
-  </xsl:template>
-
-  <xsl:template match="t:hi">
-    <xsl:apply-templates/>
-  </xsl:template>
 
 </xsl:transform>
 
