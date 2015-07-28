@@ -22,8 +22,8 @@
 	  <xsl:attribute name="id">
 	    <xsl:value-of select="$id"/>
 	  </xsl:attribute>
-	  <xsl:apply-templates select="//node()[@xml:id=$id]/preceding::t:pb[1]"/>
-	  <xsl:for-each select="//node()[@xml:id=$id]//t:pb">
+
+	  <xsl:for-each select="//node()[@xml:id=$id]/preceding::t:pb[1]|//node()[@xml:id=$id]//t:pb">
 	    <xsl:apply-templates select="."/>
 	  </xsl:for-each>
 	</div>

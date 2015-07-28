@@ -20,7 +20,7 @@ declare variable  $coll     := concat("/db/adl/",$c);
 declare variable  $op       := concat($o,".xsl");
 
 let $list := 
-  if($frag) then
+  if($frag and not($o = "facsimile")) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
     return $doc
