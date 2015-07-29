@@ -58,6 +58,7 @@
     </xsl:if>
   </xsl:template>
 
+
   <xsl:template name="img_ref">
     <xsl:if test="@facs">
       <xsl:attribute name="data-src">
