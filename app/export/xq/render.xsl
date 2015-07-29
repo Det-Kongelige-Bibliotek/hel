@@ -102,7 +102,7 @@
 
   <xsl:template match="t:l">
     <xsl:apply-templates/>
-    <xsl:element name="br"><xsl:call-template name="add_id"/></xsl:element>
+    <xsl:element name="br"><xsl:call-template name="add_id_empty_elem"/></xsl:element>
   </xsl:template>
 
   <xsl:template match="t:ref">
@@ -169,7 +169,7 @@
   
   <xsl:template match="t:address">
     <xsl:element name="br"/>
-    <xsl:call-template name="add_id"/>
+    <xsl:call-template name="add_id_empty_elem"/>
     <xsl:for-each select="t:addrLine">
       <xsl:apply-templates/><xsl:element name="br"/>
     </xsl:for-each>
@@ -220,11 +220,17 @@
   </xsl:template>
 
   <xsl:template name="add_id">
+    <xsl:call-template name="add_id_empty_elem"/>
+    <xsl:comment>Empty element</xsl:comment>
+  </xsl:template>
+
+  <xsl:template name="add_id_empty_elem">
     <xsl:if test="@xml:id">
       <xsl:attribute name="id">
 	<xsl:value-of select="@xml:id"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
+
 
 </xsl:stylesheet>
