@@ -4,23 +4,44 @@ module DisseminationProfiles
   # This may be a file server, Solr index etc
   # It must have one method disseminate. This takes an instance as its argument.
   class Adl
+
+    def self.platform
+      'ADL'
+    end
+
     def self.disseminate(instance)
-      puts "disseminating #{instance.id}"
       w = instance.work
       raise 'instance has no work' unless w.present?
 
       if instance.type == 'TEI'
         instance.content_files.each do |cf|
-          tei_file_path = cf.external_file_path
-          filename = File.basename(tei_file_path,File.extname(tei_file_path))
-          vars = build_variable_array(filename,w,instance)
-          doc = transform(tei_file_path,vars)
-          add_to_solr(doc.to_xml)
-          author_xml = generate_person_doc(w.authors.first) if w.authors.present?
-          add_to_solr(author_xml)
-          # uncomment the following lines to get solr_docs printed to files
-          #File.open("seed_docs/#{filename}.xml", 'w') { |f| f.print(doc.to_xml) }
-          #File.open("seed_docs/#{w.authors.first.family_name}_person.xml",'w') {|f| f.print(author_xml)}
+          # check if file content has been altered before updating everything - need a content hash field and method
+          # otherwise do nothing
+          disseminated_checksum = cf.disseminated_versions[self.platform]
+          if disseminated_checksum.nil? || disseminated_checksum != cf.checksum
+
+            tei_file_path = cf.external_file_path
+            filename = File.basename(tei_file_path,File.extname(tei_file_path))
+            vars = build_variable_array(filename,w,instance)
+            doc = transform(tei_file_path,vars)
+            add_to_solr(doc.to_xml)
+            if w.authors.present?
+              author_xml = generate_person_doc(w.authors.first)
+              add_to_solr(author_xml)
+            end
+
+            # uncomment the following lines to get solr_docs printed to files
+            #File.open("seed_docs/#{filename}.xml", 'w') { |f| f.print(doc.to_xml) }
+            #File.open("seed_docs/#{w.authors.first.family_name}_person.xml",'w') {|f| f.print(author_xml)}
+
+            # update exist with REST call
+            send_to_exist(tei_file_path)
+            # save checksum value so we know what the last version disseminated is
+            cf.add_dissemination_checksum(self.platform, cf.checksum)
+            cf.save
+          else
+            Rails.logger.info "file #{cf.id} is up to date on platform #{self.platform} skipping dissemination..."
+          end
         end
       end
 
@@ -89,6 +110,25 @@ module DisseminationProfiles
       vars << "'#{instance.publisher_place}'"
       vars << 'uri_base'
       vars << "'http://adl.kb.dk/'"
+    end
+
+    # send a put request to exist with the updated file
+    def self.send_to_exist(file_path)
+      base_url = CONFIG[Rails.env.to_sym][:adl_exist_server]
+      username = CONFIG[Rails.env.to_sym][:adl_exist_user]
+      password = CONFIG[Rails.env.to_sym][:adl_exist_password]
+      port = CONFIG[Rails.env.to_sym][:adl_exist_port]
+      fpath = Pathname.new(file_path)
+      fname = fpath.basename.to_s
+      # dir can be 'texts', 'authors', 'periods' etc.
+      dir = fpath.dirname.split.last.to_s
+      path = CONFIG[Rails.env.to_sym][:adl_exist_path] % { dir: dir,  filename: fname}
+      uri = URI.parse("#{base_url}#{path}")
+      http = Net::HTTP.new(uri.host, port)
+      request = Net::HTTP::Put.new(uri.request_uri)
+      request.basic_auth username, password unless username.nil?
+      request.body = File.open(file_path).read
+      http.request(request)
     end
   end
 end
