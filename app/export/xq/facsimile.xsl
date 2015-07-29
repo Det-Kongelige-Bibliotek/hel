@@ -61,10 +61,11 @@
   <xsl:template name="img_ref">
     <xsl:if test="@facs">
       <xsl:attribute name="data-src">
-	<xsl:value-of select="@facs"/>
+	<xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
       </xsl:attribute>
     </xsl:if>
-    <xsl:attribute name="src">default.gif</xsl:attribute>
+    <xsl:attribute name="src">
+    </xsl:attribute>
   </xsl:template>
 
 </xsl:stylesheet>
