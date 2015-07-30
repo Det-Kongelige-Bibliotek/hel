@@ -230,7 +230,9 @@
 
   <xsl:template name="add_id">
     <xsl:call-template name="add_id_empty_elem"/>
-    <xsl:comment>Empty element</xsl:comment>
+    <xsl:if test="not(descendant::node())">
+      <xsl:comment>Instead of content</xsl:comment>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">
