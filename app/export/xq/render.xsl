@@ -214,17 +214,29 @@
   
   <xsl:template match="t:pb">
     <xsl:element name="span">
-      <xsl:call-template name="add_id"/>
+      <xsl:call-template name="add_id_empty_elem"/>
       <xsl:text>[</xsl:text>
       <xsl:element name="a">
-	<xsl:if test="@xml:id">
-          <xsl:attribute name="href">
-            <xsl:text>/facsimile#</xsl:text><xsl:value-of select="@xml:id"/>
-          </xsl:attribute>
-	</xsl:if>
-	<xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
-      </xsl:element>
-      <xsl:text>]</xsl:text>
+	<xsl:attribute name="data-no-turbolink">true</xsl:attribute>
+        <xsl:attribute name="href">        
+	  <xsl:choose>
+	    <xsl:when test="$id">
+	      <xsl:value-of select="concat('/catalog/',
+				    substring-before($doc,'.xml'),
+				    '%23',
+				    $id,
+				    '/facsimile#',@xml:id)"/>
+	    </xsl:when>
+	    <xsl:otherwise>
+              <xsl:value-of select="concat('/catalog/',
+				    substring-before($doc,'.xml'),
+				    '/facsimile#',@xml:id)"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
+	<xsl:text>s. </xsl:text>
+	<small><xsl:value-of select="@n"/></small>
+	</xsl:element><xsl:text>]</xsl:text>
     </xsl:element>
   </xsl:template>
 
