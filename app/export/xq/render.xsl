@@ -211,12 +211,21 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
-
+  
   <xsl:template match="t:pb">
     <xsl:element name="span">
-      <xsl:call-template name="add_id"/><xsl:text>[</xsl:text>
-      <xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
-      <xsl:text>]</xsl:text></xsl:element>
+      <xsl:call-template name="add_id"/>
+      <xsl:text>[</xsl:text>
+      <xsl:element name="a">
+	<xsl:if test="@xml:id">
+          <xsl:attribute name="href">
+            <xsl:text>/facsimile#</xsl:text><xsl:value-of select="@xml:id"/>
+          </xsl:attribute>
+	</xsl:if>
+	<xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
+      </xsl:element>
+      <xsl:text>]</xsl:text>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template name="add_id">
