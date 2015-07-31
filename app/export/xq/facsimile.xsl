@@ -41,9 +41,7 @@
   <xsl:template match="t:pb">
     <xsl:element name="div">
       <xsl:call-template name="add_id"/>
-      <xsl:element name="img">
-        <xsl:call-template name="img_ref"/>
-      </xsl:element>
+      <xsl:call-template name="img_ref"/>
       <xsl:text>[</xsl:text>
       <xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
       <xsl:text>]</xsl:text>
@@ -58,15 +56,16 @@
     </xsl:if>
   </xsl:template>
 
-
   <xsl:template name="img_ref">
-    <xsl:if test="@facs">
-      <xsl:attribute name="data-src">
-	<xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
-      </xsl:attribute>
+    <xsl:if test="contains(@facs,'http')">
+      <xsl:element name="img">
+	<xsl:attribute name="data-src">
+	  <xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
+	</xsl:attribute>
+	<xsl:attribute name="src">
+	</xsl:attribute>
+      </xsl:element>
     </xsl:if>
-    <xsl:attribute name="src">
-    </xsl:attribute>
   </xsl:template>
 
 </xsl:stylesheet>
