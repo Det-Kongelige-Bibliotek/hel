@@ -257,6 +257,9 @@ da:
       edit:
         edit_activity: "Rediger aktivitet"
 
+      dissemination:
+        dissemination: "Formidlingsprofiler"
+        explanation: "Vælg de formidlings profiler som skal være gældende for instanser af dette aktivitet."
     controlled_lists:
       flashmessage:
         created: "ControlledList was successfully created."

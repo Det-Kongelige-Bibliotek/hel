@@ -29,6 +29,7 @@ module Concerns
       property :checksum, delegate_to: 'techMetadata', :at => [:file_checksum], :multiple => false
       property :size, delegate_to: 'techMetadata', :at => [:file_size], :multiple => false
       property :validators, delegate_to: 'techMetadata', :at => [:validators], :multiple => true
+      property :dissemination_checksums, delegate_to: 'techMetadata', multiple: true
     end
   end
 end

@@ -24,4 +24,12 @@ namespace :adl do
     Administration::ExternalRepository.delete_all
   end
 
+  desc 'creates a sample adl-bifrost solr doc'
+  task test_adl_solr: :environment do
+    f = File.open('doc.xml','w')
+    doc = DisseminationProfiles::Adl.transform('/home/dgj/adl_texts/texts/aakjaer01val.xml')
+    doc.write_xml_to f
+    f.close
+  end
+
 end

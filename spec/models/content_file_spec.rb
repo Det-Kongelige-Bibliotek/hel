@@ -118,6 +118,39 @@ describe 'content' do
       expect(c.size).not_to be_nil
     end
 
+    describe 'dissemination' do
+      let(:cf) { ContentFile.new }
+      describe 'dissemination_checksums' do
+        it 'should have multiple dissemination_checksums' do
+          expect(cf.respond_to? :dissemination_checksums).to eql true
+        end
+
+        it 'should allow us to set a dissemination checksum' do
+          cf.dissemination_checksums = ['ADL:blablabla']
+          expect(cf.dissemination_checksums).to eql ['ADL:blablabla']
+        end
+      end
+
+      describe 'disseminated_versions' do
+        it 'returns a hash of values' do
+          expect(cf.disseminated_versions).to be_a Hash
+        end
+
+        it 'updates the disseminated checksums' do
+          cf.add_dissemination_checksum('ADL', 'blablabla')
+          expect(cf.disseminated_versions).not_to be_empty
+          expect(cf.disseminated_versions['ADL']).to eql 'blablabla'
+        end
+
+        it 'overwrites the existing checksum if one is present' do
+          cf.add_dissemination_checksum('ADL', 'blablabla')
+          cf.add_dissemination_checksum('Bifrost', 'blablabla')
+          cf.add_dissemination_checksum('ADL', 'blueblueblueblue')
+          expect(cf.dissemination_checksums.size).to eq(2)
+        end
+      end
+    end
+
     it 'should have be able to set the format variables' do
       c = ContentFile.new
       c.format_name = 'format_name'

@@ -70,7 +70,7 @@
     <dynamicField name="*_itsim" type="tint" stored="true" indexed="true" multiValued="true"/>
     
     <!-- date (_dt...) -->
-    <!-- The format for this date field is of the form 1995-12-31T23:59:59Z
+    <!-- The format for tfs date field is of the form 1995-12-31T23:59:59Z
          Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z -->
     <dynamicField name="*_dti" type="date" stored="false" indexed="true" multiValued="false"/>
     <dynamicField name="*_dtim" type="date" stored="false" indexed="true" multiValued="true"/>
@@ -154,6 +154,11 @@
     <!-- you must define copyField source and dest fields explicity or schemaBrowser doesn't work -->
     <field name="all_text_timv" type="text" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
 
+    <dynamicField name="*_name" type="name_field" indexed="true" multiValued="true" />
+    <!--<field name="authors_prefix" type="AuthorsPrefix" indexed="true" multiValued="true"/>-->
+
+
+    <!--<copyField source="author" dest="authors_prefix"/>-->
 
   </fields>
 
@@ -166,6 +171,29 @@
     <!-- <copyField source="*_tesim" dest="all_text_timv" maxChars="3000"/> -->
 
   <types>
+
+    <!-- ADL specific fields for author names -->
+    <fieldType name="name_field" class="solr.TextField"  positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+    <!-- Enable searching on initials-->
+
+    <!--<fieldType name="AuthorsPrefix" class="solr.TextField"  positionIncrementGap="100">-->
+      <!--<analyzer type="index">-->
+        <!--<tokenizer class="solr.StandardTokenizerFactory"/>-->
+        <!--<filter class="solr.LowerCaseFilterFactory" />-->
+        <!--<filter class="solr.EdgeNGramFilterFactory" minGramSize="1" maxGramSize="200" side="front"/>-->
+      <!--</analyzer>-->
+      <!--<analyzer type="query">-->
+        <!--<tokenizer class="solr.StandardTokenizerFactory"/>-->
+        <!--<filter class="solr.LowerCaseFilterFactory" />-->
+      <!--</analyzer>-->
+    <!--</fieldType>-->
+
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>    
     <fieldType name="rand" class="solr.RandomSortField" omitNorms="true"/>
@@ -188,7 +216,7 @@
     <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
     <!-- A Trie based date field for faster date range queries and date faceting. -->
     <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
-    
+
     
     <!-- This point type indexes the coordinates as separate fields (subFields)
       If subFieldType is defined, it references a type, and a dynamic field
@@ -220,6 +248,8 @@
         <filter class="solr.TrimFilterFactory"/>
       </analyzer>
     </fieldType>
+
+
 
     <fieldType name="text_da" class="solr.TextField" omitNorms="false">
       <analyzer>

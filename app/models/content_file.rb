@@ -195,6 +195,25 @@ class ContentFile < ActiveFedora::Base
     solr_doc
   end
 
+
+  # return checksums for all disseminated versions
+  # as a hash, e.g. {'ADL' => 'randomfuckingchecksum'}
+  def disseminated_versions
+    versions = {}
+    dissemination_checksums.each do |csum|
+      platform, version = csum.split(':')
+      versions[platform] = version
+    end
+    versions
+  end
+
+  # Add a new dissemination checksum
+  def add_dissemination_checksum(platform, checksum)
+    versions = self.dissemination_checksums.reject {|csum| csum.include? platform}
+    versions << "#{platform}:#{checksum}"
+    self.dissemination_checksums = versions
+  end
+
   private
   def generate_checksum(file)
     Digest::MD5.file(file).hexdigest

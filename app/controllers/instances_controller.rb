@@ -81,10 +81,13 @@ class InstancesController < ApplicationController
       # TODO: TEI specific logic should be in an after_save hook rather than on the controller
       if @instance.type == 'TEI'
         @instance.content_files.each do |f|
-          TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
-                                       f.external_file_path,@instance)
-          f.update_tech_metadata_for_external_file
-          f.save(validate: false)
+          # TODO - make this also work for internally managed TEI files
+          if f.external_file_path
+            TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
+                                         f.external_file_path,@instance)
+            f.update_tech_metadata_for_external_file
+            f.save(validate: false)
+          end
         end
         repo = Administration::ExternalRepository[@instance.external_repository]
         repo.push if repo.present?

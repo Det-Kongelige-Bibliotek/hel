@@ -39,7 +39,8 @@ class Instance < ActiveFedora::Base
   before_save :set_rights_metadata
 
   after_save do
-    self.work.update_index if work.present?
+    work.update_index if work.present?
+    Resque.enqueue(DisseminateJob,self.id)
   end
 
   def publication
@@ -127,9 +128,14 @@ class Instance < ActiveFedora::Base
     self.add_relator(agent,role)
   end
 
+
   # Accessor for backwards compatibility
   def publisher_name
     related_agents('pbl').first.try(:_name)
+  end
+
+  def publisher_place
+    related_agents('pbl').first.try(:location)
   end
 
   # Accessor for backwards compatibility
@@ -245,5 +251,20 @@ class Instance < ActiveFedora::Base
     i.copyright = activity.copyright
     i.preservation_profile = activity.preservation_profile
     i
+  end
+
+  # Send the instance to the rsolr
+  def disseminate
+    activity_obj = Administration::Activity.find(activity)
+    activity_obj.dissemination_profiles.each do |profile|
+      disseminator = profile.safe_constantize
+      if disseminator
+        disseminator.disseminate(self)
+      end
+    end
+    # i = self.to_solr()
+    # solr = RSolr.connect :url => CONFIG[:external_solr]
+    # solr.add i
+    # solr.commit
   end
 end
