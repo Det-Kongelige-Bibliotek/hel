@@ -42,6 +42,36 @@
     </div>
   </xsl:template>
 
+  <xsl:template match="t:titlePage">
+    <div class="title-page">
+      <xsl:apply-templates/>   
+    </div>
+  </xsl:template>
+
+  <xsl:template match="t:publisher">
+    <span class="title-page-doc-publisher">
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="t:titlePage/t:docAuthor">
+    <h2 class="title-page-doc-author">
+      <xsl:apply-templates/>
+    </h2>
+  </xsl:template>
+
+  <xsl:template match="t:titlePage/t:docTitle">
+    <h1 class="title-page-doc-title">
+      <xsl:apply-templates/>
+    </h1>
+  </xsl:template>
+
+  <xsl:template match="t:titlePage/t:docImprint">
+    <h3 class="title-page-doc-imprint">
+      <xsl:apply-templates/>
+    </h3>
+  </xsl:template>
+
   <xsl:template match="t:body">
     <div>
       <xsl:call-template name="add_id"/>
