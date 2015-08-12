@@ -10,6 +10,7 @@
               encoding="UTF-8"
               method="xml"/>
 
+  <xsl:param name="category" select="'work'"/>
   <xsl:param name="file" select="''"/>
   <xsl:param name="author" select="''"/>
   <xsl:param name="author_id" select="''"/>
@@ -42,7 +43,10 @@
 
 
       <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
-      <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work</xsl:element>
+      <xsl:element name="field">
+        <xsl:attribute name="name">cat_ssi</xsl:attribute>
+        <xsl:value-of select="$category"/>
+      </xsl:element>
 
       <xsl:element name="field">
         <xsl:attribute name="name">work_title_tesim</xsl:attribute>
@@ -186,7 +190,10 @@
   <xsl:template name="generate_volume_doc">
     <doc>
 	<xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
-      <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work</xsl:element>
+      <xsl:element name="field">
+        <xsl:attribute name="name">cat_ssi</xsl:attribute>
+        <xsl:value-of select="$category"/>
+      </xsl:element>
       <xsl:element name="field">
         <xsl:attribute name="name">work_title_tesim</xsl:attribute>
         <xsl:value-of select="$volume_title"/>
