@@ -40,7 +40,6 @@
 
     <doc>
 
-
       <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>trunk</xsl:element>
       <xsl:element name="field"><xsl:attribute name="name">cat_ssi</xsl:attribute>work</xsl:element>
 
