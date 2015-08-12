@@ -56,7 +56,7 @@
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
-        <xsl:value-of select="descendant::text()"/>
+        <xsl:apply-templates select="descendant::node()/text()"/>
       </xsl:element>
     </doc>
     <xsl:for-each select="descendant::t:div/t:p|
@@ -102,7 +102,7 @@
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
-        <xsl:value-of select="t:p/descendant::text()"/>
+        <xsl:apply-templates select="descendant::node()/text()"/>
       </xsl:element>
 
     </doc>
@@ -137,7 +137,7 @@
       <xsl:for-each select="t:l">
         <xsl:element name="field">
           <xsl:attribute name="name">text_tesim</xsl:attribute>
-          <xsl:value-of select="./descendant::text()"/>
+          <xsl:apply-templates select="./text()|descendant::node()/text()"/>
         </xsl:element>
       </xsl:for-each>
     </doc>
@@ -171,19 +171,14 @@
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
-	  <xsl:value-of select="./descendant::text()"/>
+        <xsl:apply-templates select="descendant::node()/text()"/>
       </xsl:element>
     </doc>
   </xsl:template>
 
-  <xsl:template match="node()">
-    <xsl:apply-templates/>
-  </xsl:template>
-
   <xsl:template match="text()">
     <xsl:value-of select="normalize-space(.)"/>
-    <xsl:text>
-    </xsl:text>
+    <xsl:text> </xsl:text>
   </xsl:template>
 
   <xsl:template name="generate_volume_doc">
@@ -294,6 +289,10 @@
       </xsl:element>
     </xsl:if>
 
+  </xsl:template>
+
+  <xsl:template mode="textscraping" match="node()">
+    <xsl:apply-templates mode="textscraping" select="node()"/>
   </xsl:template>
 
   <xsl:template name="page_info">
