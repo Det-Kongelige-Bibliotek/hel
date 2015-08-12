@@ -56,7 +56,7 @@
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
-        <xsl:apply-templates select="descendant::node()/text()"/>
+        <xsl:apply-templates select="./text()|descendant::node()/text()"/>
       </xsl:element>
     </doc>
     <xsl:for-each select="descendant::t:div/t:p|
@@ -102,7 +102,7 @@
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
-        <xsl:apply-templates select="descendant::node()/text()"/>
+        <xsl:apply-templates select="./text()|descendant::node()/text()"/>
       </xsl:element>
 
     </doc>
@@ -171,7 +171,7 @@
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
-        <xsl:apply-templates select="descendant::node()/text()"/>
+        <xsl:apply-templates select="./text()|descendant::node()/text()"/>
       </xsl:element>
     </doc>
   </xsl:template>
