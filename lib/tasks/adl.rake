@@ -11,7 +11,7 @@ namespace :adl do
     repo = Administration::ExternalRepository.create(:name => 'ADL', :url => args.git_url,
                                                      :branch => args.branch, :sync_status =>'NEW', :sync_method => 'ADL',
                                                      :base_dir => args.base_dir, :activity => adl_activity.id,
-                                                      :image_dir => args.image_dir)
+                                                      :image_dir => args.image_dir, :dissemination_profiles => ['adl'])
 
   end
 
