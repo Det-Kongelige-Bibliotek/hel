@@ -22,7 +22,7 @@ module DisseminationProfiles
 
             tei_file_path = cf.external_file_path
             filename = File.basename(tei_file_path,File.extname(tei_file_path))
-            vars = build_variable_array(filename,w,instance)
+            vars = build_variable_array(filename,w,instance,get_category(tei_file_path))
             doc = transform(tei_file_path,vars)
             add_to_solr(doc.to_xml)
             if w.authors.present?
@@ -37,7 +37,7 @@ module DisseminationProfiles
             # update exist with REST call
             send_to_exist(tei_file_path)
             # save checksum value so we know what the last version disseminated is
-            cf.add_dissemination_checksum(self.platform, cf.checksum)
+            #cf.add_dissemination_checksum(self.platform, cf.checksum)
             cf.save
           else
             Rails.logger.info "file #{cf.id} is up to date on platform #{self.platform} skipping dissemination..."
@@ -74,12 +74,16 @@ module DisseminationProfiles
 
     def self.generate_person_doc(author)
       puts "disseminating author #{author.id}"
-      doc = {id: author.id, cat_ssi: 'person', work_title_tesim: author.full_name, author_name: author.full_name, birth_date_ssi: author.birth_date, death_date_ssi: author.death_date, type_ssi: 'trunk'}
+      doc = {id: author.id, cat_ssi: 'person', work_title_tesim: author.full_name, author_name: author.full_name,
+             family_name_ssi: author.family_name, given_name_ssi: author.given_name,
+             birth_date_ssi: author.birth_date, death_date_ssi: author.death_date, type_ssi: 'trunk'}
       RSolr.connect.xml.add(doc,{})
     end
 
-    def self.build_variable_array(filename,work,instance)
+    def self.build_variable_array(filename,work,instance,category)
       vars = []
+      vars << 'category'
+      vars << "'#{category}'"
       vars << 'file'
       vars << "'#{filename}'"
       # TODO handle multiple authors
@@ -129,6 +133,11 @@ module DisseminationProfiles
       request.basic_auth username, password unless username.nil?
       request.body = File.open(file_path).read
       http.request(request)
+    end
+
+    def self.get_category(tei_file_path)
+      return 'portrait' if tei_file_path.include? "/authors/"
+      return 'work'
     end
   end
 end

@@ -179,12 +179,19 @@ class SyncExtRepoADL
 
     pub_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
     pub_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
+    pub_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
     unless pub_name.blank?
       org = Authority::Organization.find_or_create_organization(pub_name,pub_place)
       i.add_publisher(org)
     end
 
-    i.add_published_date(doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text)
+    if pub_date.present?
+      unless EDTF.parse(pub_date).nil?
+        i.add_published_date(pub_date)
+      else
+        Resque.logger.debug "publication date #{pub_date} is not valid EDTF - not ADDED"
+      end
+    end
     i.system_number = sysno
     i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
@@ -198,9 +205,7 @@ class SyncExtRepoADL
       raise "unable to create instance #{i.errors.messages}"
     end
     Resque.logger.debug "instance created #{i}"
-    Resque.logger.debug "Work has #{i.work.instances.size} instances"
     w.reload
-    Resque.logger.debug "Work has #{i.work.instances.size} instances"
     w.update_index
     i
   end
@@ -210,5 +215,12 @@ class SyncExtRepoADL
     raise "unable to add file: #{cf.errors.messages}" unless cf.errors.blank?
     raise "unable to add file: #{i.errors.messages}" unless i.save
     cf
+  end
+
+  def self.find_person_from_string(name)
+    results = ActiveFedora::SolrService.query("display_value_tesim:#{name.gsub!(" ","+")} && active_fedora_model_ssi:Authority*Person")
+    id = ''
+    id = results.first[:id] if results.size > 0
+    id
   end
 end
