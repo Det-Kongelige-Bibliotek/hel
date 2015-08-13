@@ -3,7 +3,7 @@ namespace :adl do
   desc 'Init ADL activity and ext. repo'
   task :init, [:git_url, :base_dir,:branch, :image_dir] => :environment do |task, args|
     adl_activity = Administration::Activity.create(activity: "ADL", embargo: "0", access_condition: "",
-      copyright: "Attribution-NonCommercial-ShareAlike CC BY-NC-SA", collection: ["dasam3"], preservation_profile: "storage")
+      copyright: "Attribution-NonCommercial-ShareAlike CC BY-NC-SA", collection: ["dasam3"], preservation_profile: "storage", :dissemination_profiles => ['adl'])
     adl_activity.activity_permissions = {"file"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}},
                                 "instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}}
     adl_activity.save
@@ -11,7 +11,7 @@ namespace :adl do
     repo = Administration::ExternalRepository.create(:name => 'ADL', :url => args.git_url,
                                                      :branch => args.branch, :sync_status =>'NEW', :sync_method => 'ADL',
                                                      :base_dir => args.base_dir, :activity => adl_activity.id,
-                                                      :image_dir => args.image_dir, :dissemination_profiles => ['adl'])
+                                                      :image_dir => args.image_dir)
 
   end
 
