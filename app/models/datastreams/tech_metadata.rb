@@ -27,6 +27,7 @@ module Datastreams
       t.pb_xml_id(:type=> :string, :index_as => :stored_searchable)
       t.pb_facs_id(:type=> :string, :index_as => :stored_searchable)
       t.xml_pointer
+      t.dissemination_checksums(type: :string)
       # Format metadata extracted from characterization
       t.format_name(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Format name', :path=>'format_name')
       t.format_mimetype(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Format mimetype', :path=>'format_mimetype')

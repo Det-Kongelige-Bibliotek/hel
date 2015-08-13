@@ -28,8 +28,16 @@ class Work < ActiveFedora::Base
 
   before_save :set_rights_metadata
 
+  after_save :disseminate_all_instances
+
   validates_each :origin_date do |record, attr, val|
     record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
+  end
+
+  def disseminate_all_instances
+    self.instances.each do |i|
+      Resque.enqueue(DisseminateJob,i.id)
+    end
   end
 
   # Validation methods
@@ -86,6 +94,10 @@ class Work < ActiveFedora::Base
 
   def creators
     related_agents('cre')
+  end
+
+  def editors
+    related_agents('edt')
   end
 
   def creative_roles

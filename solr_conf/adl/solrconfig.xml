@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+  <!-- NOTE: various comments and unused configuration possibilities have been purged
+     from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
+     as well as the default solrconfig file included with Solr -->
+  
+  <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
+  
+  <luceneMatchVersion>LUCENE_40</luceneMatchVersion>
+
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
+
+  <!-- solr lib dirs -->
+  <lib dir="../lib/contrib/analysis-extras/lib" />
+  <lib dir="../lib/contrib/analysis-extras/lucene-libs" />
+  
+  <dataDir>${solr.data.dir:}</dataDir>
+
+    <!-- The default high-performance update handler -->
+  <updateHandler class="solr.DirectUpdateHandler2">
+
+    <!-- Enables a transaction log, used for real-time get, durability, and
+         and solr cloud replica recovery.  The log can grow as big as
+         uncommitted changes to the index, so use of a hard autoCommit
+         is recommended (see below).
+         "dir" - the target directory for transaction logs, defaults to the
+                solr data directory.  --> 
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+    </updateLog>
+ 
+    <!-- AutoCommit
+
+         Perform a hard commit automatically under certain conditions.
+         Instead of enabling autoCommit, consider using "commitWithin"
+         when adding documents. 
+
+         http://wiki.apache.org/solr/UpdateXmlMessages
+
+         maxDocs - Maximum number of documents to add since the last
+                   commit before automatically triggering a new commit.
+
+         maxTime - Maximum amount of time in ms that is allowed to pass
+                   since a document was added before automatically
+                   triggering a new commit. 
+         openSearcher - if false, the commit causes recent index changes
+           to be flushed to stable storage, but does not cause a new
+           searcher to be opened to make those changes visible.
+
+         If the updateLog is enabled, then it's highly recommended to
+         have some sort of hard autoCommit to limit the log size.
+      -->
+     <autoCommit> 
+       <maxTime>${solr.autoCommit.maxTime:15000}</maxTime> 
+       <openSearcher>false</openSearcher> 
+     </autoCommit>
+
+    <!-- softAutoCommit is like autoCommit except it causes a
+         'soft' commit which only ensures that changes are visible
+         but does not ensure that data is synced to disk.  This is
+         faster and more near-realtime friendly than a hard commit.
+      -->
+
+     <autoSoftCommit> 
+       <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime> 
+     </autoSoftCommit>
+
+  </updateHandler>
+
+  <requestHandler name="search" class="solr.SearchHandler" default="true">
+    <!-- default values for query parameters can be specified, these
+         will be overridden by parameters in the request
+      -->
+     <lst name="defaults">
+       <str name="defType">edismax</str>
+       <str name="echoParams">explicit</str>
+       <str name="q.alt">*:*</str>
+       <str name="mm">2&lt;-1 5&lt;-2 6&lt;90%</str>
+       <int name="qs">1</int>
+       <int name="ps">2</int>
+       <float name="tie">0.01</float>
+       <!-- this qf and pf are used by default, if not otherwise specified by
+            client. The default blacklight_config will use these for the
+            "keywords" search. See the author_qf/author_pf, title_qf, etc 
+            below, which the default blacklight_config will specify for
+            those searches. You may also be interested in:
+            http://wiki.apache.org/solr/LocalParams
+       -->
+        <str name="qf">
+          id
+          text_tesim
+          author_name
+          head_tesim
+          cat_ssi
+        </str>
+        <str name="pf">
+          all_text_timv^10
+        </str>
+
+       <str name="author_qf">
+          author_tesim
+       </str>
+       <str name="author_pf">
+       </str>
+       <str name="title_qf">
+          work_title_tesim
+       </str>
+       <str name="title_pf">
+       </str>
+       <str name="subject_qf">
+          subject_tesim
+       </str>
+       <str name="subject_pf">
+       </str>
+       
+       <str name="fl">
+         *, 
+         score
+       </str>
+
+       <str name="facet">true</str>
+       <str name="facet.mincount">1</str>
+       <str name="facet.limit">10</str>
+       <str name="facet.field">cat_ssi</str>
+       <str name="facet.field">author_name</str>
+       
+       <str name="spellcheck">true</str>
+       <str name="spellcheck.dictionary">default</str>
+       <str name="spellcheck.onlyMorePopular">true</str>
+       <str name="spellcheck.extendedResults">true</str>
+       <str name="spellcheck.collate">false</str>
+       <str name="spellcheck.count">5</str>
+
+     </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+      <str>highlight</str>
+    </arr>
+  </requestHandler>
+
+  <requestHandler name="permissions" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="facet">off</str>
+      <str name="echoParams">all</str>
+      <str name="rows">1</str>
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
+      <str name="fl">
+        id,
+        access_ssim,
+        discover_access_group_ssim,discover_access_person_ssim,
+        read_access_group_ssim,read_access_person_ssim,
+        edit_access_group_ssim,edit_access_person_ssim,
+        depositor_ti,
+        embargo_release_date_dtsi
+        inheritable_access_ssim,
+        inheritable_discover_access_group_ssim,inheritable_discover_access_person_ssim,
+        inheritable_read_access_group_ssim,inheritable_read_access_person_ssim,
+        inheritable_edit_access_group_ssim,inheritable_edit_access_person_ssim,
+        inheritable_embargo_release_date_dtsi
+      </str>
+    </lst>
+  </requestHandler>
+  
+  <requestHandler name="standard" class="solr.SearchHandler">
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <str name="defType">lucene</str>
+     </lst>
+    <arr name="components">
+      <str>query</str>
+      <str>facet</str>
+      <str>mlt</str>
+      <str>stats</str>
+      <str>debug</str>
+    </arr>
+  </requestHandler>
+
+  <!-- for requests to get a single document; use id=666 instead of q=id:666 -->
+  <requestHandler name="document" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+      <str name="fl">*</str>
+      <str name="rows">1</str>
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
+    </lst>
+  </requestHandler>
+
+
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+    <str name="queryAnalyzerFieldType">textSpell</str>
+    <!-- Multiple "Spell Checkers" can be declared and used by this component
+      (e.g. for title_spell field)
+      -->
+    <lst name="spellchecker">
+      <str name="name">default</str>
+      <str name="field">spell</str>
+      <str name="spellcheckIndexDir">./spell</str>
+      <str name="buildOnOptimize">true</str>
+    </lst>
+  </searchComponent>
+  
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
+  
+  <requestDispatcher handleSelect="true" >
+    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
+  </requestDispatcher>
+  
+  <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
+  <requestHandler name="/update" class="solr.UpdateRequestHandler"  />
+  <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
+  
+  <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+    </lst>
+  </requestHandler>
+
+  <!-- Highlighting Component
+
+      http://wiki.apache.org/solr/HighlightingParameters
+   -->
+  <searchComponent class="solr.HighlightComponent" name="highlight">
+    <highlighting>
+      <!-- Configure the standard fragmenter -->
+      <!-- This could most likely be commented out in the "default" case -->
+      <fragmenter name="gap"
+                  default="true"
+                  class="solr.highlight.GapFragmenter">
+        <lst name="defaults">
+          <int name="hl.fragsize">100</int>
+        </lst>
+      </fragmenter>
+
+      <!-- A regular-expression-based fragmenter
+           (for sentence extraction)
+        -->
+      <fragmenter name="regex"
+                  class="solr.highlight.RegexFragmenter">
+        <lst name="defaults">
+          <!-- slightly smaller fragsizes work better because of slop -->
+          <int name="hl.fragsize">70</int>
+          <!-- allow 50% slop on fragment sizes -->
+          <float name="hl.regex.slop">0.5</float>
+          <!-- a basic sentence pattern -->
+          <str name="hl.regex.pattern">[-\w ,/\n\&quot;&apos;]{20,200}</str>
+        </lst>
+      </fragmenter>
+
+      <!-- Configure the standard formatter -->
+      <formatter name="html"
+                 default="true"
+                 class="solr.highlight.HtmlFormatter">
+        <lst name="defaults">
+          <str name="hl.simple.pre"><![CDATA[<em>]]></str>
+          <str name="hl.simple.post"><![CDATA[</em>]]></str>
+        </lst>
+      </formatter>
+
+      <!-- Configure the standard encoder -->
+      <encoder name="html"
+               class="solr.highlight.HtmlEncoder" />
+
+      <!-- Configure the standard fragListBuilder -->
+      <fragListBuilder name="simple"
+                       class="solr.highlight.SimpleFragListBuilder"/>
+
+      <!-- Configure the single fragListBuilder -->
+      <fragListBuilder name="single"
+                       class="solr.highlight.SingleFragListBuilder"/>
+
+      <!-- Configure the weighted fragListBuilder -->
+      <fragListBuilder name="weighted"
+                       default="true"
+                       class="solr.highlight.WeightedFragListBuilder"/>
+
+      <!-- default tag FragmentsBuilder -->
+      <fragmentsBuilder name="default"
+                        default="true"
+                        class="solr.highlight.ScoreOrderFragmentsBuilder">
+        <!--
+        <lst name="defaults">
+          <str name="hl.multiValuedSeparatorChar">/</str>
+        </lst>
+        -->
+      </fragmentsBuilder>
+
+      <!-- multi-colored tag FragmentsBuilder -->
+      <fragmentsBuilder name="colored"
+                        class="solr.highlight.ScoreOrderFragmentsBuilder">
+        <lst name="defaults">
+          <str name="hl.tag.pre"><![CDATA[
+               <b style="background:yellow">,<b style="background:lawgreen">,
+               <b style="background:aquamarine">,<b style="background:magenta">,
+               <b style="background:palegreen">,<b style="background:coral">,
+               <b style="background:wheat">,<b style="background:khaki">,
+               <b style="background:lime">,<b style="background:deepskyblue">]]></str>
+          <str name="hl.tag.post"><![CDATA[</b>]]></str>
+        </lst>
+      </fragmentsBuilder>
+
+      <boundaryScanner name="default"
+                       default="true"
+                       class="solr.highlight.SimpleBoundaryScanner">
+        <lst name="defaults">
+          <str name="hl.bs.maxScan">10</str>
+          <str name="hl.bs.chars">.,!? &#9;&#10;&#13;</str>
+        </lst>
+      </boundaryScanner>
+
+      <boundaryScanner name="breakIterator"
+                       class="solr.highlight.BreakIteratorBoundaryScanner">
+        <lst name="defaults">
+          <!-- type should be one of CHARACTER, WORD(default), LINE and SENTENCE -->
+          <str name="hl.bs.type">WORD</str>
+          <!-- language and country are used when constructing Locale object.  -->
+          <!-- And the Locale object will be used when getting instance of BreakIterator -->
+          <str name="hl.bs.language">en</str>
+          <str name="hl.bs.country">US</str>
+        </lst>
+      </boundaryScanner>
+    </highlighting>
+  </searchComponent>
+  
+  <!-- config for the admin interface --> 
+  <admin>
+    <defaultQuery>search</defaultQuery>
+  </admin>
+  
+</config>

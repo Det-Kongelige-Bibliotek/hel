@@ -49,12 +49,13 @@ module Administration
       params.require(:administration_activity).permit( :activity,
                                                        :access_condition,
                                                        :availability,
+                                                       :collection, 
                                                        :embargo,
-                                                       :embargo_date,
                                                        :embargo_condition,
                                                        :preservation_profile,
                                                        :copyright,
                                                        :ophavsret,
+                                                       dissemination_profiles: [],
                                                        collection:[],
                                                        activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
       ).tap { |elems| remove_blanks(elems) }
