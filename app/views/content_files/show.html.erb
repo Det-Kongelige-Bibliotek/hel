@@ -7,3 +7,4 @@
 <%= render partial: template_name, object: @file rescue
             t('.missing_template', template: template_name).html_safe %>
 <%= render partial: 'file_info', locals: { file: @file, instance: @file.instance } %>
+<%= render partial: 'show_fits', locals: { file: @file, instance: @file.instance } %>

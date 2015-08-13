@@ -104,3 +104,9 @@ production:
 #      bit_safety: 'bitSafetyMedium'
 #      confidentiality: 'confidentialityVeryHigh'
 #      yggdrasil: 'true'
+#    N:
+#      name: 'N: Temporær samling'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
+

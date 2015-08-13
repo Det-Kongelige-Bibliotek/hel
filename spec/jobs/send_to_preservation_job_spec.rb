@@ -8,8 +8,7 @@ describe 'Send object to preservation' do
   describe 'on an Instance' do
     before :each do
       w = Work.create(work_params)
-      p = Authority::Person.create({ 'same_as' => 'http://viaf.org/viaf/44300643',
-                                     'family_name' => 'Joyce',
+      p = Authority::Person.create({ 'family_name' => 'Joyce',
                                      'given_name' => 'James',
                                      'birth_date' => '1932',
                                      'death_date' => '2009' })

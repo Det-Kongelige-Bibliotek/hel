@@ -7,8 +7,7 @@ describe 'Characterizing content files with FITS' do
   describe 'of a content file' do
     before :each do
       w = Work.create(work_params)
-      p = Authority::Person.create({ 'same_as' => 'http://viaf.org/viaf/44300643',
-                                     'family_name' => 'Joyce',
+      p = Authority::Person.create({ 'family_name' => 'Joyce',
                                      'given_name' => 'James',
                                      'birth_date' => '1932',
                                      'death_date' => '2009' })
@@ -55,7 +54,7 @@ describe 'Characterizing content files with FITS' do
   end
 
   it 'should throw error, when given an instance' do
-    @i = Instance.create(activity: @default_activity_id, copyright: 'Some Copyright',  collection: 'Some Collection')
+    @i = Instance.create(activity: @default_activity_id, copyright: 'Some Copyright',  collection: ['Some Collection'])
     expect{FitsCharacterizingJob.perform(@i.id)}.to raise_error(ArgumentError)
   end
 end

@@ -55,6 +55,7 @@ module Concerns
         inherit_rights_metadata if self.respond_to? :inherit_rights_metadata
         update_preservation_profile
         if (self.preservation_profile != 'Undefined' && (!PRESERVATION_CONFIG['preservation_profile'].include? self.preservation_profile))
+          puts "#{self.preservation_profile} is not an accepted part of #{PRESERVATION_CONFIG['preservation_profile'].keys}"
           errors.add(:preservation_profile,'Ugyldig Bevaringsprofil')
         end
       end
