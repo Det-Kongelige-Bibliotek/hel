@@ -130,9 +130,11 @@ module DisseminationProfiles
       uri = URI.parse("#{base_url}#{path}")
       http = Net::HTTP.new(uri.host, port)
       request = Net::HTTP::Put.new(uri.request_uri)
+      request["Content-Type"] = 'text/xml;charset=UTF-8'
       request.basic_auth username, password unless username.nil?
       request.body = File.open(file_path).read
-      http.request(request)
+      res = http.request(request)
+      raise "unable to update exists url: #{base_url}#{path} response code #{res.code}"
     end
 
     def self.get_category(tei_file_path)
