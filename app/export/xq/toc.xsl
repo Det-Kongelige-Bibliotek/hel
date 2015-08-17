@@ -54,7 +54,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="t:text[t:head]|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
     <xsl:element name="li">
       <xsl:attribute name="id">
-	<xsl:value-of select="concat('#','toc',@xml:id)"/>
+	<xsl:value-of select="concat('toc',@xml:id)"/>
       </xsl:attribute>
 
       <xsl:call-template name="add_anchor"/>

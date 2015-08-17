@@ -119,7 +119,7 @@
 
  <xsl:template match="t:lb">
    <xsl:element name="br">
-     <xsl:call-template name="add_id"/>
+    <xsl:call-template name="add_id_empty_elem"/>
    </xsl:element>
  </xsl:template>
 
@@ -244,8 +244,8 @@
   
   <xsl:template match="t:pb">
     <xsl:element name="span">
+      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:call-template name="add_id_empty_elem"/>
-      <xsl:text>[</xsl:text>
       <xsl:element name="a">
 	<xsl:attribute name="data-no-turbolink">true</xsl:attribute>
         <xsl:attribute name="href">        
@@ -266,7 +266,7 @@
 	</xsl:attribute>
 	<xsl:text>s. </xsl:text>
 	<small><xsl:value-of select="@n"/></small>
-	</xsl:element><xsl:text>]</xsl:text>
+	</xsl:element>
     </xsl:element>
   </xsl:template>
 
