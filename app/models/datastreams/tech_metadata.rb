@@ -27,13 +27,14 @@ module Datastreams
       t.pb_xml_id(:type=> :string, :index_as => :stored_searchable)
       t.pb_facs_id(:type=> :string, :index_as => :stored_searchable)
       t.xml_pointer
+      t.dissemination_checksums(type: :string)
       # Format metadata extracted from characterization
       t.format_name(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Format name', :path=>'format_name')
       t.format_mimetype(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Format mimetype', :path=>'format_mimetype')
       t.format_version(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Format version', :path=>'format_version')
       t.format_pronom_id(:type => :string, :index_as=> [:stored_searchable, :sortable], :label=>'Pronom ID (format identification)', :path=>'format_pronom_id')
       t.creating_application(:type => :string, :index_as => [:stored_searchable, :sortable], :label => 'Creating Application Name', :path => 'creating_application')
-      t.dissemination_checksums(type: :string)
+      t.characterization_tools(:type => :text, :index_as => [:stored_searchable], :label => 'Characterization tools', :path => 'characterization_tools')
     end
 
     def self.xml_template

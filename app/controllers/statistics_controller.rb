@@ -19,6 +19,7 @@ class StatisticsController < ApplicationController
   SOLR_FL_TECHNICAL = ['format_name_tesim',
              'format_version_tesim',
              'format_pronom_id_si',
+             'characterization_tools_tesim',
              'creating_application_tesim']
   SOLR_FL_ALL = SOLR_FL_ADMINISTRATIVE + SOLR_FL_COMMON + SOLR_FL_TECHNICAL
   SOLR_MAX = 10000000

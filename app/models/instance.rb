@@ -140,12 +140,16 @@ class Instance < ActiveFedora::Base
 
   # Accessor for backwards compatibility
   def published_date
-    publication.provider_date if publication.present?
+    unless self.publication.blank?
+      self.publication.provider_date
+    else
+      nil
+    end
   end
 
   def add_published_date(date)
-    publications ||= [ Provider.new ]
-    publications.first.provider_date=date
+    self.publications=[ Provider.new ] if self.publication.blank?
+    self.publications.first.provider_date=date
   end
 
   def content_files=(files)
