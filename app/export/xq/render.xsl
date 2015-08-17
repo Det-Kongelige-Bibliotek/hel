@@ -119,7 +119,7 @@
 
  <xsl:template match="t:lb">
    <xsl:element name="br">
-     <xsl:call-template name="add_id"/>
+    <xsl:call-template name="add_id_empty_elem"/>
    </xsl:element>
  </xsl:template>
 
