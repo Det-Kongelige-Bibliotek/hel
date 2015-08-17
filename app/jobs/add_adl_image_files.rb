@@ -41,24 +41,28 @@ class AddAdlImageFiles
         tei_inst.save
       end
 
-      file_map = load_file_map(File.join(base_path,"file_list.txt"))
-
       xdoc.xpath("//xmlns:pb").each do |n|
         begin
           Resque.logger.debug("Processing #{n.to_s}")
           xml_id = n.attr('xml:id')
           raise "No xml:id" if xml_id.blank?
+          xml_id = xml_id.to_s
 
           facs = n.attr('facs')
           raise "No facs" if facs.blank?
+          facs = facs.to_s
 
-          file = file_map[facs]
+          file = "#{facs}.tif"
 
+          Resque.logger.debug("Adding file #{file}")
           unless ContentFile.find_by_original_filename(File.basename(file)).blank?
             raise "File #{File.basename(file)} already added .. skipping it"
           end
 
-          Resque.logger.debug("Adding file #{file}")
+          unless File.file?("#{base_path}/#{file}")
+            raise "Unable to add file for #{n.to_s} file is missing"
+          end
+
           tiff_file = tiff_inst.add_file("#{base_path}/#{file}")
           unless tiff_file.errors.blank?
             raise "Unable to add file save errors #{tiff_file.errors.messages}"
@@ -78,16 +82,5 @@ class AddAdlImageFiles
       Resque.logger.error("Content file #{content_file_id} has no tiff files")
     end
   end
-
-  def self.load_file_map(path)
-    Resque.logger.debug("opening file list #{path}")
-    f = File.open(path)
-    result = {}
-    f.each_line do |line|
-      facs_id = File.basename(line,File.extname(line))
-      result[facs_id] = line.chomp
-    end
-    Resque.logger.debug("got #{result.size} files")
-    result
-  end
+  
 end
