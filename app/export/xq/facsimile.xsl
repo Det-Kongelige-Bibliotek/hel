@@ -8,7 +8,7 @@
 
   <xsl:param name="id" select="''"/>
   <xsl:param name="doc" select="''"/>
-  <xsl:param name="hostname" select="''"/>
+  <xsl:param name="prefix" select="'http://kb-images.kb.dk/public/'"/>
 
   <xsl:output method="xml"
 	      encoding="UTF-8"
@@ -57,15 +57,26 @@
   </xsl:template>
 
   <xsl:template name="img_ref">
-    <xsl:if test="contains(@facs,'http')">
-      <xsl:element name="img">
-	<xsl:attribute name="data-src">
-	  <xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
-	</xsl:attribute>
-	<xsl:attribute name="src">
-	</xsl:attribute>
-      </xsl:element>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="contains(@facs,'http') and not(contains(@rend,'missing'))">
+        <xsl:element name="img">
+      <xsl:attribute name="data-src">
+        <xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
+      </xsl:attribute>
+      <xsl:attribute name="src">
+      </xsl:attribute>
+        </xsl:element>
+      </xsl:when>
+      <xsl:when test="not(contains(@facs,'http')) and not(contains(@rend,'missing'))">
+        <xsl:element name="img">
+          <xsl:attribute name="data-src">
+            <xsl:value-of select="concat($prefix,@facs,'/full/full/0/native.jpg')"/>
+          </xsl:attribute>
+          <xsl:attribute name="src">
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

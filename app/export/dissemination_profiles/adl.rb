@@ -20,6 +20,8 @@ module DisseminationProfiles
           disseminated_checksum = cf.disseminated_versions[self.platform]
           if disseminated_checksum.nil? || disseminated_checksum != cf.checksum
 
+            Resque.logger.debug "disseminating instance #{instance.id}"
+
             tei_file_path = cf.external_file_path
             filename = File.basename(tei_file_path,File.extname(tei_file_path))
             vars = build_variable_array(filename,w,instance,get_category(tei_file_path))
@@ -38,7 +40,7 @@ module DisseminationProfiles
             send_to_exist(tei_file_path)
             # save checksum value so we know what the last version disseminated is
             #cf.add_dissemination_checksum(self.platform, cf.checksum)
-            cf.save
+            #cf.save
           else
             Rails.logger.info "file #{cf.id} is up to date on platform #{self.platform} skipping dissemination..."
           end
@@ -73,7 +75,7 @@ module DisseminationProfiles
     end
 
     def self.generate_person_doc(author)
-      puts "disseminating author #{author.id}"
+      Resque.logger.debug "disseminating author #{author.id}"
       doc = {id: author.id, cat_ssi: 'person', work_title_tesim: author.full_name, author_name: author.full_name,
              family_name_ssi: author.family_name, given_name_ssi: author.given_name,
              birth_date_ssi: author.birth_date, death_date_ssi: author.death_date, type_ssi: 'trunk'}
@@ -110,8 +112,10 @@ module DisseminationProfiles
       vars << "'#{instance.publisher_name}'"
       vars << 'published_date'
       vars << "'#{instance.published_date}'"
-      vars << 'published_place'
-      vars << "'#{instance.publisher_place}'"
+      unless instance.publisher_place.nil?
+        vars << 'published_place'
+        vars << "'#{instance.publisher_place.join(', ')}'"
+      end
       vars << 'uri_base'
       vars << "'http://adl.kb.dk/'"
     end
@@ -134,7 +138,7 @@ module DisseminationProfiles
       request.basic_auth username, password unless username.nil?
       request.body = File.open(file_path).read
       res = http.request(request)
-      raise "unable to update exists url: #{base_url}#{path} response code #{res.code}"
+      raise "unable to update exists url: #{base_url}#{path} response code #{res.code}" unless res.code == "201"
     end
 
     def self.get_category(tei_file_path)

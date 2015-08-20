@@ -29,7 +29,7 @@ module Validator
     end
     
     def is_valid(record)
-      if record.mime_type != "text/xml"
+      unless ['text/xml','application/xml'].include? record.mime_type
         record.errors[:base] << "This object is not XML"
       else
         errors = is_valid_xml_content(record.content)

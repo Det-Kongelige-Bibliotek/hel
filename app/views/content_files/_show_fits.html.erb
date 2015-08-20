@@ -10,9 +10,11 @@
         <h4 class="modal-title">Fits Characterization output</h4>
       </div>
       <div class="modal-body">
+        <% if file.fitsMetadata.present? %>
          <pre class="prettyprint">
            <%= file.fitsMetadata.content.force_encoding("utf-8") %>
          </pre>
+        <% end %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
