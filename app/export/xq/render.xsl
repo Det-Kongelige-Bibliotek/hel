@@ -113,7 +113,7 @@
 
   <xsl:template match="t:quote">
     <q>
-      <xsl:call-template name="add_id"/>
+      <xsl:call-template  	  name="add_id"/>
       <xsl:apply-templates/>
     </q>
   </xsl:template>
