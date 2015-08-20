@@ -91,16 +91,31 @@
   </xsl:template>
 
   <xsl:template match="t:listBibl">
+    <div>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </div>
   </xsl:template>
 
   <xsl:template match="t:bibl">
+    <p>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </p>
   </xsl:template>
 
   <xsl:template match="t:note">
+    <p>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </p>
   </xsl:template>
 
   <xsl:template match="t:quote">
-    <q><xsl:apply-templates/></q>
+    <q>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </q>
   </xsl:template>
 
   <xsl:template match="t:head">
