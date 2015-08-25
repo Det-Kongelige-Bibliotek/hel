@@ -120,7 +120,7 @@ module DisseminationProfiles
       end
       unless instance.publisher_place.nil?
         vars << 'published_place'
-        vars << "'#{instance.publisher_place.join(', ').gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{instance.publisher_place.to_a.join(', ').gsub(/'/) {|s| "\\'"}}'"
       end
       vars << 'uri_base'
       vars << "'http://adl.kb.dk/'"
