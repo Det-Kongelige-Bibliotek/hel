@@ -90,8 +90,10 @@ module DisseminationProfiles
       vars << "'#{filename}'"
       # TODO handle multiple authors
       if work.authors.size > 0
-        vars << 'author'
-        vars << "'#{CGI.escapeHTML(work.authors.first.full_name)}'"
+        if work.authors.first.full_name.present?
+          vars << 'author'
+          vars << "'#{CGI.escapeHTML(work.authors.first.full_name)}'"
+        end
         vars << 'author_id'
         vars << "'#{work.authors.first.id}'"
       end
