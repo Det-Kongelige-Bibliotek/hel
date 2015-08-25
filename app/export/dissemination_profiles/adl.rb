@@ -91,28 +91,28 @@ module DisseminationProfiles
       # TODO handle multiple authors
       if work.authors.size > 0
         vars << 'author'
-        vars << "'#{work.authors.first.full_name.gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{CGI.escapeHTML(work.authors.first.full_name)}'"
         vars << 'author_id'
         vars << "'#{work.authors.first.id}'"
       end
       if instance.copyright.present?
         vars << 'copyright'
-        vars << "'#{instance.copyright.gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{CGI.escapeHTML(instance.copyright)}'"
       end
       # TODO handle multiple editors
       if work.editors.size > 0
         vars << 'editor'
-        vars << "'#{work.editors.first.display_value.gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{CGI.escapeHTML(work.editors.first.display_value)}'"
         vars << 'editor_id'
         vars << "'#{work.editors.first.id}'"
       end
       if work.titles.present?
         vars << 'volume_title'
-        vars << "'#{work.titles.first.value.gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{CGI.escapeHTML(work.titles.first.value)}'"
       end
       if instance.publisher_name.present?
         vars << 'publisher'
-        vars << "'#{instance.publisher_name.gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{CGI.escapeHTML(instance.publisher_name)}'"
       end
       if instance.published_date.present?
         vars << 'published_date'
@@ -120,7 +120,7 @@ module DisseminationProfiles
       end
       unless instance.publisher_place.nil?
         vars << 'published_place'
-        vars << "'#{instance.publisher_place.to_a.join(', ').gsub(/'/) {|s| "\\'"}}'"
+        vars << "'#{CGI.escapeHTML(instance.publisher_place.to_a.join(', '))}'"
       end
       vars << 'uri_base'
       vars << "'http://adl.kb.dk/'"
