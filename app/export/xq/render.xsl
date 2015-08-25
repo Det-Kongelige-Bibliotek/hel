@@ -189,7 +189,6 @@
   <xsl:template match="t:figure">
     <xsl:element name="div">
       <xsl:call-template name="add_id"/>
-      <xsl:attribute name="id"><xsl:value-of select="@xml:id"/></xsl:attribute>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
