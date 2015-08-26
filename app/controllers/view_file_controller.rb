@@ -18,4 +18,25 @@ class ViewFileController < ApplicationController
       redirect_to :root
     end
   end
+
+  # skip_before_action :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token, :only => :import
+
+  def import
+    begin
+      puts "ALL: #{params.inspect}"
+      puts "KEYS: #{params.keys}"
+      puts "UUID: #{params['uuid']}"
+      cf = ContentFile.find(params['uuid'])
+      puts "ContentFile: #{cf.inspect}"
+    rescue ActiveFedora::ObjectNotFoundError => obj_not_found
+      flash[:error] = t('flashmessage.file_not_found')
+      logger.error obj_not_found.to_s
+      redirect_to :root
+    rescue StandardError => standard_error
+      flash[:error] = t('flashmessage.standard_error')
+      logger.error standard_error.to_s
+      redirect_to :root
+    end
+  end
 end

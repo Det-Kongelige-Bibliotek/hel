@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   get "view_file/show"
+  post "view_file/import"
   get 'statistics' => 'statistics#show'
 
 
