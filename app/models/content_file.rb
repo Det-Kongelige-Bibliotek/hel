@@ -126,7 +126,7 @@ class ContentFile < ActiveFedora::Base
   # @param file (ActionDispatch::Http:UploadedFile | File)
   # @param characterize Whether or not to put a characterization job on the queue. Default true.
   def add_file(file, characterize=true)
-    if file.class == ActionDispatch::Http::UploadedFile
+    if file.class == ActionDispatch::Http::UploadedFile || file.class == Rack::Test::UploadedFile
       file_object = file.tempfile
       file_name = file.original_filename
       mime_type = file.content_type
@@ -139,12 +139,12 @@ class ContentFile < ActiveFedora::Base
       logger.warn "Could not add file #{file.inspect}"
       return false
     end
-    self.file_uuid = UUID.new.generate
+    self.file_uuid = UUID.new.generate if self.file_uuid.blank?
+    self.original_filename = file_name if self.original_filename.blank?
 
     self.fileContent.content = file_object
     set_file_timestamps(file_object)
     self.checksum = generate_checksum(file_object)
-    self.original_filename = file_name
     self.mime_type = mime_type
     self.size = file.size.to_s
     self.external_file_path = nil

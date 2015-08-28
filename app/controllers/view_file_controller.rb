@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 #Controller for retrieving BasicFile objects from Fedora for display to the front-end
 class ViewFileController < ApplicationController
+
   # Show a file by delivering it
   # Used for retrieving files around the BasicFile controller, and thus around the authorization.
   # @return The file which needs to be shown, with the original filename and mime-type.
@@ -19,24 +20,71 @@ class ViewFileController < ApplicationController
     end
   end
 
-  # skip_before_action :verify_authenticity_token
-  skip_before_filter :verify_authenticity_token, :only => :import
+  skip_before_filter :verify_authenticity_token, :only => :import_from_preservation
 
-  def import
+  # Imports a preservation instance.
+  # Currently only accepts type: FILE (thus the content of a ContentFile)
+  #
+  def import_from_preservation
     begin
-      puts "ALL: #{params.inspect}"
-      puts "KEYS: #{params.keys}"
-      puts "UUID: #{params['uuid']}"
-      cf = ContentFile.find(params['uuid'])
-      puts "ContentFile: #{cf.inspect}"
+      if handle_preservation_import(params)
+        logger.info "Imported file"
+        render status: 200, nothing: true
+      else
+        logger.info "Failed handling preservation import: #{params}"
+        render status: 400, nothing: true
+      end
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = t('flashmessage.file_not_found')
       logger.error obj_not_found.to_s
-      redirect_to :root
+      render status: 410, nothing: true
     rescue StandardError => standard_error
       flash[:error] = t('flashmessage.standard_error')
       logger.error standard_error.to_s
-      redirect_to :root
+      render status: 400, nothing: true
     end
+  end
+
+  private
+  # Handle the import of the preservation import HTTP POST
+  def handle_preservation_import(params)
+    # only support content of ContentFile import
+    # TODO implement also metadata import
+    if(params['type'] != 'FILE')
+      logger.warn 'Can only support type = FILE'
+      return false
+    end
+
+    # Extract the content file
+    cf = ContentFile.find(params['uuid'])
+
+    # Validate that preservation import is allowed
+    if cf.import_token.blank?
+      logger.warn 'No import token, thus no preservation import expected.'
+      return false
+    end
+
+    # The post request must deliver a token.
+    if params['token'].blank?
+      logger.warn "No import token delivered. Expected: #{cf.import_token.blank?}"
+      return false
+    end
+
+    if cf.import_token != params['token']
+      logger.warn "Received import token '#{params['token']}' but expected '#{cf.import_token}'"
+      return false
+    end
+
+    # Validate timeout
+    if cf.import_token_timeout.to_datetime < DateTime.now
+      logger.warn 'Token has timed out and is no longer valid.'
+      return false
+    end
+
+    # Remove the token, so it cannot be used again.
+    cf.import_token = nil
+
+    logger.info 'Importing the file from preservation'
+    cf.add_file(params['file'])
   end
 end

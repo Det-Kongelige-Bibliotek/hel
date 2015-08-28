@@ -39,6 +39,10 @@ module Datastreams
         t.file_uuid()
         t.file_warc_id()
       }
+
+      t.import_token()
+      t.import_token_timeout()
+      t.import_state()
     end
 
     define_template :update do |xml, val|
