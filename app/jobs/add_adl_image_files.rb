@@ -12,7 +12,7 @@ class AddAdlImageFiles
 
   @queue = 'add_adl_image_files'
 
-  def self.perform(content_file_id,base_path)
+  def self.perform(content_file_id,base_path,delete_existing_files=false)
 
     cf = ContentFile.find(content_file_id)
 
@@ -26,6 +26,13 @@ class AddAdlImageFiles
         if tei_inst.equivalents.size > 0
           #TODO: handle case with more than one equivalent instanse
           tiff_inst = tei_inst.equivalents.first
+          if (delete_existing_files)
+            Resque.logger.debug("deleting content files")
+            tiff_inst.content_files.each do |cf|
+              Resque.logger.debug("deleting content file #{cf.id}")
+              cf.delete
+            end
+          end
         else
           tiff_inst = Instance.new
           # these values should be inherited from the tei_inst

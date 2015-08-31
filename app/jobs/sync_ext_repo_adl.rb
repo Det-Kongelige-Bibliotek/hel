@@ -38,6 +38,7 @@ class SyncExtRepoADL
             if cf.save
               updated_files=updated_files+1
               repo.add_sync_message("Updated file #{fname}")
+              Resque.enqueue(AddAdlImageFiles,cf.id,repo.image_dir,true)
             else
               repo.add_sync_message("Failed to update file #{fname}: #{cf.errors.messages}")
             end
