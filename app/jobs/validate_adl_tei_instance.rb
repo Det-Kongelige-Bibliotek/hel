@@ -19,7 +19,7 @@ class ValidateAdlTeiInstance
     errors = []
 
     i.content_files.each do |cf|
-      if cf.mime_type == 'text/xml'
+      if (cf.mime_type == 'text/xml' || cf.mime_type == 'application/xml')
         Resque.logger.debug("Performing TEI validate on #{cf.original_filename}")
         tei_validator.validate cf
         if cf.errors.size > 0
@@ -36,10 +36,10 @@ class ValidateAdlTeiInstance
     end
     Resque.logger.debug("Performing image validate")
     image_validator.validate i
-    if i.errors.size > 0
+    if i.errors[:base].size > 0
       i.validation_status = 'INVALID'
-      i.errors.each do |error|
-        errors << error.message
+      i.errors[:base].each do |error|
+        errors << error
       end
     else
       errors << "Alle Billedfiler fundet"
