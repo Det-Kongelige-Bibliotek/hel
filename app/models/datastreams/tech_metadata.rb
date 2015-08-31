@@ -25,7 +25,7 @@ module Datastreams
       t.editable
       t.validators
       t.pb_xml_id(:type=> :string, :index_as => :stored_searchable)
-      t.pb_facs_id(:type=> :string, :index_as => :stored_searchable)
+      t.pb_facs_id(:type=> :string, :index_as=>[:stored_searchable, :displayable, :sortable])
       t.xml_pointer
       t.dissemination_checksums(type: :string)
       # Format metadata extracted from characterization
