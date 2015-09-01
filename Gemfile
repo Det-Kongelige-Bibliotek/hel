@@ -65,6 +65,7 @@ gem 'httparty'
 
 gem 'resque'
 gem 'resque-scheduler'
+gem 'resque-logger'
 gem 'rdf-vocab', '>= 0.6.0'
 gem 'rsolr'
 gem 'jquery-ui-rails'
