@@ -29,8 +29,8 @@ class AddAdlImageFiles
           if (delete_existing_files)
             Resque.logger.debug("deleting content files")
             tiff_inst.content_files.each do |cf|
-              Resque.logger.debug("deleting content file #{cf.id}")
-              cf.delete
+              # delete the content file if no pb with corresponing @facs exists
+              cf.delete unless xdoc.xpath("//xmlns:pb[@facs='#{cf.pb_facs_id}']").size > 0
             end
           end
         else
@@ -38,7 +38,7 @@ class AddAdlImageFiles
           # these values should be inherited from the tei_inst
           tiff_inst.activity = tei_inst.activity
           tiff_inst.copyright = tei_inst.copyright
-          tiff_inst.collection = tei_inst.collection
+          tiff_inst.collection = tei_inst.collectionxdoc.xpath("//xmlns:pb[@facs='#{tiff_file.pb_facs_id}']")
           tiff_inst.preservation_profile = tei_inst.preservation_profile
           tiff_inst.type = 'TIFF'
           tiff_inst.set_work=tei_inst.work
@@ -64,8 +64,8 @@ class AddAdlImageFiles
             file = "#{facs}.tif"
 
             Resque.logger.debug("Adding file #{file}")
-            unless ContentFile.find_by_original_filename(File.basename(file)).blank?
-              raise "File #{File.basename(file)} already added .. skipping it"
+            if ContentFile.find_by_pb_facs_id(n.attr('xml:id')) > 0
+              raise "File for facs_id #{n.attr('xml:id')} already added .. skipping it"
             end
 
             unless File.file?("#{base_path}/#{file}")

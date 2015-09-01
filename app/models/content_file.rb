@@ -179,6 +179,10 @@ class ContentFile < ActiveFedora::Base
     end
   end
 
+  def self.find_by_pb_facs_id(id)
+    ActiveFedora::SolrService.query('pb_facs_id_tesim:"'+id+'" && has_model_ssim:ContentFile ')
+  end
+
   # Adding instance variables to the SOLR document for improving the search for statistics.
   # TODO: embargo_date should be in date format - though it is currently a string in the instance.
   def to_solr(solr_doc = {})
