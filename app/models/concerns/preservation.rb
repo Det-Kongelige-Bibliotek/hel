@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'resque'
+require 'securerandom'
+
 module Concerns
   # The preservation definition which is to be used by all elements.
   # Adds the preservation metadata datastream, and sets up default values.
@@ -26,6 +28,8 @@ module Concerns
       property :import_token, delegate_to: 'preservationMetadata', :multiple => false
       property :import_token_timeout, delegate_to: 'preservationMetadata', :multiple => false
       property :import_state, delegate_to: 'preservationMetadata', :multiple => false
+      property :import_details, delegate_to: 'preservationMetadata', :multiple => false
+      property :import_update_date, delegate_to: 'preservationMetadata', :multiple => false
 
       validate :validate_preservation
 
@@ -35,7 +39,7 @@ module Concerns
         true
       end
 
-      # Creates a job on the send_to_reservation queue
+      # Creates a SendToPreservation job for the queue
       def send_to_preservation
         self.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
         self.preservation_details = 'The preservation button has been pushed.'
@@ -44,17 +48,18 @@ module Concerns
         Resque.enqueue(SendToPreservationJob,self.id)
       end
 
-      # Sends send
+      # Creates a SendRequestToImportFromPreservation job for the queue
       def send_request_to_import(type, update_id=nil)
-        if self.warc_id.blank?
+        unless validate_import(type, update_id)
+          logger.warn "Could not initiate import from preservation, #{self.errors}"
           return false
         end
-        # TODO validate update_id (check that there is a preservation update with the given uuid.)
-        # TODO validate the preservation profile
 
         Resque.enqueue(SendRequestToImportFromPreservationJob, self.id, type, update_id)
       end
 
+      # Sets the default initial values for the variables
+      # Both variables for the preservation and import_from_preservation
       def update_preservation_profile
         self.preservation_profile = 'Undefined' if self.preservation_profile.blank?
         self.preservation_state = PRESERVATION_STATE_NOT_STARTED.keys.first if preservation_state.blank?
@@ -64,8 +69,11 @@ module Concerns
           self.preservation_confidentiality = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]['confidentiality']
         end
         set_preservation_modified_time
+
+        self.import_state = PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first if self.import_state.blank?
       end
 
+      # Validates the preservation profile.
       def validate_preservation
         inherit_rights_metadata if self.respond_to? :inherit_rights_metadata
         update_preservation_profile
@@ -110,27 +118,19 @@ module Concerns
 
       # Initiates the import from preservation, by creating the message and sending it to
       def initiate_import_from_preservation(type, update)
-
-
-
-        profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
-        self.update_preservation_profile
-
-        if profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
-          self.preservation_state = PRESERVATION_STATE_NOT_LONGTERM.keys.first
-          self.preservation_details = 'Not longterm preservation.'
-          self.save
-        else
-          self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
-          puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
-          if self.save
-            message = create_preservation_message
-            send_message_to_preservation(message.to_json)
-          else
-            raise "Initate_Preservation: Failed to update preservation data"
-          end
+        unless validate_import(type, update)
+          raise ArgumentError.new "Cannot import from preservation due to #{self.errors}"
         end
-        self.set_preservation_initiated_time
+
+        # Make token and timeout
+        create_import_token
+        self.import_state = PRESERVATION_IMPORT_STATE_INITIATED.keys.first
+
+        # create message
+        message = create_import_from_preservation_message(type, update)
+
+        # send message.
+        send_message_to_preservation_import(message.to_json)
       end
 
       #private
@@ -190,27 +190,63 @@ module Concerns
         message['type'] = type
         message['uuid'] = self.uuid
         message['preservation_profile'] = self.preservationMetadata.preservation_profile.first
-        message['url'] = url_for(:controller => 'view_file', :action => 'import_from_preservation')
+        message['url'] = url_for(:controller => 'view_file', :action => 'import_from_preservation', :only_path => true)
 
-        # if self.kind_of?(ContentFile)
-        #   message['File_UUID'] = self.file_uuid
-        #
-        #   # Only add the content uri, if the file is not older than the latest preservation initiation date.
-        #   if self.file_warc_id.nil? || self.preservation_initiated_date.nil? || DateTime.parse(self.preservation_initiated_date) <= DateTime.parse(self.last_modified)
-        #     message['file_warc_id'] = self.file_warc_id
-        #     app_url = CONFIG[Rails.env.to_sym][:application_url]
-        #     path = url_for(:controller => 'view_file', :action => 'show', :id =>self.id, :only_path => true)
-        #     message['Content_URI'] = "#{app_url}#{path}"
-        #   end
-        # end
-        #
-        # unless self.warc_id.nil? || self.warc_id.empty?
-        #   message['warc_id'] = self.warc_id
-        # end
-        #
-        # metadata = self.create_preservation_message_metadata
-        # message['metadata'] = metadata
+        warc = Hash.new
+        if update_id.blank?
+          warc['warc_file_id'] = self.warc_id
+          warc['warc_record_id'] = self.id
+        else
+          # TODO should only use 'file_uuid' when dealing with type='FILE'
+          update = self.preservationMetadata.get_updates.select {|update| update['file_uuid'] == update_id}
+          raise ArgumentError.new "Could not find the update '#{update_id}' in the list of updates: #{self.preservationMetadata.get_updates}" if update.empty?
+          warc['warc_file_id'] = update.first['file_warc_id']
+          warc['warc_record_id'] = update_id
+        end
+        message['warc'] = warc
+
+        security = Hash.new
+        security['token'] = self.import_token
+        security['token_timeout'] = self.import_token_timeout
+        # TODO Should we add the Checksum?
+        message['security'] = security
+
         message
+      end
+
+      # Creates the token and timeout for the import.
+      # TODO set timeout via configuration.
+      # Set timeout to 1 day
+      def create_import_token
+        self.import_token = SecureRandom.base64(32)
+        self.import_token_timeout = (DateTime.now + 1.day).to_s
+        self.save!
+      end
+
+      def validate_import(type, update_id)
+        profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
+        if profile.blank? || profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
+          errors.add(:import_preservation_profile, 'Preservation profile is not longterm preservation, thus no preservation entity to import.')
+          return false
+        end
+        if self.warc_id.blank?
+          errors.add(:import_warc_id, 'Missing warc id -> thus has not been preserved yet.')
+          return false
+        end
+        unless update_id.blank?
+          # TODO currently only handle for 'FILE' - thus finding 'file_uuid' updates
+          update = self.preservationMetadata.get_updates.select {|update| update['file_uuid'] == update_id}
+          if update == nil || update.empty?
+            errors.add(:import_update_id, 'Cannot find the preservation update to import')
+            return false
+          end
+        end
+        # TODO fix the handling of other types than 'FILE'
+        if type != 'FILE'
+          errors.add(:import_type, 'Currently only supports type \'FILE\'')
+          return false
+        end
+        true
       end
     end
   end

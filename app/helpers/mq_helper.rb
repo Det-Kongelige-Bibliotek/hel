@@ -5,7 +5,7 @@ require 'bunny'
 module MqHelper
   # Sends a preservation message on the MQ.
   #
-  # @param message The message content to be sent on the preservation destination.
+  # @param message The preservation request message content to be sent on the preservation destination.
   def send_message_to_preservation(message)
     destination = MQ_CONFIG['preservation']['destination']
 
@@ -13,6 +13,16 @@ module MqHelper
         'content_type' => 'application/json',
         'type' => MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
     })
+  end
+
+  # @param message The preservation import request message content to be sent on the preservation destination.
+  def send_message_to_preservation_import(message)
+    destination = MQ_CONFIG['preservation']['destination']
+
+    MqHelper.send_on_rabbitmq(message, destination, {
+                                         'content_type' => 'application/json',
+                                         'type' => MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_REQUEST
+                                     })
   end
 
   # Retrieve queue name from config file

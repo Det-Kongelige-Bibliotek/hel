@@ -43,6 +43,8 @@ module Datastreams
       t.import_token()
       t.import_token_timeout()
       t.import_state()
+      t.import_details()
+      t.import_update_date()
     end
 
     define_template :update do |xml, val|
@@ -59,7 +61,7 @@ module Datastreams
     # @param val Must be a Hash containing at least 'uuid'.
     def insert_update(val)
       raise ArgumentError.new 'Can only create the update element from a Hash map' unless val.is_a? Hash
-      raise ArgumentError.new 'Requires a \'uuid\' field in the Hash map to create the update element' if val['uuid'].blank? && val['file_uuid'].blank?
+      raise ArgumentError.new 'Requires a \'uuid\' or \'file_uuid\' field in the Hash map to create the update element' if val['uuid'].blank? && val['file_uuid'].blank?
       duplicate = find_by_terms_and_value(:update, :uuid => val['uuid']) || find_by_terms_and_value(:update, :file_uuid => val['file_uuid'])
 
       if duplicate.blank?

@@ -8,7 +8,7 @@ namespace :valhal do
     if polling_interval.nil? || polling_interval.to_i == 0
       puts 'Will not schedule ReceivePreservationResponseJob without a polling interval.'
     else
-      Resque.enqueue_at(polling_interval.minutes, ReceivePreservationResponseJob)
+      Resque.enqueue_at(polling_interval.minutes, ReceiveResponsesFromPreservationJob)
     end
   end
 end

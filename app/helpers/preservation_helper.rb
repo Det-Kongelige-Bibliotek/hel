@@ -32,6 +32,33 @@ module PreservationHelper
     end
   end
 
+  # Updates the preservation state metadata from the controller.
+  # Handles both the preservation element and the update element.
+  # Expected to receive parameters:
+  # params[:preservation][:preservation_state]
+  # params[:preservation][:preservation_details]
+  # params[:preservation][:warc_id]
+  # params[:preservation][:file_warc_id]
+  # params[:update][:date]
+  # params[:update][:uuid]
+  # params[:update][:file_uuid]
+  # params[:update][:warc_id]
+  # params[:update][:file_warc_id]
+  # @param params The parameters from the controller.
+  # @param element The element to have its preservation settings updated.
+  # @return Whether the preservation metadata has successfully been updated.
+  def update_preservation_import_metadata_for_element(params, element)
+    ensure_preservation_import_state_allows_update_from_controller(element.preservation_state)
+
+    if set_preservation_import_metadata(params['response'], element)
+      # puts "Preservation metadata updated successfully for #{element}"
+      true
+    else
+      puts "Failed to update preservation metadata for #{element}"
+      false
+    end
+  end
+
   # Updates the preservation date to this exact point in time.
   # The date has to be formatted explicitly to include the milli/micro/nano-seconds.
   # E,g, 2013-10-08T11:02:00.240+02:00
@@ -89,6 +116,35 @@ module PreservationHelper
     element.save
   end
 
+
+  # Updates the preservation state and details for a given element (e.g. a basic_files, a instance, a work, etc.)
+  # The preservation state is expected to be among the Constants::PRESERVATION_STATES, a warning will be issued if not.
+  # @param metadata The hash with preservation metadata to be updated.
+  # @param update The hash with preservation update metadata to be updated (only regarding update-preservations, not initial preservations)
+  # @param element The element to has its preservation state updated.
+  # @return Whether the update was successful. Or just false, if no metadata is provided.
+  def set_preservation_import_metadata(metadata, element)
+    unless (metadata && (!metadata.empty?))
+      puts "No metadata for updating element with: #{metadata}"
+      return false
+    end
+
+    unless (metadata['state'].blank? || metadata['state'] == element.preservationMetadata.import_state.first)
+      puts "Undefined preservation import state #{metadata['state']} not among the defined ones: #{PRESERVATION_IMPORT_STATES.keys.to_s}" unless PRESERVATION_IMPORT_STATES.keys.include? metadata['state']
+      element.preservationMetadata.import_state = metadata['state']
+    end
+
+    unless (metadata['detail'].blank? || metadata['detail'] == element.preservationMetadata.import_details.first)
+      element.preservationMetadata.import_details = metadata['detail']
+    end
+
+    unless (metadata['date'].blank? || metadata['date'] == element.preservationMetadata.import_update_date.first)
+      element.preservationMetadata.import_update_date = metadata['date']
+    end
+
+    element.save
+  end
+
   # Updates the preservation profile for a given element (e.g. a basic_files, a instance, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation
@@ -121,4 +177,14 @@ module PreservationHelper
       raise ArgumentError, 'Cannot update preservation state, when preservation has not yet started.'
     end
   end
+
+  # Validates whether the import_state allows updating.
+  # Checks whether the preservation import state is set and not stated.
+  # @param state The state to validate.
+  def ensure_preservation_import_state_allows_update_from_controller(state)
+    if !state.blank? && state == PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first
+      raise ArgumentError, 'Cannot update preservation import state, when preservation import has not yet started.'
+    end
+  end
+
 end

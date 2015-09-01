@@ -18,6 +18,23 @@ module MqListenerHelper
     update_preservation_metadata_for_element(message, element)
   end
 
+  def handle_preservation_import_response(message)
+    puts "Handle preservation import response #{message}"
+    if message['uuid'].blank? || message['type'].blank? || message['response'].nil?
+      puts "Invalid preservation import response message: #{message}"
+      return false
+    end
+    # TODO handle only FILE types
+    if message['type'] != 'FILE'
+      puts "Can only handle FILE type, not #{message['type']}"
+      return false
+    end
+
+    element = find_element(message['uuid'], 'contentfile')
+    puts "updating preservation import metadata for: #{element}"
+    update_preservation_import_metadata_for_element(message, element)
+  end
+
   private
   # Locates a given element based on its model and id.
   # If no model matches the element, then an error is raised.

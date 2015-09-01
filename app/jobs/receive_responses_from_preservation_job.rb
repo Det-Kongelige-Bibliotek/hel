@@ -2,7 +2,7 @@ require 'resque'
 
 include MqListenerHelper
 
-class ReceivePreservationResponseJob
+class ReceiveResponsesFromPreservationJob
 
   @queue = 'receive_preservation_response'
 
@@ -37,7 +37,14 @@ class ReceivePreservationResponseJob
 
     q.subscribe do |delivery_info, metadata, payload|
       begin
-        handle_preservation_response(JSON.parse(payload))
+        type = metadata[:type] || metadata['type']
+        if type == MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_RESPONSE
+          handle_preservation_import_response(JSON.parse(payload))
+        elsif type == MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE
+          handle_preservation_response(JSON.parse(payload))
+        else
+          puts "ERROR cannot handle message of type '#{type}'"
+        end
       rescue => e
         puts "Try to handle preservation response message: #{payload}\nCaught error: #{e}"
       end
@@ -52,7 +59,7 @@ class ReceivePreservationResponseJob
     else
       # Only add another, if the queue is empty/nil.
       if(Resque.peek(@queue).nil?)
-        Resque.enqueue_at(polling_interval.minutes, ReceivePreservationResponseJob)
+        Resque.enqueue_at(polling_interval.minutes, ReceiveResponsesFromPreservationJob)
       end
     end
   end
