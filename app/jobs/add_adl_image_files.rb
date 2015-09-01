@@ -64,7 +64,7 @@ class AddAdlImageFiles
             file = "#{facs}.tif"
 
             Resque.logger.debug("Adding file #{file}")
-            if ContentFile.find_by_pb_facs_id(n.attr('xml:id')) > 0
+            if ContentFile.find_by_pb_facs_id(n.attr('xml:id')).size > 0
               raise "File for facs_id #{n.attr('xml:id')} already added .. skipping it"
             end
 
