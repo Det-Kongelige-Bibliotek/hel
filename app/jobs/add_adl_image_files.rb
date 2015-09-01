@@ -38,7 +38,7 @@ class AddAdlImageFiles
           # these values should be inherited from the tei_inst
           tiff_inst.activity = tei_inst.activity
           tiff_inst.copyright = tei_inst.copyright
-          tiff_inst.collection = tei_inst.collectionxdoc.xpath("//xmlns:pb[@facs='#{tiff_file.pb_facs_id}']")
+          tiff_inst.collection = tei_inst.collection
           tiff_inst.preservation_profile = tei_inst.preservation_profile
           tiff_inst.type = 'TIFF'
           tiff_inst.set_work=tei_inst.work
