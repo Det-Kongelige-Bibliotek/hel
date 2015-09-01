@@ -12,7 +12,7 @@ class AddAdlImageFiles
 
   @queue = 'add_adl_image_files'
 
-  def self.perform(content_file_id,base_path)
+  def self.perform(content_file_id,base_path,delete_existing_files=false)
 
     cf = ContentFile.find(content_file_id)
 
@@ -26,6 +26,13 @@ class AddAdlImageFiles
         if tei_inst.equivalents.size > 0
           #TODO: handle case with more than one equivalent instanse
           tiff_inst = tei_inst.equivalents.first
+          if (delete_existing_files)
+            Resque.logger.debug("deleting content files")
+            tiff_inst.content_files.each do |cf|
+              # delete the content file if no pb with corresponing @facs exists
+              cf.delete unless xdoc.xpath("//xmlns:pb[@facs='#{cf.pb_facs_id}']").size > 0
+            end
+          end
         else
           tiff_inst = Instance.new
           # these values should be inherited from the tei_inst
@@ -57,8 +64,8 @@ class AddAdlImageFiles
             file = "#{facs}.tif"
 
             Resque.logger.debug("Adding file #{file}")
-            unless ContentFile.find_by_original_filename(File.basename(file)).blank?
-              raise "File #{File.basename(file)} already added .. skipping it"
+            if ContentFile.find_by_pb_facs_id(n.attr('xml:id')).size > 0
+              raise "File for facs_id #{n.attr('xml:id')} already added .. skipping it"
             end
 
             unless File.file?("#{base_path}/#{file}")
