@@ -149,16 +149,16 @@ class SyncExtRepoADL
       end
     end
 
-
-    unless sysno.blank? || sysno == '000000000'
-      doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
-        surname = n.xpath("//xmlns:surname").text.mb_chars.titleize.to_s
-        forename = n.xpath("//xmlns:forename").text.mb_chars.titleize.to_s
-        p = Authority::Person.find_or_create_person(forename,surname)
-        w.add_author(p)
-      end
-    else
-      # if no author in source desc/bibl is found look in filedesc
+    authors_found = false
+    doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
+      surname = n.xpath("//xmlns:surname").text.mb_chars.titleize.to_s
+      forename = n.xpath("//xmlns:forename").text.mb_chars.titleize.to_s
+      p = Authority::Person.find_or_create_person(forename,surname)
+      w.add_author(p)
+      authors_found = true
+    end
+    # if no author in source desc/bibl is found look in filedesc
+    unless authors_found
       doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:titleStmt/xmlns:author").each do |n|
         names = n.text
         # Convert the names to title case in an encoding safe manner
