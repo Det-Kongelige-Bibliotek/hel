@@ -40,7 +40,7 @@ class MixedMaterialsController < ApplicationController
   private
 
   def set_mixed_material
-    @mixed_material = MixedMaterial.find(params[:id])
+    @mixed_material = MixedMaterial.find(URI.unescape(params[:id]))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
