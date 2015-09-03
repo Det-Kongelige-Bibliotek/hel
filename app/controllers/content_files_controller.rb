@@ -40,7 +40,7 @@ class ContentFilesController < ApplicationController
     if uploaded_file.nil?
       #this message is not really used, as we handle this case in the _upload_file_modal.html.erb
       flash[:error] = t('content_file.flashmessage.no_file_to_upload')
-      redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+      redirect_to work_instance_path(@file.instance.work,@file.instance)
     else
 
       v = Validator::RelaxedTei.new
