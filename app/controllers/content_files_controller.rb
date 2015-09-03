@@ -55,10 +55,10 @@ class ContentFilesController < ApplicationController
           repo.push
         end
         flash[:notice] = t('content_file.flashmessage.file_uploaded')
-        redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+        redirect_to work_instance_path(@file.instance.work,@file.instance)
       else
         flash[:error] = msg
-        redirect_to work_instance_path(@file.instance.work.first,@file.instance)
+        redirect_to work_instance_path(@file.instance.work,@file.instance)
       end
     end
   end
