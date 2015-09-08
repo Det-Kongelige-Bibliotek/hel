@@ -19,7 +19,6 @@ module MqListenerHelper
   end
 
   def handle_preservation_import_response(message)
-    puts "Handle preservation import response #{message}"
     if message['uuid'].blank? || message['type'].blank? || message['response'].nil?
       puts "Invalid preservation import response message: #{message}"
       return false
@@ -30,8 +29,8 @@ module MqListenerHelper
       return false
     end
 
-    element = find_element(message['uuid'], 'contentfile')
-    puts "updating preservation import metadata for: #{element}"
+    element = ContentFile.find(message['uuid'])
+    puts "Updating preservation import metadata for: #{element}"
     update_preservation_import_metadata_for_element(message, element)
   end
 

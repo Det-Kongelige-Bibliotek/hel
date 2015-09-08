@@ -8,7 +8,7 @@ class ReceiveResponsesFromPreservationJob
 
   def self.perform(repeat=true)
     if MQ_CONFIG['preservation']['response'].blank?
-      puts 'No preservation response queue defined -> Not listening'
+      Resque.logger.warn 'No preservation response queue defined -> Not listening'
       return
     end
 
@@ -19,10 +19,14 @@ class ReceiveResponsesFromPreservationJob
       ch = conn.create_channel
 
       subscribe_to_preservation(ch)
+      # MOST IMPORTANT WAIT EVER!!! Otherwise it closes before handling the message.
+      polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes'] || 1
+      sleep polling_interval.minutes
+
       conn.close
     rescue Bunny::TCPConnectionFailed => e
-      puts 'Connection to RabbitMQ failed'
-      puts e.to_s
+      Resque.logger.warn 'Connection to RabbitMQ failed'
+      Resque.logger.warn e.to_s
     ensure
       schedule_new_job if repeat
     end
@@ -38,15 +42,21 @@ class ReceiveResponsesFromPreservationJob
     q.subscribe do |delivery_info, metadata, payload|
       begin
         type = metadata[:type] || metadata['type']
+        # @logger.debug "Received message with: \nMetadata: #{metadata.inspect}\nPayload: #{payload}"
+
         if type == MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_RESPONSE
-          handle_preservation_import_response(JSON.parse(payload))
+          success = handle_preservation_import_response(JSON.parse(payload))
         elsif type == MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE
-          handle_preservation_response(JSON.parse(payload))
+          success = handle_preservation_response(JSON.parse(payload))
         else
-          puts "ERROR cannot handle message of type '#{type}'"
+          Resque.logger.warn "ERROR cannot handle message of type '#{type}'"
+        end
+
+        if success
+          Resque.logger.info "Successfully handled the #{type} message: #{payload}"
         end
       rescue => e
-        puts "Try to handle preservation response message: #{payload}\nCaught error: #{e}"
+        Resque.logger.error "Failed trying to handle message: #{payload}\nCaught error: #{e}"
       end
     end
   end
@@ -58,8 +68,8 @@ class ReceiveResponsesFromPreservationJob
       puts 'Will not schedule ReceivePreservationResponseJob without a polling interval.'
     else
       # Only add another, if the queue is empty/nil.
-      if(Resque.peek(@queue).nil?)
-        Resque.enqueue_at(polling_interval.minutes, ReceiveResponsesFromPreservationJob)
+      if Resque.peek(@queue).nil?
+        Resque.enqueue_to(@queue, ReceiveResponsesFromPreservationJob)
       end
     end
   end

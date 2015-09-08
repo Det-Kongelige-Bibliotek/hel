@@ -9,4 +9,10 @@
 <%= render partial: 'file_info', locals: { file: @file, instance: @file.instance } %>
 <%= render partial: 'show_fits', locals: { file: @file, instance: @file.instance } %>
 <%= render partial: 'show_tech_metadata', locals: { file: @file, instance: @file.instance } %>
-<%= link_to 'Importér fil fra bevaring', initiate_import_from_preservation_content_file_path(@file, type: 'FILE'), class: 'btn btn-primary' %>
+<% unless @file.warc_id.blank? %>
+    <% if current_user
+         # TODO is it alright just to be logged in?
+         #&& current_user.admin? %>
+      <%= link_to 'Importér fil fra bevaring', initiate_import_from_preservation_content_file_path(@file, type: 'FILE'), class: 'btn btn-primary' %>
+    <% end %>
+<% end %>

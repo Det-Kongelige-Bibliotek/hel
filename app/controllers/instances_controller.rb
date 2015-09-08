@@ -104,6 +104,8 @@ class InstancesController < ApplicationController
   def send_to_preservation
     if @instance.send_to_preservation
       flash[:notice] = t('instances.flashmessage.preserved')
+      # It only creates a new job, if no such job already exists.
+      ReceiveResponsesFromPreservationJob.schedule_new_job
     else
       flash[:notice] = t('instances.flashmessage.no_preserved')
     end

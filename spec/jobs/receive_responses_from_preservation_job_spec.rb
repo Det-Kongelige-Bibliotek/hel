@@ -94,7 +94,7 @@ describe 'Receive responses messages from preservation' do
 
     describe 'perform' do
       it 'should receiving and handle preservation import response message with all response variables' do
-        @m = {'uuid' => @f.id, 'type' => 'FILE', 'response' => {'state' => IMPORT_FINISHED.keys.first, 'details' => 'This is the details', 'date' => DateTime.now.to_s}}
+        @m = {'uuid' => @f.id, 'type' => 'FILE', 'response' => {'state' => PRESERVATION_IMPORT_FINISHED.keys.first, 'details' => 'This is the details', 'date' => DateTime.now.to_s}}
         destination = MQ_CONFIG['preservation']['response']
         MqHelper.send_on_rabbitmq(@m.to_json, destination, @o)
 
@@ -102,19 +102,19 @@ describe 'Receive responses messages from preservation' do
         ReceiveResponsesFromPreservationJob.perform(false)
         sleep 1.seconds
         @f.reload
-        expect(@f.import_state).to eq IMPORT_FINISHED.keys.first
+        expect(@f.import_state).to eq PRESERVATION_IMPORT_FINISHED.keys.first
         expect(@f.import_details).to eq @m['response']['detail']
         expect(@f.import_update_date).to eq @m['response']['date']
       end
       it 'should receiving and handle preservation import response message with only state' do
-        @m = {'uuid' => @f.id, 'type' => 'FILE', 'response' => {'state' => IMPORT_FINISHED.keys.first, 'details' => nil, 'date' => nil}}
+        @m = {'uuid' => @f.id, 'type' => 'FILE', 'response' => {'state' => PRESERVATION_IMPORT_FINISHED.keys.first, 'details' => nil, 'date' => nil}}
         destination = MQ_CONFIG['preservation']['response']
         MqHelper.send_on_rabbitmq(@m.to_json, destination, @o)
 
         ReceiveResponsesFromPreservationJob.perform(false)
         sleep 1.seconds
         @f.reload
-        expect(@f.import_state).to eq IMPORT_FINISHED.keys.first
+        expect(@f.import_state).to eq PRESERVATION_IMPORT_FINISHED.keys.first
         expect(@f.import_details).to be_nil
         expect(@f.import_update_date).to be_nil
       end
@@ -126,7 +126,7 @@ describe 'Receive responses messages from preservation' do
         ReceiveResponsesFromPreservationJob.perform(false)
         sleep 1.seconds
         @f.reload
-        expect(@f.import_state).to_not eq IMPORT_FINISHED.keys.first
+        expect(@f.import_state).to_not eq PRESERVATION_IMPORT_FINISHED.keys.first
         expect(@f.import_details).to eq @m['response']['detail']
         expect(@f.import_update_date).to be_nil
       end
@@ -138,7 +138,7 @@ describe 'Receive responses messages from preservation' do
         ReceiveResponsesFromPreservationJob.perform(false)
         sleep 1.seconds
         @f.reload
-        expect(@f.import_state).to_not eq IMPORT_FINISHED.keys.first
+        expect(@f.import_state).to_not eq PRESERVATION_IMPORT_FINISHED.keys.first
         expect(@f.import_details).to be_nil
         expect(@f.import_update_date).to eq @m['response']['date']
       end

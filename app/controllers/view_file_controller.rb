@@ -82,7 +82,8 @@ class ViewFileController < ApplicationController
     end
 
     # Remove the token, so it cannot be used again.
-    cf.import_token = nil
+    cf.import_token = ""
+    cf.save!
 
     logger.info 'Importing the file from preservation'
     cf.add_file(params['file'])

@@ -68,10 +68,13 @@ class ContentFilesController < ApplicationController
   end
 
   def initiate_import_from_preservation
-    if @file.send_request_to_import(@params['type'])
+    if @file.send_request_to_import(params['type'])
       flash[:notice] = t('content_file.flashmessage.initiated_import_from_preservation')
+      # It only creates a new job, if no such job already exists.
+      ReceiveResponsesFromPreservationJob.schedule_new_job
     else
       flash[:notice] = t('content_file.flashmessage.initiated_import_from_preservation_failed')
+      flash[:error] = @file.errors.full_messages.to_sentence
     end
     redirect_to @file
   end

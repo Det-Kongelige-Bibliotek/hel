@@ -125,6 +125,7 @@ module Concerns
         # Make token and timeout
         create_import_token
         self.import_state = PRESERVATION_IMPORT_STATE_INITIATED.keys.first
+        self.save!
 
         # create message
         message = create_import_from_preservation_message(type, update)
@@ -226,27 +227,23 @@ module Concerns
       def validate_import(type, update_id)
         profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
         if profile.blank? || profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
-          errors.add(:import_preservation_profile, 'Preservation profile is not longterm preservation, thus no preservation entity to import.')
-          return false
+          self.errors.add(:import_preservation_profile, 'Preservation profile is not longterm preservation, thus no preservation entity to import.')
         end
         if self.warc_id.blank?
-          errors.add(:import_warc_id, 'Missing warc id -> thus has not been preserved yet.')
-          return false
+          self.errors.add(:import_warc_id, 'Missing warc id -> thus has not been preserved yet')
         end
         unless update_id.blank?
           # TODO currently only handle for 'FILE' - thus finding 'file_uuid' updates
           update = self.preservationMetadata.get_updates.select {|update| update['file_uuid'] == update_id}
           if update == nil || update.empty?
-            errors.add(:import_update_id, 'Cannot find the preservation update to import')
-            return false
+            self.errors.add(:import_update_id, 'Cannot find the preservation update to import')
           end
         end
         # TODO fix the handling of other types than 'FILE'
         if type != 'FILE'
-          errors.add(:import_type, 'Currently only supports type \'FILE\'')
-          return false
+          self.errors.add(:import_type, 'Currently only supports type \'FILE\'')
         end
-        true
+        self.errors.empty?
       end
     end
   end

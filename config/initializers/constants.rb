@@ -131,48 +131,48 @@ PRESERVATION_STATE_INVALID = {'error' => true, 'color' => 'yellow', 'text' => 'T
 
 # The state when the preservation import has not yet begun.
 PRESERVATION_IMPORT_STATE_NOT_STARTED = {'PRESERVATION_NOT_STARTED' => {
-    'error' => 'false', 'text' => 'Import not started'}}
+    'error' => false, 'text' => 'Import not started'}}
 
 # The state when the preservation import has been initiated on Valhal-side (e.g. preservation import request message sent)
 PRESERVATION_IMPORT_STATE_INITIATED = {'PRESERVATION_STATE_INITIATED' => {
-    'error' => 'false', 'text' => 'Preservation import initiated'}}
+    'error' => false, 'text' => 'Preservation import initiated'}}
 
 # The state when Yggdrasil has received and validated the preservation import request.
 PRESERVATION_IMPORT_REQUEST_RECEIVED_AND_VALIDATED = {'PRESERVATION_IMPORT_REQUEST_RECEIVED_AND_VALIDATED' => {
-    'error' => 'false', 'text' => 'When Yggdrasil has received and validated the PreservationImportRequest.'}}
+    'error' => false, 'text' => 'When Yggdrasil has received and validated the PreservationImportRequest.'}}
 
 # The state when Yggdrasil reject the preservation import request.
 PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE = {'PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE' => {
-    'error' => 'true', 'text' => 'If anything is invalid or missing from the PreservationImportRequest.'}}
+    'error' => true, 'text' => 'If anything is invalid or missing from the PreservationImportRequest.'}}
 
 # The state when Yggdrasil initiates the retrieval of the data from the Bitrepository.
-IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED = {'IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED' => {
-    'error' => 'false', 'text' => 'Yggdrasil starts to retrieve the data from the Bitrepository'}}
+PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED = {'PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED' => {
+    'error' => false, 'text' => 'Yggdrasil starts to retrieve the data from the Bitrepository'}}
 
 # The state when Yggdrasil fails the retrieval of the data from the Bitrepository.
-IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE = {'IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE' => {
-    'error' => 'true', 'text' => 'Yggdrasil starts to retrieve the data from the Bitrepository'}}
+PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE = {'PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE' => {
+    'error' => true, 'text' => 'Yggdrasil starts to retrieve the data from the Bitrepository'}}
 
 # The state when Yggdrasil has retrieved the data from the Bitrepository and initiates delivery to Valhal
-IMPORT_DELIVERY_INITIATED = {'IMPORT_DELIVERY_INITIATED' => {
-    'error' => 'false', 'text' => 'When Yggdrasil start to deliver the data to Valhal.'}}
+PRESERVATION_IMPORT_DELIVERY_INITIATED = {'PRESERVATION_IMPORT_DELIVERY_INITIATED' => {
+    'error' => false, 'text' => 'When Yggdrasil start to deliver the data to Valhal.'}}
 
 # The state when Yggdrasil fails to deliver the data to Valhal
-IMPORT_DELIVERY_FAILURE = {'IMPORT_DELIVERY_FAILURE' => {
-    'error' => 'true', 'text' => 'If the delivery of data to Valhal somehow fails.'}}
+PRESERVATION_IMPORT_DELIVERY_FAILURE = {'PRESERVATION_IMPORT_DELIVERY_FAILURE' => {
+    'error' => true, 'text' => 'If the delivery of data to Valhal somehow fails.'}}
 
 # The state when the import is finished
-IMPORT_FINISHED = {'IMPORT_FINISHED' => {
-    'error' => 'false', 'text' => 'When the delivery of the data is finished.'}}
+PRESERVATION_IMPORT_FINISHED = {'PRESERVATION_IMPORT_FINISHED' => {
+    'error' => false, 'text' => 'When the delivery of the data is finished.'}}
 
 # The generic failure state for failures that does not fall into the other failure catagories.
-IMPORT_FAILURE = {'IMPORT_FAILURE' => {
-    'error' => 'true', 'text' => 'Generic failure for errors, which are not covered by the other failures.'}}
+PRESERVATION_IMPORT_FAILURE = {'PRESERVATION_IMPORT_FAILURE' => {
+    'error' => true, 'text' => 'Generic failure for errors, which are not covered by the other failures.'}}
 
 # The complete hash of the valid states and their values. (No easy way of merging hashes, therefore this 'hack')
 PRESERVATION_IMPORT_STATES = Hash.new
 [PRESERVATION_IMPORT_STATE_INITIATED, PRESERVATION_IMPORT_STATE_INITIATED, PRESERVATION_IMPORT_REQUEST_RECEIVED_AND_VALIDATED,
- PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE, IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED,
- IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE, IMPORT_DELIVERY_INITIATED, IMPORT_DELIVERY_FAILURE, IMPORT_FINISHED,
- IMPORT_FAILURE].each {|h| PRESERVATION_IMPORT_STATES.merge!(h)}
+ PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE, PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED,
+ PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE, PRESERVATION_IMPORT_DELIVERY_INITIATED, PRESERVATION_IMPORT_DELIVERY_FAILURE, PRESERVATION_IMPORT_FINISHED,
+ PRESERVATION_IMPORT_FAILURE].each {|h| PRESERVATION_IMPORT_STATES.merge!(h)}
 

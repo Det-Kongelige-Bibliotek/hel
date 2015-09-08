@@ -48,10 +48,10 @@ module PreservationHelper
   # @param element The element to have its preservation settings updated.
   # @return Whether the preservation metadata has successfully been updated.
   def update_preservation_import_metadata_for_element(params, element)
-    ensure_preservation_import_state_allows_update_from_controller(element.preservation_state)
+    can_update_preservation_import_state(element.import_state)
 
     if set_preservation_import_metadata(params['response'], element)
-      # puts "Preservation metadata updated successfully for #{element}"
+      puts "Preservation metadata updated successfully for #{element}"
       true
     else
       puts "Failed to update preservation metadata for #{element}"
@@ -129,6 +129,15 @@ module PreservationHelper
       return false
     end
 
+    # check date. Do not update, if current date is newer.
+    unless (metadata['date'].blank? || metadata['date'] == element.preservationMetadata.import_update_date.first)
+      if(element.preservationMetadata.import_update_date.first && element.preservationMetadata.import_update_date.first.to_datetime > metadata['date'].to_datetime)
+        puts "Will not update state with an older date than the current"
+        return false
+      end
+      element.preservationMetadata.import_update_date = metadata['date']
+    end
+
     unless (metadata['state'].blank? || metadata['state'] == element.preservationMetadata.import_state.first)
       puts "Undefined preservation import state #{metadata['state']} not among the defined ones: #{PRESERVATION_IMPORT_STATES.keys.to_s}" unless PRESERVATION_IMPORT_STATES.keys.include? metadata['state']
       element.preservationMetadata.import_state = metadata['state']
@@ -136,10 +145,6 @@ module PreservationHelper
 
     unless (metadata['detail'].blank? || metadata['detail'] == element.preservationMetadata.import_details.first)
       element.preservationMetadata.import_details = metadata['detail']
-    end
-
-    unless (metadata['date'].blank? || metadata['date'] == element.preservationMetadata.import_update_date.first)
-      element.preservationMetadata.import_update_date = metadata['date']
     end
 
     element.save
@@ -181,7 +186,7 @@ module PreservationHelper
   # Validates whether the import_state allows updating.
   # Checks whether the preservation import state is set and not stated.
   # @param state The state to validate.
-  def ensure_preservation_import_state_allows_update_from_controller(state)
+  def can_update_preservation_import_state(state)
     if !state.blank? && state == PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first
       raise ArgumentError, 'Cannot update preservation import state, when preservation import has not yet started.'
     end
