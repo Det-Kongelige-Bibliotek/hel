@@ -17,11 +17,15 @@ class ReceiveResponsesFromPreservationJob
       conn = Bunny.new(uri)
       conn.start
       ch = conn.create_channel
+      @messages = []
 
       subscribe_to_preservation(ch)
-      # MOST IMPORTANT WAIT EVER!!! Otherwise it closes before handling the message.
-      polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes'] || 1
-      sleep polling_interval.minutes
+
+      # wait until no more messages is being handled.
+      loop do
+        sleep 10.seconds
+        break if @messages.empty?
+      end
 
       conn.close
     rescue Bunny::TCPConnectionFailed => e
@@ -41,6 +45,7 @@ class ReceiveResponsesFromPreservationJob
 
     q.subscribe do |delivery_info, metadata, payload|
       begin
+        @messages << "message#{@messages.size + 1}"
         type = metadata[:type] || metadata['type']
         # @logger.debug "Received message with: \nMetadata: #{metadata.inspect}\nPayload: #{payload}"
 
@@ -59,6 +64,8 @@ class ReceiveResponsesFromPreservationJob
         end
       rescue => e
         Resque.logger.error "Failed trying to handle message: #{payload}\nCaught error: #{e}"
+      ensure
+        @messages.pop
       end
     end
   end
