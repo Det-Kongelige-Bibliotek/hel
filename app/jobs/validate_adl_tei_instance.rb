@@ -36,9 +36,9 @@ class ValidateAdlTeiInstance
     end
     Resque.logger.debug("Performing image validate")
     image_validator.validate i
-    if i.errors[:base].size > 0
+    if i.errors.size > 0
       i.validation_status = 'INVALID'
-      i.errors[:base].each do |error|
+      i.errors.messages[:base].each do |error|
         errors << error
       end
     else

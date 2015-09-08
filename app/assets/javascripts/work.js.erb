@@ -84,10 +84,11 @@ $(document).ready(function(){
     // rename them and paste into form
     $('[data-function="clone-fields"]').click(function(e){
         e.preventDefault();
-        var selector = $(this).data('selector');
+        var selector = $(this).attr('data-selector'); // cloning messes up the data() method
         var $fields = $(selector);
         disableAgentTypeahead($fields)
         var $new_fields = $fields.clone(true);
+        $new_fields.show();
         // Update all name and id attributes before pasting in the clone
         $new_fields.find(':input').each(updateIndex);
         $new_fields.find('a[data-target]').each(updateIndex);
@@ -107,11 +108,10 @@ $(document).ready(function(){
 
         enableAgentTypeahead($fields);
         enableAgentTypeahead($new_fields);
-        $new_fields.show();
     });
     $('[data-function="delete-fields"]').click(function(e){
-        e.preventDefault();
-        var selector = $(this).data('target');
+        e.preventDefault()
+        var selector = $(this).attr('data-target'); //cloning messes up the data() method
         $(selector).hide();
         $(selector).find("input[id$='_destroy']").val('1');
     });
@@ -426,5 +426,8 @@ function enableAgentTypeahead(obj) {
         }
     });
 
-
+    $("#new_agent_modal" ).on('shown.bs.modal', function(){
+        modal_agent_field = $(".agent-typeahead:last").get(0).id
+        console.log("modal_agent_field "+modal_agent_field);
+    });
 }

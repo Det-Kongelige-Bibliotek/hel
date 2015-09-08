@@ -4,7 +4,7 @@
 
       <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <%= simple_form_for(file, html: { multipart: true, class: 'upload-file-form form-horizontal' }, defaults: {
+        <%= simple_form_for(file, method: :patch, url: content_file_path(file).gsub('show','update'), html: { multipart: true, class: 'upload-file-form form-horizontal' }, defaults: {
                 wrapper_html: {class: 'form-group', acceptcharset: "UTF-8"}, input_html: { class: 'form-control' } }) do |fields| %>
             <div class="input file optional">
               <label class="file mandatory">New Content for <%= file.original_filename %></label>
