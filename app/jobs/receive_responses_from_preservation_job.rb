@@ -54,6 +54,8 @@ class ReceiveResponsesFromPreservationJob
 
         if success
           Resque.logger.info "Successfully handled the #{type} message: #{payload}"
+        else
+          Resque.logger.warn "Failed handling the #{type} message: #{payload}"
         end
       rescue => e
         Resque.logger.error "Failed trying to handle message: #{payload}\nCaught error: #{e}"
