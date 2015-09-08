@@ -88,6 +88,7 @@ describe 'Receive responses messages from preservation' do
 
       @f.preservation_profile = 'eternity'
       @f.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+      @f.import_state = PRESERVATION_IMPORT_STATE_INITIATED.keys.first
       @f.warc_id = 'warc_id'
       @f.save
     end
@@ -142,6 +143,25 @@ describe 'Receive responses messages from preservation' do
         expect(@f.import_details).to be_nil
         expect(@f.import_update_date).to eq @m['response']['date']
       end
+      it 'should not allow the update, when the import is in a not-started state.' do
+        @f.import_state = PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first
+        @f.save!
+        @m = {'uuid' => @f.id, 'type' => 'FILE', 'response' => {'state' => PRESERVATION_IMPORT_FINISHED.keys.first, 'details' => 'This is the details', 'date' => DateTime.now.to_s}}
+        destination = MQ_CONFIG['preservation']['response']
+        MqHelper.send_on_rabbitmq(@m.to_json, destination, @o)
+
+        #puts "sending #{@m.to_json} on #{destination}"
+        ReceiveResponsesFromPreservationJob.perform(false)
+        sleep 1.seconds
+        @f.reload
+        expect(@f.import_state).to_not eq PRESERVATION_IMPORT_FINISHED.keys.first
+        expect(@f.import_state).to eq PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first
+        expect(@f.import_details).to be_nil
+        expect(@m['response']['date']).to_not be_nil
+        expect(@f.import_update_date).to be_nil
+        expect(@m['response']['details']).to_not be_nil
+      end
+
     end
   end
 end

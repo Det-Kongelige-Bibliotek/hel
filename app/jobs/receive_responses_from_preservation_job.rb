@@ -48,7 +48,6 @@ class ReceiveResponsesFromPreservationJob
         @messages << "message#{@messages.size + 1}"
         type = metadata[:type] || metadata['type']
         # @logger.debug "Received message with: \nMetadata: #{metadata.inspect}\nPayload: #{payload}"
-
         if type == MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_RESPONSE
           success = handle_preservation_import_response(JSON.parse(payload))
         elsif type == MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE
