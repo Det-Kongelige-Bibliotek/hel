@@ -4,6 +4,8 @@ PERFORM_PRESERVATION_BUTTON = 'Perform preservation'
 
 # The message type for a preservation request.
 MQ_MESSAGE_TYPE_PRESERVATION_REQUEST = 'PreservationRequest'
+# The message type for a preservation response.
+MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE = 'PreservationResponse'
 # The message type for a dissemination request for BifrostBooks.
 MQ_MESSAGE_TYPE_DISSEMINATION_BIFROST_BOOKS_REQUEST = 'BifrostBooksDisseminationRequest'
 
