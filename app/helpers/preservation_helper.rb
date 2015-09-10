@@ -21,7 +21,7 @@ module PreservationHelper
   # @param element The element to have its preservation settings updated.
   # @return Whether the preservation metadata has successfully been updated.
   def update_preservation_metadata_for_element(params, element)
-    ensure_preservation_state_allows_update_from_controller(element.preservation_state)
+    can_update_preservation_state?(element.preservation_state)
 
     if set_preservation_metadata(params['preservation'], params['update'], element)
       # puts "Preservation metadata updated successfully for #{element}"
@@ -32,23 +32,16 @@ module PreservationHelper
     end
   end
 
-  # Updates the preservation state metadata from the controller.
-  # Handles both the preservation element and the update element.
+  # Updates the preservation import state metadata for an element
   # Expected to receive parameters:
-  # params[:preservation][:preservation_state]
-  # params[:preservation][:preservation_details]
-  # params[:preservation][:warc_id]
-  # params[:preservation][:file_warc_id]
-  # params[:update][:date]
-  # params[:update][:uuid]
-  # params[:update][:file_uuid]
-  # params[:update][:warc_id]
-  # params[:update][:file_warc_id]
-  # @param params The parameters from the controller.
+  # params[:response][:state]
+  # params[:response][:detail]
+  # params[:response][:date]
+  # @param params The parameters
   # @param element The element to have its preservation settings updated.
   # @return Whether the preservation metadata has successfully been updated.
   def update_preservation_import_metadata_for_element(params, element)
-    can_update_preservation_import_state(element.import_state)
+    can_update_preservation_import_state?(element.import_state)
 
     if set_preservation_import_metadata(params['response'], element)
       puts "Preservation metadata updated successfully for #{element}"
@@ -117,11 +110,10 @@ module PreservationHelper
   end
 
 
-  # Updates the preservation state and details for a given element (e.g. a basic_files, a instance, a work, etc.)
-  # The preservation state is expected to be among the Constants::PRESERVATION_STATES, a warning will be issued if not.
-  # @param metadata The hash with preservation metadata to be updated.
-  # @param update The hash with preservation update metadata to be updated (only regarding update-preservations, not initial preservations)
-  # @param element The element to has its preservation state updated.
+  # Updates the preservation import state and details for a given element.
+  # The preservation import state is expected to be among the Constants::PRESERVATION_IMPORT_STATES, a warning will be issued if not.
+  # @param metadata The hash with preservation import response metadata to be updated.
+  # @param element The element to has its preservation import state updated.
   # @return Whether the update was successful. Or just false, if no metadata is provided.
   def set_preservation_import_metadata(metadata, element)
     unless (metadata && (!metadata.empty?))
@@ -174,10 +166,10 @@ module PreservationHelper
     element.save
   end
 
-  # Validates whether the preservation_state allows updating through the controller.
+  # Validates whether the preservation_state is allowed to be updated.
   # Checks whether the preservation state is set to not stated.
   # @param state The state to validate.
-  def ensure_preservation_state_allows_update_from_controller(state)
+  def can_update_preservation_state?(state)
     if !state.blank? && state == PRESERVATION_STATE_NOT_STARTED.keys.first
       raise ArgumentError, 'Cannot update preservation state, when preservation has not yet started.'
     end
@@ -186,7 +178,7 @@ module PreservationHelper
   # Validates whether the import_state allows updating.
   # Checks whether the preservation import state is set and not stated.
   # @param state The state to validate.
-  def can_update_preservation_import_state(state)
+  def can_update_preservation_import_state?(state)
     if !state.blank? && state == PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first
       raise ArgumentError, 'Cannot update preservation import state, when preservation import has not yet started.'
     end

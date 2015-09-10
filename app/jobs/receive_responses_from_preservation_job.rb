@@ -38,7 +38,7 @@ class ReceiveResponsesFromPreservationJob
 
   # Subscribing to the preservation response queue
   # This is ignored, if the configuration is not set.
-  #@param channel The channel to the message broker.
+  # @param channel The channel to the message broker.
   def self.subscribe_to_preservation(channel)
     destination = MQ_CONFIG['preservation']['response']
     q = channel.queue(destination, :durable => true)
@@ -54,6 +54,7 @@ class ReceiveResponsesFromPreservationJob
           success = handle_preservation_response(JSON.parse(payload))
         else
           Resque.logger.warn "ERROR cannot handle message of type '#{type}'"
+          success = false
         end
 
         if success
@@ -69,10 +70,11 @@ class ReceiveResponsesFromPreservationJob
     end
   end
 
-  # Schedules a new Resque job for receiving preservation responses... unless the polling interval is not set.
+  # Schedules a new Resque job for receiving preservation responses... unless the polling interval is not set or a job already is on the queue.
   def self.schedule_new_job
     polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes']
     if polling_interval.nil? || polling_interval.to_i == 0
+      # Do not log this, since it is called both from Resque, rake tasks and from controller
       puts 'Will not schedule ReceivePreservationResponseJob without a polling interval.'
     else
       # Only add another, if the queue is empty/nil.
