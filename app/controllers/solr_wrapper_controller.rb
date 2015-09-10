@@ -5,7 +5,7 @@ class SolrWrapperController < ApplicationController
   end
 
   def get_obj
-      result = map_result(Finder.obj(params[:id]))
+      result = map_result(Finder.obj(URI.unescape(params[:id])))
       render json: result[0] unless result.blank?
   end
   
