@@ -24,6 +24,8 @@ module Concerns
       property :preservation_confidentiality,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_initiated_date,  delegate_to: 'preservationMetadata', :multiple => false
       property :file_warc_id, delegate_to: 'preservationMetadata', :multiple => false
+      property :warc_offset, delegate_to: 'preservationMetadata', :multiple => false
+      property :file_warc_offset, delegate_to: 'preservationMetadata', :multiple => false
 
       property :import_token, delegate_to: 'preservationMetadata', :multiple => false
       property :import_token_timeout, delegate_to: 'preservationMetadata', :multiple => false
@@ -197,12 +199,20 @@ module Concerns
         if update_id.blank?
           warc['warc_file_id'] = self.warc_id
           warc['warc_record_id'] = self.id
+          warc_offset = self.file_warc_offset
         else
           # TODO should only use 'file_uuid' when dealing with type='FILE'
           update = self.preservationMetadata.get_updates.select {|update| update['file_uuid'] == update_id}
           raise ArgumentError.new "Could not find the update '#{update_id}' in the list of updates: #{self.preservationMetadata.get_updates}" if update.empty?
           warc['warc_file_id'] = update.first['file_warc_id']
           warc['warc_record_id'] = update_id
+          warc_offset = update.first['file_warc_offset']
+        end
+
+        unless warc_offset.blank?
+          puts "Warc offset: #{warc_offset}"
+          warc['warc_offset'] = warc_offset.partition('#')[0]
+          warc['warc_record_size'] = (warc_offset.partition('#').last.to_i - warc_offset.partition('#')[0].to_i).to_s
         end
         message['warc'] = warc
 

@@ -25,8 +25,10 @@ module Datastreams
                              :path => 'preservation_comment', :label => 'Preservation Comment')
       t.warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                 :path => 'warc_id', :label => 'Warc ID')
+      t.warc_offset(:type => :string)
       t.file_warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                 :path => 'file_warc_id', :label => 'File Warc ID')
+      t.file_warc_offset(:type => :string)
       t.preservation_bitsafety(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                                :path => 'preservation_bitsafety', :label => 'Preservation BitSafety')
       t.preservation_confidentiality(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
@@ -35,9 +37,11 @@ module Datastreams
       t.update {
         t.warc_id()
         t.uuid()
+        t.warc_offset()
         t.date()
         t.file_uuid()
         t.file_warc_id()
+        t.file_warc_offset()
       }
 
       t.import_token()
@@ -51,9 +55,11 @@ module Datastreams
       xml.update() {
         xml.warc_id {xml.text(val['warc_id'])}
         xml.uuid {xml.text(val['uuid'])}
+        xml.warc_offset {xml.text(val['warc_offset'])}
         xml.date {xml.text(val['date'])}
         xml.file_uuid {xml.text(val['file_uuid'])}
         xml.file_warc_id {xml.text(val['file_warc_id'])}
+        xml.file_warc_offset {xml.text(val['file_warc_offset'])}
       }
     end
 

@@ -90,11 +90,17 @@ module PreservationHelper
     unless (metadata['warc_id'].blank? || metadata['warc_id'] == element.preservationMetadata.warc_id.first)
       updated = true
       element.preservationMetadata.warc_id = metadata['warc_id']
+      unless metadata['warc_offset'].blank?
+        element.preservationMetadata.warc_offset = metadata['warc_offset']
+      end
     end
 
     unless (metadata['file_warc_id'].blank? || metadata['file_warc_id'] == element.preservationMetadata.file_warc_id.first)
       updated = true
       element.preservationMetadata.file_warc_id = metadata['file_warc_id']
+      unless metadata['file_warc_offset'].blank?
+        element.preservationMetadata.file_warc_offset = metadata['file_warc_offset']
+      end
     end
 
     if update && !update.empty?

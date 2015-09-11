@@ -223,7 +223,6 @@ describe 'content' do
         @f.reload
         expect(@f.create_preservation_message).to have_key 'warc_id'
       end
-
       it 'should contain metadata' do
         expect(@f.create_preservation_message).to have_key 'metadata'
       end
@@ -508,7 +507,6 @@ describe 'content' do
         expect(@f.import_token_timeout).to be_blank
       end
 
-
       describe '#create_import_from_preservation message' do
         it 'should be a non-empty Hash' do
           message = @f.create_import_from_preservation_message('FILE')
@@ -536,8 +534,16 @@ describe 'content' do
         it 'should not have a warc_offset' do
           expect(@f.create_import_from_preservation_message('type')['warc']['warc_offset']).to be_blank
         end
+        it 'should have a warc_offset, when it has been set' do
+          @f.file_warc_offset = '1234#4321'
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_offset']).to eq '1234'
+        end
         it 'should not have a warc_record_size' do
           expect(@f.create_import_from_preservation_message('type')['warc']['warc_record_size']).to be_blank
+        end
+        it 'should have a warc_record_size, when the offset has been set' do
+          @f.file_warc_offset = '1234#4321'
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_record_size']).to eq ((4321-1234).to_s)
         end
         it 'should not have a security token when not defined' do
           expect(@f.import_token).to be_blank
@@ -565,6 +571,15 @@ describe 'content' do
             @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
             expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_file_id']).to eq warc_file_id
             expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_record_id']).to eq warc_record_id
+          end
+          it 'should has update offset' do
+            warc_file_id = SecureRandom.hex(32)
+            warc_record_id = SecureRandom.hex(32)
+            @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id, 'file_warc_offset' => '1234#4321'} )
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_file_id']).to eq warc_file_id
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_record_id']).to eq warc_record_id
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_offset']).to eq '1234'
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_record_size']).to eq ((4321-1234).to_s)
           end
           it 'should throw an error when no updates exists' do
             expect{@f.create_import_from_preservation_message('type', SecureRandom.hex(32))}.to raise_error
