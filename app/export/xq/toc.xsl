@@ -50,7 +50,6 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
     <xsl:apply-templates/>
   </xsl:template>
 
-
   <xsl:template match="t:text[t:head]|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
     <xsl:element name="li">
       <xsl:attribute name="id">
@@ -102,6 +101,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
     </xsl:element>
   </xsl:template>
 
+  
 
 </xsl:transform>
 
