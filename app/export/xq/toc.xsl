@@ -50,21 +50,24 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="t:text[t:head]|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
+  <xsl:template match="t:text[t:head]|t:div">
     <xsl:element name="li">
       <xsl:attribute name="id">
 	<xsl:value-of select="concat('toc',@xml:id)"/>
       </xsl:attribute>
 
       <xsl:call-template name="add_anchor"/>
-      <xsl:if test="t:text|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5">
+      <xsl:if test="t:text|t:div">
 	<ul>
 	  <xsl:apply-templates
-	      select="t:text|t:div|t:div0|t:div1|t:div2|t:div3|t:div4|t:div5"/>
+	      select="t:text|t:div"/>
 	</ul>
       </xsl:if>
     </xsl:element>
 
+  </xsl:template>
+
+  <xsl:template match="t:p">
   </xsl:template>
 
   <xsl:template match="t:head">
