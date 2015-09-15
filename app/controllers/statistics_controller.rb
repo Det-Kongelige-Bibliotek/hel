@@ -117,9 +117,9 @@ class StatisticsController < ApplicationController
     res << "preservation_profile_tesim:\"#{params[:preservation_profile_tesim]}\"" unless params[:preservation_profile_tesim].blank?
     res << "format_mimetype_tesim:\"#{params[:format_mimetype_tesim]}\"" unless params[:format_mimetype_tesim].blank?
     unless params[:created_dtsim].blank?
-      min_date = extract_min_date
-      max_date = extract_max_date
-      res << "created_dtsim:[#{min_date.nil? ? '*' : min_date} TO #{max_date.nil? ? '*' : max_date}]" unless min_date.nil? && max_date.nil?
+      @min_date = extract_min_date
+      @max_date = extract_max_date
+      res << "created_dtsim:[#{@min_date.nil? ? '*' : @min_date} TO #{@max_date.nil? ? '*' : @max_date}]" unless @min_date.nil? && @max_date.nil?
     end
     unless params[:file_size_isim].blank? || params[:file_size_type].blank?
       if params[:file_size_type] == '>'
@@ -140,31 +140,23 @@ class StatisticsController < ApplicationController
   # Extracts the minimum created date in the format 'YYYY-MM-DDThh:mm:ssZ'
   def extract_min_date
     return nil if @params[:created_dtsim]['min_time(1i)'].blank?
-    res = "#{@params[:created_dtsim]['min_time(1i)']}"
-    res += "-"
-    res += @params[:created_dtsim]['min_time(2i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(2i)']}"
-    res += "-"
-    res += @params[:created_dtsim]['min_time(3i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(3i)']}"
-    res += "T"
-    res += @params[:created_dtsim]['min_time(4i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(4i)']}"
-    res += ":"
-    res += @params[:created_dtsim]['min_time(5i)'].blank? ? "00" : "#{@params[:created_dtsim]['min_time(5i)']}"
-    res + ":00Z "
+
+    DateTime.new(@params[:created_dtsim]['min_time(1i)'].to_i,
+                 @params[:created_dtsim]['min_time(2i)'].to_i,
+                 @params[:created_dtsim]['min_time(3i)'].to_i,
+                 @params[:created_dtsim]['min_time(4i)'].to_i,
+                 @params[:created_dtsim]['min_time(5i)'].to_i)
   end
 
   # Extracts the maximum created date in the format 'YYYY-MM-DDThh:mm:ssZ'
   def extract_max_date
     return nil if @params[:created_dtsim]['max_time(1i)'].blank?
-    res = "#{@params[:created_dtsim]['max_time(1i)']}"
-    res += "-"
-    res += @params[:created_dtsim]['max_time(2i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(2i)']}"
-    res += "-"
-    res += @params[:created_dtsim]['max_time(3i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(3i)']}"
-    res += "T"
-    res += @params[:created_dtsim]['max_time(4i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(4i)']}"
-    res += ":"
-    res += @params[:created_dtsim]['max_time(5i)'].blank? ? "00" : "#{@params[:created_dtsim]['max_time(5i)']}"
-    res + ":00Z "
+
+    DateTime.new(@params[:created_dtsim]['max_time(1i)'].to_i,
+                      @params[:created_dtsim]['max_time(2i)'].to_i,
+                      @params[:created_dtsim]['max_time(3i)'].to_i,
+                      @params[:created_dtsim]['max_time(4i)'].to_i,
+                      @params[:created_dtsim]['max_time(5i)'].to_i)
   end
 
 
