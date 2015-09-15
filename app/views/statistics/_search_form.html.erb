@@ -74,6 +74,10 @@
     <span class="glyphicon glyphicon-question-sign" title="Enter name of the application creating the file."></span>
 
     <hr/>
+    <%= label_tag(:file_size_sum, t('statistics.file_size_sum')) %>
+    <%= check_box_tag(:file_size_sum) %>
+    <span class="glyphicon glyphicon-question-sign" title="Extracts the combined file_size of all the files in the search. Does not work for the CVS extraction."></span>
+    <br/>
     <%# Limit fields%>
     <%= label_tag(:field_list, t('statistics.limit_results_type')) %>
     <%= select_tag(:field_list, options_for_select(

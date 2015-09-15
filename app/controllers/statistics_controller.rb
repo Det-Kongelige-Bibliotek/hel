@@ -24,6 +24,18 @@ class StatisticsController < ApplicationController
   SOLR_FL_ALL = SOLR_FL_ADMINISTRATIVE + SOLR_FL_COMMON + SOLR_FL_TECHNICAL
   SOLR_MAX = 10000000
 
+  SOLR_PARAMS_FILE_SIZE_SUM = {
+      :'stats' => 'true',
+      :'stats.field' => 'file_size_isim'
+  }
+  SOLR_PARAMS_SOLR_GROUP = {
+      :group => true,
+      :'group.field' => 'format_pronom_id_si',
+      :'group.limit' => 5
+  }
+  SOLR_PARAMS_AS_CSV = {:wt => 'csv'}
+  SOLR_PARAMS_MAX_RESULTS = {:rows => SOLR_MAX}
+
   # Shows the statistics page, or sends CSV file back to the user.
   def show
     @params = params
@@ -41,20 +53,17 @@ class StatisticsController < ApplicationController
   # @param params The parameters to be translated into SOLR search parameters.
   def extract_cvs(params)
     solr = RSolr.connect :url => CONFIG[:solr_url]
-    q = extract_search_query(params)
-    q << 'has_model_ssim:ContentFile'
-    @q = q.join(' AND ')
-    @fl = extract_field_list(params).join(',')
-    group = solr.get 'select', :params => {
-                                  :q => @q,
-                                  :fl => @fl,
-                                  :rows => SOLR_MAX,
-                                  :wt => 'csv'
-                              }
+    p = create_query(params)
+    p.merge!(SOLR_PARAMS_MAX_RESULTS)
+    p.merge!(SOLR_PARAMS_AS_CSV)
+    #p.merge!(SOLR_PARAMS_FILE_SIZE_SUM) if params['file_size_sum'] && params['file_size_sum'] == '1'
+    group = solr.get 'select', :params => p
+
     csv_prefix = create_cvs_prefix(params)
     # Extract number of results (number of lines - 1 for the header line)
     line_count = group.lines.count-1
 
+    ## TODO might be a performance issue, if amount of results are too large (the 'gsub' might contain all SOLR data in memory).
     send_data "#{csv_prefix }\nNumber of results;#{line_count}\n\n#{group.gsub(',', ';')}", {:filename => 'statistics.csv', :type => 'text/csv'}
   end
 
@@ -64,17 +73,21 @@ class StatisticsController < ApplicationController
   # @param params the parameters to be translated into SOLR parameters.
   def retrieve_group_from_solr(params)
     solr = RSolr.connect :url => CONFIG[:solr_url]
+    p = create_query(params)
+    p.merge!(SOLR_PARAMS_SOLR_GROUP)
+    p.merge!(SOLR_PARAMS_FILE_SIZE_SUM) if (params['file_size_sum'] && params['file_size_sum'] == '1')
+    @group = solr.get 'select', :params => p
+  end
+
+  def create_query(params)
     q = extract_search_query(params)
     q << 'has_model_ssim:ContentFile'
     @q = q.join(' AND ')
     @fl = extract_field_list(params).join(',')
-    @group = solr.get 'select', :params => {
-                                  :q => @q,
-                                  :fl => @fl,
-                                  :group => true,
-                                  :'group.field' => 'format_pronom_id_si',
-                                  :'group.limit' => 5
-                              }
+    return {
+        :q => @q,
+        :fl => @fl
+    }
   end
 
   # Extract the list of fields to query SOLR.
@@ -157,8 +170,8 @@ class StatisticsController < ApplicationController
 
   def create_cvs_prefix(params, query=nil)
     res = ""
+    # Show search terms in hash values as comma separated, and only if they contain values.
     SOLR_FL_ALL.each do |p|
-      # Show hash values as comma separated, and only if they contain values.
       if params[p].is_a?(Hash)
         res += "#{p};#{params[p].values.join(';') unless params[p].values.join.blank?}\n"
       else
