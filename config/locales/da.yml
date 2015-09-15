@@ -104,7 +104,7 @@ da:
     show_files:
       label: "Filer"
       file_name: "Filnavn"
-      bev_profil: "Bevaringsprofil"
+      bev_collection: "Bevaringssamling"
       bev_status: "Bevaringsstatus"
       bev_detaljer: "Bevaringsdetaljer"
       download: "Download link"
@@ -116,10 +116,10 @@ da:
       collection: "Samling"
       copyright: "Licens"
       embargo_condition: "Klausuleringsbetingelser"
-      preservation_profile: "Bevaringsprofil"
+      preservation_collection: "Bevaringssamling"
       preservation_state: "Bevaringsstatus"
       preservaton_details: "Bevaringsdetaljer"
-      preservation_date: "Bevaringsdato"
+      preservation_date: "Bevarings status dato"
       warc_id: "WARC id"
     activity_input:
       activity: "Aktivitet"
@@ -131,7 +131,7 @@ da:
       klaus: "Klausuleringstype"
       license: "Vælg licens"
       preservation: "Bevaring"
-      preserv_profile: "Bevaringsprofil"
+      preserv_collection: "Bevaringssamling"
       is_available: "Må tilgængeliggøres?"
       choose_collection: 'Vælg en eller flere samlinger'
     image_found:

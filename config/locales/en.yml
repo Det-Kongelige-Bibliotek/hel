@@ -68,10 +68,10 @@ en:
       collection: "Collection"
       copyright: "Copyright"
       embargo_condition: "Embargo condition"
-      preservation_profile: "Preservation Profile"
+      preservation_collection: "Preservation Profile"
       preservation_state: "Preservation State"
       preservaton_details: "Preservation details"
-      preservation_date: "Preservation date"
+      preservation_date: "Preservation status date"
       warc_id: "WARC id"
   trykforlaegs:
     bibliographic:
