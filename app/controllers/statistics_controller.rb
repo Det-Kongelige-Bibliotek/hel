@@ -119,7 +119,7 @@ class StatisticsController < ApplicationController
     unless params[:created_dtsim].blank?
       @min_date = extract_min_date
       @max_date = extract_max_date
-      res << "created_dtsim:[#{@min_date.nil? ? '*' : @min_date} TO #{@max_date.nil? ? '*' : @max_date}]" unless @min_date.nil? && @max_date.nil?
+      res << "created_dtsim:[#{@min_date.nil? ? '*' : @min_date.strftime('%FT%TZ')} TO #{@max_date.nil? ? '*' : @max_date.strftime('%FT%TZ')}]" unless @min_date.nil? && @max_date.nil?
     end
     unless params[:file_size_isim].blank? || params[:file_size_type].blank?
       if params[:file_size_type] == '>'
