@@ -97,6 +97,7 @@ end
 #logging start
 gem 'log4r', '1.1.10'
 gem 'quiet_assets'
+gem 'filesize', '>= 0.1.1'
 #logging end
 
 gem 'rsolr'

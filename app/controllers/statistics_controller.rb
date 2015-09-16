@@ -1,3 +1,4 @@
+require 'filesize'
 # -*- encoding : utf-8 -*-
 #Controller for dealing with statistics
 class StatisticsController < ApplicationController

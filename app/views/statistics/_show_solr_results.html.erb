@@ -1,7 +1,7 @@
 Found <%= @group["grouped"]["format_pronom_id_si"]["matches"] %> files found in <%= @group["grouped"]["format_pronom_id_si"]["groups"].size %>
 different formats.
 <% if @group["stats"] && @group["stats"]["stats_fields"] && @group["stats"]["stats_fields"]["file_size_isim"] %>
-    The files have the combined size of <%= @group["stats"]["stats_fields"]["file_size_isim"]["sum"].to_i %> bytes.
+    The files have the combined size of <%= Filesize.from( "#{@group["stats"]["stats_fields"]["file_size_isim"]["sum"].to_i} B").pretty %>.
 <% end %>
 
 <% @group["grouped"]["format_pronom_id_si"]["groups"].each do |group| %>
