@@ -10,7 +10,7 @@ class StatisticsController < ApplicationController
              'work_id_tesim',
              'instance_id_tesim',
              'instance_type_tesim']
-  SOLR_FL_COMMON = ['preservation_profile_tesim',
+  SOLR_FL_COMMON = ['preservation_collection_tesim',
              'format_mimetype_tesim',
              'created_dtsim',
              'file_size_isim',
@@ -114,7 +114,7 @@ class StatisticsController < ApplicationController
     res << "instance_id_tesim:\"#{params[:instance_id_tesim]}\"" unless params[:instance_id_tesim].blank?
     res << "instance_type_tesim:\"#{params[:instance_type_tesim]}\"" unless params[:instance_type_tesim].blank?
 
-    res << "preservation_profile_tesim:\"#{params[:preservation_profile_tesim]}\"" unless params[:preservation_profile_tesim].blank?
+    res << "preservation_collection_tesim:\"#{params[:preservation_collection_tesim]}\"" unless params[:preservation_collection_tesim].blank?
     res << "format_mimetype_tesim:\"#{params[:format_mimetype_tesim]}\"" unless params[:format_mimetype_tesim].blank?
     unless params[:created_dtsim].blank?
       @min_date = extract_min_date

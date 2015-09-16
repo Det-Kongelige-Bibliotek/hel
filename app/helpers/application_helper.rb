@@ -36,9 +36,9 @@ module ApplicationHelper
     entry.label.present? ? entry.label : entry.name
   end
 
-  def get_preservation_profiles_for_select
+  def get_preservation_collections_for_select
     profiles = []
-    PRESERVATION_CONFIG['preservation_profile'].each do |key,value|
+    PRESERVATION_CONFIG['preservation_collection'].each do |key,value|
       profiles << [value['name'], key]
     end
     profiles

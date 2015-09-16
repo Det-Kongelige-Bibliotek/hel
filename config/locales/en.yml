@@ -117,7 +117,7 @@ en:
     search_for_files_belonging_to_a_given_work: 'Search for files belonging to a given work: '
     search_for_files_belonging_to_a_given_instance: 'Search for files belonging to a given instance: '
     search_for_files_belonging_to_instance_of_type: 'Search for files belonging to instance of type: '
-    search_for_preservation_profile: 'Search for preservation profile: '
+    search_for_preservation_collection: 'Search for preservation collection: '
     search_for_mimetype: 'Search for mimetype: '
     lower_datetime_limit: 'Lower datetime limit: '
     upper_datetime_limit: 'Upper datetime limit: '

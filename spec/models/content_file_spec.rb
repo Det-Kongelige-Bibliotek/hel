@@ -325,16 +325,16 @@ describe 'content' do
 
     describe 'changing the preservation metadata' do
       it 'should be possible to assign and save a preservation profile.' do
-        profile = PRESERVATION_CONFIG['preservation_profile'].keys[rand(PRESERVATION_CONFIG['preservation_profile'].size)]
-        @f.preservation_profile = profile
+        profile = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
+        @f.preservation_collection = profile
         @f.save!
         e2 = @f.reload
-        e2.preservation_profile.should == profile
-        e2.preservationMetadata.preservation_profile.first.should == profile
+        e2.preservation_collection.should == profile
+        e2.preservationMetadata.preservation_collection.first.should == profile
       end
       it 'should not be possible to assign and save a preservation profile, which is not in the configuration.' do
         profile = "Preservation-Profile-#{Time.now.to_s}"
-        @f.preservation_profile = profile
+        @f.preservation_collection = profile
         expect{@f.save!}.to raise_error
       end
       it 'should be possible to assign and save a preservation state.' do

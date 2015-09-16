@@ -22,7 +22,7 @@ different formats.
             <%= link_to 'instance', controller: "instances", action: "show", id: doc['instance_id_tesim'], work_id: doc['work_id_tesim'] unless doc['instance_id_tesim'].nil? || doc['work_id_tesim'].nil? %>
             <%= "(InstanceType: #{doc['instance_type_tesim'].first}) " unless doc['instance_type_tesim'].nil? %>
 
-            <%= "(PreservationProfile: #{doc['preservation_profile_tesim'].first}) " unless doc['preservation_profile_tesim'].nil? %>
+            <%= "(PreservationCollection: #{doc['preservation_collection_tesim'].first}) " unless doc['preservation_collection_tesim'].nil? %>
             <%= "(Created date: #{doc['created_dtsim'].first}) " unless doc['created_dtsim'].nil? %>
             <%= "(Size: #{doc['file_size_isim'].first}) " unless doc['file_size_isim'].nil? %>
 

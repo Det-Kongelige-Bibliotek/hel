@@ -31,7 +31,7 @@ describe  TeiHeaderSyncService do
       adl_activity.activity = "Floral extension"
       adl_activity.copyright = "CC BY-ND"
       adl_activity.collection = "dasamx"
-      adl_activity.preservation_profile = "simple"
+      adl_activity.preservation_collection = "simple"
       adl_activity.save
       work=Work.new
       work.add_title(

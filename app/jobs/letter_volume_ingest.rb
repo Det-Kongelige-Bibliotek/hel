@@ -24,14 +24,14 @@ class LetterVolumeIngest
     instance_tei.activity = activity.id
     instance_tei.collection = activity.collection
     instance_tei.copyright = activity.copyright
-    instance_tei.preservation_profile = activity.preservation_profile
+    instance_tei.preservation_collection = activity.preservation_collection
 
     instance_jpg.work = work
     instance_jpg.type = 'JPG'
     instance_jpg.activity = activity.id
     instance_jpg.collection = activity.collection
     instance_jpg.copyright = activity.copyright
-    instance_jpg.preservation_profile = activity.preservation_profile
+    instance_jpg.preservation_collection = activity.preservation_collection
 
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
     fail "Instance could not be saved #{instance_jpg.errors.messages}" unless instance_jpg.save

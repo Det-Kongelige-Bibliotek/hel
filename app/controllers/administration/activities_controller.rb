@@ -52,7 +52,7 @@ module Administration
                                                        :collection, 
                                                        :embargo,
                                                        :embargo_condition,
-                                                       :preservation_profile,
+                                                       :preservation_collection,
                                                        :copyright,
                                                        :ophavsret,
                                                        dissemination_profiles: [],

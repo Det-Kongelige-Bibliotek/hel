@@ -68,9 +68,9 @@
 
 
     <div class="col-sm-4">
-      <%= builder.label :preservation_profile, t('instances.administrative.preserv_collection') %>
-      <%= builder.select :preservation_profile, options_for_select(get_preservation_profiles_for_select,
-                                                                   @instance.blank? ? '' :  @instance.preservation_profile)%>
+      <%= builder.label :preservation_collection, t('instances.administrative.preserv_collection') %>
+      <%= builder.select :preservation_collection, options_for_select(get_preservation_collections_for_select,
+                                                                   @instance.blank? ? '' :  @instance.preservation_collection)%>
     </div>
   </fieldset>
 
