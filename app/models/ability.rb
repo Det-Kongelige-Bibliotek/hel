@@ -6,7 +6,7 @@ class Ability
 
     if user_groups.include?('Chronos-Alle')
       can [:create], Work
-      can [:create], Authority::Person
+      can [:create], Authority::Thing
     end
 
     if user_groups.include?('Chronos-Admin')
@@ -32,9 +32,9 @@ class Ability
       test_edit(cf.pid)
     end
 
-    can [:update], Authority::Person do |p|
-      test_edit(p.pid)
-    end
+   can [:update, :edit], Authority::Thing do |p|
+     test_edit(p.pid)
+   end
 
     can [:send_to_preservation, :update_adminstration], Instance do |obj|
       test_edit(obj.pid)
