@@ -79,7 +79,7 @@ class WorksController < ApplicationController
                 f.save(validate: false)
             end
             repo = Administration::ExternalRepository[i.external_repository]
-            repo.push
+            repo.push unless repo.nil?
           end
         end
         format.html { redirect_to @work, notice: t('work.update') }
