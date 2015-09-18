@@ -14,6 +14,13 @@
     <div class="row">
       <div class="col-sm-9">
         <%= render partial: 'instances/administrative', locals: { builder: f } %>
+        <fieldset>
+        <legend class="col-sm-12">
+          <h4><%= t('.edit_in_GUI') %></h4>
+        </legend>
+
+          <%= f.input :edit_in_GUI, as: :boolean, boolean_style: :inline, label: 'Ja' %>
+        </fieldset>
         <%= render partial: 'default_permissions', locals: { builder: f } %>
         <%= render partial: 'dissemination', locals: { builder: f } %>
         <div class="btn-group pull-right">
