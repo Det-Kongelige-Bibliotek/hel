@@ -12,6 +12,9 @@
             <% if @instance.validation_status == 'INVALID' %>
                 <%= link_to "Tei instans invalid", '#validationModal', :class => "btn btn-danger","data-toggle"=>"modal" , "data-target" => "#validationModal" %>
             <% end %>
+            <% if @instance.validation_status.nil? %>
+               <%= link_to "Valider TEI-instans", validate_tei_work_instance_url(@work,@instance), :class => "btn btn-danger" %>
+            <% end %>
         <% end %>
         <%= link_to 'Send til Bevaring', send_to_preservation_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
         <%= link_to 'Rediger', edit_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
