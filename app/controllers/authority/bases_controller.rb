@@ -31,7 +31,9 @@ module Authority
 
       respond_to do |format|
         if @authority_object.save
-          format.html { redirect_to @authority_object, notice: 'Base was successfully created.' }
+          format.html { redirect_to @authority_object,
+                                    notice: "#{t('authority.bases.created',
+                                                                name: t('models.' + @authority_object.class.name.parameterize.underscore))}" }
           format.json { render :show, status: :created, location: @authority_object }
           format.js { render :show, status: :created, location: @authority_object  }
         else
@@ -47,7 +49,8 @@ module Authority
     def update
       respond_to do |format|
         if @authority_object.update(authority_base_params)
-          format.html { redirect_to @authority_object, notice: 'Base was successfully updated.' }
+          format.html { redirect_to @authority_object, notice: t('authority.bases.updated',
+                                                                 name: t('models.' + @authority_object.class.name.parameterize.underscore)) }
           format.json { render :show, status: :ok, location: @authority_object }
         else
           format.html { render :edit }
@@ -61,7 +64,7 @@ module Authority
     def destroy
       @authority_object.destroy
       respond_to do |format|
-        format.html { redirect_to authority_bases_url, notice: 'Base was successfully destroyed.' }
+        format.html { redirect_to authority_bases_url, notice: t('authority.bases.destroyed') }
         format.json { head :no_content }
       end
     end
@@ -70,7 +73,7 @@ module Authority
 
     # Use callbacks to share common setup or constraints between actions.
     def set_object
-      @authority_object = ActiveFedora::Base.find(params[:id])
+      @authority_object = ActiveFedora::Base.find(URI.unescape(params[:id]))
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

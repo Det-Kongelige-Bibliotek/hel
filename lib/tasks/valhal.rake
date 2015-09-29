@@ -16,8 +16,8 @@ namespace :valhal do
     lists.each_value do |val|
       current = Administration::ControlledList.create(name: val['name'])
       if val.has_key?('entries')
-        val['entries'].each do |entry|
-          Administration::ListEntry.create(name: entry, controlled_list: current)
+        val['entries'].each do |name, label|
+          Administration::ListEntry.create(name: name, label: label, controlled_list: current)
         end
       end
     end
@@ -25,7 +25,10 @@ namespace :valhal do
 
   desc 'Reindex all activefedora objects'
   task reindex: :environment do
-    ActiveFedora::Base.all.each {|obj| obj.update_index}
+    puts "deleting all documents from Solr"
+    system "curl -H 'Content-Type: text/xml' http://localhost:8983/solr/update?commit=true --data-binary '<delete><query>*:*</query></delete>'"
+    puts "updating index"
+    ActiveFedora::Base.reindex_everything
   end
 
   private
@@ -38,5 +41,28 @@ namespace :valhal do
     rescue => e
       puts "Error setting rights on #{obj.class} #{obj.pid} #{e}"
     end
+  end
+
+
+  desc 'Configure solr by adding an extra public core for development purposes'
+  task :configure_solr do
+    # Create directory in jetty by copying over dev dir
+    solr_dir = Rails.root.join('jetty', 'solr')
+    dev_core = solr_dir.join('development-core')
+    public_core = solr_dir.join('development-public')
+    FileUtils.copy_entry(dev_core, public_core)
+    data_dir = public_core.join('data')
+
+    # Delete dev data files
+    index_files = Dir.glob(File.join(data_dir, 'index', '*'))
+    spell_files = Dir.glob(File.join(data_dir, 'spell', '*'))
+    tlog_files = Dir.glob(File.join(data_dir, 'tlog', '*'))
+    FileUtils.rm index_files
+    FileUtils.rm spell_files
+    FileUtils.rm tlog_files
+
+    # Update solr.xml
+    solr_conf = Rails.root.join('solr_conf', 'solr.xml')
+    FileUtils.cp solr_conf, solr_dir
   end
 end

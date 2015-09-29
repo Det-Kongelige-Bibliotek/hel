@@ -12,4 +12,6 @@
  *
  *= require_tree
  *= require_self
+ *= require jquery-ui
+ *= require bootstrap-select.min.css
  */

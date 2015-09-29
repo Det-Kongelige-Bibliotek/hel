@@ -1,29 +1,107 @@
+[![Build Status](https://travis-ci.org/Det-Kongelige-Bibliotek/valhal.png?branch=master)](https://travis-ci.org/Det-Kongelige-Bibliotek/valhal)
+
 == VALHAL. Digital Curation Platform
 === Part of Chronos - The Royal Librarys 'Digital Library Platform'
 
+=== GIT checkout of repository
 
-=== Up and running
-* Ruby version 2.0
+git clone https://gitusername@github.com/Det-Kongelige-Bibliotek/valhal.git
 
-* Rails version 4.1.6
+Replace 'gitusername' with your own gitusername.
+This is necessary, if you want to push commits back to master branch.
 
-* System dependencies
- * Fedora Commons version 3.7.1 (http://fedorarepository.org/)
- * Apache Solr version 4.10.x (http://lucene.apache.org/solr/)
- * Redis version 2.8.x (http://redis.io/)
- 
+=== Software requisites
 
-* Configuration
- * <tt>rake jetty:config</tt> (If running the hydra jetty) else copy configuration from fedora_conf/ and solr_conf/ to the respective installation directories.
+The Hydra part of valhal has the same basic software requisites as the Hydra-Head component (Ruby, Rails, etc.).
+  - The software requisites for the Hydra-Head can be found here: https://github.com/projecthydra/hydra-head/wiki/Installation-Prerequisites
+  - A set of step-by-step instructions for installing Ruby, Rails, and other useful tools,
+    on a selection of operation systems, can be found here: http://installfest.railsbridge.org/installfest/
 
-* Database creation
- * <tt>rake:dbmigrate</tt>
+Ruby version 2.0
 
-* How to run the test suite
- * rake spec
+Rails version 4.1.6
+
+Fedora Commons version 3.7.1 (http://fedorarepository.org/)
+
+Apache Solr version 4.10.x (http://lucene.apache.org/solr/)
+
+In a development setting it is recommended to use a Hydra Jetty Instance which comes with both Solr and Fedora pre-installed. For the set up of Hydra Jetty, see bellow.
+
+Redis version 2.8.x or greater (http://redis.io/) - default package only contains source code, so remember to run 'make install'.
+
+RabbitMQ. Note that RabbitMQ depends on Erlang.
+
+ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’)
+(on Ubuntu run ’apt-get install libmagickwand-dev’).
+
+File Information Tool Set (FITS), http://projects.iq.harvard.edu/fits/downloads.
+Set environment variable FITS_HOME to the fully qualified file name of the FITS script.
+We have tested with FITS 0.8.4, and we have compiled it in a version, which supports java 8 (https://github.com/Det-Kongelige-Bibliotek/fits)
+
+=== RubyMine setup for developers
+
+In RubyMine chose File->Open Directory and select the valhal directory.
+RubyMine should automatically integrate with the valhal Git repository.
+
+=== Initialize before first run
+
+
+In the config directory, create an application.local.yml file based on the application.local.template.yml file.
+
+Run RabbitMQ on default port - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
+
+$ bundle install
+
+$ rake db:migrate
+
+$ rake jetty:clean
+
+Before using the Valhal interface it can be an advantage to load the set of predefined controlled lists by:
+
+$ rake valhal:load_controlled_lists
+
+$ rake adl:init
+
+=== Run
+
+Start Redis (must be running in a separate terminal or as a background job):
+
+$ cd REDIS_HOME (where ever you have installed redis)
+
+$ ./src/redis-server
+
+Start fedora and solr:
+
+$ rake jetty:start
+
+Start the workflow engine (must be running in a separate terminal or as a background job):
+
+$ rake resque:work QUEUE='*'
+
+Start a job for receiving responses from preservation (does not require its own terminal):
+
+$ rake valhal:schedule_preservation_receiver
+
+The interface can be started on localhost:3000 by:
+
+$ rails server
+
+The tests can be run by:
+
+$ rake spec
+
+=== Stopping Valhal
+
+Stop the rails server by using "ctrl-c" in the terminal running "rails server".
+
+then stop the jetty application with:
+
+$ rake jetty:stop
+
+=== More information
 
 * Public website
- * Valhal is only intended for curation inside the Royal Librarys firewall. All public material should evetually be published through our dissemination platform 'Bifrost'
+ * Valhal is only intended for curation inside the Royal Librarys firewall. All public material should eventually be published through our dissemination platform 'Bifrost'
 
 * License
 See LICENSE.txt

@@ -15,7 +15,6 @@ class Ability
 
     if (user_groups & ['Chronos-Pligtaflevering','Chronos-Admin']).present?
       can [:create], Instance
-      can [:create], Trykforlaeg
     end
   end
 
@@ -28,8 +27,16 @@ class Ability
       test_read(cf.pid)
     end
 
+    can [:upload, :update], ContentFile do |cf|
+      test_edit(cf.pid)
+    end
+
     can [:send_to_preservation, :update_adminstration], Instance do |obj|
       test_edit(obj.pid)
+    end
+
+    can [:validate_tei], Instance do |obj|
+      test_read(obj.pid)
     end
 
 

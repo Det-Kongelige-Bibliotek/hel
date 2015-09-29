@@ -3,9 +3,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= t('works.work_form.new_person') %> </h4>
       </div>
       <div class="modal-body">
-        <%= render partial: 'authority/people/form', locals: {remote: true} %>
+        <div class="container-fluid">
+          <%= render partial: 'authority/people/form', locals: {remote: true} %>
+        </div>
       </div>
     </div>
   </div>

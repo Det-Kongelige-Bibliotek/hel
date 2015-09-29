@@ -1,31 +1,33 @@
 <a id="upload"></a>
-<% if @instance.content_files.blank? %>
+<% if @instance.content_files.size == 0 %>
     <fieldset id="upload" class="row">
 
 
       <legend class="col-sm-12" >
-        Upload Ny Fil
+        Upload ny fil
       </legend>
-        <%= render partial: 'file_input' %>
+      <%= render partial: 'file_input' %>
     </fieldset>
 
 <% else %>
+    <% if @instance.type != 'TEI' && @instance.activity != Administration::Activity.where(activity: 'ADL').first.id %>
 
-    <% if can?(:edit,@instance.content_files.first) %>
+        <% if can?(:edit,@instance.content_files.first) %>
         <fieldset id="upload" class="row">
           <legend class="col-sm-12" >
-            Upload Ny Fil
+            Upload ny fil
           </legend>
 
           <%= render partial: 'file_input' %>
         </fieldset>
+    <% end %>
     <% end %>
 
     <fieldset id="upload" class="row">
           <legend class="col-sm-12" >
             Eksisterende fil
           </legend>
-          <%if can?(:show,@instance.content_files.first) %>
+          <% if can?(:show, @instance.content_files.first) %>
             <dl class="dl-horizontal">
             <% @instance.content_files.each do |cf| %>
               <dt><%= cf.original_filename %></dt>
@@ -36,7 +38,7 @@
             <% end %>
             </dl>
           <% else %>
-              Du har ikke adgang til at se filen
+              <%= t '.no_access' %>
           <% end %>
     </fieldset>
 

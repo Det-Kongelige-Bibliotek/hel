@@ -181,3 +181,26 @@ describe WorksController, type: :controller do
   end
 
 end
+
+describe 'nested titles' do
+  it 'only has one title' do
+    Title.create(value: 'a rather silly title')
+    agent = Authority::Person.create
+    params = ActionController::Parameters.new(
+        {
+            "utf8"=>"✓", "authenticity_token"=>"4shDs/q9nxha/xSFgvHMOrfv8gPC81muvpsQ+uWvgkek2+9Y2gPmi/YSIYI9sxOZIXKOh3I2WBRBOHkoyQc1/A==",
+            "work"=>{"titles_attributes"=>{"0"=>{"value"=>"tired of this", "variant"=>"", "subtitle"=>""}},
+                     "relators_attributes"=>{"0"=>{"agent_id"=> agent.id,
+                                                   "role"=>"http://id.loc.gov/vocabulary/relators/aut"}},
+                     "language"=>"", "origin_date"=>""},
+            "commit"=>"Gem værk", "controller"=>"works", "action"=>"create"
+        }
+    )
+    permitted = params[:work].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type]],
+                                     relators_attributes: [[ :id, :agent_id, :role ]], subjects: [[:id]], note:[])
+    w = Work.new(permitted)
+    expect(w.save).to be true
+    expect(w.titles.size).to eql 1
+  end
+end
+

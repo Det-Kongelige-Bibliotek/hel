@@ -1,0 +1,22 @@
+<mets>
+  <structMap>
+    <div ORDER="1">
+      <fptr FILEID="arre1fm001.tif"/>
+    </div>
+    <div ORDER="2">
+      <fptr FILEID="arre1fm002.tif"/>
+    </div>
+    <div ORDER="3">
+      <fptr FILEID="arre1fm003.tif"/>
+    </div>
+    <div ORDER="4">
+      <fptr FILEID="arre1fm004.tif"/>
+    </div>
+    <div ORDER="5">
+      <fptr FILEID="arre1fm005.tif"/>
+    </div>
+    <div ORDER="6">
+      <fptr FILEID="arre1fm006.tif"/>
+    </div>
+  </structMap>
+</mets>

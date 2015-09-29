@@ -24,6 +24,8 @@
     :related_work: relatedWork
     :preceded_by: precededBy
     :succeeded_by: succeededBy
+    :has_equivalent: hasEquivalent
+    :subject: subject
   # We use LOC relators for describing relations
   # on the Resource side.
   http://id.loc.gov/vocabulary/relators/:

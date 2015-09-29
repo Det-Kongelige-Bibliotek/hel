@@ -1,0 +1,8 @@
+<fieldset id="bibliographic" class="row">
+  <legend class="col-sm-12" >
+    <%= t('.type') %>
+  </legend>
+  <div class="col-sm-6">
+    <%= builder.input :type, collection: get_list_with_labels('Instance types') %>
+  </div>
+</fieldset>

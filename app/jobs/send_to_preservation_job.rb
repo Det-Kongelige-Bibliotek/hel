@@ -8,19 +8,19 @@ class SendToPreservationJob
     obj = nil
     begin
       obj = ActiveFedora::Base.find(pid)
-    rescue ObjectNotFoundError
-      raise "No object with pid #{pid} found"
+    rescue ActiveFedora::ObjectNotFoundError
+      raise ArgumentError.new "No object with pid #{pid} found"
     end
 
     if !obj.respond_to?('is_preservable') || !obj.is_preservable || !obj.respond_to?('initiate_preservation')
-      raise "Object #{pid} of type #{obj.class.name} is not preservable"
+      raise ArgumentError.new "Object #{pid} of type #{obj.class.name} is not preservable"
     end
 
-    obj.initiate_preservation(cascade)
+    obj.initiate_preservation
 
     if cascade && obj.respond_to?('can_perform_cascading?') && obj.can_perform_cascading?
-      obj.cascading_elements.each do |pib|
-        Resque.enqueue(SendToPreservationJob,pib.pid,cascade)
+      obj.cascading_elements.each do |pe|
+        pe.send_to_preservation
       end
     end
 

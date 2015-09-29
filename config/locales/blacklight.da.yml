@@ -181,6 +181,8 @@ da:
           post_label: 'for'
         q: 'Søg...'
         submit: 'Søg'
+        search:
+          placeholder: 'Søg'
       pagination:
         title: 'Results navigation'
       pagination_info:
@@ -233,4 +235,3 @@ da:
     page_entries: 'hh'
 
     did_you_mean: 'Did you mean to type: %{options}?'
-

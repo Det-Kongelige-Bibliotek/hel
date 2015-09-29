@@ -2,39 +2,16 @@
 <a id="bibliographic"></a>
 <fieldset id="bibliographic" class="row">
   <legend class="col-sm-12" >
-    Bibliografiske metadata
+    <%= t('.title') %>
   </legend>
   <div class="col-sm-6">
     <%= builder.input :title_statement %>
   </div>
-  <%# In this case we need to manually create the input as language is not a simple accessor %>
-  <% @instance.languages.each do |lang| %>
-  <div class="col-sm-6">
-    <div class="form-group">
-     <label for="language-value">
-       <%= t '.language' %>
-     </label>
-      <select id="language-value" name="instance[language][][value]" class="form-control">
-        <%=  options_for_select(get_translated_list('Languages'), selected: lang.value) %>
-      </select>
-    </div>
-  </div>
-  <% end %>
-  <% if @instance.languages.empty? %>
-      <div class="col-sm-6">
-        <label for="language-value"><%=t '.language' %></label>
-        <select id="language-value" name="instance[language][][value]" class="form-control">
-         <%=  options_for_select(get_translated_list('Languages').unshift(['Vælg sprog', '']) ) %>
-       </select>
-      </div>
-  <% end %>
 
   <div class="col-sm-6">
-    <%= builder.input :copyright_date %>
+    <%= builder.input :isbn13 %>
   </div>
-  <div class="col-sm-6">
-    <%= builder.input :published_date %>
- </div>
+
   <div class="col-sm-6">
     <%= builder.input :dimensions %>
   </div>
@@ -44,15 +21,51 @@
   <div class="col-sm-6">
     <%= builder.input :contents_note %>
   </div>
+
   <% if @instance.note.present? %>
-  <% @instance.note.each do |n| %>
-      <div class="col-sm-6">
-        <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
-      </div>
+      <% @instance.note.each do |n| %>
+          <div class="col-sm-6">
+            <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
+          </div>
+      <% end %>
   <% end %>
-<% end %>
   <div class="col-sm-6">
-    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]'} %>
+    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]' } %>
   </div>
+</fieldset>
+<fieldset>
+    <legend class="col-sm-12" >
+      <%= "Ophavsret:" %>
+    </legend>
+
+  <%= builder.simple_fields_for :relators do |rel_fields| %>
+      <div class="row relator_fields">
+        <div class="col-sm-12">
+          <label class="radio-inline">
+            <input type="radio" class="udloeb" name="instance[copyright_status]"  id="copyright_status" value="udloebet">Udløbet
+          </label>
+          <label class="radio-inline">
+            <input type="radio" class="ukendt" name="instance[copyright_status]"  id="copyright_status" value="ukendt">Ukendt
+          </label>
+          <label class="radio-inline">
+            <input type="radio" class="addagent" name="instance[copyright_status]"  id="copyright_status" value='addagent' data-toggle="copyright_fields">Agent
+          </label>
+
+        </div>
+      </div>
+      <div class="col-sm-12">
+      <div id="addagent" class="collapse">
+
+          <%= rel_fields.input :agent_id, collection: select_fields(Finder.all_people + Finder.all_organizations), wrapper_html: { class: 'col-sm-4' } %>
+          <%= rel_fields.input :role, as: :hidden, value: 'http://id.loc.gov/vocabulary/relators/cph' %>
+          <%= builder.simple_fields_for :publications do |f| %>
+              <div class="col-sm-4">
+                <%= f.input :copyright_date %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+
+  <% end %>
 
 </fieldset>

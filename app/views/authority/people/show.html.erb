@@ -1,15 +1,11 @@
-<% @page_title="Vis Person: " + @authority_object.display_value  %>
+<% @page_title="Person: " + @authority_object.display_value  %>
 
 <div class="container">
-<h1><%= @authority_object.display_value %></h1>
-<h2><%= t '.authorized_names' %></h2>
+  <h1><%= @authority_object.display_value %></h1>
 
-<% @authority_object.authorized_personal_names.each do |scheme, data| %>
-    <h3><%= scheme.upcase %></h3>
-    <% data.each do |term, value| %>
-        <p><%= "#{term.to_s.titleize}: #{value}" %></p>
-    <% end %>
-<% end %>
-
-<%= link_to 'Edit', edit_authority_person_path(@authority_object) %>
+  <%= @authority_object.description %>
+  <% @authority_object.same_as_uri.each do |uri| %>
+    <%= link_to('same as', uri) if uri.present? %>
+  <% end %>
+  <%= link_to 'Edit', edit_authority_person_path(@authority_object) %>
 </div>

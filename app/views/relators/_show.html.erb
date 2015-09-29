@@ -1,0 +1,20 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th><%= t('relators.name') %></th>
+    <th><%= t('relators.role') %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% object.relators.each do |relator| %>
+      <tr>
+        <td>
+          <strong><%= link_to relator.agent.display_value, relator.agent rescue nil %></strong>
+        </td>
+        <td>
+          <span><%= rdf_resource_link(relator.role) %></span>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

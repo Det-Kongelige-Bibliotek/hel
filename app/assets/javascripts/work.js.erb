@@ -1,8 +1,65 @@
 var creator_counter = 0;
 var title_counter = 0;
+var modal_agent_field;
 
+
+function updateIndex(index,input) {
+    var regex = new RegExp(/[0-9]/);
+    // some of the inputs have no id, some have no name!
+    var num;
+    if (typeof(input.name) !== 'undefined' && input.name.length > 0) {
+        num = parseInt(regex.exec(input.name));
+    } else {
+        if (typeof(input.id !== 'undefined') && input.id.length > 0) {
+            num = parseInt(regex.exec(input.id));
+        } else {
+            if (typeof($(input).attr('data-target')) !== 'undefined') {
+                num = parseInt(regex.exec($(input).attr('data-target')))
+            }
+        }
+    }
+    if (typeof(num) !== 'undefined') {
+        var inc = num + 1;
+        if (typeof(input.name) !== 'undefined') {
+            var updated_name = input.name.replace(num.toString(), inc.toString());
+            $(input).attr('name', updated_name);
+        }
+        if (typeof(input.id) !== 'undefined') {
+            var updated_id = input.id.replace(num.toString(), inc.toString());
+            $(input).attr('id', updated_id);
+        }
+        if (typeof($(input).attr('data-target')) !== 'undefined') {
+            var updated_id = $(input).attr('data-target').replace(num.toString(), inc.toString());
+            $(input).attr('data-target', updated_id)
+        }
+        $(input).val('');
+    }
+}
+
+//If no content file is uploaded a confirm dialog appears
+function check_upload_file(){
+    var file = $('#upload_file').val();
+    console.log('my function: '+file);
+    if (file == null || file == ''){
+        var r = confirm('Er du sikker? Du har ikke uploadet en fil!');
+        if (r == true) return true;
+        if (r == false) return false;
+    }
+    return true;
+}
 
 $(document).ready(function(){
+
+    $(document).ajaxSend(function(event, request, settings) {
+        $('#new_authority_person :input').prop('disabled', true);
+        $('#loading-indicator').show();
+    });
+
+    $(document).ajaxComplete(function(event, request, settings) {
+        $('#new_authority_person :input').prop('disabled', false);
+        $('#loading-indicator').hide();
+    });
+
     // Inform users that there are unsaved data in the form
     $('form').areYouSure( {'message':'Er du sikker? Du har ikke gemt din formular!'} );
 
@@ -14,35 +71,49 @@ $(document).ready(function(){
         restyleButton();
         activateLoaderListener();
     });
+
+    $('.selectpicker').selectpicker();
+
     $('[data-hook="work-input-form"]').on('ajax:success', restyleButton);
     // Add/remove title functions
     $(".hidden-title").hide();
     // TODO: this stuff needs to be cleaned up
     // e.g. refactor into functions, remove unused code (some of the combobox stuff)
     title_counter = $(".title, .new-title, .hidden-title").length;
-    $('[data-function="new-title"]').click(function(){
-        hidden_title = $("div.hidden-title");
-        new_title = hidden_title.clone(true)
-            .find("input.title-value").attr("name","work[titles]["+title_counter+"][value]").end()
-            .find("select.title-lang").attr("name","work[titles]["+title_counter+"][lang]").end()
-            .find("select.title-type").attr("name","work[titles]["+title_counter+"][type]").end()
-            .find("input.title-subtitle").attr("name","work[titles]["+title_counter+"][subtitle]").end();
-        hidden_title.removeClass('hidden-title').addClass("title");
-        hidden_title.find("select").each(function(index){
-            $(this).addClass("combobox");
-            $(this).combobox();
-            $(this).click(function(){
-                $(this).siblings('.dropdown-toggle').click();
-            });
-        });
-        hidden_title.show();
-        new_title.insertAfter(hidden_title);
-        title_counter = title_counter +1;
-        return false;
+    // when user clicks on new title or new author button, clone fields, empty values
+    // rename them and paste into form
+    $('[data-function="clone-fields"]').click(function(e){
+        e.preventDefault();
+        var selector = $(this).attr('data-selector'); // cloning messes up the data() method
+        var $fields = $(selector);
+        disableAgentTypeahead($fields)
+        var $new_fields = $fields.clone(true);
+        $new_fields.show();
+        // Update all name and id attributes before pasting in the clone
+        $new_fields.find(':input').each(updateIndex);
+        $new_fields.find('a[data-target]').each(updateIndex);
+        $($new_fields).each(updateIndex);
+        // combobox specific stuff - because combobox fucks up the DOM, we need to remake the pre-combobox DOM
+        // with the correct ids and names and everything
+        var hidden_input_name = $new_fields.find('.combobox-container').children('input:first').attr('name');
+        var $combobox = $new_fields.find('select.combobox');
+        var combobox_id = $combobox.attr('id');
+        $combobox.attr('name', hidden_input_name);
+        $new_fields.find('.combobox-container').remove();
+        $combobox.show();
+        //now - stick them into the DOM!
+        $new_fields.insertAfter($fields);
+        //TODO: This doesn't work for some reason fix it
+        $('#' + combobox_id).combobox();
+
+        enableAgentTypeahead($fields);
+        enableAgentTypeahead($new_fields);
     });
-    $('[data-function="delete-title"]').click(function(){
-        $(this).parent().parent().remove();
-        return false;
+    $('[data-function="delete-fields"]').click(function(e){
+        e.preventDefault()
+        var selector = $(this).attr('data-target'); //cloning messes up the data() method
+        $(selector).hide();
+        $(selector).find("input[id$='_destroy']").val('1');
     });
 
     // Add/remove creator functions
@@ -75,12 +146,45 @@ $(document).ready(function(){
         $input.clone().insertAfter($input);
     })
 
+    // Add/remove title functions
+    $(".hidden-subject").hide();
+    // TODO: this stuff needs to be cleaned up
+    // e.g. refactor into functions, remove unused code (some of the combobox stuff)
+    subject_counter = $(".subject, .new-subject, .hidden-subject").length;
+    $('[data-function="new-subject"]').click(function(){
+        hidden_subject = $("div.hidden-subject");
+        new_subject = hidden_subject.clone(true)
+                .find("select.subject-id").attr("name","work[subjects]["+subject_counter+"][id]").end();
+        hidden_subject.removeClass('hidden-subject').addClass("subject");
+        hidden_subject.show();
+        new_subject.insertAfter(hidden_subject);
+        subject_counter = subject_counter + 1;
+        return false;
+    });
+    $('[data-function="delete-subject"]').click(function(){
+        $(this).parent().parent().remove();
+        return false;
+    });
+
+
 
     // Combobox functionallity
     $('.combobox').combobox();
     $('.combobox').click(function(){
         $(this).siblings('.dropdown-toggle').click();
     });
+
+    $("#imageFoundBtn").on('click',renderImageFoundModal);
+
+    $(".upload-file-form").on('submit',function(event){ButtonClicked();return true});
+
+    enableAgentTypeahead($(":root"));
+
+    //When submitting the form the check_upload_file function is called to check if a content file is uploaded
+   $("#new_instance").on('submit',function(event){
+      return check_upload_file();
+   });
+
 });
 
 // when the form-loader retrieves a form, append it to
@@ -114,17 +218,26 @@ function attachInstanceBindings(){
 // call the Activity show.json
 // and populate the form fields with its values
 function fetchActivityData(){
-    var activity_id = $(this).val();
+    var activity_id = encodeURIComponent($(this).val());
+    if (activity_id.length == 0) throw 'ActivityID undefined!';
     var activity_url = "<%= Rails.application.routes.url_helpers.administration_activities_path %>/" + activity_id + '.json';
-
     $.get(activity_url, function(data) {
         // iterate over response and apply values to the corresponding inputs
         $.each(data, function(i, item){
             if (i == 'activity') return;
             if (item == null) return;
             if (item == 'Undefined') return;
-            var selector = "[name$=\"" + i + "]\"]";
+            console.log(i + '-' + item);
+            var selector
+            if ( i == 'collection') {
+                selector = "[name$=\"" + i + "][]\"]";
+
+             } else {
+                selector = "[name$=\"" + i + "]\"]";
+            }
+            console.log(selector);
             $(selector).val(item);
+            $('.selectpicker').selectpicker('refresh');
         });
         //make sure all checkboxes appearances match their values
         var $checkboxes = $('input[type="checkbox"]');
@@ -155,4 +268,166 @@ function restyleButton() {
             .removeClass('btn-primary')
             .addClass('btn-success')
             .val('Gemt');
+}
+
+function ButtonClicked()
+{
+    document.getElementById("submit-button").style.display = "none"; // to undisplay
+    document.getElementById("button-loading").style.display = ""; // to display
+    return true;
+}
+function renderImageFoundModal(event) {
+
+    var modal =  $("#imageFoundModal");
+    var url = $(this).attr("href");
+    link = $(this);
+    link.html('<span class="glyphicon glyphicon-refresh spinning"></span> Vent ...');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+            var errors = data["errors"];
+            msg = errors.length + " fejl";
+
+            html = '<p>'+msg+'</p><ul>';
+            for (i in errors) {
+                html += '<li><pre>'+errors[i]+'</pre></li>';
+            }
+            html += '</ul>';
+            modal_body = modal.find(".modal-body");
+            modal_body.html(html);
+            modal.modal();
+            if (errors.length == 0) {
+                link.removeClass('btn-primary').addClass('btn-success');
+                link.html("Alle TIFF-filer fundet");
+            } else {
+                link.removeClass('btn-primary').addClass('btn-danger');
+                link.html("Søg efter TIFF filer "+errors.length+" fejl");
+            }
+
+
+
+        }
+    });
+    link.attr('data-toggle','modal');
+    link.off('click',renderImageFoundModal);
+    return false;
+
+}
+
+function ButtonClicked()
+{
+    document.getElementById("submit-button").style.display = "none"; // to undisplay
+    document.getElementById("button-loading").style.display = ""; // to display
+    return true;
+}
+
+
+
+
+//
+function disableAgentTypeahead(obj) {
+    obj.find(".agent-typeahead").typeahead('destroy');
+}
+
+// Typeahead functionallity
+function enableAgentTypeahead(obj) {
+    var localagents = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/solrwrapper/search/%QUERY',
+            wildcard: '%QUERY'
+        }
+    });
+
+    var viafagents = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: 'http://viaf.org/viaf/AutoSuggest?query=%QUERY&callback=?',
+            wildcard: '%QUERY',
+            ajax: {
+                jsonp: 'callback',
+                type: 'GET',
+                dataType: 'jsonp'
+            },
+            filter: function(data) {
+                return data.result;
+            }
+        }
+    });
+
+    obj.find(".agent-typeahead").typeahead({
+        minLength: 1,
+        highlight: true },
+    {
+        name: 'Agents',
+        source: localagents,
+        displayKey: 'val',
+        templates: {
+            header: '<h3 class="agent-source">Valhal</h3>',
+            empty: '<div class="empty-message">Ingen agenter fundet. Opret evt. en ny</div>'
+        }
+    }, {
+                name: 'ViafAgents',
+                source: viafagents,
+                displayKey: 'term',
+                templates: {
+                    header: '<h3 class="agent-source">VIAF</h3>',
+                    empty: '<div class="empty-message">Ingen viaf agenter fundet</div>'
+                }
+            }).bind('typeahead:select', function(event, suggestion) {
+                // If the selection is from Valhal
+                if('id' in suggestion){
+                    $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
+                }
+                // If the selection is from Viaf
+                else if('viafid' in suggestion){
+                    $.ajax({
+                        type: 'GET',
+                        url: '/solrwrapper/searchbysameasuri?uri=http://viaf.org/viaf/'+suggestion.viafid,
+                        dataType: 'json',
+                        success: function (data) {
+                            $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(data.id);
+                        },
+                        error: function (data) {
+                            $('#new_agent_modal').modal();
+                            $('#loading').modal();
+                            $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
+                            $(event.target).val('');
+                            modal_agent_field = event.target.id;
+                            console.log("modal_agent_field "+modal_agent_field);
+                            viafImport();
+                        }
+                    });
+                }
+            });
+
+
+    function update_agent_label(label_obj,agent_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/solrwrapper/getobj/'+encodeURIComponent(agent_id),
+            dataType: 'json',
+            success: function (data) {
+                label_obj.val(data.val);
+            }
+        });
+    }
+
+    $(".agent-typeahead[id$='agent_label']").each(function(){
+        id = $(this).parentsUntil("div.relator_fields").find("input[id$='agent_id']").val();
+        label_obj = $(this);
+        if (id != '') {
+            update_agent_label(label_obj,id);
+        }
+    });
+
+    $("#new_agent_modal" ).on('shown.bs.modal', function(){
+        modal_agent_field = $(".agent-typeahead:last").get(0).id
+        console.log("modal_agent_field "+modal_agent_field);
+    });
 }

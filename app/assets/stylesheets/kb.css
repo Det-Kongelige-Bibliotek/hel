@@ -19,6 +19,11 @@
      margin: 5px 0px;
  }
 
+ .table-scroll{
+     height:200px;
+     overflow-y: scroll;
+ }
+
 
  .navbar{
      margin-bottom: 0px;
@@ -88,6 +93,52 @@
 
  .fileupload-buttonbar .btn, .fileupload-buttonbar .toggle {
      margin-bottom: 5px;
+ }
+
+ /*.form-group {*/
+ /*width: auto;*/
+ /*}*/
+
+ /*.input-group > .form-control {*/
+ /*width: 550px*/
+ /*}*/
+
+ #myViafId{
+     width: 550px
+ }
+
+ #loading-indicator {
+     position: relative;
+     left: 130px;
+     top: 10px;
+ }
+
+
+ .tt-menu {
+     width: 422px;
+     margin-top: 12px;
+     padding: 8px 0;
+     background-color: #fff;
+     border: 1px solid #ccc;
+     border: 1px solid rgba(0, 0, 0, 0.2);
+     border-radius: 8px;
+     box-shadow: 0 5px 10px rgba(0,0,0,.2);
+ }
+
+ .tt-suggestion {
+     padding: 3px 20px;
+     font-size: 18px;
+     line-height: 24px;
+ }
+
+ .tt-suggestion.tt-is-under-cursor {
+     color: #fff;
+     background-color: #0097cf;
+
+ }
+
+ .tt-suggestion p {
+     margin: 0;
  }
 
 

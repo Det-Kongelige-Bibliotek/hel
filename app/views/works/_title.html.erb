@@ -1,70 +1,23 @@
-<%= fields_for "work[titles]", title, index: index do |title_fields| %>
+<%= work_form.simple_fields_for :titles,
+                                defaults: { wrapper_html: { class: 'form-group' },
+                                            input_html: { class: 'form-control' }
+                                } do |title_fields| %>
 
-    <% if title.blank? %>
-        <div class="<%= hidden ? 'hidden-' : '' %>title">
-          <div class='col-sm-6'>
-            <div class='form-group'>
-              <%= title_fields.label :value, 'Titel' %>
-              <%= title_fields.text_field :value, :placeholder => 'Titel', :class => 'title-value form-control' %>
-            </div>
-          </div>
-          <div class='col-sm-2'>
-            <div class="form-group">
-              <%= title_fields.label :lang, 'Sprog' %>
-              <%= title_fields.select :lang, get_translated_list('Languages'), {include_blank: true}, {:class => 'title-lang form-control'+(hidden ? '': ' combobox')} %>
-            </div>
-          </div>
-          <div class='col-sm-2'>
-            <div class="form-group">
-              <%= title_fields.label :type, 'Type' %>
-              <%= title_fields.select :type, get_translated_list('Title types'), {include_blank: true}, {:class => 'title-type form-control'+(hidden ? '': ' combobox')} %>
-            </div>
-          </div>
-          <div class='col-sm-1'>
-            <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-title">
-              <span class="glyphicon glyphicon-minus"></span>
-              Slet titel
-            </a>
-          </div>
-          <div class='col-sm-12'>
-            <div class="form-group">
-              <%= title_fields.label :subtitle, 'Undertitel' %>
-              <%= title_fields.text_field :subtitle, :placeholder => 'Undertitel', :class => 'title-subtitle form-control' %>
-            </div>
-          </div>
-        </div>
-    <% else %>
-        <div>
-          <div class='col-sm-12'>
-            <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-title">
-              <span class="glyphicon glyphicon-minus"></span>
-              Slet titel
-            </a>
-          </div>
-          <div class='col-sm-8'>
-            <div class='form-group'>
-              <%= title_fields.label :value, 'Titel' %>
-              <%= title_fields.text_field :value, :placeholder => 'Titel', :class => 'form-control' %>
-            </div>
-          </div>
-          <div class='col-sm-2'>
-            <div class="form-group">
-              <%= title_fields.label :lang, 'Sprog' %>
-              <%= title_fields.select :lang, get_translated_list('Languages'), {include_blank: true}, {:class => 'form-control'+(hidden ? '': ' combobox')} %>
-            </div>
-          </div>
-          <div class='col-sm-2'>
-            <div class="form-group">
-              <%= title_fields.label :type, 'Type' %>
-              <%= title_fields.select :type, get_controlled_vocab('Title types'), {include_blank: true}, {:class => 'form-control'+(hidden ? '': ' combobox')} %>
-            </div>
-          </div>
-          <div class='col-sm-12'>
-            <div class="form-group">
-              <%= title_fields.label :subtitle, 'Undertitel' %>
-              <%= title_fields.text_field :subtitle, :placeholder => 'Undertitel', :class => 'form-control' %>
-            </div>
-          </div>
-        </div>
-    <% end %>
+    <% id = "title#{title_fields.index }" %>
+    <div id="<%= id %>" class="title_fields">
+      <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-fields" data-target="#<%=id %>">
+        <span class="glyphicon glyphicon-minus"></span>
+        <%= t('.close') %>
+      </a>
+      <div class='col-sm-8'>
+        <%= title_fields.input :value, placeholder: 'Titel', required:true %>
+      </div>
+      <div class='col-sm-2'>
+        <%= title_fields.input :variant, collection: get_controlled_vocab('Title types'), label: 'Type', input_html: { class: 'combobox form-control' }  %>
+      </div>
+      <div class='col-sm-12'>
+        <%= title_fields.input :subtitle, label: 'Undertitel', placeholder: 'Undertitel' %>
+      </div>
+      <%= title_fields.hidden_field :_destroy %>
+    </div>
 <% end %>

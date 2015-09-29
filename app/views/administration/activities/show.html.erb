@@ -4,30 +4,35 @@
 
 <table class="table">
   <tr>
-    <td>access condition</td>
+    <td><%= t('.access') %></td>
     <td><%= @activity.access_condition %></td>
   </tr>
    <tr>
-    <td>availability</td>
+    <td><%= t('.availability') %></td>
     <td><%= @activity.availability %></td>
   </tr>
   <tr>
-    <td>collection</td>
+    <td><%= t('.collection') %></td>
     <td><%= @activity.collection %></td>
   </tr>
   <tr>
-    <td>embargo</td>
+    <td><%= t('.embargo') %></td>
     <td><%= @activity.embargo %></td>
   </tr>
   <tr>
-    <td>embargo condition</td>
+    <td><%= t('.em_condition') %></td>
     <td><%= @activity.embargo_condition %></td>
   </tr>
   <tr>
-    <td>preservation profile</td>
+    <td><%= t('.pres_profile') %></td>
     <td><%= @activity.preservation_profile %></td>
+  </tr>
+
+  <tr>
+    <td><%= t('administration.activities.dissemination.dissemination') %></td>
+    <td><%= @activity.dissemination_profiles.to_sentence %></td>
   </tr>
 </table>
 
-<%= link_to 'Edit', edit_administration_activity_path(@activity) %> |
-<%= link_to 'Back', administration_activities_path %>
+<%= link_to t(:edit), edit_administration_activity_path(@activity) %> |
+<%= link_to t(:back), administration_activities_path %>

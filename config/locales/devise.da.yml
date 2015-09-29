@@ -40,6 +40,10 @@ da:
       updated: "Din konto er opdateret."
     sessions:
       signed_in: "Du er nu logget ind."
+      new:
+        username: Brugernavn
+        password: Adgangskode
+        remember_me: "Husk mig"
       signed_out: "Du er nu logget ud."
     unlocks:
       send_instructions: 'Om få minutter vil du modtage en email med instruktioner om genåbning af din konto.'

@@ -1,11 +1,11 @@
-<a id="administrative"></a><h4>Administrative Data</h4>
+<a id="administrative"></a><h4><%= t('.label') %></h4>
 <table class="table table-striped"><tbody>
 <tr>
 <td>
   <strong><%= t('.activity') %></strong>
 </td>
 <td>
-  <span><%= Administration::Activity.find(@instance.activity).activity %></span>
+  <span><%= Administration::Activity.find(@instance.activity).activity rescue nil %></span>
 </td>
 </tr>
 <tr>
@@ -13,7 +13,7 @@
     <strong><%= t('.collection') %></strong>
   </td>
   <td>
-    <span><%= t("Collections.#{@instance.collection}") if @instance.collection.present? %></span>
+    <span><%= @instance.collection.to_sentence %></span>
   </td>
 </tr>
 <tr>
@@ -42,6 +42,14 @@
 </tr>
 <tr>
   <td>
+    <strong><%= t('instances.administrative.is_available') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.availability == '1' ? 'Ja' : 'Nej' %></span>
+  </td>
+</tr>
+<tr>
+  <td>
     <strong><%= t('.preservation_profile') %></strong>
   </td>
   <td>
@@ -64,5 +72,37 @@
     <span><%= @instance.preservation_details %></span>
   </td>
 </tr>
-
+<tr>
+  <td>
+    <strong><%= t('.preservation_date') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.preservation_modify_date %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t('.warc_id') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.warc_id %></span>
+  </td>
+</tr>
+<% if @instance.copyright_status.present? %>
+    <tr>
+      <td>
+        <strong><%= t('.copyright_status') %></strong>
+      </td>
+      <td>
+        <span>
+        <% if @instance.copyright_status == ('Ukendt' or 'Udloebet') %>
+           <%= @instance.copyright_status %>
+        <% else %>
+           <% agent = Authority::Person.find(@instance.copyright_status) %>
+           <%= link_to  agent.display_value, agent %>
+        <% end %>
+            </span>
+      </td>
+    </tr>
+<% end %>
 </tbody></table>

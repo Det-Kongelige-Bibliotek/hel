@@ -1,10 +1,21 @@
 <%= fields_for 'administration_controlled_list[elements][]', element, index: nil do |fields| %>
-    <div class="<%= "empty-entry" unless element.persisted? %>">
-      <%= fields.hidden_field :id %>
+    <div class="<%= 'empty-entry' unless element.persisted? %>">
       <div class="form-group">
-        <label class="control-label col-sm-2"><%= t '.entry' %></label>
-        <div class="col-sm-4">
-          <%= fields.text_field :name, class: 'form-control' %>
+        <div class="col-sm-8 ">
+          <div class="form-inline">
+            <%= fields.hidden_field :id if element.id.present? %>
+            <div class="form-group">
+              <div class="col-sm-4">
+                <%= fields.text_field :name, class: 'form-control', placeholder: t('.entry')
+                %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-4">
+                <%= fields.text_field :label, class: 'form-control', placeholder: t('.label') %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

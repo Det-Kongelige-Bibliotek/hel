@@ -2,10 +2,25 @@
   <div class="page-header">
     <div class="container">
       <div class="btn-group pull-right">
+        <% if @instance.type == 'TEI' %>
+            <% if @instance.validation_status == 'INPROGRESS' %>
+                <%= link_to "Validering i gang...", work_instance_url(@work,@instance), :class => "btn btn-warning" %>
+            <% end %>
+            <% if @instance.validation_status == 'VALID'%>
+                <%= link_to "Tei instans er valid", '#validationModal', :class => "btn btn-success","data-toggle"=>"modal" , "data-target" => "#validationModal" %>
+            <% end %>
+            <% if @instance.validation_status == 'INVALID' %>
+                <%= link_to "Tei instans invalid", '#validationModal', :class => "btn btn-danger","data-toggle"=>"modal" , "data-target" => "#validationModal" %>
+            <% end %>
+            <% if @instance.validation_status.nil? %>
+               <%= link_to "Valider TEI-instans", validate_tei_work_instance_url(@work,@instance), :class => "btn btn-danger" %>
+            <% end %>
+        <% end %>
         <%= link_to 'Send til Bevaring', send_to_preservation_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
-        <%= link_to 'Rediger', edit_work_trykforlaeg_url(@work,@instance), class: 'btn btn-primary' %>
+        <%= link_to 'Rediger', edit_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
+
       </div>
-      <h1><%= t("instances.types.#{@klazz.to_s.downcase}") %></h1>
+      <h1><%= "Instance #{@instance.type}" %></h1>
     </div>
   </div>
 
@@ -17,12 +32,13 @@
       </div>
       <div class="col-sm-9">
         <%= render partial:  'instances/show_bibliograph' %>
+        <h4><%= t 'works.show.agent_relations' %></h4>
+        <%= render partial:  'relators/show', locals: { object: @instance } %>
         <%= render partial:  'instances/show_administrative' %>
         <%= render partial:  'instances/show_files' %>
-
       </div>
-
-
     </div>
   </div>
 </div>
+
+<%= render 'instances/validation_modal' %>

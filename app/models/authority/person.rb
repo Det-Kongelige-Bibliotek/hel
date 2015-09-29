@@ -1,123 +1,72 @@
 module Authority
-  # Model person authority records
-  class Person < Authority::Agent
-    # Authority::Person can be initialized
-    # in several ways
-    # 1) without any arguments
-    # e.g. Authority::Person.new
-    # 2) with a hash of name elements
-    # e.g. Authority::Person.new(authorized_personal_name: { full: 'James Joyce', scheme: 'KB' })
-    # 3) with an array of name element hashes
-    # e.g. Authority::Person.new(
-    #       authorized_personal_name: { full: "Flann O'Brien", scheme: 'viaf' },
-    #       authorized_personal_name: { given: 'Myles', family: 'Na Gopaleen', scheme: 'nli' }
-    #     )
-
-    validate :has_a_name
-    # Temporarily removed :dates_are_valid until we deside what to do with non EDTF-date from Aleph
-
-    def has_a_name
-      if self.authorized_personal_names.blank?
-        errors.add('[authorized_personal_name][][family]','Der skal angives mindst et navn')
-      end
+  class Person < Thing
+    property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false do |index|
+      index.as :stored_searchable
     end
-
-    def dates_are_valid
-      self.authorized_personal_names.values.each do |name_hash|
-        unless (name_hash[:date].blank?)
-          errors.add('[authorized_personal_name][][date]','Der skal angives gyldige EDTF datoer') if Date.edtf(name_hash[:date]).nil?
-        end
-      end
+    property :given_name, predicate: ::RDF::Vocab::SCHEMA.givenName, multiple: false do |index|
+      index.as :stored_searchable
     end
+    property :birth_date, predicate: ::RDF::Vocab::SCHEMA.birthDate, multiple: false
+    property :death_date, predicate: ::RDF::Vocab::SCHEMA.deathDate, multiple: false
+    property :birth_place, predicate: ::RDF::Vocab::SCHEMA.birthPlace, multiple: false
+    property :death_place, predicate: ::RDF::Vocab::SCHEMA.deathPlace, multiple: false
+    property :nationality, predicate: ::RDF::Vocab::SCHEMA.nationality, multiple: false
 
-    def initialize(*args)
-      super
-      return if args.empty? || args.first.nil?
-    end
+    has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
 
-    # All authorized personal names
-    # organised by their scheme
-    def authorized_personal_names
-      self.mads.authorized_personal_names
-    end
-
-    def authorized_personal_name
-      self.mads.authorized_personal_names
-    end
-
-
-    def authorized_personal_name=(args)
-      mads.remove_authorized_personal_names
-      if args.is_a? Array
-        args.each { |h| add_authorized_personal_name(h) }
-      elsif args.is_a? Hash
-        add_authorized_personal_name(args)
-      end
-    end
-
-    def add_authorized_personal_name(name_hash)
-      logger.debug("add_authorized_personal_name(#{name_hash})")
-      begin
-        mads.ensure_valid_name_hash!(name_hash)
-        mads.add_authorized_personal_name(name_hash)
-        # if we have a blank hash just skip it
-      rescue Exception=>ex
-        logger.error("add_authorized_personal_name failed #{ex}")
-        return
-      end
-    end
-
-    # Build a display value from the name and date
-    # elements presemt. If none present, return id.
     def display_value
-      name_hash = authorized_personal_names.values.first
-      return super unless name_hash && name_hash.size > 0
-      name_and_date(name_hash)
+      value = (full_name.present?) ? full_name : ''
+      value += ', ' if birth_date.present? || death_date.present?
+      value += self.display_date if self.display_date.present?
+      value
     end
 
-    # return an array of name strings
-    def all_names
-      name_hashes = authorized_personal_names.values
-      name_hashes.map { |h| structured_name(h) }
+    def display_date
+      self.date_range(start_date: birth_date, end_date: death_date)
     end
 
-    def to_solr(solr_doc = {})
-      super
-      all_names.each do |name|
-        Solrizer.insert_field(solr_doc, 'person_name', name, :stored_searchable)
+    def full_name
+      if family_name.present?
+        full = "#{family_name}"
+        full += ", #{given_name}" if given_name.present?
+      else
+        full = _name
       end
-      solr_doc
+      full
     end
+
+    # Method wrapper for backwards compatibility - do not use this in new code!
+    def authorized_personal_name=(name_hash)
+      logger.warn 'VALHAL DEPRECATION: authorized_personal_name= is deprecated - use the native accessors instead'
+      self.family_name = name_hash['family'] if name_hash['family'].present?
+      self.given_name = name_hash['given'] if name_hash['family'].present?
+    end
+
+    # As above - backwards compatibility
+    def authorized_personal_names
+      logger.warn 'VALHAL DEPRECATION: authorized_personal_name= is deprecated - use the native accessors instead'
+      { kb: { family: self.family_name, given: self.given_name } }
+    end
+
+    # This code cause a "stack level too deep" failure,
+    # TODO: investigate and fix
+    # def authored_works
+    #   related_works('aut')
+    # end
+    #
+    # def related_works(code)
+    #   recip_rels = self.relators.to_a.select { |rel| rel.short_role == code }
+    #   recip_rels.collect(&:work)
+    # end
 
     #static methods
-    def self.get_typeahead_objs
-      ActiveFedora::SolrService.query("typeahead_tesim:* && has_model_ssim:*Authority_Person",
-                                      {:rows => ActiveFedora::SolrService.count("typeahead_tesim:* && has_model_ssim:*Authority_Person")})
-    end
-
-    private
-
-    # build a name and date string from the available elements
-    def name_and_date(name_hash)
-      name_and_date = structured_name(name_hash)
-      name_and_date += ", #{name_hash[:date]}" if name_hash[:date]
-      name_and_date
-    end
-
-    # Given a hash with name elements,
-    # construct the best possible name string
-    # Take either the full name, or a combination
-    # of given and family.
-    def structured_name(name_hash)
-      name = ''
-      if name_hash[:full]
-        name += name_hash[:full]
-      else
-        name += name_hash[:family] if name_hash[:family]
-        name += ', ' if name_hash[:given] && name_hash[:family]
-        name += name_hash[:given] if name_hash[:given]
+    def self.find_or_create_person(forename,surname)
+      person = Authority::Person.where(:given_name => forename, :family_name => surname).first
+      if person.nil?
+        person = Authority::Person.create(:given_name => forename, :family_name => surname )
       end
-      name.strip
+      person
     end
+
   end
 end

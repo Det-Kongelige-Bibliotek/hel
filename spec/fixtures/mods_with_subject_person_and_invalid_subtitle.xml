@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.5" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+  <titleInfo>
+    <nonSort>The </nonSort>
+    <title>origin then and now</title>
+    <underTitle> an interpretive guide to The origin of species</underTitle>
+  </titleInfo>
+  <name type="personal">
+    <namePart type="family">Reznick</namePart>
+    <namePart type="given">David N.</namePart>
+    <namePart type="date">1952-</namePart>
+  </name>
+  <typeOfResource/>
+  <originInfo>
+    <place>
+      <placeTerm type="text">Princeton, NJ</placeTerm>
+    </place>
+    <dateIssued>2010</dateIssued>
+    <publisher>Princeton University Press</publisher>
+  </originInfo>
+  <language>
+    <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+  </language>
+  <note type="statement of responsibility" altRepGroup="00"/>
+  <subject authority="lcsh">
+    <name type="personal">
+      <namePart type="family">Darwin</namePart>
+      <namePart type="given">Charles</namePart>
+      <namePart type="date">1809-1882</namePart>
+    </name>
+    <titleInfo>
+      <title>On the origin of species</title>
+    </titleInfo>
+  </subject>
+  <identifier type="isbn">9780691129785</identifier>
+  <recordInfo>
+    <recordOrigin>Converted from MARCXML to MODS version 3.4 using MARC21slim2MODS3-4.xsl
+      (Revision 1.94 2014/02/21)</recordOrigin>
+  </recordInfo>
+</mods>

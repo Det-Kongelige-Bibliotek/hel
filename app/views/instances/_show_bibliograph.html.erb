@@ -2,29 +2,13 @@
 <table class="table table-striped"><tbody>
 <tr>
   <td>
-    <strong>ISBN</strong>
+    <strong><%=  t('.isbn') %></strong>
   </td>
   <td>
     <span><%= @instance.isbn13 %></span>
   </td>
 </tr>
 <tr>
-<tr>
-  <td>
-    <strong><%=  t('.copyright_date') %></strong>
-  </td>
-  <td>
-    <span><%= @instance.copyright_date %></span>
-  </td>
-</tr>
-<tr>
-  <td>
-    <strong><%= t('.published_date') %></strong>
-  </td>
-  <td>
-    <span><%= @instance.published_date %></span>
-  </td>
-</tr>
 <tr>
   <td>
     <strong><%= t('.mode_of_issuance') %></strong>
@@ -43,15 +27,6 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.language') %></strong>
-  </td>
-  <td>
-    <%# Show language codes as collected, translated string, rather than array of codes %>
-    <span><%= @instance.language_values.collect { |lang| t("Languages.#{lang}")}.join(', ') %></span>
-  </td>
-</tr>
-<tr>
-  <td>
     <strong>Note </strong>
   </td>
   <td>
@@ -62,5 +37,6 @@
     <% end %>
   </td>
 </tr>
+<%= render partial: 'provider/show', locals: { provider: @instance.publication } %>
 
 </tbody></table>
