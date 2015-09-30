@@ -28,6 +28,7 @@ module Concerns
 
       property :validation_message,  delegate_to: 'adminMetadata', :multiple => true
       property :dissemination_profiles,  delegate_to: 'adminMetadata', :multiple => true
+      property :edit_in_GUI, delegate_to: 'adminMetadata', :multiple => false
 
       def add_validation_message=(messages)
         self.validation_message=messages
