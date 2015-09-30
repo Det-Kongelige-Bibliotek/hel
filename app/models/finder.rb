@@ -6,11 +6,11 @@ class Finder
   end
 
   def self.all_people(q=nil)
-    ActiveFedora::SolrService.query(model_query('Authority*Person') + (q.nil? ? '' : ' && '+typeahead_query(q)), :rows => max_rows)
+    self.all_things(q,'Authority*Person')
   end
 
   def self.all_organizations(q=nil)
-    ActiveFedora::SolrService.query("active_fedora_model_ssi:Authority*Organization" + (q.nil? ? '' : ' && '+typeahead_query(q)), :rows => max_rows)
+    self.all_things(q,'Authority*Organization')
   end
 
   def self.all_works
@@ -25,12 +25,15 @@ class Finder
     ActiveFedora::SolrService.query("same_as_uri_tesim:\"#{uri}\" ")
   end
 
-  def self.model_query(model)
-    "active_fedora_model_ssi: #{model}"
+  def self.all_things(q,model)
+    q = "";
+    q += "typeahead_tesim:#{q}" if q.present?
+    q += "typeahead_tesim:#{q}*"
+    ActiveFedora::SolrService.query(q,:fq=>"active_fedora_model_ssi:#{model}", :sort =>'display_value_ssi asc')
   end
 
-  def self.typeahead_query(q)
-    "typeahead_tesim:#{q}*"
+  def self.model_query(model)
+    "active_fedora_model_ssi: #{model}"
   end
 
   def self.max_rows
