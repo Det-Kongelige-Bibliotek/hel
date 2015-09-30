@@ -33,7 +33,6 @@
 
   <xsl:template match="t:text[@decls]|t:div[@decls]">
     <xsl:variable name="bibl" select="substring-after(@decls,'#')"/>
-    <xsl:variable name="workid" select="concat($file,'#',@xml:id)"/>
     <xsl:variable name="worktitle">
       <xsl:choose>
 	<xsl:when 
@@ -76,23 +75,13 @@
     </doc>
 
     <xsl:apply-templates>
-      <xsl:with-param name="workid" select="$workid"/>
       <xsl:with-param name="worktitle" select="$worktitle"/>
-      <xsl:with-param name="position" select="count(preceding::node())"/>
     </xsl:apply-templates>
 
-    <!--xsl:apply-templates select="t:body|t:text[@decls]|t:div[@decls]">
-      <xsl:with-param name="workid" select="$workid"/>
-      <xsl:with-param name="worktitle" select="$worktitle"/>
-      <xsl:with-param name="position" select="position()"/>
-    </xsl:apply-templates-->
-    
   </xsl:template>
 
   <xsl:template match="t:sp">
-    <xsl:param name="workid" select="''"/>
     <xsl:param name="worktitle" select="''"/>
-    <xsl:param name="position" select="''"/>
 
     <doc>
 
@@ -101,16 +90,7 @@
 	leaf
       </xsl:element>
 
-      <!--xsl:if test="$workid">
-        <xsl:element name="field">
-          <xsl:attribute name="name">part_of_ssi</xsl:attribute>
-          <xsl:value-of select="$workid"/>
-        </xsl:element>
-      </xsl:if -->
-
-      <xsl:call-template name="add_globals">
-        <xsl:with-param name="position" select="$position"/>
-      </xsl:call-template>
+      <xsl:call-template name="add_globals"/>
 
       <xsl:element name="field">
         <xsl:attribute name="name">genre_ssi</xsl:attribute>
@@ -133,24 +113,13 @@
 
 
   <xsl:template match="t:lg">
-    <xsl:param name="workid" select="''"/>
     <xsl:param name="worktitle" select="''"/>
-    <xsl:param name="position" select="''"/>
 
     <doc>
 
       <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
-      <!-- xsl:if test="$workid">
-        <xsl:element name="field">
-          <xsl:attribute name="name">part_of_ssi</xsl:attribute>
-          <xsl:value-of select="$workid"/>
-        </xsl:element>
-      </xsl:if -->
-
-      <xsl:call-template name="add_globals">
-        <xsl:with-param name="position" select="$position"/>
-      </xsl:call-template>
+      <xsl:call-template name="add_globals"/>
 
       <xsl:element name="field">
         <xsl:attribute name="name">genre_ssi</xsl:attribute>
@@ -169,24 +138,13 @@
 
   <xsl:template match="t:div/t:p">
 
-    <xsl:param name="workid" select="''"/>
     <xsl:param name="worktitle" select="''"/>
-    <xsl:param name="position" select="''"/>
 
     <doc>
 
       <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
-      <!-- xsl:if test="$workid">
-        <xsl:element name="field">
-          <xsl:attribute name="name">part_of_ssi</xsl:attribute>
-          <xsl:value-of select="$workid"/>
-        </xsl:element>
-      </xsl:if -->
-
-      <xsl:call-template name="add_globals">
-        <xsl:with-param name="position" select="$position"/>
-      </xsl:call-template>
+      <xsl:call-template name="add_globals"/>
 
       <xsl:element name="field">
         <xsl:attribute name="name">genre_ssi</xsl:attribute>
@@ -226,8 +184,6 @@
   </xsl:template>
 
   <xsl:template name="add_globals">
-
-    <xsl:param name="position" select="''"/>
 
     <xsl:element name="field">
       <xsl:attribute name="name">id</xsl:attribute>
@@ -311,26 +267,19 @@
       </xsl:element>
     </xsl:if>
 
-    <xsl:if test="$position">
-      <xsl:element name="field">
-        <xsl:attribute name="name">position_isi</xsl:attribute>
-	<xsl:value-of  select="count(preceding::node())"/>
-        <!--xsl:value-of select="$position"/-->
-      </xsl:element>
-    </xsl:if>
+    <xsl:element name="field">
+      <xsl:attribute name="name">position_isi</xsl:attribute>
+      <xsl:value-of  select="count(preceding::node())"/>
+    </xsl:element>
 
     <xsl:apply-templates mode="backtrack" select="ancestor::node()[@decls][1]"/>
 
   </xsl:template>
 
-  <xsl:template match="*[not(@decls)]">
-    <xsl:param name="workid" select="''"/>
+  <xsl:template match="*">
     <xsl:param name="worktitle" select="''"/>
-    <xsl:param name="position" select="''"/>
     <xsl:apply-templates>
-      <xsl:with-param name="workid" select="$workid"/>
       <xsl:with-param name="worktitle" select="$worktitle"/>
-      <xsl:with-param name="position" select="position()"/>
     </xsl:apply-templates>
   </xsl:template>
 
