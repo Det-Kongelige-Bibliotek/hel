@@ -26,10 +26,8 @@ class Finder
   end
 
   def self.all_things(q,model)
-    q = "";
-    q += "typeahead_tesim:#{q}" if q.present?
-    q += "typeahead_tesim:#{q}*"
-    ActiveFedora::SolrService.query(q,:fq=>"active_fedora_model_ssi:#{model}", :sort =>'display_value_ssi asc')
+    solr_q = "typeahead_tesim:#{q}*"
+    ActiveFedora::SolrService.query(solr_q,:fq=>"active_fedora_model_ssi:#{model}", :sort =>'display_value_ssi asc')
   end
 
   def self.model_query(model)
