@@ -44,6 +44,9 @@ module Datastreams
       t.copyright_status(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                           :path=>'copyright_status', :label=>'Copyright Status')
       t.dissemination_profiles(type: :string, path: 'dissemination_profile')
+
+      t.edit_in_GUI(:type => :string, :index_as=>[:stored_searchable, :displayable],
+                      :path=>'update_in_GUI', :label=>'creatable')
     end
     def self.xml_template
       Nokogiri::XML.parse('<fields/>')

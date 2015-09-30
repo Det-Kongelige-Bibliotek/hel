@@ -26,7 +26,7 @@ describe 'Receive preservation response messages' do
       # The update preservation message to send.
       @u = {'id' => @i.id, 'model' => @i.class.name, 'preservation' => {'preservation_state' => PRESERVATION_PACKAGE_COMPLETE.keys.first}, 'update' => {'uuid' => 'random_uuid', 'warc_id' => 'random-warc-id'}}
       # The options for the message.
-      @o = {'content_type' => 'application/json', 'type' => 'PreservationResponse'}
+      @o = {'content_type' => 'application/json', 'type' => MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE}
 
       @i.preservation_profile = 'eternity'
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first

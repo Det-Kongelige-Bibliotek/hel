@@ -17,6 +17,7 @@ module Administration
       false
     end
 
+
     # this stuff clashes with the default HydraAccessControls
     # commenting it out until we find out if it should be removed or not
     def activity_permissions=(val)
@@ -47,5 +48,14 @@ module Administration
 
       permissions
     end
+
+    def present_in_GUI?
+      adminMetadata.edit_in_GUI.present? && edit_in_GUI == "1"
+    end
+
+    def self.activities_for_dropdown
+      ::Administration::Activity.all.select{|a| a.present_in_GUI?}
+    end
+
   end
 end
