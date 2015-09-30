@@ -14,6 +14,17 @@
     <div class="row">
       <div class="col-sm-9">
         <%= render partial: 'instances/administrative', locals: { builder: f } %>
+        <fieldset class="row">
+        <legend class="col-sm-12">
+          <%= t('.edit_in_GUI') %>
+        </legend>
+          <p>Skal det være muligt at oprette nye instanser under denne aktivitet fra grænsefladen</p>
+
+          <%= f.radio_button :edit_in_GUI,'1', :checked => @activity.edit_in_GUI != 0 %>
+          <%= label_tag(:age_child, "Ja") %>
+          <%= f.radio_button :edit_in_GUI,'0', :checked => @activity.edit_in_GUI == 0 %>
+          <%= label_tag(:age_child, "Nej") %>
+        </fieldset>
         <%= render partial: 'default_permissions', locals: { builder: f } %>
         <%= render partial: 'dissemination', locals: { builder: f } %>
         <div class="btn-group pull-right">

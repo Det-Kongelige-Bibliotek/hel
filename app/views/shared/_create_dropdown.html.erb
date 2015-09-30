@@ -9,9 +9,9 @@
             <% if can?(:create,Work) %>
                 <li><%= link_to 'Nyt værk', new_work_path %></li>
             <% end %>
-            <%# if can?(:create,Authority::Person) %>
+            <% if can?(:create,Authority::Person) %>
                 <li><%= link_to 'Ny person', new_authority_person_path %></li>
-            <%# end %>
+            <% end %>
             <% if can?(:create, MixedMaterial) %>
                 <li><%= link_to 'Nyt arkiv', new_mixed_material_path %></li>
             <% end %>

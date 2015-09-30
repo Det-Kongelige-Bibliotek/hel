@@ -11,13 +11,13 @@
         <%= delete_label %>
       </a>
       <div class="col-sm-12">
-        <div class="input string optional work_relators_agent_name col-sm-6">
-          <label class="string optional" for="<%= id %>_agent_label">Agent Navn</label>
+        <div class="input string optional work_relators_agent_name form-group required col-sm-6">
+          <label class="string optional control-label" for="<%= id %>_agent_label">Agent Navn</label>
           <input class="string optional form-control agent-typeahead" name="work[blah][<%= rel_fields.index %>]" id="<%= id %>_agent_label" type="text">
         </div>
         <%= rel_fields.hidden_field :agent_id %>
         <%= rel_fields.hidden_field :_destroy %>
-        <%= rel_fields.input :role, collection: get_list_with_labels('Relators'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-2' }  %>
+        <%= rel_fields.input :role, collection: get_list_with_labels('Relators'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-2' }, required: true %>
       </div>
     </div>
 <% end %>
