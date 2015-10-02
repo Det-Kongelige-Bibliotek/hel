@@ -100,4 +100,3 @@ gem 'quiet_assets'
 gem 'filesize', '>= 0.1.1'
 #logging end
 
-gem 'rsolr'

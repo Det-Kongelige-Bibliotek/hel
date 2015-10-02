@@ -74,7 +74,7 @@ class ReceivePreservationResponseJob
     else
       # Only add another, if the queue is empty/nil.
       if Resque.peek(@queue).nil?
-        Resque.enqueue_to(@queue, ReceiveResponsesFromPreservationJob)
+        Resque.enqueue_to(@queue, ReceivePreservationResponseJob)
       end
     end
   end
