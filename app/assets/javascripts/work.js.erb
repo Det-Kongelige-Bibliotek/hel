@@ -337,6 +337,7 @@ function enableAgentTypeahead(obj) {
     var localagents = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 10,
         remote: {
             url: '/solrwrapper/search/%QUERY',
             wildcard: '%QUERY'
@@ -349,6 +350,7 @@ function enableAgentTypeahead(obj) {
         remote: {
             url: 'http://viaf.org/viaf/AutoSuggest?query=%QUERY&callback=?',
             wildcard: '%QUERY',
+            limit: 10,
             ajax: {
                 jsonp: 'callback',
                 type: 'GET',

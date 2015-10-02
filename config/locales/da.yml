@@ -133,6 +133,7 @@ da:
       preservation: "Bevaring"
       preserv_collection: "Bevaringssamling"
       is_available: "Må tilgængeliggøres?"
+      edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
       choose_collection: 'Vælg en eller flere samlinger'
     image_found:
       check: "Tjek TEI-linjeskift"

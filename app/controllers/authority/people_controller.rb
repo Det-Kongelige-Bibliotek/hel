@@ -1,6 +1,8 @@
 module Authority
   # Get most functionality from BasesController
   class PeopleController < Authority::BasesController
+    authorize_resource
+
     include Concerns::RemoveBlanks
     def destroy
       @authority_object.destroy

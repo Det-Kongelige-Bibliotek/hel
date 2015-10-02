@@ -266,9 +266,11 @@ class Instance < ActiveFedora::Base
         disseminator.disseminate(self)
       end
     end
-    # i = self.to_solr()
-    # solr = RSolr.connect :url => CONFIG[:external_solr]
-    # solr.add i
-    # solr.commit
   end
+
+  def activity_can_change?
+    a = Administration::Activity.where(id: activity).first
+    a.present? && a.present_in_GUI?
+  end
+
 end

@@ -113,6 +113,11 @@
      top: 10px;
  }
 
+ .form-group.required .control-label:before{
+     content: "*";
+     position: absolute;
+     margin-left: -5px;
+ }
 
  .tt-menu {
      width: 422px;

@@ -15,6 +15,16 @@ namespace :adl do
 
   end
 
+  desc 'Send all ADL (TEI) instances to dissemination'
+  task disseminate_all_adl: :environment do
+    adl_activity = Administration::Activity.where(activity: 'ADL').first
+    raise "There is no ADL activity" if adl_activity.nil?
+    Instance.where(activity: adl_activity.id).select{|i| i.type=='TEI'}.each do |ins|
+      Resque.enqueue(DisseminateJob,ins.id)
+    end
+  end
+
+
   desc 'Clean data WARNING: will remove all data from you repository'
   task clean: :environment do
     raise "You do not want to delete all production data" if Rails.env == 'production'
