@@ -58,9 +58,11 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
     <xsl:element name="div">
       <xsl:call-template name="add_id"/>
       <xsl:call-template name="img_ref"/>
-      <xsl:text>[</xsl:text>
-      <xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
-      <xsl:text>]</xsl:text>
+      <span>
+	<xsl:text>[</xsl:text>
+	<xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
+	<xsl:text>]</xsl:text>
+      </span>
     </xsl:element> 
   </xsl:template>
 
