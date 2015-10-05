@@ -60,7 +60,18 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
       <xsl:call-template name="img_ref"/>
       <span>
 	<xsl:text>[</xsl:text>
-	<xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
+	<xsl:text>s. </xsl:text>
+	<xsl:comment>
+	  The operation to retrieve the facsimile version is to retrieve a doc
+	  from the subdirectory ./facsimile with a given #fragment. We can do
+	  the opposite by retrieving ../#fragment
+	</xsl:comment>
+	<xsl:element name="a">
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="concat('../#',@xml:id)"/>
+	  </xsl:attribute>
+	  <xsl:value-of select="@n"/>
+	</xsl:element>
 	<xsl:text>]</xsl:text>
       </span>
     </xsl:element> 
