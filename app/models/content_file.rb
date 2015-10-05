@@ -28,7 +28,6 @@ class ContentFile < ActiveFedora::Base
   ## this enables us to dynamically add validation to individual content files
   validate :custom_validations
 
-
   after_save do
     Resque.enqueue(DisseminateJob,self.instance.id) if self.instance.present?
   end
@@ -48,7 +47,8 @@ class ContentFile < ActiveFedora::Base
   end
 
   def set_rights_metadata
-    fail 'No activity' unless self.instance.activity
+    return unless self.instance && self.instance.activity
+    # fail 'No activity' unless self.instance.activity
     a = Administration::Activity.find(self.instance.activity)
     self.discover_groups = a.activity_permissions['file']['group']['discover']
     self.read_groups = a.activity_permissions['file']['group']['read']
