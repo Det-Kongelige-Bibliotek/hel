@@ -31,15 +31,20 @@ namespace :valhal do
     ActiveFedora::Base.reindex_everything
   end
 
+  desc 'Set default rights on Person Objects'
+  task set_default_rights_person: :environment do
+    Authority::Person.all.each{|p| add_default_rights(p)}
+  end
+
   private
 
   def add_default_rights(obj)
-    puts "Setting rights on #{obj.class} #{obj.pid}"
+    puts "Setting rights on #{obj.class} #{obj.id}"
     begin
       obj.edit_groups = ['Chronos-Admin']
       obj.save
     rescue => e
-      puts "Error setting rights on #{obj.class} #{obj.pid} #{e}"
+      puts "Error setting rights on #{obj.class} #{obj.id} #{e}"
     end
   end
 
