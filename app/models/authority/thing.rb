@@ -10,6 +10,10 @@ module Authority
     end
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
 
+    before_save do
+      edit_groups=['Chronos-Admin']
+    end
+
     def same_as_uri=(uris)
       uris.each do |uri|
         self.same_as += [::RDF::URI.new(uri)] if uri.present?
