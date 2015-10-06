@@ -20,7 +20,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <!-- this is for image URIs that are not absolute 
        (not starting with http -->
 
-  <xsl:param name="prefix" select="''"/>
+  <xsl:param name="prefix" select="'http://kb-images.kb.dk/public/'"/>
 
   <xsl:output encoding="UTF-8"
 	      indent="yes"
