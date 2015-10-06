@@ -62,6 +62,7 @@ module Administration
       Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
         while line = stdout.gets
           self.add_sync_message(line)
+          Rails.logger.debug(line) unless Rails.logger.nil?
         end
         self.add_sync_message(stderr.read)
         exit_status = wait_thr.value

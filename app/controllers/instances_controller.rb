@@ -79,7 +79,7 @@ class InstancesController < ApplicationController
     logger.debug("#{@instance}")
     if @instance.update(instance_params)
       # TODO: TEI specific logic should be in an after_save hook rather than on the controller
-      if @instance.type == 'TEI'
+      if @instance.type == 'TEI' && @instance.activity == Administration::Activity.where(activity: 'ADL').first.id
         @instance.content_files.each do |f|
           # TODO - make this also work for internally managed TEI files
           if f.external_file_path
