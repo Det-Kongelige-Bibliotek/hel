@@ -105,28 +105,35 @@
   </xsl:template>
 
   <xsl:template match="t:note">
-    <p>
+    <div class="note">
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="t:eg">
+    <p class="eg">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </p>
   </xsl:template>
 
   <xsl:template match="t:quote">
-    <q>
+    <q class="quote">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </q>
   </xsl:template>
 
   <xsl:template match="t:head">
-    <h2>
+    <h2 class="head">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </h2>
   </xsl:template>
 
   <xsl:template match="t:p">
-    <p>
+    <p class="paragraph">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </p>
@@ -139,7 +146,7 @@
  </xsl:template>
 
   <xsl:template match="t:lg">
-    <p>
+    <p class="lineGroup">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </p>
@@ -147,7 +154,10 @@
 
   <xsl:template match="t:l">
     <xsl:apply-templates/>
-    <xsl:element name="br"><xsl:call-template name="add_id_empty_elem"/></xsl:element>
+    <xsl:element name="br">
+      <xsl:call-template name="add_id_empty_elem"/>
+      <xsl:attribute name="class">line</xsl:attribute>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="t:ref">
@@ -220,12 +230,12 @@
   </xsl:template>
 
   <xsl:template match="t:sp">
-    <dl>
+    <dl class="speak">
       <xsl:call-template name="add_id"/>
-      <dt>
+      <dt class="speaker">
 	<xsl:apply-templates select="t:speaker"/>
       </dt>
-      <dd>
+      <dd class="thespoken">
 	<xsl:apply-templates select="t:stage|t:p|t:lg|t:pb"/>
       </dd>
     </dl>
@@ -241,7 +251,7 @@
   </xsl:template>
 
   <xsl:template match="t:sp/t:stage|t:p/t:stage|t:lg/t:stage|t:l/t:stage">
-    <em><xsl:text>
+    <em class="stage"><xsl:text>
       (</xsl:text><xsl:element name="span">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
