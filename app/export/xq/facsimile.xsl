@@ -62,7 +62,6 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="t:pb">
     <xsl:element name="div">
       <xsl:call-template name="add_id"/>
-      <xsl:call-template name="img_ref"/>
       <span class="pageBreak">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
@@ -72,6 +71,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	  <xsl:value-of select="@n"/>
 	</xsl:element>
       </span>
+      <xsl:call-template name="img_ref"/>
     </xsl:element> 
   </xsl:template>
 
