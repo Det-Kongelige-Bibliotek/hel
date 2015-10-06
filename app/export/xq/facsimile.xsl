@@ -17,6 +17,11 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:param name="doc" select="''"/>
   <xsl:param name="hostname" select="''"/>
 
+  <!-- this is for image URIs that are not absolute 
+       (not starting with http -->
+
+  <xsl:param name="prefix" select="''"/>
+
   <xsl:output encoding="UTF-8"
 	      indent="yes"
 	      method="xml"
@@ -58,21 +63,14 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
     <xsl:element name="div">
       <xsl:call-template name="add_id"/>
       <xsl:call-template name="img_ref"/>
-      <span>
-	<xsl:text>[</xsl:text>
-	<xsl:text>s. </xsl:text>
-	<xsl:comment>
-	  The operation to retrieve the facsimile version is to retrieve a doc
-	  from the subdirectory ./facsimile with a given #fragment. We can do
-	  the opposite by retrieving ../#fragment
-	</xsl:comment>
+      <span class="pageBreak">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
 	    <xsl:value-of select="concat('../#',@xml:id)"/>
 	  </xsl:attribute>
+	  <xsl:text>s. </xsl:text>
 	  <xsl:value-of select="@n"/>
 	</xsl:element>
-	<xsl:text>]</xsl:text>
       </span>
     </xsl:element> 
   </xsl:template>
@@ -105,7 +103,8 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
       <xsl:when test="not(contains(@facs,'http')) and not(contains(@rend,'missing'))">
         <xsl:element name="img">
           <xsl:attribute name="data-src">
-            <xsl:value-of select="concat($prefix,@facs,'/full/full/0/native.jpg')"/>
+            <xsl:value-of 
+		select="concat($prefix,@facs,'/full/full/0/native.jpg')"/>
           </xsl:attribute>
           <xsl:attribute name="src">
           </xsl:attribute>
