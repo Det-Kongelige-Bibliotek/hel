@@ -17,6 +17,11 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:param name="doc" select="''"/>
   <xsl:param name="hostname" select="''"/>
 
+  <!-- this is for image URIs that are not absolute 
+       (not starting with http -->
+
+  <xsl:param name="prefix" select="'http://kb-images.kb.dk/public/'"/>
+
   <xsl:output encoding="UTF-8"
 	      indent="yes"
 	      method="xml"
@@ -57,10 +62,16 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template match="t:pb">
     <xsl:element name="div">
       <xsl:call-template name="add_id"/>
+      <span class="pageBreak">
+	<xsl:element name="a">
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="concat('../#',@xml:id)"/>
+	  </xsl:attribute>
+	  <xsl:text>s. </xsl:text>
+	  <xsl:value-of select="@n"/>
+	</xsl:element>
+      </span>
       <xsl:call-template name="img_ref"/>
-      <xsl:text>[</xsl:text>
-      <xsl:text>s. </xsl:text><small><xsl:value-of select="@n"/></small>
-      <xsl:text>]</xsl:text>
     </xsl:element> 
   </xsl:template>
 
@@ -92,7 +103,8 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
       <xsl:when test="not(contains(@facs,'http')) and not(contains(@rend,'missing'))">
         <xsl:element name="img">
           <xsl:attribute name="data-src">
-            <xsl:value-of select="concat($prefix,@facs,'/full/full/0/native.jpg')"/>
+            <xsl:value-of 
+		select="concat($prefix,@facs,'/full/full/0/native.jpg')"/>
           </xsl:attribute>
           <xsl:attribute name="src">
           </xsl:attribute>

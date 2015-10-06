@@ -83,7 +83,7 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="t:div|t:div1|t:div2|t:div3">
+  <xsl:template match="t:div">
     <div>
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
@@ -269,12 +269,12 @@
 				    substring-before($doc,'.xml'),
 				    '%23',
 				    $id,
-				    '/facsimile#',@xml:id)"/>
+				    '/facsimile/#',@xml:id)"/>
 	    </xsl:when>
 	    <xsl:otherwise>
               <xsl:value-of select="concat('/catalog/',
 				    substring-before($doc,'.xml'),
-				    '/facsimile#',@xml:id)"/>
+				    '/facsimile/#',@xml:id)"/>
 	    </xsl:otherwise>
 	  </xsl:choose>
 	</xsl:attribute>
