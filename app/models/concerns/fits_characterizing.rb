@@ -64,11 +64,17 @@ module Concerns
       # Extracts the fields for the techMetadata from the FITS xml.
       # @param xml The xml with the characterization output from FITS.
       def extract_techMetadata_from_fits_xml(xml)
-        self.format_name = xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_NAME, NAMESPACE).first.to_s
-        self.format_mimetype = xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_MIMETYPE, NAMESPACE).first.to_s
-        self.format_version = xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_VERSION, NAMESPACE).first.to_s
-        self.format_pronom_id = xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_FORMAT_PRONOM_ID, NAMESPACE).first.to_s
-        self.creating_application = xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).empty? ? 'unknown' : xml.xpath(XPATH_CREATING_APPLICATION, NAMESPACE).first.to_s
+        self.format_name = extract_fits_field_from_xml_or_unknown(xml, XPATH_FORMAT_NAME)
+        self.format_mimetype = extract_fits_field_from_xml_or_unknown(xml, XPATH_FORMAT_MIMETYPE)
+        self.format_version = extract_fits_field_from_xml_or_unknown(xml, XPATH_FORMAT_VERSION)
+        self.creating_application = extract_fits_field_from_xml_or_unknown(xml, XPATH_CREATING_APPLICATION)
+
+        conflict = get_fits_field(xml, XPATH_FORMAT_IDENTIFICATION_STATUS)
+        if !conflict.blank? && conflict == 'CONFLICT'
+          self.format_pronom_id = 'CONFLICT ' + extract_fits_field_from_xml_or_unknown(xml, XPATH_FORMAT_PRONOM_ID)
+        else
+          self.format_pronom_id = extract_fits_field_from_xml_or_unknown(xml, XPATH_FORMAT_PRONOM_ID)
+        end
 
         tools = []
         xml.xpath(XPATH_CHARACTERIZATION_TOOLS, NAMESPACE).each do |x|
@@ -77,6 +83,7 @@ module Concerns
         self.characterization_tools = tools
       end
 
+      XPATH_FORMAT_IDENTIFICATION_STATUS = 'fits:fits/fits:identification/@status'
       XPATH_FORMAT_NAME = 'fits:fits/fits:identification/fits:identity/@format'
       XPATH_FORMAT_MIMETYPE = 'fits:fits/fits:identification/fits:identity/@mimetype'
       XPATH_FORMAT_PRONOM_ID = 'fits:fits/fits:identification/fits:identity/fits:externalIdentifier/text()'
@@ -84,6 +91,36 @@ module Concerns
       XPATH_CREATING_APPLICATION = 'fits:fits/fits:fileinfo/fits:creatingApplicationName/text()'
       XPATH_CHARACTERIZATION_TOOLS = 'fits:fits/fits:identification/fits:identity/fits:tool'
       NAMESPACE={'fits' => 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output'}
+    end
+
+    private
+    # @param xml The XML to traverse to find the element at the given path. Must be applicable to the FITS namespace.
+    # @param path The xpath in the XML for the given element
+    # @return The value in the XML at the given xpath. Or 'unknown' if the field is empty.
+    def extract_fits_field_from_xml_or_unknown(xml, path)
+      res = get_fits_field(xml, path)
+      if res.blank?
+        'unknown'
+      else
+        res
+      end
+    end
+
+    # @param xml The XML to traverse to find the element at the given path. Must be applicable to the FITS namespace.
+    # @param path The xpath in the XML for the given element
+    # @return Whether the XML field has the given value
+    def get_fits_field(xml, path)
+      res = xml.xpath(path, NAMESPACE)
+      if res.empty?
+        nil
+      else
+        res = res.select{|i| !i.blank?}
+        if res.first.blank?
+          nil
+        else
+          res.first.to_s
+        end
+      end
     end
   end
 end

@@ -95,6 +95,13 @@ describe 'content' do
         expect(@f).to respond_to(:format_pronom_id)
         expect(@f.format_pronom_id).to eq "unknown"
       end
+
+      it 'should discover a conflict and put it into the pronom-id' do
+        f = File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'mods-3-5.xsd'))
+        @f.add_fits_metadata_datastream(f)
+        @f.save!
+        expect(@f.format_pronom_id).to include 'CONFLICT'
+      end
     end
   end
 
