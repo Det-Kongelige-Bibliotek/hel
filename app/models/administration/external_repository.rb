@@ -43,7 +43,7 @@ module Administration
    end
 
     def update
-      cmd = "cd #{self.base_dir};git checkout -f #{self.branch};git pull"
+      cmd = "cd #{self.base_dir};git checkout -f #{self.branch};git pull origin #{self.branch}"
       success = false
       Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
         while line = stdout.gets
@@ -57,11 +57,12 @@ module Administration
     end
 
     def push
-      cmd = "cd #{self.base_dir};git checkout #{self.branch};git commit -a -m'commit from valhal'; git push --force"
+      cmd = "cd #{self.base_dir};git checkout #{self.branch};git commit -a -m'commit from valhal'; git push --force origin #{self.branch}"
       success = false
       Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
         while line = stdout.gets
           self.add_sync_message(line)
+          Rails.logger.debug(line) unless Rails.logger.nil?
         end
         self.add_sync_message(stderr.read)
         exit_status = wait_thr.value

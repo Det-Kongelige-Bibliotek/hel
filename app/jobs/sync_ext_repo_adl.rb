@@ -151,8 +151,8 @@ class SyncExtRepoADL
 
     authors_found = false
     doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
-      surname = n.xpath("//xmlns:surname").text.mb_chars.titleize.to_s
-      forename = n.xpath("//xmlns:forename").text.mb_chars.titleize.to_s
+      surname = n.xpath("./*/xmlns:surname").text.mb_chars.titleize.to_s
+      forename = n.xpath("./*/xmlns:forename").text.mb_chars.titleize.to_s
       p = Authority::Person.find_or_create_person(forename,surname)
       w.add_author(p)
       authors_found = true
