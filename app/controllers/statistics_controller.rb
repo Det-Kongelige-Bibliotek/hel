@@ -23,6 +23,7 @@ class StatisticsController < ApplicationController
              'characterization_tools_tesim',
              'creating_application_tesim']
   SOLR_FL_ALL = SOLR_FL_ADMINISTRATIVE + SOLR_FL_COMMON + SOLR_FL_TECHNICAL
+  SOLR_FL_ID_ONLY = 'id'
   SOLR_MAX = 10000000
 
   SOLR_PARAMS_FILE_SIZE_SUM = {
@@ -43,6 +44,8 @@ class StatisticsController < ApplicationController
 
     if(params[:commit] == "Extract as CSV")
       extract_cvs(params)
+    elsif(params[:commit] == "Run FITS on results")
+      rerun_fits(params)
     else
       retrieve_group_from_solr(params)
     end
@@ -78,6 +81,19 @@ class StatisticsController < ApplicationController
     p.merge!(SOLR_PARAMS_SOLR_GROUP)
     p.merge!(SOLR_PARAMS_FILE_SIZE_SUM) if (params['file_size_sum'] && params['file_size_sum'] == '1')
     @group = solr.get 'select', :params => p
+  end
+
+  # Reruns FITS on the result of the search.
+  # Retrieves only the 'id' field from SOLR, and uses all the 'id' results for creating FITS jobs.
+  #
+  # @param params The parameters to be translated into SOLR parameters.
+  def rerun_fits(params)
+    solr = RSolr.connect :url => CONFIG[:solr_url]
+    p = create_query(params)
+    p.merge!(:fl => SOLR_FL_ID_ONLY)
+    @res = solr.get 'select', :params => p
+    send_fits_for_ids(@res['response']['docs'].map{|i| i['id']}) unless @res['response'].nil? || @res['response']['docs'].nil?
+    redirect_to statistics_path, params
   end
 
   def create_query(params)
@@ -160,7 +176,6 @@ class StatisticsController < ApplicationController
                       @params[:created_dtsim]['max_time(5i)'].to_i)
   end
 
-
   def create_cvs_prefix(params, query=nil)
     res = ""
     # Show search terms in hash values as comma separated, and only if they contain values.
@@ -172,5 +187,12 @@ class StatisticsController < ApplicationController
       end
     end
     res
+  end
+
+  def send_fits_for_ids(ids)
+    ids.each do |id|
+      puts "Sending FITS job for #{id}"
+      Resque.enqueue(FitsCharacterizingJob,id)
+    end
   end
 end
