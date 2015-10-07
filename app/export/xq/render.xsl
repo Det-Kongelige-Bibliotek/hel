@@ -172,6 +172,27 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="t:table">
+    <table>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </table>
+  </xsl:template>
+
+  <xsl:template match="t:row">
+    <tr>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </tr>
+  </xsl:template>
+
+  <xsl:template match="t:cell">
+    <td>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </td>
+  </xsl:template>
+
   <xsl:template match="t:list[@type='ordered']">
     <ol><xsl:call-template name="add_id"/><xsl:apply-templates/></ol>
   </xsl:template>
