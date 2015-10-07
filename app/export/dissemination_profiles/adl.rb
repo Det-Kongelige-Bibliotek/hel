@@ -76,7 +76,7 @@ module DisseminationProfiles
 
     def self.generate_person_doc(author)
       Resque.logger.debug "disseminating author #{author.id}"
-      doc = {id: author.id, cat_ssi: 'person', work_title_tesim: author.full_name, author_name: author.full_name,
+      doc = {id: author.id, cat_ssi: 'person', work_title_tesim: author.full_name,
              family_name_ssi: author.family_name, given_name_ssi: author.given_name,
              birth_date_ssi: author.birth_date, death_date_ssi: author.death_date, type_ssi: 'trunk'}
       RSolr.connect.xml.add(doc,{})
