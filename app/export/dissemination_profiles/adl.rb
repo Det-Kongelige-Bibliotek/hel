@@ -125,7 +125,7 @@ module DisseminationProfiles
         vars << "'#{CGI.escapeHTML(instance.publisher_place.to_a.join(', '))}'"
       end
       vars << 'uri_base'
-      vars << "'http://adl.kb.dk/catalog'"
+      vars << "'http://adl.kb.dk/catalog/'"
     end
 
     # send a put request to exist with the updated file
