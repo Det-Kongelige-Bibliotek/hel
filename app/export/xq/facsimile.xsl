@@ -35,6 +35,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	    <xsl:attribute name="id">
 	      <xsl:value-of select="$id"/>
 	    </xsl:attribute>
+	    <xsl:attribute name="class">snippetRoot</xsl:attribute>
 	    <xsl:for-each select="preceding::t:pb[1]">
 	      <xsl:apply-templates select="."/>
 	    </xsl:for-each>
@@ -43,11 +44,17 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	</xsl:for-each>
       </xsl:when>
       <xsl:otherwise>
-	<div>
-	  <xsl:apply-templates/>
-	</div>
+	<xsl:apply-templates select="t:TEI" />
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="t:TEI">
+    <xsl:element name="div">
+      <xsl:attribute name="class">snippetRoot</xsl:attribute>
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="t:teiHeader|t:front|t:back"/>
