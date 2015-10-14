@@ -317,7 +317,7 @@
 
   <xsl:template name="add_id">
     <xsl:if test="$id = @xml:id">
-      <xsl:attribute name="class">snippetRoot</xsl:attribute>      
+      <xsl:attribute name="class">text snippetRoot</xsl:attribute>      
     </xsl:if>
     <xsl:call-template name="add_id_empty_elem"/>
     <xsl:if test="not(descendant::node())">

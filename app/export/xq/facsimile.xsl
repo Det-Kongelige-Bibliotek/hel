@@ -35,7 +35,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	    <xsl:attribute name="id">
 	      <xsl:value-of select="$id"/>
 	    </xsl:attribute>
-	    <xsl:attribute name="class">snippetRoot</xsl:attribute>
+	    <xsl:attribute name="class">facsimile snippetRoot</xsl:attribute>
 	    <xsl:for-each select="preceding::t:pb[1]">
 	      <xsl:apply-templates select="."/>
 	    </xsl:for-each>
