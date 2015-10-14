@@ -14,7 +14,7 @@ module Authority
     # GET /authority/bases/1
     # GET /authority/bases/1.json
     def show
-      authorize! :read, params[:id]
+      authorize! :read, URI.unescape(params[:id])
     end
 
     # GET /authority/bases/new
@@ -24,7 +24,7 @@ module Authority
 
     # GET /authority/bases/1/edit
     def edit
-      authorize! :edit, params[:id]
+      authorize! :edit, URI.unescape(params[:id])
     end
 
     # POST /authority/bases
@@ -50,7 +50,7 @@ module Authority
     # PATCH/PUT /authority/bases/1
     # PATCH/PUT /authority/bases/1.json
     def update
-      authorize! :edit, params[:id]
+      authorize! :edit, URI.unescape(params[:id])
       respond_to do |format|
         if @authority_object.update(authority_base_params)
           format.html { redirect_to @authority_object, notice: t('authority.bases.updated',
