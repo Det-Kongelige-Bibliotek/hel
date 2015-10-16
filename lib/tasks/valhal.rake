@@ -36,6 +36,11 @@ namespace :valhal do
     Authority::Person.all.each{|p| add_default_rights(p)}
   end
 
+  desc 'Set default rights on Person Objects'
+  task set_default_rights_organization: :environment do
+    Authority::Organization.all.each{|p| add_default_rights(p)}
+  end
+
   private
 
   def add_default_rights(obj)

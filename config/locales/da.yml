@@ -175,6 +175,7 @@ da:
         type: Type
         agent: Agent
         creator: Ophav
+        year_published: Udgivelsesdato
     placeholders:
       defaults:
         value: Titel eller label
