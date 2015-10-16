@@ -1,6 +1,7 @@
 module Authority
   # To be subclassed by Person, Organisation, etc.
   class Thing < ActiveFedora::Base
+    include Hydra::AccessControls::Permissions
 
     property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: true
     property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false

@@ -1,6 +1,5 @@
 module Authority
   class Person < Thing
-    include Hydra::AccessControls::Permissions
 
     property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false do |index|
       index.as :stored_searchable
