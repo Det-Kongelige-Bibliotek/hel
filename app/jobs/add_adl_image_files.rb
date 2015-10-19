@@ -39,7 +39,7 @@ class AddAdlImageFiles
           tiff_inst.activity = tei_inst.activity
           tiff_inst.copyright = tei_inst.copyright
           tiff_inst.collection = tei_inst.collection
-          tiff_inst.preservation_profile = tei_inst.preservation_profile
+          tiff_inst.preservation_collection = tei_inst.preservation_collection
           tiff_inst.type = 'TIFF'
           tiff_inst.set_work=tei_inst.work
           tiff_inst.set_equivalent = tei_inst

@@ -253,7 +253,7 @@ class Instance < ActiveFedora::Base
     i.activity = activity.id
     i.collection = activity.collection
     i.copyright = activity.copyright
-    i.preservation_profile = activity.preservation_profile
+    i.preservation_collection = activity.preservation_collection
     i
   end
 

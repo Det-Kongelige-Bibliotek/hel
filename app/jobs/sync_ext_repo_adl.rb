@@ -200,7 +200,7 @@ class SyncExtRepoADL
     i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
     i.collection = adl_activity.collection
-    i.preservation_profile = adl_activity.preservation_profile
+    i.preservation_collection = adl_activity.preservation_collection
     i.type = 'TEI'
     i.external_repository = repo_id
 

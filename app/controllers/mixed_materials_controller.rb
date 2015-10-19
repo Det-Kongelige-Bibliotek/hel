@@ -50,7 +50,7 @@ class MixedMaterialsController < ApplicationController
                          instances_attributes: [ [ :id, :type, :activity, :title_statement, :extent, :copyright,
                          :dimensions, :mode_of_issuance, :isbn13, :contents_note, :embargo,
                          :embargo_date, :embargo_condition, :access_condition, :availability,
-                         :preservation_profile, collection: [], note: [],
+                         :preservation_collection, collection: [], note: [],
                          relators_attributes: [[ :id, :agent_id, :role ]],
                          publications_attributes: [[:id, :copyright_date, :provider_date ]] ]], content_files: []
     ).tap { |elems| remove_blanks(elems)}

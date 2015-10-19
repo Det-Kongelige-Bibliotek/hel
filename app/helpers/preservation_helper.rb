@@ -89,26 +89,26 @@ module PreservationHelper
     element.save
   end
 
-  # Updates the preservation profile for a given element (e.g. a basic_files, a instance, a work, etc.)
+  # Updates the preservation collection for a given element (e.g. a basic_files, a instance, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation
-  # @param element The element to have its preservation profile changed.
-  def set_preservation_profile(profile, comment, element)
+  # @param element The element to have its preservation collection changed.
+  def set_preservation_collection(profile, comment, element)
     puts "Updating '#{element.to_s}' with profile '#{profile}' and comment '#{comment}'"
-    if (profile.blank? || element.preservationMetadata.preservation_profile.first == profile) && (comment.blank? || element.preservationMetadata.preservation_comment.first == comment)
+    if (profile.blank? || element.preservationMetadata.preservation_collection.first == profile) && (comment.blank? || element.preservationMetadata.preservation_comment.first == comment)
       puts 'Nothing to change for the preservation update'
       return
     end
 
-    # Do not update, if the preservation profile is not among the valid profiles in the configuration.
-    unless PRESERVATION_CONFIG['preservation_profile'].keys.include? profile
-      raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_profile"].keys}"
+    # Do not update, if the preservation collection is not among the valid profiles in the configuration.
+    unless PRESERVATION_CONFIG['preservation_collection'].keys.include? profile
+      raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_collection"].keys}"
     end
 
     set_preservation_modified_time(element)
-    element.preservationMetadata.preservation_profile = profile
-    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_profile'][profile]['bit_safety']
-    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_profile'][profile]['confidentiality']
+    element.preservationMetadata.preservation_collection = profile
+    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_collection'][profile]['bit_safety']
+    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_collection'][profile]['confidentiality']
     element.preservationMetadata.preservation_comment = comment
     element.save
   end

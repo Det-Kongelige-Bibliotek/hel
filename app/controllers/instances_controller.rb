@@ -65,7 +65,7 @@ class InstancesController < ApplicationController
       @instance.work = @work
       if @instance.save
         flash[:notice] = t('instances.flashmessage.ins_saved', var: @klazz)
-        @instance.cascade_preservation_profile
+        @instance.cascade_preservation_collection
       else
         flash[:notice] = t('instances.flashmessage.ins_saved_fail', var: @klazz)
       end
@@ -93,7 +93,7 @@ class InstancesController < ApplicationController
         repo.push if repo.present?
       end
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
-      @instance.cascade_preservation_profile
+      @instance.cascade_preservation_collection
     else
       @instance.relators.build
       @instance.publications.build unless @instance.publication.present?
@@ -108,10 +108,6 @@ class InstancesController < ApplicationController
       flash[:notice] = t('instances.flashmessage.no_preserved')
     end
     redirect_to work_instance_path(@instance.work, @instance)
-  end
-
-  def perform_fits
-    
   end
 
   # DELETE /instances/1
@@ -170,7 +166,7 @@ class InstancesController < ApplicationController
     params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
-                                     :access_condition, :availability, :preservation_profile, collection: [],
+                                     :access_condition, :availability, :preservation_collection, collection: [],
                                      note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
                                      publications_attributes: [[:id, :copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }

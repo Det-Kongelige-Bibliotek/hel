@@ -104,7 +104,7 @@ da:
     show_files:
       label: "Filer"
       file_name: "Filnavn"
-      bev_profil: "Bevaringsprofil"
+      bev_collection: "Bevaringssamling"
       bev_status: "Bevaringsstatus"
       bev_detaljer: "Bevaringsdetaljer"
       download: "Download link"
@@ -116,10 +116,10 @@ da:
       collection: "Samling"
       copyright: "Licens"
       embargo_condition: "Klausuleringsbetingelser"
-      preservation_profile: "Bevaringsprofil"
+      preservation_collection: "Bevaringssamling"
       preservation_state: "Bevaringsstatus"
       preservaton_details: "Bevaringsdetaljer"
-      preservation_date: "Bevaringsdato"
+      preservation_date: "Bevarings status dato"
       warc_id: "WARC id"
     activity_input:
       activity: "Aktivitet"
@@ -131,7 +131,7 @@ da:
       klaus: "Klausuleringstype"
       license: "Vælg licens"
       preservation: "Bevaring"
-      preserv_profile: "Bevaringsprofil"
+      preserv_collection: "Bevaringssamling"
       is_available: "Må tilgængeliggøres?"
       edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
       choose_collection: 'Vælg en eller flere samlinger'
@@ -220,7 +220,7 @@ da:
   instance_types: Instanstyper
   collections: Samlinger
   access_types: Adgangsbetingelser
-  preservation_profiles: Bevaringsprofiler
+  preservation_collections: Bevaringssamlinger
   copyright_licenses: Copyrightlicenser
   hydra_access_groups: Adgangsgrupper
   hydra_access_types: Adgangstyper
@@ -430,7 +430,7 @@ da:
     search_for_files_belonging_to_a_given_work: 'Søg efter filer tilhørende et givent værk: '
     search_for_files_belonging_to_a_given_instance: 'Søg efter filer tilhørende en given instans: '
     search_for_files_belonging_to_instance_of_type: 'Søg efter filer tilhørende en instans af typen: '
-    search_for_preservation_profile: 'Søg efter bevarings profil: '
+    search_for_preservation_collection: 'Søg efter bevarings samling: '
     search_for_mimetype: 'Søg efter mimetype: '
     lower_datetime_limit: 'Nedre grænse for datostempel: '
     upper_datetime_limit: 'Øvre grænse for datostempel: '

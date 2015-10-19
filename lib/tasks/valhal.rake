@@ -3,7 +3,7 @@ namespace :valhal do
   task set_default_rights: :environment do
       Work.all.collect {|t| add_default_rights(t)}
       Instance.all.collect {|t| add_default_rights(t)}
-      Trykforlaeg.all.collect {|t| add_default_rights(t)}
+      # Trykforlaeg.all.collect {|t| add_default_rights(t)}
       ContentFile.all.collect {|t| add_default_rights(t)}
       Authority::Base.all.collect {|t| add_default_rights(t)}
   end

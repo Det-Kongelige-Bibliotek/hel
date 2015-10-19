@@ -16,7 +16,7 @@ describe 'Send object to preservation' do
       w.save!
       @i = Instance.create(valid_trykforlaeg)
       @i.set_work = w
-      @i.preservation_profile = 'eternity'
+      @i.preservation_collection = 'eternity'
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       @i.save!
       @i.reload
