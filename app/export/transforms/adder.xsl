@@ -85,10 +85,7 @@
 
     <doc>
 
-      <xsl:element name="field">
-	<xsl:attribute name="name">type_ssi</xsl:attribute>
-	leaf
-      </xsl:element>
+      <xsl:element name="field"><xsl:attribute name="name">type_ssi</xsl:attribute>leaf</xsl:element>
 
       <xsl:call-template name="add_globals"/>
 
