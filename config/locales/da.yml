@@ -65,6 +65,7 @@ da:
       ins_updated: "%{var} er opdateret."
       preserved: 'Instans og indholdsfiler sendt til bevaring'
       no_preserved: 'Kunne ikke send til bevaring'
+      no_file: 'Kunne ikke send til bevaring uden indholdsfiler'
       destroy: "%{var} er slettet"
       admin_updated: "Administrative metadata er opdateret"
     index:

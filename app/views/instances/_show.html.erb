@@ -16,10 +16,12 @@
                <%= link_to "Valider TEI-instans", validate_tei_work_instance_url(@work,@instance), :class => "btn btn-danger" %>
             <% end %>
         <% end %>
-        <% if can?(:send_to_preservation, @instance) %>
-            <%= link_to 'Send til Bevaring', send_to_preservation_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
+        <% send_to_preservation_flag = can?(:send_to_preservation, @instance) && @instance.content_files().present? %>
+        <%= link_to 'Send til Bevaring', send_to_preservation_work_instance_url(@work,@instance), class: 'btn btn-primary', :disabled => !send_to_preservation_flag %>
+        <% if can?(:send_to_preservation, @instance)%>
             <%= link_to 'Rediger', edit_work_instance_url(@work,@instance), class: 'btn btn-primary' %>
         <% end %>
+
 
       </div>
       <h1><%= "Instance #{@instance.type}" %></h1>
