@@ -229,15 +229,22 @@ function fetchActivityData(){
             if (item == 'Undefined') return;
             console.log(i + '-' + item);
             var selector
-            if ( i == 'collection') {
-                selector = "[name$=\"" + i + "][]\"]";
+            if (i == 'availability') {
+                // handle availability seperately, as the general method does not work for radiobuttons
+                selector = "[name$=\"" + i + "]\"][value=\""+ item +"\"]";
+                $(selector).prop('checked',true);
+                selector = "[name$=\"" + i + "]\"][value!=\""+ item +"\"]";
+                $(selector).prop('checked',false);
+            } else {
+                if (i == 'collection') {
+                    selector = "[name$=\"" + i + "][]\"]";
 
-             } else {
-                selector = "[name$=\"" + i + "]\"]";
+                } else {
+                    selector = "[name$=\"" + i + "]\"]";
+                }
+                $(selector).val(item);
+                $('.selectpicker').selectpicker('refresh');
             }
-            console.log(selector);
-            $(selector).val(item);
-            $('.selectpicker').selectpicker('refresh');
         });
         //make sure all checkboxes appearances match their values
         var $checkboxes = $('input[type="checkbox"]');
