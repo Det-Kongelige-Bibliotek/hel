@@ -135,6 +135,8 @@ da:
       is_available: "Må tilgængeliggøres?"
       edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
       choose_collection: 'Vælg en eller flere samlinger'
+      yes: "Ja"
+      no: "Nej"
     image_found:
       check: "Tjek TEI-linjeskift"
     image_found_modal:

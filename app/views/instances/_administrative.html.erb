@@ -58,9 +58,9 @@
   </legend>
   <p>Må instans offentliggøres</p>
   <%= builder.radio_button :availability,'1', :checked => builder.object.availability != "0" %>
-  <%= label_tag(:age_child, "Ja") %>
+  <%= label_tag(:availability, t('.yes')) %>
   <%= builder.radio_button :availability,'0', :checked => builder.object.availability == "0" %>
-  <%= label_tag(:age_child, "Nej") %>
+  <%= label_tag(:availability, t('.no')) %>
 </fieldset>
   <fieldset class="row">
     <legend class="col-sm-12">
