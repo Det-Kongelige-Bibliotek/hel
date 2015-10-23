@@ -107,6 +107,8 @@ da:
       bev_collection: "Bevaringssamling"
       bev_status: "Bevaringsstatus"
       bev_detaljer: "Bevaringsdetaljer"
+      bev_warc_id: "WARC ID"
+      bev_file_warc_id: "Fil WARC ID"
       download: "Download link"
       upload: "Upload"
       details: "Detaljer"

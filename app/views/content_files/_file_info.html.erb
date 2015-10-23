@@ -1,17 +1,11 @@
 <table class="table table-striped"><tbody>
 <tr>
-  <td> <strong><%= t('instances.show_files.file_name')%></strong></td>
-  <td>
-    <%= file.original_filename %>
-  </td>
+  <td><strong><%= t('instances.show_files.file_name')%></strong></td>
+  <td><%= file.original_filename %></td>
 </tr>
 <tr>
-  <td>
-    <strong><%= t('instances.show_files.bev_collection')%></strong>
-  </td>
-  <td>
-    <span><%= file.preservation_collection %></span>
-  </td>
+  <td><strong><%= t('instances.show_files.bev_collection')%></strong></td>
+  <td><span><%= file.preservation_collection %></span></td>
 </tr>
 <tr>
   <td><strong><%= t('instances.show_files.bev_status')%></strong></td>
@@ -20,6 +14,14 @@
 <tr>
   <td><strong><%= t('instances.show_files.bev_detaljer')%></strong></td>
   <td><%= file.preservation_details %></td>
+</tr>
+<tr>
+  <td><strong><%= t('instances.show_files.bev_warc_id') %></strong></td>
+  <td><%= file.warc_id %></td>
+</tr>
+<tr>
+  <td><strong><%= t('instances.show_files.bev_file_warc_id') %></strong></td>
+  <td><%= file.file_warc_id %></td>
 </tr>
 <tr>
   <td><strong><%= t('instances.show_files.download')%></strong></td>
