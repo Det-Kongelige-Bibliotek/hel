@@ -24,6 +24,10 @@
   <td><%= file.file_warc_id %></td>
 </tr>
 <tr>
+  <td><strong><%= t('instances.show_files.bev_preservation_initiated_date') %></strong></td>
+  <td><%= file.preservation_initiated_date %></td>
+</tr>
+<tr>
   <td><strong><%= t('instances.show_files.download')%></strong></td>
   <td>
     <%if can?(:download, file) %>

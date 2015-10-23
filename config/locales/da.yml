@@ -109,6 +109,7 @@ da:
       bev_detaljer: "Bevaringsdetaljer"
       bev_warc_id: "WARC ID"
       bev_file_warc_id: "Fil WARC ID"
+      bev_preservation_initiated_date: "Bevaring startet dato"
       download: "Download link"
       upload: "Upload"
       details: "Detaljer"
@@ -122,6 +123,7 @@ da:
       preservation_state: "Bevaringsstatus"
       preservaton_details: "Bevaringsdetaljer"
       preservation_date: "Bevarings status dato"
+      preservation_initiated_date: "Bevaring startet dato"
       warc_id: "WARC id"
     activity_input:
       activity: "Aktivitet"
