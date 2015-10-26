@@ -25,7 +25,7 @@
 </tr>
 <tr>
   <td><strong><%= t('instances.show_files.bev_preservation_initiated_date') %></strong></td>
-  <td><%= file.preservation_initiated_date %></td>
+  <td><%= file.preservation_initiated_date || t('instances.show_files.preservation_not_started') %></td>
 </tr>
 <tr>
   <td><strong><%= t('instances.show_files.download')%></strong></td>

@@ -82,7 +82,7 @@
 </tr>
 <tr>
   <td><strong><%= t('instances.show_administrative.preservation_initiated_date') %></strong></td>
-  <td><%= @instance.preservation_initiated_date %></td>
+  <td><%= @instance.preservation_initiated_date || t('instances.show_administrative.preservation_not_started') %></td>
 </tr>
 <tr>
   <td>
