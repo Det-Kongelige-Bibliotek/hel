@@ -88,7 +88,7 @@ module Concerns
           puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
           if self.save
             message = create_preservation_message
-            send_message_to_preservation(message.to_json)
+            MqHelper.send_message_to_preservation(message.to_json)
           else
             raise "Initate_Preservation: Failed to update preservation data"
           end
