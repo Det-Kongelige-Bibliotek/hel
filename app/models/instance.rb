@@ -155,8 +155,6 @@ class Instance < ActiveFedora::Base
   def content_files=(files)
     # ensure instance is valid before saving files
     return unless self.valid?
-    #remove old file
-    content_files.delete_all
     files.each do |f|
       self.add_file(f)
     end

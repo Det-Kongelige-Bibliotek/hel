@@ -416,6 +416,7 @@ da:
     be_admin: "Du skal være administrator for at kunne opdatere"
   edtf:
     error_message: "skal være valid EDTF"
+    no_date_message: "skal have en oprindelsesdato"
 
   statistics:
     preservation_statistics_based_on_solr: "Bevaring statistik baseret på SOLR"
