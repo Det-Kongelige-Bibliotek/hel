@@ -13,5 +13,5 @@ RSpec.shared_context 'shared' do
   let (:person) { Authority::Person.new(given_name: 'James', family_name: 'Joyce')}
   let (:relator) { Relator.from_rel('aut', person ) }
   let (:work_params) { {titles: [ title ], relators: [relator], origin_date: '1870/unknown' } }
-  let (:org_params) {  { same_as: 'http://viaf.org/viaf/127954890', _name: 'Gyldendalske boghandel, Nordisk forlag', founding_date: '1770' }}
+  let (:org_params) {  { same_as_uri: ['http://viaf.org/viaf/127954890'], _name: 'Gyldendalske boghandel, Nordisk forlag', founding_date: '1770' }}
 end
