@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservation_collection') %></strong>
+    <strong><%= t('instances.show_administrative.preservation_collection') %></strong>
   </td>
   <td>
     <span><%= @instance.preservation_collection %></span>
@@ -58,7 +58,7 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservation_state') %></strong>
+    <strong><%= t('instances.show_administrative.preservation_state') %></strong>
   </td>
   <td>
     <span><%= @instance.preservation_state %></span>
@@ -66,7 +66,7 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservaton_details') %></strong>
+    <strong><%= t('instances.show_administrative.preservaton_details') %></strong>
   </td>
   <td>
     <span><%= @instance.preservation_details %></span>
@@ -74,15 +74,19 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservation_date') %></strong>
+    <strong><%= t('instances.show_administrative.preservation_date') %></strong>
   </td>
   <td>
     <span><%= @instance.preservation_modify_date %></span>
   </td>
 </tr>
 <tr>
+  <td><strong><%= t('instances.show_administrative.preservation_initiated_date') %></strong></td>
+  <td><%= @instance.preservation_initiated_date || t('instances.show_administrative.preservation_not_started') %></td>
+</tr>
+<tr>
   <td>
-    <strong><%= t('.warc_id') %></strong>
+    <strong><%= t('instances.show_administrative.warc_id') %></strong>
   </td>
   <td>
     <span><%= @instance.warc_id %></span>
