@@ -65,6 +65,7 @@ da:
       ins_updated: "%{var} er opdateret."
       preserved: 'Instans og indholdsfiler sendt til bevaring'
       no_preserved: 'Kunne ikke send til bevaring'
+      no_file: 'Kunne ikke send til bevaring uden indholdsfiler'
       destroy: "%{var} er slettet"
       admin_updated: "Administrative metadata er opdateret"
     index:
@@ -140,6 +141,8 @@ da:
       is_available: "Må tilgængeliggøres?"
       edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
       choose_collection: 'Vælg en eller flere samlinger'
+    bibliographic:
+      udgivelsesform: 'Vælg udgivelsesform'
     image_found:
       check: "Tjek TEI-linjeskift"
     image_found_modal:
