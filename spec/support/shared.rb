@@ -10,8 +10,8 @@ RSpec.shared_context 'shared' do
   let (:instance_params) { { collection: ['Sample'], activity: Administration::Activity.create(activity: 'test', preservation_collection: 'Undefined').id, copyright: 'cc' }}
   let (:valid_trykforlaeg) { instance_params.merge(isbn13: '9780521169004', type: 'trykforlæg')} #, published_date: '2004')}
   let (:title) { Title.new(value: 'Dubliners')}
-  let(:person) { Authority::Person.new(given_name: 'James', family_name: 'Joyce')}
+  let (:person) { Authority::Person.new(given_name: 'James', family_name: 'Joyce')}
   let (:relator) { Relator.from_rel('aut', person ) }
-  let (:work_params) { {titles: [ title ], relators: [relator] } }
-  let (:org_params) {  { same_as: 'http://viaf.org/viaf/127954890', _name: 'Gyldendalske boghandel, Nordisk forlag', founding_date: '1770' }}
+  let (:work_params) { {titles: [ title ], relators: [relator], origin_date: 'unknown/unknown' } }
+  let (:org_params) {  { same_as: [::RDF::URI.new('http://viaf.org/viaf/127954890')], _name: 'Gyldendalske boghandel, Nordisk forlag', founding_date: '1770' }}
 end

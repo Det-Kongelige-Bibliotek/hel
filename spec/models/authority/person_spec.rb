@@ -9,13 +9,13 @@ describe Authority::Person do
     end
     it 'should be possible to initialize with a name hash' do
       p = Authority::Person.new(
-       { 'same_as' => 'http://viaf.org/viaf/44300643', 'family_name' => 'Joyce', 'given_name' => 'James', 'birth_date' => '1932', 'death_date' => '2009' })
+       { 'same_as' => [::RDF::URI.new('http://viaf.org/viaf/44300643')], 'family_name' => 'Joyce', 'given_name' => 'James', 'birth_date' => '1932', 'death_date' => '2009' })
       expect(p).to be_an Authority::Person
       expect(p.full_name).to include 'Joyce, James'
     end
     it 'should be possible to initialize with an array of name hashes' do
       p = Authority::Person.new(
-           { 'given_name' => 'Myles', 'family_name' => 'Na Gopaleen', 'same_as' => 'http://example.org' }
+           { 'given_name' => 'Myles', 'family_name' => 'Na Gopaleen', 'same_as' => [::RDF::URI.new('http://example.org')] }
       )
       expect(p.full_name).to include 'Na Gopaleen, Myles'
     end
@@ -28,7 +28,7 @@ describe Authority::Person do
   describe 'setters' do
     it 'should allow us to set an authorized name' do
       pending
-      @p.authorized_personal_name = { name: 'James Joyce', same_as: 'http://viaf.org/viaf/44300643' }
+      @p.authorized_personal_name = { name: 'James Joyce', same_as: [::RDF::URI.new('http://viaf.org/viaf/44300643')] }
       expect(@p.authorized_personal_names[:same_as][:name]).to eql 'James Joyce'
     end
     it 'should allow us to set a variant name' do
@@ -40,12 +40,12 @@ describe Authority::Person do
   describe 'display_value' do
     it 'contains the full name when this is present' do
       pending
-      @p.authorized_personal_name = { name: 'James Joyce', same_as: 'http://viaf.org/viaf/44300643' }
+      @p.authorized_personal_name = { name: 'James Joyce', same_as: [::RDF::URI.new('http://viaf.org/viaf/44300643')] }
       expect(@p.display_value).to include 'James Joyce'
     end
     it 'contains the family name when no full name is present' do
       @p.family_name = 'Joyce'
-      @p.same_as = 'http://viaf.org/viaf/44300643'
+      @p.same_as = [::RDF::URI.new('http://viaf.org/viaf/44300643')]
       expect(@p.display_value).to include 'Joyce'
     end
 
@@ -59,7 +59,7 @@ describe Authority::Person do
     it 'returns an array of structured names' do
       @p.given_name = 'Myles'
       @p.family_name = 'Na Gopaleen'
-      @p.same_as = 'http://example.org'
+      @p.same_as = [::RDF::URI.new('http://example.org')]
       expect(@p.full_name).to include('Na Gopaleen, Myles')
     end
   end
@@ -68,7 +68,7 @@ describe Authority::Person do
     it 'adds all authorized names to the solr doc' do
       @p.given_name = 'Myles'
       @p.family_name = 'Na Gopaleen'
-      @p.same_as = 'http://example.org/'
+      @p.same_as = [::RDF::URI.new('http://example.org/')]
       expect(@p.to_solr.values.flatten).to include('Na Gopaleen, Myles')
     end
   end
