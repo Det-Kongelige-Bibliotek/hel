@@ -197,6 +197,7 @@ class SyncExtRepoADL
       end
     end
     i.system_number = sysno
+    i.availability = adl_activity.availability if adl_activity.present?
     i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
     i.collection = adl_activity.collection

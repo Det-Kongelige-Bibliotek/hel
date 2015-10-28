@@ -40,7 +40,7 @@ class Instance < ActiveFedora::Base
 
   after_save do
     work.update_index if work.present?
-    Resque.enqueue(DisseminateJob,self.id)
+    Resque.enqueue(DisseminateJob,self.id) unless self.cannot_be_published?
   end
 
   def publication
@@ -155,8 +155,6 @@ class Instance < ActiveFedora::Base
   def content_files=(files)
     # ensure instance is valid before saving files
     return unless self.valid?
-    #remove old file
-    content_files.delete_all
     files.each do |f|
       self.add_file(f)
     end
@@ -255,6 +253,12 @@ class Instance < ActiveFedora::Base
     i.copyright = activity.copyright
     i.preservation_collection = activity.preservation_collection
     i
+  end
+
+
+  #
+  def cannot_be_published?
+    self.availability == "0"
   end
 
   # Send the instance to the rsolr
