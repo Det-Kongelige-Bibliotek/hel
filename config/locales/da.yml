@@ -141,6 +141,8 @@ da:
       is_available: "Må tilgængeliggøres?"
       edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
       choose_collection: 'Vælg en eller flere samlinger'
+      yes: "Ja"
+      no: "Nej"
     bibliographic:
       udgivelsesform: 'Vælg udgivelsesform'
     image_found:

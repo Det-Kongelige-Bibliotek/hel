@@ -37,7 +37,7 @@ class Work < ActiveFedora::Base
 
   def disseminate_all_instances
     self.instances.each do |i|
-      Resque.enqueue(DisseminateJob,i.id)
+      Resque.enqueue(DisseminateJob,i.id) unless i.cannot_be_published?
     end
   end
 
