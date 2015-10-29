@@ -102,8 +102,10 @@ class InstancesController < ApplicationController
   end
 
   def send_to_preservation
-    if @instance.send_to_preservation
+    if @instance.send_to_preservation && @instance.content_files().present?
       flash[:notice] = t('instances.flashmessage.preserved')
+    elsif @instance.content_files().empty?
+      flash[:notice] = t('instances.flashmessage.no_file')
     else
       flash[:notice] = t('instances.flashmessage.no_preserved')
     end

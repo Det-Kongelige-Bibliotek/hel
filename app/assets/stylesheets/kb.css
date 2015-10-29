@@ -116,7 +116,7 @@
  .form-group.required .control-label:before{
      content: "*";
      position: absolute;
-     margin-left: -5px;
+     margin-left: -7px;
  }
 
  .tt-menu {

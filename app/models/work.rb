@@ -31,12 +31,13 @@ class Work < ActiveFedora::Base
   after_save :disseminate_all_instances
 
   validates_each :origin_date do |record, attr, val|
+    record.errors.add(attr, I18n.t('edtf.no_date_message')) unless val.present?
     record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
   end
 
   def disseminate_all_instances
     self.instances.each do |i|
-      Resque.enqueue(DisseminateJob,i.id)
+      Resque.enqueue(DisseminateJob,i.id) unless i.cannot_be_published?
     end
   end
 

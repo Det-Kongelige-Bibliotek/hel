@@ -98,16 +98,18 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 
   <xsl:template name="img_ref">
     <xsl:choose>
-      <xsl:when test="contains(@facs,'http') and not(contains(@rend,'missing'))">
+      <xsl:when 
+	  test="contains(@facs,'http') and not(contains(@rend,'missing'))">
         <xsl:element name="img">
-      <xsl:attribute name="data-src">
-        <xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
-      </xsl:attribute>
-      <xsl:attribute name="src">
-      </xsl:attribute>
+	  <xsl:attribute name="data-src">
+            <xsl:value-of select="concat(@facs,'/full/full/0/native.jpg')"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="src">
+	  </xsl:attribute>
         </xsl:element>
       </xsl:when>
-      <xsl:when test="not(contains(@facs,'http')) and not(contains(@rend,'missing'))">
+      <xsl:when 
+	  test="not(contains(@facs,'http')) and not(contains(@rend,'missing'))">
         <xsl:element name="img">
           <xsl:attribute name="data-src">
             <xsl:value-of 

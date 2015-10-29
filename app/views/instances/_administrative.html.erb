@@ -48,17 +48,19 @@
       </legend>
 
       <div class="col-sm-6">
-        <%= builder.input :copyright, collection: get_controlled_vocab('Copyright Licenses'),  prompt: t('.license') %>
+        <%= builder.input :copyright, collection: get_list_with_labels('Copyright Licenses'),  prompt: t('.license') %>
       </div>
 
-      <div class="row">
-      <div class="col-sm-3">
-        <%= builder.input :availability, as: :boolean, boolean_style: :inline,
-                          label: t('.is_available'), label_html: { class: 'checkbox-inline' },
-                          wrapper_html: { class: ''  }, input_html: { class: '' }
-        %>
-        </div>
-    </div>
+</fieldset>
+<fieldset class="row">
+  <legend class="col-sm-12">
+    <%= t('.availability') %>
+  </legend>
+  <p>Må instans offentliggøres</p>
+  <%= builder.radio_button :availability,'1', :checked => builder.object.availability != "0" %>
+  <%= label_tag(:availability, t('.yes')) %>
+  <%= builder.radio_button :availability,'0', :checked => builder.object.availability == "0" %>
+  <%= label_tag(:availability, t('.no')) %>
 </fieldset>
   <fieldset class="row">
     <legend class="col-sm-12">

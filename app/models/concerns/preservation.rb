@@ -88,7 +88,7 @@ module Concerns
           puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
           if self.save
             message = create_preservation_message
-            send_message_to_preservation(message.to_json)
+            MqHelper.send_message_to_preservation(message.to_json)
           else
             raise "Initate_Preservation: Failed to update preservation data"
           end
@@ -110,7 +110,7 @@ module Concerns
 
           # Only add the content uri, if the file is not older than the latest preservation initiation date.
           if self.file_warc_id.nil? || self.preservation_initiated_date.nil? || DateTime.parse(self.preservation_initiated_date) <= DateTime.parse(self.last_modified)
-            message['file_warc_id'] = self.file_warc_id
+            message['file_warc_id'] = self.file_warc_id unless self.file_warc_id.blank?
             app_url = CONFIG[Rails.env.to_sym][:application_url]
             path = url_for(:controller => 'view_file', :action => 'show', :id =>self.id, :only_path => true)
             message['Content_URI'] = "#{app_url}#{path}"

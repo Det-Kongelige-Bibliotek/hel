@@ -86,7 +86,19 @@ module ApplicationHelper
   # <%= rdf_resource_link('http://id.loc.gov/vocabulary/languages/abk') %>
   # Will produce: <a href="http://id.loc.gov/vocabulary/languages/abk">Abkhaz</a>
   def rdf_resource_link(entry)
-    link_to Administration::ListEntry.get_label(entry), entry if entry.present?
+    if entry.present? && uri?(entry)
+      link_to Administration::ListEntry.get_label(entry), entry if entry.present?
+    else
+      Administration::ListEntry.get_label(entry)
+    end
+  end
+
+  # Check if a sting is URL
+  def uri?(string)
+    uri = URI.parse(string)
+    %w( http https ).include?(uri.scheme)
+  rescue URI::BadURIError, URI::InvalidURIError
+    false
   end
 
   private
