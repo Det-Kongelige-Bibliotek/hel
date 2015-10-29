@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Authority::PeopleController, :type => :controller do
 
-  describe 'destroy' do
-    it 'delete the requested person' do
+  describe 'DELETE destroy' do
+    it 'destroys the requested Person' do
       person = Authority::Person.create(  'given_name'=> 'test1',
                                           'family_name' => 'test',
                                           'birth_date' => '1923',
