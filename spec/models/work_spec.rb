@@ -28,7 +28,7 @@ describe Work do
     it 'should require a creator' do
       w = Work.new
       expect(w.valid?).to eql false
-      expect(w.errors.messages.keys).to include :creators
+      expect(w.errors.messages.keys).to include :creator
     end
   end
 
@@ -42,10 +42,11 @@ describe Work do
       @work = Work.new(work_params)
       @work.add_author(person)
       @work.save # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
-      @rel = Work.new
+      @rel = Work.new('origin_date'=>'1980')
       @rel.add_title({'value'=> 'A title'})
       @rel.add_author(person)
-      @rel.save # for these tests to work. Object has to be persisted. Otherwise relation cannot be updated
+      @rel.origin_date='unknown/unknown'
+      @rel.save! # for these tests to work. Object has to be persisted. Otherwise relation cannot be updated
     end
 
     it 'has many Instances' do
@@ -138,10 +139,10 @@ describe Work do
       agent = Authority::Person.create(
           'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
       )
-      @work = Work.new
+      @work = Work.new('origin_date'=>'1900')
       @work.add_title({'value'=> 'A title'})
       @work.add_author(agent)
-      @work.save # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
+      @work.save! # for these tests to work. Object has to be persisted. Otherwise relations cannot be updated
     end
 
     it 'should contain all title values' do
@@ -151,9 +152,10 @@ describe Work do
     end
 
     it 'should update the index when the title value changes' do
+      pending 'Fails when run multiple times, since data is not cleaned up'
       title = Title.new(value: 'A terrible title')
       @work.titles << title
-      @work.save
+      @work.save!
       expect(Finder.works_by_title('A terrible title').size).to eql 1
       title.update(value: 'A somewhat better title')
       expect(Finder.works_by_title('A somewhat better title').size).to eql 1

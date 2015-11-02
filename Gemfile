@@ -92,6 +92,7 @@ end
 group :test do
   gem 'fakeredis'
   gem 'factory_girl_rails'
+  gem 'resque_spec'
 end
 
 #logging start

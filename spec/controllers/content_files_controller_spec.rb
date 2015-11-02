@@ -5,14 +5,12 @@ describe ContentFilesController, type: :controller do
   let(:valid_session) { {} }
 
   before :each do
-    Authority::Base.delete_all
-    login_admin
+    #Authority::Person.delete_all
+    #login_admin
   end
 
   describe '#upload' do
     it 'should show file upload page' do
-      pending 'Failed'
-
       cf = ContentFile.new
       cf.edit_groups = ['Chronos-Admin']
       cf.save
@@ -23,7 +21,7 @@ describe ContentFilesController, type: :controller do
 
   describe '#update' do
     it 'should replace content' do
-      pending 'Failed'
+      pending "The activity permission is broken"
       agent2 = Authority::Person.create(
           authorized_personal_name: { given: 'Fornavn2', family: 'Efternavn2', scheme: 'KB' }
       )

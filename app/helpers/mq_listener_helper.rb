@@ -8,7 +8,7 @@ module MqListenerHelper
   # @param message The message in JSON format.
   def handle_preservation_response(message)
     puts "handle preservation response #{message}"
-    if message['id'].blank? || message['model'].blank? || message['preservation'].nil?
+    if message.nil? || message['id'].blank? || message['model'].blank? || message['preservation'].nil?
       puts "Invalid preservation response message: #{message}"
       return false
     end

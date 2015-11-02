@@ -10,6 +10,39 @@ describe MqListenerHelper do
     expect(handle_preservation_response message).to be false
   end
 
+  it 'should not allow update without \'model\' in message' do
+    message = {'id' => 'id', 'preservation' => {}}
+    expect(handle_preservation_response message).to be false
+  end
+
+  it 'should not allow update without \'preservation\' in message' do
+    message = {'id' => 'id', 'model' => 'model'}
+    expect(handle_preservation_response message).to be false
+  end
+
+  it 'should not allow update without \'id\' in message' do
+    message = {'model' => 'model', 'preservation' => {}}
+    expect(handle_preservation_response message).to be false
+  end
+
+  it 'should raise error when illegal \'model\' in message' do
+    message = {'id' => 'id', 'model' => 'model', 'preservation' => {}}
+    expect{handle_preservation_response message}.to raise_error(RuntimeError)
+  end
+
+  it 'should raise error when \'id\' does not match anything' do
+    message = {'id' => 'id', 'model' => 'ContentFile', 'preservation' => {}}
+    expect{handle_preservation_response message}.to raise_error(ActiveFedora::ObjectNotFoundError)
+  end
+
+  it 'should raise error when \'id\' and \'model\' does not match' do
+    cf = ContentFile.new
+    cf.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+    cf.save!
+    message = {'id' => cf.id, 'model' => 'Instance', 'preservation' => {}}
+    expect{handle_preservation_response message}.to raise_error(ActiveFedora::ActiveFedoraError)
+  end
+
   it 'should not allow update when missing \'id\'' do
     warc_id = '12344321'
     file_warc_id = '9874563210'

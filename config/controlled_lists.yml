@@ -20,6 +20,15 @@ instance_type:
     TIFF:
     TEI:
     MixedMaterial:
+mode_of_issuance:
+  name: Mode of Issuance
+  entries:
+    'Continuing':
+    'Monographic':
+    'Single unit':
+    'Multipart monograph':
+    'Serial':
+    'Integrating resource':
 collections:
   name: Collections
   entries:
@@ -50,9 +59,13 @@ access_types:
 copyrights:
   name: Copyright Licenses
   entries:
-    CC BY-NC-ND: Attribution-NonCommercial-NoDerivs
-    CC BY: Attribution
-    PD:
+    'All Rights Reserved': All Rights Reserved
+    'http://creativecommons.org/licenses/by/3.0/': CC BY
+    'http://creativecommons.org/licenses/by-sa/3.0/': CC BY-SA
+    'http://creativecommons.org/licenses/by-nd/3.0/': CC BY-ND
+    'http://creativecommons.org/licenses/by-nc/3.0/': CC BY-NC
+    'http://creativecommons.org/licenses/by-nc-sa/3.0/': CC BY-NC-SA
+    'http://creativecommons.org/licenses/by-nc-nd/3.0/': CC BY-NC-ND
 hydra_access_groups:
   name: Hydra Access Groups
   entries:
