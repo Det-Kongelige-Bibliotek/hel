@@ -20,34 +20,35 @@ require 'spec_helper'
 
 # We'll put our functioning tests here for now
 describe InstancesController, type: :controller do
+  include_context 'shared'
 
   # This should return the minimal set of attributes required to create a valid
   # Instance. As you add validations to Instance, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { activity: @default_activity_id, copyright: 'Some Copyright',  collection: 'Some Collection'} }
-
-  let(:valid_work_attributes) do
-    agent = Authority::Person.create(
-        'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
-    )
-    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
-  end
+  # let(:valid_trykforlaeg) { { activity: @default_activity_id, copyright: 'Some Copyright',  collection: ['Some Collection']} }
+  # 
+  # let(:work_params) do
+  #   agent = Authority::Person.create(
+  #       'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
+  #   )
+  #   $valid_trykforlaeg = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
+  # end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # InstancesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  before :each do
-    Instance.delete_all
-    Authority::Base.delete_all
-    Work.delete_all
-    login_admin
-  end
+  # before :each do
+  #   Instance.delete_all
+  #   Authority::Base.delete_all
+  #   Work.delete_all
+  #   login_admin
+  # end
 
   describe '#show' do
     it 'should return rdf when requested' do
-      instance = Instance.create valid_attributes
+      instance = Instance.create valid_trykforlaeg
       get :show, { id: instance.id, format: :rdf }
       expect(assigns(:instance)).to eq(instance)
     end
@@ -55,7 +56,7 @@ describe InstancesController, type: :controller do
 
   describe 'GET show' do
     it 'assigns the requested instance as @instance' do
-      instance = Instance.create! valid_attributes
+      instance = Instance.create! valid_trykforlaeg
       get :show, { id: instance.to_param }, valid_session
       assigns(:instance).should eq(instance)
     end
@@ -63,15 +64,15 @@ describe InstancesController, type: :controller do
 
   describe 'GET new' do
     it 'assigns a new instance as @instance' do
-      w = Work.create valid_work_attributes
+      w = Work.create work_params
       get :new, {work_id: w.id}, valid_session
-      assigns(:instance).should be_a_new(Instance)
+      expect(assigns(@instance)).to be_a_new(Instance)
     end
   end
 
   describe 'GET edit' do
     it 'assigns the requested instance as @instance' do
-      instance = Instance.create! valid_attributes
+      instance = Instance.create! valid_trykforlaeg
       get :edit, { id: instance.to_param }, valid_session
       assigns(:instance).should eq(instance)
     end
@@ -80,29 +81,29 @@ describe InstancesController, type: :controller do
   describe 'POST create' do
     describe 'with valid params' do
       it 'creates a new Instance. Pending: why are 2 instances created when no Instances exists in Fedora' do
-        w = Work.create valid_work_attributes
+        w = Work.create work_params
         expect {
-          post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
+          post :create, {instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}, valid_session
         }.to change(Instance, :count).by(1)
       end
 
       it "saves the Instance's title" do
-        w = Work.create valid_work_attributes
-        puts valid_attributes.merge(title_statement: 'War and Peace',set_work: w.id)
-        post :create, { instance: valid_attributes.merge(title_statement: 'War and Peace',set_work: w.id), work_id: w.id }, valid_session
+        w = Work.create work_params
+        puts valid_trykforlaeg.merge(title_statement: 'War and Peace',set_work: w.id)
+        post :create, { instance: valid_trykforlaeg.merge(title_statement: 'War and Peace',set_work: w.id), work_id: w.id }, valid_session
         expect(assigns(:instance).title_statement).to eql 'War and Peace'
       end
 
       it "saves the Instance's language" do
-        w = Work.create valid_work_attributes
-        post :create, { instance: valid_attributes.merge(language: [ {value: 'Latin' }],set_work: w.id), work_id: w.id }, valid_session
+        w = Work.create work_params
+        post :create, { instance: valid_trykforlaeg.merge(language: [ {value: 'Latin' }],set_work: w.id), work_id: w.id }, valid_session
         expect(assigns(:instance).language_values).to include 'Latin'
       end
 
       it 'assigns a newly created instance as @instance' do
-        w = Work.create valid_work_attributes
-        {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}
-        post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
+        w = Work.create work_params
+        {instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}
+        post :create, {instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}, valid_session
         assigns(:instance).should be_a(Instance)
         assigns(:instance).should be_persisted
       end
@@ -110,9 +111,9 @@ describe InstancesController, type: :controller do
 
     describe 'with files' do
       it 'creates a new instance with multiple files' do
-        w = Work.create valid_work_attributes
+        w = Work.create work_params
         f = fixture_file_upload('blank_file.txt','text/xml')
-        attrs = valid_attributes.merge(set_work: w.id, content_files: [f,f])
+        attrs = valid_trykforlaeg.merge(set_work: w.id, content_files: [f,f])
         post :create, { instance: attrs, work_id: w.id }, valid_session
         expect(assigns(:instance).content_files).to be_present
         expect(assigns(:instance).content_files.size).to eq 2
@@ -123,16 +124,16 @@ describe InstancesController, type: :controller do
       it 'assigns a newly created but unsaved instance as @instance' do
         # Trigger the behavior that occurs when invalid params are submitted
         Instance.any_instance.stub(:save).and_return(false)
-        w = Work.create valid_work_attributes
-        post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}  , valid_session
+        w = Work.create work_params
+        post :create, {instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}  , valid_session
         assigns(:instance).should be_a_new(Instance)
       end
 
       it "redirects to the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Instance.any_instance.stub(:save).and_return(false)
-        w = Work.create valid_work_attributes
-        post :create, {instance: valid_attributes.merge(set_work: w.id), work_id: w.id}  , valid_session
+        w = Work.create work_params
+        post :create, {instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}  , valid_session
         response.should redirect_to ('/works/'+w.id+'/instances')
       end
     end
@@ -141,45 +142,45 @@ describe InstancesController, type: :controller do
   describe 'PUT update' do
     describe 'with valid params' do
       it 'updates the requested instance' do
-        instance = Instance.create! valid_attributes
-        Instance.any_instance.should_receive(:update).with(valid_attributes)
-        put :update, { id: instance.to_param, instance:  valid_attributes }, valid_session
+        instance = Instance.create! valid_trykforlaeg
+        Instance.any_instance.should_receive(:update).with(valid_trykforlaeg)
+        put :update, { id: instance.to_param, instance:  valid_trykforlaeg }, valid_session
       end
 
       it 'assigns the requested instance as @instance' do
-        i = Instance.create! valid_attributes
-        w = Work.create valid_work_attributes
+        i = Instance.create! valid_trykforlaeg
+        w = Work.create work_params
         i.set_work=w
-        put :update, {id: i.id, instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
+        put :update, {id: i.id, instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}, valid_session
         assigns(:instance).should eq(i)
       end
 
       it 'redirects to the instance' do
-        i = Instance.create! valid_attributes
-        w = Work.create valid_work_attributes
+        i = Instance.create! valid_trykforlaeg
+        w = Work.create work_params
         i.set_work=w
-        put :update, {id: i.id, instance: valid_attributes.merge(set_work: w.id), work_id: w.id}, valid_session
+        put :update, {id: i.id, instance: valid_trykforlaeg.merge(set_work: w.id), work_id: w.id}, valid_session
         response.should redirect_to work_instance_url(w,i)
       end
     end
 
     describe 'with invalid params' do
       it 'assigns the instance as @instance' do
-        i = Instance.create! valid_attributes
-        w = Work.create valid_work_attributes
+        i = Instance.create! valid_trykforlaeg
+        w = Work.create work_params
         i.set_work=w
         Instance.any_instance.stub(:save).and_return(false)
-        put :update, { id: i.id, instance: valid_attributes }, valid_session
+        put :update, { id: i.id, instance: valid_trykforlaeg }, valid_session
         assigns(:instance).should eq(i)
       end
 
       it "re-renders the 'edit' template" do
         pending 'fix it'
-        i = Instance.create! valid_attributes
-        w = Work.create valid_work_attributes
+        i = Instance.create! valid_trykforlaeg
+        w = Work.create work_params
         i.set_work=w
         Instance.any_instance.stub(:save).and_return(false)
-        put :update, { id: i.id, instance: valid_attributes }, valid_session
+        put :update, { id: i.id, instance: valid_trykforlaeg }, valid_session
         response.should redirect_to work_instance_url(w,i)
       end
     end
@@ -187,28 +188,28 @@ describe InstancesController, type: :controller do
 
   describe 'DELETE destroy' do
     it 'destroys the requested instance' do
-      instance = Instance.create! valid_attributes
+      instance = Instance.create! valid_trykforlaeg
       expect {
         delete :destroy, { id: instance.to_param }, valid_session
       }.to change(Instance, :count).by(-1)
     end
 
     it 'redirects to the instances list' do
-      instance = Instance.create! valid_attributes
+      instance = Instance.create! valid_trykforlaeg
       delete :destroy, { id: instance.to_param }, valid_session
       response.should redirect_to(instances_url)
     end
   end
 
-  describe 'Update preservation profile metadata', broken:true do
+  describe 'Update preservation metadata', broken:true do
     before(:each) do
-      @ins = Instance.create! valid_attributes
+      @ins = Instance.create! valid_trykforlaeg
     end
 
     it 'should have a default preservation settings' do
       pending 'Perservation not fully implementet yet'
-      ins = Instance.find(@ins.pid)
-      ins.preservation_profile.should_not be_blank
+      ins = Instance.find(@ins.id)
+      ins.preservation_collection.should_not be_blank
       ins.preservation_state.should_not be_blank
       ins.preservation_details.should_not be_blank
       ins.preservation_modify_date.should_not be_blank
@@ -217,17 +218,17 @@ describe InstancesController, type: :controller do
 
     it 'should be updated and redirect to the instance' do
       pending 'Perservation not fully implementet yet'
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_collection"].keys.first
       comment = "This is the preservation comment"
 
-      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       ins.preservation_state.should_not be_blank
       ins.preservation_details.should_not be_blank
       ins.preservation_modify_date.should_not be_blank
-      ins.preservation_profile.should == profile
+      ins.preservation_collection.should == profile
       ins.preservation_comment.should == comment
     end
 
@@ -236,48 +237,48 @@ describe InstancesController, type: :controller do
       profile = "wrong profile #{Time.now.to_s}"
       comment = "This is the preservation comment"
 
-      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
       response.should_not redirect_to(@ins)
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       ins.preservation_state.should_not be_blank
       ins.preservation_details.should_not be_blank
       ins.preservation_modify_date.should_not be_blank
-      ins.preservation_profile.should_not == profile
+      ins.preservation_collection.should_not == profile
       ins.preservation_comment.should_not == comment
     end
 
     it 'should update the preservation date' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
       comment = "This is the preservation comment"
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       d = ins.preservation_modify_date
 
-      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       ins.preservation_modify_date.should_not == d
     end
 
     it 'should not update the preservation date, when the same profile and comment is given.' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
       comment = "This is the preservation comment"
-      @ins.preservation_profile = profile
+      @ins.preservation_collection = profile
       @ins.preservation_comment = comment
       @ins.save
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       d = ins.preservation_modify_date
 
-      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       ins.preservation_modify_date.should == d
     end
 
@@ -286,8 +287,8 @@ describe InstancesController, type: :controller do
     it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
-      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'true'
+      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
+      PRESERVATION_CONFIG['preservation_collection'][profile]['yggdrasil'].should == 'true'
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
       uri = MQ_CONFIG["mq_uri"]
@@ -298,12 +299,12 @@ describe InstancesController, type: :controller do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation_profile, {:id => @ins.pid, :commit => PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
       q.subscribe do |delivery_info, metadata, payload|
         metadata[:type].should == MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
-        payload.should include @ins.pid
+        payload.should include @ins.id
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
         json.keys.should include ('Preservation_profile')
@@ -318,7 +319,7 @@ describe InstancesController, type: :controller do
         end
       end
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       ins.preservation_state.should == PRESERVATION_STATE_INITIATED.keys.first
       ins.preservation_comment.should == comment
       sleep 1.second
@@ -328,16 +329,16 @@ describe InstancesController, type: :controller do
     it 'should not send a message, when performing preservation and the profile has Yggdrasil set to false' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG['preservation_profile'].keys.first
-      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'false'
+      profile = PRESERVATION_CONFIG['preservation_collection'].keys.first
+      PRESERVATION_CONFIG['preservation_collection'][profile]['yggdrasil'].should == 'false'
       comment = 'This is the preservation comment'
 
-      put :update_preservation_profile, {:id => @ins.pid, :commit => PERFORM_PRESERVATION_BUTTON,
-                                         :preservation => {:preservation_profile => profile,
+      put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON,
+                                         :preservation => {:preservation_collection => profile,
                                                            :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
-      ins = Instance.find(@ins.pid)
+      ins = Instance.find(@ins.id)
       ins.preservation_state.should == PRESERVATION_STATE_NOT_LONGTERM.keys.first
       ins.preservation_comment.should == comment
     end
@@ -350,28 +351,26 @@ describe InstancesController, type: :controller do
       @ins.save!
       file.save!
 
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
       comment = "This is the preservation comment-#{Time.now.to_s}"
 
-      put :update_preservation_profile, {:id => @ins.pid, :commit => PERFORM_PRESERVATION_BUTTON, :preservation =>
-          {:preservation_profile => profile, :preservation_comment => comment, :cascade_preservation => '1'}}
+      put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON, :preservation =>
+          {:preservation_collection => profile, :preservation_comment => comment, :cascade_preservation => '1'}}
 
-      file = ContentFile.find(file.pid)
+      file = ContentFile.find(file.id)
       file.preservation_state.should_not be_blank
       file.preservation_details.should_not be_blank
       file.preservation_modify_date.should_not be_blank
-      file.preservation_profile.should == profile
+      file.preservation_collection.should == profile
       file.preservation_comment.should == comment
     end
-
   end
-
 
   describe 'GET preservation' do
 
     xit 'should assign \'@ins\' to the ordered_instance. Pending: perservation not fully implementet yet' do
-      @ins = Instance.create! valid_attributes
-      get :preservation, {:id => @ins.pid}
+      @ins = Instance.create! valid_trykforlaeg
+      get :preservation, {:id => @ins.id}
       assigns(:instance).should eq(@ins)
     end
   end

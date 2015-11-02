@@ -71,15 +71,18 @@ class WorksController < ApplicationController
     respond_to do |format|
       if @work.update(work_params)
         @work.instances.each do |i|
-          if i.type == 'TEI'
+          logger.debug("activity: #{i.activity} #{Administration::Activity.where(activity: 'ADL').first.id}")
+          if i.type == 'TEI' && (i.activity == Administration::Activity.where(activity: 'ADL').first.id)
             i.content_files.each do |f|
+                logger.debug("staring TEI sync")
                 TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
                 f.external_file_path,i)
+                logger.debug("done")
                 f.update_tech_metadata_for_external_file
                 f.save(validate: false)
             end
             repo = Administration::ExternalRepository[i.external_repository]
-            repo.push
+            repo.push unless repo.nil?
           end
         end
         format.html { redirect_to @work, notice: t('work.update') }

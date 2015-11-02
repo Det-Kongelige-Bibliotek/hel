@@ -1,5 +1,6 @@
 module Authority
   class Person < Thing
+
     property :family_name, predicate: ::RDF::Vocab::SCHEMA.familyName, multiple: false do |index|
       index.as :stored_searchable
     end
@@ -13,6 +14,15 @@ module Authority
     property :nationality, predicate: ::RDF::Vocab::SCHEMA.nationality, multiple: false
 
     has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
+
+    before_save :set_rights_metadata
+
+    # method to set the rights metadata stream based on activity
+    def set_rights_metadata
+      self.discover_groups = ['Chronos-Alle']
+      self.read_groups = ['Chronos-Alle']
+      self.edit_groups = ['Chronos-Alle']
+    end
 
     def display_value
       value = (full_name.present?) ? full_name : ''

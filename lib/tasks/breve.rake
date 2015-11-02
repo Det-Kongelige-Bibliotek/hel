@@ -6,7 +6,7 @@ namespace :breve do
     exit unless Administration::Activity.find(activity: 'Danmarks Breve').size == 0
     activity = Administration::Activity.create(
         activity: 'Danmarks Breve', embargo: '0', access_condition: '', copyright: 'CC BY-NC-ND',
-        preservation_profile: 'simple', collection: 'Håndskriftsamlingen'
+        preservation_collection: 'simple', collection: 'Håndskriftsamlingen'
     )
     activity.activity_permissions = {
         "file"=>{ "group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"] }},

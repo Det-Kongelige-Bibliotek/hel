@@ -5,7 +5,11 @@
 
   <%= @authority_object.description %>
   <% @authority_object.same_as_uri.each do |uri| %>
-    <%= link_to('same as', uri) if uri.present? %>
+      <% if can?(:create, Authority::Person) %>
+        <%= link_to('same as', uri) if uri.present? %>
+      <% end %>
   <% end %>
-  <%= link_to 'Edit', edit_authority_person_path(@authority_object) %>
+  <% if can?(:create, Authority::Person) %>
+    <%= link_to 'Edit', edit_authority_person_path(@authority_object) %>
+  <% end %>
 </div>

@@ -1,5 +1,5 @@
 development:
-  preservation_profile:
+  preservation_collection:
     storage:
       name: 'Not long-term preservation'
       bit_safety: 'bitSafetyVeryLow'
@@ -77,7 +77,7 @@ development:
 #      yggdrasil: 'true'
 
 test:
-  preservation_profile:
+  preservation_collection:
     storage:
       bit_safety: 'Minimum Bitsafety (Not in Bitrepository: 1 local copy, no integrity checks)'
       confidentiality: 'Low confidentiality (Everyone with access to Valhal).'
@@ -93,7 +93,7 @@ test:
 
 # For now unused profiles are commented out.
 production:
-  preservation_profile:
+  preservation_collection:
     storage:
       name: 'Not long-term preservation'
       bit_safety: 'bitSafetyVeryLow'

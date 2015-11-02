@@ -30,52 +30,55 @@ class SyncExtRepoADL
 
       Dir.glob("#{repo.base_dir}/*/*.xml").each do |fname|
         Resque.logger.debug "file #{fname}"
-        proccessed_files = proccessed_files+1
-        cf = ContentFile.find_by_original_filename(Pathname.new(fname).basename.to_s)
-        unless cf.nil?
-          Resque.logger.debug("Updating existing file #{fname}")
-          if cf.update_tech_metadata_for_external_file
-            if cf.save
-              updated_files=updated_files+1
-              repo.add_sync_message("Updated file #{fname}")
-              Resque.enqueue(AddAdlImageFiles,cf.id,repo.image_dir,true)
-            else
-              repo.add_sync_message("Failed to update file #{fname}: #{cf.errors.messages}")
+        # skip periodebeskrivelser
+        unless fname.include? 'periods'
+          proccessed_files = proccessed_files+1
+          cf = ContentFile.find_by_original_filename(Pathname.new(fname).basename.to_s)
+          unless cf.nil?
+            Resque.logger.debug("Updating existing file #{fname}")
+            if cf.update_tech_metadata_for_external_file
+              if cf.save
+                updated_files=updated_files+1
+                repo.add_sync_message("Updated file #{fname}")
+                Resque.enqueue(AddAdlImageFiles,cf.id,repo.image_dir,true)
+              else
+                repo.add_sync_message("Failed to update file #{fname}: #{cf.errors.messages}")
+              end
             end
-          end
-        else
-          begin
-            doc = Nokogiri::XML(File.open(fname))
-            validator = Validator::RelaxedTei.new
-            Resque.logger.debug("Validating TEI")
-            msg = validator.is_valid_xml_doc(doc)
-            raise "#{fname} is not valid TEI: #{msg}" unless msg.blank?
-            Resque.logger.debug("is valid")
+          else
+            begin
+              doc = Nokogiri::XML(File.open(fname))
+              validator = Validator::RelaxedTei.new
+              Resque.logger.debug("Validating TEI")
+              msg = validator.is_valid_xml_doc(doc)
+              raise "#{fname} is not valid TEI: #{msg}" unless msg.blank?
+              Resque.logger.debug("is valid")
 
-            raise "file has no TEI header" unless (doc.xpath("//xmlns:teiHeader/xmlns:fileDesc").size > 0)
+              raise "file has no TEI header" unless (doc.xpath("//xmlns:teiHeader/xmlns:fileDesc").size > 0)
 
-            id = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:publicationStmt/xmlns:idno").text
-            Resque.logger.debug ("  ID is #{id}")
-            sysno = nil
-            volno = nil
-            unless id.blank?
-              sysno = id.split(":")[0]
-              volno = id.split(":")[1]
-              Resque.logger.debug " sysno #{sysno} vol #{volno}"
+              id = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:publicationStmt/xmlns:idno").text
+              Resque.logger.debug ("  ID is #{id}")
+              sysno = nil
+              volno = nil
+              unless id.blank?
+                sysno = id.split(":")[0]
+                volno = id.split(":")[1]
+                Resque.logger.debug " sysno #{sysno} vol #{volno}"
+              end
+
+              i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
+              new_instances=new_instances+1
+              repo.add_sync_message("Created new Work and Instans for '#{i.work.display_value}'")
+
+              cf = add_contentfile_to_instance(fname,i) unless i.nil?
+              added_files=added_files+1
+              repo.add_sync_message("Added #{fname}")
+              Resque.enqueue(AddAdlImageFiles,cf.id,repo.image_dir)
+            rescue Exception => e
+              Resque.logger.warn "Skipping file #{fname} : #{e.message}"
+              Resque.logger.debug "#{e.backtrace.join("\n")}"
+              repo.add_sync_message("Skipping file #{fname} : #{e.message}")
             end
-
-            i = create_new_work_and_instance(sysno,doc,adl_activity,repo_id)
-            new_instances=new_instances+1
-            repo.add_sync_message("Created new Work and Instans for '#{i.work.display_value}'")
-
-            cf = add_contentfile_to_instance(fname,i) unless i.nil?
-            added_files=added_files+1
-            repo.add_sync_message("Added #{fname}")
-            Resque.enqueue(AddAdlImageFiles,cf.id,repo.image_dir)
-          rescue Exception => e
-            Resque.logger.warn "Skipping file #{fname} : #{e.message}"
-            Resque.logger.debug "#{e.backtrace.join("\n")}"
-            repo.add_sync_message("Skipping file #{fname} : #{e.message}")
           end
         end
       end
@@ -151,8 +154,8 @@ class SyncExtRepoADL
 
     authors_found = false
     doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:author").each do |n|
-      surname = n.xpath("//xmlns:surname").text.mb_chars.titleize.to_s
-      forename = n.xpath("//xmlns:forename").text.mb_chars.titleize.to_s
+      surname = n.xpath("./*/xmlns:surname").text.mb_chars.titleize.to_s
+      forename = n.xpath("./*/xmlns:forename").text.mb_chars.titleize.to_s
       p = Authority::Person.find_or_create_person(forename,surname)
       w.add_author(p)
       authors_found = true
@@ -197,7 +200,7 @@ class SyncExtRepoADL
     i.activity = adl_activity.id
     i.copyright = adl_activity.copyright
     i.collection = adl_activity.collection
-    i.preservation_profile = adl_activity.preservation_profile
+    i.preservation_collection = adl_activity.preservation_collection
     i.type = 'TEI'
     i.external_repository = repo_id
 

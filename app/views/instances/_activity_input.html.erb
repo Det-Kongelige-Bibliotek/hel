@@ -1,6 +1,6 @@
 <%=
-    if @instance.activity.blank? || current_user.admin?
-        builder.input :activity, collection: Administration::Activity.all, prompt: t('.activity'), label_method: :activity,
+    if @instance.activity.blank? || (current_user.admin? && @instance.activity_can_change?)
+        builder.input :activity, collection: Administration::Activity.activities_for_dropdown, prompt: t('.activity'), label_method: :activity,
                       input_html: { data: { function: 'fetch_activity_data' }}
     else
       "Aktivitet: #{@instance.activity}"

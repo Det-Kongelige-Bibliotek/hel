@@ -65,7 +65,7 @@ class InstancesController < ApplicationController
       @instance.work = @work
       if @instance.save
         flash[:notice] = t('instances.flashmessage.ins_saved', var: @klazz)
-        @instance.cascade_preservation_profile
+        @instance.cascade_preservation_collection
       else
         flash[:notice] = t('instances.flashmessage.ins_saved_fail', var: @klazz)
       end
@@ -79,7 +79,7 @@ class InstancesController < ApplicationController
     logger.debug("#{@instance}")
     if @instance.update(instance_params)
       # TODO: TEI specific logic should be in an after_save hook rather than on the controller
-      if @instance.type == 'TEI'
+      if @instance.type == 'TEI' && @instance.activity == Administration::Activity.where(activity: 'ADL').first.id
         @instance.content_files.each do |f|
           # TODO - make this also work for internally managed TEI files
           if f.external_file_path
@@ -93,7 +93,7 @@ class InstancesController < ApplicationController
         repo.push if repo.present?
       end
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
-      @instance.cascade_preservation_profile
+      @instance.cascade_preservation_collection
     else
       @instance.relators.build
       @instance.publications.build unless @instance.publication.present?
@@ -168,7 +168,7 @@ class InstancesController < ApplicationController
     params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
-                                     :access_condition, :availability, :preservation_profile, collection: [],
+                                     :access_condition, :availability, :preservation_collection, collection: [],
                                      note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
                                      publications_attributes: [[:id, :copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }

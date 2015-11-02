@@ -85,7 +85,7 @@
 
         <div class="actions col-sm-offset-9">
           <%= link_to t('.cancel'), :back, class: 'btn btn-lg btn-warning'%>
-          <%= f.submit 'Gem værk',  class: 'btn btn-lg btn-success'%>
+          <%= f.submit 'Gem værk',  class: 'btn btn-lg btn-success', data: {disable_with: "Gemmer..."}%>
         </div>
     <% end %>
   </div>

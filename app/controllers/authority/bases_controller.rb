@@ -2,6 +2,7 @@ module Authority
   # Provide default functionality for inheritance by
   # concrete Authority classes
   class BasesController < ApplicationController
+    authorize_resource
     before_action :set_object, only: [:show, :edit, :update, :destroy]
     before_action :set_klazz, only: [:index, :new, :create]
     # GET /authority/bases
@@ -13,6 +14,7 @@ module Authority
     # GET /authority/bases/1
     # GET /authority/bases/1.json
     def show
+      authorize! :read, URI.unescape(params[:id])
     end
 
     # GET /authority/bases/new
@@ -22,6 +24,7 @@ module Authority
 
     # GET /authority/bases/1/edit
     def edit
+      authorize! :edit, URI.unescape(params[:id])
     end
 
     # POST /authority/bases
@@ -47,6 +50,7 @@ module Authority
     # PATCH/PUT /authority/bases/1
     # PATCH/PUT /authority/bases/1.json
     def update
+      authorize! :edit, URI.unescape(params[:id])
       respond_to do |format|
         if @authority_object.update(authority_base_params)
           format.html { redirect_to @authority_object, notice: t('authority.bases.updated',

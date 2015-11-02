@@ -14,7 +14,7 @@ module Concerns
 
       contains 'preservationMetadata', class_name: 'Datastreams::PreservationDatastream'
 
-      property :preservation_profile,  delegate_to: 'preservationMetadata', :multiple => false
+      property :preservation_collection,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_state,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_details,  delegate_to: 'preservationMetadata', :multiple => false
       property :preservation_modify_date,  delegate_to: 'preservationMetadata', :multiple => false
@@ -35,7 +35,7 @@ module Concerns
 
       validate :validate_preservation
 
-      before_validation :update_preservation_profile
+      before_validation :update_preservation_collection
 
       def is_preservable
         true
@@ -62,46 +62,49 @@ module Concerns
 
       # Sets the default initial values for the variables
       # Both variables for the preservation and import_from_preservation
-      def update_preservation_profile
-        self.preservation_profile = 'Undefined' if self.preservation_profile.blank?
+      def update_preservation_collection
+        if self.preservation_collection.blank?
+          self.preservation_collection = Nokogiri::XML.parse(self.preservationMetadata.content).xpath('fields/preservation_profile/text()').to_s
+          self.preservation_collection = 'Undefined' if self.preservation_collection.blank?
+        end
         self.preservation_state = PRESERVATION_STATE_NOT_STARTED.keys.first if preservation_state.blank?
         self.preservation_details = 'N/A' if preservation_details.blank?
-        if PRESERVATION_CONFIG['preservation_profile'].keys.include? self.preservation_profile
-          self.preservation_bitsafety = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]['bit_safety']
-          self.preservation_confidentiality = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]['confidentiality']
+        if PRESERVATION_CONFIG['preservation_collection'].keys.include? self.preservation_collection
+          self.preservation_bitsafety = PRESERVATION_CONFIG['preservation_collection'][self.preservation_collection]['bit_safety']
+          self.preservation_confidentiality = PRESERVATION_CONFIG['preservation_collection'][self.preservation_collection]['confidentiality']
         end
         set_preservation_modified_time
 
         self.import_state = PRESERVATION_IMPORT_STATE_NOT_STARTED.keys.first if self.import_state.blank?
       end
 
-      # Validates the preservation profile.
+      # Validates the preservation collection.
       def validate_preservation
         inherit_rights_metadata if self.respond_to? :inherit_rights_metadata
-        update_preservation_profile
-        if (self.preservation_profile != 'Undefined' && (!PRESERVATION_CONFIG['preservation_profile'].include? self.preservation_profile))
-          puts "#{self.preservation_profile} is not an accepted part of #{PRESERVATION_CONFIG['preservation_profile'].keys}"
-          errors.add(:preservation_profile,'Ugyldig Bevaringsprofil')
+        update_preservation_collection
+        if (self.preservation_collection != 'Undefined' && (!PRESERVATION_CONFIG['preservation_collection'].include? self.preservation_collection))
+          puts "#{self.preservation_collection} is not an accepted part of #{PRESERVATION_CONFIG['preservation_collection'].keys}"
+          errors.add(:preservation_collection, 'Ugyldig Bevaringssamling')
         end
       end
 
-      # Cascades the preservation profile, if it can be cascaded.
-      def cascade_preservation_profile
+      # Cascades the preservation collection, if it can be cascaded.
+      def cascade_preservation_collection
         self.reload
         if self.can_perform_cascading?
           self.cascading_elements.each do |pib|
-            pib.preservation_profile = self.preservation_profile
+            pib.preservation_collection = self.preservation_collection
             pib.save
           end
         end
       end
 
-      # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
+      # Initiates the preservation. If the preservation collection is set to long-term preservation, then a message is created and sent.
       def initiate_preservation
-        profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
-        self.update_preservation_profile
+        collection = PRESERVATION_CONFIG['preservation_collection'][self.preservation_collection]
+        self.update_preservation_collection
 
-        if profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
+        if collection['yggdrasil'].blank? || collection['yggdrasil'] == 'false'
           self.preservation_state = PRESERVATION_STATE_NOT_LONGTERM.keys.first
           self.preservation_details = 'Not longterm preservation.'
           self.save
@@ -110,7 +113,7 @@ module Concerns
           puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
           if self.save
             message = create_preservation_message
-            send_message_to_preservation(message.to_json)
+            MqHelper.send_message_to_preservation(message.to_json)
           else
             raise "Initate_Preservation: Failed to update preservation data"
           end
@@ -141,7 +144,7 @@ module Concerns
       def create_preservation_message
         message = Hash.new
         message['UUID'] = self.uuid
-        message['Preservation_profile'] = self.preservationMetadata.preservation_profile.first
+        message['Preservation_profile'] = self.preservationMetadata.preservation_collection.first
         message['Valhal_ID'] = self.id
         message['Model'] = self.class.name
 
@@ -235,8 +238,8 @@ module Concerns
       end
 
       def validate_import(type, update_id)
-        profile = PRESERVATION_CONFIG['preservation_profile'][self.preservation_profile]
-        if profile.blank? || profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
+        collection = PRESERVATION_CONFIG['preservation_collection'][self.preservation_collection]
+        if collection.blank? || collection['yggdrasil'].blank? || collection['yggdrasil'] == 'false'
           self.errors.add(:import_preservation_profile, 'Preservation profile is not longterm preservation, thus no preservation entity to import.')
         end
         if self.warc_id.blank?

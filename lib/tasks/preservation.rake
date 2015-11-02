@@ -11,4 +11,26 @@ namespace :valhal do
       Resque.enqueue_at(polling_interval.minutes, ReceiveResponsesFromPreservationJob)
     end
   end
+
+  desc 'Save all object again'
+  task save_everything: :environment do
+    ActiveFedora::Base.all.each do |b|
+      puts "Cannot save #{b.id}" unless b.save
+    end
+  end
+
+  desc 'Change the preservation collection'
+  task fix_preservation_collection: :environment do
+    ActiveFedora::Base.all.each do |b|
+      if b.respond_to? :preservation_collection
+        b.preservation_collection = Nokogiri::XML.parse(b.preservationMetadata.content).xpath('fields/preservation_profile/text()').to_s if b.preservation_collection.blank?
+
+        if b.preservation_collection == "eternity"
+          b.preservation_collection = "A"
+          puts "Cannot save #{b.id}" unless b.save
+        end
+        puts b.preservation_collection
+      end
+    end
+  end
 end

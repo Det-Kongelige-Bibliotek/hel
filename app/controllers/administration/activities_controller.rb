@@ -52,9 +52,10 @@ module Administration
                                                        :collection, 
                                                        :embargo,
                                                        :embargo_condition,
-                                                       :preservation_profile,
+                                                       :preservation_collection,
                                                        :copyright,
                                                        :ophavsret,
+                                                       :edit_in_GUI,
                                                        dissemination_profiles: [],
                                                        collection:[],
                                                        activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]

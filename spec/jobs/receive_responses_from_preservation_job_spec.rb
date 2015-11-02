@@ -17,7 +17,7 @@ describe 'Receive responses messages from preservation' do
       w.save!
       @i = Instance.create(valid_trykforlaeg)
       @i.set_work = w
-      @i.preservation_profile = 'eternity'
+      @i.preservation_collection = 'eternity'
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       @i.save!
       @i.reload
@@ -28,7 +28,7 @@ describe 'Receive responses messages from preservation' do
       # The options for the message.
       @o = {'content_type' => 'application/json', 'type' => MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE}
 
-      @i.preservation_profile = 'eternity'
+      @i.preservation_collection = 'eternity'
       @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       @i.save
     end
@@ -86,7 +86,7 @@ describe 'Receive responses messages from preservation' do
       # The options for the message.
       @o = {'content_type' => 'application/json', 'type' => MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_RESPONSE}
 
-      @f.preservation_profile = 'eternity'
+      @f.preservation_collection = 'eternity'
       @f.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
       @f.import_state = PRESERVATION_IMPORT_STATE_INITIATED.keys.first
       @f.warc_id = 'warc_id'

@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :instances do
     member do
       get 'preservation'
-      patch 'update_preservation_profile'
       get 'administration'
       patch 'update_administration'
     end

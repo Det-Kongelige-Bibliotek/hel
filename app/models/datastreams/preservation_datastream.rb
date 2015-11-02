@@ -11,8 +11,8 @@ module Datastreams
 
     set_terminology do |t|
       t.root(path: 'fields')
-      t.preservation_profile(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
-                             :path=>'preservation_profile', :label=>'Preservation Profile')
+      t.preservation_collection(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
+                             :path=>'preservation_collection', :label=>'Preservation Collection')
       t.preservation_state(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                            :path=>'preservation_state', :label=>'Preservation State')
       t.preservation_details(:type => :string, :index_as=>[:stored_searchable, :displayable],

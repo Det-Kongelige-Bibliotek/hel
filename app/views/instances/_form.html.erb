@@ -35,7 +35,7 @@
 
               <div class="btn-group pull-right col-sm-offset-9">
                 <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
-                <%= f.button :button, 'Gem', class: 'btn btn-success', :id => 'instance_submit' do %>
+                <%= f.button :button, 'Gem', class: 'btn btn-success', :id => 'instance_submit', data: {disable_with: "Gemmer..."} do %>
                     <span class="glyphicon glyphicon-save"></span>
                     <%= t('.gem') %>
                 <% end %>

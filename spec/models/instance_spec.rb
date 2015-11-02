@@ -323,10 +323,10 @@ describe Instance do
         end
         it 'should have a non-empty preservation profile, both as attribute and in the metadatastream.' do
           @instance.save!
-          @instance.preservation_profile.should be_kind_of String
-          @instance.preservation_profile.should_not be_blank
-          @instance.preservationMetadata.preservation_profile.first.should be_kind_of String
-          @instance.preservationMetadata.preservation_profile.first.should_not be_blank
+          @instance.preservation_collection.should be_kind_of String
+          @instance.preservation_collection.should_not be_blank
+          @instance.preservationMetadata.preservation_collection.first.should be_kind_of String
+          @instance.preservationMetadata.preservation_collection.first.should_not be_blank
         end
         it 'should have an empty preservation comment, both as attribute and in the metadatastream.' do
           @instance.save!
@@ -357,16 +357,16 @@ describe Instance do
       end
       describe 'changing the preservation metadata' do
         it 'should be possible to assign and save a preservation profile.' do
-          profile = PRESERVATION_CONFIG['preservation_profile'].keys[rand(PRESERVATION_CONFIG['preservation_profile'].size)]
-          @instance.preservation_profile = profile
+          profile = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
+          @instance.preservation_collection = profile
           @instance.save!
           e2 = @instance.reload
-          e2.preservation_profile.should == profile
-          e2.preservationMetadata.preservation_profile.first.should == profile
+          e2.preservation_collection.should == profile
+          e2.preservationMetadata.preservation_collection.first.should == profile
         end
         it 'should not be possible to assign and save a preservation profile, which is not in the configuration.' do
           profile = "Preservation-Profile-#{Time.now.to_s}"
-          @instance.preservation_profile = profile
+          @instance.preservation_collection = profile
           expect{@instance.save!}.to raise_error
         end
         it 'should be possible to assign and save a preservation state.' do

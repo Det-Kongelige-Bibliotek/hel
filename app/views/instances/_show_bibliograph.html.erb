@@ -2,10 +2,26 @@
 <table class="table table-striped"><tbody>
 <tr>
   <td>
+    <strong><%=  t('.title_statement') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.title_statement %></span>
+  </td>
+</tr>
+<tr>
+  <td>
     <strong><%=  t('.isbn') %></strong>
   </td>
   <td>
     <span><%= @instance.isbn13 %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%=  t('.year_published') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.published_date%></span>
   </td>
 </tr>
 <tr>

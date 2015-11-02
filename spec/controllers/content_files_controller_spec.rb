@@ -9,7 +9,6 @@ describe ContentFilesController, type: :controller do
     login_admin
   end
 
-
   describe '#upload' do
     it 'should show file upload page' do
       pending 'Failed'

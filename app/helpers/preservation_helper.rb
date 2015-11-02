@@ -115,7 +115,6 @@ module PreservationHelper
     element.save
   end
 
-
   # Updates the preservation import state and details for a given element.
   # The preservation import state is expected to be among the Constants::PRESERVATION_IMPORT_STATES, a warning will be issued if not.
   # @param metadata The hash with preservation import response metadata to be updated.
@@ -148,26 +147,26 @@ module PreservationHelper
     element.save
   end
 
-  # Updates the preservation profile for a given element (e.g. a basic_files, a instance, a work, etc.)
-  # @param profile The name of the profile to update with.
+  # Updates the preservation collection for a given element (e.g. a basic_files, a instance, a work, etc.)
+  # @param collection The name of the preservation collection to update with.
   # @param comment The comment attached to the preservation
-  # @param element The element to have its preservation profile changed.
-  def set_preservation_profile(profile, comment, element)
-    puts "Updating '#{element.to_s}' with profile '#{profile}' and comment '#{comment}'"
-    if (profile.blank? || element.preservationMetadata.preservation_profile.first == profile) && (comment.blank? || element.preservationMetadata.preservation_comment.first == comment)
+  # @param element The element to have its preservation collection changed.
+  def set_preservation_collection(collection, comment, element)
+    puts "Updating '#{element.to_s}' with preservation collection '#{collection}' and comment '#{comment}'"
+    if (collection.blank? || element.preservationMetadata.preservation_collection.first == collection) && (comment.blank? || element.preservationMetadata.preservation_comment.first == comment)
       puts 'Nothing to change for the preservation update'
       return
     end
 
-    # Do not update, if the preservation profile is not among the valid profiles in the configuration.
-    unless PRESERVATION_CONFIG['preservation_profile'].keys.include? profile
-      raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_profile"].keys}"
+    # Do not update, if the preservation collection is not among the valid preservation collections in the configuration.
+    unless PRESERVATION_CONFIG['preservation_collection'].keys.include? collection
+      raise ArgumentError, "The preservation collection '#{collection}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_collection"].keys}"
     end
 
     set_preservation_modified_time(element)
-    element.preservationMetadata.preservation_profile = profile
-    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_profile'][profile]['bit_safety']
-    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_profile'][profile]['confidentiality']
+    element.preservationMetadata.preservation_collection = collection
+    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_collection'][collection]['bit_safety']
+    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_collection'][collection]['confidentiality']
     element.preservationMetadata.preservation_comment = comment
     element.save
   end

@@ -17,7 +17,7 @@ declare variable  $frag     := request:get-parameter("id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat("/db/adl/",$c);
-declare variable  $op       := concat($o,".xsl");
+declare variable  $op       := doc(concat("/db/adl/", $o,".xsl"));
 
 let $list := 
   if($frag and not($o = "facsimile")) then
@@ -39,4 +39,4 @@ let $params :=
 </parameters>
 
 for $doc in $list
-return  transform:transform($doc,doc(concat("/db/adl/",$op)),$params) 
+return  transform:transform($doc,$op,$params) 

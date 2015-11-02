@@ -1,6 +1,7 @@
 module Authority
   # To be subclassed by Person, Organisation, etc.
   class Thing < ActiveFedora::Base
+    include Hydra::AccessControls::Permissions
 
     property :same_as, predicate: ::RDF::Vocab::SCHEMA.sameAs, multiple: true
     property :description, predicate: ::RDF::Vocab::SCHEMA.description, multiple: false
@@ -9,6 +10,10 @@ module Authority
       index.as :stored_searchable
     end
     property :alternate_names, predicate: ::RDF::Vocab::SCHEMA.alternateName, multiple: true
+
+    before_save do
+      edit_groups=['Chronos-Admin']
+    end
 
     def same_as_uri=(uris)
       uris.each do |uri|
@@ -50,6 +55,7 @@ module Authority
     def to_solr(solr_doc = {})
       solr_doc.merge!(super)
       Solrizer.insert_field(solr_doc, 'display_value', display_value, :stored_searchable, :displayable)
+      Solrizer.insert_field(solr_doc, 'display_value', display_value, :stored_sortable)
       Solrizer.insert_field(solr_doc, 'typeahead', display_value, :stored_searchable)
       Solrizer.insert_field(solr_doc, 'same_as_uri', same_as_uri, :stored_searchable)
 

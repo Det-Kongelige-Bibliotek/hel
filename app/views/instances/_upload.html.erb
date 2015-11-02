@@ -10,8 +10,9 @@
     </fieldset>
 
 <% else %>
+    <% if @instance.type != 'TEI' && @instance.activity != Administration::Activity.where(activity: 'ADL').first.id %>
 
-    <% if can?(:edit,@instance.content_files.first) %>
+        <% if can?(:edit,@instance.content_files.first) %>
         <fieldset id="upload" class="row">
           <legend class="col-sm-12" >
             Upload ny fil
@@ -19,6 +20,7 @@
 
           <%= render partial: 'file_input' %>
         </fieldset>
+    <% end %>
     <% end %>
 
     <fieldset id="upload" class="row">

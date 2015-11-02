@@ -2,8 +2,10 @@ namespace :valhal do
   desc 'Run FITS for the content files, which does not have fits already'
   task fits: :environment do
     ContentFile.all.each do |cf|
-      puts "Running FITS on #{cf.id}"
-      Resque.enqueue(FitsCharacterizingJob,cf.id) if cf.fitsMetadata.content.nil?
+      if cf.fitsMetadata.content.blank?
+        puts "Running FITS on #{cf.id}"
+        Resque.enqueue(FitsCharacterizingJob,cf.id)
+      end
     end
   end
 
