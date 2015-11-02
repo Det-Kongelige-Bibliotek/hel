@@ -202,8 +202,8 @@ describe 'content' do
         expect(@f.create_preservation_message['UUID']).not_to be_nil
         expect(@f.create_preservation_message['UUID']).to eq @f.uuid
       end
-      it 'should contain Preservation_profile' do
-        expect(@f.create_preservation_message).to have_key 'Preservation_profile'
+      it 'should contain Preservation_collection' do
+        expect(@f.create_preservation_message).to have_key 'Preservation_collection'
       end
       it 'should contain Valhal_ID' do
         expect(@f.create_preservation_message).to have_key 'Valhal_ID'
@@ -331,17 +331,17 @@ describe 'content' do
     end
 
     describe 'changing the preservation metadata' do
-      it 'should be possible to assign and save a preservation profile.' do
-        profile = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
-        @f.preservation_collection = profile
+      it 'should be possible to assign and save a preservation collection.' do
+        collection = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
+        @f.preservation_collection = collection
         @f.save!
         e2 = @f.reload
-        e2.preservation_collection.should == profile
-        e2.preservationMetadata.preservation_collection.first.should == profile
+        e2.preservation_collection.should == collection
+        e2.preservationMetadata.preservation_collection.first.should == collection
       end
-      it 'should not be possible to assign and save a preservation profile, which is not in the configuration.' do
-        profile = "Preservation-Profile-#{Time.now.to_s}"
-        @f.preservation_collection = profile
+      it 'should not be possible to assign and save a preservation collection, which is not in the configuration.' do
+        collection = "Preservation-Profile-#{Time.now.to_s}"
+        @f.preservation_collection = collection
         expect{@f.save!}.to raise_error
       end
       it 'should be possible to assign and save a preservation state.' do
@@ -360,7 +360,7 @@ describe 'content' do
         e2.preservation_details.should == details
         e2.preservationMetadata.preservation_details.first.should == details
       end
-      it 'should be possible to assign and save a preservation profile.' do
+      it 'should be possible to assign and save a preservation collection.' do
         comment = "Preservation-Comment-#{Time.now.to_s}"
         @f.preservation_comment = comment
         @f.save!
@@ -528,8 +528,8 @@ describe 'content' do
         it 'should have the uuid of the file' do
           expect(@f.create_import_from_preservation_message('type')['uuid']).to eq @f.id
         end
-        it 'should have the preservation profile of the file' do
-          expect(@f.create_import_from_preservation_message('type')['preservation_profile']).to eq @f.preservation_profile
+        it 'should have the preservation collection of the file' do
+          expect(@f.create_import_from_preservation_message('type')['preservation_collection']).to eq @f.preservation_collection
         end
         it 'should have the warc_id of the file' do
           @f.warc_id = SecureRandom.hex(32)
@@ -621,36 +621,36 @@ describe 'content' do
         it 'should fail when no warc_id is defined' do
           expect(@f.validate_import('FILE', nil)).to be_falsey
         end
-        it 'should fail when no preservation_profile has been defined' do
+        it 'should fail when no preservation_collection has been defined' do
           @f.warc_id = 'warc_id'
           expect(@f.validate_import('FILE', nil)).to be_falsey
         end
-        it 'should fail when the preservation_profile is not a longterm preservation profile - thus not having preserved in yggdrasil' do
+        it 'should fail when the preservation_collection is not a longterm preservation collection - thus not having preserved in yggdrasil' do
           @f.warc_id = 'warc_id'
-          @f.preservation_profile = (PRESERVATION_CONFIG['preservation_profile'].select {|p| p['yggdrasil'] == 'false'}).keys.sample
+          @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|p| p['yggdrasil'] == 'false'}).keys.sample
           expect(@f.validate_import('FILE', nil)).to be_falsey
         end
-        it 'should fail when using another profile type than \'FILE\'' do
+        it 'should fail when using another collection type than \'FILE\'' do
           @f.warc_id = 'warc_id'
-          @f.preservation_profile = (PRESERVATION_CONFIG['preservation_profile'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+          @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
           expect(@f.validate_import('NOT_FILE', nil)).to be_falsey
         end
         it 'should be able to success' do
           @f.warc_id = 'warc_id'
-          @f.preservation_profile = (PRESERVATION_CONFIG['preservation_profile'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+          @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
           expect(@f.validate_import('FILE', nil)).to be_truthy
         end
         describe '#updates' do
           it 'should file when no updates'  do
             @f.warc_id = 'warc_id'
-            @f.preservation_profile = (PRESERVATION_CONFIG['preservation_profile'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+            @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
             expect(@f.validate_import('FILE', SecureRandom.hex(32))).to be_falsey
           end
           it 'should fail when requesting a non-existing update'  do
             warc_file_id = SecureRandom.hex(32)
             warc_record_id = SecureRandom.hex(32)
             @f.warc_id = 'warc_id'
-            @f.preservation_profile = (PRESERVATION_CONFIG['preservation_profile'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+            @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
             @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
             expect(@f.validate_import('FILE', SecureRandom.hex(32))).to be_falsey
           end
@@ -658,7 +658,7 @@ describe 'content' do
             warc_file_id = SecureRandom.hex(32)
             warc_record_id = SecureRandom.hex(32)
             @f.warc_id = 'warc_id'
-            @f.preservation_profile = (PRESERVATION_CONFIG['preservation_profile'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+            @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
             @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
             expect(@f.validate_import('FILE', warc_record_id)).to be_truthy
           end

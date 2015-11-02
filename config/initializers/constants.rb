@@ -87,7 +87,7 @@ PRESERVATION_PACKAGE_COMPLETE = {'PRESERVATION_PACKAGE_COMPLETE' => {
 # Yggdrasil waiting for more requests before upload is initiated.
 # If the request does not have the requirement, that it should be packaged in its own package.
 # Then it arrives into this state. However, we can only package data together with
-# the same bitrepository profile. So each profile must have its own waiting queue.
+# the same bitrepository collection.
 PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA = {'PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA' => {
     'error' => false, 'color' => 'limegreen', 'text' => 'Yggdrasil is waiting for more data before uploading the WARC file.'}}
 

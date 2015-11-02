@@ -31,7 +31,7 @@ describe ContentFilesController, type: :controller do
       w = Work.new
       w.save(validate: false)
       activity = Administration::Activity.create(activity: "ADL", embargo: "0", access_condition: "",
-                                                    copyright: "Attribution-NonCommercial-ShareAlike CC BY-NC-SA", collection: ["dasam3"], preservation_profile: "storage")
+                                                    copyright: "Attribution-NonCommercial-ShareAlike CC BY-NC-SA", collection: ["dasam3"], preservation_collection: "storage")
       activity.permissions = {"file"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}},
                                   "instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Alle"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}}
       activity.save

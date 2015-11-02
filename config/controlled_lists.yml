@@ -47,12 +47,6 @@ access_types:
     'efter aftale':
     læsesal:
     'ingen adgang':
-preservation_profiles:
-  name: Bevarings profiler
-  entries:
-    simple:
-    storage:
-    eternity:
 copyrights:
   name: Copyright Licenses
   entries:

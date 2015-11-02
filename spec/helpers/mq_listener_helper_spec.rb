@@ -60,7 +60,7 @@ describe MqListenerHelper do
         # expect(@f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')), false)).to be_true
         @f.add_file(File.new(Pathname.new(Rails.root).join('spec', 'fixtures', 'test_instance.xml')))
 
-        @f.preservation_profile = 'eternity'
+        @f.preservation_collection = 'eternity'
         @f.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
         #@f.warc_id = 'warc_id'
         @f.save
