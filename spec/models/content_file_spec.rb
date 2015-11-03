@@ -203,7 +203,7 @@ describe 'content' do
         expect(@f.create_preservation_message['UUID']).to eq @f.uuid
       end
       it 'should contain Preservation_collection' do
-        expect(@f.create_preservation_message).to have_key 'Preservation_collection'
+        expect(@f.create_preservation_message).to have_key 'Preservation_profile'
       end
       it 'should contain Valhal_ID' do
         expect(@f.create_preservation_message).to have_key 'Valhal_ID'
@@ -529,7 +529,9 @@ describe 'content' do
           expect(@f.create_import_from_preservation_message('type')['uuid']).to eq @f.id
         end
         it 'should have the preservation collection of the file' do
-          expect(@f.create_import_from_preservation_message('type')['preservation_collection']).to eq @f.preservation_collection
+          puts @f.create_import_from_preservation_message('type')
+          puts @f.preservation_collection
+          expect(@f.create_import_from_preservation_message('type')['preservation_profile']).to eq @f.preservation_collection
         end
         it 'should have the warc_id of the file' do
           @f.warc_id = SecureRandom.hex(32)

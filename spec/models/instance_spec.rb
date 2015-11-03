@@ -260,7 +260,7 @@ describe Instance do
         expect(@instance.create_preservation_message['UUID']).to eq @instance.uuid
       end
       it 'should contain Preservation_collection' do
-        expect(@instance.create_preservation_message).to have_key 'Preservation_collection'
+        expect(@instance.create_preservation_message).to have_key 'Preservation_profile'
       end
       it 'should contain Valhal_ID' do
         expect(@instance.create_preservation_message).to have_key 'Valhal_ID'

@@ -195,7 +195,7 @@ module Concerns
         message = Hash.new
         message['type'] = type
         message['uuid'] = self.uuid
-        message['preservation_profile'] = self.preservationMetadata.preservation_profile.first
+        message['preservation_profile'] = self.preservation_collection
         message['url'] = url_for(:controller => 'view_file', :action => 'import_from_preservation', :only_path => true)
 
         warc = Hash.new
