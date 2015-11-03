@@ -71,8 +71,7 @@ class WorksController < ApplicationController
     respond_to do |format|
       if @work.update(work_params)
         @work.instances.each do |i|
-          logger.debug("activity: #{i.activity} #{Administration::Activity.where(activity: 'ADL').first.id}")
-          if i.type == 'TEI' && (i.activity == Administration::Activity.where(activity: 'ADL').first.id)
+          if i.type == 'TEI' && i.activity.present? && Administration::Activity.where(id: i.activity).first.is_adl_activity?
             i.content_files.each do |f|
                 logger.debug("staring TEI sync")
                 TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
