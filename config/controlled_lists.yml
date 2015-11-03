@@ -23,12 +23,12 @@ instance_type:
 mode_of_issuance:
   name: Mode of Issuance
   entries:
-    'Fortsættelsesværk':
-    'Monografi':
-    'Bibliografisk enhed':
-    'Flerbindsværk':
-    'Seriepublikation':
-    'Sammensat materiale':
+    'Continuing': 'Fortsættelsesværk'
+    'Monographic': 'Monografi'
+    'Single unit': 'Bibliografisk enhed'
+    'Multipart monograph': 'Flerbindsværk'
+    'Serial': 'Seriepublikation'
+    'Integrating resource': 'Sammensat materiale'
 collections:
   name: Collections
   entries:
