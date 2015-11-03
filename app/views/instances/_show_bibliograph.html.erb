@@ -30,7 +30,15 @@
     <strong><%= t('.mode_of_issuance') %></strong>
   </td>
   <td>
-    <span><%= @instance.mode_of_issuance %></span>
+    <span><%= rdf_resource_link(@instance.mode_of_issuance) %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t('.dimensions') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.dimensions %></span>
   </td>
 </tr>
 <tr>
