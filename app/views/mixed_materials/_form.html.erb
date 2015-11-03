@@ -36,7 +36,7 @@
       </fieldset>
 
       <%= builder.simple_fields_for :instances do |fields_builder| %>
-          <%= render partial: 'instances/type', locals: { builder: fields_builder } %>
+          <%= fields_builder.hidden_field :type, :value => 'MixedMaterial' %>
           <%= render partial: 'instances/administrative', locals: { builder: fields_builder }  %>
           <%# file_field_tag 'mixed_material[content_files][]', type: :file, multiple: true %>
           <%= render partial: 'instances/upload', locals: { builder: fields_builder }  %>

@@ -1,0 +1,21 @@
+language: ruby
+bundler_args: --without development 
+notifications:
+  email: true
+rvm:
+  - "2.1.0"
+before_install:
+  - travis_retry gem update --system
+  - travis_retry gem install bundler --pre
+install:
+  - travis_retry bundle install --deployment --without debug
+  - bundle exec rake jetty:clean
+  - wget https://github.com/projecthydra/hydra-jetty/raw/master/start.ini -O jetty/start.ini
+  - bundle exec rake hydra:jetty:config
+  - sleep 5
+before_script:
+  - bundle exec rake db:migrate db:seed db:test:prepare
+  - bundle exec rake jetty:start
+  - sleep 5
+after_script:
+  - bundle exec rake jetty:stop

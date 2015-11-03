@@ -16,7 +16,7 @@
     <%= builder.input :dimensions %>
   </div>
   <div class="col-sm-6">
-    <%= builder.input :mode_of_issuance %>
+    <%= builder.input :mode_of_issuance, collection: get_list_with_labels('Mode of Issuance'),  prompt: t('.udgivelsesform') %>
   </div>
   <div class="col-sm-6">
     <%= builder.input :contents_note %>
