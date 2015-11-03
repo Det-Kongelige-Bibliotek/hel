@@ -46,11 +46,7 @@
     <strong>Note </strong>
   </td>
   <td>
-    <% @instance.note.each do |n| %>
-    <span>
-      <%= n %>
-    </span>
-    <% end %>
+    <span><% @instance.note %></span>
   </td>
 </tr>
 <%= render partial: 'provider/show', locals: { provider: @instance.publication } %>
