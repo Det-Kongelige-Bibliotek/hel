@@ -107,7 +107,54 @@ class Instance < ActiveFedora::Base
       nil
     end
   end
-  
+
+  ################ copyright_agent ####################
+  def copyright_holder
+    agents = related_agents('cph')
+    agents.first.id if agents.size > 0
+  end
+
+  def copyright_holder=(agent_id)
+    if agent_id.present?
+      relators = select_relators('cph')
+      if relators.first.present?
+        relators.first.agent_id = agent_id;
+      else
+        self.add_relator(ActiveFedora::Base.find(agent_id),'http://id.loc.gov/vocabulary/relators/cph')
+      end
+    end
+  end
+
+  ################# publisher #########################
+  def publisher
+    agents = related_agents('pbl')
+    agents.first.id if agents.size > 0
+  end
+
+  def publisher=(agent_id)
+    if agent_id.present?
+      relators = select_relators('pbl')
+      if relators.first.present?
+        relators.first.agent_id = agent_id;
+      else
+        self.add_relator(ActiveFedora::Base.find(agent_id),'http://id.loc.gov/vocabulary/relators/pbl')
+      end
+    end
+  end
+
+  def published_date
+    unless self.publication.blank?
+      self.publication.provider_date
+    else
+      nil
+    end
+  end
+
+  def published_date=(date)
+    self.add_published_date(date)
+  end
+
+  ################### TODO: look into deprecating these #########################
   def add_relator(agent,role)
     relation = Relator.new(agent: agent, role: role)
     self.relators += [relation]
@@ -127,7 +174,7 @@ class Instance < ActiveFedora::Base
     role = 'http://id.loc.gov/vocabulary/relators/scr'
     self.add_relator(agent,role)
   end
-
+  ################################################################################
 
   # Accessor for backwards compatibility
   def publisher_name
