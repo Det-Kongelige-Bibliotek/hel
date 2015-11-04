@@ -27,9 +27,8 @@ describe Authority::Person do
 
   describe 'setters' do
     it 'should allow us to set an authorized name' do
-      pending
-      @p.authorized_personal_name = { name: 'James Joyce', same_as: [::RDF::URI.new('http://viaf.org/viaf/44300643')] }
-      expect(@p.authorized_personal_names[:same_as][:name]).to eql 'James Joyce'
+      @p.authorized_personal_name = { 'family' => 'James Joyce'}
+      expect(@p.authorized_personal_names[:kb][:family]).to eql 'James Joyce'
     end
     it 'should allow us to set a variant name' do
       @p.alternate_names.push "Sunny Jim"
@@ -39,8 +38,7 @@ describe Authority::Person do
 
   describe 'display_value' do
     it 'contains the full name when this is present' do
-      pending
-      @p.authorized_personal_name = { name: 'James Joyce', same_as: [::RDF::URI.new('http://viaf.org/viaf/44300643')] }
+      @p.authorized_personal_name = { 'family' => 'James Joyce'}
       expect(@p.display_value).to include 'James Joyce'
     end
     it 'contains the family name when no full name is present' do
@@ -50,7 +48,7 @@ describe Authority::Person do
     end
 
     it 'returns the id if no names are present' do
-      pending
+      pending "The function display_value doesn't return the Person's id. The test doesn't make sense."
       expect(@p.display_value).to eql @p.id
     end
   end
