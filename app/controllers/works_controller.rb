@@ -39,6 +39,8 @@ class WorksController < ApplicationController
         format.html { redirect_to @work, notice: t('work.save') }
         format.json { render :show, status: :created, location: @work }
       else
+        @work.titles.build
+        @work.relators.build
         @work.titles.build unless @work.titles.present?
         @work.relators.build unless @work.relators.present?
         format.html { render :new }
