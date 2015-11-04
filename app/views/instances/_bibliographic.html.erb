@@ -15,22 +15,19 @@
   <div class="col-sm-6">
     <%= builder.input :dimensions %>
   </div>
+
+  <div class="col-sm-6">
+    <%= builder.input :extent %>
+  </div>
+
   <div class="col-sm-6">
     <%= builder.input :mode_of_issuance, collection: get_list_with_labels('Mode of Issuance'),  prompt: t('.udgivelsesform') %>
   </div>
   <div class="col-sm-6">
     <%= builder.input :contents_note %>
   </div>
-
-  <% if @instance.note.present? %>
-      <% @instance.note.each do |n| %>
-          <div class="col-sm-6">
-            <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
-          </div>
-      <% end %>
-  <% end %>
   <div class="col-sm-6">
-    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]' } %>
+    <%= builder.input :note %>
   </div>
 </fieldset>
 <fieldset>

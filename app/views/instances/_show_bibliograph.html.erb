@@ -30,7 +30,15 @@
     <strong><%= t('.mode_of_issuance') %></strong>
   </td>
   <td>
-    <span><%= @instance.mode_of_issuance %></span>
+    <span><%= rdf_resource_link(@instance.mode_of_issuance) %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t('.dimensions') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.dimensions %></span>
   </td>
 </tr>
 <tr>
@@ -46,11 +54,7 @@
     <strong>Note </strong>
   </td>
   <td>
-    <% @instance.note.each do |n| %>
-    <span>
-      <%= n %>
-    </span>
-    <% end %>
+    <span><% @instance.note %></span>
   </td>
 </tr>
 <%= render partial: 'provider/show', locals: { provider: @instance.publication } %>
