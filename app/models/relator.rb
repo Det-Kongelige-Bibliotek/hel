@@ -31,7 +31,7 @@ class Relator < ActiveFedora::Base
   end
 
   def agent_id
-    self.agent.try(:id) if id.present?
+    self.agent.try(:id) if agent.present?
   end
 
   def self.from_rel(rel, agent)
