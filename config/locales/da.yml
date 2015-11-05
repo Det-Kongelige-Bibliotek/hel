@@ -114,6 +114,7 @@ da:
       download: "Download link"
       upload: "Upload"
       details: "Detaljer"
+      no_files: "Ingen fil er uploadet"
     show_administrative:
       label: "Administrative Data"
       activity: "Aktivitet"
