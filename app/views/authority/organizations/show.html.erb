@@ -14,7 +14,7 @@
     <strong><%= t(".founding_date") %></strong>
   </td>
   <td>
-    <span> <%= @authority_object.founding_date %></span>>
+    <span> <%= @authority_object.founding_date %> </span>
   </td>
 </tr>
 <tr>
@@ -22,10 +22,11 @@
     <strong><%= t(".dissolution_date") %></strong>
   </td>
   <td>
-    <span> <%= @authority_object.dissolution_date %></span>>
+    <span> <%= @authority_object.dissolution_date %> </span>
   </td>
 </tr>
 </tbody></table>
 
 
+<%= link_to 'Edit', edit_authority_organization_path(@authority_object) %>
 <%= link_to 'Back', :back %>
