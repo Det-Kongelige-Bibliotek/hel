@@ -1,10 +1,11 @@
 # Perform actions on Instances
 class InstancesController < ApplicationController
   include PreservationHelper
-  before_action :set_work, only: [:create, :send_to_preservation]
+  include Concerns::RemoveBlanks
+  before_action :set_work, only: [:new, :create, :send_to_preservation]
   before_action :set_klazz, only: [:index, :new, :create, :update]
   before_action :set_instance, only: [:show, :edit, :update, :destroy,
-  :send_to_preservation, :update_administration]
+  :send_to_preservation, :update_administration, :validate_tei]
 
   authorize_resource :work
   authorize_resource :instance, :through => :work
@@ -21,8 +22,7 @@ class InstancesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.rdf { render rdf: @instance }
-      format.mods { render mods: @instance }
+      format.xml
     end
   end
 
@@ -32,8 +32,8 @@ class InstancesController < ApplicationController
   # If work_id is given in the params, add this to the object.
   def new
     @instance = @klazz.new
-    @work = Work.find(params[:work_id])
-    if params[:query] 
+    # TODO: Refactor to use ConversionService.instance_from_aleph
+    if params[:query]
       service = AlephService.new
       query = params[:query] 
       set=service.find_set(query) 
@@ -42,12 +42,12 @@ class InstancesController < ApplicationController
       doc = converter.to_mods("")
       mods = Datastreams::Mods.from_xml(doc) 
       if @instance.from_mods(mods)
-        flash[:notice] = "Instans data er hentet."
+        flash[:notice] = t('instances.flashmessage.ins_data_retrieved')
       else
-        flash[:error]  = "Kunne ikke hente instans data."
+        flash[:error]  = t('instances.flashmessage.no_ins_data_retrieved')
       end
     end
-    @instance.work << @work
+    @instance.work = @work
   end
 
   # GET /instances/1/edit
@@ -58,11 +58,12 @@ class InstancesController < ApplicationController
   # POST /instances.json
   def create
       @instance = @klazz.new(instance_params)
+      @instance.work = @work
       if @instance.save
-        flash[:notice] = "#{@klazz} blev gemt"
-        @instance.cascade_preservation
+        flash[:notice] = t('instances.flashmessage.ins_saved', var: @klazz)
+        @instance.cascade_preservation_collection
       else
-        @instance.work << @work
+        flash[:notice] = t('instances.flashmessage.ins_saved_fail', var: @klazz)
       end
       respond_with(@work, @instance)
   end
@@ -72,26 +73,43 @@ class InstancesController < ApplicationController
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
     if @instance.update(instance_params)
-      flash[:notice] = "#{@klazz} er opdateret."
-      @instance.cascade_preservation
+      # TODO: TEI specific logic should be in an after_save hook rather than on the controller
+      if @instance.type == 'TEI' && Administration::Activity.where(id: @instance.activity).first.is_adl_activity?
+        @instance.content_files.each do |f|
+          # TODO - make this also work for internally managed TEI files
+          if f.external_file_path
+            TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
+                                         f.external_file_path,@instance)
+            f.update_tech_metadata_for_external_file
+            f.save(validate: false)
+          end
+        end
+        repo = Administration::ExternalRepository[@instance.external_repository]
+        repo.push if repo.present?
+      end
+      flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
+      @instance.cascade_preservation_collection
+    else
     end
-    respond_with(@instance.work.first, @instance)
+    respond_with(@instance.work, @instance)
   end
 
   def send_to_preservation
-    if @instance.send_to_preservation
-      flash[:notice] = 'Instans og indholdsfiler sendt til bevaring'
+    if @instance.content_files().present? && @instance.send_to_preservation
+      flash[:notice] = t('instances.flashmessage.preserved')
+    elsif @instance.content_files().empty?
+      flash[:notice] = t('instances.flashmessage.no_file')
     else
-      flash[:notice] = 'Kunne ikke send til bevaring'
+      flash[:notice] = t('instances.flashmessage.no_preserved')
     end
-    redirect_to work_instance_path(@instance.work.first,@instance)
+    redirect_to work_instance_path(@instance.work, @instance)
   end
 
   # DELETE /instances/1
   def destroy
     @instance.destroy
     @instances = @klazz.all
-    flash[:notice] = "#{@klazz} er slettet"
+    flash[:notice] = t('instances.flashmessage.destroy', var: @klazz)
     redirect_to action: :index
   end
 
@@ -99,7 +117,7 @@ class InstancesController < ApplicationController
   def update_administration
     begin
       update_administrative_metadata_from_controller(params, @instance, false)
-      redirect_to @instance, notice: 'Administrativ metadata er opdateret'
+      redirect_to @instance, notice: t('instances.flashmessage.admin_updated')
     rescue => error
       error_msg = "Kunne ikke opdatere administrativ metadata: #{error.inspect}"
       error.backtrace.each do |l|
@@ -111,6 +129,13 @@ class InstancesController < ApplicationController
     end
   end
 
+  def validate_tei
+    @instance.validation_message = ['Vent Venligst ...']
+    @instance.validation_status = 'INPROGRESS'
+    @instance.save(validate:false)
+    Resque.enqueue(ValidateAdlTeiInstance,@instance.pid)
+    redirect_to work_instance_path(@instance.work, @instance)
+  end
 
   private
 
@@ -123,37 +148,25 @@ class InstancesController < ApplicationController
   def set_instance
     set_klazz if @klazz.nil?
     set_work if @work.nil? && params[:work_id].present?
-    @instance = @klazz.find(params[:id])
+    @instance = @klazz.find(URI.unescape(params[:id]))
   end
 
   def set_work
-    @work = Work.find(params[:work_id])
+    @work = Work.find(URI.unescape(params[:work_id]))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   # Need to do some checking to get rid of blank params here.
   def instance_params
-    params.require(@klazz.to_s.downcase.to_sym).permit(:activity, :title_statement, :extent, :copyright,  
-                                     :copyright_date, :published_date, :dimensions, :mode_of_issuance, :isbn13,
+    params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
+                                     :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
-                                     :access_condition, :availability, :collection, :preservation_profile,
-                                     :set_work, language: [[:value, :part]], note: [], content_files: []
+                                     :publisher, :published_date, :copyright_holder, :copyright_date, :copyright_status,
+                                     :access_condition, :availability, :preservation_collection, collection: [],
+                                     note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
+                                     publications_attributes: [[:id, :copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }
   end
 
-  # Remove any blank attribute values, including those found in Arrays and Hashes
-  # to prevent AF being updated with empty values.
-  def remove_blanks(param_hash)
-    param_hash.each do |k, v|
-      if v.is_a? String
-        param_hash.delete(k) unless v.present?
-      elsif v.is_a? Array
-        param_hash[k] = v.reject(&:blank?)
-      elsif v.is_a? Hash
-        param_hash[k] = remove_blanks(v)
-        param_hash.delete(k) unless param_hash[k].present?
-      end
-    end
-    param_hash
-  end
+
 end

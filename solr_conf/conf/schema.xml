@@ -33,16 +33,16 @@
     <dynamicField name="*_tsimv" type="text" stored="true" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
     
     <!-- English text (_te...) -->
-    <dynamicField name="*_tei" type="text_en" stored="false" indexed="true" multiValued="false"/>
-    <dynamicField name="*_teim" type="text_en" stored="false" indexed="true" multiValued="true"/>
-    <dynamicField name="*_tes" type="text_en" stored="true" indexed="false" multiValued="false"/>
-    <dynamicField name="*_tesm" type="text_en" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_tesi" type="text_en" stored="true" indexed="true" multiValued="false"/>
-    <dynamicField name="*_tesim" type="text_en" stored="true" indexed="true" multiValued="true"/>
-    <dynamicField name="*_teiv" type="text_en" stored="false" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_teimv" type="text_en" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_tesiv" type="text_en" stored="true" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
-    <dynamicField name="*_tesimv" type="text_en" stored="true" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
+    <dynamicField name="*_tei" type="text_da" stored="false" indexed="true" multiValued="false"/>
+    <dynamicField name="*_teim" type="text_da" stored="false" indexed="true" multiValued="true"/>
+    <dynamicField name="*_tes" type="text_da" stored="true" indexed="false" multiValued="false"/>
+    <dynamicField name="*_tesm" type="text_da" stored="true" indexed="false" multiValued="true"/>
+    <dynamicField name="*_tesi" type="text_da" stored="true" indexed="true" multiValued="false"/>
+    <dynamicField name="*_tesim" type="text_da" stored="true" indexed="true" multiValued="true"/>
+    <dynamicField name="*_teiv" type="text_da" stored="false" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
+    <dynamicField name="*_teimv" type="text_da" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
+    <dynamicField name="*_tesiv" type="text_da" stored="true" indexed="true" multiValued="false" termVectors="true" termPositions="true" termOffsets="true"/>
+    <dynamicField name="*_tesimv" type="text_da" stored="true" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
     
     <!-- string (_s...) -->
     <dynamicField name="*_si" type="string" stored="false" indexed="true" multiValued="false"/>
@@ -220,6 +220,15 @@
         <filter class="solr.TrimFilterFactory"/>
       </analyzer>
     </fieldType>
+
+    <fieldType name="text_da" class="solr.TextField" omitNorms="false">
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_da.txt" format="snowball" />
+        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
+      </analyzer>
+    </fieldType>
     
     <!-- A text field that only splits on whitespace for exact matching of words -->
     <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
@@ -238,22 +247,7 @@
       </analyzer>
     </fieldtype>
     
-    <!-- A text field with defaults appropriate for English -->
-    <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
-      <analyzer>
-        <tokenizer class="solr.ICUTokenizerFactory"/>
-        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
-        <!--filter class="solr.EnglishPossessiveFilterFactory"/-->
-        <!-- EnglishMinimalStemFilterFactory is less aggressive than PorterStemFilterFactory: -->
-        <!--filter class="solr.EnglishMinimalStemFilterFactory"/-->
-        <!--
-        <filter class="solr.PorterStemFilterFactory"/>
-        -->
-        <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Danish"/>
-      </analyzer>
-    </fieldType>
-        
+
     <!-- queries for paths match documents at that path, or in descendent paths -->
     <fieldType name="descendent_path" class="solr.TextField">
       <analyzer type="index">

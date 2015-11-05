@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
 
   get "view_file/show"
+  get 'statistics' => 'statistics#show'
+
 
   resources :instances do
     member do
       get 'preservation'
-      patch 'update_preservation_profile'
       get 'administration'
       patch 'update_administration'
     end
@@ -13,14 +14,20 @@ Rails.application.routes.draw do
   resources :works do
     resources :instances do
       get 'send_to_preservation', on: :member
+      get  'validate_tei', on: :member
     end
     resources :trykforlaegs
     post 'aleph', on: :collection
   end
 
-  resources :content_files, :except => [:new, :index, :delete, :create, :edit, :show, :update, :destroy] do
+  resources :mixed_materials
+
+  resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
+      get 'show'
       get 'download'
+      get 'upload'
+      patch 'update'
     end
   end
   root to: 'catalog#index'
@@ -28,16 +35,27 @@ Rails.application.routes.draw do
   namespace :administration do
     resources :controlled_lists
     resources :activities
+    resources :external_repositories, :only => [:show, :index] do
+      get 'syncronise', on: :member
+    end
   end
 
   blacklight_for :catalog
   devise_for :users
 
   namespace :authority do
-    resources :people
+    resources :people do
+      get 'viaf', on: :collection
+    end
+    resources :organizations, :places
   end
 
   get 'resources/:id' => 'resources#show'
+
+  get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
+  get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
+  get 'solrwrapper/searchbysameasuri/', to: 'solr_wrapper#search_by_same_as_uri'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

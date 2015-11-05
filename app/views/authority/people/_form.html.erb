@@ -1,29 +1,31 @@
 <% remote ||= false %>
 <% @authority_object ||= Authority::Person.new %>
-<%= form_for(@authority_object, remote: remote, html: { class: 'form-horizontal' }) do |f| %>
-  <% if @authority_object.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@authority_object.errors.count, "error") %> prohibited this authority_basis from being saved:</h2>
-
-      <ul>
-      <% @authority_object.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= simple_form_for(@authority_object, remote: remote, html: { class: 'form-horizontal' },
+                    defaults: { input_html: { class: 'form-control' }, wrapper_html: { class: 'form-group' }}  ) do |f| %>
+    <div class="form-inline">
+      <%= f.input :same_as, :input_html => {
+              :id => "myViafId"
+      }
+      %>
+      <button id='import_viaf' class="btn btn-default" type="button" onclick="viafImport();">
+        Import from VIAF
+      </button>
     </div>
-  <% end %>
 
-    <h2>Person</h2>
-    <% if @authority_object.new? %>
-        <%= render partial: 'authority/people/name',  locals: { scheme: '', name: { given: '', family: '', date: '' }} %>
-    <% else %>
-        <% @authority_object.authorized_personal_names.each do |scheme, name| %>
-            <%= render partial: 'authority/people/name', locals: { scheme: scheme, name: name } %>
-            <br/>
-        <% end %>
-    <% end %>
 
-  <div class="actions">
-    <%= f.submit 'Gem Person', class: 'btn btn-lg btn-success' %>
-  </div>
+    <%= f.input :given_name %>
+    <%= f.input :family_name %>
+    <%= f.input :birth_date %>
+    <%= f.input :death_date %>
+    <%= f.input :description %>
+    <%= #Hidden field for the URI
+        f.input :same_as_uri, as: :hidden,  input_html: {multiple: true} %>
+
+
+
+    <div class="actions">
+    <%= f.submit 'Gem person', class: 'btn btn-lg btn-success' %>
+      <img src="/assets/loading.gif" id="loading-indicator" style="display:none" />
+    </div>
+
 <% end %>

@@ -1,0 +1,92 @@
+<%= form_tag("/statistics", method: "get") do %>
+    <%# Administrative fields %>
+    <%= label_tag(:activity_tesim, t('statistics.search_for_activity')) %>
+    <%= select_tag(:activity_tesim, options_for_select(Administration::Activity.all.collect {|a| [ a.activity, a.id ] }, @params['activity_tesim']), include_blank: true)  %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose an activity. Selects the ContentFiles belonging to an instance with the chosen activity. If left blank, then all is chosen."></span>
+    <br/>
+    <%= label_tag(:collection_tesim, t('statistics.search_for_collection')) %>
+    <%= select_tag(:collection_tesim, options_for_select(get_list_with_labels('Collections'), @params['collection_tesim']), include_blank: true ) %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose a collection. Selects the ContentFiles belonging to an instance with the chosen collection. If left blank, then all is chosen."></span>
+    <br/>
+    <%= label_tag(:material_type_tesim, t('statistics.search_for_material_type')) %>
+    <%= text_field_tag :material_type_tesim, @params['material_type_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter a material type. Selects the ContentFiles belonging to an instance with the chosen material type. If left blank, then all is chosen."></span>
+    <br/>
+    <%= label_tag(:embargo_tesim, t('statistics.search_for_embargo')) %>
+    <%= select_tag(:embargo_tesim, options_for_select({t('statistics.embargo.embargoed') => '1', t('statistics.embargo.not_embargoed') => '0'}, @params['embargo_tesim']), include_blank: true ) %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose whether or not is it embargoed. Leave blank to choose both."></span>
+    <br/>
+    <%= label_tag(:embargo_date_tesim, t('statistics.search_for_embargo_expiration_year')) %>
+    <%= text_field_tag :embargo_date_tesim, @params['embargo_date_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose the embargo expiration year. Leave blank for no limit."></span>
+    <br/>
+    <%= label_tag(:work_id_tesim, t('statistics.search_for_files_belonging_to_a_given_work')) %>
+    <%= text_field_tag :work_id_tesim, @params['work_id_tesim']  %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter the ID of a work to only select the files belonging to this work."></span>
+    <br/>
+    <%= label_tag(:instance_id_tesim, t('statistics.search_for_files_belonging_to_a_given_instance')) %>
+    <%= text_field_tag :instance_id_tesim, @params['instance_id_tesim']  %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter the ID of an instance to only select the files belonging to this instance."></span>
+    <br/>
+    <%= label_tag(:instance_type_tesim, t('statistics.search_for_files_belonging_to_instance_of_type')) %>
+    <%= select_tag(:instance_type_tesim, options_for_select(get_list_with_labels('Instance types'), @params['instance_type_tesim']), include_blank: true ) %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose the type of instance which the files must belong to. Leave blank for any type of instance."></span>
+
+    <hr/>
+    <%# Common fields %>
+    <%= label_tag(:preservation_collection_tesim, t('statistics.search_for_preservation_collection')) %>
+    <%= text_field_tag :preservation_collection_tesim, @params['preservation_collection_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose the type of preservation collection."></span>
+    <br/>
+    <%= label_tag(:format_mimetype_tesim, t('statistics.search_for_mimetype')) %>
+    <%= text_field_tag :format_mimetype_tesim, @params['format_mimetype_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter the mimetype, either complete or partially - e.g. 'application/pdf' or 'pdf'. Alternatively use wildcards, e.g. 'application/*'."></span>
+    <br/>
+    <%= label_tag(:created_dtsim_min, t('statistics.lower_datetime_limit')) %>
+    <%= datetime_select :created_dtsim, :min_time, {default: @min_date, include_blank: @min_date.nil?} %>
+    <span class="glyphicon glyphicon-question-sign" title="Chose files create/uploaded after this date."></span>
+    <br/>
+    <%= label_tag(:created_dtsim_max, t('statistics.upper_datetime_limit')) %>
+    <%= datetime_select :created_dtsim, :max_time, {default: @max_date, include_blank: @max_date.nil?} %>
+    <span class="glyphicon glyphicon-question-sign" title="Chose files create/uploaded before this date."></span>
+    <br/>
+    <%= label_tag(:file_size, t('statistics.file_size')) %>
+    <%= select_tag(:file_size_type, options_for_select({t('statistics.filesize.larger_than') => '>', t('statistics.filesize.smaller_than') => '<'}, @params['file_size_type']), include_blank: true )%>
+    <%= text_field_tag :file_size_isim, @params['file_size_isim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Choose a file size limit. Either lower limit (using larger than) or an upper limit (using lower than)."></span>
+
+    <hr/>
+    <%# Technical fields %>
+    <%= label_tag(:format_name_tesim, t('statistics.search_for_format_name')) %>
+    <%= text_field_tag :format_name_tesim, @params['format_name_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter the name of the format. It must be full name of the format, e.g. 'Portable Document Format' and not the acronym 'pdf'. For searching for the acronym, use the mimetype."></span>
+    <br/>
+    <%= label_tag(:format_version_tesim, t('statistics.search_for_format_version')) %>
+    <%= text_field_tag :format_version_tesim, @params['format_version_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter version of the format."></span>
+    <br/>
+    <%= label_tag(:format_pronom_id_si, t('statistics.search_for_pronom_id')) %>
+    <%= text_field_tag :format_pronom_id_si, @params['format_pronom_id_si'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter the pronom id for the format, e.g. 'fmt/18' for PDF in version 1.4"></span>
+    <br/>
+    <%= label_tag(:creating_application_tesim, t('statistics.search_for_creating_application')) %>
+    <%= text_field_tag :creating_application_tesim, @params['creating_application_tesim'] %>
+    <span class="glyphicon glyphicon-question-sign" title="Enter name of the application creating the file."></span>
+
+    <hr/>
+    <%= label_tag(:file_size_sum, t('statistics.file_size_sum')) %>
+    <%= check_box_tag(:file_size_sum, '1', !@params['file_size_sum'].blank?) %>
+    <span class="glyphicon glyphicon-question-sign" title="Extracts the combined file_size of all the files in the search. Does not work for the CVS extraction."></span>
+    <br/>
+    <%# Limit fields%>
+    <%= label_tag(:field_list, t('statistics.limit_results_type')) %>
+    <%= select_tag(:field_list, options_for_select(
+                    {t('statistics.result_types.all') => 'SOLR_FL_ALL',
+                     t('statistics.result_types.administrative') => 'SOLR_FL_ADMINISTRATIVE',
+                     t('statistics.result_types.technical') => 'SOLR_FL_TECHNICAL'})) %>
+    <br/>
+
+    <%= submit_tag('Search') %>
+    <%= submit_tag('Extract as CSV') %>
+    <%= submit_tag('Run FITS on results') if current_user %>
+<% end %>

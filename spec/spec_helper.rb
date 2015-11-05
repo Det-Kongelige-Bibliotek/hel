@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'fakeredis'
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
@@ -18,7 +19,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema!
+# ActiveRecord::Migration.maintain_test_schema!
 
 
 RSpec.configure do |config|
@@ -39,7 +40,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  # config.use_transactional_fixtures = true
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -54,8 +55,16 @@ RSpec.configure do |config|
 
   config.before :all do
     ActiveRecord::Base.subclasses.each(&:delete_all)
-    ActiveFedora::Base.subclasses.each(&:delete_all)
-    a = Administration::Activity.create("activity"=>"Trygforlæg", "collection"=>"billed", "availability"=>"0", "embargo"=>"0", "access_condition"=>"efter aftale", "preservation_profile"=>"storage", "copyright"=>"Attribution-ShareAlike CC BY-SA", "permissions"=>{"instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-NSA"], "edit"=>["Chronos-Pligtaflevering","Chronos-Admin"]}}, "file"=>{"group"=>{"discover"=>["Chronos-NSA"], "read"=>["Chronos-Pligtaflevering"], "edit"=>["Chronos-Admin"]}}})
+    # ActiveFedora::Base.subclasses.each(&:delete_all)
+    a = Administration::Activity.create(
+        "activity"=>"Trygforlæg",
+        "collection"=>["billed"],
+        "availability"=>"0",
+        "embargo"=>"0",
+        "access_condition"=>"efter aftale",
+        "preservation_collection"=>"storage",
+        "copyright"=>"Attribution-ShareAlike CC BY-SA",
+        "activity_permissions"=>{"instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-NSA"], "edit"=>["Chronos-Pligtaflevering","Chronos-Admin"]}}, "file"=>{"group"=>{"discover"=>["Chronos-NSA"], "read"=>["Chronos-Pligtaflevering"], "edit"=>["Chronos-Admin"]}}})
     @default_activity_id = a.id
   end
 

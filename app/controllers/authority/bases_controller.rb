@@ -2,6 +2,7 @@ module Authority
   # Provide default functionality for inheritance by
   # concrete Authority classes
   class BasesController < ApplicationController
+    authorize_resource
     before_action :set_object, only: [:show, :edit, :update, :destroy]
     before_action :set_klazz, only: [:index, :new, :create]
     # GET /authority/bases
@@ -13,6 +14,7 @@ module Authority
     # GET /authority/bases/1
     # GET /authority/bases/1.json
     def show
+      authorize! :read, URI.unescape(params[:id])
     end
 
     # GET /authority/bases/new
@@ -22,6 +24,7 @@ module Authority
 
     # GET /authority/bases/1/edit
     def edit
+      authorize! :edit, URI.unescape(params[:id])
     end
 
     # POST /authority/bases
@@ -31,7 +34,9 @@ module Authority
 
       respond_to do |format|
         if @authority_object.save
-          format.html { redirect_to @authority_object, notice: 'Base was successfully created.' }
+          format.html { redirect_to @authority_object,
+                                    notice: "#{t('authority.bases.created',
+                                                                name: t('models.' + @authority_object.class.name.parameterize.underscore))}" }
           format.json { render :show, status: :created, location: @authority_object }
           format.js { render :show, status: :created, location: @authority_object  }
         else
@@ -45,9 +50,11 @@ module Authority
     # PATCH/PUT /authority/bases/1
     # PATCH/PUT /authority/bases/1.json
     def update
+      authorize! :edit, URI.unescape(params[:id])
       respond_to do |format|
         if @authority_object.update(authority_base_params)
-          format.html { redirect_to @authority_object, notice: 'Base was successfully updated.' }
+          format.html { redirect_to @authority_object, notice: t('authority.bases.updated',
+                                                                 name: t('models.' + @authority_object.class.name.parameterize.underscore)) }
           format.json { render :show, status: :ok, location: @authority_object }
         else
           format.html { render :edit }
@@ -61,7 +68,7 @@ module Authority
     def destroy
       @authority_object.destroy
       respond_to do |format|
-        format.html { redirect_to authority_bases_url, notice: 'Base was successfully destroyed.' }
+        format.html { redirect_to authority_bases_url, notice: t('authority.bases.destroyed') }
         format.json { head :no_content }
       end
     end
@@ -70,7 +77,7 @@ module Authority
 
     # Use callbacks to share common setup or constraints between actions.
     def set_object
-      @authority_object = ActiveFedora::Base.find(params[:id])
+      @authority_object = ActiveFedora::Base.find(URI.unescape(params[:id]))
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

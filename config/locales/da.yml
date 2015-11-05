@@ -20,108 +20,182 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 da:
-  Languages:
-    da: Dansk
-    sv: Svensk
-    nb: Norsk Bokmål
-    nn: Norsk Nynorsk
-    en: Engelsk
-    fr: Fransk
-    de: Tysk
-    es: Spansk
-    nl: Hollandsk
-    it: Italiensk
-    pl: Polsk
-    ro: Rumaensk
-    fi: Finsk
-  Collections:
-    dasamx: Danske Samling, 1.-2. samling (-1601)
-    dasam2: Danske Samling, 1.-2. samling (1602-1959)
-    dasam3: Danske Samling, 3. samling (1960-)
-    dasmaa: Danske Samling, småtryk
-    aesaml: Ældre Samling
-    glsaml: Gammel Samling (DNLB)
-    vmanus: Vesterlandske manuskripter.
-    boghis: Håndskriftafdelingen, Boghistoriske Saml.
-    kortsa: Kortsaml.
-    billed: Billedsaml.
-    luftfo: Luftfotosaml.
-    mushos: Musikalier, Hovedsaml.
-    musman: Musikmanuskripter
-    orkbib: Orkesterbibl.
-    drabib: Dramatisk Bibl.
-    ortsam: Orientalske Saml.
-    judsam: Judaistiske Saml.
-    kubsam: "NB-værker i KUB-samlinger (eksempler: UBF-samling, osv.)"
+  unknown: Ukendt
+  create_model: 'Opret %{model}'
+  model_created: "%{model} blev oprettet"
+  model_updated: "%{model} blev opdateret"
+  model_creation_failed: "%{model} kunne ikke gemmes"
   blacklight:
     application_name: 'Valhal'
   activefedora:
     errors:
       messages:
         record_invalid: 'Ugyldig data'
-  person:
-    scheme: Skema
-    given: Fornavn
-    family: Efternavn
-    date: Fødsels-Dødsår
 
-  works:
-    work_form:
-      cancel: "Fortryd"
-    show:
-      edit: "Rediger"
   authority:
+    bases:
+      created: "%{name} blev oprettet"
+      updated: "%{name} blev opdateret"
+      destroyed: "%{name} blev slettet"
+      new:
+        title: "New authority_basis"
     people:
       form:
-        cancel: "Fortryd"
-      show:
-        authorized_names: "Autoriserede navne"
-  instances:
-    types:
-      trykforlaeg: Trykforlæg
+        no_save_error: "prohibited this authority_basis from being saved:"
+        person: "Person"
+      destroyed: "Person was successfully destroyed."
+      edit:
+        editing: "Redigerer person"
+      index:
+        confirm: "Er du sikker?"
+        list: "Viser %{var} objekter"
+      new:
+        title: "Opretter person"
     form:
       cancel: "Fortryd"
+    show:
+      authorized_names: "Autoriserede navne"
+
+  instances:
+    flashmessage:
+      ins_data_retrieved: "Instans data er hentet."
+      no_ins_data_retrieved: "Kunne ikke hente instans data."
+      ins_saved: "%{var} blev gemt"
+      ins_saved_fail: "%{var} kunne ikke gemmes"
+      ins_updated: "%{var} er opdateret."
+      preserved: 'Instans og indholdsfiler sendt til bevaring'
+      no_preserved: 'Kunne ikke send til bevaring'
+      no_file: 'Kunne ikke send til bevaring uden indholdsfiler'
+      destroy: "%{var} er slettet"
+      admin_updated: "Administrative metadata er opdateret"
+    index:
+      title: "Liste over instanser"
+      list: "Listing instances"
+      confirm: "Are you sure?"
+    new:
+      title: "Ny instans af: "
+    show:
+      title: "Vis instans til: "
+    types:
+      trykforlaeg: "Trykforlæg"
+      instance: Instans
+    file_input:
+      add: "Tilføj flere filer"
+    form:
+      title: "Instans"
+      cancel: "Fortryd"
       could_not_be_saved: "Instansen kunne ikke gemmes"
+      gem: "Gem"
     show_bibliograph:
+      isbn: ISBN
       copyright_date: "Dato for ophavsret"
-      published_date: "Udgivelsedato"
-      mode_of_issuance: "Udgivelseform"
+      provider_date: "Udgivelsesdato"
+      mode_of_issuance: "Udgivelsesform"
       extent: "Omfang"
       language: "Sprog"
+      dimensions: "Dimensioner"
     bibliographic:
+      title: "Bibliografiske metadata"
       language: "Sprog"
     sidebar:
-      go_to: "Gå Til:"
+      go_to: "Gå til:"
+      bibliographic: "Bibliografiske metadata"
+      administrative: "Administrative metadata"
+      upload: "Fil upload"
+    show_files:
+      label: "Filer"
+      file_name: "Filnavn"
+      bev_collection: "Bevaringssamling"
+      bev_status: "Bevaringsstatus"
+      bev_detaljer: "Bevaringsdetaljer"
+      bev_warc_id: "WARC ID"
+      bev_file_warc_id: "Fil WARC ID"
+      bev_preservation_initiated_date: "Seneste bevaring igangsat"
+      download: "Download link"
+      upload: "Upload"
+      details: "Detaljer"
+      no_files: "Ingen fil er uploadet"
     show_administrative:
+      label: "Administrative Data"
       activity: "Aktivitet"
       collection: "Samling"
       copyright: "Licens"
-      embargo_condition: "Klausulering betingelser"
-      preservation_profile: "Bevaring Profil"
-      preservation_state: "Bevaring Status"
-      preservaton_details: "Bevaring detaljer"
+      embargo_condition: "Klausuleringsbetingelser"
+      preservation_collection: "Bevaringssamling"
+      preservation_state: "Bevaringsstatus"
+      preservaton_details: "Bevaringsdetaljer"
+      preservation_date: "Bevarings status dato"
+      preservation_initiated_date: "Seneste bevaring igangsat"
+      preservation_not_started: "Bevaringen er ikke startet"
+      warc_id: "WARC id"
+    activity_input:
+      activity: "Aktivitet"
     administrative:
-      admin_header: "Administrativ metadata"
+      admin_header: "Administrative metadata"
+      collection: "Samling"
+      embargo: "Klausulering"
+      availability: "Tilgængelighed"
+      klaus: "Klausuleringstype"
+      license: "Vælg licens"
+      preservation: "Bevaring"
+      preserv_collection: "Bevaringssamling"
+      is_available: "Må tilgængeliggøres?"
+      edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
+      choose_collection: 'Vælg en eller flere samlinger'
+      yes: "Ja"
+      no: "Nej"
+    bibliographic:
+      udgivelsesform: 'Vælg udgivelsesform'
+    image_found:
+      check: "Tjek TEI-linjeskift"
+    image_found_modal:
+      tiff: "Manglende TIFF-billeder"
+      wait: "Vent venligst ..."
+      luk: "Luk"
+
+    upload:
+      no_access: "Du har ikke adgang til at se filerne"
   simple_form:
     labels:
       defaults:
-        copyright_date: Dato for ophavsret
-        published_date: Udgivelsedato
-        mode_of_issuance: Udgivelseform
+        origin_date: "Oprindelsesdato"
+        copyright_date: Udløbsdato
+        published_date: Udgivelsesdato
+        mode_of_issuance: Udgivelsesform
         extent: Omfang
         language-value: Sprog
         activity: Aktivitet
         collection: Samling
         embargo: Klausulering
-        embargo_date: Klausulering dato
-        embargo_condition: Klausulering betingelser
-        access_condition: Adgang betingelser
+        embargo_date: Klausuleringsdato
+        embargo_condition: Klausuleringsnote
+        access_condition: Adgangsbetingelser
+        dimensions: Dimensioner
         copyright: Licens
+        contents_note: Bemærkninger til indhold
+        isbn13: ISBN13
+        role: Rolle
+        content_files: Indholdsfiler
+        given_name: Fornavn
+        family_name: Efternavn
+        birth_date: Fødselsdato
+        death_date: Dødsdato
+        description: Beskrivelse
+        same_as: Identisk med
+        value: Titel
+        type: Type
+        agent: Agent
+        creator: Ophav
+        year_published: Udgivelsesdato
+    placeholders:
+      defaults:
+        value: Titel eller label
+
 
   trykforlaegs:
     bibliographic:
       language: "Sprog"
-  embargo_date: "Klausulering dato"
+  embargo_date: "Klausuleringsdato"
 
   Title types:
       Uniform: 'Uniform'
@@ -132,22 +206,58 @@ da:
   models:
     work: 'Værk'
     authority_person: 'Person'
+    authority_place: 'Sted'
+    authority_organization: 'Organisation'
+    mixed_material: Arkiv
+    mixedmaterial: Arkiv
 
   roles:
     aut: 'Forfatter'
-  devise:
-    sessions:
-      new:
-        username: "Brugernavn"
-        password: "Adgangkode"
-        remember_me: "Husk mig"
+
   work:
+    update: "Værket er opdateret."
+    save: "Værket blev oprettet."
+    destroy: "Værket blev slettet."
     aleph:
-      error_message: "Ingen data fundet i aleph for %{field} %{value}"
+      error_message: "Ingen data fundet i Aleph for %{field} %{value}"
       success_message: "Værk oprettet med data fra Aleph"
     save_error: "Værk kunne ikke gemmes"
+
+  read: Læs
+  discover: Find
+  edit: Rediger
+  workflow_status: Workflowstatus
+  title_types: Titeltyper
+  instance_types: Instanstyper
+  collections: Samlinger
+  access_types: Adgangsbetingelser
+  preservation_collections: Bevaringssamlinger
+  copyright_licenses: Copyrightlicenser
+  hydra_access_groups: Adgangsgrupper
+  hydra_access_types: Adgangstyper
+  languages: Sprog
+  country_codes: Landekoder
   administration:
     activities:
+      flashmessage:
+        created: "Aktivitet blev oprettet"
+        updated: "Aktivitet blev opdateret."
+        destroyed: "Aktivitet blev slettet."
+      activity_input:
+        activity: "Aktivitet"
+      default_permissions:
+        ins_permissions: "Rettigheder for instans"
+        file_permissions: "Rettigheder for filer"
+      form:
+        no_save_error: "betød at aktivitet ikke kunne gemmes:"
+        gem: "Gem"
+      show:
+        access: "Adgangsbetingelse"
+        availability: "Tilgængelig"
+        collection: "Samling"
+        embargo: "Klausulering"
+        em_condition: "Klausuleringsbetingelse"
+        pres_profile: "Bevaringsprofil"
       index:
         header: "Aktiviteter"
         name: "Navn"
@@ -159,7 +269,15 @@ da:
         new_activity: "Ny aktivitet"
       edit:
         edit_activity: "Rediger aktivitet"
+
+      dissemination:
+        dissemination: "Formidlingsprofiler"
+        explanation: "Vælg de formidlings profiler som skal være gældende for instanser af dette aktivitet."
     controlled_lists:
+      flashmessage:
+        created: "ControlledList was successfully created."
+        updated: "ControlledList was successfully updated."
+        destroyed: "ControlledList was successfully destroyed."
       index:
         header: "Kontrollerede lister"
         edit: "Rediger"
@@ -169,18 +287,184 @@ da:
       new:
         header: "Ny kontrollerede list"
       form:
+        no_save_error: "prohibited this controlled_list from being saved:"
         list_name: "Navnet af listen"
         new_entry: "Ny post"
         new_field: "Tilføj flere"
         save: "Gem"
       element:
-        entry: "Post"
+        entry: "Værdi"
+        label: "Label"
       edit:
         header: "Redigerer %{name}"
+
+    external_repositories:
+      flashmessage:
+        synchronizing: "Synkronisering startet"
+      index:
+        header: "Eksterne repositorier"
+        show: "Vis"
+        syncronise: "Synkroniser"
+        name: "Navn"
+      show:
+        title: "Eksternt repositorie"
+        branch: "Branch"
+        activity: "Aktivitet"
+        base: "Rodkatalog"
+        image: "Billedekatalog"
+        sync: "Synkroniseringsmetoder"
+        sync_status: "Synkroniseringsstatus"
+        sync_date: "Synkroniseringsdato"
+        log: "Logbeskeder"
+
+  catalog:
+    home_text:
+      title: "Velkommen til Valhal"
+    index_work:
+      ins: "instans(er)"
+
+  devise:
+    sessions:
+      new:
+        title: "Log ind"
+
+  shared:
+    administration_dropdown:
+      admin: "Administrer"
+    create_dropdown:
+      opret: "Opret"
+    navbar:
+      nav: "Toggle navigation"
+    user_dropdown:
+      login: "Log ind"
+      logout: "Log ud"
+      guest: "Gæst"
+
+  trykforlaegs:
+    bibliographic:
+      title: "Bibliografiske metadata"
+    index:
+      title: "Listing Trykforlaegs"
+      confirm: "Are you sure?"
+
+  relators:
+    name: "Navn"
+    role: "Rolle"
+
+  works:
+    add_instance:
+      add: "Tilføj ny instans"
+      tryk: "Trykforlaeg"
+      new_ins: "Ny instans til:"
+    aleph_import:
+      import: "Importer fra Aleph"
+      number: "System nummer"
+    creator:
+      close: "Slet ophav"
+    show:
+      edit: "Rediger"
+      titles: "Titler"
+      title: "Titel"
+      subtitle: "Undertitel"
+      lang: "Sprog"
+      type: "Type"
+      author: "Ophav"
+      subject: "Emne(r)"
+      new_tryk: "Nyt Trykforlæg"
+      origin_date: "Oprindelsesdato"
+      page_title: "Værk: "
+      agent_relations: "Relaterede agenter"
+      new_instance: "Ny instans"
+    subject_authority:
+      close: "Slet emne"
+    title:
+      close: "Slet titel"
+    work_form:
+      language: "Sprog"
+      cancel: "Fortryd"
+      import: "Importer fra Aleph"
+      work: "Værk"
+      error: "prohibited this instance from being saved:"
+      titles: "Titler"
+      add_title: "Tilføj Titel"
+      author: "Ophav"
+      new_person: "Opret ny person"
+      add_author: "Tilføj Ophav"
+      subject: "Emner"
+      add_subject: "Tilføj Emne"
+      delete_creator: 'Slet Ophav'
+    edit:
+      page_title: "Rediger værk: "
+    index:
+      page_title: "Liste over værker"
+      title: "Listing works"
+      cofirm: "Are you sure?"
+    new:
+      page_title: "Nyt værk"
+
+
+
+
+  content_file:
+    flashmessage:
+      file_uploaded: "Filen er uploaded"
+      no_file_to_upload: "Der er ikke valgt nogen fil"
+      basic_file_not_found: 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
+
+
   back: "Tilbage"
+  cancel: "Fortryd"
   show: "Vis"
   edit: "Rediger"
   error: "Fejl"
   unauthorized:
       manage:
         all: "Du har ikke adgang til denne side."
+
+  flashmessage:
+    standard_error: 'An error has occurred. Please contact your system administrator'
+    file_not_found: 'The file you requested could not be found in Fedora! Please contact your system administrator'
+    be_admin: "Du skal være administrator for at kunne opdatere"
+  edtf:
+    error_message: "skal være valid EDTF"
+    no_date_message: "skal have en oprindelsesdato"
+
+  statistics:
+    preservation_statistics_based_on_solr: "Bevaring statistik baseret på SOLR"
+    search_for_activity: 'Søg efter aktivitet: '
+    search_for_collection: 'Søg efter samling: '
+    search_for_material_type: 'Søg efter materiale type: '
+    search_for_embargo: 'Søg efter embargo: '
+    embargo:
+      embargoed: 'Embargo'
+      not_embargoed: 'Ikke embargo'
+    search_for_embargo_expiration_year: 'Søg efter embargo udløbsår: '
+    search_for_files_belonging_to_a_given_work: 'Søg efter filer tilhørende et givent værk: '
+    search_for_files_belonging_to_a_given_instance: 'Søg efter filer tilhørende en given instans: '
+    search_for_files_belonging_to_instance_of_type: 'Søg efter filer tilhørende en instans af typen: '
+    search_for_preservation_collection: 'Søg efter bevarings samling: '
+    search_for_mimetype: 'Søg efter mimetype: '
+    lower_datetime_limit: 'Nedre grænse for datostempel: '
+    upper_datetime_limit: 'Øvre grænse for datostempel: '
+    file_size: 'Fil størrelse: '
+    filesize:
+      larger_than: 'Mindre end'
+      smaller_than: 'Større end'
+    search_for_format_name: 'Søg efter format navn: '
+    search_for_format_version: 'Søg efter format version: '
+    search_for_pronom_id: 'Søg efter pronom id: '
+    search_for_creating_application: 'Søg efter creating application: '
+    limit_results_type: 'Begræns resulter: '
+    result_types:
+      all: 'Alle'
+      administrative: 'Administrative'
+      technical: 'Tekniske'
+
+  mixed_materials:
+    new:
+      header: "Nyt %{model}"
+    edit:
+      header: "Redigerer %{model}"
+    form:
+      new_person: "Opret ny person"
+      author: "Ophav"

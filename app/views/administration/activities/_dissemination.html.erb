@@ -1,0 +1,5 @@
+<fieldset class="row">
+  <legend class="col-sm-12"><%= t('.dissemination') %></legend>
+      <p><%= t('.explanation') %></p>
+  <%= builder.collection_check_boxes :dissemination_profiles, dissemination_profiles, :first, :last %>
+</fieldset>

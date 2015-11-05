@@ -5,21 +5,26 @@
 module PreservationHelper
   include MqHelper # methods: send_message_to_preservation
 
-
   # Updates the preservation state metadata from the controller.
+  # Handles both the preservation element and the update element.
   # Expected to receive parameters:
   # params[:preservation][:preservation_state]
   # params[:preservation][:preservation_details]
   # params[:preservation][:warc_id]
+  # params[:preservation][:file_warc_id]
+  # params[:update][:date]
+  # params[:update][:uuid]
+  # params[:update][:file_uuid]
+  # params[:update][:warc_id]
+  # params[:update][:file_warc_id]
   # @param params The parameters from the controller.
   # @param element The element to have its preservation settings updated.
-  # @return The http response code.
+  # @return Whether the preservation metadata has successfully been updated.
   def update_preservation_metadata_for_element(params, element)
-    puts "Updating preservation metadata for element #{element} with parameters #{params}"
     ensure_preservation_state_allows_update_from_controller(element.preservation_state)
 
-    if set_preservation_metadata(params['preservation'], element)
-      puts "Preservation metadata updated successfully for #{element}"
+    if set_preservation_metadata(params['preservation'], params['update'], element)
+      # puts "Preservation metadata updated successfully for #{element}"
       true
     else
       puts "Failed to update preservation metadata for #{element}"
@@ -37,27 +42,23 @@ module PreservationHelper
 
   private
 
-
   # Updates the preservation state and details for a given element (e.g. a basic_files, a instance, a work, etc.)
   # The preservation state is expected to be among the Constants::PRESERVATION_STATES, a warning will be issued if not.
-  # @param metadata The hash with metadata to be updated.
+  # @param metadata The hash with preservation metadata to be updated.
+  # @param update The hash with preservation update metadata to be updated (only regarding update-preservations, not initial preservations)
   # @param element The element to has its preservation state updated.
   # @return Whether the update was successful. Or just false, if no metadata is provided.
-  def set_preservation_metadata(metadata, element)
-    unless metadata && !metadata.empty?
-      puts "No metadata for updating element with: #{metadata}"
+  def set_preservation_metadata(metadata, update, element)
+    unless (metadata && (!metadata.empty?) || (update && !update.empty?))
+      puts "No metadata for updating element with: #{metadata} or #{update}"
       return false
     end
 
-    puts "Updating '#{element.to_s}' with preservation metadata '#{metadata}'"
     updated = false
 
     unless (metadata['preservation_state'].blank? || metadata['preservation_state'] == element.preservationMetadata.preservation_state.first)
       updated = true
-      unless PRESERVATION_STATES.keys.include? metadata['preservation_state']
-        puts("Undefined preservation state #{metadata['preservation_state']} not among the defined ones:" +
-                        "#{PRESERVATION_STATES.keys.to_s}")
-      end
+      puts "Undefined preservation state #{metadata['preservation_state']} not among the defined ones: #{PRESERVATION_STATES.keys.to_s}" unless PRESERVATION_STATES.keys.include? metadata['preservation_state']
       element.preservationMetadata.preservation_state = metadata['preservation_state']
     end
 
@@ -71,6 +72,16 @@ module PreservationHelper
       element.preservationMetadata.warc_id = metadata['warc_id']
     end
 
+    unless (metadata['file_warc_id'].blank? || metadata['file_warc_id'] == element.preservationMetadata.file_warc_id.first)
+      updated = true
+      element.preservationMetadata.file_warc_id = metadata['file_warc_id']
+    end
+
+    if update && !update.empty?
+      # puts "Preservation update for #{element} with #{update}"
+      element.preservationMetadata.insert_update(update)
+    end
+
     if updated
       set_preservation_modified_time(element)
     end
@@ -78,26 +89,26 @@ module PreservationHelper
     element.save
   end
 
-  # Updates the preservation profile for a given element (e.g. a basic_files, a instance, a work, etc.)
+  # Updates the preservation collection for a given element (e.g. a basic_files, a instance, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation
-  # @param element The element to have its preservation profile changed.
-  def set_preservation_profile(profile, comment, element)
+  # @param element The element to have its preservation collection changed.
+  def set_preservation_collection(profile, comment, element)
     puts "Updating '#{element.to_s}' with profile '#{profile}' and comment '#{comment}'"
-    if (profile.blank? || element.preservationMetadata.preservation_profile.first == profile) && (comment.blank? || element.preservationMetadata.preservation_comment.first == comment)
+    if (profile.blank? || element.preservationMetadata.preservation_collection.first == profile) && (comment.blank? || element.preservationMetadata.preservation_comment.first == comment)
       puts 'Nothing to change for the preservation update'
       return
     end
 
-    # Do not update, if the preservation profile is not among the valid profiles in the configuration.
-    unless PRESERVATION_CONFIG['preservation_profile'].keys.include? profile
-      raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_profile"].keys}"
+    # Do not update, if the preservation collection is not among the valid profiles in the configuration.
+    unless PRESERVATION_CONFIG['preservation_collection'].keys.include? profile
+      raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_collection"].keys}"
     end
 
     set_preservation_modified_time(element)
-    element.preservationMetadata.preservation_profile = profile
-    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_profile'][profile]['bit_safety']
-    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_profile'][profile]['confidentiality']
+    element.preservationMetadata.preservation_collection = profile
+    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_collection'][profile]['bit_safety']
+    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_collection'][profile]['confidentiality']
     element.preservationMetadata.preservation_comment = comment
     element.save
   end
@@ -107,9 +118,7 @@ module PreservationHelper
   # @param state The state to validate.
   def ensure_preservation_state_allows_update_from_controller(state)
     if !state.blank? && state == PRESERVATION_STATE_NOT_STARTED.keys.first
-      raise ValhalErrors::InvalidStateError, 'Cannot update preservation state, when preservation has not yet started.'
+      raise ArgumentError, 'Cannot update preservation state, when preservation has not yet started.'
     end
   end
-
-
 end

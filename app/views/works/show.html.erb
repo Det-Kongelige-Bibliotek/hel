@@ -1,2 +1,2 @@
-<% @page_title="Værk: #{@work.titles.first.value}"  %>
+<% @page_title= t('.page_title') + @work.titles.first.try(:value) rescue 'Ukendt'  %>
 <%= render partial: 'show' %>

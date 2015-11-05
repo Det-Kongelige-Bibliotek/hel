@@ -1,2 +1,2 @@
-<% @page_title="Rediger værk: " + @work.titles.first.value  %>
+<% @page_title= t('.page_title') + @work.titles.first.value rescue 'Ukendt'  %>
 <%= render partial: "work_form", locals: {is_new: false} %>

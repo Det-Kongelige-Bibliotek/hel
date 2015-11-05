@@ -1,9 +1,9 @@
 <% @page_title="Rediger person: " + @authority_object.display_value  %>
 <div class="container">
-<h1>Editing person</h1>
+<h1><%= t('.editing') %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @authority_object %> |
-<%= link_to 'Back', authority_people_path %>
+<%= link_to t(:show), @authority_object %> |
+<%= link_to t(:back), authority_people_path %>
 </div>

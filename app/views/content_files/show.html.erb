@@ -1,0 +1,10 @@
+<h1><%= @file.original_filename %> </h1>
+<div id="xml_pointer" class="hide">
+  <%= @file.xml_pointer %>
+</div>
+<%# render a html view tailored for the specific content type %>
+<% template_name = "content_#{@file.mime_type.split('/').last}" %>
+<%= render partial: template_name, object: @file rescue
+            t('.missing_template', template: template_name).html_safe %>
+<%= render partial: 'file_info', locals: { file: @file, instance: @file.instance } %>
+<%= render partial: 'show_fits', locals: { file: @file, instance: @file.instance } %>

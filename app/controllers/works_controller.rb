@@ -15,13 +15,14 @@ class WorksController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.rdf { render rdf: @work }
     end
   end
 
   # GET /works/new
   def new
     @work = Work.new
+    @work.titles.build
+    @work.relators.build
   end
 
   # GET /works/1/edit
@@ -35,33 +36,27 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        format.html { redirect_to @work, notice: 'Værket blev oprettet.' }
+        format.html { redirect_to @work, notice: t('work.save') }
         format.json { render :show, status: :created, location: @work }
       else
+        @work.titles.build
+        @work.relators.build
+        @work.titles.build unless @work.titles.present?
+        @work.relators.build unless @work.relators.present?
         format.html { render :new }
         format.json { render json: @work.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  # For testing: knausgård is isbn=9788711396322
   def aleph
-    service = AlephService.new
-    # :field, :value read as aleph_params["field"] and aleph_params["value"],
-    # respectively. 
-    # For testing: knausgård is isbn=9788711396322
-    rec = service.find_first(aleph_params['field'], aleph_params['value'])
-    if rec.present?
-      converter = ConversionService.new(rec)
-      doc = converter.to_mods
-      mods = Datastreams::Mods.from_xml(doc)
-
-      @work = Work.new
-      @work.from_mods(mods)
-
+    @work = ConversionService.work_from_aleph(aleph_params['field'], aleph_params['value'])
+    if @work.present?
       if @work.save
         flash[:notice] = I18n.t('work.aleph.success_message')
         query =  "#{aleph_params[:field]}=#{aleph_params[:value]}"
-        redirect_to new_work_trykforlaeg_path work_id: @work.pid, query: query and return
+        redirect_to new_work_instance_path work_id: @work.pid, query: query and return
       else
         error = I18n.t('work.save_error')
       end
@@ -77,7 +72,21 @@ class WorksController < ApplicationController
   def update
     respond_to do |format|
       if @work.update(work_params)
-        format.html { redirect_to @work, notice: 'Værket er opdateret.' }
+        @work.instances.each do |i|
+          if i.type == 'TEI' && i.activity.present? && Administration::Activity.where(id: i.activity).first.is_adl_activity?
+            i.content_files.each do |f|
+                logger.debug("staring TEI sync")
+                TeiHeaderSyncService.perform(File.join(Rails.root,'app','services','xslt','tei_header_update.xsl'),
+                f.external_file_path,i)
+                logger.debug("done")
+                f.update_tech_metadata_for_external_file
+                f.save(validate: false)
+            end
+            repo = Administration::ExternalRepository[i.external_repository]
+            repo.push unless repo.nil?
+          end
+        end
+        format.html { redirect_to @work, notice: t('work.update') }
         format.json { render :show, status: :ok, location: @work }
       else
         format.html { render :edit }
@@ -91,7 +100,7 @@ class WorksController < ApplicationController
   def destroy
     @work.destroy
     respond_to do |format|
-      format.html { redirect_to works_url, notice: 'Værket blev slettet.' }
+      format.html { redirect_to works_url, notice: t('work.destroy') }
       format.json { head :no_content }
     end
   end
@@ -100,7 +109,7 @@ class WorksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_work
-    @work = Work.find(params[:id])
+    @work = Work.find(URI.unescape(params[:id]))
   end
 
   # special whitelist for when we're importing from Aleph
@@ -110,6 +119,15 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    params[:work].permit(titles: [[:value, :subtitle, :lang, :type]], creators: [[:id, :type]],note:[])
+    params[:work].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type, :_destroy]],
+                         relators_attributes: [[ :id, :agent_id, :role, :_destroy ]], subjects: [[:id]], note:[]).tap do |fields|
+      # remove any inputs with blank values
+      fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? && (v['id'].present? || v['_destroy'] != '1')}
+
+      #remove any agents whit blank agent_id
+      #remove any agents whith no relator_id and destroy set to true (this happens when a user has added a relator in the interface
+      # and deleted it again before saving)
+      fields['relators_attributes'] = fields['relators_attributes'].select {|k,v| v['agent_id'].present? && (v['id'].present? || v['_destroy'] != '1')}
+    end
   end
 end

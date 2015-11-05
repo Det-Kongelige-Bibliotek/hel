@@ -1,8 +1,7 @@
 <div class="container">
 <h1><%= t '.edit_activity' %></h1>
-
 <%= render 'form' %>
 
-<%= link_to 'Show', @activity %> |
-<%= link_to 'Back', administration_activities_path %>
+<%= link_to t(:show), @activity %> |
+<%= link_to t(:back), administration_activities_path %>
 </div>

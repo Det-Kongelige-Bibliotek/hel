@@ -8,13 +8,13 @@ module MqListenerHelper
   # @param message The message in JSON format.
   def handle_preservation_response(message)
     puts "handle preservation response #{message}"
-    if message['id'].blank? || message['model'].blank? || message['preservation'].nil?
+    if message.nil? || message['id'].blank? || message['model'].blank? || message['preservation'].nil?
       puts "Invalid preservation response message: #{message}"
       return false
     end
 
     element = find_element(message['id'], message['model'])
-    puts"Updating preservation metadata for: #{element}"
+    puts "Updating preservation metadata for: #{element}"
     update_preservation_metadata_for_element(message, element)
   end
 
@@ -32,8 +32,6 @@ module MqListenerHelper
         return ContentFile.find(id)
       when 'instance'
         return Instance.find(id)
-      when 'trykforlaeg'
-        return Trykforlaeg.find(id)
       else
         raise "Unknown element type #{model}"
     end

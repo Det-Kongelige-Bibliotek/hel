@@ -13,7 +13,7 @@
   <tbody>
   <% @controlled_lists.each do |controlled_list| %>
       <tr>
-        <td><%= link_to controlled_list.name, controlled_list %></td>
+        <td><%= link_to t(controlled_list.name.parameterize.underscore), controlled_list %></td>
         <td><%= link_to t('.edit'), edit_administration_controlled_list_path(controlled_list.id) %></td>
         <td><%= link_to t('.delete'), controlled_list, method: :delete, data: { confirm: t('.confirm_delete') } %></td>
       </tr>
