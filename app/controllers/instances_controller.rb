@@ -32,8 +32,6 @@ class InstancesController < ApplicationController
   # If work_id is given in the params, add this to the object.
   def new
     @instance = @klazz.new
-    @instance.relators.build
-    @instance.publications.build
     # TODO: Refactor to use ConversionService.instance_from_aleph
     if params[:query]
       service = AlephService.new
@@ -54,8 +52,6 @@ class InstancesController < ApplicationController
 
   # GET /instances/1/edit
   def edit
-    @instance.relators.build unless @instance.relators.present?
-    @instance.publications.build unless @instance.publication.present?
   end
 
   # POST /instances
@@ -94,8 +90,6 @@ class InstancesController < ApplicationController
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
       @instance.cascade_preservation_collection
     else
-      @instance.relators.build
-      @instance.publications.build unless @instance.publication.present?
     end
     respond_with(@instance.work, @instance)
   end
@@ -167,6 +161,7 @@ class InstancesController < ApplicationController
     params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
+                                     :publisher, :published_date, :copyright_holder, :copyright_date, :copyright_status,
                                      :access_condition, :availability, :preservation_collection, collection: [],
                                      note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
                                      publications_attributes: [[:id, :copyright_date, :provider_date ]]
