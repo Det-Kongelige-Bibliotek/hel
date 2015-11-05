@@ -2,7 +2,15 @@ module Authority
   class Organization < Thing
     property :founding_date, predicate: ::RDF::Vocab::SCHEMA.foundingDate, multiple: false
     property :dissolution_date, predicate: ::RDF::Vocab::SCHEMA.dissolutionDate, multiple: false
-    property :location, predicate: ::RDF::Vocab::SCHEMA.location 
+    property :location, predicate: ::RDF::Vocab::SCHEMA.location
+
+    before_save :set_rights_metadata
+
+    def set_rights_metadata
+      self.discover_groups = ['Chronos-Alle']
+      self.read_groups = ['Chronos-Alle']
+      self.edit_groups = ['Chronos-Alle']
+    end
 
     def display_date
       self.date_range(start_date: founding_date, end_date: dissolution_date )
