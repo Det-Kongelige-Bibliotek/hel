@@ -1,4 +1,15 @@
 <%  if provider.present? %>
+
+    <% if provider.agent.present? %>
+        <tr>
+          <td>
+            <strong><%= "Udgiver" %></strong>
+          </td>
+          <td>
+              <strong><%= link_to provider.agent.display_value, provider.agent rescue nil %></strong>
+            </td>
+        </tr>
+    <% end %>
     <% if provider.provider_date.present? %>
         <tr>
           <td>
