@@ -22,6 +22,7 @@ class Instance < ActiveFedora::Base
   property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
   property :system_number, predicate: ::RDF::Vocab::Bibframe.systemNumber, multiple: false
+  property :copyright_date, predicate: ::RDF::Vocab::Bibframe.copyrightDate, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
@@ -36,7 +37,7 @@ class Instance < ActiveFedora::Base
   accepts_nested_attributes_for :relators, reject_if: proc { |attrs| attrs['role'].blank? }
   accepts_nested_attributes_for :publications
 
-  before_save :set_rights_metadata
+  before_save :set_rights_metadata, :set_copyright_data
 
   after_save do
     work.update_index if work.present?
@@ -54,6 +55,22 @@ class Instance < ActiveFedora::Base
     self.edit_groups = a.activity_permissions['instance']['group']['edit']
   end
 
+  def set_copyright_data
+    if self.copyright_status != 'agent'
+      #ensure that no copyright data is saved when copyright_status is not agent
+      self.copyright_date = nil
+      self.copyright_holder= nil
+    end
+  end
+
+  def delete_copyright_relations
+    if self.copyright_status != 'agent'
+      select_relators('cph').each do |rel|
+        rel.delete
+      end
+    end
+  end
+
 
   def uuid
     self.id
@@ -62,7 +79,9 @@ class Instance < ActiveFedora::Base
   validates :collection, :activity, :copyright, :type, presence: true
   validates :isbn13, isbn_format: { with: :isbn13 }, if: "isbn13.present?"
   validates :isbn13, presence: true, if: :is_trykforlaeg?
-
+  validates_each :copyright_date do |record, attr, val|
+    record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
+  end
 
   def is_trykforlaeg?
     self.type == 'Trykforlaeg'
@@ -108,38 +127,46 @@ class Instance < ActiveFedora::Base
     end
   end
 
-  ################ copyright_agent ####################
+  def add_relator(agent,role)
+    relation = Relator.new(agent: agent, role: role)
+    self.relators += [relation]
+  end
+
+  ################ copyright_holder ####################
   def copyright_holder
     agents = related_agents('cph')
     agents.first.id if agents.size > 0
   end
 
   def copyright_holder=(agent_id)
-    if agent_id.present?
+    if  agent_id.present?
       relators = select_relators('cph')
       if relators.first.present?
         relators.first.agent_id = agent_id;
       else
         self.add_relator(ActiveFedora::Base.find(agent_id),'http://id.loc.gov/vocabulary/relators/cph')
       end
+    else
+      new_relators = []
+      self.relators.each do |rel|
+        if rel.short_role == 'cph'
+          rel.delete
+        else
+          new_relators += [rel]
+        end
+      end
+      self.relators = new_relators
     end
   end
 
   ################# publisher #########################
   def publisher
-    agents = related_agents('pbl')
-    agents.first.id if agents.size > 0
+    self.publications.first.agent.id if self.publications.first.present? && self.publications.first.agent.present?
   end
 
-  def publisher=(agent_id)
-    if agent_id.present?
-      relators = select_relators('pbl')
-      if relators.first.present?
-        relators.first.agent_id = agent_id;
-      else
-        self.add_relator(ActiveFedora::Base.find(agent_id),'http://id.loc.gov/vocabulary/relators/pbl')
-      end
-    end
+  def publisher=(org_id)
+    org = Authority::Organization.where(id: org_id).first
+    self.add_publisher(org)  if org.present?
   end
 
   def published_date
@@ -154,17 +181,27 @@ class Instance < ActiveFedora::Base
     self.add_published_date(date)
   end
 
+  # Accessors for backwards compatibility
+  def publisher_name
+    self.publications.first.agent._name if self.publications.first.present? && self.publications.first.agent.present?
+  end
+
+  def publisher_place
+    self.publications.first.agent.location if self.publications.first.present? && self.publications.first.agent.present?
+  end
+
+  def add_published_date(date)
+    ensure_publication_present
+    self.publications.first.provider_date=date
+  end
+
+  def add_publisher(org)
+    ensure_publication_present
+    self.publications.first.agent = org
+  end
+
   ################### TODO: look into deprecating these #########################
-  def add_relator(agent,role)
-    relation = Relator.new(agent: agent, role: role)
-    self.relators += [relation]
-  end
-
-  def add_publisher(agent)
-    role = 'http://id.loc.gov/vocabulary/relators/pbl'
-    self.add_relator(agent,role)
-  end
-
+  ################### TODO: we need to handle bf relators and providers in general
   def add_printer(agent)
     role = 'http://id.loc.gov/vocabulary/relators/prt'
     self.add_relator(agent,role)
@@ -175,29 +212,6 @@ class Instance < ActiveFedora::Base
     self.add_relator(agent,role)
   end
   ################################################################################
-
-  # Accessor for backwards compatibility
-  def publisher_name
-    related_agents('pbl').first.try(:_name)
-  end
-
-  def publisher_place
-    related_agents('pbl').first.try(:location)
-  end
-
-  # Accessor for backwards compatibility
-  def published_date
-    unless self.publication.blank?
-      self.publication.provider_date
-    else
-      nil
-    end
-  end
-
-  def add_published_date(date)
-    self.publications=[ Provider.new ] if self.publication.blank?
-    self.publications.first.provider_date=date
-  end
 
   def content_files=(files)
     # ensure instance is valid before saving files
@@ -322,6 +336,12 @@ class Instance < ActiveFedora::Base
   def activity_can_change?
     a = Administration::Activity.where(id: activity).first
     a.present? && a.present_in_GUI?
+  end
+
+  private
+
+  def ensure_publication_present
+    self.publications=[ Provider.new(role: 'Publisher') ] if self.publication.blank?
   end
 
 end
