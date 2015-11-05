@@ -34,7 +34,7 @@
   <legend class="col-sm-12" >
     <%= "Udgivelses oplysninger:" %>
   </legend>
-    <%= builder.input :publisher, collection: select_fields(Finder.all_organizations), wrapper_html: { class: 'col-sm-6' } %>
+    <%= builder.input :publisher, collection: select_fields(Finder.all_organizations), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-6' } %>
     <%= builder.input :published_date, wrapper_html: { class: 'col-sm-6' } %>
 </fieldset>
 <fieldset class="row">
@@ -58,7 +58,7 @@
   <div class="row">
       <div class="col-sm-12">
         <div id="agent" class="collapse">
-          <%= builder.input :copyright_holder, collection: select_fields(Finder.all_people + Finder.all_organizations), wrapper_html: { class: 'col-sm-6' } %>
+          <%= builder.input :copyright_holder, collection: select_fields(Finder.all_people + Finder.all_organizations), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-6' } %>
           <%= builder.input :copyright_date, wrapper_html: { class: 'col-sm-6' } %>
         </div>
       </div>
