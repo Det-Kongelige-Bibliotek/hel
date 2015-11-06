@@ -40,8 +40,6 @@ class WorksController < ApplicationController
         format.json { render :show, status: :created, location: @work }
       else
         @work.titles.build
-        @work.relators.build
-        @work.titles.build unless @work.titles.present?
         @work.relators.build unless @work.relators.present?
         format.html { render :new }
         format.json { render json: @work.errors, status: :unprocessable_entity }
