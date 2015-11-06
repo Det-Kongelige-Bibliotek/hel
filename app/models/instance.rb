@@ -37,7 +37,7 @@ class Instance < ActiveFedora::Base
   accepts_nested_attributes_for :relators, reject_if: proc { |attrs| attrs['role'].blank? }
   accepts_nested_attributes_for :publications
 
-  before_save :set_rights_metadata, :set_copyright_data
+  before_save :set_rights_metadata, :set_copyright_data, :delete_providers
 
   after_save do
     work.update_index if work.present?
@@ -60,16 +60,30 @@ class Instance < ActiveFedora::Base
       #ensure that no copyright data is saved when copyright_status is not agent
       self.copyright_date = nil
       self.copyright_holder= nil
+
+      new_relators = []
+      self.relators.each do |rel|
+        if rel.short_role == 'cph'
+          rel.delete
+        else
+          new_relators += [rel]
+        end
+      end
+      self.relators = new_relators
     end
   end
 
-  def delete_copyright_relations
-    if self.copyright_status != 'agent'
-      select_relators('cph').each do |rel|
-        rel.delete
+  def delete_providers
+    logger.debug("delete providers #{self.published_date} - #{self.publisher}")
+    unless self.published_date.present? || self.publisher.present?
+      logger.debug("deleting pubications")
+      self.publications.each do |prov|
+        prov.delete
       end
+      self.publications = []
     end
   end
+
 
 
   def uuid
@@ -146,16 +160,6 @@ class Instance < ActiveFedora::Base
       else
         self.add_relator(ActiveFedora::Base.find(agent_id),'http://id.loc.gov/vocabulary/relators/cph')
       end
-    else
-      new_relators = []
-      self.relators.each do |rel|
-        if rel.short_role == 'cph'
-          rel.delete
-        else
-          new_relators += [rel]
-        end
-      end
-      self.relators = new_relators
     end
   end
 
@@ -165,8 +169,13 @@ class Instance < ActiveFedora::Base
   end
 
   def publisher=(org_id)
-    org = Authority::Organization.where(id: org_id).first
-    self.add_publisher(org)  if org.present?
+    logger.debug("set publisher #{org_id}")
+    if org_id.present?
+      org = Authority::Organization.where(id: org_id).first
+      self.add_publisher(org)  if org.present?
+    else
+      self.add_publisher(nil)
+    end
   end
 
   def published_date
