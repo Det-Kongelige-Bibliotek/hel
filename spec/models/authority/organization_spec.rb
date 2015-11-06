@@ -28,9 +28,12 @@ describe Authority::Organization do
     
   end
 
+  before :each do
+    Authority::Organization.destroy_all
+  end
+
   describe 'find_or_create' do
     it 'should find an organisation if it exists' do
-      pending "DOES NOT FIND THE CORRECT ONE!"
       created = Authority::Organization.create(org_params)
       found = Authority::Organization.find_or_create(_name: 'Gyldendalske boghandel, Nordisk forlag')
       expect(found.id).to eql created.id

@@ -53,7 +53,6 @@ describe 'ControlledList helpers' do
 
   describe 'get entry label' do
     it "gets the label for an element when supplied it's name and the collection's name" do
-      pending "ERROR: undefined method 'where' for OHM::SET"
       expect(@dummy.get_entry_label('sample list', 'jum')).to eql 'spy'
     end
   end
