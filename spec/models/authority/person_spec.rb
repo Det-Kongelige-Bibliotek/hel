@@ -46,11 +46,6 @@ describe Authority::Person do
       @p.same_as = [::RDF::URI.new('http://viaf.org/viaf/44300643')]
       expect(@p.display_value).to include 'Joyce'
     end
-
-    it 'returns the id if no names are present' do
-      pending "The function display_value doesn't return the Person's id. The test doesn't make sense."
-      expect(@p.display_value).to eql @p.id
-    end
   end
 
   describe 'all names' do
