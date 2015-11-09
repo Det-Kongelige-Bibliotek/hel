@@ -119,3 +119,11 @@ PRESERVATION_STATES = Hash.new
 ].each {|h| PRESERVATION_STATES.merge!(h)}
 
 PRESERVATION_STATE_INVALID = {'error' => true, 'color' => 'yellow', 'text' => 'The current preservation state is invalid.'}
+
+# Email ingest default arguments
+EMAIL_DIR_NAME = 'Mails'
+EMAIL_ATTACHMENT_DIR_NAME = 'Attachments'
+EMAIL_EXPORT_FILE_NAME = 'Exports.xml'
+
+# unknown person or organisation name
+UNKNOWN_NAME = 'Ukendt'

@@ -19,18 +19,24 @@ class EmailIngestJob
 
     fail ArgumentError, 'A path, without trailing slash, to a folder containing data should be given' if
         base_dir_path.nil? || base_dir_path.empty?
-    fail ArgumentError, 'The name of the email folder should be given' if email_dir_name.nil?||
-        email_dir_name.empty?
-    fail ArgumentError, 'The name of the attachment folder should be given' if attachment_dir_name.nil? ||
-        attachment_dir_name.empty?
-    fail ArgumentError, 'The name of the Aid4Mail export xml file should be given' if export_file_name.nil?  ||
-        export_file_name.empty?
     fail ArgumentError, 'The forename of the donor should be given' if donor_forename.nil? ||
         donor_forename.empty?
     fail ArgumentError, 'The surname of the donor should be given' if donor_surname.nil? ||
         donor_surname.empty?
 
     fail ArgumentError, 'The folder containing data does not exist!' unless File.directory? base_dir_path
+
+    if email_dir_name.nil? || email_dir_name.empty?
+      email_dir_name = EMAIL_DIR_NAME
+    end
+
+    if attachment_dir_name.nil? || attachment_dir_name.empty?
+      attachment_dir_name = EMAIL_ATTACHMENT_DIR_NAME
+    end
+
+    if export_file_name.nil? || export_file_name.empty?
+        export_file_name = EMAIL_EXPORT_FILE_NAME
+    end
 
     email_dir_path = base_dir_path + '/' + email_dir_name
     fail ArgumentError, 'The email folder does not exist!' unless File.directory? email_dir_path
@@ -41,8 +47,8 @@ class EmailIngestJob
     export_file_path = base_dir_path + '/' + export_file_name
     fail ArgumentError, 'The Aid4Mail export xml file does not exist!' unless File.file? export_file_path
 
-
     fail 'A MyArchive activity does not exist!' unless Administration::Activity.where(activity: 'MyArchive').size != 0
+
 
     # Extract metadata from Aid4Mail XML file
     email_metadata = EmailXMLIngest.email_xml_ingest(export_file_path, email_dir_path)
@@ -113,7 +119,7 @@ class EmailIngestJob
   def self.create_work(pathname, email_metadata, dir_works, email_work, email_work_path_without_suffix,
       donor_forename, donor_surname)
 
-    @unknown = "Ukendt"
+    @unknown = UNKNOWN_NAME
 
     work = Work.new
 

@@ -142,18 +142,18 @@ describe 'Ingest' do
                                  @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
     end
 
-    it 'should throw error, when given nil' do
+    it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, nil, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_forename, @donor_surname)}.not_to raise_error
     end
-    it 'should throw error, when given nil' do
+    it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, nil, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_forename, @donor_surname)}.not_to raise_error
     end
 
-    it 'should throw error, when given nil' do
+    it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, nil,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_forename, @donor_surname)}.not_to raise_error
     end
 
     it 'should throw error, when given nil' do
@@ -171,18 +171,18 @@ describe 'Ingest' do
                                  @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
     end
 
-    it 'should throw error, when given an empty string' do
+    it 'should not throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, '', @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_forename, @donor_surname)}.not_to raise_error
     end
-    it 'should throw error, when given an empty string' do
+    it 'should mot throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, '', @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_forename, @donor_surname)}.not_to raise_error
     end
 
-    it 'should throw error, when given an empty string' do
+    it 'should not throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, '',
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_forename, @donor_surname)}.not_to raise_error
     end
 
     it 'should throw error, when given an empty string' do
