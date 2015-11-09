@@ -32,7 +32,7 @@ module ApplicationHelper
   end
 
   def get_entry_label(list_name, entry_name)
-    entry = Administration::ControlledList.with(:name, list_name).elements.where(name: entry_name).first
+    entry = Administration::ControlledList.with(:name, list_name).elements.find(name: entry_name).first
     entry.label.present? ? entry.label : entry.name
   end
 
