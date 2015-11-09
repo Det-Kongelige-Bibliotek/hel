@@ -6,7 +6,7 @@ module MqHelper
   # Sends a preservation message on the MQ.
   #
   # @param message The message content to be sent on the preservation destination.
-  def send_message_to_preservation(message)
+  def self.send_message_to_preservation(message)
     destination = MQ_CONFIG['preservation']['destination']
 
     MqHelper.send_on_rabbitmq(message, destination, {
@@ -16,7 +16,7 @@ module MqHelper
   end
 
   # Retrieve queue name from config file
-  def get_queue_name(target,type)
+  def self.get_queue_name(target,type)
     MQ_CONFIG[target][type]
   end
 

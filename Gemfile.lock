@@ -396,6 +396,11 @@ GEM
       redis (~> 3.0)
       resque (~> 1.25)
       rufus-scheduler (~> 3.0)
+    resque_spec (0.17.0)
+      resque (>= 1.19.0)
+      rspec-core (>= 3.0.0)
+      rspec-expectations (>= 3.0.0)
+      rspec-mocks (>= 3.0.0)
     rouge (1.8.0)
     rsolr (1.0.12)
       builder (>= 2.1.2)
@@ -538,6 +543,7 @@ DEPENDENCIES
   rdf-vocab (>= 0.6.0)
   resque
   resque-scheduler
+  resque_spec
   rouge
   rsolr
   rspec-rails
