@@ -17,14 +17,6 @@
   </td>
 </tr>
 <tr>
-  <td>
-    <strong><%=  t('.year_published') %></strong>
-  </td>
-  <td>
-    <span><%= @instance.published_date%></span>
-  </td>
-</tr>
-<tr>
 <tr>
   <td>
     <strong><%= t('.mode_of_issuance') %></strong>
@@ -55,6 +47,14 @@
   </td>
   <td>
     <span><% @instance.note %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t(".copyright_date")%></strong>
+  </td>
+  <td>
+    <span><% @instance.copyright_date %></span>
   </td>
 </tr>
 <%= render partial: 'provider/show', locals: { provider: @instance.publication } %>

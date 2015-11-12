@@ -40,6 +40,8 @@ class AddAdlImageFiles
           tiff_inst.copyright = tei_inst.copyright
           tiff_inst.collection = tei_inst.collection
           tiff_inst.preservation_collection = tei_inst.preservation_collection
+          tiff_inst.add_published_date(tei_inst.published_date)
+          tiff_inst.publisher=tei_inst.publisher
           tiff_inst.type = 'TIFF'
           tiff_inst.set_work=tei_inst.work
           tiff_inst.set_equivalent = tei_inst

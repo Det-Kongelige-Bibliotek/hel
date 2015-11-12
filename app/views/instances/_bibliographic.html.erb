@@ -21,7 +21,7 @@
   </div>
 
   <div class="col-sm-6">
-    <%= builder.input :mode_of_issuance, collection: get_list_with_labels('Mode of Issuance'),  prompt: t('.udgivelsesform') %>
+    <%= builder.input :mode_of_issuance, collection: get_list_with_labels('Mode of Issuance'),  include_blank: t('.udgivelsesform') %>
   </div>
   <div class="col-sm-6">
     <%= builder.input :contents_note %>
@@ -30,6 +30,7 @@
     <%= builder.input :note %>
   </div>
 </fieldset>
+<<<<<<< HEAD
 
 <fieldset id="materialetype" class="row">
   <legend class="col-sm-12" >
@@ -46,37 +47,41 @@
 </fieldset>
 
 <fieldset>
+=======
+<fieldset id="publisher" class="row">
+  <legend class="col-sm-12" >
+    <%= "Udgivelses oplysninger:" %>
+  </legend>
+    <%= builder.input :publisher, collection: select_fields(Finder.all_organizations), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-6' } %>
+    <%= builder.input :published_date, wrapper_html: { class: 'col-sm-6' } %>
+</fieldset>
+<fieldset class="row">
+>>>>>>> 8076d3784ca7aaa3a3d596e718cad93a9d96c219
     <legend class="col-sm-12" >
       <%= "Ophavsret:" %>
     </legend>
-
-  <%= builder.simple_fields_for :relators do |rel_fields| %>
-      <div class="row relator_fields">
-        <div class="col-sm-12">
-          <label class="radio-inline">
-            <input type="radio" class="udloeb" name="instance[copyright_status]"  id="copyright_status" value="udloebet">Udløbet
-          </label>
-          <label class="radio-inline">
-            <input type="radio" class="ukendt" name="instance[copyright_status]"  id="copyright_status" value="ukendt">Ukendt
-          </label>
-          <label class="radio-inline">
-            <input type="radio" class="addagent" name="instance[copyright_status]"  id="copyright_status" value='addagent' data-toggle="copyright_fields">Agent
-          </label>
-
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label class="radio-inline">
+        <input type="radio" class="udloeb" name="instance[copyright_status]"  id="copyright_status" value="udloebet" <%= @instance.copyright_status == 'udloebet' ? 'checked' : '' %> >
+            Udløbet
+      </label>
+      <label class="radio-inline">
+        <input type="radio" class="ukendt" name="instance[copyright_status]"  id="copyright_status" value="ukendt" <%= @instance.copyright_status == 'ukendt' ? 'checked' : '' %> >Ukendt
+      </label>
+      <label class="radio-inline">
+        <input type="radio" class="agent" name="instance[copyright_status]"  id="copyright_status" value="agent" data-toggle="copyright_fields" <%= @instance.copyright_status == 'agent' ? 'checked' : '' %> >Agent
+      </label>
+    </div>
+  </div>
+  <div class="row">
       <div class="col-sm-12">
-      <div id="addagent" class="collapse">
-
-          <%= rel_fields.input :agent_id, collection: select_fields(Finder.all_people + Finder.all_organizations), wrapper_html: { class: 'col-sm-4' } %>
-          <%= rel_fields.input :role, as: :hidden, value: 'http://id.loc.gov/vocabulary/relators/cph' %>
-          <%= builder.simple_fields_for :publications do |f| %>
-              <div class="col-sm-4">
-                <%= f.input :copyright_date %>
-              </div>
-          <% end %>
+        <div id="agent" class="collapse">
+          <%= builder.input :copyright_holder, collection: select_fields(Finder.all_people + Finder.all_organizations), include_blank: t('.copyright_holder'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-6' } %>
+          <%= builder.input :copyright_date, wrapper_html: { class: 'col-sm-6' } %>
         </div>
       </div>
+<<<<<<< HEAD
 
   <% end %>
 
@@ -153,3 +158,15 @@
       myOnSelectChange($('#instance_material_type')[0]);
   });
 </script>
+=======
+  </div>
+</fieldset>
+<% if @instance.copyright_status == 'agent' %>
+    <%= javascript_tag do %>
+        $(document).ready(
+        function () {
+            $('#agent').slideDown();
+                       });
+    <% end %>
+<% end %>
+>>>>>>> 8076d3784ca7aaa3a3d596e718cad93a9d96c219

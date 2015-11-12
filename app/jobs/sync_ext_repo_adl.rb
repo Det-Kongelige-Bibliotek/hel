@@ -52,7 +52,6 @@ class SyncExtRepoADL
               Resque.logger.debug("Validating TEI")
               msg = validator.is_valid_xml_doc(doc)
               raise "#{fname} is not valid TEI: #{msg}" unless msg.blank?
-              Resque.logger.debug("is valid")
 
               raise "file has no TEI header" unless (doc.xpath("//xmlns:teiHeader/xmlns:fileDesc").size > 0)
 
@@ -173,6 +172,7 @@ class SyncExtRepoADL
         w.add_author(p)
       end
     end
+    w.origin_date='unknown/unknown'
     unless w.save
       raise "Error saving work #{w.errors.messages}"
     end
@@ -184,6 +184,7 @@ class SyncExtRepoADL
     pub_place = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:pubPlace").text
     pub_name = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:publisher").text
     pub_date = doc.xpath("//xmlns:teiHeader/xmlns:fileDesc/xmlns:sourceDesc/xmlns:bibl/xmlns:date").text
+
     unless pub_name.blank?
       org = Authority::Organization.find_or_create_organization(pub_name,pub_place)
       i.add_publisher(org)
@@ -196,6 +197,7 @@ class SyncExtRepoADL
         Resque.logger.debug "publication date #{pub_date} is not valid EDTF - not ADDED"
       end
     end
+
     i.system_number = sysno
     i.availability = adl_activity.availability if adl_activity.present?
     i.activity = adl_activity.id
