@@ -30,6 +30,21 @@
     <%= builder.input :note %>
   </div>
 </fieldset>
+
+<fieldset id="materialetype" class="row">
+  <legend class="col-sm-12" >
+    <%= t("Matelrial type") %>
+  </legend>
+  <div class="col-sm-6">
+    <%= builder.input :material_type, collection: get_list_with_labels('Material type'),  prompt: t('.KB materialetype 1') %>
+
+  </div>
+  <div class="col-sm-6">
+    <label id="material_type2_id" class="select optional" for="instance_material_type2" style="display:none">Materiale Type2</label>
+    <select id="instance_material_type2" class="select optional form-control form-control" style="display:none"></select>
+  </div>
+</fieldset>
+
 <fieldset>
     <legend class="col-sm-12" >
       <%= "Ophavsret:" %>
@@ -66,3 +81,75 @@
   <% end %>
 
 </fieldset>
+
+
+<script type="text/javascript">
+  printlist = <%= raw get_list_with_labels('Print') %> ;
+  printlist.unshift(["Tryk","Tryk"]);
+  manuscriptslist = <%= raw get_list_with_labels('Manuscripts') %>;
+  manuscriptslist.unshift(["Håndskrifter","Håndskrifter"]);
+  musicmanuscriptslist = <%= raw get_list_with_labels('Music_Manuscripts') %>;
+  musicmanuscriptslist.unshift(["Musikhåndskrifter","Musikhåndskrifter"]);
+  imageslist = <%= raw get_list_with_labels('Images') %>;
+  imageslist.unshift(["Billeder","Billeder"]);
+  maplist = <%= raw get_list_with_labels('Map') %>;
+  maplist.unshift(["Kort","Kort"]);
+  musicprintlist = <%= raw get_list_with_labels('Music_Print') %>;
+  musicprintlist.unshift(["Musiktryk","Musiktryk"]);
+
+  myCategories = {
+      'tryk' : ['tryksager','Tidsskrifter',''],
+      'håndskrifter': ['','',''],
+      'lyd': []
+  }
+
+  function myOnSelectChange(selectElem) {
+        var selectedItem = selectElem.options[selectElem.selectedIndex].value;
+        if (selectedItem === 'Images') {
+            $('#instance_material_type2').html($.map(imageslist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Print') {
+            $('#instance_material_type2').html($.map(printlist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Manuscripts') {
+            $('#instance_material_type2').html($.map(manuscriptslist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Music Manuscripts') {
+            $('#instance_material_type2').html($.map(musicmanuscriptslist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Map') {
+            $('#instance_material_type2').html($.map(maplist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Music Print') {
+            $('#instance_material_type2').html($.map(musicprintlist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else {
+            $('#material_type2_id').hide();
+            $('#instance_material_type2').hide();
+        }
+  }
+
+  $(document).ready(function () {
+
+      $('#instance_material_type').change(function(){ myOnSelectChange(this); });
+      myOnSelectChange($('#instance_material_type')[0]);
+  });
+</script>

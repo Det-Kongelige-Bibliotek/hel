@@ -58,6 +58,13 @@ en:
       mode_of_issuance: "Mode of issuance"
       extent: "Extent"
       language: "Language"
+      material_type: 'Material Type'
+      print: 'Print'
+      manuscripts: 'Manuscripts'
+      map: 'Map'
+      music_print: 'Music_print'
+      music_manuscripts: 'Music_manuscripts'
+      images: 'Images'
     bibliographic:
       Language: "Language"
       language: "Language"

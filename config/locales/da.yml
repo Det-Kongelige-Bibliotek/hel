@@ -187,6 +187,11 @@ da:
         agent: Agent
         creator: Ophav
         year_published: Udgivelsesdato
+        material_type: Materiale Type
+        print: Tryk
+        manuscripts: Håndskrifter
+        music_manuscripts: Musikhåndskrifter
+        images: Billeder
     placeholders:
       defaults:
         value: Titel eller label

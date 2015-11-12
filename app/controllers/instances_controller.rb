@@ -165,7 +165,7 @@ class InstancesController < ApplicationController
   # Need to do some checking to get rid of blank params here.
   def instance_params
     params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
-                                     :dimensions, :mode_of_issuance, :isbn13,
+                                     :dimensions, :mode_of_issuance, :isbn13, :material_type,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :access_condition, :availability, :preservation_collection, collection: [],
                                      note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
