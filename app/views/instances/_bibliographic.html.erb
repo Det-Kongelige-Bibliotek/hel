@@ -30,7 +30,6 @@
     <%= builder.input :note %>
   </div>
 </fieldset>
-<<<<<<< HEAD
 
 <fieldset id="materialetype" class="row">
   <legend class="col-sm-12" >
@@ -46,8 +45,6 @@
   </div>
 </fieldset>
 
-<fieldset>
-=======
 <fieldset id="publisher" class="row">
   <legend class="col-sm-12" >
     <%= "Udgivelses oplysninger:" %>
@@ -56,7 +53,6 @@
     <%= builder.input :published_date, wrapper_html: { class: 'col-sm-6' } %>
 </fieldset>
 <fieldset class="row">
->>>>>>> 8076d3784ca7aaa3a3d596e718cad93a9d96c219
     <legend class="col-sm-12" >
       <%= "Ophavsret:" %>
     </legend>
@@ -81,11 +77,19 @@
           <%= builder.input :copyright_date, wrapper_html: { class: 'col-sm-6' } %>
         </div>
       </div>
-<<<<<<< HEAD
-
-  <% end %>
+  </div >
 
 </fieldset>
+
+<% if @instance.copyright_status == 'agent' %>
+    <%= javascript_tag do %>
+        $(document).ready(
+        function () {
+        $('#agent').slideDown();
+        });
+    <% end %>
+<% end %>
+
 
 
 <script type="text/javascript">
@@ -152,15 +156,5 @@
       myOnSelectChange($('#instance_material_type')[0]);
   });
 </script>
-=======
-  </div>
-</fieldset>
-<% if @instance.copyright_status == 'agent' %>
-    <%= javascript_tag do %>
-        $(document).ready(
-        function () {
-            $('#agent').slideDown();
-                       });
-    <% end %>
-<% end %>
->>>>>>> 8076d3784ca7aaa3a3d596e718cad93a9d96c219
+
+
