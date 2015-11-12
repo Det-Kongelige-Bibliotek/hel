@@ -102,12 +102,6 @@
   musicprintlist = <%= raw get_list_with_labels('Music_Print') %>;
   musicprintlist.unshift(["Musiktryk","Musiktryk"]);
 
-  myCategories = {
-      'tryk' : ['tryksager','Tidsskrifter',''],
-      'håndskrifter': ['','',''],
-      'lyd': []
-  }
-
   function myOnSelectChange(selectElem) {
         var selectedItem = selectElem.options[selectElem.selectedIndex].value;
         if (selectedItem === 'Images') {
