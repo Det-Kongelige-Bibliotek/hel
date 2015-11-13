@@ -67,7 +67,6 @@ music_print:
 music_manuscripts:
   name: Music_Manuscripts
   entries:
-     'Musikhåndskrifter':
      'Nodemanuskripter':
 images:
   name: Images
