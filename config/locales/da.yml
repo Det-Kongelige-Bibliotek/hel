@@ -262,7 +262,7 @@ da:
         collection: "Samling"
         embargo: "Klausulering"
         em_condition: "Klausuleringsbetingelse"
-        pres_profile: "Bevaringsprofil"
+        pres_collection: "Bevaringssamling"
       index:
         header: "Aktiviteter"
         name: "Navn"
@@ -407,15 +407,13 @@ da:
     new:
       page_title: "Nyt værk"
 
-
-
-
   content_file:
     flashmessage:
       file_uploaded: "Filen er uploaded"
       no_file_to_upload: "Der er ikke valgt nogen fil"
       basic_file_not_found: 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
-
+      initiated_import_from_preservation: 'Startet på at importére data fra bevaring'
+      initiated_import_from_preservation_failed: 'Kan ikke starte på at importere data fra bevaring.'
 
   back: "Tilbage"
   cancel: "Fortryd"

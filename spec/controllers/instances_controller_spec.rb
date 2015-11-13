@@ -230,64 +230,64 @@ describe InstancesController, type: :controller do
 
     it 'should be updated and redirect to the instance' do
       pending 'Perservation not fully implementet yet'
-      profile = PRESERVATION_CONFIG["preservation_collection"].keys.first
+      collection = PRESERVATION_CONFIG["preservation_collection"].keys.first
       comment = "This is the preservation comment"
 
-      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => collection, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
       ins = Instance.find(@ins.id)
       ins.preservation_state.should_not be_blank
       ins.preservation_details.should_not be_blank
       ins.preservation_modify_date.should_not be_blank
-      ins.preservation_collection.should == profile
+      ins.preservation_collection.should == collection
       ins.preservation_comment.should == comment
     end
 
-    it 'should not update or redirect, when the profile is wrong.' do
+    it 'should not update or redirect, when the collection is wrong.' do
       pending 'Perservation not fully implementet yet'
-      profile = "wrong profile #{Time.now.to_s}"
+      collection = "wrong collection #{Time.now.to_s}"
       comment = "This is the preservation comment"
 
-      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => collection, :preservation_comment => comment }}
       response.should_not redirect_to(@ins)
 
       ins = Instance.find(@ins.id)
       ins.preservation_state.should_not be_blank
       ins.preservation_details.should_not be_blank
       ins.preservation_modify_date.should_not be_blank
-      ins.preservation_collection.should_not == profile
+      ins.preservation_collection.should_not == collection
       ins.preservation_comment.should_not == comment
     end
 
     it 'should update the preservation date' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
+      collection = PRESERVATION_CONFIG["preservation_collection"].keys.last
       comment = "This is the preservation comment"
       ins = Instance.find(@ins.id)
       d = ins.preservation_modify_date
 
-      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => collection, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
       ins = Instance.find(@ins.id)
       ins.preservation_modify_date.should_not == d
     end
 
-    it 'should not update the preservation date, when the same profile and comment is given.' do
+    it 'should not update the preservation date, when the same collection and comment is given.' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
+      collection = PRESERVATION_CONFIG["preservation_collection"].keys.last
       comment = "This is the preservation comment"
-      @ins.preservation_collection = profile
+      @ins.preservation_collection = collection
       @ins.preservation_comment = comment
       @ins.save
 
       ins = Instance.find(@ins.id)
       d = ins.preservation_modify_date
 
-      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :preservation => {:preservation_collection => collection, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
       ins = Instance.find(@ins.id)
@@ -296,11 +296,11 @@ describe InstancesController, type: :controller do
 
 
     #TODO: Mock rabbitMQ
-    it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
+    it 'should send a message, when performing preservation and the collection has Yggdrasil set to true' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
-      PRESERVATION_CONFIG['preservation_collection'][profile]['yggdrasil'].should == 'true'
+      collection = PRESERVATION_CONFIG["preservation_collection"].keys.last
+      PRESERVATION_CONFIG['preservation_collection'][collection]['yggdrasil'].should == 'true'
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
       uri = MQ_CONFIG["mq_uri"]
@@ -311,7 +311,7 @@ describe InstancesController, type: :controller do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_collection => profile, :preservation_comment => comment }}
+      put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_collection => collection, :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
       q.subscribe do |delivery_info, metadata, payload|
@@ -319,7 +319,7 @@ describe InstancesController, type: :controller do
         payload.should include @ins.id
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
-        json.keys.should include ('Preservation_profile')
+        json.keys.should include ('Preservation_collection')
         json.keys.should include ('Valhal_ID')
         json.keys.should_not include ('File_UUID')
         json.keys.should_not include ('Content_URI')
@@ -338,15 +338,15 @@ describe InstancesController, type: :controller do
       conn.close
     end
 
-    it 'should not send a message, when performing preservation and the profile has Yggdrasil set to false' do
+    it 'should not send a message, when performing preservation and the collection has Yggdrasil set to false' do
       pending 'Perservation not fully implementet yet'
 
-      profile = PRESERVATION_CONFIG['preservation_collection'].keys.first
-      PRESERVATION_CONFIG['preservation_collection'][profile]['yggdrasil'].should == 'false'
+      collection = PRESERVATION_CONFIG['preservation_collection'].keys.first
+      PRESERVATION_CONFIG['preservation_collection'][collection]['yggdrasil'].should == 'false'
       comment = 'This is the preservation comment'
 
       put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON,
-                                         :preservation => {:preservation_collection => profile,
+                                         :preservation => {:preservation_collection => collection,
                                                            :preservation_comment => comment }}
       response.should redirect_to(@ins)
 
@@ -363,17 +363,17 @@ describe InstancesController, type: :controller do
       @ins.save!
       file.save!
 
-      profile = PRESERVATION_CONFIG["preservation_collection"].keys.last
+      collection = PRESERVATION_CONFIG["preservation_collection"].keys.last
       comment = "This is the preservation comment-#{Time.now.to_s}"
 
       put :update_preservation_collection, {:id => @ins.id, :commit => PERFORM_PRESERVATION_BUTTON, :preservation =>
-          {:preservation_collection => profile, :preservation_comment => comment, :cascade_preservation => '1'}}
+          {:preservation_collection => collection, :preservation_comment => comment, :cascade_preservation => '1'}}
 
       file = ContentFile.find(file.id)
       file.preservation_state.should_not be_blank
       file.preservation_details.should_not be_blank
       file.preservation_modify_date.should_not be_blank
-      file.preservation_collection.should == profile
+      file.preservation_collection.should == collection
       file.preservation_comment.should == comment
     end
   end

@@ -44,12 +44,11 @@ describe ContentFilesController, type: :controller do
       i.save
       new_file = fixture_file_upload('holb06valid2.xml')
 
-      post :update, {id: cf.pid, file: new_file}, valid_session
+      post :update, {id: cf.id, file: new_file}, valid_session
 
       cf.reload
       new_checksum = Digest::MD5.file(new_file).hexdigest
       expect(cf.checksum).to eql new_checksum
-
     end
   end
 end
