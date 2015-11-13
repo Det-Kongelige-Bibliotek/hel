@@ -13,18 +13,15 @@ class EmailIngestJob
   # @param email_dir_name: the name of the folder from where to ingest emails
   # @param attachment_dir_name: the name of the folder in which the attachments are contained
   # @param export_file_name: name for Aid4Mail XML file
-  # @param donor_forename: forename of the donor of the email account
-  # @param donor_surname: surname of the donor of the email account
-  def self.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, donor_forename, donor_surname)
+  # @param donor_id: Person id of the donor of the email account
+  def self.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, donor_id)
 
     fail ArgumentError, 'A path, without trailing slash, to a folder containing data should be given' if
         base_dir_path.nil? || base_dir_path.empty?
-    fail ArgumentError, 'The forename of the donor should be given' if donor_forename.nil? ||
-        donor_forename.empty?
-    fail ArgumentError, 'The surname of the donor should be given' if donor_surname.nil? ||
-        donor_surname.empty?
 
     fail ArgumentError, 'The folder containing data does not exist!' unless File.directory? base_dir_path
+
+    fail ArgumentError, 'The Person id of the donor of the email account should be given' if donor_id.nil?
 
     if email_dir_name.nil? || email_dir_name.empty?
       email_dir_name = EMAIL_DIR_NAME
@@ -62,7 +59,7 @@ class EmailIngestJob
       if File.directory?(pathname)
         begin
           if path != email_dir_path
-            dirs_works = email_create_folder(pathname, email_metadata, dirs_works, donor_forename, donor_surname)
+            dirs_works = email_create_folder(pathname, email_metadata, dirs_works, donor_id)
           end
         rescue => e
           Resque.logger.error "A Valhal object for folder #{pathname} could not be created! Error inspect:
@@ -89,11 +86,10 @@ class EmailIngestJob
   # @param folder_path: the complete path of the folder
   # @param email_metadata: a hash map containing email metadata for the complete email account
   # @param dir_works: Hash map containing pairs of paths to folders and their associated works
-  # @param donor_forename: forename of the donor of the email account
-  # @param donor_surname: surname of the donor of the email account
-  def self.email_create_folder(folder_path, email_metadata, dir_works, donor_forename, donor_surname)
+  # @param donor_id: Person id of the donor of the email account
+  def self.email_create_folder(folder_path, email_metadata, dir_works, donor_id)
 
-    work, dir_works = create_work(folder_path, email_metadata, dir_works, nil, nil, donor_forename, donor_surname)
+    work, dir_works = create_work(folder_path, email_metadata, dir_works, nil, nil, donor_id)
 
     instance = create_instance(folder_path, email_metadata, work)
 
@@ -114,20 +110,28 @@ class EmailIngestJob
   # @param dir_works: Hash map containing pairs of paths to folders and their associated works
   # @param email_work: Work of an email containing attachments
   # @param email_work_path_without_suffix: Pathname of email file associated with email_work without suffix
-  # @param donor_forename: forename of the donor of the email account
-  # @param donor_surname: surname of the donor of the email account
-  def self.create_work(pathname, email_metadata, dir_works, email_work, email_work_path_without_suffix,
-      donor_forename, donor_surname)
+  # @param donor_id: Person id of the donor of the email account
+  def self.create_work(pathname, email_metadata, dir_works, email_work, email_work_path_without_suffix, donor_id)
 
     @unknown = UNKNOWN_NAME
 
     work = Work.new
 
+    ctime = File.ctime(pathname)
+    ctime_iso8601 = ctime.iso8601
+
+    if EDTF.parse(ctime_iso8601).nil?
+      work.origin_date = UNKNOWN_EDTF_DATE
+    else
+      work.origin_date = ctime_iso8601.to_s
+    end
+
+
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
     # A folder
     if File.directory?(pathname.to_s)
-      work = create_folder_work(donor_forename, donor_surname, pathname, work)
+      work = create_folder_work(donor_id, pathname, work)
     end
 
     # An email
@@ -169,10 +173,11 @@ class EmailIngestJob
     return work, dir_works
   end
 
-  def self.create_folder_work(donor_forename, donor_surname, pathname, work)
+  def self.create_folder_work(donor_id, pathname, work)
 
     work.add_title({"value" => pathname.basename.to_s.chomp(File.extname(pathname.basename.to_s))})
-    person_default = Authority::Person.find_or_create_person(donor_forename, donor_surname)
+    person_default = Authority::Person.find(donor_id)
+
     work.add_author(person_default)
 
     fail "Folder Work could not be saved #{work.errors.messages}" unless work.save
@@ -271,7 +276,7 @@ class EmailIngestJob
     activity = Administration::Activity.where(activity: 'MyArchive').first
     fail 'Activity MyArchive is not defined!' unless activity.present?
 
-    instance.work = work
+    instance.set_work = work
 
     # Instance note == email body in plain text
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
@@ -283,8 +288,6 @@ class EmailIngestJob
       end
     end
 
-    #instance.from_activity(activity)
-
     instance.activity = activity.id
     instance.embargo = activity.embargo
     instance.embargo_date = activity.embargo_date
@@ -293,12 +296,11 @@ class EmailIngestJob
     instance.copyright = activity.copyright
     instance.availability = activity.availability
     instance.collection = activity.collection
-    instance.type = 'Email'
     instance.copyright_status = activity.copyright_status
 
-    instancepreservation_collection = activity.preservation_collection
+    instance.preservation_collection = activity.preservation_collection
 
-    instance.set_work = work
+    instance.type = 'Email'
 
     fail "Instance could not be saved #{instance.errors.messages}" unless instance.save
     return instance

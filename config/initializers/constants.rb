@@ -127,3 +127,6 @@ EMAIL_EXPORT_FILE_NAME = 'Exports.xml'
 
 # unknown person or organisation name
 UNKNOWN_NAME = 'Ukendt'
+
+# unknown EDTF date
+UNKNOWN_EDTF_DATE = 'unknown/unknown'

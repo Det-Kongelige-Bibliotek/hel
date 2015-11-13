@@ -27,8 +27,9 @@ describe 'Ingest' do
       @pathkey = @email_dir_path + "/" + "[Aid4Mail Trial tag #1] HDPIG call follow-up"
       @donor_forename = "Anders"
       @donor_surname = "Sand"
-      EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                          @donor_forename, @donor_surname)
+      @donor_id = Authority::Person.find_or_create_person(@donor_forename, @donor_surname).id
+
+      EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name, @donor_id)
 
       @email_file = ContentFile.find_by_original_filename("[Aid4Mail Trial tag #1] HDPIG call follow-up.msg")
       @email_instance = @email_file.instance
@@ -139,85 +140,70 @@ describe 'Ingest' do
 
     it 'should throw error, when given nil' do
       expect{EmailIngestJob.perform(nil, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_id)}.to raise_error(ArgumentError)
     end
 
     it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, nil, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.not_to raise_error
+                                 @donor_id)}.not_to raise_error
     end
     it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, nil, @export_file_name,
-                                 @donor_forename, @donor_surname)}.not_to raise_error
+                                 @donor_id)}.not_to raise_error
     end
 
     it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, nil,
-                                 @donor_forename, @donor_surname)}.not_to raise_error
+                                 @donor_id)}.not_to raise_error
     end
 
     it 'should throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 nil, @donor_surname)}.to raise_error(ArgumentError)
-    end
-
-    it 'should throw error, when given nil' do
-      expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, nil)}.to raise_error(ArgumentError)
+                                 nil)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when given an empty string' do
       expect{EmailIngestJob.perform('', @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_id)}.to raise_error(ArgumentError)
     end
 
     it 'should not throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, '', @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.not_to raise_error
+                                 @donor_id)}.not_to raise_error
     end
     it 'should mot throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, '', @export_file_name,
-                                 @donor_forename, @donor_surname)}.not_to raise_error
+                                 @donor_id)}.not_to raise_error
     end
 
     it 'should not throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, '',
-                                 @donor_forename, @donor_surname)}.not_to raise_error
-    end
-
-    it 'should throw error, when given an empty string' do
-      expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 '', @donor_surname)}.to raise_error(ArgumentError)
-    end
-
-    it 'should throw error, when given an empty string' do
-      expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, '')}.to raise_error(ArgumentError)
+                                 @donor_id)}.not_to raise_error
     end
 
     it 'should throw error, when @base_dir_path does not exist' do
       expect{EmailIngestJob.perform(@fake_base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when @email_dir_name does not exist' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @fake_email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when @attachment_dir_name does not exist' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @fake_attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when @export_file_name does not exist' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @fake_export_file_name,
-                                 @donor_forename, @donor_surname)}.to raise_error(ArgumentError)
+                                 @donor_id)}.to raise_error(ArgumentError)
     end
 
     it 'should not throw error' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_forename, @donor_surname)}.not_to raise_error
+                                 @donor_id)}.not_to raise_error
     end
   end
 end

@@ -8,13 +8,12 @@ namespace :email do
       exit
     end
     activity = Administration::Activity.create(
-        activity: 'MyArchive', embargo: '1', access_condition: 'læsesal', copyright: 'CC BY-NC-ND',
-        preservation_collection: 'storage', availability: '0', collection: ['Håndskriftsamlingen']
+        "activity"=>'MyArchive', "embargo"=>'1', "access_condition"=>'læsesal', "copyright"=>'CC BY-NC-ND',
+        "preservation_collection"=>'storage', "availability"=> '0', "collection"=> ["Håndskriftsamlingen"],
+        "activity_permissions"=>{"file"=>{ "group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Admin"],
+                                                     "edit"=>["Chronos-Admin"] }}, "instance"=>{"group"=>{"discover"=>["Chronos-Alle"],
+                                                                                                          "read"=>["Chronos-NSA","Chronos-Admin"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}}
     )
-    activity.activity_permissions = {
-        "file"=>{ "group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-Admin"], "edit"=>["Chronos-Admin"] }},
-        "instance"=>{"group"=>{"discover"=>["Chronos-Alle"], "read"=>["Chronos-NSA","Chronos-Admin"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}
-    }
     if activity.save
       puts "saved activity with id #{activity.id}"
     else
@@ -35,13 +34,20 @@ namespace :email do
     email_dir_path = base_dir_path + '/' + email_dir_name
     attachment_dir_name = args.attachment_dir_name
     export_file_name = args.export_file_name
+    donor_forename = args.donor_forename
+    donor_surname = args.donor_surname
+
+    fail ArgumentError, 'The forename of the donor should be given' if donor_forename.nil? ||
+        donor_forename.empty?
+    fail ArgumentError, 'The surname of the donor should be given' if donor_surname.nil? ||
+        donor_surname.empty?
+
+    person_id = Authority::Person.find_or_create_person(donor_forename, donor_surname).id
 
     if Rails.env == 'test'
-      EmailIngestJob.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name,
-                          args.donor_forename, args.donor_surname)
+      EmailIngestJob.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, person_id)
     else
-      Resque.enqueue(EmailIngestJob, base_dir_path, email_dir_name, attachment_dir_name, export_file_name,
-                     args.donor_forename, args.donor_surname)
+      Resque.enqueue(EmailIngestJob, base_dir_path, email_dir_name, attachment_dir_name, export_file_name, person_id)
     end
   end
 end

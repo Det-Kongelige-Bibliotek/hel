@@ -14,7 +14,7 @@ class EmailCreateEmailJob
 
     email_path = Pathname.new(email_path)
 
-    work, dirs_works = EmailIngestJob.create_work(email_path, email_metadata, dirs_works, nil, nil, nil, nil)
+    work, dirs_works = EmailIngestJob.create_work(email_path, email_metadata, dirs_works, nil, nil, nil)
 
     @pathname_without_suffix =  email_path.to_s.chomp(File.extname(email_path.to_s))
 

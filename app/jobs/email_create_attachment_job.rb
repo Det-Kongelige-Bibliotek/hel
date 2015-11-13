@@ -27,7 +27,7 @@ class EmailCreateAttachmentJob
       email_work = Work.find(email_work_id)
 
       work_attachment, dirs_works = EmailIngestJob.create_work(pathname_attachment_file, email_metadata, dirs_works,
-                                                            email_work, email_work_path_without_suffix, nil, nil)
+                                                            email_work, email_work_path_without_suffix, nil)
 
       instance_attachment = EmailIngestJob.create_instance(pathname_attachment_file, email_metadata, work_attachment)
 
