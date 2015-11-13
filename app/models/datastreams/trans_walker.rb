@@ -49,8 +49,8 @@ module Datastreams
     end
 
     def to_instance(mods)
-
-      self.note=mods.note
+      # maybe we can use to_sentence instead of join
+      self.note=mods.note.join('; ')
 
       # self.note
       # self.identifier 
