@@ -223,6 +223,48 @@ class ContentFile < ActiveFedora::Base
     self.dissemination_checksums = versions
   end
 
+  # Handle the import from preservation POST request.
+  # @param params The parameters from the POST request.
+  # Must contain 'type'='FILE', the token and the file.
+  def handle_preservation_import(params)
+    # only support content of ContentFile import
+    # TODO implement also metadata import
+    if(params['type'] != 'FILE')
+      logger.warn 'Can only support type = FILE'
+      return false
+    end
+
+    # Validate that preservation import is allowed
+    if self.import_token.blank?
+      logger.warn 'No import token, thus no preservation import expected.'
+      return false
+    end
+
+    # The post request must deliver a token.
+    if params['token'].blank?
+      logger.warn "No import token delivered. Expected: #{self.import_token.blank?}"
+      return false
+    end
+
+    if self.import_token != params['token']
+      logger.warn "Received import token '#{params['token']}' but expected '#{self.import_token}'"
+      return false
+    end
+
+    # Validate timeout
+    if self.import_token_timeout.to_datetime < DateTime.now
+      logger.warn 'Token has timed out and is no longer valid.'
+      return false
+    end
+
+    # Remove the token, so it cannot be used again.
+    self.import_token = ""
+    self.save!
+
+    logger.info 'Importing the file from preservation'
+    self.add_file(params['file'])
+  end
+
   private
   def generate_checksum(file)
     Digest::MD5.file(file).hexdigest

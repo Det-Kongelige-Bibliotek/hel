@@ -27,7 +27,10 @@ class ViewFileController < ApplicationController
   #
   def import_from_preservation
     begin
-      if handle_preservation_import(params)
+      # Extract the content file
+      cf = ContentFile.find(params['uuid'])
+
+      if cf.handle_preservation_import(params)
         logger.info "Imported file"
         render status: 200, nothing: true
       else
@@ -43,49 +46,5 @@ class ViewFileController < ApplicationController
       logger.error standard_error.to_s
       render status: 400, nothing: true
     end
-  end
-
-  private
-  # Handle the import of the preservation import HTTP POST
-  def handle_preservation_import(params)
-    # only support content of ContentFile import
-    # TODO implement also metadata import
-    if(params['type'] != 'FILE')
-      logger.warn 'Can only support type = FILE'
-      return false
-    end
-
-    # Extract the content file
-    cf = ContentFile.find(params['uuid'])
-
-    # Validate that preservation import is allowed
-    if cf.import_token.blank?
-      logger.warn 'No import token, thus no preservation import expected.'
-      return false
-    end
-
-    # The post request must deliver a token.
-    if params['token'].blank?
-      logger.warn "No import token delivered. Expected: #{cf.import_token.blank?}"
-      return false
-    end
-
-    if cf.import_token != params['token']
-      logger.warn "Received import token '#{params['token']}' but expected '#{cf.import_token}'"
-      return false
-    end
-
-    # Validate timeout
-    if cf.import_token_timeout.to_datetime < DateTime.now
-      logger.warn 'Token has timed out and is no longer valid.'
-      return false
-    end
-
-    # Remove the token, so it cannot be used again.
-    cf.import_token = ""
-    cf.save!
-
-    logger.info 'Importing the file from preservation'
-    cf.add_file(params['file'])
   end
 end

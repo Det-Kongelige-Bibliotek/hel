@@ -5,7 +5,7 @@ include PreservationHelper
 # Provides methods for all elements for sending a message over RabbitMQ
 module MqListenerHelper
   # Handles the preservation response messages
-  # @param message The message in JSON format.
+  # @param message The message in JSON format, according to https://github.com/Det-Kongelige-Bibliotek/Yggdrasil/wiki/Preservation-Response-messages-from-Yggdrasil-to-Valhal
   def handle_preservation_response(message)
     puts "handle preservation response #{message}"
     if message.nil? || message['id'].blank? || message['model'].blank? || message['preservation'].nil?
@@ -18,6 +18,8 @@ module MqListenerHelper
     update_preservation_metadata_for_element(message, element)
   end
 
+  # Handles the import from preservation response messages.
+  # @param message The message in JSON format, according to https://github.com/Det-Kongelige-Bibliotek/Yggdrasil/wiki/Import-from-preservation
   def handle_preservation_import_response(message)
     if message['uuid'].blank? || message['type'].blank? || message['response'].nil?
       puts "Invalid preservation import response message: #{message}"
