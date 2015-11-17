@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fakeredis'
 require 'resque'
-
+require 'resque_spec'
 
 describe 'Send object to preservation' do
   include_context 'shared'
@@ -22,6 +22,10 @@ describe 'Send object to preservation' do
       @i.reload
     end
 
+    before do
+      ResqueSpec.reset!
+    end
+
     describe 'perform' do
       it 'without cascading' do
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
@@ -32,7 +36,7 @@ describe 'Send object to preservation' do
       end
 
       it 'with cascading' do
-        pending 'Does not perform cascading, only adds new jobs to the queue for the cascading elements'
+        #pending 'Does not perform cascading, only adds new jobs to the queue for the cascading elements'
         f = ContentFile.new
         @i.content_files << f
         @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
@@ -43,7 +47,7 @@ describe 'Send object to preservation' do
         @i.reload
         f.reload
         expect(@i.preservation_state).to eql PRESERVATION_REQUEST_SEND.keys.first
-        expect(f.preservation_state).to eql PRESERVATION_REQUEST_SEND.keys.first
+        expect(SendToPreservationJob).to have_queued(f.id)
       end
     end
   end

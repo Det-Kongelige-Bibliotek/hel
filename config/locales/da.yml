@@ -65,6 +65,7 @@ da:
       ins_updated: "%{var} er opdateret."
       preserved: 'Instans og indholdsfiler sendt til bevaring'
       no_preserved: 'Kunne ikke send til bevaring'
+      no_file: 'Kunne ikke send til bevaring uden indholdsfiler'
       destroy: "%{var} er slettet"
       admin_updated: "Administrative metadata er opdateret"
     index:
@@ -107,6 +108,9 @@ da:
       bev_collection: "Bevaringssamling"
       bev_status: "Bevaringsstatus"
       bev_detaljer: "Bevaringsdetaljer"
+      bev_warc_id: "WARC ID"
+      bev_file_warc_id: "Fil WARC ID"
+      bev_preservation_initiated_date: "Seneste bevaring igangsat"
       download: "Download link"
       upload: "Upload"
       details: "Detaljer"
@@ -120,6 +124,8 @@ da:
       preservation_state: "Bevaringsstatus"
       preservaton_details: "Bevaringsdetaljer"
       preservation_date: "Bevarings status dato"
+      preservation_initiated_date: "Seneste bevaring igangsat"
+      preservation_not_started: "Bevaringen er ikke startet"
       warc_id: "WARC id"
     activity_input:
       activity: "Aktivitet"
@@ -135,6 +141,10 @@ da:
       is_available: "Må tilgængeliggøres?"
       edit_in_GUI: "Der må oprettes nye instanser til denne aktivitet i GUI"
       choose_collection: 'Vælg en eller flere samlinger'
+      yes: "Ja"
+      no: "Nej"
+    bibliographic:
+      udgivelsesform: 'Vælg udgivelsesform'
     image_found:
       check: "Tjek TEI-linjeskift"
     image_found_modal:
@@ -416,6 +426,7 @@ da:
     be_admin: "Du skal være administrator for at kunne opdatere"
   edtf:
     error_message: "skal være valid EDTF"
+    no_date_message: "skal have en oprindelsesdato"
 
   statistics:
     preservation_statistics_based_on_solr: "Bevaring statistik baseret på SOLR"
