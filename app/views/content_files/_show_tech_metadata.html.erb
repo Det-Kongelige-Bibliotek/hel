@@ -1,0 +1,28 @@
+<!-- Modal -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#techMdModal">View TechMetadata</button>
+<div id="techMdModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Technical Metadata</h4>
+      </div>
+      <div class="modal-body">
+        <% if file.techMetadata.present? %>
+         <pre class="prettyprint">
+           <%=
+               xml = Nokogiri::XML.parse(file.techMetadata.content.force_encoding("utf-8"), &:noblanks)
+               xml.to_s
+           %>
+         </pre>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

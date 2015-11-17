@@ -259,7 +259,7 @@ describe Instance do
         expect(@instance.create_preservation_message).to have_key 'UUID'
         expect(@instance.create_preservation_message['UUID']).to eq @instance.uuid
       end
-      it 'should contain Preservation_profile' do
+      it 'should contain Preservation_collection' do
         expect(@instance.create_preservation_message).to have_key 'Preservation_profile'
       end
       it 'should contain Valhal_ID' do
@@ -321,7 +321,7 @@ describe Instance do
           @instance.save!
           @instance.preservationMetadata.should be_kind_of Datastreams::PreservationDatastream
         end
-        it 'should have a non-empty preservation profile, both as attribute and in the metadatastream.' do
+        it 'should have a non-empty preservation collection, both as attribute and in the metadatastream.' do
           @instance.save!
           @instance.preservation_collection.should be_kind_of String
           @instance.preservation_collection.should_not be_blank
@@ -356,17 +356,17 @@ describe Instance do
         end
       end
       describe 'changing the preservation metadata' do
-        it 'should be possible to assign and save a preservation profile.' do
-          profile = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
-          @instance.preservation_collection = profile
+        it 'should be possible to assign and save a preservation collection.' do
+          collection = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
+          @instance.preservation_collection = collection
           @instance.save!
           e2 = @instance.reload
-          e2.preservation_collection.should == profile
-          e2.preservationMetadata.preservation_collection.first.should == profile
+          e2.preservation_collection.should == collection
+          e2.preservationMetadata.preservation_collection.first.should == collection
         end
-        it 'should not be possible to assign and save a preservation profile, which is not in the configuration.' do
-          profile = "Preservation-Profile-#{Time.now.to_s}"
-          @instance.preservation_collection = profile
+        it 'should not be possible to assign and save a preservation collection, which is not in the configuration.' do
+          collection = "Preservation-Profile-#{Time.now.to_s}"
+          @instance.preservation_collection = collection
           expect{@instance.save!}.to raise_error
         end
         it 'should be possible to assign and save a preservation state.' do
@@ -385,7 +385,7 @@ describe Instance do
           e2.preservation_details.should == details
           e2.preservationMetadata.preservation_details.first.should == details
         end
-        it 'should be possible to assign and save a preservation profile.' do
+        it 'should be possible to assign and save a preservation collection.' do
           comment = "Preservation-Comment-#{Time.now.to_s}"
           @instance.preservation_comment = comment
           @instance.save!

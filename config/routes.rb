@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  get "view_file/show"
+  get 'view_file/show'
+  post 'view_file/import_from_preservation'
   get 'statistics' => 'statistics#show'
 
 
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
       get 'download'
       get 'upload'
       patch 'update'
+      get 'initiate_import_from_preservation'
     end
   end
   root to: 'catalog#index'
