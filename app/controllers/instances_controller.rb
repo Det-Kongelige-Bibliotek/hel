@@ -162,8 +162,8 @@ class InstancesController < ApplicationController
                                      :dimensions, :mode_of_issuance, :isbn13,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
                                      :publisher, :published_date, :copyright_holder, :copyright_date, :copyright_status,
-                                     :access_condition, :availability, :preservation_collection, collection: [],
-                                     note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
+                                     :access_condition, :availability, :preservation_collection, :note, collection: [],
+                                     content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
                                      publications_attributes: [[:id, :copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }
   end
