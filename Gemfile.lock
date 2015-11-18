@@ -53,7 +53,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    amq-protocol (1.9.2)
+    amq-protocol (2.0.0)
     arel (6.0.0)
     autoprefixer-rails (5.1.11)
       execjs
@@ -78,8 +78,8 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
     builder (3.2.2)
-    bunny (1.7.0)
-      amq-protocol (>= 1.9.2)
+    bunny (2.2.0)
+      amq-protocol (>= 2.0.0)
     byebug (4.0.5)
       columnize (= 0.9.0)
     cancancan (1.10.1)
@@ -508,10 +508,10 @@ PLATFORMS
 
 DEPENDENCIES
   active-fedora (>= 9.1.2)
-  amq-protocol (>= 1.9.2)
+  amq-protocol (>= 2.0.0)
   better_errors
   binding_of_caller
-  bunny (>= 1.7.0)
+  bunny (>= 2.1.0)
   byebug
   coffee-rails (~> 4.0.0)
   cucumber-rails

@@ -3,7 +3,7 @@ require 'blacklight/catalog'
 
 class ContentFilesController < ApplicationController
 
-  before_action :set_file, only: [:download, :upload, :update, :show]
+  before_action :set_file, only: [:download, :upload, :update, :show, :initiate_import_from_preservation]
 
   def show
   end
@@ -65,5 +65,17 @@ class ContentFilesController < ApplicationController
 
   def set_file
     @file = ContentFile.find(URI.unescape(params[:id]))
+  end
+
+  def initiate_import_from_preservation
+    if @file.send_request_to_import(params['type'])
+      flash[:notice] = t('content_file.flashmessage.initiated_import_from_preservation')
+      # It only creates a new job, if no such job already exists.
+      ReceiveResponsesFromPreservationJob.schedule_new_job
+    else
+      flash[:notice] = t('content_file.flashmessage.initiated_import_from_preservation_failed')
+      flash[:error] = @file.errors.full_messages.to_sentence
+    end
+    redirect_to @file
   end
 end

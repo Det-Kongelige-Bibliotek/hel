@@ -23,12 +23,66 @@ instance_type:
 mode_of_issuance:
   name: Mode of Issuance
   entries:
-    'Continuing':
-    'Monographic':
-    'Single unit':
-    'Multipart monograph':
-    'Serial':
-    'Integrating resource':
+    'Continuing': 'Fortsættelsesværk'
+    'Monographic': 'Monografi'
+    'Single unit': 'Bibliografisk enhed'
+    'Multipart monograph': 'Flerbindsværk'
+    'Serial': 'Seriepublikation'
+    'Integrating resource': 'Sammensat materiale'
+material_type:
+  name: Material type
+  entries:
+     'Print': 'Tryk'
+     'Manuscripts': 'Håndskrifter'
+     'Map': 'Kort'
+     'Music Print': 'Musiktryk'
+     'Music Manuscripts': 'Musikhåndskrifter'
+     'Sound': 'Lyd'
+     'Images': 'Billeder'
+     'Video': 'Video'
+     'ComputerGame': 'Computerspil'
+print:
+  name: Print
+  entries:
+     'Bøger':
+     'Tidsskrifter':
+     'Breve':
+     'Småtryk':
+     'Aviser':
+     'Skuespil':
+manuscripts:
+  name: Manuscripts
+  entries:
+     'Codexform':
+     'Fragmenter(breve)':
+map:
+  name: Map
+  entries:
+     'Atlas':
+     'Clober':
+music_print:
+  name: Music_Print
+  entries:
+     'Noder':
+music_manuscripts:
+  name: Music_Manuscripts
+  entries:
+     'Nodemanuskripter':
+images:
+  name: Images
+  entries:
+   'Akvarel':
+   'Dia':
+   'Digital optagelse':
+   'Grafik':
+   'Fotografi':
+   'Fotogravure':
+   'Negativ':
+   'Postkort':
+   'Plakat':
+   'Tegning':
+   'Tryk':
+   'Silhuet':
 collections:
   name: Collections
   entries:
@@ -56,12 +110,6 @@ access_types:
     'efter aftale':
     læsesal:
     'ingen adgang':
-preservation_profiles:
-  name: Bevarings profiler
-  entries:
-    simple:
-    storage:
-    eternity:
 copyrights:
   name: Copyright Licenses
   entries:

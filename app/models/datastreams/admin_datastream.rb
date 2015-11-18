@@ -33,6 +33,8 @@ module Datastreams
                          :path=>'copyright', :label=>'Copyright')
       t.material_type(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                          :path=>'material_type', :label=>'Material type')
+      t.material_type2(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
+                      :path=>'material_type2', :label=>'Material type2')
       t.availability(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                          :path=>'availability', :label=>'Availability')
       t.validation_message(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],

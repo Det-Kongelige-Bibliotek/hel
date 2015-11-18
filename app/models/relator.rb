@@ -23,7 +23,7 @@ class Relator < ActiveFedora::Base
   # http://id.loc.gov/vocabulary/relators/rcp
   # r.short_role => 'rcp'
   def short_role
-    URI(role).path.split('/').last
+    URI(role).path.split('/').last if role.present?
   end
 
   def agent_id=(id)
@@ -31,7 +31,7 @@ class Relator < ActiveFedora::Base
   end
 
   def agent_id
-    self.agent.try(:id)
+    self.agent.try(:id) if agent.present?
   end
 
   def self.from_rel(rel, agent)

@@ -146,6 +146,8 @@
      margin: 0;
  }
 
-
+ .input-group .form-control {
+     position: static;
+ }
 
 

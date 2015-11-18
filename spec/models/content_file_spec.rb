@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'securerandom'
 
 describe 'content' do
   include_context 'shared'
@@ -201,7 +202,7 @@ describe 'content' do
         expect(@f.create_preservation_message['UUID']).not_to be_nil
         expect(@f.create_preservation_message['UUID']).to eq @f.uuid
       end
-      it 'should contain Preservation_profile' do
+      it 'should contain Preservation_collection' do
         expect(@f.create_preservation_message).to have_key 'Preservation_profile'
       end
       it 'should contain Valhal_ID' do
@@ -229,7 +230,6 @@ describe 'content' do
         @f.reload
         expect(@f.create_preservation_message).to have_key 'warc_id'
       end
-
       it 'should contain metadata' do
         expect(@f.create_preservation_message).to have_key 'metadata'
       end
@@ -331,17 +331,17 @@ describe 'content' do
     end
 
     describe 'changing the preservation metadata' do
-      it 'should be possible to assign and save a preservation profile.' do
-        profile = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
-        @f.preservation_collection = profile
+      it 'should be possible to assign and save a preservation collection.' do
+        collection = PRESERVATION_CONFIG['preservation_collection'].keys[rand(PRESERVATION_CONFIG['preservation_collection'].size)]
+        @f.preservation_collection = collection
         @f.save!
         e2 = @f.reload
-        e2.preservation_collection.should == profile
-        e2.preservationMetadata.preservation_collection.first.should == profile
+        e2.preservation_collection.should == collection
+        e2.preservationMetadata.preservation_collection.first.should == collection
       end
-      it 'should not be possible to assign and save a preservation profile, which is not in the configuration.' do
-        profile = "Preservation-Profile-#{Time.now.to_s}"
-        @f.preservation_collection = profile
+      it 'should not be possible to assign and save a preservation collection, which is not in the configuration.' do
+        collection = "Preservation-Profile-#{Time.now.to_s}"
+        @f.preservation_collection = collection
         expect{@f.save!}.to raise_error
       end
       it 'should be possible to assign and save a preservation state.' do
@@ -360,7 +360,7 @@ describe 'content' do
         e2.preservation_details.should == details
         e2.preservationMetadata.preservation_details.first.should == details
       end
-      it 'should be possible to assign and save a preservation profile.' do
+      it 'should be possible to assign and save a preservation collection.' do
         comment = "Preservation-Comment-#{Time.now.to_s}"
         @f.preservation_comment = comment
         @f.save!
@@ -369,6 +369,7 @@ describe 'content' do
         e2.preservationMetadata.preservation_comment.first.should == comment
       end
     end
+
     describe 'using PreservationHelper' do
       include PreservationHelper
       it 'should change the preservation timestamp with #set_preservation_modified_time' do
@@ -499,6 +500,175 @@ describe 'content' do
           end
         end
       end
+    end
+
+    describe '#preservation_import' do
+      it 'should respond to import variables' do
+        expect(@f.respond_to? :import_token).to eql true
+        expect(@f.respond_to? :import_token_timeout).to eql true
+        expect(@f.respond_to? :import_state).to eql true
+      end
+
+      it 'should not have a token or timeout initially' do
+        expect(@f.import_token).to be_blank
+        expect(@f.import_token_timeout).to be_blank
+      end
+
+      describe '#create_import_from_preservation message' do
+        it 'should be a non-empty Hash' do
+          message = @f.create_import_from_preservation_message('FILE')
+          expect(message).to_not be_nil
+          expect(message).to_not be_empty
+          expect(message.class).to eq Hash
+        end
+        it 'should have type the same as argument' do
+          type = SecureRandom.hex(32)
+          expect(@f.create_import_from_preservation_message(type)['type']).to eq type
+        end
+        it 'should have the uuid of the file' do
+          expect(@f.create_import_from_preservation_message('type')['uuid']).to eq @f.id
+        end
+        it 'should have the preservation collection of the file' do
+          puts @f.create_import_from_preservation_message('type')
+          puts @f.preservation_collection
+          expect(@f.create_import_from_preservation_message('type')['preservation_profile']).to eq @f.preservation_collection
+        end
+        it 'should have the warc_id of the file' do
+          @f.warc_id = SecureRandom.hex(32)
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_file_id']).to eq @f.warc_id
+        end
+        it 'should have a warc_record_id identical to the id of the file' do
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_record_id']).to eq @f.id
+        end
+        it 'should not have a warc_offset' do
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_offset']).to be_blank
+        end
+        it 'should have a warc_offset, when it has been set' do
+          @f.file_warc_offset = '1234#4321'
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_offset']).to eq '1234'
+        end
+        it 'should not have a warc_record_size' do
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_record_size']).to be_blank
+        end
+        it 'should have a warc_record_size, when the offset has been set' do
+          @f.file_warc_offset = '1234#4321'
+          expect(@f.create_import_from_preservation_message('type')['warc']['warc_record_size']).to eq ((4321-1234).to_s)
+        end
+        it 'should not have a security token when not defined' do
+          expect(@f.import_token).to be_blank
+          expect(@f.create_import_from_preservation_message('type')['security']['token']).to be_blank
+        end
+        it 'should not have a security token timeout when not defined' do
+          expect(@f.import_token_timeout).to be_blank
+          expect(@f.create_import_from_preservation_message('type')['security']['token_timeout']).to be_blank
+        end
+        it 'should have a security token when defined' do
+          @f.import_token = SecureRandom.hex(32)
+          expect(@f.create_import_from_preservation_message('type')['security']['token']).not_to be_blank
+          expect(@f.create_import_from_preservation_message('type')['security']['token']).to eq @f.import_token
+        end
+        it 'should not have a security token timeout when not defined' do
+          @f.import_token_timeout = DateTime.now.to_s
+          expect(@f.create_import_from_preservation_message('type')['security']['token_timeout']).not_to be_blank
+          expect(@f.create_import_from_preservation_message('type')['security']['token_timeout']).to eq @f.import_token_timeout
+        end
+
+        describe '#Updates' do
+          it 'should deliver the right update-id' do
+            warc_file_id = SecureRandom.hex(32)
+            warc_record_id = SecureRandom.hex(32)
+            @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_file_id']).to eq warc_file_id
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_record_id']).to eq warc_record_id
+          end
+          it 'should has update offset' do
+            warc_file_id = SecureRandom.hex(32)
+            warc_record_id = SecureRandom.hex(32)
+            @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id, 'file_warc_offset' => '1234#4321'} )
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_file_id']).to eq warc_file_id
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_record_id']).to eq warc_record_id
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_offset']).to eq '1234'
+            expect(@f.create_import_from_preservation_message('type', warc_record_id)['warc']['warc_record_size']).to eq ((4321-1234).to_s)
+          end
+          it 'should throw an error when no updates exists' do
+            expect{@f.create_import_from_preservation_message('type', SecureRandom.hex(32))}.to raise_error
+          end
+          it 'should throw an error when a non-existing update is refered to' do
+            warc_file_id = SecureRandom.hex(32)
+            warc_record_id = SecureRandom.hex(32)
+            @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
+            expect{@f.create_import_from_preservation_message('type', SecureRandom.hex(32))}.to raise_error
+          end
+        end
+      end
+
+      describe '#create_import_token' do
+        it 'should not have a token before it has been created' do
+          expect(@f.import_token).to be_blank
+        end
+        it 'should not have a token timeout before it has been created' do
+          expect(@f.import_token_timeout).to be_blank
+        end
+        it 'should have a token when the create method has been called' do
+          @f.create_import_token
+          expect(@f.import_token).not_to be_blank
+        end
+        it 'should have a token timeout when the create method has been called' do
+          @f.create_import_token
+          expect(@f.import_token_timeout).not_to be_blank
+        end
+      end
+
+      describe '#validate_import' do
+        it 'should fail when no warc_id is defined' do
+          expect(@f.validate_import('FILE', nil)).to be_falsey
+        end
+        it 'should fail when no preservation_collection has been defined' do
+          @f.warc_id = 'warc_id'
+          expect(@f.validate_import('FILE', nil)).to be_falsey
+        end
+        it 'should fail when the preservation_collection is not a longterm preservation collection - thus not having preserved in yggdrasil' do
+          @f.warc_id = 'warc_id'
+          @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|p| p['yggdrasil'] == 'false'}).keys.sample
+          expect(@f.validate_import('FILE', nil)).to be_falsey
+        end
+        it 'should fail when using another collection type than \'FILE\'' do
+          @f.warc_id = 'warc_id'
+          @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+          expect(@f.validate_import('NOT_FILE', nil)).to be_falsey
+        end
+        it 'should be able to success' do
+          @f.warc_id = 'warc_id'
+          @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+          expect(@f.validate_import('FILE', nil)).to be_truthy
+        end
+        describe '#updates' do
+          it 'should file when no updates'  do
+            @f.warc_id = 'warc_id'
+            @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+            expect(@f.validate_import('FILE', SecureRandom.hex(32))).to be_falsey
+          end
+          it 'should fail when requesting a non-existing update'  do
+            warc_file_id = SecureRandom.hex(32)
+            warc_record_id = SecureRandom.hex(32)
+            @f.warc_id = 'warc_id'
+            @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+            @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
+            expect(@f.validate_import('FILE', SecureRandom.hex(32))).to be_falsey
+          end
+          it 'should be possible to find a update'  do
+            warc_file_id = SecureRandom.hex(32)
+            warc_record_id = SecureRandom.hex(32)
+            @f.warc_id = 'warc_id'
+            @f.preservation_collection = (PRESERVATION_CONFIG['preservation_collection'].select {|k,v| v['yggdrasil'] == 'true'}).keys.sample
+            @f.preservationMetadata.insert_update( {'file_uuid' => warc_record_id, 'file_warc_id' => warc_file_id} )
+            expect(@f.validate_import('FILE', warc_record_id)).to be_truthy
+          end
+        end
+      end
+
+      # TODO send_request_to_import
+      # TODO initiate_import_from_preservation
     end
   end
 end

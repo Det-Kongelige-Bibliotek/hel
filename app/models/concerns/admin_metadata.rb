@@ -19,6 +19,7 @@ module Concerns
       property :access_condition,  delegate_to: 'adminMetadata', :multiple => false
       property :copyright,  delegate_to: 'adminMetadata', :multiple => false
       property :material_type,  delegate_to: 'adminMetadata', :multiple => false
+      property :material_type2,  delegate_to: 'adminMetadata', :multiple => false
       property :availability,  delegate_to: 'adminMetadata', :multiple => false
       property :collection,  delegate_to: 'adminMetadata', :multiple => true
       property :type,  delegate_to: 'adminMetadata', :multiple => false

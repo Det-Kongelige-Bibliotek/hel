@@ -15,57 +15,146 @@
   <div class="col-sm-6">
     <%= builder.input :dimensions %>
   </div>
+
   <div class="col-sm-6">
-    <%= builder.input :mode_of_issuance, collection: get_list_with_labels('Mode of Issuance'),  prompt: t('.udgivelsesform') %>
+    <%= builder.input :extent %>
+  </div>
+
+  <div class="col-sm-6">
+    <%= builder.input :mode_of_issuance, collection: get_list_with_labels('Mode of Issuance'),  include_blank: t('.udgivelsesform') %>
   </div>
   <div class="col-sm-6">
     <%= builder.input :contents_note %>
   </div>
-
-  <% if @instance.note.present? %>
-      <% @instance.note.each do |n| %>
-          <div class="col-sm-6">
-            <%= builder.input :note, input_html: { value: n, name: 'instance[note][]' } %>
-          </div>
-      <% end %>
-  <% end %>
   <div class="col-sm-6">
-    <%= builder.input :note , input_html: { value: '', name: 'instance[note][]' } %>
+    <%= builder.input :note %>
   </div>
 </fieldset>
-<fieldset>
+
+<fieldset id="materialetype" class="row">
+  <legend class="col-sm-12" >
+    <%= t("Matelrial type") %>
+  </legend>
+  <div class="col-sm-6">
+    <%= builder.input :material_type, collection: get_list_with_labels('Material type'),  prompt: t('.KB materialetype 1') %>
+
+  </div>
+  <div class="col-sm-6">
+    <label id="material_type2_id" class="select optional" for="instance_material_type2" style="display:none">Materiale Type2</label>
+    <select id="instance_material_type2" class="select optional form-control form-control" style="display:none"></select>
+  </div>
+</fieldset>
+
+<fieldset id="publisher" class="row">
+  <legend class="col-sm-12" >
+    <%= "Udgivelses oplysninger:" %>
+  </legend>
+    <%= builder.input :publisher, collection: select_fields(Finder.all_organizations), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-6' } %>
+    <%= builder.input :published_date, wrapper_html: { class: 'col-sm-6' } %>
+</fieldset>
+<fieldset class="row">
     <legend class="col-sm-12" >
       <%= "Ophavsret:" %>
     </legend>
-
-  <%= builder.simple_fields_for :relators do |rel_fields| %>
-      <div class="row relator_fields">
-        <div class="col-sm-12">
-          <label class="radio-inline">
-            <input type="radio" class="udloeb" name="instance[copyright_status]"  id="copyright_status" value="udloebet">Udløbet
-          </label>
-          <label class="radio-inline">
-            <input type="radio" class="ukendt" name="instance[copyright_status]"  id="copyright_status" value="ukendt">Ukendt
-          </label>
-          <label class="radio-inline">
-            <input type="radio" class="addagent" name="instance[copyright_status]"  id="copyright_status" value='addagent' data-toggle="copyright_fields">Agent
-          </label>
-
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label class="radio-inline">
+        <input type="radio" class="udloeb" name="instance[copyright_status]"  id="copyright_status" value="udloebet" <%= @instance.copyright_status == 'udloebet' ? 'checked' : '' %> >
+            Udløbet
+      </label>
+      <label class="radio-inline">
+        <input type="radio" class="ukendt" name="instance[copyright_status]"  id="copyright_status" value="ukendt" <%= @instance.copyright_status == 'ukendt' ? 'checked' : '' %> >Ukendt
+      </label>
+      <label class="radio-inline">
+        <input type="radio" class="agent" name="instance[copyright_status]"  id="copyright_status" value="agent" data-toggle="copyright_fields" <%= @instance.copyright_status == 'agent' ? 'checked' : '' %> >Agent
+      </label>
+    </div>
+  </div>
+  <div class="row">
       <div class="col-sm-12">
-      <div id="addagent" class="collapse">
-
-          <%= rel_fields.input :agent_id, collection: select_fields(Finder.all_people + Finder.all_organizations), wrapper_html: { class: 'col-sm-4' } %>
-          <%= rel_fields.input :role, as: :hidden, value: 'http://id.loc.gov/vocabulary/relators/cph' %>
-          <%= builder.simple_fields_for :publications do |f| %>
-              <div class="col-sm-4">
-                <%= f.input :copyright_date %>
-              </div>
-          <% end %>
+        <div id="agent" class="collapse">
+          <%= builder.input :copyright_holder, collection: select_fields(Finder.all_people + Finder.all_organizations), include_blank: t('.copyright_holder'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-6' } %>
+          <%= builder.input :copyright_date, wrapper_html: { class: 'col-sm-6' } %>
         </div>
       </div>
-
-  <% end %>
+  </div >
 
 </fieldset>
+
+<% if @instance.copyright_status == 'agent' %>
+    <%= javascript_tag do %>
+        $(document).ready(
+        function () {
+        $('#agent').slideDown();
+        });
+    <% end %>
+<% end %>
+
+
+
+<script type="text/javascript">
+  printlist = <%= raw get_list_with_labels('Print') %> ;
+  printlist.unshift(["Tryk","Tryk"]);
+  manuscriptslist = <%= raw get_list_with_labels('Manuscripts') %>;
+  manuscriptslist.unshift(["Håndskrifter","Håndskrifter"]);
+  musicmanuscriptslist = <%= raw get_list_with_labels('Music_Manuscripts') %>;
+  musicmanuscriptslist.unshift(["Musikhåndskrifter","Musikhåndskrifter"]);
+  imageslist = <%= raw get_list_with_labels('Images') %>;
+  imageslist.unshift(["Billeder","Billeder"]);
+  maplist = <%= raw get_list_with_labels('Map') %>;
+  maplist.unshift(["Kort","Kort"]);
+  musicprintlist = <%= raw get_list_with_labels('Music_Print') %>;
+  musicprintlist.unshift(["Musiktryk","Musiktryk"]);
+
+  function myOnSelectChange(selectElem) {
+        var selectedItem = selectElem.options[selectElem.selectedIndex].value;
+        if (selectedItem === 'Images') {
+            $('#instance_material_type2').html($.map(imageslist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Print') {
+            $('#instance_material_type2').html($.map(printlist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Manuscripts') {
+            $('#instance_material_type2').html($.map(manuscriptslist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Music Manuscripts') {
+            $('#instance_material_type2').html($.map(musicmanuscriptslist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Map') {
+            $('#instance_material_type2').html($.map(maplist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else if (selectedItem === 'Music Print') {
+            $('#instance_material_type2').html($.map(musicprintlist, function (option) {
+                return '<option value="' + option[0] + '">' + option[0] + '</option>';
+            }).join(''));
+            $('#material_type2_id').show();
+            $('#instance_material_type2').show();
+        } else {
+            $('#material_type2_id').hide();
+            $('#instance_material_type2').hide();
+        }
+  }
+
+  $(document).ready(function () {
+
+      $('#instance_material_type').change(function(){ myOnSelectChange(this); });
+      myOnSelectChange($('#instance_material_type')[0]);
+  });
+</script>
+
+
