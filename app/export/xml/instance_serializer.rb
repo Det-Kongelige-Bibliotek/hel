@@ -51,12 +51,11 @@ module XML
 
     #private
     def self.mods (xml, instance)
-
       xml.mods({ 'xmlns' => 'http://www.loc.gov/mods/v3',
                  'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
                  'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
-                 'xsi:schemaLocation' => "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd",
-                 'version' => "3.5"}
+                 'xsi:schemaLocation' => "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-6.xsd",
+                 'version' => "3.6"}
       ) do
         @w = instance.work
         @w.titles.each do |tit|
@@ -75,28 +74,73 @@ module XML
                               "authority" => "iso639-2b")
           end
         end
+        if instance.languages.each do |l|
+          xml.language do
+            xml.languageTerm( l.split('/').last,
+                'valueURI' => l,
+                'type' => 'code',
+                'authority' => 'iso639-2b')
+            end
+          end
+        end
         (@w.relators + instance.relators).each do |rel|
 
           role_uri = rel.role
           role  = rel.short_role
           agent = rel.agent
           #    "production", "publication", "distribution", "manufacture"
-          if role == "pbl" then
-            render_origin_info(xml,@w,agent,instance,role_uri,role,'publication')
+          if role == 'pbl' then
+            render_publisher(xml, @w, agent, instance, role_uri, role, 'publication')
           else
             render_agent(xml,agent,rel,role,role_uri)
           end
         end
         if instance.uri then
-          xml.identifier(instance.uri,"type" => "uri")
+          xml.identifier(instance.id,'type' => 'uuid')
+        end
+        if instance.isbn13.present?
+          xml.identifier(instance.isbn13, 'type' => 'isbn13')
+        end
+        if instance.isbn10.present?
+          xml.identifier(instance.isbn10, 'type' => 'isbn10')
+        end
+        if instance.system_number.present?
+          xml.identifier(instance.system_number, 'type' => 'system number')
         end
 
         if instance.collection.present? then
-          xml.relatedItem("type" => "host") do
-            xml.titleInfo do
-              xml.title(instance.collection)
+          xml.relatedItem('type' => 'host') do
+            instance.collection.each do |c|
+              xml.titleInfo do
+                xml.title(c)
+              end
             end
             xml.typeOfResource("collection" => "yes")
+          end
+        end
+
+        if instance.note.present? then
+          xml.note(instance.note)
+        end
+
+        if @w.origin_date.present? || instance.mode_of_issuance.present? then
+          xml.originInfo do
+            xml.dateCreated(@w.origin_date, 'keyDate' => 'yes', 'encoding'=> 'edtf')
+            xml.issuance(instance.mode_of_issuance.downcase)
+          end
+        end
+
+        if instance.extent.present? || instance.dimensions.present? || instance.contents_note.present? then
+          xml.physicalDescription do
+            xml.extent(instance.extent)
+            xml.note(instance.dimensions, 'type' => 'dimensions')
+            xml.note(instance.contents_note, 'type' => 'content type')
+          end
+        end
+
+        if instance.title_statement.present? then
+          xml.titleInfo('type' => 'alternative') do
+            xml.title(instance.title_statement)
           end
         end
 
@@ -131,14 +175,13 @@ module XML
             end
           end
         end
-
       end
-
     end
 
     def self.render_agent (xml,agent,rel,role,role_uri)
       if agent.class == Authority::Person then
-        xml.name("type" => "personal", "valueURI" => agent.uri, ) do
+        # xml.name("type" => "personal", "valueURI" => agent.uri, ) do
+        xml.name("type" => "personal", "valueURI" => agent.id, ) do
           if agent.family_name.present? then
             xml.namePart(agent.family_name,"type" => "family")
           end
@@ -154,7 +197,8 @@ module XML
           end
         end
       elsif agent.class == Authority::Organization then
-        xml.name("authorityURI" => agent.uri, "type" => "corporate") do
+        # xml.name("authorityURI" => agent.uri, "type" => "corporate") do
+        xml.name("valueURI" => agent.id, "type" => "corporate") do
           xml.namePart(agent.display_value)
           if agent.founding_date.present? || agent.dissolution_date.present? then
             date = agent.display_date
@@ -165,7 +209,8 @@ module XML
           end
         end
       else
-        xml.name("authorityURI" => agent.uri, "type" => "undef") do
+        # xml.name("authorityURI" => agent.uri) do
+        xml.name("valueURI" => agent.id) do
           xml.namePart(agent.display_value )
           xml.role do
             xml.roleTerm(role, "authorityURI" => role_uri, "type"=>"code")
@@ -175,8 +220,7 @@ module XML
 
     end
 
-    def self.render_origin_info(xml,work,agent,instance,role_uri,role,event)
-
+    def self.render_publisher(xml,work,agent,instance,role_uri,role,event)
       xml.originInfo('eventType' => event ) do
         if work.origin_place.present? then
           place=work.origin_place
@@ -185,7 +229,6 @@ module XML
           end
         end
         xml.publisher(agent.display_value) #, "xlink:href" => agent.same_as)
-        xml.dateCreated(work.origin_date)
       end
     end
 
