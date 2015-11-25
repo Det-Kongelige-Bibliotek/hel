@@ -125,16 +125,16 @@ module XML
 
         if @w.origin_date.present? || instance.mode_of_issuance.present? then
           xml.originInfo do
-            xml.dateCreated(@w.origin_date, 'keyDate' => 'yes', 'encoding'=> 'edtf')
-            xml.issuance(instance.mode_of_issuance.downcase)
+            xml.dateCreated(@w.origin_date, 'keyDate' => 'yes', 'encoding'=> 'edtf') if @w.origin_date.present?
+            xml.issuance(instance.mode_of_issuance.downcase) if instance.mode_of_issuance.present?
           end
         end
 
         if instance.extent.present? || instance.dimensions.present? || instance.contents_note.present? then
           xml.physicalDescription do
-            xml.extent(instance.extent)
-            xml.note(instance.dimensions, 'type' => 'dimensions')
-            xml.note(instance.contents_note, 'type' => 'content type')
+            xml.extent(instance.extent) if instance.extent.present?
+            xml.note(instance.dimensions, 'type' => 'dimensions') if instance.dimensions.present?
+            xml.note(instance.contents_note, 'type' => 'content type') if instance.contents_note.present?
           end
         end
 
