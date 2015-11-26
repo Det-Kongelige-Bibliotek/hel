@@ -84,8 +84,6 @@ class Instance < ActiveFedora::Base
     end
   end
 
-
-
   def uuid
     self.id
   end
@@ -298,7 +296,6 @@ class Instance < ActiveFedora::Base
     #activity_name = Administration::Activity.find(activity).activity
     #Solrizer.insert_field(solr_doc, 'activity_name', activity_name, :stored_searchable, :facetable)
   end
-
 
   def valid_trykforlaeg
     if self.is_trykforlaeg?
