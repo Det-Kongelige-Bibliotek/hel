@@ -1,18 +1,23 @@
-<a id="upload"></a><h4><%= t('.label')%></h4>
-<% @instance.content_files.each do |f| %>
-    <div>
-    <strong>
-      <%= f.original_filename %>
-      <%= link_to t('instances.show_files.details'), "##{f.original_filename.split('.').first}", class: 'btn btn-default', data: { toggle: 'collapse' } %>
-      <% if can?(:download, f) %>
-          <%= link_to(t(:show), f, class: 'btn btn-default') %>
-          <%= link_to(t('.download'), download_content_file_path(f), class: 'btn btn-default') %>
-      <% end %>
-    </strong>
-    <%= content_tag :div, id: f.original_filename.split('.').first, class: 'collapse' do %>
-        <%= render partial: 'content_files/file_info', locals: { file: f, instance: @instance } %>
-        <%= render partial: 'instances/upload_file_modal', :locals => { :file => f }%>
-    <% end %>
-    </div>
+<a id="upload"></a><h4><%= t('.label') %></h4>
+<% if @instance.content_files.empty? %>
+    <%= t('instances.show_files.no_files') %>
     <hr/>
+<% else %>
+    <% @instance.content_files.each do |f| %>
+        <div>
+          <strong>
+            <%= f.original_filename %>
+            <%= link_to t('instances.show_files.details'), "##{f.original_filename.split('.').first}", class: 'btn btn-default', data: {toggle: 'collapse'} %>
+            <% if can?(:download, f) %>
+                <%= link_to(t(:show), f, class: 'btn btn-default') %>
+                <%= link_to(t('.download'), download_content_file_path(f), class: 'btn btn-default') %>
+            <% end %>
+          </strong>
+          <%= content_tag :div, id: f.original_filename.split('.').first, class: 'collapse' do %>
+              <%= render partial: 'content_files/file_info', locals: {file: f, instance: @instance} %>
+              <%= render partial: 'instances/upload_file_modal', :locals => {:file => f} %>
+          <% end %>
+        </div>
+        <hr/>
+    <% end %>
 <% end %>

@@ -32,8 +32,6 @@ class InstancesController < ApplicationController
   # If work_id is given in the params, add this to the object.
   def new
     @instance = @klazz.new
-    @instance.relators.build
-    @instance.publications.build
     # TODO: Refactor to use ConversionService.instance_from_aleph
     if params[:query]
       service = AlephService.new
@@ -54,8 +52,6 @@ class InstancesController < ApplicationController
 
   # GET /instances/1/edit
   def edit
-    @instance.relators.build unless @instance.relators.present?
-    @instance.publications.build unless @instance.publication.present?
   end
 
   # POST /instances
@@ -76,10 +72,9 @@ class InstancesController < ApplicationController
   # PATCH/PUT /instances/1.json
   def update
     instance_params['activity'] = @instance.activity unless current_user.admin?
-    logger.debug("#{@instance}")
     if @instance.update(instance_params)
       # TODO: TEI specific logic should be in an after_save hook rather than on the controller
-      if @instance.type == 'TEI' && @instance.activity == Administration::Activity.where(activity: 'ADL').first.id
+      if @instance.type == 'TEI' && Administration::Activity.where(id: @instance.activity).first.is_adl_activity?
         @instance.content_files.each do |f|
           # TODO - make this also work for internally managed TEI files
           if f.external_file_path
@@ -95,8 +90,6 @@ class InstancesController < ApplicationController
       flash[:notice] = t('instances.flashmessage.ins_updated', var: @klazz)
       @instance.cascade_preservation_collection
     else
-      @instance.relators.build
-      @instance.publications.build unless @instance.publication.present?
     end
     respond_with(@instance.work, @instance)
   end
@@ -104,6 +97,8 @@ class InstancesController < ApplicationController
   def send_to_preservation
     if @instance.content_files().present? && @instance.send_to_preservation
       flash[:notice] = t('instances.flashmessage.preserved')
+      # It only creates a new job, if no such job already exists.
+      ReceiveResponsesFromPreservationJob.schedule_new_job
     elsif @instance.content_files().empty?
       flash[:notice] = t('instances.flashmessage.no_file')
     else
@@ -166,10 +161,11 @@ class InstancesController < ApplicationController
   # Need to do some checking to get rid of blank params here.
   def instance_params
     params.require(@klazz.to_s.downcase.to_sym).permit(:type, :activity, :title_statement, :extent, :copyright,
-                                     :dimensions, :mode_of_issuance, :isbn13,
+                                     :dimensions, :mode_of_issuance, :isbn13, :material_type,
                                      :contents_note, :embargo, :embargo_date, :embargo_condition,
-                                     :access_condition, :availability, :preservation_collection, collection: [],
-                                     note: [], content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
+                                     :publisher, :published_date, :copyright_holder, :copyright_date, :copyright_status,
+                                     :access_condition, :availability, :preservation_collection, :note, collection: [],
+                                     content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
                                      publications_attributes: [[:id, :copyright_date, :provider_date ]]
     ).tap { |elems| remove_blanks(elems) }
   end

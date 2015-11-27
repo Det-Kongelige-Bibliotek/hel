@@ -48,7 +48,7 @@ class MixedMaterialsController < ApplicationController
     params[:mixed_material].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type]],
                          relators_attributes: [[ :id, :agent_id, :role ]], subjects: [[:id]], note:[],
                          instances_attributes: [ [ :id, :type, :activity, :title_statement, :extent, :copyright,
-                         :dimensions, :mode_of_issuance, :isbn13, :contents_note, :embargo,
+                         :dimensions, :mode_of_issuance, :isbn13, :contents_note, :embargo, :material_type,
                          :embargo_date, :embargo_condition, :access_condition, :availability,
                          :preservation_collection, collection: [], note: [],
                          relators_attributes: [[ :id, :agent_id, :role ]],

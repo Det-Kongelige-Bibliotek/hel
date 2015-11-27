@@ -131,7 +131,7 @@ class ContentFile < ActiveFedora::Base
   # @param file (ActionDispatch::Http:UploadedFile | File)
   # @param characterize Whether or not to put a characterization job on the queue. Default true.
   def add_file(file, characterize=true)
-    if file.class == ActionDispatch::Http::UploadedFile
+    if file.class == ActionDispatch::Http::UploadedFile || file.class == Rack::Test::UploadedFile
       file_object = file.tempfile
       file_name = file.original_filename
       mime_type = file.content_type
@@ -144,12 +144,12 @@ class ContentFile < ActiveFedora::Base
       logger.warn "Could not add file #{file.inspect}"
       return false
     end
-    self.file_uuid = UUID.new.generate
+    self.file_uuid = UUID.new.generate if self.file_uuid.blank?
+    self.original_filename = file_name if self.original_filename.blank?
 
     self.fileContent.content = file_object
     set_file_timestamps(file_object)
     self.checksum = generate_checksum(file_object)
-    self.original_filename = file_name
     self.mime_type = mime_type
     self.size = file.size.to_s
     self.external_file_path = nil
@@ -226,6 +226,48 @@ class ContentFile < ActiveFedora::Base
     versions = self.dissemination_checksums.reject {|csum| csum.include? platform}
     versions << "#{platform}:#{checksum}"
     self.dissemination_checksums = versions
+  end
+
+  # Handle the import from preservation POST request.
+  # @param params The parameters from the POST request.
+  # Must contain 'type'='FILE', the token and the file.
+  def handle_preservation_import(params)
+    # only support content of ContentFile import
+    # TODO implement also metadata import
+    if(params['type'] != 'FILE')
+      logger.warn 'Can only support type = FILE'
+      return false
+    end
+
+    # Validate that preservation import is allowed
+    if self.import_token.blank?
+      logger.warn 'No import token, thus no preservation import expected.'
+      return false
+    end
+
+    # The post request must deliver a token.
+    if params['token'].blank?
+      logger.warn "No import token delivered. Expected: #{self.import_token.blank?}"
+      return false
+    end
+
+    if self.import_token != params['token']
+      logger.warn "Received import token '#{params['token']}' but expected '#{self.import_token}'"
+      return false
+    end
+
+    # Validate timeout
+    if self.import_token_timeout.to_datetime < DateTime.now
+      logger.warn 'Token has timed out and is no longer valid.'
+      return false
+    end
+
+    # Remove the token, so it cannot be used again.
+    self.import_token = ""
+    self.save!
+
+    logger.info 'Importing the file from preservation'
+    self.add_file(params['file'])
   end
 
   private

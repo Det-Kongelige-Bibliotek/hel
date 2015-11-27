@@ -17,6 +17,11 @@ module Administration
       false
     end
 
+    def is_adl_activity?
+      adl_activity = Administration::Activity.where(activity: 'ADL').first
+      adl_activity.present? && self.id == adl_activity.id
+    end
+
 
     # this stuff clashes with the default HydraAccessControls
     # commenting it out until we find out if it should be removed or not

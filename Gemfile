@@ -49,8 +49,8 @@ gem 'lograge'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 # Preservation
-gem 'bunny', '>= 1.7.0'
-gem 'amq-protocol', '>= 1.9.2'
+gem 'bunny', '>= 2.1.0'
+gem 'amq-protocol', '>= 2.0.0'
 
 gem 'isbn_validation'
 gem 'edtf'
@@ -102,4 +102,3 @@ gem 'log4r', '1.1.10'
 gem 'quiet_assets'
 gem 'filesize', '>= 0.1.1'
 #logging end
-

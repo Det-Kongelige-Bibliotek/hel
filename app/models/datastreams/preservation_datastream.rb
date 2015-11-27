@@ -25,8 +25,10 @@ module Datastreams
                              :path => 'preservation_comment', :label => 'Preservation Comment')
       t.warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                 :path => 'warc_id', :label => 'Warc ID')
+      t.warc_offset(:type => :string)
       t.file_warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                 :path => 'file_warc_id', :label => 'File Warc ID')
+      t.file_warc_offset(:type => :string)
       t.preservation_bitsafety(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                                :path => 'preservation_bitsafety', :label => 'Preservation BitSafety')
       t.preservation_confidentiality(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
@@ -35,19 +37,29 @@ module Datastreams
       t.update {
         t.warc_id()
         t.uuid()
+        t.warc_offset()
         t.date()
         t.file_uuid()
         t.file_warc_id()
+        t.file_warc_offset()
       }
+
+      t.import_token()
+      t.import_token_timeout()
+      t.import_state()
+      t.import_details()
+      t.import_update_date()
     end
 
     define_template :update do |xml, val|
       xml.update() {
         xml.warc_id {xml.text(val['warc_id'])}
         xml.uuid {xml.text(val['uuid'])}
+        xml.warc_offset {xml.text(val['warc_offset'])}
         xml.date {xml.text(val['date'])}
         xml.file_uuid {xml.text(val['file_uuid'])}
         xml.file_warc_id {xml.text(val['file_warc_id'])}
+        xml.file_warc_offset {xml.text(val['file_warc_offset'])}
       }
     end
 
@@ -55,7 +67,7 @@ module Datastreams
     # @param val Must be a Hash containing at least 'uuid'.
     def insert_update(val)
       raise ArgumentError.new 'Can only create the update element from a Hash map' unless val.is_a? Hash
-      raise ArgumentError.new 'Requires a \'uuid\' field in the Hash map to create the update element' if val['uuid'].blank? && val['file_uuid'].blank?
+      raise ArgumentError.new 'Requires a \'uuid\' or \'file_uuid\' field in the Hash map to create the update element' if val['uuid'].blank? && val['file_uuid'].blank?
       duplicate = find_by_terms_and_value(:update, :uuid => val['uuid']) || find_by_terms_and_value(:update, :file_uuid => val['file_uuid'])
 
       if duplicate.blank?
