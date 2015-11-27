@@ -45,6 +45,8 @@ class EmailIngestJob
           rescue => e
             Resque.logger.error "A Valhal object for an email or an attachment could not be created! Error inspect:
                             #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
+            puts "A Valhal object for an email or an attachment could not be created! Error inspect:
+                            #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
           end
         else
           Resque.enqueue(EmailCreateEmailJob, pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s,
@@ -287,7 +289,7 @@ class EmailIngestJob
     if email_metadata.has_key?(pathname_without_suffix)
       if !email_metadata[pathname_without_suffix]["body"].empty?
         body = email_metadata[pathname_without_suffix]["body"].to_s
-        instance.note += [body]
+        instance.note = body
       end
     end
 
