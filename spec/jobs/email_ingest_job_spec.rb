@@ -24,14 +24,13 @@ describe 'Ingest' do
       @fake_attachment_dir_name = "Fattachments"
       @fake_export_file_name = 'Fexports.xml'
 
-      @pathkey = @email_dir_path + "/" + "[Aid4Mail Trial tag #1] HDPIG call follow-up"
       @donor_forename = "Anders"
       @donor_surname = "Sand"
       @donor_id = Authority::Person.find_or_create_person(@donor_forename, @donor_surname).id
 
       EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name, @donor_id)
 
-      @email_file = ContentFile.find_by_original_filename("[Aid4Mail Trial tag #1] HDPIG call follow-up.msg")
+      @email_file = ContentFile.find_by_original_filename("feea79579b7a8dd97cb7bf050780351c.msg")
       @email_instance = @email_file.instance
       @email_work = @email_instance.work
 
@@ -46,8 +45,8 @@ describe 'Ingest' do
       # Do nothing as spec_helper should do the cleaning when the test is run again.
     end
 
-    it 'should create email Work with title "[Aid4Mail Trial tag #1] HDPIG call follow-up" ' do
-      expect(Finder.works_by_title("[Aid4Mail Trial tag #1] HDPIG call follow-up").size).to be >= 1
+    it 'should create email Work with title "HDPIG call follow-up" ' do
+      expect(Finder.works_by_title("HDPIG call follow-up").size).to be >= 1
     end
 
     it 'should create email Contentfile ' do
@@ -80,7 +79,7 @@ describe 'Ingest' do
 
     it 'email Work has title' do
       expect(@email_work.titles).not_to be_nil
-      expect(@email_work.titles.first.value).to include "[Aid4Mail Trial tag #1] HDPIG call follow-up"
+      expect(@email_work.titles.first.value).to include "HDPIG call follow-up"
     end
 
     it 'should create and link a Person object for the author of email' do

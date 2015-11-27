@@ -16,36 +16,8 @@ class EmailIngestJob
   # @param donor_id: Person id of the donor of the email account
   def self.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, donor_id)
 
-    fail ArgumentError, 'A path, without trailing slash, to a folder containing data should be given' if
-        base_dir_path.nil? || base_dir_path.empty?
-
-    fail ArgumentError, 'The folder containing data does not exist!' unless File.directory? base_dir_path
-
-    fail ArgumentError, 'The Person id of the donor of the email account should be given' if donor_id.nil?
-
-    if email_dir_name.nil? || email_dir_name.empty?
-      email_dir_name = EMAIL_DIR_NAME
-    end
-
-    if attachment_dir_name.nil? || attachment_dir_name.empty?
-      attachment_dir_name = EMAIL_ATTACHMENT_DIR_NAME
-    end
-
-    if export_file_name.nil? || export_file_name.empty?
-        export_file_name = EMAIL_EXPORT_FILE_NAME
-    end
-
-    email_dir_path = base_dir_path + '/' + email_dir_name
-    fail ArgumentError, 'The email folder does not exist!' unless File.directory? email_dir_path
-
-    attachment_dir_path = base_dir_path + '/' + attachment_dir_name
-    fail ArgumentError, 'The attachment folder does not exist!' unless File.directory? attachment_dir_path
-
-    export_file_path = base_dir_path + '/' + export_file_name
-    fail ArgumentError, 'The Aid4Mail export xml file does not exist!' unless File.file? export_file_path
-
-    fail 'A MyArchive activity does not exist!' unless Administration::Activity.where(activity: 'MyArchive').size != 0
-
+    attachment_dir_name, email_dir_name, email_dir_path, export_file_path =
+        initialize_validate(attachment_dir_name, base_dir_path, donor_id, email_dir_name, export_file_name)
 
     # Extract metadata from Aid4Mail XML file
     email_metadata = EmailXMLIngest.email_xml_ingest(export_file_path, email_dir_path)
@@ -66,20 +38,52 @@ class EmailIngestJob
                               #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
         end
       else
-        begin
-          if Rails.env == 'test'
-            EmailCreateEmailJob.perform(pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s, email_metadata,
-                                     dirs_works)
-          else
-            Resque.enqueue(EmailCreateEmailJob, pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s,
-                           email_metadata, dirs_works)
+        if Rails.env == 'test'
+          begin
+          EmailCreateEmailJob.perform(pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s, email_metadata,
+                                   dirs_works)
+          rescue => e
+            Resque.logger.error "A Valhal object for an email or an attachment could not be created! Error inspect:
+                            #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
           end
-        rescue => e
-          Resque.logger.error "A Valhal object for an email or an attachment could not be created! Error inspect:
-                              #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
+        else
+          Resque.enqueue(EmailCreateEmailJob, pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s,
+                         email_metadata, dirs_works)
         end
       end
     end
+  end
+
+  def self.initialize_validate(attachment_dir_name, base_dir_path, donor_id, email_dir_name, export_file_name)
+    fail ArgumentError, 'A path, without trailing slash, to a folder containing data should be given' if base_dir_path.blank?
+
+    fail ArgumentError, 'The folder containing data does not exist!' unless File.directory? base_dir_path
+
+    fail ArgumentError, 'The Person id of the donor of the email account should be given' if donor_id.nil?
+
+    if email_dir_name.blank?
+      email_dir_name = EMAIL_DIR_NAME
+    end
+
+    if attachment_dir_name.blank?
+      attachment_dir_name = EMAIL_ATTACHMENT_DIR_NAME
+    end
+
+    if export_file_name.blank?
+      export_file_name = EMAIL_EXPORT_FILE_NAME
+    end
+
+    email_dir_path = base_dir_path + '/' + email_dir_name
+    fail ArgumentError, 'The email folder does not exist!' unless File.directory? email_dir_path
+
+    attachment_dir_path = base_dir_path + '/' + attachment_dir_name
+    fail ArgumentError, 'The attachment folder does not exist!' unless File.directory? attachment_dir_path
+
+    export_file_path = base_dir_path + '/' + export_file_name
+    fail ArgumentError, 'The Aid4Mail export xml file does not exist!' unless File.file? export_file_path
+
+    fail 'A MyArchive activity does not exist!' unless Administration::Activity.where(activity: 'MyArchive').size != 0
+    return attachment_dir_name, email_dir_name, email_dir_path, export_file_path
   end
 
   # Creates Valhal folder related objects
@@ -126,7 +130,6 @@ class EmailIngestJob
       work.origin_date = ctime_iso8601.to_s
     end
 
-
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
     # A folder
@@ -153,11 +156,11 @@ class EmailIngestJob
     parent_folder_work = dir_works[parent_folder_path]
 
     parent_work = nil
-    if !parent_folder_work.nil?
+    if parent_folder_work.present?
       parent_work = Work.find(parent_folder_work)
     end
 
-    if !parent_work.nil?
+    if parent_work.present?
       work.is_part_of = parent_work
       parent_work.parts += [work]
 
@@ -281,7 +284,7 @@ class EmailIngestJob
     # Instance note == email body in plain text
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
-    if email_metadata.include?(pathname_without_suffix)
+    if email_metadata.has_key?(pathname_without_suffix)
       if !email_metadata[pathname_without_suffix]["body"].empty?
         body = email_metadata[pathname_without_suffix]["body"].to_s
         instance.note += [body]

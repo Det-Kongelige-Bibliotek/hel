@@ -8,7 +8,7 @@ describe 'Build dictionary' do
       @export_file_path = Pathname.new(Rails.root).join('spec', 'fixtures', 'email', 'Exports.xml')
       @base_dir_path= Pathname.new(Rails.root).join('spec', 'fixtures', 'email', 'Mails')
       @email_dir_path = "/Inbox/"
-      @file_name = "[Aid4Mail Trial tag #1] HDPIG call follow-up"
+      @file_name = "feea79579b7a8dd97cb7bf050780351c"
       @pathkey = @base_dir_path.to_s +  @email_dir_path + @file_name
       @email_metadata = EmailXMLIngest.email_xml_ingest(@export_file_path.to_s, @base_dir_path.to_s)
     end

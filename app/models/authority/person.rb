@@ -7,7 +7,7 @@ module Authority
     property :given_name, predicate: ::RDF::Vocab::SCHEMA.givenName, multiple: false do |index|
       index.as :stored_searchable
     end
-    property :email, predicate: ::RDF::Vocab::SCHEMA.email do |index|
+    property :email, predicate: ::RDF::Vocab::SCHEMA.email, multiple: true do |index|
       index.as :stored_searchable
     end
     property :birth_date, predicate: ::RDF::Vocab::SCHEMA.birthDate, multiple: false

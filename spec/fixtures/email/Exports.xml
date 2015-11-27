@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<Account>
 <Mailaccount>
-<Folder Name="Inbox">
-	<Message Mailbox="Inbox">
-		<Header>
-			<Date>2015-10-09 10:48:02</Date>
-			<FromName>Chris L Awre</FromName>
-			<FromAddr>C.Awre@hull.ac.uk</FromAddr>
-			<ReplyTo />
-			<To><![CDATA[Christen Hedegaard <chh@kb.dk>]]></To>
-			<Cc><![CDATA[Claus Jensen <cjen@kb.dk>]]></Cc>
-			<Bcc />
-			<Subject>[Aid4Mail Trial tag #1] HDPIG call follow-up</Subject>
-			<Priority>0</Priority>
-			<Flags>RE</Flags>
-			<MessageId><![CDATA[<FBF35FAD-5335-48C6-9C35-FCB7ED0C9CE5@hull.ac.uk>]]></MessageId>
-		</Header>
-		<Body>
+	<Folder Name="Inbox">
+		<Message Mailbox="Inbox">
+			<Header>
+				<Date>2015-10-09 10:48:02</Date>
+				<FromName>Chris L Awre</FromName>
+				<FromAddr>C.Awre@hull.ac.uk</FromAddr>
+				<ReplyTo />
+				<To><![CDATA[Christen Hedegaard <chh@kb.dk>]]></To>
+				<Cc><![CDATA[Claus Jensen <cjen@kb.dk>]]></Cc>
+				<Bcc />
+				<Subject>HDPIG call follow-up</Subject>
+				<Priority>0</Priority>
+				<Flags>RE</Flags>
+				<MessageId><![CDATA[<FBF35FAD-5335-48C6-9C35-FCB7ED0C9CE5@hull.ac.uk>]]></MessageId>
+			</Header>
+			<Body>
 <![CDATA[
 Christen/Claus,
 
@@ -41,11 +42,16 @@ Chris
 
 
 ]]>
-		</Body>
-		<Attachments>
+			</Body>
+			<Attachments>
 ATT00001.txt
-		</Attachments>
-	</Message>
-</Folder>
-
+			</Attachments>
+			<File>
+				<FileNameSubject>HDPIG call follow-up</FileNameSubject>
+				<FileNameMD5>feea79579b7a8dd97cb7bf050780351c</FileNameMD5>
+			</File>
+		</Message>
+	</Folder>
 </Mailaccount>
+
+</Account>

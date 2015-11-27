@@ -22,7 +22,7 @@ class EmailCreateAttachmentJob
 
     attachments_lines.each do |attachment|
       attach_dir_path = corresponding_email_dir_path.gsub(email_dir_name.to_s, attachment_dir_name.to_s)
-      pathname_attachment_file = Pathname.new(attach_dir_path) + Pathname.new(attachment)
+      pathname_attachment_file = Pathname(attach_dir_path).join(attachment)
 
       email_work = Work.find(email_work_id)
 

@@ -10,8 +10,8 @@ class EmailXMLIngest
   def self.email_xml_ingest(export_file_path, base_dir_path)
 
     # Has to add XML root tag as Aid4Mail wouldn't do that.
-    root_tag_begin = '<Mailaccount>'
-    root_tag_end = '</Mailaccount>'
+    root_tag_begin = '<Account>'
+    root_tag_end = '</Account>'
 
     File.open(export_file_path, 'r+') do |f|
       str = f.read
@@ -34,6 +34,11 @@ class EmailXMLIngest
 
     folders =  xml.css('Folder')
 
+    if folders.blank?
+      Resque.logger.error "The XML file #{export_file_path.to_s}  should contain folders"
+      fail "The XML file #{export_file_path.to_s}  should contain folders"
+    end
+
     email_metadata = Hash.new
 
     folders.each do |folder|
@@ -44,13 +49,29 @@ class EmailXMLIngest
 
       messages = folder.css('Message')
 
+      if messages.blank?
+        Resque.logger.error "The folders in XML file #{export_file_path.to_s}  should contain messages"
+        fail "The folders in XML file #{export_file_path.to_s}  should contain messages"
+      end
+
       messages.each do |message|
         header = message.css('Header')
 
-        subject = header.css('Subject')
-        subject_text = subject.text
+        if header.blank?
+          Resque.logger.error "The messages in XML file #{export_file_path.to_s}  should contain a header"
+          fail "The messages in XML file #{export_file_path.to_s}  should contain a header"
+        end
 
-        path_key = base_dir_path.to_s + "/" + folder_name.to_s + "/" + subject_text.to_s
+        filenamemd5 = message.css('FileNameMD5')
+
+        if filenamemd5.blank?
+          Resque.logger.error "The messages in XML file #{export_file_path.to_s}  should contain a file name MD5"
+          fail "The messages in XML file #{export_file_path.to_s}  should contain a file name MD5"
+        end
+
+        filenamemd5_text = message.css('FileNameMD5').inner_text
+
+        path_key = base_dir_path.to_s + "/" + folder_name.to_s + "/" + filenamemd5_text.to_s
 
         # Here good style would be to use symbols as keys instead of strings, however Resque and its JSON serialization
         # of parameters do not take kindly to symbols.
