@@ -11,16 +11,21 @@ ldap:
 test:
   application_url: test
 development:
-    application_url: WRITE_YOUR_APPLICATION_URL_HERE
-    fedora_url: WRITE_YOUR_FEDORA_URL_HERE
-    fedora_user: WRITE_YOUR_FEDORA_USER_HERE
-    fedora_passwd: WRITE_YOUR_FEDORA_PASSWORD_HERE
-    solr_url: WRITE_YOUR_SOLR_URL_HERE
-    secret_key_base: WRITE_YOUR_SECRET_KEY_HERE
+    application_url: http://<valhal-app-server>
+    fedora_url: http://<valhal-fedora-server>:8080/fedora/rest
+    fedora_user: fedoraAdmin
+    fedora_passwd: <FEDORA_PASSWORD>
+    solr_url: http://<valhal-solr-server>:8080/solr/blacklight-core
+    secret_key_base: <SECRET_KEY>
+    solr_url: http://sifd-hydra:8983/solr/development
+    bifrost_adl_solr_url: http://localhost:8984/solr/blacklight-core
 production:
-    application_url: WRITE_YOUR_APPLICATION_URL_HERE
-    fedora_url: WRITE_YOUR_FEDORA_URL_HERE
-    fedora_user: WRITE_YOUR_FEDORA_USER_HERE
-    fedora_passwd: WRITE_YOUR_FEDORA_PASSWORD_HERE
-    solr_url: WRITE_YOUR_SOLR_URL_HERE
-    secret_key_base: WRITE_YOUR_SECRET_KEY_HERE
+    application_url: http://<valhal-app-server>
+    fedora_url: http://<valhal-fedora-server>:8080/fedora/rest
+    fedora_user: fedoraAdmin
+    fedora_passwd: <FEDORA_PASSWORD>
+    solr_url: http://<valhal-solr-server>:8080/solr/blacklight-core
+    secret_key_base: <SECRET_KEY>
+    solr_url: http://sifd-hydra:8983/solr/development
+    bifrost_adl_solr_url: http://localhost:8984/solr/blacklight-core
+
