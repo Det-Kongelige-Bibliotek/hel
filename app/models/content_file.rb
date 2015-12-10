@@ -61,14 +61,19 @@ class ContentFile < ActiveFedora::Base
   # @param path external url to the file
   def add_external_file(path)
     file_name = Pathname.new(path).basename.to_s
-    mime_type = MIME::Types.type_for(file_name).first.content_type
 
     self.external_file_path = path
     file_object = File.new(path)
     set_file_timestamps(file_object)
-    self.checksum = generate_checksum(file_object)
     self.original_filename = file_name
-    self.mime_type = mime_type
+    if File.directory?(file_object)
+      mime_type = "inode/directory"
+      self.mime_type = mime_type
+    else
+      self.checksum = generate_checksum(file_object)
+      mime_type = MIME::Types.type_for(file_name).first.content_type
+      self.mime_type = mime_type
+    end
     self.size = file_object.size.to_s
     self.file_uuid = UUID.new.generate
     file_object.close

@@ -55,6 +55,8 @@ gem 'amq-protocol', '>= 2.0.0'
 gem 'isbn_validation'
 gem 'edtf'
 
+gem 'full-name-splitter'
+
 gem 'devise'
 gem 'devise-guests', "~> 0.3"
 gem 'devise_ldap_authenticatable'

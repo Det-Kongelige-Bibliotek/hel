@@ -124,7 +124,6 @@ PRESERVATION_STATES = Hash.new
 
 PRESERVATION_STATE_INVALID = {'error' => true, 'color' => 'yellow', 'text' => 'The current preservation state is invalid.'}
 
-
 #######################
 # PRESERVATION_IMPORT_STATES
 #######################
@@ -175,4 +174,18 @@ PRESERVATION_IMPORT_STATES = Hash.new
  PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE, PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED,
  PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE, PRESERVATION_IMPORT_DELIVERY_INITIATED, PRESERVATION_IMPORT_DELIVERY_FAILURE, PRESERVATION_IMPORT_FINISHED,
  PRESERVATION_IMPORT_FAILURE].each {|h| PRESERVATION_IMPORT_STATES.merge!(h)}
+
+#######################
+# Email ingest default arguments
+#######################
+
+EMAIL_DIR_NAME = 'Mails'
+EMAIL_ATTACHMENT_DIR_NAME = 'Attachments'
+EMAIL_EXPORT_FILE_NAME = 'Exports.xml'
+
+# unknown person or organisation name
+UNKNOWN_NAME = 'Ukendt'
+
+# unknown EDTF date
+UNKNOWN_EDTF_DATE = 'unknown/unknown'
 

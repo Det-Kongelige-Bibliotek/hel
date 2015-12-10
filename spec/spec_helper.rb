@@ -54,7 +54,7 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before :all do
-    ActiveRecord::Base.subclasses.each(&:delete_all)
+    #ActiveRecord::Base.subclasses.each(&:delete_all)
     # ActiveFedora::Base.subclasses.each(&:delete_all)
     a = Administration::Activity.create(
         "activity"=>"Trygforlæg",
