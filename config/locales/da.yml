@@ -366,6 +366,9 @@ da:
       number: "System nummer"
     creator:
       close: "Slet ophav"
+    email_ingest:
+      ingest: "Ingest e-mail"
+      email_path: "Angiv sti til e-mail folder"
     show:
       edit: "Rediger"
       titles: "Titler"
@@ -380,6 +383,14 @@ da:
       page_title: "Værk: "
       agent_relations: "Relaterede agenter"
       new_instance: "Ny instans"
+      ingest: "Ingest e-mail"
+      email_path: "Angiv sti til e-mail folder"
+      email_ingest_started: "Ingest af e-mail påbegyndt"
+      path_error: "En sti til en mappe der indeholder email data skal angives!"
+      mail_path_error: "E-mail folderen kunne ikke findes!"
+      attachment_path_error: "Attachment folderen kunne ikke findes!"
+      export_path_error: "Aid4Mail export xml filen eksistere ikke!"
+      myarchive_activity: "En MyArchive activitet blev ikke fundet!"
     subject_authority:
       close: "Slet emne"
     title:

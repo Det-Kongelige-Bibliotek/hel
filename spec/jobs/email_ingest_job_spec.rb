@@ -13,22 +13,34 @@ describe 'Ingest' do
                                                                                                             "read"=>["Chronos-NSA","Chronos-Admin"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}}
       )
 
-      @base_dir_path = Pathname.new(Rails.root).join('spec', 'fixtures', 'email').to_s
-      @email_dir_name = "Mails"
-      @attachment_dir_name = "Attachments"
-      @export_file_name = 'Exports.xml'
-      @email_dir_path = @base_dir_path.to_s + "/" + @email_dir_name
+      @base_dir_path = Pathname(Rails.root).join('spec', 'fixtures', 'email')
+      @email_dir_name = Pathname('Mails')
+      @attachment_dir_name = Pathname('Attachments')
+      @export_file_name = Pathname('Exports.xml')
+      @email_dir_path = @base_dir_path + @email_dir_name
 
-      @fake_base_dir_path = @base_dir_path + "Fake"
-      @fake_email_dir_name= "Nails"
-      @fake_attachment_dir_name = "Fattachments"
-      @fake_export_file_name = 'Fexports.xml'
+      @fake_base_dir_path = @base_dir_path + Pathname('Fake')
+      @fake_email_dir_name= Pathname('Nails')
+      @fake_attachment_dir_name = Pathname('Fattachments')
+      @fake_export_file_name = Pathname('Fexports.xml')
 
       @donor_forename = "Anders"
       @donor_surname = "Sand"
-      @donor_id = Authority::Person.find_or_create_person(@donor_forename, @donor_surname).id
+      @donor = Authority::Person.find_or_create_person(@donor_forename, @donor_surname)
+      @donor_id = @donor.id
 
-      EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name, @donor_id)
+      @parent_work = Work.new('origin_date'=>'1964')
+      @parent_work.add_title({'value'=> 'email'})
+      @parent_work.add_author(@donor)
+      @parent_work.save
+      @parent_work_id = @parent_work.id
+
+      EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
+                             @donor_id, @parent_work_id)
+
+      @inbox_folder = ContentFile.find_by_original_filename("Inbox")
+      @inbox_folder_instance =  @inbox_folder.instance
+      @inbox_folder_work = @inbox_folder_instance.work
 
       @email_file = ContentFile.find_by_original_filename("feea79579b7a8dd97cb7bf050780351c.msg")
       @email_instance = @email_file.instance
@@ -137,72 +149,77 @@ describe 'Ingest' do
       expect(@attachment_work.authors.first.family_name.to_s).not_to include "Sand"
     end
 
+    it 'Inbox Work has parent Work' do
+      expect(@parent_work.parts).to include @inbox_folder_work
+      expect(@inbox_folder_work.is_part_of).to eq @parent_work
+    end
+
     it 'should throw error, when given nil' do
       expect{EmailIngestJob.perform(nil, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.to raise_error(ArgumentError)
+                                 @donor_id, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, nil, @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
     it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, nil, @export_file_name,
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
 
     it 'should not throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, nil,
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
 
     it 'should throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 nil)}.to raise_error(ArgumentError)
+                                 nil, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when given an empty string' do
       expect{EmailIngestJob.perform('', @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.to raise_error(ArgumentError)
+                                 @donor_id, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should not throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, '', @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
     it 'should mot throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, '', @export_file_name,
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
 
     it 'should not throw error, when given an empty string' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, '',
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
 
     it 'should throw error, when @base_dir_path does not exist' do
       expect{EmailIngestJob.perform(@fake_base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.to raise_error(ArgumentError)
+                                 @donor_id, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when @email_dir_name does not exist' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @fake_email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.to raise_error(ArgumentError)
+                                 @donor_id, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when @attachment_dir_name does not exist' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @fake_attachment_dir_name, @export_file_name,
-                                 @donor_id)}.to raise_error(ArgumentError)
+                                 @donor_id, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when @export_file_name does not exist' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @fake_export_file_name,
-                                 @donor_id)}.to raise_error(ArgumentError)
+                                 @donor_id, @parent_work_id)}.to raise_error(ArgumentError)
     end
 
     it 'should not throw error' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
-                                 @donor_id)}.not_to raise_error
+                                 @donor_id, @parent_work_id)}.not_to raise_error
     end
   end
 end

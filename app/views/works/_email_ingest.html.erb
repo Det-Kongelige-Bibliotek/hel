@@ -1,0 +1,18 @@
+<div class="modal fade" id="email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel"><%= t('.ingest') %></h4>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(@work, url: email_works_path, html: { id: 'email' }) do |f| %>
+            <%= t('.email_path') %>
+            <%= f.hidden_field :id, value: @work.id %>
+            <input name="epath"/>
+            <%= f.button :button, t('.ingest'), class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Handle actions on Works
 class WorksController < ApplicationController
-  before_action :set_work, only: [:show, :edit, :update, :destroy]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :email]
   authorize_resource
 
   # GET /works
@@ -65,6 +65,60 @@ class WorksController < ApplicationController
     redirect_to new_work_path
   end
 
+  # Email ingesting
+  def email
+    base_dir_path = params[:epath]
+
+    errors = []
+
+    if base_dir_path.blank?
+      errors << [I18n.t('works.show.path_error')]
+    end
+    logger.info "base_dir_path: #{base_dir_path}"
+
+    email_dir_name = EMAIL_DIR_NAME
+    attachment_dir_name = EMAIL_ATTACHMENT_DIR_NAME
+    export_file_name = EMAIL_EXPORT_FILE_NAME
+
+    email_dir_path = base_dir_path + '/' + email_dir_name
+    unless File.directory? email_dir_path
+      errors << [I18n.t('works.show.mail_path_error')]
+    end
+    logger.info "email_dir_path: #{email_dir_path}"
+
+    attachment_dir_path = base_dir_path + '/' + attachment_dir_name
+    unless File.directory? attachment_dir_path
+      errors << [I18n.t('works.show.attachment_path_error')]
+    end
+    logger.info "attachment_dir_path: #{attachment_dir_path}"
+
+    export_file_path = base_dir_path + '/' + export_file_name
+    unless File.file? export_file_path
+      errors << [I18n.t('works.show.export_path_error')]
+    end
+    logger.info "export_file_path: #{export_file_path}"
+
+    unless Administration::Activity.where(activity: 'MyArchive').size != 0
+      errors << [I18n.t('works.show.myarchive_activity')]
+    end
+
+    unless errors.empty?
+      flash[:error] = errors.join(" ")
+      redirect_to @work
+      return
+    end
+
+    person_id = @work.related_agents('aut').first.id
+    logger.info "person_id: #{person_id}"
+
+    work_id = @work.id
+    logger.info "work_id: #{work_id}"
+
+    Resque.enqueue(EmailIngestJob, base_dir_path, '', '', '', person_id, work_id)
+
+    redirect_to @work, notice: t('works.show.email_ingest_started')
+  end
+
   # PATCH/PUT /works/1
   # PATCH/PUT /works/1.json
   def update
@@ -107,7 +161,13 @@ class WorksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_work
-    @work = Work.find(URI.unescape(params[:id]))
+    logger.info "setting work: #{params[:work]} or #{params[:id]}"
+    if params[:work].present?
+      @work = Work.find(URI.unescape(params[:work][:id]))
+    else
+      @work = Work.find(URI.unescape(params[:id]))
+    end
+    logger.info "found work: #{@work}"
   end
 
   # special whitelist for when we're importing from Aleph
