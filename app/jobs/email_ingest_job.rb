@@ -79,21 +79,13 @@ class EmailIngestJob
       export_file_name = EMAIL_EXPORT_FILE_NAME
     end
 
-    base_dir_path = Pathname(base_dir_path)
-    email_dir_name = Pathname(email_dir_name)
-    attachment_dir_name = Pathname(attachment_dir_name)
-    export_file_name = Pathname(export_file_name)
-
-    email_dir_path = base_dir_path + email_dir_name
-    #email_dir_path = base_dir_path + '/' + email_dir_name
+    email_dir_path = base_dir_path + '/' + email_dir_name
     fail ArgumentError, 'The email folder does not exist!' unless File.directory? email_dir_path
 
-    attachment_dir_path = base_dir_path + attachment_dir_name
-    #attachment_dir_path = base_dir_path + '/' + attachment_dir_name
+    attachment_dir_path = base_dir_path + '/' + attachment_dir_name
     fail ArgumentError, 'The attachment folder does not exist!' unless File.directory? attachment_dir_path
 
-    export_file_path = base_dir_path + export_file_name
-    #export_file_path = base_dir_path + '/' + export_file_name
+    export_file_path = base_dir_path + '/' + export_file_name
     fail ArgumentError, 'The Aid4Mail export xml file does not exist!' unless File.file? export_file_path
 
     fail 'A MyArchive activity does not exist!' unless Administration::Activity.where(activity: 'MyArchive').size != 0
