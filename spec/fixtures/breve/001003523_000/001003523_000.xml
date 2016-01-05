@@ -12,57 +12,6 @@
       </publicationStmt>
       <sourceDesc>
         <bibl/>
-
-	<listPlace>
-	  <place xml:id="qwertyfasd">
-	    <placeName>Paris, Hotel Violet, passage
-	    Violet
-	    <geo>N 48° 51' 31'' E 2° 20' 45''</geo>
-	    </placeName>
-	  </place>
-	</listPlace>
-	<listPerson>
-	  <person xml:id="imyourfather">
-	    <persName ref="http://example.kb.dk/agent/uosdfqwerqwerqwe">
-	      <surname>Cohen-Brandes</surname>, <forename>Herman</forename>,
-	      <date from="1816-06-20" to="1904-08-06">f. 20/6 1816, d. 6/8
-	      1904</date>
-	    </persName>
-	  </person>
-	  <person xml:id="imyourmother">
-	    <persName ref="http://example.kb.dk/agent/qwerqwerqwe">
-	      <surname>Bendix</surname>, <forename>Emilie</forename>, <date
-	      from="1818-03-22" to="1898-12-27">f. 22/3 1818, d. 27/12
-	      1898</date>
-	    </persName>
-	  </person>
-	  <person xml:id="imgeorge">
-	    <persName ref="http://viaf.org/viaf/4938982/">
-		<surname>Brandes</surname>, <forename>Georg</forename>,
-		<date from="1842" to="1927">1842-1927</date>
-	    </persName>
-	  </person>
-	</listPerson>
-
-	<listBibl>
-	  <bibl xml:id="bibL0010035230000002">
-
-	    <location type="sender" sameAs="#qwertyfasd"  xml:id="violetparis"/>
-	    <date xml:id="dateparis" when="1870-04-10">10. April</date>
-
-	    <respStmt xml:id="senderparis">
-	      <resp>sender</resp>
-	      <name sameAs="#imgeorge"/>
-	    </respStmt>
-
-	    <respStmt xml:id="recipientparis">
-	      <resp>recipient</resp>
-	      <name sameAs="#imyourfather"/>
-	      <name sameAs="#imyourmother"/>
-	    </respStmt>
-
-	  </bibl>
-	</listBibl>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
@@ -158,9 +107,8 @@ Middag Kl. 3½.</head>
         <p>Din <persName type="sender">Georg</persName>.</p>
       </div>
       <pb n="17" facs="images/001003523_000/001003523_000_0025.jpg"/>
-      <div n="2" xml:id="L0010035230000002" xml:lang="da-Dk" decls="#bibL0010035230000002">
-        <head><geogName sameAs="#violetparis">Paris, Hotel Violet, passage
-	Violet</geogName>.<lb/><date sameAs="#dateparis">10. April</date> Form.</head>
+      <div n="2" xml:id="L0010035230000002" xml:lang="da-Dk">
+        <head><geogName>Paris, Hotel Violet, passage Violet</geogName>.<lb/><date>10. April</date> Form.</head>
         <p>Jeg takker jer tusinde Gange for jere Breve som jeg for nogle Timer siden fik. Jeg er iøvrigt som fortumlet og forvirret af Reiseriet og den anspændte Opm. jeg har behøvet for idag at finde mig omkring i den <pb n="18" facs="images/001003523_000/001003523_000_0026.jpg"/>uvante Larm og de lange Gader, at jeg neppe kan skrive sammenhængende. Jeg kom hertil igaar aftes 9, mit Pas har ved begge Grændser sikret mig mod Koffertens Aabning, jeg tog ind her, fordi Daus<note n="1)" anchored="true">Daus, hamborgsk Købmandsfamilie, der en Aarrække havde boet i Mexiko.</note> anbefalede mig Hotellet, men er ei fornøiet, skjøndt her er rent. Alt er forbandet dyrt i Paris. Jeg gik saa idag til Mlle Dorré<note n="2)" anchored="true">Mile Dorré, den unge, forældreløse Pige, Louise Dorré, hos hvem Georg Brandes havde taget Franskundervisning paa sin første Visit i Seinestaden („Levnedˮ I, S. 194 ff.), og som han stadig ved livlig Brevvexling havde holdt Forbindelsen vedlige med. G. B. lod inden Ankomsten sin Post sende til hendes Adresse.</note> og fik Brevene. Hun var ikke lidt forandret og jeg linder hende mindre kjøn end før. Jeg gik skjøndt overtræt af den utaalelige 27 Timers Kjørsel ud inat paa Gaden at see om det stod endnu. Paris er næsten aldeles uforandret siden jeg var her. jeg veed ei om jeg havde ventet at Notre Dame skulde være flyttet, men vist er det at Alt synes mig til min Skuffelse som før. Alle Huse de samme næsten, paa hvert Sted. Saa gik jeg til V. Thomsen<note n="3)" anchored="true">V. Thomsen, vor geniale Filolog, Vilhelm Thomsen (1842—1927), Brandes' jævnaldrende Ungdomsven, der siden sin Doktordisputats (1869) havde opholdt sig udenlands. Venskabet var i Ungdomsaarene gensidigt meget varmt. I Studentertiden saas de saa godt som hver Dag (jfr. i Georg Brandes’ „Ungdomsvers‟ S. 61—63, det smukke Digt „Ved en Vens Afrejse‟, der er skrevet til Vilh. Thomsen — og ikke, som man fejlagtigt har troet, til Julius Lange —, da han i 1867 tiltraadte en Rejse til Finland, og Artiklen om V. T. i ,,Centauren‟, Studenternes Kalender for 1895, S. 38—43 — optrykt med adskillige Udeladelser og Rettelser „S. S.‟ II og „Danmark‟ II, samt Vilh. T.’s „Nogle Minder fra min Studentertid‟ i „Minder fra Studenterdagene‟, redig. af Erik Rindum, S. 113—14, 1924).<lb/>
 Senere, efter Brandes’ Optræden herhjemme i 1871, kølnedes Venskabet noget, skønt de altid bevarede en Følelse af oprigtig Sympati for hinanden (se bl. a. Vilh. Thomsens Udtalelser i „Nationaltidende‟ 3. Febr. 1912 og „Berlingske Tidende‟ 20. Febr. 1927).</note>, der var gaaet ud. Jeg skrev 2 Ord. Jeg er meget fornøiet med mit 3 Dages Ophold i Hamborg. Jeg har der modtaget en Luftning af et større Liv, som jeg ei havde ventet at finde. Man finder der europæiske Synsmaader, som ere større end dem hjemme og har forbauset mig. Hertil henregner jeg især den Betragtning, at unge Mænd først og fremmest bør komme saa vidt, at de kunne ernære sig selv og det rigeligt og overflødigt; kunne de ei det, maae de reise ud og prøve deres Lykke andensteds. Intet har længe slaaet mig mere end et Udtryk Anna Gowa brugte, at de unge Mænds Liv i Kjøbenhavn frembød „l’apparence chétive“ [et ynkeligt skue]; jeg søgte at vise hende den sørgelige Nødvendighed af, at det var som det var; men hun har temmelig godt overbevist mig om, i hvor høi Grad alle hjemme mangle Foretagelsesaand, og jeg tilføier, fordi det uhyre Pres af den almindelige Slaphed og den politiske Svaghed uden at vi ane det berøver os alle Dristigheden og Heldet.</p>
         <p>2</p>
@@ -171,7 +119,7 @@ Senere, efter Brandes’ Optræden herhjemme i 1871, kølnedes Venskabet noget, 
         <p>Vil I gjøre mig den Tjeneste, for de Penge som Ernst<note n="6)" anchored="true">Ernst, G. B.’s yngre Bror — se S. 16.</note> har af mine, at betale de Regninger jeg har hos Skomager og Skrædder o. s. v. i Kjøbenhavn, da jeg klart vil vide hvad jeg har til Reisen, og jeg tilstaaer man giver mange Penge ud paa en Reise. Dette at skulle betale hvert lille Maaltid dyrt sluger meget. Desværre er der en halv Mil mellem Thomsen og mig som vi nu boe, men vi flytte vel hinanden nærmere. Man siger mig at den nye Bog af Taine om Intelligentsens Natur udkommer imorgen. Hos Dorrés kommer et ungt papistisk Uhyre ved Navn Ernest Hello<note n="7)" anchored="true">Ernest Hello (1828—85), katolsk Forfatter og Polemiker, Medarbejder ved det romersksindede Blad „L’Univers‟.</note>, af hvem Mlle Dorré har sendt mig nogle elendige Skrifter, som nok brænder efter at overfalde mig med sit Vaas. Jeg gyser for ham, jeg skal spise til Middag der paa Tirsdag og Mlle Dorré (den gamle)<note n="8)" anchored="true">den gamle, Frk. Louise boede hos sin Tante.</note> er rent dum. Jeg beder jer sende jere Breve til Mlle Dorré, da jeg ei veed om jeg bliver her.</p>
         <p>Jeg er rask, jeg sov som en Sten inat, ligeledes i Hamborg, og feiler Intet. Jeg drikker ikke Vand og skal nok sørge for min Sundhed.</p>
         <p>Hils alle.</p>
-        <p>Eders <persName type="sender" sameAs="#senderparis">Georg</persName>.</p>
+        <p>Eders <persName type="sender">Georg</persName>.</p>
         <postscript>
           <p>Her er meget varmere end i Kbh.</p>
           <p>[Paa en løs lap fgl. linier kradset ned med blyant]:</p>
