@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/Det-Kongelige-Bibliotek/valhal.png?branch=master)](https://travis-ci.org/Det-Kongelige-Bibliotek/valhal)
 
 == VALHAL. Digital Curation Platform
 === Part of Chronos - The Royal Librarys 'Digital Library Platform'
