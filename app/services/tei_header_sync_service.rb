@@ -29,25 +29,6 @@ class TeiHeaderSyncService
       parameters["last#{i}"]  = aut[:family]
     end
 
-    #
-    # This didn't work very well. Leave it here as a memo for the time being
-    #
-    #   myfuncs = Class.new do
-    #      def family
-    #        @alist.first[:family]
-    #        "mongrel"
-    #      end
-    #      def given
-    #        @alist.first[:given]
-    #      end
-    #    end
-    #    
-    #    Nokogiri::XSLT.register "http://example.com/functions", myfuncs
-    #
-
-    # here we do the same for the titles. should rethink this if we find sub
-    # titles in ADL (which we will do if we look for them)
-
     work.titles.each_with_index do |tit,i|
       parameters["title#{i}"]          = tit.value
       parameters["title_lang#{i}"]     = tit.language
