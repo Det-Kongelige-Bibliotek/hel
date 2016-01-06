@@ -1,4 +1,4 @@
-class LetterVolumeIngest
+class LetterBookIngest
 
   @queue = :letter_volume_ingest
 
