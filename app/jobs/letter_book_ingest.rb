@@ -1,6 +1,6 @@
 class LetterBookIngest
 
-  @queue = :letter_volume_ingest
+  @queue = :letter_book_ingest
 
   def self.perform(dir_path)
     # get sysnumber based on path
@@ -38,8 +38,8 @@ class LetterBookIngest
 
     tei_id = ingest_tei_file(pathname, instance_tei)
     ingest_jpg_files(pathname, instance_jpg)
-    Resque.logger.info "Letter Volume #{pathname.basename.to_s} imported with id #{work.id}"
-    Resque.enqueue(LetterVolumeSplitter, work.id, tei_id)
+    Resque.logger.info "Letter Book #{pathname.basename.to_s} imported with id #{work.id}"
+#    Resque.enqueue(LetterBookSplitter, work.id, tei_id)
   end
 
   # Find TEI file
