@@ -1,0 +1,26 @@
+<% @page_title = @letter_book.display_value %>
+<% @instance ||= @letter_book.instances.first %>
+<div class="work previewMode">
+  <div class="container">
+      <div class="btn-group pull-right">
+        <%= link_to t(:edit), edit_letter_book_path(@letter_book), class: 'btn btn-primary' %>
+      </div>
+
+      <h1>
+        <%= @letter_book.display_value %><br>
+      </h1>
+
+      <h3><%= t('letter_books.show.titles') %></h3>
+
+    <% if @letter_book.titles.size > 0 %>
+        <h4>
+          <%= @letter_book.titles.first.value %><br>
+          <small><%= @letter_book.titles.first.subtitle %></small>
+        </h4>
+    <% end %>
+  </div>
+  <%#= render partial: 'relators/show', locals: { object: @mixed_material } %>
+  <h4><%= t('letter_books.show.origin_date') %></h4>
+  <%= @letter_book.origin_date %>
+</div>
+

@@ -215,6 +215,7 @@ da:
     authority_organization: 'Organisation'
     mixed_material: Arkiv
     mixedmaterial: Arkiv
+    letter_book: Brevbog :)
 
   roles:
     aut: 'Forfatter'
@@ -471,3 +472,11 @@ da:
     form:
       new_person: "Opret ny person"
       author: "Ophav"
+
+  letter_books:
+      edit:
+        header: "Redigerer %{model}"
+        save: "Gem"
+      show:
+        titles: "Titler"
+        origin_date: "Oprindelsesdato"

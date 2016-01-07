@@ -1,0 +1,16 @@
+<%# This is necessary to use the instance partials in this context as they depend on @instance being defined %>
+<% @instance ||= @letter_book.instances.first %>
+<div class="instans container">
+  <div class="page-header">
+    <h1><%= header %></h1>
+  </div>
+
+  <%= simple_form_for @letter_book do |f| %>
+
+      <%= render  partial: 'works/simple_title',  locals: { builder: f } %>
+      <%= f.input :origin_date %>
+
+      <%= f.submit t('letter_books.edit.save'), class: 'btn btn-lg btn-success' %>
+  <% end %>
+
+</div>
