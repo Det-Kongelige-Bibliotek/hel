@@ -8,9 +8,20 @@ class LetterBookIngest
     sysnum = pathname.basename.to_s.split('_')[0]
 
     # get metadata from Aleph
-    work = ConversionService.work_from_aleph('sys', sysnum)
-    instance_tei = ConversionService.instance_from_aleph('sys', sysnum)
-    instance_jpg = ConversionService.instance_from_aleph('sys', sysnum)
+
+    mods = ConversionService.aleph_to_mods('sys', sysnum)
+
+    # make a letter_book
+
+    lb = LetterBook.new_letterbook({},{})
+
+    lb.save
+
+    instance_tei = lb.get_instance("TEI")
+    instance_jpg = lb.get_instance("TIFF")
+
+    instance_tei.from_mods(mods)
+    instance_jpg.from_mods(mods)
 
     # create Valhal objects
     fail "Work could not be saved #{work.errors.messages}" unless work.save
@@ -18,19 +29,14 @@ class LetterBookIngest
     activity = Administration::Activity.where(activity: 'Danmarks Breve').first
     fail 'Activity Danmarks Breve not defined!' unless activity.present?
 
-
-    instance_tei.work = work
-    instance_tei.type = 'TEI'
-    instance_tei.activity = activity.id
+    instance_tei.activity   = activity.id
     instance_tei.collection = activity.collection
-    instance_tei.copyright = activity.copyright
+    instance_tei.copyright  = activity.copyright
     instance_tei.preservation_collection = activity.preservation_collection
 
-    instance_jpg.work = work
-    instance_jpg.type = 'JPG'
-    instance_jpg.activity = activity.id
+    instance_jpg.activity   = activity.id
     instance_jpg.collection = activity.collection
-    instance_jpg.copyright = activity.copyright
+    instance_jpg.copyright  = activity.copyright
     instance_jpg.preservation_collection = activity.preservation_collection
 
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
