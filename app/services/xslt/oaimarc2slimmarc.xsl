@@ -126,13 +126,17 @@
 	</xsl:element>
       </xsl:if>
 
-      <xsl:if test="subfield[@label = '4']">
-	<xsl:element name="marc:subfield">
-	  <xsl:attribute name="code">4</xsl:attribute>
-	  <xsl:value-of select="subfield[@label = '4']"/>
-	</xsl:element>
-      </xsl:if>
-
+      <xsl:choose>
+	<xsl:when test="subfield[@label = '4']">
+	  <xsl:element name="marc:subfield">
+	    <xsl:attribute name="code">4</xsl:attribute>
+	    <xsl:value-of select="subfield[@label = '4']"/>
+	  </xsl:element>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:element name="marc:subfield"><xsl:attribute name="code">4</xsl:attribute>aut</xsl:element>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:element>
 
   </xsl:template>
