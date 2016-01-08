@@ -22,11 +22,10 @@ class LetterBookIngest
 
     lb.from_mods(mods)
     instance_tei.from_mods(mods)
-    instance_tif.from_mods(mods)
+    instance_img.from_mods(mods)
 
-    # create Valhal objects
-    fail "Work could not be saved #{work.errors.messages}" unless work.save
-    # create tei and img instances
+    # create Valhal objects 
+
     activity = Administration::Activity.where(activity: 'Danmarks Breve').first
     fail 'Activity Danmarks Breve not defined!' unless activity.present?
 
@@ -40,16 +39,15 @@ class LetterBookIngest
     instance_img.copyright  = activity.copyright
     instance_img.preservation_collection = activity.preservation_collection
 
+    fail "Work could not be saved #{lb.errors.messages}" unless lb.save 
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
     fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
     lb.add_tei_file(pathname)
 
-    tei_id = ingest_tei_file(pathname, instance_tei)
+    # ingest_img_files(pathname, instance_img)
 
-    ingest_img_files(pathname, instance_img)
-
-    Resque.logger.info "Letter Book #{pathname.basename.to_s} imported with id #{work.id}"
+    Resque.logger.info "Letter Book #{pathname.basename.to_s} imported with id #{lb.id}"
 #    Resque.enqueue(LetterBookSplitter, work.id, tei_id)
   end
 
