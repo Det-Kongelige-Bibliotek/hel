@@ -13,7 +13,7 @@ class LetterBooksController < ApplicationController
   end
 
   def update
-    if @letter_book.update_work(work_params)
+    if @letter_book.update_work(work_params) && @letter_book.update_instances(instance_params)
       flash[:notice] =  t(:model_updated, model: t('models.letter_book'))
     end
     respond_with @letter_book
@@ -30,7 +30,7 @@ class LetterBooksController < ApplicationController
   end
 
   def instance_params
-
+    params[:letter_book][:instance].permit( :edition, :note)
   end
 
 end
