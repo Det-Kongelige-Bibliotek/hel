@@ -49,6 +49,7 @@ class LetterBookIngest
 
     Resque.logger.info "Letter Book #{pathname.basename.to_s} imported with id #{lb.id}"
 #    Resque.enqueue(LetterBookSplitter, work.id, tei_id)
+    lb.id
   end
 
  

@@ -38,7 +38,11 @@ describe 'ingest a letter_book' do
 
   describe 'tei file' do
     it 'it should read an xml file' do 
-      LetterBookIngest.perform("spec/fixtures/breve/001003523_000/001003523_000.xml")
+      lb_id=LetterBookIngest.perform("spec/fixtures/breve/001003523_000/001003523_000.xml")
+      puts lb_id
+      lb = Work.find(lb_id)
+      puts lb.title_values.first
+      expect(lb.title_values.first).to include 'Georg Brandes'
     end
   end
 
