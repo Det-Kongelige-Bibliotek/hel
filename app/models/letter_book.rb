@@ -41,4 +41,10 @@ class LetterBook < Work
     end
     inst
   end
+
+  def to_solr(solr_doc = {})
+    solr_doc.merge!(super)
+    Solrizer.insert_field(solr_doc, 'cat', 'letterbook', :stored_searchable)
+  end
+
 end
