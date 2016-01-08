@@ -192,6 +192,8 @@ da:
         manuscripts: Håndskrifter
         music_manuscripts: Musikhåndskrifter
         images: Billeder
+        edition: Udgave
+        note: Bemærkninger
     placeholders:
       defaults:
         value: Titel eller label
@@ -474,9 +476,12 @@ da:
       author: "Ophav"
 
   letter_books:
-      edit:
-        header: "Redigerer %{model}"
-        save: "Gem"
-      show:
-        titles: "Titler"
-        origin_date: "Oprindelsesdato"
+    edit:
+      header: "Redigerer %{model}"
+      save: "Gem"
+    title: "Title"
+    origin_date: "Oprindelsesdato"
+    place: "Sted"
+    publisher: "Forlag"
+    notes: "Bemærkninger"
+    edition: "Udgave"

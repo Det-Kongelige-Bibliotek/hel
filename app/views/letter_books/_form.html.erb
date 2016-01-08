@@ -7,8 +7,13 @@
 
   <%= simple_form_for @letter_book do |f| %>
 
-      <%= render  partial: 'works/simple_title',  locals: { builder: f } %>
+      <%= render partial: 'works/simple_title', locals: {builder: f} %>
+
       <%= f.input :origin_date %>
+      <%= f.simple_fields_for @letter_book.get_instance('TEI') do |instance_fields| %>
+          <%= instance_fields.input :edition %>
+          <%= instance_fields.input :note %>
+      <% end %>
 
       <%= f.submit t('letter_books.edit.save'), class: 'btn btn-lg btn-success' %>
   <% end %>
