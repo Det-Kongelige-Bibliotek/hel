@@ -20,7 +20,7 @@ Ruby version 2.0
 
 Rails version 4.1.6
 
-Fedora Commons version 3.7.1 (http://fedorarepository.org/)
+Fedora Commons version 4.1.0 or better (http://fedorarepository.org/)
 
 Apache Solr version 4.10.x (http://lucene.apache.org/solr/)
 
