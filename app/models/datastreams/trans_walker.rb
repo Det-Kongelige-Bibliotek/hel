@@ -83,7 +83,7 @@ module Datastreams
 
       pub = Authority::Organization.find_or_create(_name: mods.publisher.first)
       self.add_publisher(pub)
-
+      self.publisher_place(mods.originPlace)
 
     end
   end
