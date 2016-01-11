@@ -391,6 +391,9 @@ da:
       attachment_path_error: "Attachment folderen kunne ikke findes!"
       export_path_error: "Aid4Mail export xml filen eksistere ikke!"
       myarchive_activity: "En MyArchive activitet blev ikke fundet!"
+      has: "Har"
+      parts: "del(e)"
+      is_part_of: "Er del af"
     subject_authority:
       close: "Slet emne"
     title:

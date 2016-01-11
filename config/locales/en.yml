@@ -50,6 +50,9 @@ en:
       attachment_path_error: "The attachment folder does not exist!"
       export_path_error: "The Aid4Mail export xml file does not exist!"
       myarchive_activity: "A MyArchive activity does not exist!"
+      has: "Has"
+      parts: "part(s)"
+      is_part_of: "Is part of"
     email_ingest:
       ingest: "Ingest email"
       email_path: "Write path to email folder"

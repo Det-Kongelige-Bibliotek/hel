@@ -28,14 +28,14 @@ class EmailXMLIngest
     xml = Nokogiri::XML(File.open(export_file_path))
 
     if !xml.errors.empty?
-      Resque.logger.error "Error in XML file: #{export_file_path.to_s} - Error was: #{xml.errors.to_s}"
+      logger.error "Error in XML file: #{export_file_path.to_s} - Error was: #{xml.errors.to_s}"
       fail "Error in XML file: #{export_file_path.to_s} - Error was: #{xml.errors.to_s}"
     end
 
     folders =  xml.css('Folder')
 
     if folders.blank?
-      Resque.logger.error "The XML file #{export_file_path.to_s}  should contain folders"
+      logger.error "The XML file #{export_file_path.to_s}  should contain folders"
       fail "The XML file #{export_file_path.to_s}  should contain folders"
     end
 
@@ -50,7 +50,7 @@ class EmailXMLIngest
       messages = folder.css('Message')
 
       if messages.blank?
-        Resque.logger.error "The folders in XML file #{export_file_path.to_s}  should contain messages"
+        logger.error "The folders in XML file #{export_file_path.to_s}  should contain messages"
         fail "The folders in XML file #{export_file_path.to_s}  should contain messages"
       end
 
@@ -58,14 +58,14 @@ class EmailXMLIngest
         header = message.css('Header')
 
         if header.blank?
-          Resque.logger.error "The messages in XML file #{export_file_path.to_s}  should contain a header"
+          logger.error "The messages in XML file #{export_file_path.to_s}  should contain a header"
           fail "The messages in XML file #{export_file_path.to_s}  should contain a header"
         end
 
         filenamemd5 = message.css('FileNameMD5')
 
         if filenamemd5.blank?
-          Resque.logger.error "The messages in XML file #{export_file_path.to_s}  should contain a file name MD5"
+          logger.error "The messages in XML file #{export_file_path.to_s}  should contain a file name MD5"
           fail "The messages in XML file #{export_file_path.to_s}  should contain a file name MD5"
         end
 
@@ -89,8 +89,9 @@ class EmailXMLIngest
                                       "flags" => header.css('Flags').inner_text,
                                       "messageId" => header.css('MessageId').inner_text,
                                       "body" => message.css('Body').inner_text,
-                                      "attachments" => message.css('Attachments').inner_text
-
+                                      "attachments" => message.css('Attachments').inner_text,
+                                      "attachmentsFullPath" => message.css('AttachmentsFullPath').inner_text,
+                                      "attachmentsFileNames" => message.css('AttachmentsFileNames').inner_text
                                   }
                               })
       end

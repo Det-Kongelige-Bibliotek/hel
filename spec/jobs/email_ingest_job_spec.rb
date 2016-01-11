@@ -12,6 +12,7 @@ describe 'Ingest' do
                                                        "edit"=>["Chronos-Admin"] }}, "instance"=>{"group"=>{"discover"=>["Chronos-Alle"],
                                                                                                             "read"=>["Chronos-NSA","Chronos-Admin"], "edit"=>["Chronos-NSA","Chronos-Admin"]}}}
       )
+
       @base_dir_path = Pathname.new(Rails.root).join('spec', 'fixtures', 'email').to_s
       @email_dir_name = "Mails"
       @attachment_dir_name = "Attachments"

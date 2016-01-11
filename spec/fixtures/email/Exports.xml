@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Account>
-<Mailaccount>
 	<Folder Name="Inbox">
 		<Message Mailbox="Inbox">
 			<Header>
@@ -46,12 +45,18 @@ Chris
 			<Attachments>
 ATT00001.txt
 			</Attachments>
+			<AttachmentsFullPath>P:\Tmp\V\Inbox\Attachments\Inbox\</AttachmentsFullPath>
+			<AttachmentsFileNames>
+<![CDATA[
+P:\Tmp\V\Inbox\Attachments\Inbox\ATT00001.txt	ATT00001.txt
+
+]]>
+			</AttachmentsFileNames>
 			<File>
 				<FileNameSubject>HDPIG call follow-up</FileNameSubject>
 				<FileNameMD5>feea79579b7a8dd97cb7bf050780351c</FileNameMD5>
 			</File>
 		</Message>
 	</Folder>
-</Mailaccount>
-
 </Account>
+

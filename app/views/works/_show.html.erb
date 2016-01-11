@@ -71,7 +71,7 @@
 
       <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <%= "Er del af" %>
+          <%= I18n.t('works.show.is_part_of') %>
           <% if @work.is_part_of.present? %>
               <span class="caret"></span>
           <% end %>
@@ -85,7 +85,7 @@
 
       <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <%= "Har #{@work.parts.size} del(e)" %>
+          <%= I18n.t('works.show.has') +" #{@work.parts.size} " + I18n.t('works.show.parts') %>
           <% if @work.parts.present? %>
               <span class="caret"></span>
           <% end %>

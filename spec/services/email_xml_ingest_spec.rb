@@ -39,6 +39,14 @@ describe 'Build dictionary' do
       expect(@email_metadata[@pathkey]["attachments"]).not_to be_nil
     end
 
+    it 'should have attachmentsFullPath felt' do
+      expect(@email_metadata[@pathkey]["attachmentsFullPath"]).not_to be_nil
+    end
+
+    it 'should have attachmentsFileNames felt' do
+      expect(@email_metadata[@pathkey]["attachmentsFileNames"]).not_to be_nil
+    end
+
     it 'should include email header information containing a non-empty string' do
       expect(@email_metadata[@pathkey]["date"]).not_to be_empty
       expect(@email_metadata[@pathkey]["fromName"]).not_to be_empty
@@ -82,6 +90,14 @@ describe 'Build dictionary' do
 
     it 'should include specific email attachments information' do
       expect(@email_metadata[@pathkey]["attachments"]).to include("ATT00001.txt")
+    end
+
+    it 'should include specific attachmentsFullPath information' do
+      expect(@email_metadata[@pathkey]["attachmentsFullPath"]).to include("P:")
+    end
+
+    it 'should include specific attachmentsFileNames information' do
+      expect(@email_metadata[@pathkey]["attachmentsFileNames"]).to include("ATT00001.txt")
     end
   end
 end
