@@ -15,8 +15,11 @@ class LetterBooksController < ApplicationController
   def update
     if @letter_book.update_work(work_params) && @letter_book.update_instances(instance_params)
       flash[:notice] =  t(:model_updated, model: t('models.letter_book'))
+    else
+      flash[:error] =  t(:model_update_failed, model: t('models.letter_book'))
     end
-    respond_with @letter_book
+    # respond_with @letter_book
+    redirect_to solr_document_path(@letter_book)
   end
 
   private
