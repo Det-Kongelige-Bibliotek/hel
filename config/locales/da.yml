@@ -25,8 +25,14 @@ da:
   model_created: "%{model} blev oprettet"
   model_updated: "%{model} blev opdateret"
   model_creation_failed: "%{model} kunne ikke gemmes"
+  model_update_failed: "%{model} kunne ikke opdateres"
   blacklight:
     application_name: 'Valhal'
+    search:
+      bookmarks:
+        present: "In Bookmarks"
+        absent: "Bookmark"
+        inprogress: "Saving..."
   activefedora:
     errors:
       messages:
