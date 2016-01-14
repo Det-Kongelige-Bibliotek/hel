@@ -14,10 +14,10 @@ class ContentFile < ActiveFedora::Base
 
   contains "fileContent"
 
-  # Adds a content datastream to the object as an external managed file in
+  # Adds a content datastream to the object as an externally managed file in
   # fedore
   #
-  # @param path external url to the firl
+  # @param path external url to the file
 
   before_save :set_rights_metadata
 
