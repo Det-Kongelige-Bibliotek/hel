@@ -158,6 +158,9 @@ class CatalogController < ApplicationController
     def sms_mappings
       {}
     end
+    # This overwrites the default blacklight way of adding a tool partial
+    config.add_show_tools_partial :citation, if: false
+
   end
 
 
