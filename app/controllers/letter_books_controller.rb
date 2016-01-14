@@ -5,7 +5,7 @@ class LetterBooksController < ApplicationController
   respond_to :html
 
   def show
-
+    redirect_to solr_document_path(@letter_book)
   end
 
   def edit
