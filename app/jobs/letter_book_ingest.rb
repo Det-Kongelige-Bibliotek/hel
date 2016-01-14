@@ -2,10 +2,11 @@ class LetterBookIngest
 
   @queue = :letter_book_ingest
 
-  def self.perform(dir_path)
+  def self.perform(dir_path,img_path)
     # get sysnumber based on path
-    pathname = Pathname.new(dir_path)
-    sysnum = pathname.basename.to_s.split('_')[0]
+    xml_pathname = Pathname.new(dir_path)
+    img_pathname = Pathname.new(img_path)
+    sysnum = xml_pathname.basename.to_s.split('_')[0]
 
     # get metadata from Aleph
 
@@ -43,11 +44,11 @@ class LetterBookIngest
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
     fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
-    lb.add_tei_file(pathname)
+    lb.add_tei_file(xml_pathname)
 
-    # ingest_img_files(pathname, instance_img)
+    ingest_img_files(img_pathname, instance_img)
 
-    Resque.logger.info "Letter Book #{pathname.basename.to_s} imported with id #{lb.id}"
+    Resque.logger.info "Letter Book #{xml_pathname.basename.to_s} imported with id #{lb.id}"
 #    Resque.enqueue(LetterBookSplitter, work.id, tei_id)
     lb.id
   end
@@ -60,7 +61,7 @@ class LetterBookIngest
     images_path = pathname.children.select {|c| c.directory?}.first
     fail "No subdirectory found in directory #{pathname}" if images_path.nil?
     img_paths = images_path.children.select {|c| c.to_s.include?('.jpg') }
-    fail "No jpg file found in directory #{images_path}" if jpg_paths.nil?
+    fail "No jpg file found in directory #{images_path}" if img_paths.nil?
     img_paths.each do |path|
       c_img = ContentFile.new
       c_img.add_external_file(path.expand_path.to_s)
