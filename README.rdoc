@@ -45,45 +45,41 @@ In the config directory, create an application.local.yml file based on the appli
 
 Run RabbitMQ on default port - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
 
-$ bundle install
-
-$ rake db:migrate
-
-$ rake jetty:clean
+ $ bundle install
+ $ rake db:migrate
+ $ rake jetty:clean
 
 Before using the Valhal interface it can be an advantage to load the set of predefined controlled lists by:
 
-$ rake valhal:load_controlled_lists
-
-$ rake adl:init
+ $ rake valhal:load_controlled_lists
+ $ rake adl:init
 
 === Run
 
 Start Redis (must be running in a separate terminal or as a background job):
 
-$ cd REDIS_HOME (where ever you have installed redis)
-
-$ ./src/redis-server
+ $ cd REDIS_HOME (where ever you have installed redis)
+ $ ./src/redis-server
 
 Start fedora and solr:
 
-$ rake jetty:start
+ $ rake jetty:start
 
 Start the workflow engine (must be running in a separate terminal or as a background job):
 
-$ rake resque:work QUEUE='*'
+ $ rake resque:work QUEUE='*'
 
 Start a job for receiving responses from preservation (does not require its own terminal):
 
-$ rake valhal:schedule_preservation_receiver
+ $ rake valhal:schedule_preservation_receiver
 
 The interface can be started on localhost:3000 by:
 
-$ rails server
+ $ rails server
 
 The tests can be run by:
 
-$ rake spec
+ $ rake spec
 
 === Stopping Valhal
 
@@ -91,7 +87,7 @@ Stop the rails server by using "ctrl-c" in the terminal running "rails server".
 
 then stop the jetty application with:
 
-$ rake jetty:stop
+ $ rake jetty:stop
 
 === More information
 
