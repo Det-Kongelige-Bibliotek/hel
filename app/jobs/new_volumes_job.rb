@@ -1,7 +1,9 @@
 ##
-# Job that search for new scanned books (containing letters) and creates an ingestjop
+# Job that search for new scanned books (containing letters) and creates an
+# ingest job
 # xml files should be placed in #{path}/xml
-# at least a pdf file #{path}/#{basename}/#{basename}.pdf" and at least on jpg file should be present before an ingest jop is created
+# at least a pdf file #{path}/#{basename}/#{basename}.pdf" and at least on jpg
+# file should be present before an ingest jop is created
 ##
 
 require "redis"

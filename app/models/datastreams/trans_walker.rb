@@ -28,10 +28,18 @@ module Datastreams
 
       mods.person.nodeset.each do |p|
         ns = p.namespace.href
-        family = p.xpath('mods:namePart[@type="family"]','mods'=>ns).text.delete("\n").delete("\t")
-        given  = p.xpath('mods:namePart[@type="given"]','mods'=>ns).text.delete("\n").delete("\t")
-        full  = p.xpath('mods:namePart','mods'=>ns).text.delete("\n").delete("\t")
-        date   = p.xpath('mods:namePart[@type="date"]','mods'=>ns).text
+
+        family = p.xpath('mods:namePart[@type="family"]',
+                         'mods'=>ns).text.delete("\n").delete("\t")
+
+        given  = p.xpath('mods:namePart[@type="given"]',
+                         'mods'=>ns).text.delete("\n").delete("\t")
+
+        full   = p.xpath('mods:namePart',
+                         'mods'=>ns).text.delete("\n").delete("\t")
+
+        date   = p.xpath('mods:namePart[@type="date"]',
+                         'mods'=>ns).text
 
         if family.present? || given.present?
           author = Authority::Person.new(given_name: given, family_name: family)
@@ -86,7 +94,5 @@ module Datastreams
 
 
     end
-
-    
   end
 end
