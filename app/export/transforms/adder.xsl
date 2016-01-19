@@ -2,6 +2,8 @@
 <xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                xmlns:t="http://www.tei-c.org/ns/1.0"
                exclude-result-prefixes="t"
+	       xmlns:str="http://exslt.org/strings"
+               extension-element-prefixes="str"
                version="1.0">
 
   <!-- not a poisonous adder -->
@@ -174,7 +176,8 @@
       </xsl:element>
       <xsl:element name="field">
         <xsl:attribute name="name">work_title_tesim</xsl:attribute>
-        <xsl:value-of select="$volume_title"/>
+        <!-- xsl:value-of select="$volume_title"/ -->
+        <xsl:call-template name="get_volume_title"/>
       </xsl:element>
     	<xsl:call-template name="add_globals" />
     </doc>
@@ -208,7 +211,8 @@
 
     <xsl:element name="field">
       <xsl:attribute name="name">volume_title_tesim</xsl:attribute>
-      <xsl:value-of select="$volume_title"/>
+      <!-- xsl:value-of select="$volume_title"/ -->
+      <xsl:call-template name="get_volume_title"/>
     </xsl:element>
 
     <xsl:if test="t:head|../t:head">
@@ -220,12 +224,14 @@
 
     <xsl:element name="field">
       <xsl:attribute name="name">author_name</xsl:attribute>
-      <xsl:value-of select="$author"/>
+      <!-- xsl:value-of select="$author"/ -->
+      <xsl:call-template name="get_author"/>
     </xsl:element>
 
     <xsl:element name="field">
       <xsl:attribute name="name">author_id_ssi</xsl:attribute>
       <xsl:value-of select="$author_id"/>
+      <xsl:call-template name="get_author_id"/>
     </xsl:element>
 
     <xsl:element name="field">
@@ -243,26 +249,29 @@
       <xsl:value-of select="$editor_id"/>
     </xsl:element>
 
-    <xsl:if test="$publisher">
+
       <xsl:element name="field">
         <xsl:attribute name="name">publisher_ssi</xsl:attribute>
-        <xsl:value-of select="$publisher"/>
+        <!-- xsl:value-of select="$publisher"/ -->
+	<xsl:call-template name="get_publisher"/>
       </xsl:element>
-    </xsl:if>
 
-    <xsl:if test="$published_date">
+
+
       <xsl:element name="field">
         <xsl:attribute name="name">published_date_ssi</xsl:attribute>
-        <xsl:value-of select="$published_date"/>
+        <!-- xsl:value-of select="$published_date"/ -->
+        <xsl:call-template name="get_published_date"/>
       </xsl:element>
-    </xsl:if>
 
-    <xsl:if test="$published_place">
+
+
       <xsl:element name="field">
         <xsl:attribute name="name">published_place_ssi</xsl:attribute>
-        <xsl:value-of select="$published_place"/>
+        <!-- xsl:value-of select="$published_place"/ -->
+        <xsl:call-template name="get_published_place"/>
       </xsl:element>
-    </xsl:if>
+
 
     <xsl:element name="field">
       <xsl:attribute name="name">position_isi</xsl:attribute>
@@ -313,5 +322,121 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+  <xsl:template name="get_author_id">
+    <xsl:choose>
+      <xsl:when test="$author_id">
+	<xsl:value-of select="$author_id"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:variable name="myid">
+	  <xsl:call-template name="get_author"/>
+	</xsl:variable>
+	<xsl:value-of select="str:encode-uri($myid,'')"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_author">
+    <xsl:choose>
+      <xsl:when test="$author">
+	<xsl:value-of select="$author"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:choose>
+	  <xsl:when test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:author/t:name">
+	    <xsl:value-of 
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:author/t:name/t:surname"/><xsl:text>, </xsl:text><xsl:value-of 
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:author/t:name/t:forename"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:value-of
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:titleStmt/t:author"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_volume_title">
+    <xsl:choose>
+      <xsl:when test="$volume_title">
+	<xsl:value-of select="$volume_title"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:choose>
+	  <xsl:when
+	      test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:title">
+	    <xsl:for-each
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:title">
+	      <xsl:value-of select="."/>
+	      <xsl:if test="position() &lt; last()">; </xsl:if>
+	    </xsl:for-each>
+	  </xsl:when>
+	</xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_publisher">
+    <xsl:choose>
+      <xsl:when test="$publisher">
+	<xsl:value-of select="$publisher"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:choose>
+	  <xsl:when
+	      test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]">
+	    <xsl:for-each
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:publisher">
+	      <xsl:value-of select="."/>
+	      <xsl:if test="position() &lt; last()">; </xsl:if>
+	    </xsl:for-each>
+	  </xsl:when>
+	</xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_published_place">
+    <xsl:choose>
+      <xsl:when test="$published_place">
+	<xsl:value-of select="$published_place"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:for-each select="/t:TEI
+			      /t:teiHeader
+			      /t:fileDesc
+			      /t:sourceDesc
+			      /t:bibl
+			      /t:pubPlace">
+	  <xsl:value-of select="."/>
+	  <xsl:if test="position() &lt; last()">; </xsl:if>
+	</xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_published_date">
+    <xsl:choose>
+      <xsl:when test="$published_date">
+	<xsl:value-of select="$published_date"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:choose>
+	  <xsl:when
+	      test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]">
+	    <xsl:for-each
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:date">
+	      <xsl:value-of select="."/>
+	      <xsl:if test="position() &lt; last()">; </xsl:if>
+	    </xsl:for-each>
+	  </xsl:when>
+	</xsl:choose>
+      </xsl:otherwise>
+
+    </xsl:choose>
+  </xsl:template>
+
 
 </xsl:transform>
