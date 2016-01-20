@@ -4,7 +4,7 @@
                exclude-result-prefixes="t"
 	       xmlns:str="http://exslt.org/strings"
 	       xmlns:crypto="http://exslt.org/crypto"
-               extension-element-prefixes="str"
+               extension-element-prefixes="str crypto"
                version="1.0">
 
   <!-- not a poisonous adder -->
