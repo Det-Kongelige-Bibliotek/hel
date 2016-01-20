@@ -344,10 +344,23 @@
       </xsl:when>
       <xsl:otherwise>
 	<xsl:choose>
-	  <xsl:when test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:author/t:name">
-	    <xsl:value-of 
-		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:author/t:name/t:surname"/><xsl:text>, </xsl:text><xsl:value-of 
-		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl[t:author]/t:author/t:name/t:forename"/>
+	  <xsl:when
+	      test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:author/t:name">
+	    <xsl:for-each
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc
+			/t:bibl
+			/t:author
+			/t:name/t:surname
+			|
+			/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc
+			/t:bibl[t:author]
+			/t:author
+			/t:name
+			/t:forename">
+	      <xsl:value-of select="."/><xsl:if test="position() &lt; last()">
+	      <xsl:text>, </xsl:text>
+	    </xsl:if>
+	    </xsl:for-each>
 	  </xsl:when>
 	  <xsl:otherwise>
 	    <xsl:value-of
