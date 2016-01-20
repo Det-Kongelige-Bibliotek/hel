@@ -3,6 +3,7 @@
                xmlns:t="http://www.tei-c.org/ns/1.0"
                exclude-result-prefixes="t"
 	       xmlns:str="http://exslt.org/strings"
+	       xmlns:crypto="http://exslt.org/crypto"
                extension-element-prefixes="str"
                version="1.0">
 
@@ -332,7 +333,7 @@
 	<xsl:variable name="myid">
 	  <xsl:call-template name="get_author"/>
 	</xsl:variable>
-	<xsl:value-of select="str:encode-uri($myid,'')"/>
+	<xsl:value-of select="crypto:md5($myid)"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -346,20 +347,20 @@
 	<xsl:choose>
 	  <xsl:when
 	      test="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:bibl/t:author/t:name">
-	    <xsl:for-each
-		select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc
-			/t:bibl
-			/t:author
-			/t:name/t:surname
-			|
-			/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc
-			/t:bibl[t:author]
-			/t:author
-			/t:name
-			/t:forename">
-	      <xsl:value-of select="."/><xsl:if test="position() &lt; last()">
-	      <xsl:text>, </xsl:text>
-	    </xsl:if>
+	      <xsl:for-each
+		  select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc
+			  /t:bibl
+			  /t:author
+			  /t:name/t:surname
+			  |
+			  /t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc
+			  /t:bibl[t:author]
+			  /t:author
+			  /t:name
+			  /t:forename">
+		<xsl:value-of select="."/><xsl:if test="position() &lt; last()">
+		<xsl:text>, </xsl:text>
+	      </xsl:if>
 	    </xsl:for-each>
 	  </xsl:when>
 	  <xsl:otherwise>
