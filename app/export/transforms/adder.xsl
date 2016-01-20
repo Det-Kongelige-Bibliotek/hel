@@ -387,6 +387,12 @@
 	      <xsl:if test="position() &lt; last()">; </xsl:if>
 	    </xsl:for-each>
 	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:for-each
+		select="/t:TEI/t:teiHeader/t:fileDesc/t:titleStmt/t:title">
+	      <xsl:value-of select="."/>	      
+	    </xsl:for-each>
+	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
