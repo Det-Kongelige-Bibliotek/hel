@@ -13,6 +13,7 @@
       </a>
     </div>
     <div class="navbar-collapse collapse">
+    <%= render partial: '/user_util_links' %>
     <%= render partial: '/shared/user_dropdown' %>
     <%= render partial: '/shared/create_dropdown' %>
     <%= render partial: '/shared/administration_dropdown' if current_user  %>

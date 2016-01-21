@@ -6,7 +6,7 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
   include Hydra::Controller::ControllerBehavior
   # These before_filters apply the hydra access controls
-  before_filter :enforce_show_permissions, :only=>:show
+  #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
@@ -32,7 +32,7 @@ class CatalogController < ApplicationController
 
     def wanted_models
       rule = "has_model_ssim: ("
-      models = [Work, Authority::Person, MixedMaterial, Authority::Organization]
+      models = [Work, Authority::Person, MixedMaterial, Authority::Organization, LetterBook]
       rule + models.join(' OR ').gsub(':', '\:') + ')'
     end
 
@@ -152,6 +152,15 @@ class CatalogController < ApplicationController
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
     config.spell_max = 5
+
+    # This overwrites the default blacklight sms_mappings so that
+    # the sms tool is not shown.
+    def sms_mappings
+      {}
+    end
+    # This overwrites the default blacklight way of adding a tool partial
+    config.add_show_tools_partial :citation, if: false
+
   end
 
 

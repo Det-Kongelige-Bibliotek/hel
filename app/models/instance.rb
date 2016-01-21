@@ -23,6 +23,7 @@ class Instance < ActiveFedora::Base
   property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
   property :system_number, predicate: ::RDF::Vocab::Bibframe.systemNumber, multiple: false
   property :copyright_date, predicate: ::RDF::Vocab::Bibframe.copyrightDate, multiple: false
+  property :edition, predicate: ::RDF::Vocab::Bibframe.edition, multiple: false
 
   belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
