@@ -41,4 +41,11 @@ class LetterBook < Work
     end
     inst
   end
+
+  def to_solr(solr_doc = {})
+    solr_doc.merge!(super)
+    solr_doc['cat_ssi'] = 'letterbook'
+    solr_doc
+  end
+
 end
