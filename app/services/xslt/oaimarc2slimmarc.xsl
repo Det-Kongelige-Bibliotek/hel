@@ -9,6 +9,8 @@
 
   <xsl:param name="pdfUri"  select="'http://example.com/mock-file.pdf'" />
 
+  <!-- http://biblstandard.dk/kat/konv_danmarc2_to_marc21.htm -->
+
   <xsl:output method="xml"
 	      indent="yes"
 	      encoding="UTF-8" />
@@ -99,7 +101,7 @@
 	<xsl:value-of select="@i1"/>
       </xsl:attribute>
       <xsl:attribute name="ind2">
-	<xsl:value-of select="@i1"/>
+	<xsl:value-of select="@i2"/>
       </xsl:attribute>
       <xsl:attribute name="tag">
 	<xsl:value-of select="@id"/>
@@ -113,6 +115,8 @@
 	</xsl:element>
       </xsl:if>
 
+      <xsl:call-template name="name-content" />
+
       <xsl:if test="subfield[@label='k']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">q</xsl:attribute>
@@ -122,6 +126,17 @@
 	</xsl:element>
       </xsl:if>
 
+      <xsl:choose>
+	<xsl:when test="subfield[@label = '4']">
+	  <xsl:element name="marc:subfield">
+	    <xsl:attribute name="code">4</xsl:attribute>
+	    <xsl:value-of select="subfield[@label = '4']"/>
+	  </xsl:element>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:element name="marc:subfield"><xsl:attribute name="code">4</xsl:attribute>aut</xsl:element>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:element>
 
   </xsl:template>
@@ -432,6 +447,14 @@
       <xsl:attribute name="tag">700</xsl:attribute>
 
       <xsl:call-template name="name-content" />
+
+      <xsl:if test="subfield[@label = '4']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">4</xsl:attribute>
+	  <xsl:value-of select="subfield[@label = '4']"/>
+	</xsl:element>
+      </xsl:if>
+
 
     </xsl:element>
   </xsl:template>

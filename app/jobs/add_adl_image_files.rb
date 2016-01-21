@@ -1,10 +1,12 @@
 require 'resque'
 
 
-# Resque job: Given a TEI file add tiff-file to at equivalent TIFF instance for each pb
+# Resque job: Given a TEI file add tiff-file to at equivalent TIFF instance
+# for each pb
 # param content_file_id: PID of the TEI ContentFile object
 # param base_dir: where the tiff files are located on the filesystem
-# base_dir should contain a file 'file_list.text' with a list of all the TEI files
+# base_dir should contain a file 'file_list.text' with a list of all the TEI
+# files
 # for now we use the filename as 'facs' ID
 # TODO: include facs ids in file_list
 
