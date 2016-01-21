@@ -6,16 +6,16 @@ gem 'rails', '>= 4.1.6'
 
 # Using this branch until bugfix makes it into hydra / AF master
 # See https://github.com/projecthydra/active_fedora/pull/781
-gem 'active-fedora', '>= 9.1.2'
+gem 'active-fedora'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'uuid'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer'
 
@@ -26,11 +26,11 @@ gem 'jquery-rails'
 gem 'jquery-validation-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'hydra', '>= 9.1.0.rc1'
-gem 'hydra-file_characterization', '~> 0.3.1'
+gem 'hydra', '9.1.0.rc1'
+gem 'hydra-file_characterization'
 gem 'simple_form'
 gem 'lograge'
 
@@ -58,7 +58,7 @@ gem 'edtf'
 gem 'full-name-splitter'
 
 gem 'devise'
-gem 'devise-guests', "~> 0.3"
+#gem 'devise-guests'
 gem 'devise_ldap_authenticatable'
 
 
@@ -99,7 +99,7 @@ group :test do
 end
 
 #logging start
-gem 'log4r', '1.1.10'
+gem 'log4r'
 gem 'quiet_assets'
 gem 'filesize', '>= 0.1.1'
 #logging end
