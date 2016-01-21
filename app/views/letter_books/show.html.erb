@@ -1,0 +1,29 @@
+<% @page_title = @letter_book.display_value %>
+<% @instance ||= @letter_book.instances.first %>
+<div class="work previewMode">
+  <div class="container">
+    <div class="btn-group pull-right">
+      <%= link_to t(:edit), edit_letter_book_path(@letter_book), class: 'btn btn-primary' %>
+    </div>
+
+    <h1>
+      <%= @letter_book.display_value %><br>
+    </h1>
+
+    <h4><%= t('letter_books.title') %></h4>
+
+    <% if @letter_book.titles.size > 0 %>
+
+        <%= @letter_book.titles.first.value %><br>
+        <small><%= @letter_book.titles.first.subtitle %></small>
+
+    <% end %>
+    <h4><%= t('letter_books.origin_date') %></h4>
+    <%= @letter_book.origin_date %>
+    <h4><%= t('letter_books.edition') %></h4>
+    <%= @instance.edition %>
+    <h4><%= t('letter_books.notes') %></h4>
+    <%= @instance.note %>
+  </div>
+</div>
+

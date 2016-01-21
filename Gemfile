@@ -79,6 +79,7 @@ group :development, :test do
   gem 'linkeddata'
   gem 'cucumber-rails', require: false
   gem 'launchy'
+  gem 'xray-rails'
 end
 
 

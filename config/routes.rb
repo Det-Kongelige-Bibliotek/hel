@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
 
   resources :mixed_materials
+  resources :letter_books
 
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do

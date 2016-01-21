@@ -1,0 +1,22 @@
+<%# This is necessary to use the instance partials in this context as they depend on @instance being defined %>
+<% @letter_book ||= LetterBook.find(id) %>
+<% @instance ||= @letter_book.instances.first %>
+<div id="instans">
+  <!--<div class="page-header">-->
+    <!--<h1><%#= header %></h1>-->
+  <!--</div>-->
+
+  <%= simple_form_for @letter_book do |f| %>
+
+      <%= render partial: 'works/simple_title', locals: {builder: f} %>
+
+      <%= f.input :origin_date %>
+      <%= f.simple_fields_for @letter_book.get_instance('TEI') do |instance_fields| %>
+          <%= instance_fields.input :edition %>
+          <%= instance_fields.input :note %>
+      <% end %>
+
+      <%= f.submit t('letter_books.edit.save'), class: 'btn btn-lg btn-success' %>
+  <% end %>
+
+</div>
