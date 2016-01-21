@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                xmlns:t="http://www.tei-c.org/ns/1.0"
-               exclude-result-prefixes="t"
+               exclude-result-prefixes="t str crypto"
 	       xmlns:str="http://exslt.org/strings"
 	       xmlns:crypto="http://exslt.org/crypto"
                extension-element-prefixes="str crypto"
