@@ -6,7 +6,9 @@ class Ability
 
     if user_groups.include?('Chronos-Alle')
       can [:create], Work
-      can [:create], Authority::Thing
+      can [:create], Authority::Organization
+      can [:create], Authority::Person
+
     end
 
     if user_groups.include?('Chronos-Admin')
@@ -32,10 +34,6 @@ class Ability
       test_edit(cf.id)
     end
 
-   can [:update, :edit], Authority::Thing do |p|
-     test_edit(p.id)
-   end
-
     can [:send_to_preservation, :update_adminstration], Instance do |obj|
       test_edit(obj.id)
     end
@@ -50,7 +48,13 @@ class Ability
     end
 
     if (user_groups & ['Chronos-Alle']).present?
+      can [:edit], Authority::Person
       can [:viaf], Authority::Person
+    end
+
+    if (user_groups & ['Chronos-Alle']).present?
+      can [:edit], Authority::Organization
+      can [:viaf], Authority::Organization
     end
   end
 end
