@@ -390,6 +390,7 @@ da:
       mail_path_error: "E-mail folderen kunne ikke findes!"
       attachment_path_error: "Attachment folderen kunne ikke findes!"
       export_path_error: "Aid4Mail export xml filen eksistere ikke!"
+      accumulated_errors: "Der skete følgende fejl i forbindelse med ingest af e-mails:"
       myarchive_activity: "En MyArchive activitet blev ikke fundet!"
       has: "Har"
       parts: "del(e)"

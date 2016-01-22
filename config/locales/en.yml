@@ -49,6 +49,7 @@ en:
       mail_path_error: "The email folder does not exist!"
       attachment_path_error: "The attachment folder does not exist!"
       export_path_error: "The Aid4Mail export xml file does not exist!"
+      accumulated_errors: "The following errors occurred while attempting to ingest emails:"
       myarchive_activity: "A MyArchive activity does not exist!"
       has: "Has"
       parts: "part(s)"

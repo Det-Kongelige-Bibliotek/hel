@@ -53,10 +53,6 @@ describe 'Ingest' do
       @folder_work = @email_work.is_part_of
     end
 
-    after :all do
-      # Do nothing as spec_helper should do the cleaning when the test is run again.
-    end
-
     it 'should create email Work with title "HDPIG call follow-up" ' do
       expect(Finder.works_by_title("HDPIG call follow-up").size).to be >= 1
     end
@@ -176,6 +172,11 @@ describe 'Ingest' do
     it 'should throw error, when given nil' do
       expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
                                  nil, @parent_work_id)}.to raise_error(ArgumentError)
+    end
+
+    it 'should throw error, when given nil' do
+      expect{EmailIngestJob.perform(@base_dir_path.to_s, @email_dir_name, @attachment_dir_name, @export_file_name,
+                                    @donor_id, nil)}.to raise_error(ArgumentError)
     end
 
     it 'should throw error, when given an empty string' do

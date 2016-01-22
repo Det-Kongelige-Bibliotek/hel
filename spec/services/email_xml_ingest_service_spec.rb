@@ -10,7 +10,7 @@ describe 'Build dictionary' do
       @email_dir_path = "/Inbox/"
       @file_name = "feea79579b7a8dd97cb7bf050780351c"
       @pathkey = @base_dir_path.to_s +  @email_dir_path + @file_name
-      @email_metadata = EmailXMLIngest.email_xml_ingest(@export_file_path.to_s, @base_dir_path.to_s)
+      @email_metadata = EmailXMLIngestService.email_xml_ingest(@export_file_path.to_s, @base_dir_path.to_s)
     end
 
     it 'should have builded the dictionary' do

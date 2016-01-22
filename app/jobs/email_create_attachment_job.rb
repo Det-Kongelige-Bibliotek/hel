@@ -16,8 +16,6 @@ class EmailCreateAttachmentJob
   def self.perform(corresponding_email_dir_path, email_dir_name, attachment_dir_name,
       email_metadata, dirs_works, email_work_id, email_work_path_without_suffix)
 
-    #attachments_text = email_metadata[email_work_path_without_suffix]["attachments"].to_s
-
     attachmentsFullPath = email_metadata[email_work_path_without_suffix]["attachmentsFullPath"].to_s
 
     attachments_text = email_metadata[email_work_path_without_suffix]["attachmentsFileNames"].to_s

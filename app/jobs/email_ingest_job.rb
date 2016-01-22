@@ -18,10 +18,10 @@ class EmailIngestJob
   def self.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, donor_id, work_id)
 
     attachment_dir_name, email_dir_name, email_dir_path, export_file_path =
-        initialize_validate(attachment_dir_name, base_dir_path, donor_id, email_dir_name, export_file_name)
+        initialize_validate(attachment_dir_name, base_dir_path, donor_id, work_id, email_dir_name, export_file_name)
 
     # Extract metadata from Aid4Mail XML file
-    email_metadata = EmailXMLIngest.email_xml_ingest(export_file_path, email_dir_path)
+    email_metadata = EmailXMLIngestService.email_xml_ingest(export_file_path, email_dir_path)
 
     dirs_works = Hash.new
 
@@ -60,12 +60,14 @@ class EmailIngestJob
     end
   end
 
-  def self.initialize_validate(attachment_dir_name, base_dir_path, donor_id, email_dir_name, export_file_name)
+  def self.initialize_validate(attachment_dir_name, base_dir_path, donor_id, work_id, email_dir_name, export_file_name)
     fail ArgumentError, 'A path, without trailing slash, to a folder containing data should be given' if base_dir_path.blank?
 
     fail ArgumentError, 'The folder containing data does not exist!' unless File.directory? base_dir_path
 
     fail ArgumentError, 'The Person id of the donor of the email account should be given' if donor_id.nil?
+
+    fail ArgumentError, 'The work id of the for parent work should be given' if work_id.nil?
 
     if email_dir_name.blank?
       email_dir_name = EMAIL_DIR_NAME
