@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 4.1.6'
+#gem 'rails', '>= 4.2.5'
 
 # Using this branch until bugfix makes it into hydra / AF master
 # See https://github.com/projecthydra/active_fedora/pull/781
@@ -104,5 +105,5 @@ gem 'quiet_assets'
 gem 'filesize', '>= 0.1.1'
 #logging end
 
-gem 'authority', :path=>'/home/dgj/RubymineProjects/authority'
+gem 'authority', :path=>'/home/nkh/authority'
 
