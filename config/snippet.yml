@@ -1,0 +1,18 @@
+development:
+  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/snippet/
+  get_snippet_script: present.xq
+  collection: letter_books
+  image_server_prefix: http://kb-images.kb.dk/public/
+  feedback_mail: fejlrapportering@adl.dk
+test:
+  snippet_server_url: http://disdev-01.kb.dk/storage/snippet/
+  get_snippet_script: present.xq
+  collection: letter_books
+  image_server_prefix: http://kb-images.kb.dk/public/
+  feedback_mail: fejlrapportering@adl.dk
+production:
+  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/snippet/
+  get_snippet_script: present.xq
+  collection: letter_books
+  image_server_prefix: http://kb-images.kb.dk/public/
+  feedback_mail: fejlrapportering@adl.dk
