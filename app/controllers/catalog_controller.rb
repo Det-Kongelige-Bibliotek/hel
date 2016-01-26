@@ -30,6 +30,18 @@ class CatalogController < ApplicationController
       solr_parameters[:fq] << wanted_models
     end
 
+    # method to serve up XML OpenSearch description and JSON autocomplete response
+    def opensearch
+      respond_to do |format|
+        format.xml do
+          render :layout => false
+        end
+        format.json do
+          render :json => get_opensearch_response
+        end
+      end
+    end
+
     def wanted_models
       rule = "has_model_ssim: ("
       models = [Work, Authority::Person, MixedMaterial, Authority::Organization, LetterBook]
