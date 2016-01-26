@@ -6,7 +6,7 @@
             <strong><%= "Udgiver" %></strong>
           </td>
           <td>
-              <strong><%= link_to provider.agent.display_value, provider.agent rescue nil %></strong>
+              <strong><%= link_to provider.agent._name, authority.organization_path(provider.agent.id) rescue nil %></strong>
             </td>
         </tr>
     <% end %>
