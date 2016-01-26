@@ -3,6 +3,7 @@ class SnippetServer
   def self.render_snippet(id,opts={})
     a =id.split("#")
     uri  = "#{Rails.application.config_for(:snippet)["snippet_server_url"]}"
+    uri += "#{opts[:project]}" if opts[:project].present?
     uri += "#{Rails.application.config_for(:snippet)["get_snippet_script"]}"
     uri += "?doc=#{a[0]}.xml"
     uri += "&id=#{a[1]}" unless a.size < 2
@@ -30,6 +31,11 @@ class SnippetServer
     end
 
     result.html_safe.force_encoding('UTF-8')
+  end
+
+  def self.solrize(id,opts={})
+    opts[:op] = 'solrize'
+    SnippetServer.render_snippet(id, opts)
   end
 
   def self.toc(id,opts={})
