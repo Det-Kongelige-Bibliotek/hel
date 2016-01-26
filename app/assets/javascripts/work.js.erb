@@ -178,7 +178,7 @@ $(document).ready(function(){
 
     $(".upload-file-form").on('submit',function(event){ButtonClicked();return true});
 
-    enableAgentTypeahead($(":root"));
+    enableAuthorityTypeahead($(":root"));
 
     //When submitting the form the check_upload_file function is called to check if a content file is uploaded
    $("#new_instance").on('submit',function(event){
@@ -332,12 +332,12 @@ function ButtonClicked() {
 
 // Authority Typeahead functionallity
 function enableAuthorityTypeahead(obj) {
-    obj.find('[data-function="authority-typahead"]').not(".tt-input").not(".tt-hint").each(function(){
+    obj.find('[data-function="authority-typeahead"]').not(".tt-input").not(".tt-hint").each(function(){
         $(this).authority_typeahead({model: $(this).attr('data-model')});
     });
 }
 
 function disableAuthorityTypeahead(obj) {
-    obj.find('[data-function="authority-typahead"]').not(".tt-input").not(".tt-hint").authority_typeahead({remove: true});
+    obj.find('[data-function="authority-typeahead"]').not(".tt-input").not(".tt-hint").authority_typeahead({remove: true});
 }
 
