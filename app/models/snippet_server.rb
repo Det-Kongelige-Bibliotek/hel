@@ -87,7 +87,7 @@ class SnippetServer
           File.join(Rails.root,'app/export/transforms/preprocess.xsl'))
    doc = Nokogiri::XML.parse(xml_source) { |config| config.strict }
    rdoc = xslt.transform(doc)
-   return rdoc
+   rdoc
   end
 
 
