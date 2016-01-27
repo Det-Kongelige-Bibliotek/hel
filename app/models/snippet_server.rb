@@ -1,18 +1,15 @@
 # Class to centralise inteface with SnippetServer
 class SnippetServer
-  def self.render_snippet(id,opts={})
-    a =id.split("#")
-    uri  = "#{Rails.application.config_for(:snippet)["snippet_server_url"]}"
-    uri += "#{opts[:project]}" if opts[:project].present?
-    uri += "#{Rails.application.config_for(:snippet)["get_snippet_script"]}"
-    uri += "?doc=#{a[0]}.xml"
-    uri += "&id=#{a[1]}" unless a.size < 2
-    uri += "&op=#{opts[:op]}" if opts[:op].present?
-    uri += "&c=#{opts[:c]}" if opts[:c].present?
-    uri += "&prefix=#{opts[:prefix]}" if opts[:prefix].present?
-    Rails.logger.debug("snippet url #{uri}")
 
-    #res = Net::HTTP.get_response(URI(uri))
+  def self.snippet_server_url
+    "#{Rails.application.config_for(:snippet)["snippet_server_url"]}"
+  end
+
+  def self.get_snippet_script
+    "#{Rails.application.config_for(:snippet)["get_snippet_script"]}"
+  end
+
+  def self.get(uri)
     uri = URI.parse(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
@@ -31,6 +28,43 @@ class SnippetServer
     end
 
     result.html_safe.force_encoding('UTF-8')
+  end
+
+  def self.put(url,path)
+    username = Rails.application.config_for(:snippet)["snippet_server_user"]
+    password = Rails.application.config_for(:snippet)["snippet_server_password"]
+    puts "#{username} #{password}"
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Put.new(uri.request_uri)
+    request["Content-Type"] = 'text/xml;charset=UTF-8'
+    request.basic_auth username, password unless username.nil?
+    request.body = File.open(path).read
+    res = http.request(request)
+    raise "put : #{self.snippet_server_url}#{path} response code #{res.code}" unless res.code == "201"
+    url
+  end
+
+
+  def self.ingest_file(uri,path)
+
+  end
+
+  def self.render_snippet(id,opts={})
+    a =id.split("#")
+    uri  = snippet_server_url
+    uri += "#{opts[:project]}" if opts[:project].present?
+    uri += get_snippet_script
+    uri += "?doc=#{a[0]}.xml"
+    uri += "&id=#{a[1]}" unless a.size < 2
+    uri += "&op=#{opts[:op]}" if opts[:op].present?
+    uri += "&c=#{opts[:c]}" if opts[:c].present?
+    uri += "&prefix=#{opts[:prefix]}" if opts[:prefix].present?
+    Rails.logger.debug("snippet url #{uri}")
+
+    #res = Net::HTTP.get_response(URI(uri))
+    uri = URI.parse(uri)
+    self.get(uri)
   end
 
   def self.solrize(id,opts={})

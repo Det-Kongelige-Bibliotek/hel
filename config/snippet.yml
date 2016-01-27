@@ -1,15 +1,17 @@
 development:
-  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/
+  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/letter_books
+  snippet_server_user: admin
+  snippet_server_password: admin123
   get_snippet_script: present.xq
   image_server_prefix: http://kb-images.kb.dk/public/
   feedback_mail: fejlrapportering@adl.dk
 test:
-  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/letter_books/
+  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/letter_books
   get_snippet_script: present.xq
   image_server_prefix: http://kb-images.kb.dk/public/
   feedback_mail: fejlrapportering@adl.dk
 production:
-  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/
+  snippet_server_url: http://bifrost-test-01:8080/exist/rest/db/letter_books
   get_snippet_script: present.xq
   image_server_prefix: http://kb-images.kb.dk/public/
   feedback_mail: fejlrapportering@adl.dk
