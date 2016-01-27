@@ -10,14 +10,14 @@ declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 
-declare option    exist:serialize "method=xml media-type=text/html"; 
-
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
+
+declare option    exist:serialize "method=xml media-type=text/xml";
 
 let $list := 
   if($frag and not($o = "facsimile")) then
