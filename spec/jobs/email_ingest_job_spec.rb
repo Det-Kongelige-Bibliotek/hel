@@ -4,6 +4,19 @@ describe 'Ingest' do
   include_context 'shared'
   describe 'of email account' do
 
+    def deleteFileInstanceWork (filename)
+      while ContentFile.find_by_original_filename(filename).present?
+        cf = ContentFile.find_by_original_filename(filename)
+        i =  cf.instance
+        w = i.work
+        t = w.titles.first
+        cf.delete
+        i.delete
+        t.delete
+        w.delete
+      end
+    end
+
     before :all do
       activity = Administration::Activity.create(
           "activity"=>'MyArchive', "embargo"=>'1', "access_condition"=>'læsesal', "copyright"=>'CC BY-NC-ND',
@@ -50,7 +63,17 @@ describe 'Ingest' do
       @attachment_instance = @attachment_file.instance
       @attachment_work = @attachment_instance.work
 
-      @folder_work = @email_work.is_part_of
+      @inbox_folder = @email_work.is_part_of
+    end
+
+    after :all do
+      deleteFileInstanceWork("Inbox")
+      deleteFileInstanceWork("feea79579b7a8dd97cb7bf050780351c.msg")
+      deleteFileInstanceWork("ATT00001.txt")
+
+      @parent_work_title = @parent_work.titles.first
+      @parent_work_title.delete
+      @parent_work.delete
     end
 
     it 'should create email Work with title "HDPIG call follow-up" ' do
@@ -107,23 +130,23 @@ describe 'Ingest' do
       expect(@email_work.recipients.first.email.to_s).to include "kb.dk"
     end
 
-    it 'email Work has parent Work (folder)' do
-      expect(@folder_work.parts).to include @email_work
-      expect(@email_work.is_part_of).to eq @folder_work
+    it 'email Work has parent Work Inbox' do
+      expect(@inbox_folder.parts).to include @email_work
+      expect(@email_work.is_part_of).to eq @inbox_folder
     end
 
     it 'parent Work has title' do
-      expect(@folder_work.titles).not_to be_nil
-      expect(@folder_work.titles.first.value.to_s).to include "Inbox"
+      expect(@inbox_folder.titles).not_to be_nil
+      expect(@inbox_folder.titles.first.value.to_s).to include "Inbox"
     end
 
-    it 'should create and link a Person object for the author of folder' do
-      expect(@folder_work.authors).not_to be_nil
-      expect(@folder_work.authors.first).to be_an_instance_of Authority::Person
-      expect(@folder_work.authors.first.given_name.to_s).to include "Anders"
-      expect(@folder_work.authors.first.family_name.to_s).to include "Sand"
-      expect(@folder_work.authors.first.given_name.to_s).not_to include "Chris L"
-      expect(@folder_work.authors.first.family_name.to_s).not_to include "Awre"
+    it 'should create and link a Person object for the author of Inbox folder' do
+      expect(@inbox_folder.authors).not_to be_nil
+      expect(@inbox_folder.authors.first).to be_an_instance_of Authority::Person
+      expect(@inbox_folder.authors.first.given_name.to_s).to include "Anders"
+      expect(@inbox_folder.authors.first.family_name.to_s).to include "Sand"
+      expect(@inbox_folder.authors.first.given_name.to_s).not_to include "Chris L"
+      expect(@inbox_folder.authors.first.family_name.to_s).not_to include "Awre"
     end
 
     it 'email Work has attachment child Work' do
