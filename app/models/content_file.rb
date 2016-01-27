@@ -56,40 +56,54 @@ class ContentFile < ActiveFedora::Base
   end
 
 
-  # Adds a content datastream to the object as an external managed file in fedore
-  # Note that this should be an absolute path!
+  # Adds a content datastream to the object as an external managed file in fedora
+  # Note that this should be an absolute path or a URL!
   # @param path external url to the file
   def add_external_file(path)
     file_name = Pathname.new(path).basename.to_s
 
     self.external_file_path = path
-    file_object = File.new(path)
-    set_file_timestamps(file_object)
-    self.original_filename = file_name
-    if File.directory?(file_object)
-      mime_type = "inode/directory"
-      self.mime_type = mime_type
+
+    if self.is_uri?(path)
+      # TODO: do something clever for md5 and checksums for files in snippetserver
     else
-      self.checksum = generate_checksum(file_object)
-      mime_type = MIME::Types.type_for(file_name).first.content_type
-      self.mime_type = mime_type
+      file_object = File.new(path)
+      set_file_timestamps(file_object)
+      self.original_filename = file_name
+      if File.directory?(file_object)
+        mime_type = "inode/directory"
+        self.mime_type = mime_type
+      else
+        self.checksum = generate_checksum(file_object)
+        mime_type = MIME::Types.type_for(file_name).first.content_type
+        self.mime_type = mime_type
+      end
+      self.size = file_object.size.to_s
+      self.file_uuid = UUID.new.generate
+      file_object.close
     end
-    self.size = file_object.size.to_s
-    self.file_uuid = UUID.new.generate
-    file_object.close
   end
 
   def is_external_file?
     self.external_file_path.present?
   end
 
+  def is_uri? path
+    path.start_with? 'http'
+  end
+
   def content
     content = nil
     #if the file is external fetch the content of the file and return it
+
     if self.is_external_file?
-      f = File.new(self.external_file_path)
-      content = f.read
-      f.close
+      if is_uri? self.external_file_path
+        content = SnippetServer.get(self.external_file_path)
+      else
+        f = File.new(self.external_file_path)
+        content = f.read
+        f.close
+      end
     else
       content = self.fileContent.content if self.fileContent.present?
     end
