@@ -14,6 +14,7 @@
   <xsl:param name="root_category" select="'work'"/>
   <xsl:param name="file" select="'a_very_unique_id'"/>
   <xsl:param name="id"   select="''"/>
+  <xsl:param name="work_id" select="''"/>
   <xsl:param name="author" select="''"/>
   <xsl:param name="author_id" select="''"/>
   <xsl:param name="copyright" select="''"/>
@@ -202,6 +203,13 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
+
+    <xsl:if test="$work_id">
+      <xsl:element name="field">
+	<xsl:attribute name="name">work_id_ssi</xsl:attribute>
+	<xsl:value-of select="$work_id"/>
+      </xsl:element>
+    </xsl:if>
 
     <xsl:element name="field">
       <xsl:attribute name="name">volume_id_ssi</xsl:attribute>

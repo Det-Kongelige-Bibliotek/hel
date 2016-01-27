@@ -12,6 +12,7 @@ declare namespace ft="http://exist-db.org/xquery/lucene";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
+declare variable  $work_id   := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat($c,'/');
@@ -34,6 +35,7 @@ let $params :=
    <param name="hostname" value="{request:get-header('HOST')}"/>
    <param name="doc"      value="{$document}"/>
    <param name="id"       value="{$frag}"/>
+   <param name="work_id"  value="{$work_id}"/>
    <param name="c"        value="{$c}"/>
    <param name="coll"     value="{$coll}"/>
 </parameters>
