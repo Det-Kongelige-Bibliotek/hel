@@ -12,6 +12,7 @@
 
   <xsl:param name="category" select="'work'"/>
   <xsl:param name="file" select="'a_very_unique_id'"/>
+  <xsl:param name="id"   select="''"/>
   <xsl:param name="author" select="''"/>
   <xsl:param name="author_id" select="''"/>
   <xsl:param name="copyright" select="''"/>
@@ -26,8 +27,15 @@
 
   <xsl:template match="/">
     <xsl:element name="add">
-      <xsl:call-template name="generate_volume_doc" />
-      <xsl:apply-templates/>
+      <xsl:choose>
+	<xsl:when test="$id">
+	  <xsl:apply-templates />
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:call-template name="generate_volume_doc" />
+	  <xsl:apply-templates/>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:element>
   </xsl:template>
 

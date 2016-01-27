@@ -116,6 +116,15 @@ class SnippetServer
     links
   end
 
+ def self.preprocess_tei(xml_source)
+   xslt = Nokogiri.XSLT(
+          File.join(Rails.root,'app/export/transforms/preprocess.xsl'))
+   doc = Nokogiri::XML.parse(xml_source) { |config| config.strict }
+   rdoc = xslt.transform(doc)
+   rdoc
+  end
+
+
   def self.facsimile(id)
     SnippetServer.render_snippet(id, {op: 'facsimile', prefix: Rails.application.config_for(:adl)["image_server_prefix"]})
   end
