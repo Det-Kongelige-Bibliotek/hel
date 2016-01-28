@@ -7,6 +7,7 @@
   <!-- not a poisonous adder -->
 
   <xsl:output indent="yes"
+	      omit-xml-declaration="no"
               encoding="UTF-8"
               method="xml"/>
 
@@ -235,7 +236,7 @@
     </xsl:if>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">author_name</xsl:attribute>
+      <xsl:attribute name="name">author_name_ssi</xsl:attribute>
       <xsl:value-of select="$author"/>
     </xsl:element>
 
