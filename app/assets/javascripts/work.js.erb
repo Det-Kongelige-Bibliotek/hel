@@ -191,6 +191,10 @@ $(document).ready(function(){
         });
     });
 
+    $("#new_agent_modal").on("hidden.bs.modal", function () {
+        $(this).removeData("bs.modal");
+        $(this).find(".modal-body").html("");
+    });
 });
 
 // when the form-loader retrieves a form, append it to
@@ -351,16 +355,20 @@ function disableAuthorityTypeahead(obj) {
 // modal functionallity
 function modalSaveForm(form,content_div) {
 
-    alert($(form).serialize());
 
     $.ajax({
         type: $(form).attr('method'),
         url: $(form).attr('action')+'.json',
         data: $(form).serialize(),
-        dataType: 'application/json',
-        success: function(data)
-        {
-            alert(data);
+        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function(data) {
+            $(content_div).html('<p> Person '+data.name+' oprettet');
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Status: " + textStatus);
+            alert("Error: " + errorThrown);
         }
     });
+
 }
