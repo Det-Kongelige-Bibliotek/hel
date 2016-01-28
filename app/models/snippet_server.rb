@@ -30,7 +30,7 @@ class SnippetServer
     result.html_safe.force_encoding('UTF-8')
   end
 
-  def self.put(url,path)
+  def self.put(url,body)
     username = Rails.application.config_for(:snippet)["snippet_server_user"]
     password = Rails.application.config_for(:snippet)["snippet_server_password"]
     puts "#{username} #{password}"
@@ -39,7 +39,7 @@ class SnippetServer
     request = Net::HTTP::Put.new(uri.request_uri)
     request["Content-Type"] = 'text/xml;charset=UTF-8'
     request.basic_auth username, password unless username.nil?
-    request.body = File.open(path).read
+    request.body = body
     res = http.request(request)
     raise "put : #{self.snippet_server_url}#{path} response code #{res.code}" unless res.code == "201"
     url
@@ -54,12 +54,13 @@ class SnippetServer
     a =id.split("#")
     uri  = snippet_server_url
     uri += "#{opts[:project]}" if opts[:project].present?
-    uri += get_snippet_script
+    uri += "/"+get_snippet_script
     uri += "?doc=#{a[0]}.xml"
-    uri += "&id=#{a[1]}" unless a.size < 2
-    uri += "&op=#{opts[:op]}" if opts[:op].present?
-    uri += "&c=#{opts[:c]}" if opts[:c].present?
-    uri += "&prefix=#{opts[:prefix]}" if opts[:prefix].present?
+    uri += "&id=#{URI.escape(a[1])}" unless a.size < 2
+    uri += "&op=#{URI.escape(opts[:op])}" if opts[:op].present?
+    uri += "&c=#{URI.escape(opts[:c])}" if opts[:c].present?
+    uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
+    uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
     Rails.logger.debug("snippet url #{uri}")
 
     #res = Net::HTTP.get_response(URI(uri))

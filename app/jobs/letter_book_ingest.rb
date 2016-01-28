@@ -17,7 +17,11 @@ class LetterBookIngest
 
   def self.send_to_exist(sysno,xml_pathname)
     url = "#{SnippetServer.snippet_server_url}/#{sysno}/#{xml_pathname.basename}"
-    SnippetServer.put(url,xml_pathname)
+    doc = Nokogiri::XML(File.read(xml_pathname))
+    stylesheet_path = Rails.root.join('app', 'export', 'transforms', 'preprocess.xsl')
+    stylesheet = Nokogiri::XSLT(File.read(stylesheet_path))
+    transformed_doc = stylesheet.transform(doc, {})
+    SnippetServer.put(url,transformed_doc.root.to_xml)
   end
 
   def self.create_letterbook (sysnum,xml_pathname,img_pathname)
@@ -59,14 +63,16 @@ class LetterBookIngest
     fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
     lb.add_tei_file(xml_pathname)
+    lb.reload
 
     ingest_img_files(img_pathname, instance_img)
 
-    Resque.logger.info "Letter Book #{xml_pathname} imported with id #{lb.id}"
-#    Resque.enqueue(LetterBookSplitter, work.id, tei_id)
-    solr_doc = SnippetServer.solrize(lb.get_file_id)
+    puts "file_id #{lb.get_file_id}"
+
+    solr_doc = SnippetServer.solrize(lb.get_file_id,{c: "/db/letter_books/#{sysnum}", work_id: lb.id})
+    puts solr_doc
     solr = RSolr.connect
-    solr.update(data: solr_doc)
+    solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
     solr.commit
 
     lb.id
