@@ -29,7 +29,7 @@ gem 'jquery-validation-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
+gem 'sdoc',           group: :doc
 gem 'hydra', '9.1.0.rc1'
 gem 'hydra-file_characterization'
 gem 'simple_form'
@@ -75,7 +75,7 @@ gem 'jquery-ui-rails'
 group :development, :test do
   gem 'simplecov'
   gem 'rspec-rails'
-  gem 'jettywrapper', '~> 2.0.0'
+  gem 'jettywrapper'
   gem 'thin'
   gem 'linkeddata'
   gem 'cucumber-rails', require: false
@@ -105,5 +105,5 @@ gem 'quiet_assets'
 gem 'filesize', '>= 0.1.1'
 #logging end
 
-gem 'authority', :path=>'/home/nkh/authority'
+gem 'authority', :path=>'/home/dgj/RubymineProjects/authority'
 

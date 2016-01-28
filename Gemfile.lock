@@ -1,5 +1,5 @@
 PATH
-  remote: /home/nkh/authority
+  remote: /home/dgj/RubymineProjects/authority
   specs:
     authority (0.0.1)
       hydra
@@ -9,26 +9,26 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.2.5)
-      actionpack (= 4.2.5)
-      actionview (= 4.2.5)
-      activejob (= 4.2.5)
+    actionmailer (4.2.5.1)
+      actionpack (= 4.2.5.1)
+      actionview (= 4.2.5.1)
+      activejob (= 4.2.5.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-    actionpack (4.2.5)
-      actionview (= 4.2.5)
-      activesupport (= 4.2.5)
+    actionpack (4.2.5.1)
+      actionview (= 4.2.5.1)
+      activesupport (= 4.2.5.1)
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (4.2.5)
-      activesupport (= 4.2.5)
+    actionview (4.2.5.1)
+      activesupport (= 4.2.5.1)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active-fedora (9.1.1)
+    active-fedora (9.1.2)
       active-triples (~> 0.6.0)
       activesupport (>= 4.1.0)
       deprecation
@@ -36,7 +36,6 @@ GEM
       linkeddata
       nom-xml (>= 0.5.1)
       om (~> 3.1)
-      rdf-ldp
       rdf-rdfxml (~> 1.1.0)
       rsolr (~> 1.0.10)
     active-triples (0.6.1)
@@ -45,17 +44,17 @@ GEM
       deprecation (~> 0.1)
       linkeddata (~> 1.1)
       rdf (~> 1.1)
-    activejob (4.2.5)
-      activesupport (= 4.2.5)
+    activejob (4.2.5.1)
+      activesupport (= 4.2.5.1)
       globalid (>= 0.3.0)
-    activemodel (4.2.5)
-      activesupport (= 4.2.5)
+    activemodel (4.2.5.1)
+      activesupport (= 4.2.5.1)
       builder (~> 3.1)
-    activerecord (4.2.5)
-      activemodel (= 4.2.5)
-      activesupport (= 4.2.5)
+    activerecord (4.2.5.1)
+      activemodel (= 4.2.5.1)
+      activesupport (= 4.2.5.1)
       arel (~> 6.0)
-    activesupport (4.2.5)
+    activesupport (4.2.5.1)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -67,8 +66,6 @@ GEM
     autoprefixer-rails (6.3.1)
       execjs
       json
-    bcp47 (0.3.3)
-      i18n
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -91,7 +88,7 @@ GEM
       amq-protocol (>= 2.0.1)
     byebug (8.2.1)
     cancancan (1.13.1)
-    capybara (2.6.0)
+    capybara (2.6.2)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -130,7 +127,7 @@ GEM
     debug_inspector (0.0.2)
     deprecation (0.2.2)
       activesupport
-    devise (3.5.4)
+    devise (3.5.5)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -142,7 +139,7 @@ GEM
       net-ldap (>= 0.6.0, <= 0.11)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    ebnf (0.3.9)
+    ebnf (1.0.0)
       rdf (~> 1.1)
       sxp (~> 0.1, >= 0.1.3)
     edtf (2.3.0)
@@ -235,12 +232,6 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    ld-patch (0.1.1)
-      ebnf (~> 0.3, >= 0.3.9)
-      rdf (~> 1.1, >= 1.1.15)
-      rdf-xsd (~> 1.1)
-      sparql (~> 1.1, >= 1.1.7)
-      sxp (~> 0.1)
     ldp (0.3.1)
       faraday
       http_logger
@@ -248,27 +239,24 @@ GEM
       slop
     libv8 (3.16.14.13)
     link_header (0.0.8)
-    linkeddata (1.1.11.2)
-      equivalent-xml (~> 0.5)
-      json-ld (~> 1.1, >= 1.1.8, < 1.99)
+    linkeddata (1.1.2)
+      equivalent-xml (~> 0.4)
+      json-ld (~> 1.1, >= 1.1.7)
       nokogiri (~> 1.6)
-      rdf (~> 1.1, >= 1.1.11, < 1.99)
-      rdf-aggregate-repo (~> 1.1, < 1.99)
-      rdf-isomorphic (~> 1.1, < 1.99)
-      rdf-json (~> 1.1, >= 1.1.2, < 1.99)
-      rdf-microdata (~> 2.0, >= 2.0.1)
-      rdf-n3 (~> 1.1, >= 1.1.3, < 1.99)
-      rdf-rdfa (~> 1.1, >= 1.1.6, < 1.99)
-      rdf-rdfxml (~> 1.1, >= 1.1.4, < 1.99)
-      rdf-reasoner (~> 0.2, >= 0.2.1, < 1.99)
-      rdf-tabular (~> 0.1, >= 0.1.2)
-      rdf-trig (~> 1.1, >= 1.1.4, < 1.99)
-      rdf-trix (~> 1.1, < 1.99)
-      rdf-turtle (~> 1.1, >= 1.1.6, < 1.99)
-      rdf-vocab (~> 0.8)
-      rdf-xsd (~> 1.1, >= 1.1.3, < 1.99)
-      sparql (~> 1.1, >= 1.1.5, < 1.99)
-      sparql-client (~> 1.1, >= 1.1.3, < 1.99)
+      rdf (~> 1.1, >= 1.1.7)
+      rdf-aggregate-repo (~> 1.1)
+      rdf-isomorphic (~> 1.1)
+      rdf-json (~> 1.1)
+      rdf-microdata (~> 2.0)
+      rdf-n3 (~> 1.1)
+      rdf-rdfa (~> 1.1, >= 1.1.5)
+      rdf-rdfxml (~> 1.1, >= 1.1.3)
+      rdf-reasoner (~> 0.2, >= 0.2.1)
+      rdf-trig (~> 1.1, >= 1.1.3)
+      rdf-trix (~> 1.1)
+      rdf-turtle (~> 1.1, >= 1.1.5)
+      sparql (~> 1.1, >= 1.1.4)
+      sparql-client (~> 1.1, >= 1.1.3)
     log4r (1.1.10)
     logger (1.2.8)
     lograge (0.3.5)
@@ -313,23 +301,20 @@ GEM
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
-    rack-linkeddata (1.1.0)
-      linkeddata (>= 1.1.0)
-      rack (>= 1.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (4.2.5)
-      actionmailer (= 4.2.5)
-      actionpack (= 4.2.5)
-      actionview (= 4.2.5)
-      activejob (= 4.2.5)
-      activemodel (= 4.2.5)
-      activerecord (= 4.2.5)
-      activesupport (= 4.2.5)
+    rails (4.2.5.1)
+      actionmailer (= 4.2.5.1)
+      actionpack (= 4.2.5.1)
+      actionview (= 4.2.5.1)
+      activejob (= 4.2.5.1)
+      activemodel (= 4.2.5.1)
+      activerecord (= 4.2.5.1)
+      activesupport (= 4.2.5.1)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.2.5)
+      railties (= 4.2.5.1)
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
@@ -337,11 +322,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-html-sanitizer (1.0.2)
+    rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
-    railties (4.2.5)
-      actionpack (= 4.2.5)
-      activesupport (= 4.2.5)
+    railties (4.2.5.1)
+      actionpack (= 4.2.5.1)
+      activesupport (= 4.2.5.1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.5.0)
@@ -353,16 +338,6 @@ GEM
       rdf (~> 1.1, >= 1.1.17, < 1.99)
     rdf-json (1.1.2.1)
       rdf (~> 1.1, < 1.99)
-    rdf-ldp (0.3.0)
-      json-ld
-      ld-patch (~> 0.1)
-      link_header
-      rack
-      rack-linkeddata
-      rdf (~> 1.1)
-      rdf-turtle (~> 1.1)
-      rdf-vocab
-      sinatra
     rdf-microdata (2.0.2)
       htmlentities (~> 4.3)
       nokogiri (~> 1.6)
@@ -386,22 +361,15 @@ GEM
       rdf-turtle (~> 1.1)
       rdf-vocab (~> 0.8)
       rdf-xsd (~> 1.1)
-    rdf-tabular (0.3.0)
-      addressable (~> 2.3)
-      bcp47 (~> 0.3, >= 0.3.3)
-      json-ld (~> 1.1)
-      rdf (~> 1.1, >= 1.1.7)
-      rdf-vocab (~> 0.8)
-      rdf-xsd (~> 1.1)
-    rdf-trig (1.1.5.1)
-      ebnf (~> 0.3, >= 0.3.7)
-      rdf (~> 1.1, >= 1.1.11, < 1.99)
-      rdf-turtle (~> 1.1, >= 1.1.7, < 1.99)
-    rdf-trix (1.1.0.1)
-      rdf (~> 1.1, < 1.99)
-    rdf-turtle (1.1.8)
-      ebnf (~> 0.3, >= 0.3.6)
-      rdf (~> 1.1, >= 1.1.10)
+    rdf-trig (1.1.3)
+      ebnf (>= 0.3.5)
+      rdf (~> 1.1, >= 1.1.2.1)
+      rdf-turtle (~> 1.1, >= 1.1.3)
+    rdf-trix (1.99.0)
+      rdf (~> 1.1)
+    rdf-turtle (1.1.8.1)
+      ebnf (~> 1.0)
+      rdf (~> 1.1, >= 1.1.10, < 1.99)
     rdf-vocab (0.8.7.1)
       rdf (~> 1.1, >= 1.1.10)
     rdf-xsd (1.1.5.1)
@@ -435,7 +403,7 @@ GEM
     rouge (1.10.1)
     rsolr (1.0.13)
       builder (>= 2.1.2)
-    rspec-core (3.4.1)
+    rspec-core (3.4.2)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -443,7 +411,7 @@ GEM
     rspec-mocks (3.4.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
-    rspec-rails (3.4.0)
+    rspec-rails (3.4.1)
       actionpack (>= 3.0, < 4.3)
       activesupport (>= 3.0, < 4.3)
       railties (>= 3.0, < 4.3)
@@ -472,8 +440,8 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    sinatra (1.4.6)
-      rack (~> 1.4)
+    sinatra (1.4.7)
+      rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (4.2.1)
@@ -483,13 +451,13 @@ GEM
       nokogiri
       stomp
       xml-simple
-    sparql (1.1.9)
+    sparql (1.1.9.1)
       builder (~> 3.2)
-      ebnf (~> 0.3, >= 0.3.9)
-      rdf (~> 1.1, >= 1.1.13)
-      rdf-aggregate-repo (~> 1.1, >= 1.1.0)
-      rdf-xsd (~> 1.1)
-      sparql-client (~> 1.1)
+      ebnf (~> 1.0)
+      rdf (~> 1.1, >= 1.1.13, < 1.99)
+      rdf-aggregate-repo (~> 1.1, >= 1.1.0, < 1.99)
+      rdf-xsd (~> 1.1, < 1.99)
+      sparql-client (~> 1.1, < 1.99)
       sxp (~> 0.1)
     sparql-client (1.1.6.1)
       net-http-persistent (~> 2.9)
@@ -562,7 +530,7 @@ DEPENDENCIES
   hydra-file_characterization
   isbn_validation
   jbuilder
-  jettywrapper (~> 2.0.0)
+  jettywrapper
   jquery-rails
   jquery-ui-rails
   jquery-validation-rails
@@ -581,7 +549,7 @@ DEPENDENCIES
   rsolr
   rspec-rails
   sass-rails
-  sdoc (~> 0.4.0)
+  sdoc
   simple_form
   simplecov
   sqlite3
@@ -591,3 +559,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   uuid
   xray-rails
+
+BUNDLED WITH
+   1.10.5
