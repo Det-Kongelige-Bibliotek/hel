@@ -12,11 +12,12 @@ declare namespace ft="http://exist-db.org/xquery/lucene";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
-declare variable  $work_id   := request:get-parameter("work_id","");
+declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
+declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
@@ -38,6 +39,7 @@ let $params :=
    <param name="work_id"  value="{$work_id}"/>
    <param name="c"        value="{$c}"/>
    <param name="coll"     value="{$coll}"/>
+   <param name="file"     value="{$file}"/>
 </parameters>
 
 for $doc in $list

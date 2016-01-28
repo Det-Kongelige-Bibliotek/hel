@@ -34,7 +34,6 @@
 	  <xsl:apply-templates />
 	</xsl:when>
 	<xsl:otherwise>
-	  <xsl:call-template name="generate_volume_doc" />
 	  <xsl:apply-templates/>
 	</xsl:otherwise>
       </xsl:choose>
