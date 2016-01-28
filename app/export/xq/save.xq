@@ -3,6 +3,7 @@ xquery version "1.0" encoding "UTF-8";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
+declare namespace xdb="http://exist-db.org/xquery/xmldb";
 declare namespace fn="http://www.w3.org/2005/xpath-functions";
 declare namespace file="http://exist-db.org/xquery/file";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -16,8 +17,11 @@ declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat($c,'/');
+
+
+
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
-declare variable  $file     := substring-after(concat($coll,$document),"/db");
+
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
@@ -33,16 +37,22 @@ let $list :=
 
 let $params := 
 <parameters>
-  <param name="uri_base" value="http://{request:get-header('HOST')}"/>
-  <param name="hostname" value="{request:get-header('HOST')}"/>
-  <param name="doc"      value="{$document}"/>
-  <param name="id"       value="{$frag}"/>
-  <param name="work_id"  value="{$work_id}"/>
-  <param name="c"        value="{$c}"/>
-  <param name="coll"     value="{$coll}"/>
-  <param name="file"     value="{$file}"/>
+   <param name="uri_base" value="http://{request:get-header('HOST')}"/>
+   <param name="doc"      value="{$document}"/>
+   <param name="id"       value="{$frag}"/>
+   <param name="work_id"  value="{$work_id}"/>
+   <param name="c"        value="{$c}"/>
+   <param name="coll"     value="{$coll}"/>
 </parameters>
 
 for $doc in $list
 return  transform:transform($doc,$op,$params)
 
+
+(:
+xdb:store($pubroot,util:document-name($doc), $doc)
+
+
+
+
+:)
