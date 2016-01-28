@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Snippet Server' do
+describe 'Snippet Server for letters' do
 
   id = '001003523_000#L0010035230000001'
   opts={}
@@ -22,7 +22,7 @@ describe 'Snippet Server' do
       count_trunk = solr_doc.scan(/>trunk</).count
       expect(solr_doc).to start_with '<add>'
       expect(solr_doc).to end_with '</add>'
-      expect(count_trunk).to eq 1
+      count_trunk.should >= 1
     end
   end
 end

@@ -9,7 +9,17 @@
 	      indent="yes"
 	      encoding="UTF-8"/>
 
-  <xsl:template match="node()|@*">
+
+  <xsl:template match="t:*">
+    <xsl:element name="{name()}">
+      <xsl:if test="not(@xml:id)">
+        <xsl:attribute name="xml:id"><xsl:value-of select="generate-id(.)"/></xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="@*">
     <xsl:copy>
       <xsl:apply-templates select="node()|@*" />
     </xsl:copy>
@@ -37,13 +47,17 @@
       <date/>
       <respStmt>
 	<resp>sender</resp>
+	<name/>
       </respStmt>
 
       <respStmt>
 	<resp>recipient</resp>
+	<name/>
       </respStmt>
       
     </xsl:element>
+    <xsl:text>
+    </xsl:text>
   </xsl:template>
 
   <xsl:template match="t:div[@n and @xml:id and @xml:lang]">
