@@ -185,6 +185,12 @@ $(document).ready(function(){
       return check_upload_file();
    });
 
+    $("#new_agent_modal").on('shown.bs.modal',function(event) {
+        $(event.currentTarget).find('.modal-button').on('click',function() {
+                    modalSaveForm($(event.currentTarget).find('form:first'), $(event.currentTarget).find('.modal-body:first'));
+        });
+    });
+
 });
 
 // when the form-loader retrieves a form, append it to
@@ -341,3 +347,20 @@ function disableAuthorityTypeahead(obj) {
     obj.find('[data-function="authority-typeahead"]').not(".tt-input").not(".tt-hint").authority_typeahead({remove: true});
 }
 
+
+// modal functionallity
+function modalSaveForm(form,content_div) {
+
+    alert($(form).serialize());
+
+    $.ajax({
+        type: $(form).attr('method'),
+        url: $(form).attr('action')+'.json',
+        data: $(form).serialize(),
+        dataType: 'application/json',
+        success: function(data)
+        {
+            alert(data);
+        }
+    });
+}
