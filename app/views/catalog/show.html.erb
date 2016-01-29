@@ -1,5 +1,9 @@
 <div id="sidebar" class="<%= show_sidebar_classes %>">
-  <%= render_document_sidebar_partial %>
+  <% if (@document['has_model_ssim'] & ['LetterBook']).present? %>
+      <%= render partial: 'show_sidebar_letter_book' %>
+  <% else %>
+      <%= render_document_sidebar_partial %>
+  <% end %>
 </div>
 
 <div id="content" class="<%= show_content_classes %>">
