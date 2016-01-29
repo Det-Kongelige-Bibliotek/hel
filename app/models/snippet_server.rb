@@ -64,6 +64,7 @@ class SnippetServer
     Rails.logger.debug("snippet url #{uri}")
 
     #res = Net::HTTP.get_response(URI(uri))
+    puts uri
     self.get(uri)
   end
 
