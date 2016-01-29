@@ -19,7 +19,7 @@ declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
-declare option    exist:serialize "method=xml media-type=text/xml";
+declare option    exist:serialize "method=xml media-type=text/html";
 
 let $list := 
   if($frag and not($o = "facsimile")) then
