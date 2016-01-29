@@ -43,11 +43,22 @@
 	<xsl:value-of select="concat('bib',@xml:id)"/>
       </xsl:attribute>
 
-      <location/>
+      <location>
+	
+      </location>
       <date/>
       <respStmt>
 	<resp>sender</resp>
-	<name/>
+	<xsl:choose>
+	  <xsl:when test="descendant::t:persName[@type='sender']">	
+	    <xsl:for-each select="descendant::t:persName[@type='sender']">
+	      <name/>
+	    </xsl:for-each>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <name/>
+	  </xsl:otherwise>
+	</xsl:choose>
       </respStmt>
 
       <respStmt>

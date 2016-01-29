@@ -196,10 +196,10 @@
       <xsl:attribute name="name">id</xsl:attribute>
       <xsl:choose>
         <xsl:when test="@xml:id">
-          <xsl:value-of select="concat($file,'#',@xml:id)"/>
+          <xsl:value-of select="concat(substring-before($file,'.xml'),'-',@xml:id)"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$file"/>
+          <xsl:value-of select="substring-before($file,'.xml')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
