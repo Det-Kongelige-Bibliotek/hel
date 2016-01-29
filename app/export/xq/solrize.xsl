@@ -210,6 +210,13 @@
 	<xsl:value-of select="$work_id"/>
       </xsl:element>
     </xsl:if>
+    <xsl:element name="field">
+      <xsl:attribute
+	  name="name">active_fedora_model_ssi</xsl:attribute>Letter</xsl:element>
+
+      <xsl:element name="field">
+	<xsl:attribute
+	  name="name">has_model_ssim</xsl:attribute>Letter</xsl:element>
 
     <xsl:element name="field">
       <xsl:attribute name="name">volume_id_ssi</xsl:attribute>
