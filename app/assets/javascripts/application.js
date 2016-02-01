@@ -26,7 +26,7 @@
 //= require authority/viaf/jquery.viafauto.js
 //= require authority/viaf/jquery.viafauto.extended.js
 //= require authority/viaf/viaf_util.js
-//= require authority/viaf/viafImport.js
+// require authority/viaf/viafImport.js
 //= require authority/typeahead.bundle.js
 //= require authority/authority_typeahead.js
 
