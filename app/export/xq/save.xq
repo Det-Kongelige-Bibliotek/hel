@@ -1,5 +1,7 @@
 xquery version "1.0" encoding "UTF-8";
 
+import module namespace json="http://xqilla.sourceforge.net/lib/xqjson";
+
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -18,12 +20,31 @@ declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat($c,'/');
 
+(:
+Using LOC relators
+from config/controlled_lists.yml
 
+sender
+'http://id.loc.gov/vocabulary/relators/crp': Correspondent
+
+recipient
+'http://id.loc.gov/vocabulary/relators/rcp': Addressee
+
+:)
 
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 
 
 declare option    exist:serialize "method=xml media-type=text/xml";
+
+(:xdb:store($pubroot,util:document-name($doc), $doc):)
+
+let $person := 
+  '{"firstName": "John W",
+    "lastName": "Smith","isAlive": true,"age": 25,"height_cm": 167.6,"address": {"streetAddress": "21 2nd Street","city": "New York","state": "NY","postalCode": "10021-3100"},"phoneNumbers": [{"type": "home",                "number": "212 555-1234"            },            {                "type": "office",                "number": "646 555-4567"            }        ],        "children": [],        "spouse": null    }'
+
+let $persdoc :=
+    json:parse-json($person)
 
 let $list := 
   if($frag and not($o = "facsimile")) then
@@ -43,16 +64,45 @@ let $params :=
    <param name="work_id"  value="{$work_id}"/>
    <param name="c"        value="{$c}"/>
    <param name="coll"     value="{$coll}"/>
+   <param name="submixion"     value="{$persdoc}"/>
+
 </parameters>
 
+let $trans_doc :=
 for $doc in $list
 return  transform:transform($doc,$op,$params)
 
+(:$persdoc
+$trans_doc :)
+
+return
+$params
+
 
 (:
-xdb:store($pubroot,util:document-name($doc), $doc)
-
-
-
-
+<json type="object">
+    <pair name="firstName" type="string">John</pair>
+    <pair name="lastName" type="string">Smith</pair>
+    <pair name="isAlive" type="boolean">true</pair>
+    <pair name="age" type="number">25</pair>
+    <pair name="height_cm" type="number">167.6</pair>
+    <pair name="address" type="object">
+        <pair name="streetAddress" type="string">21 2nd Street</pair>
+        <pair name="city" type="string">New York</pair>
+        <pair name="state" type="string">NY</pair>
+        <pair name="postalCode" type="string">10021-3100</pair>
+    </pair>
+    <pair name="phoneNumbers" type="array">
+        <item type="object">
+            <pair name="type" type="string">home</pair>
+            <pair name="number" type="string">212 555-1234</pair>
+        </item>
+        <item type="object">
+            <pair name="type" type="string">office</pair>
+            <pair name="number" type="string">646 555-4567</pair>
+        </item>
+    </pair>
+    <pair name="children" type="array"/>
+    <pair name="spouse" type="null"/>
+</json>
 :)

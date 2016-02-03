@@ -7,12 +7,19 @@ Author Sigfrid Lundberg slu@kb.dk
 <xsl:transform version="1.0"
 	       xmlns:t="http://www.tei-c.org/ns/1.0"
 	       xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+
 	       exclude-result-prefixes="t">
 
   <xsl:output omit-xml-declaration="yes"
 	      encoding="UTF-8"
 	      method="xml"/>
 
+
+
+  <xsl:param 
+      name="submixion" 
+      select="''"/>
+   
   <xsl:param 
       name="id"  
       select="''"/>
@@ -48,6 +55,11 @@ Author Sigfrid Lundberg slu@kb.dk
   </xsl:template>
 
   <xsl:template name="formulate">
+
+    <!-- xsl:value-of 
+	select="document('./form.xsl')//xsl:param[@name='submixion']/json/pair[@name='firstName']/text()"/
+	-->
+
     <form method="post" action="script_somewhere">
       <xsl:call-template name="mk_input">
 	<xsl:with-param name="name">file</xsl:with-param>

@@ -24,6 +24,9 @@
   <xsl:param name="published_date" select="''"/>
   <xsl:param name="uri_base" select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url" select="concat($uri_base,$file)"/>
+  <xsl:param name="status" select="'created'"/>
+
+  <!-- Status: created|waiting|working|completed -->
 
   <xsl:template match="/">
     <xsl:element name="add">
