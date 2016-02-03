@@ -20,7 +20,17 @@ declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $coll     := concat($c,'/');
 
+(:
+Using LOC relators
+from config/controlled_lists.yml
 
+sender
+'http://id.loc.gov/vocabulary/relators/crp': Correspondent
+
+recipient
+'http://id.loc.gov/vocabulary/relators/rcp': Addressee
+
+:)
 
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 
