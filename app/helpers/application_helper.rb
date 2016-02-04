@@ -48,6 +48,12 @@ module ApplicationHelper
     link_to label, "/catalog/#{URI::escape(letter_id, "/")}"
   end
 
+  def letter_title(sender, recipient, date)
+    title = "FRA: " + sender if sender.present?
+    title+= " TIL: " + recipient if recipient.present?
+    title+= " DATO: "+ date if date.present?
+  end
+
   def translate_model_names(name)
     I18n.t("models.#{name.parameterize('_')}", default: name)
   end

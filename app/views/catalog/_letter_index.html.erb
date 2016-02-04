@@ -1,5 +1,5 @@
 <h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first['display_value_ssm'].first %></h6>
-<h5><%= letter_show_link(letter['id'], "test title") %></h5>
+<h5><%= letter_show_link(letter['id'], letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"])) %></h5>
 <dl class="document-metadata dl-horizontal dl-invert">
   <dt>Modtagelsessted:</dt>
   <dd>v </dd>
