@@ -1,13 +1,22 @@
-<h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first['display_value_ssm'].first %></h6>
+<h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first["display_value_ssm"].first %></h6>
 <h5><%= letter_show_link(letter['id'], letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"])) %></h5>
-<dl class="document-metadata dl-horizontal dl-invert">
-  <dt>Modtagelsessted:</dt>
-  <dd>v </dd>
-  <dt>Afsendelsessted:</dt>
-  <dd>v </dd>
-  <dt>Sider:</dt>
-  <dd><%= letter['page_ssi'] %></dd>
-  <dt>Format:</dt>
-  <dd><%= letter['has_model_ssim'].first %></dd>
-</dl>
 <br>
+<dl class="document-metadata dl-horizontal dl-invert">
+  <% if letter["recipient_location_ssi"].present? %>
+      <dt>Modtagelsessted:</dt>
+      <dd><%= letter["recipient_location_ssi"] %></dd>
+  <% end %>
+  <% if letter["sender_location_ssi"].present? %>
+      <dt>Afsendelsessted:</dt>
+      <dd><%= letter["sender_location_ssi"] %></dd>
+  <% end %>
+  <% if letter["page_ssi"].present? %>
+      <dt>Sider:</dt>
+      <dd><%= letter["page_ssi"] %></dd>
+  <% end %>
+  <% if letter["has_model_ssim"].present? %>
+      <dt>Format:</dt>
+      <dd><%= letter["has_model_ssim"].first %></dd>
+  <% end %>
+
+</dl>
