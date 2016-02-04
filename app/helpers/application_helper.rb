@@ -44,6 +44,10 @@ module ApplicationHelper
     profiles
   end
 
+  def letter_show_link(letter_id, label)
+    link_to label, "/catalog/#{URI::escape(letter_id, "/")}"
+  end
+
   def translate_model_names(name)
     I18n.t("models.#{name.parameterize('_')}", default: name)
   end

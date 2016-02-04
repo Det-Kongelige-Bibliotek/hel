@@ -1,9 +1,13 @@
 <h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first['display_value_ssm'].first %></h6>
-<h5>Til: Fra: Dato:</h5>
+<h5><%= letter_show_link(letter['id'], "test title") %></h5>
 <dl class="document-metadata dl-horizontal dl-invert">
-<dt>Modtagelsessted:</dt><dd>v </dd>
-<dt>Afsendelsessted:</dt><dd>v </dd>
-<dt>Sider:</dt><dd> v</dd>
-<dt>Format:</dt><dd><%= letter['has_model_ssim'] %></dd>
+  <dt>Modtagelsessted:</dt>
+  <dd>v </dd>
+  <dt>Afsendelsessted:</dt>
+  <dd>v </dd>
+  <dt>Sider:</dt>
+  <dd><%= letter['page_ssi'] %></dd>
+  <dt>Format:</dt>
+  <dd><%= letter['has_model_ssim'].first %></dd>
 </dl>
 <br>
