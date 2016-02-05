@@ -217,7 +217,7 @@
 
     <xsl:if test="$status">
       <xsl:element name="field">
-	<xsl:attribute name="name">status</xsl:attribute>
+	<xsl:attribute name="name">status_ssi</xsl:attribute>
 	<xsl:value-of select="$status"/>
       </xsl:element>
     </xsl:if>
