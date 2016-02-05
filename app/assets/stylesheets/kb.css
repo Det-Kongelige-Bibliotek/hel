@@ -149,5 +149,18 @@
  .input-group .form-control {
      position: static;
  }
-
+ 
+.zeniasUglyBox{
+    border:1px solid black;
+    padding: 2px 10px;
+}
+ .zeniasUglyBox.red{
+     background-color:red;
+ }
+ .zeniasUglyBox.green{
+     background-color:#E6EFC2;
+ }
+ .zeniasUglyBox.blue{
+     background-color:blue;
+ }
 
