@@ -66,6 +66,7 @@ class SnippetServer
     uri += "&c=#{URI.escape(opts[:c])}" if opts[:c].present?
     uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
     uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
+    uri += "&status=#{URI.escape(opts[:status])}" if opts[:status].present?
     Rails.logger.debug("snippet url #{uri}")
 
     #res = Net::HTTP.get_response(URI(uri))
@@ -75,6 +76,7 @@ class SnippetServer
 
   def self.solrize(id,opts={})
     opts[:op] = 'solrize'
+    opts[:status] = 'created'
     SnippetServer.render_snippet(id, opts)
   end
 
