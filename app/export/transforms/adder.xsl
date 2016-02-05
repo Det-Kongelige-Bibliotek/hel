@@ -24,7 +24,7 @@
   <xsl:param name="published_date" select="''"/>
   <xsl:param name="uri_base" select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url" select="concat($uri_base,$file)"/>
-  <xsl:param name="status" select="'created'"/>
+  <xsl:param name="status" select="''"/>
 
   <!-- Status: created|waiting|working|completed -->
 
@@ -272,6 +272,13 @@
       <xsl:element name="field">
         <xsl:attribute name="name">published_place_ssi</xsl:attribute>
         <xsl:value-of select="$published_place"/>
+      </xsl:element>
+    </xsl:if>
+
+    <xsl:if test="$status">
+      <xsl:element name="field">
+        <xsl:attribute name="name">status_ssi</xsl:attribute>
+        <xsl:value-of select="$status"/>
       </xsl:element>
     </xsl:if>
 

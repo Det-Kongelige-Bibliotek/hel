@@ -28,6 +28,10 @@
   <xsl:param name="uri_base" select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url" select="concat($uri_base,$file)"/>
 
+  <xsl:param name="status" select="''"/>
+  <!-- Status: created|waiting|working|completed -->
+
+
   <xsl:template match="/">
     <xsl:element name="add">
       <xsl:choose>
@@ -210,6 +214,14 @@
 	<xsl:value-of select="$work_id"/>
       </xsl:element>
     </xsl:if>
+
+    <xsl:if test="$status">
+      <xsl:element name="field">
+	<xsl:attribute name="name">status</xsl:attribute>
+	<xsl:value-of select="$status"/>
+      </xsl:element>
+    </xsl:if>
+
     <xsl:element name="field">
       <xsl:attribute
 	  name="name">active_fedora_model_ssi</xsl:attribute>Letter</xsl:element>
@@ -251,6 +263,8 @@
       <xsl:attribute name="name">author_id_ssi</xsl:attribute>
       <xsl:value-of select="$author_id"/>
     </xsl:element>
+
+    <xsl:call-template name="letter_info"/>
 
     <xsl:element name="field">
       <xsl:attribute name="name">copyright_ssi</xsl:attribute>
@@ -303,6 +317,141 @@
       <xsl:with-param name="worktitle" select="$worktitle"/>
     </xsl:apply-templates>
   </xsl:template>
+
+
+ <xsl:template name="letter_info">
+
+   <!-- we have been inconsistent as regards use of '#' in refs -->
+   
+    <xsl:variable name="bibl">
+      <xsl:choose>
+	<xsl:when test="contains(@decls,'#')" >
+	  <xsl:value-of select="substring-after(@decls,'#')"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="@decls"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <!-- we should only look for letter info stuff if we're in a LLO (letter
+	 like object) -->
+
+    <xsl:if test="//t:bibl[@xml:id=$bibl]">
+      <xsl:call-template name="extract_places">  
+	<xsl:with-param name="bibl" select="$bibl"/>
+      </xsl:call-template>
+      <xsl:call-template name="extract_agents">  
+	<xsl:with-param name="bibl" select="$bibl"/>
+      </xsl:call-template>
+      <xsl:call-template name="extract_dates">
+	<xsl:with-param name="bibl" select="$bibl"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="extract_places">
+    <xsl:param name="bibl" select="''"/>
+    <xsl:choose>
+      <xsl:when
+	  test="//t:bibl[@xml:id=$bibl]/t:location/t:placeName/node()">
+	<xsl:for-each select="//t:bibl[@xml:id=$bibl]/t:location">
+	  <xsl:variable name="role">
+	    <xsl:value-of select="@type"/>
+	  </xsl:variable>
+	  <xsl:for-each select="t:placeName">
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">
+		<xsl:value-of select="concat($role,'_location_ssi')"/>
+	      </xsl:attribute>
+	      <xsl:value-of select="t:placeName"/>
+	    </xsl:element>
+	  </xsl:for-each>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:for-each select="descendant::t:geogName">
+	  <xsl:variable name="role">
+	    <xsl:choose>
+	      <xsl:when test="@type">
+		<xsl:value-of select="@type"/>
+	      </xsl:when>
+	      <xsl:otherwise>sender</xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:variable>
+	  <xsl:element name="field">
+	    <xsl:attribute name="name">
+	      <xsl:value-of select="concat($role,'_location_ssi')"/>
+	    </xsl:attribute>
+	    <xsl:value-of select="."/>
+	  </xsl:element>
+	</xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="extract_dates">
+    <xsl:param name="bibl" select="''"/>
+
+    <xsl:choose>
+      <xsl:when test="//t:bibl[@xml:id=$bibl]/t:date[@when or node()]">
+	<xsl:for-each select="//t:bibl[@xml:id=$bibl]
+			      /t:date[@when/node() or node()]">
+	  <xsl:for-each select="(t:date/@when|t:date/node())">
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">date_ssi</xsl:attribute>
+	      <xsl:value-of select="."/>
+	    </xsl:element>
+	  </xsl:for-each>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:for-each select="descendant::t:date">
+	  <xsl:element name="field">
+	    <xsl:attribute name="name">date_ssi</xsl:attribute>
+	    <xsl:value-of select="."/>
+	  </xsl:element>
+	</xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="extract_agents">
+    <xsl:param name="bibl" select="''"/>
+    <xsl:choose>
+      <xsl:when test="//t:bibl[@xml:id=$bibl]
+		      /t:respStmt[t:resp/node() and t:name/node()]">
+	<xsl:for-each select="//t:bibl[@xml:id=$bibl]
+			      /t:respStmt[t:resp/node() and t:name/node()]">
+	  <xsl:variable name="field">
+	    <xsl:value-of select="concat(t:resp,'_ssi')"/>
+	  </xsl:variable>
+	  <xsl:for-each select="t:name">
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">
+		<xsl:value-of select="$field"/>
+	      </xsl:attribute>
+	      <xsl:value-of select="t:name"/>
+	    </xsl:element>
+	  </xsl:for-each>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:for-each select="descendant::t:persName">
+	  <xsl:variable name="field">
+	    <xsl:value-of select="concat(@type,'_ssi')"/>
+	  </xsl:variable>
+	  <xsl:element name="field">
+	    <xsl:attribute name="name">
+	      <xsl:value-of select="$field"/>
+	    </xsl:attribute>
+	    <xsl:value-of select="."/>
+	  </xsl:element>
+	</xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 
   <xsl:template name="page_info">
     <xsl:if test="preceding::t:pb[1]/@n|descendant::t:pb">
