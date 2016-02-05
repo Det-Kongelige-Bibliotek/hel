@@ -214,6 +214,14 @@
 	<xsl:value-of select="$work_id"/>
       </xsl:element>
     </xsl:if>
+
+    <xsl:if test="$status">
+      <xsl:element name="field">
+	<xsl:attribute name="name">status</xsl:attribute>
+	<xsl:value-of select="$status"/>
+      </xsl:element>
+    </xsl:if>
+
     <xsl:element name="field">
       <xsl:attribute
 	  name="name">active_fedora_model_ssi</xsl:attribute>Letter</xsl:element>
