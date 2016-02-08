@@ -88,16 +88,16 @@
       <xsl:call-template name="add_id"/>
 
       <xsl:if test="@decls">
-	<xsl:if test="preceding-sibling::t:text[@decls]
+	<xsl:if test="preceding::t:text[@decls]
 		    |
-		    preceding-sibling::t:div[@decls]">
+		    preceding::t:div[@decls]">
 
 	  <xsl:comment>previous_id</xsl:comment>
 	  <xsl:element name="a">
 	    <xsl:attribute name="href">
-	    <xsl:value-of select="preceding-sibling::t:text[@decls][1]/@xml:id
+	    <xsl:value-of select="preceding::t:text[@decls][1]/@xml:id
 				  |
-				  preceding-sibling::t:div[@decls][1]/@xml:id"/>
+				  preceding::t:div[@decls][1]/@xml:id"/>
 	    </xsl:attribute>
 	    forrige
 	  </xsl:element>
