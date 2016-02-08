@@ -95,23 +95,23 @@
 	  <xsl:comment>previous_id</xsl:comment>
 	  <xsl:element name="a">
 	    <xsl:attribute name="href">
-	    <xsl:value-of select="preceding-sibling::t:text[@decls]/@xml:id[1]
+	    <xsl:value-of select="preceding-sibling::t:text[@decls][1]/@xml:id
 				  |
-				  preceding-sibling::t:div[@decls]/@xml:id[1]"/>
+				  preceding-sibling::t:div[@decls][1]/@xml:id"/>
 	    </xsl:attribute>
 	    forrige
 	  </xsl:element>
 	</xsl:if>
 
-	<xsl:if test="following-sibling::t:text[@decls]
+	<xsl:if test="following::t:text[@decls]
 		      |
-		      following-sibling::t:div[@decls]">
+		      following::t:div[@decls]">
 
 	  <xsl:element name="a">
 	    <xsl:attribute name="href">
-	      <xsl:value-of select="following-sibling::t:text[@decls]/@xml:id[1]
+	      <xsl:value-of select="following::t:text[@decls][1]/@xml:id
 				    |
-				    following-sibling::t:div[@decls]/@xml:id[1]"/></xsl:attribute>
+				    following::t:div[@decls][1]/@xml:id"/></xsl:attribute>
 	      neste
 	  </xsl:element>
 	
