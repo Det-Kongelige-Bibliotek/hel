@@ -41,6 +41,13 @@ namespace :valhal do
     Authority::Organization.all.each{|p| add_default_rights(p)}
   end
 
+  desc 'Ingest a test letterbook'
+  task ingest_test_letters: :environment do
+    xml_path = File.join(Rails.root,'spec','fixtures','breve','001541111_000','001541111_000.xml')
+    img_path = File.join(Rails.root,'spec','fixtures','breve','001541111_000')
+    LetterBookIngest.perform(xml_path,img_path)
+  end
+
   private
 
   def add_default_rights(obj)
@@ -75,4 +82,5 @@ namespace :valhal do
     solr_conf = Rails.root.join('solr_conf', 'solr.xml')
     FileUtils.cp solr_conf, solr_dir
   end
+
 end

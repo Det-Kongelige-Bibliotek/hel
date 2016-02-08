@@ -2,11 +2,29 @@ class LetterBookIngest
 
   @queue = :letter_book_ingest
 
-  def self.perform(dir_path,img_path)
+  def self.perform(xml_file,img_path)
     # get sysnumber based on path
-    xml_pathname = Pathname.new(dir_path)
+    xml_pathname = Pathname.new(xml_file)
     img_pathname = Pathname.new(img_path)
     sysnum = xml_pathname.basename.to_s.split('_')[0]
+
+
+    exist_pathname = self.send_to_exist(sysnum,xml_pathname)
+
+    self.create_letterbook(sysnum,exist_pathname,img_pathname)
+
+  end
+
+  def self.send_to_exist(sysno,xml_pathname)
+    url = "#{SnippetServer.snippet_server_url}/#{sysno}/#{xml_pathname.basename}"
+    doc = Nokogiri::XML(File.read(xml_pathname))
+    stylesheet_path = Rails.root.join('app', 'export', 'transforms', 'preprocess.xsl')
+    stylesheet = Nokogiri::XSLT(File.read(stylesheet_path))
+    transformed_doc = stylesheet.transform(doc, {})
+    SnippetServer.put(url,transformed_doc.root.to_xml)
+  end
+
+  def self.create_letterbook (sysnum,xml_pathname,img_pathname)
 
     # get metadata from Aleph
 
@@ -45,11 +63,18 @@ class LetterBookIngest
     fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
     lb.add_tei_file(xml_pathname)
+    lb.reload
 
     ingest_img_files(img_pathname, instance_img)
 
-    Resque.logger.info "Letter Book #{xml_pathname.basename.to_s} imported with id #{lb.id}"
-#    Resque.enqueue(LetterBookSplitter, work.id, tei_id)
+    puts "file_id #{lb.get_file_id}"
+
+    solr_doc = SnippetServer.solrize(lb.get_file_id,{c: "/db/letter_books/#{sysnum}", work_id: lb.id})
+    # puts solr_doc
+    solr = RSolr.connect
+    solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
+    solr.commit
+
     lb.id
   end
 
@@ -58,9 +83,7 @@ class LetterBookIngest
   # Find JPEG files
   # Create ContentFile objects and attach to JPG Instance
   def self.ingest_img_files(pathname, instance_img)
-    images_path = pathname.children.select {|c| c.directory?}.first
-    fail "No subdirectory found in directory #{pathname}" if images_path.nil?
-    img_paths = images_path.children.select {|c| c.to_s.include?('.jpg') }
+    img_paths = pathname.children.select {|c| c.to_s.include?('.jpg') }
     fail "No jpg file found in directory #{images_path}" if img_paths.nil?
     img_paths.each do |path|
       c_img = ContentFile.new
