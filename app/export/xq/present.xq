@@ -10,14 +10,17 @@ declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 
-declare option    exist:serialize "method=xml media-type=text/html"; 
-
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
+declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
-declare variable  $coll     := concat("/db/adl/",$c);
-declare variable  $op       := doc(concat("/db/adl/", $o,".xsl"));
+declare variable  $status   := request:get-parameter("status","");
+declare variable  $coll     := concat($c,'/');
+declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
+declare variable  $file     := substring-after(concat($coll,$document),"/db");
+
+declare option    exist:serialize "method=xml media-type=text/html";
 
 let $list := 
   if($frag and not($o = "facsimile")) then
@@ -31,12 +34,17 @@ let $list :=
 
 let $params := 
 <parameters>
-   <param name="hostname" value="{request:get-header('HOST')}"/>
-   <param name="doc"      value="{$document}"/>
-   <param name="id"       value="{$frag}"/>
-   <param name="c"        value="{$c}"/>
-   <param name="coll"     value="{$coll}"/>
+  <param name="uri_base" value="http://{request:get-header('HOST')}"/>
+  <param name="hostname" value="{request:get-header('HOST')}"/>
+  <param name="doc"      value="{$document}"/>
+  <param name="id"       value="{$frag}"/>
+  <param name="work_id"  value="{$work_id}"/>
+  <param name="c"        value="{$c}"/>
+  <param name="coll"     value="{$coll}"/>
+  <param name="file"     value="{$file}"/>
+  <param name="status"   value="{$status}"/>
 </parameters>
 
 for $doc in $list
-return  transform:transform($doc,$op,$params) 
+return  transform:transform($doc,$op,$params)
+
