@@ -86,6 +86,37 @@
   <xsl:template match="t:div">
     <div>
       <xsl:call-template name="add_id"/>
+
+      <xsl:if test="@decls">
+	<xsl:if test="preceding-sibling::t:text[@decls]
+		    |
+		    preceding-sibling::t:div[@decls]">
+
+	  <xsl:comment>previous_id</xsl:comment>
+	  <xsl:element name="a">
+	    <xsl:attribute name="href">
+	    <xsl:value-of select="preceding-sibling::t:text[@decls]/@xml:id[1]
+				  |
+				  preceding-sibling::t:div[@decls]/@xml:id[1]"/>
+	    </xsl:attribute>
+	    forrige
+	  </xsl:element>
+	</xsl:if>
+
+	<xsl:if test="following-sibling::t:text[@decls]
+		      |
+		      following-sibling::t:div[@decls]">
+
+	  <xsl:element name="a">
+	    <xsl:attribute name="href">
+	      <xsl:value-of select="following-sibling::t:text[@decls]/@xml:id[1]
+				    |
+				    following-sibling::t:div[@decls]/@xml:id[1]"/></xsl:attribute>
+	      neste
+	  </xsl:element>
+	
+	</xsl:if>
+      </xsl:if>
       <xsl:apply-templates/>
     </div>
   </xsl:template>

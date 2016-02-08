@@ -86,6 +86,34 @@
         <xsl:apply-templates mode="gettext" 
 			     select="./text()|descendant::node()/text()"/>
       </xsl:element>
+
+      <xsl:if test="preceding-sibling::t:text[@decls]
+		    |
+		    preceding-sibling::t:div[@decls]">
+
+	<xsl:element name="field">
+	  <xsl:attribute name="name">previous_id_ssi</xsl:attribute>
+	  <xsl:value-of select="preceding-sibling::t:text[@decls]/@xml:id[1]
+				|
+				preceding-sibling::t:div[@decls]/@xml:id[1]"/>
+	</xsl:element>
+	
+      </xsl:if>
+
+
+      <xsl:if test="following-sibling::t:text[@decls]
+		    |
+		    following-sibling::t:div[@decls]">
+
+	<xsl:element name="field">
+	  <xsl:attribute name="name">next_id_ssi</xsl:attribute>
+	  <xsl:value-of select="following-sibling::t:text[@decls]/@xml:id[1]
+				|
+				following-sibling::t:div[@decls]/@xml:id[1]"/>
+	</xsl:element>
+	
+      </xsl:if>
+
     </doc>
 
     <xsl:apply-templates>
