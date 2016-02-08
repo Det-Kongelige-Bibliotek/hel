@@ -44,14 +44,11 @@ module ApplicationHelper
     profiles
   end
 
-  def letter_show_link(letter_id, label)
-    link_to label, "/catalog/#{URI::escape(letter_id, "/")}"
-  end
-
   def letter_title(sender, recipient, date)
     title= "TIL: " + recipient if recipient.present?
     title+= " FRA: " + sender if sender.present?
     title+= " DATO: "+ date if date.present?
+    title
   end
 
   def translate_model_names(name)
