@@ -1,7 +1,7 @@
 <% if current_search_session %>
-<div class="search-widgets">
-  <%= link_back_to_catalog class: 'btn' %>
-</div>
+    <div class="search-widgets">
+      <%= link_to "Back to Book", "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
+    </div>
 <% end %>
 
 <%= render :partial => 'show_tools' %>
@@ -15,4 +15,4 @@
     </div>
 <% end %>
 
-<%= render partial: 'letter_books/form', locals: { id: @document.id } %>
+<%= SnippetServer.render_snippet(@document.id, :op =>'form') %>

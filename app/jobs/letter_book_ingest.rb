@@ -70,7 +70,7 @@ class LetterBookIngest
     puts "file_id #{lb.get_file_id}"
 
     solr_doc = SnippetServer.solrize(lb.get_file_id,{c: "/db/letter_books/#{sysnum}", work_id: lb.id})
-    puts solr_doc
+    # puts solr_doc
     solr = RSolr.connect
     solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
     solr.commit

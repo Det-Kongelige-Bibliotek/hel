@@ -30,6 +30,11 @@ class Finder
     ActiveFedora::SolrService.query(solr_q,:fq=>"active_fedora_model_ssi:#{model}", :sort =>'display_value_ssi asc')
   end
 
+  def self.get_letters(lb_id)
+    solr_q = "work_id_ssi:#{lb_id}"
+    ActiveFedora::SolrService.query(solr_q,:fq=>"has_model_ssim:Letter", :fq =>'type_ssi:trunk', :rows => max_rows)
+  end
+
   def self.model_query(model)
     "active_fedora_model_ssi: #{model}"
   end
