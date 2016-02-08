@@ -4,11 +4,12 @@
 <dl style="float:right">
 <% if letter["status_ssi"].present? %>
     <dt>Status:</dt>
-    <dd class="zeniasUglyBox<%
+    <dd class="status-box<%
     case letter["status_ssi"]
-      when "created" %> green<%
-      when "state2" %> red<%
-      when "state3" %> blue<%
+      when "created" %> yellow<%
+      when "waiting" %> orange<%
+      when "working" %> blue<%
+      when "completed" %> green<%
     end
     %>"><%= letter["status_ssi"] %></dd>
 <% end %>
