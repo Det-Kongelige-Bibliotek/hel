@@ -8,6 +8,8 @@
 
   <xsl:param name="id" select="''"/>
   <xsl:param name="doc" select="''"/>
+  <xsl:param name="prev" select="''"/>
+  <xsl:param name="next" select="''"/>
   <xsl:param name="hostname" select="''"/>
 
   <xsl:output method="xml"
@@ -31,6 +33,9 @@
   <xsl:template match="t:text">
     <div>
       <xsl:call-template name="add_id"/>
+
+      <xsl:comment> text </xsl:comment>
+
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -38,6 +43,10 @@
   <xsl:template match="t:front">
     <div>
       <xsl:call-template name="add_id"/>
+
+      <xsl:comment> front </xsl:comment>
+
+
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -75,6 +84,7 @@
   <xsl:template match="t:body">
     <div>
       <xsl:call-template name="add_id"/>
+      <xsl:comment> body </xsl:comment>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -86,6 +96,7 @@
   <xsl:template match="t:div">
     <div>
       <xsl:call-template name="add_id"/>
+      <xsl:comment> div here <xsl:value-of select="@decls"/> </xsl:comment>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -100,6 +111,7 @@
   <xsl:template match="t:bibl">
     <p>
       <xsl:call-template name="add_id"/>
+      <xsl:comment> bibl </xsl:comment>
       <xsl:apply-templates/>
     </p>
   </xsl:template>
@@ -316,47 +328,42 @@
   </xsl:template>
 
   <xsl:template name="add_id">
+    <xsl:call-template name="add_id_empty_elem"/>
     <xsl:if test="$id = @xml:id">
       <xsl:attribute name="class">text snippetRoot</xsl:attribute>      
     </xsl:if>
-    <xsl:call-template name="add_id_empty_elem"/>
-    <xsl:if test="@decls">
-      <xsl:call-template name="add_prev_next"/>
-    </xsl:if>
+
+ 
     <xsl:if test="not(descendant::node())">
       <xsl:comment>Instead of content</xsl:comment>
     </xsl:if>
+    <xsl:if test="@decls">
+      <xsl:call-template name="add_prev_next"/>
+    </xsl:if>
+
   </xsl:template>
 
   <xsl:template name="add_prev_next">
-    <xsl:if test="preceding::t:text[@decls]
-		  |
-		  preceding::t:div[@decls]">
-
+    <p class="navigate_prev_next">
+    <xsl:if test="$prev">
       <xsl:comment>previous_id</xsl:comment>
       <xsl:element name="a">
 	<xsl:attribute name="href">
-	  <xsl:value-of select="preceding::t:text[@decls][1]/@xml:id
-				|
-				preceding::t:div[@decls][1]/@xml:id"/>
+	  <xsl:value-of select="concat('#',$prev)"/>
 	</xsl:attribute>
 	forrige
       </xsl:element>
     </xsl:if>
 
-    <xsl:if test="following::t:text[@decls]
-		  |
-		  following::t:div[@decls]">
-
+    <xsl:if test="$next">
       <xsl:element name="a">
 	<xsl:attribute name="href">
-	  <xsl:value-of select="following::t:text[@decls][1]/@xml:id
-				|
-				following::t:div[@decls][1]/@xml:id"/></xsl:attribute>
+	  <xsl:value-of select="concat('#',$next)"/>
+	</xsl:attribute>
 	  neste
       </xsl:element>
-      
     </xsl:if>
+    </p>
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">

@@ -32,12 +32,30 @@ let $list :=
     where util:document-name($doc)=$document
     return $doc
 
+let $prev := 
+  if($frag) then
+    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document
+    return $doc/preceding::t:div[1]/@xml:id
+  else
+    ""
+
+let $next := 
+  if($frag) then
+    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document
+    return $doc/following::t:div[1]/@xml:id
+  else
+    ""
+
 let $params := 
 <parameters>
   <param name="uri_base" value="http://{request:get-header('HOST')}"/>
   <param name="hostname" value="{request:get-header('HOST')}"/>
   <param name="doc"      value="{$document}"/>
   <param name="id"       value="{$frag}"/>
+  <param name="prev"     value="{$prev}"/>
+  <param name="next"     value="{$next}"/>
   <param name="work_id"  value="{$work_id}"/>
   <param name="c"        value="{$c}"/>
   <param name="coll"     value="{$coll}"/>

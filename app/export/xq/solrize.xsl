@@ -15,6 +15,8 @@
   <xsl:param name="root_category" select="'work'"/>
   <xsl:param name="file" select="'a_very_unique_id'"/>
   <xsl:param name="id"   select="''"/>
+  <xsl:param name="prev" select="''"/>
+  <xsl:param name="next" select="''"/>
   <xsl:param name="work_id" select="''"/>
   <xsl:param name="author" select="''"/>
   <xsl:param name="author_id" select="''"/>
@@ -87,29 +89,21 @@
 			     select="./text()|descendant::node()/text()"/>
       </xsl:element>
 
-      <xsl:if test="preceding::t:text[@decls]
-		    |
-		    preceding::t:div[@decls]">
+      <xsl:if test="$prev">
 
 	<xsl:element name="field">
 	  <xsl:attribute name="name">previous_id_ssi</xsl:attribute>
-	  <xsl:value-of select="preceding::t:text[@decls][1]/@xml:id
-				|
-				preceding::t:div[@decls][1]/@xml:id"/>
+	  <xsl:value-of select="$prev"/>
 	</xsl:element>
 	
       </xsl:if>
 
 
-      <xsl:if test="following::t:text[@decls]
-		    |
-		    following::t:div[@decls]">
+      <xsl:if test="$next">
 
 	<xsl:element name="field">
 	  <xsl:attribute name="name">next_id_ssi</xsl:attribute>
-	  <xsl:value-of select="following::t:text[@decls][1]/@xml:id
-				|
-				following::t:div[@decls][1]/@xml:id"/>
+	  <xsl:value-of select="$next"/>
 	</xsl:element>
 	
       </xsl:if>
