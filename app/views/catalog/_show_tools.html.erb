@@ -8,11 +8,7 @@
     # functions by default only on detail.
 
 -%>
-<div class="panel panel-default show-tools">
-  <div class="panel-heading">
-    <%= t('blacklight.tools.title') %>
-  </div>
-
+<div class="show-tools">
   <div class="panel-body">
     <ul class="nav">
       <%= render_show_doc_actions @document do |config, inner| %>
