@@ -36,6 +36,10 @@ Author Sigfrid Lundberg slu@kb.dk
       name="file" 
       select="''"/>
 
+  <xsl:param 
+      name="status" 
+      select="''"/>
+
  <xsl:template match="/">
     <xsl:choose>
       <xsl:when test="$id">
@@ -55,10 +59,6 @@ Author Sigfrid Lundberg slu@kb.dk
   </xsl:template>
 
   <xsl:template name="formulate">
-
-    <!-- xsl:value-of 
-	select="document('./form.xsl')//xsl:param[@name='submixion']/json/pair[@name='firstName']/text()"/
-	-->
 
     <form method="post" action="script_somewhere">
       <xsl:call-template name="mk_input">

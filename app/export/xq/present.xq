@@ -24,7 +24,7 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 declare option    exist:serialize "method=xml omit-xml-declaration=yes  media-type=text/html";
 
 let $list := 
-  if($frag and not($o = "facsimile")) then
+  if($frag and not($o = "facsimile" or $o = "form")) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
     return $doc
