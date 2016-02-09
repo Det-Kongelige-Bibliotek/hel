@@ -1,5 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
+declare namespace xdb        = "http://exist-db.org/xquery/xmldb";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -20,7 +21,7 @@ declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
-declare option    exist:serialize "method=xml media-type=text/html";
+declare option    exist:serialize "method=xml omit-xml-declaration=yes  media-type=text/html";
 
 let $list := 
   if($frag and not($o = "facsimile")) then
@@ -33,20 +34,20 @@ let $list :=
     return $doc
 
 let $prev := 
-  if($frag) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
-    where util:document-name($doc)=$document
+    where util:document-name($doc)=$document 
     return $doc/preceding::t:div[1]/@xml:id
-  else
-    ""
 
 let $next := 
-  if($frag) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
     return $doc/following::t:div[1]/@xml:id
-  else
-    ""
+
+let $prev_encoded := 
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$prev)
+
+let $next_encoded := 
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$next)
 
 let $params := 
 <parameters>
@@ -55,7 +56,11 @@ let $params :=
   <param name="doc"      value="{$document}"/>
   <param name="id"       value="{$frag}"/>
   <param name="prev"     value="{$prev}"/>
+  <param name="prev_encoded"
+                         value="{$prev_encoded}"/>
   <param name="next"     value="{$next}"/>
+  <param name="next_encoded"
+                         value="{$next_encoded}"/>
   <param name="work_id"  value="{$work_id}"/>
   <param name="c"        value="{$c}"/>
   <param name="coll"     value="{$coll}"/>

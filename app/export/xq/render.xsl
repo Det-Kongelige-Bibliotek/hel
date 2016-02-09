@@ -3,13 +3,18 @@
 <xsl:stylesheet 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:t="http://www.tei-c.org/ns/1.0"
-    exclude-result-prefixes="t"
+    xmlns:str="http://exslt.org/strings"
+    extension-element-prefixes="str"
+    exclude-result-prefixes="t str"
     version="1.0">
 
   <xsl:param name="id" select="''"/>
   <xsl:param name="doc" select="''"/>
   <xsl:param name="prev" select="''"/>
+  <xsl:param name="prev_encoded" select="''"/>
   <xsl:param name="next" select="''"/>
+  <xsl:param name="next_encoded" select="''"/>
+  <xsl:param name="file" select="''"/>
   <xsl:param name="hostname" select="''"/>
 
   <xsl:output method="xml"
@@ -345,24 +350,31 @@
 
   <xsl:template name="add_prev_next">
     <p class="navigate_prev_next">
-    <xsl:if test="$prev">
-      <xsl:comment>previous_id</xsl:comment>
-      <xsl:element name="a">
-	<xsl:attribute name="href">
-	  <xsl:value-of select="concat('#',$prev)"/>
-	</xsl:attribute>
-	forrige
-      </xsl:element>
-    </xsl:if>
+      <xsl:comment>
+	<xsl:value-of select="$file"/>
+	<xsl:value-of select="$prev"/>
+	<xsl:value-of select="$prev_encoded"/>
+	<xsl:value-of select="$next"/>
+	<xsl:value-of select="$next_encoded"/>
+      </xsl:comment>
 
-    <xsl:if test="$next">
-      <xsl:element name="a">
-	<xsl:attribute name="href">
-	  <xsl:value-of select="concat('#',$next)"/>
-	</xsl:attribute>
+      <xsl:if test="$prev">
+	<xsl:comment>previous_id</xsl:comment>
+	<xsl:element name="a">
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="concat('/catalog/',$prev_encoded)"/>
+	  </xsl:attribute>
+	  forrige
+	</xsl:element>
+      </xsl:if>
+
+      <xsl:if test="$next">
+	<xsl:element name="a">
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="concat('/catalog/',$next_encoded)"/></xsl:attribute>
 	  neste
-      </xsl:element>
-    </xsl:if>
+	</xsl:element>
+      </xsl:if>
     </p>
   </xsl:template>
 

@@ -90,22 +90,19 @@
       </xsl:element>
 
       <xsl:if test="$prev">
-
 	<xsl:element name="field">
 	  <xsl:attribute name="name">previous_id_ssi</xsl:attribute>
-	  <xsl:value-of select="$prev"/>
+	  <xsl:value-of 
+	      select="concat(substring-before($file,'.xml'),'-',$prev)"/>
 	</xsl:element>
-	
       </xsl:if>
 
-
       <xsl:if test="$next">
-
 	<xsl:element name="field">
 	  <xsl:attribute name="name">next_id_ssi</xsl:attribute>
-	  <xsl:value-of select="$next"/>
+	  <xsl:value-of 
+	      select="concat(substring-before($file,'.xml'),'-',$next)"/>
 	</xsl:element>
-	
       </xsl:if>
 
     </doc>
