@@ -342,13 +342,13 @@ function ButtonClicked() {
 
 // Authority Typeahead functionallity
 function enableAuthorityTypeahead(obj) {
-    obj.find('[data-function="authority-typeahead"]').not(".tt-input").not(".tt-hint").each(function(){
+    obj.find('[data-function="authority-typeahead"]').each(function(){
         $(this).authority_typeahead({model: $(this).attr('data-model')});
     });
 }
 
 function disableAuthorityTypeahead(obj) {
-    obj.find('[data-function="authority-typeahead"]').not(".tt-input").not(".tt-hint").authority_typeahead({remove: true});
+    obj.find('[data-function="authority-typeahead"]').authority_typeahead({remove: true});
 }
 
 
