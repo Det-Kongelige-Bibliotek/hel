@@ -371,7 +371,8 @@
       <xsl:if test="$next">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('/catalog/',$next_encoded)"/></xsl:attribute>
+	    <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
+	  </xsl:attribute>
 	  næste
 	</xsl:element>
       </xsl:if>
