@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
   get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
   get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
-  get 'solrwrapper/searchbysameasuri/', to: 'solr_wrapper#search_by_same_as_uri'
+
 
 
   # The priority is based upon order of creation:
