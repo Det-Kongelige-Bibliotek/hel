@@ -29,6 +29,8 @@
   <xsl:param name="published_date" select="''"/>
   <xsl:param name="uri_base" select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url" select="concat($uri_base,$file)"/>
+  <xsl:param name="submixion" select="''"/>
+
 
   <xsl:param name="status" select="''"/>
   <!-- Status: created|waiting|working|completed -->
@@ -36,6 +38,9 @@
 
   <xsl:template match="/">
     <xsl:element name="add">
+
+      <xsl:copy-of select="$submixion"/>
+
       <xsl:choose>
 	<xsl:when test="$id">
 	  <xsl:apply-templates />

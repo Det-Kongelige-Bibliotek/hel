@@ -260,8 +260,9 @@
   </xsl:template>
   
   <xsl:template match="t:address">
-    <xsl:element name="br"/>
-    <xsl:call-template name="add_id_empty_elem"/>
+    <xsl:element name="br">
+      <xsl:call-template name="add_id_empty_elem"/>
+    </xsl:element>
     <xsl:for-each select="t:addrLine">
       <xsl:apply-templates/><xsl:element name="br"/>
     </xsl:for-each>

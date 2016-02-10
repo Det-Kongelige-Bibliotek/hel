@@ -17,8 +17,11 @@ declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
 declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
-declare variable  $o        := request:get-parameter("op","render");
+declare variable  $o        := request:get-parameter("op","solrize");
+declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
+declare variable  $status   := request:get-parameter("status","");
 declare variable  $coll     := concat($c,'/');
+declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 (:
 Using LOC relators
@@ -32,9 +35,6 @@ recipient
 
 :)
 
-declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
-
-
 declare option    exist:serialize "method=xml media-type=text/xml";
 
 (:xdb:store($pubroot,util:document-name($doc), $doc):)
@@ -45,6 +45,34 @@ let $person :=
 
 let $persdoc :=
     json:parse-json($person)
+
+
+let $prev := 
+  if($frag) then
+    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document 
+    return $doc/preceding::t:div[1]/@xml:id
+  else
+    ""
+
+let $next := 
+  if($frag) then
+    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document
+    return $doc/following::t:div[1]/@xml:id
+  else
+    ""
+
+let $prev_encoded := 
+  if($frag) then
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$prev)
+  else
+    ""
+let $next_encoded := 
+  if($frag) then
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$next)
+  else
+    ""
 
 let $list := 
   if($frag and not($o = "facsimile")) then
@@ -58,26 +86,35 @@ let $list :=
 
 let $params := 
 <parameters>
-   <param name="uri_base" value="http://{request:get-header('HOST')}"/>
-   <param name="doc"      value="{$document}"/>
-   <param name="id"       value="{$frag}"/>
-   <param name="work_id"  value="{$work_id}"/>
-   <param name="c"        value="{$c}"/>
-   <param name="coll"     value="{$coll}"/>
-   <param name="submixion"     value="{$persdoc}"/>
-
+  <param name="uri_base" value="http://{request:get-header('HOST')}"/>
+  <param name="hostname" value="{request:get-header('HOST')}"/>
+  <param name="doc"      value="{$document}"/>
+  <param name="id"       value="{$frag}"/>
+  <param name="prev"     value="{$prev}"/>
+  <param name="prev_encoded"
+                         value="{$prev_encoded}"/>
+  <param name="next"     value="{$next}"/>
+  <param name="next_encoded"
+                         value="{$next_encoded}"/>
+  <param name="work_id"  value="{$work_id}"/>
+  <param name="c"        value="{$c}"/>
+  <param name="coll"     value="{$coll}"/>
+  <param name="file"     value="{$file}"/>
+  <param name="status"   value="{$status}"/>
 </parameters>
 
 let $trans_doc :=
 for $doc in $list
 return  transform:transform($doc,$op,$params)
 
-(:$persdoc
-$trans_doc :)
+(:$persdoc:)
 
 return
-$params
+$trans_doc
 
+(:return
+$params
+:)
 
 (:
 <json type="object">
