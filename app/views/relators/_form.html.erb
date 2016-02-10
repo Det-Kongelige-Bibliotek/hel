@@ -5,7 +5,7 @@
 <% input_wrapper_html_class ||= "col-sm-12" %>
 <% agent_wrapper_html ||= { class: 'col-sm-6' } %>
 <% agent_input_html ||= {class: 'form-control', data: {function: 'authority-typeahead', model: 'Person'}} %>
-<% role_wrapper_html ||= { class: 'col-sm-6' } %>
+<% role_wrapper_html ||= { class: 'col-sm-4' } %>
 <% role_input_html ||= {} %>
 <% restrict_to ||= [] %>
 
@@ -15,14 +15,12 @@
                                          } do |rel_fields| %>
     <% id = "relater_input_#{rel_fields.index }" %>
     <div id="<%= id %>" class="row relator_fields">
-      <a class="btn btn-sm btn-error" href="#" data-function="delete-fields" data-target="#<%=id %>">
-        <span class="glyphicon glyphicon-minus"></span>
-        <%= delete_label %>
-      </a>
       <div class="<%= input_wrapper_html_class%>">
         <%= rel_fields.input :agent_id, label: agent_label, wrapper_html: agent_wrapper_html, input_html: agent_input_html %>
         <%= rel_fields.hidden_field :_destroy %>
         <%= rel_fields.input :role, collection: get_list_with_labels('Relators',restrict_to), wrapper_html: role_wrapper_html, input_html: role_input_html, required: true %>
+        <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#<%=id %>">
+        </a>
       </div>
     </div>
 <% end %>

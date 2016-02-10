@@ -185,13 +185,13 @@ $(document).ready(function(){
       return check_upload_file();
    });
 
-    $("#new_agent_modal").on('shown.bs.modal',function(event) {
+    $("#new_auth_modal").on('shown.bs.modal',function(event) {
         $(event.currentTarget).find('.modal-button').on('click',function() {
                     modalSaveForm($(event.currentTarget).find('form:first'), $(event.currentTarget).find('.modal-body:first'));
         });
     });
 
-    $("#new_agent_modal").on("hidden.bs.modal", function () {
+    $("#new_auth_modal").on("hidden.bs.modal", function () {
         $(this).removeData("bs.modal");
         $(this).find(".modal-body").html("");
     });
