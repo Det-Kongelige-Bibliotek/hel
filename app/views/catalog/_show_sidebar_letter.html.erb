@@ -1,3 +1,5 @@
+<% id = @document.id %>
+<% coll = "/db#{ id[0,id.rindex('/')] }" %>
 <% if current_search_session %>
     <div class="search-widgets">
       <%= link_to "Back to Book", "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
@@ -15,4 +17,4 @@
     </div>
 <% end %>
 
-<%= SnippetServer.render_snippet(@document.id, :op =>'form') %>
+<%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}) %>

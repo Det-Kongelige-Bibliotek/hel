@@ -1,17 +1,15 @@
 <%# default partial to display solr document fields in catalog show view -%>
-
-<% doc_has_text  = SnippetServer.doc_has_text(@document.id) %>
+<% id = @document.id %>
+<% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
 <div class="container nav-tab-instance-fixContainer">
   <div class="row"><div class="col-md-12">
     <div class="nav-tab-instance">
       <ul class="nav nav-tabs">
         <li role="presentation" class="active">
-          <% if doc_has_text %>
-              <%= link_to(solr_document_path(@document.id), disabled: !doc_has_text) do %>
+              <%= link_to(solr_document_path(@document.id)) do %>
                   Tekst
               <% end %>
-          <% end %>
         </li>
 
       </ul>
@@ -21,14 +19,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <% if doc_has_text %>
           <div class="text-content workContent">
             <div class="text">
-              <% text ||= SnippetServer.render_snippet(@document.id) %>
+              <% text = SnippetServer.render_snippet(id,{op:'render',c: coll}) %>
               <%= text.html_safe %>
             </div>
           </div>
-      <% end %>
     </div>
   </div>
 </div>

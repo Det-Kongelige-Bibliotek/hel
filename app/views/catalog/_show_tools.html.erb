@@ -1,4 +1,3 @@
-
 <%-
     # Compare with render_document_functions_partial helper, and
     # _document_functions partial. BL actually has two groups
@@ -8,18 +7,16 @@
     # functions by default only on detail.
 
 -%>
-<div class="panel panel-default show-tools">
-  <div class="panel-heading">
-    <%= t('blacklight.tools.title') %>
-  </div>
-
-  <div class="panel-body">
-    <ul class="nav">
-      <%= render_show_doc_actions @document do |config, inner| %>
-        <li class="<%= config.key %>">
-          <%= inner %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
+<% unless (@document['has_model_ssim'].include? 'Letter').present? %>
+    <div class="show-tools">
+      <div class="panel-body">
+        <ul class="nav">
+          <%= render_show_doc_actions @document do |config, inner| %>
+              <li class="<%= config.key %>">
+                <%= inner %>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+<% end %>
