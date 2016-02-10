@@ -352,14 +352,14 @@
   <xsl:template name="add_prev_next">
     <p class="navigate_prev_next">
       <xsl:comment>
-	<xsl:value-of select="$file"/>
-	<xsl:value-of select="$prev"/>
-	<xsl:value-of select="$prev_encoded"/>
-	<xsl:value-of select="$next"/>
-	<xsl:value-of select="$next_encoded"/>
+	<xsl:value-of select="$file"/><xsl:text>
+	</xsl:text><xsl:value-of select="$prev"/><xsl:text>
+	</xsl:text><xsl:value-of select="$prev_encoded"/><xsl:text>
+	</xsl:text><xsl:value-of select="$next"/><xsl:text>
+	</xsl:text><xsl:value-of select="$next_encoded"/>
       </xsl:comment>
 
-      <xsl:if test="$prev">
+      <xsl:if test="string-length($prev) &gt; 0">
 	<xsl:comment>previous_id</xsl:comment>
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
@@ -369,7 +369,7 @@
 	</xsl:element>
       </xsl:if>
 
-      <xsl:if test="$next">
+      <xsl:if test="string-length($next) &gt; 0">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
 	    <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
