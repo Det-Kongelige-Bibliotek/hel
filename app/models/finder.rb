@@ -5,29 +5,12 @@ class Finder
     ActiveFedora::SolrService.query("id:#{id}")
   end
 
-  def self.all_people(q=nil)
-    self.all_things(q,'Authority*Person')
-  end
-
-  def self.all_organizations(q=nil)
-    self.all_things(q,'Authority*Organization')
-  end
-
   def self.all_works
     ActiveFedora::SolrService.query(model_query('Work'), :rows => max_rows)
   end
 
   def self.works_by_title(title)
     ActiveFedora::SolrService.query("#{model_query('Work')} && title_tesim: \"#{title}\"", :rows => max_rows)
-  end
-
-  def self.search_by_same_as_uri(uri)
-    ActiveFedora::SolrService.query("same_as_uri_tesim:\"#{uri}\" ")
-  end
-
-  def self.all_things(q,model)
-    solr_q = "typeahead_tesim:#{q}*"
-    ActiveFedora::SolrService.query(solr_q,:fq=>"active_fedora_model_ssi:#{model}", :sort =>'display_value_ssi asc')
   end
 
   def self.get_letters(lb_id)
