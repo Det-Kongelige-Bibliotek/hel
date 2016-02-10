@@ -6,6 +6,12 @@
 
 <%= render :partial => 'show_tools' %>
 
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" style="width:<%= percent_of_completed_letters(@document.id) %>%">
+    <span style="color:black"><%= percent_of_completed_letters(@document.id) %>% færdig</span>
+  </div>
+</div>
+
 <% unless @document.more_like_this.empty? %>
     <div class="panel panel-default">
       <div class="panel-heading">More Like This</div>
