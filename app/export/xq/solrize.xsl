@@ -89,19 +89,52 @@
 			     select="./text()|descendant::node()/text()"/>
       </xsl:element>
 
-      <xsl:if test="$prev">
+      <xsl:variable name="lprev">
+	<xsl:choose>
+	  <xsl:when test="$prev">
+	    <xsl:value-of select="$prev"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+            <xsl:call-template name="get_prev_id"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+
+      <xsl:variable name="lprev">
+	<xsl:choose>
+	  <xsl:when test="$prev">
+	    <xsl:value-of select="$prev"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+            <xsl:call-template name="get_prev_id"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+
+      <xsl:variable name="lnext">
+	<xsl:choose>
+	  <xsl:when test="$next">
+	    <xsl:value-of select="$next"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+            <xsl:call-template name="get_next_id"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+
+      <xsl:if test="string-length($lprev) &gt; 0">
 	<xsl:element name="field">
 	  <xsl:attribute name="name">previous_id_ssi</xsl:attribute>
 	  <xsl:value-of 
-	      select="concat(substring-before($file,'.xml'),'-',$prev)"/>
+	      select="concat(substring-before($file,'.xml'),'-',$lprev)"/>
 	</xsl:element>
       </xsl:if>
 
-      <xsl:if test="$next">
+      <xsl:if test="string-length($lnext) &gt; 0">
 	<xsl:element name="field">
 	  <xsl:attribute name="name">next_id_ssi</xsl:attribute>
 	  <xsl:value-of 
-	      select="concat(substring-before($file,'.xml'),'-',$next)"/>
+	      select="concat(substring-before($file,'.xml'),'-',$lnext)"/>
 	</xsl:element>
       </xsl:if>
 
@@ -469,6 +502,16 @@
 	</xsl:for-each>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_prev_id">
+    <xsl:value-of
+	select="preceding::node()[@decls and @xml:id][1]/@xml:id"/>
+  </xsl:template>
+
+  <xsl:template name="get_next_id">
+    <xsl:value-of
+	select="following::node()[@decls and @xml:id][1]/@xml:id"/>
   </xsl:template>
 
 

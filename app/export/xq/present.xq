@@ -34,20 +34,31 @@ let $list :=
     return $doc
 
 let $prev := 
+  if($frag) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document 
     return $doc/preceding::t:div[1]/@xml:id
+  else
+    ""
 
 let $next := 
+  if($frag) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
     return $doc/following::t:div[1]/@xml:id
+  else
+    ""
 
 let $prev_encoded := 
+  if($frag) then
     concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$prev)
-
+  else
+    ""
 let $next_encoded := 
+  if($frag) then
     concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$next)
+  else
+    ""
 
 let $params := 
 <parameters>
