@@ -1,25 +1,28 @@
 <% remote ||= false %>
 <% delete_label = 'slet relator' unless delete_label.present? %>
 <% agent_label ||= 'Agent' %>
-<% relators ||= :relators %>
+<% role ||= [] %>
+<% input_wrapper_html_class ||= "col-sm-12" %>
+<% agent_wrapper_html ||= { class: 'col-sm-6' } %>
+<% agent_input_html ||= {class: 'form-control', data: {function: 'authority-typeahead', model: 'Person'}} %>
+<% role_wrapper_html ||= { class: 'col-sm-6' } %>
+<% role_input_html ||= {} %>
+<% restrict_to ||= [] %>
 
-<%= builder.simple_fields_for relators, defaults: { wrapper_html: { class: 'form-group' },
+
+<%= builder.simple_fields_for :relators, defaults: { wrapper_html: { class: 'form-group' },
                                                        input_html: { class: 'form-control' }
                                          } do |rel_fields| %>
-    <% id = "#{id}_#{rel_fields.index }" %>
+    <% id = "relater_input_#{rel_fields.index }" %>
     <div id="<%= id %>" class="row relator_fields">
-      <a class="btn btn-sm btn-error col-sm-offset-11" href="#" data-function="delete-fields" data-target="#<%=id %>">
+      <a class="btn btn-sm btn-error" href="#" data-function="delete-fields" data-target="#<%=id %>">
         <span class="glyphicon glyphicon-minus"></span>
         <%= delete_label %>
       </a>
-      <div class="col-sm-12">
-        <%= rel_fields.input :agent_id, label: agent_label, wrapper_html: { class: 'col-sm-6' }, input_html: {class: 'form-control', data: {function: 'authority-typeahead', model: 'Person'}} %>
+      <div class="<%= input_wrapper_html_class%>">
+        <%= rel_fields.input :agent_id, label: agent_label, wrapper_html: agent_wrapper_html, input_html: agent_input_html %>
         <%= rel_fields.hidden_field :_destroy %>
-        <% if !(defined? role).nil? && role.present? %>
-            <%= rel_fields.hidden_field :role, value: role %>
-        <% else %>
-            <%= rel_fields.input :role, collection: get_list_with_labels('Relators'), input_html: { class: 'combobox'}, wrapper_html: { class: 'col-sm-2' }, required: true %>
-        <% end %>
+        <%= rel_fields.input :role, collection: get_list_with_labels('Relators',restrict_to), wrapper_html: role_wrapper_html, input_html: role_input_html, required: true %>
       </div>
     </div>
 <% end %>
