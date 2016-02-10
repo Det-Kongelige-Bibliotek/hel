@@ -44,14 +44,17 @@ module ApplicationHelper
     profiles
   end
 
-  def letter_show_link(letter_id, label)
-    link_to label, "/catalog/#{URI::escape(letter_id, "/")}"
-  end
-
+  # Create the letter title
   def letter_title(sender, recipient, date)
     title= "TIL: " + recipient if recipient.present?
     title+= " FRA: " + sender if sender.present?
     title+= " DATO: "+ date if date.present?
+    title
+  end
+
+  # Calculate the percentage of the letters that are done in a letter_book
+  def percent_of_completed_letters(lb_id)
+    ((Finder.get_completed_letters(lb_id).count.to_f / Finder.get_all_letters(lb_id).count.to_f) * 100).round(2)
   end
 
   def translate_model_names(name)
