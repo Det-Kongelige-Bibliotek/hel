@@ -15,4 +15,6 @@
     </div>
 <% end %>
 
-<%= SnippetServer.render_snippet(@document.id, :op =>'form') %>
+<% if current_user && (current_user.admin?) %>
+  <%= SnippetServer.render_snippet(@document.id, :op =>'form') %>
+<% end %>
