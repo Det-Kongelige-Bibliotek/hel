@@ -46,7 +46,7 @@ Author Sigfrid Lundberg slu@kb.dk
 	<xsl:for-each select="//node()[$id=@xml:id]">
 	  <div>
 	    <xsl:attribute name="id">
-	      <xsl:value-of select="$id"/>
+	      <xsl:value-of select="concat('form',$id)"/>
 	    </xsl:attribute>
 	    <xsl:call-template name="formulate"/>
 	  </div>

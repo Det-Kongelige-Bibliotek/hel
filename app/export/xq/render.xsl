@@ -358,8 +358,9 @@
 	</xsl:text><xsl:value-of select="$next"/><xsl:text>
 	</xsl:text><xsl:value-of select="$next_encoded"/>
       </xsl:comment>
-
-      <xsl:if test="string-length($prev) &gt; 0">
+      
+      <xsl:choose>
+	<xsl:when test="string-length($prev) &gt; 0">
 	<xsl:comment>previous_id</xsl:comment>
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
@@ -367,16 +368,46 @@
 	  </xsl:attribute>
 	  forrige
 	</xsl:element>
-      </xsl:if>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:variable name="lprev">
+	    <xsl:call-template name="get_prev_id"/>
+	  </xsl:variable>
+	  <xsl:if test="$lprev">
+	    <xsl:element name="a">
+	      <xsl:attribute name="href">
+		<xsl:value-of select="concat('#',$lprev)"/>
+	      </xsl:attribute>
+	      forrige
+	    </xsl:element>
+	  </xsl:if>
+	</xsl:otherwise>
+      </xsl:choose>
 
-      <xsl:if test="string-length($next) &gt; 0">
-	<xsl:element name="a">
-	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
-	  </xsl:attribute>
-	  næste
-	</xsl:element>
-      </xsl:if>
+      <xsl:choose>
+	<xsl:when test="string-length($next) &gt; 0">
+	  <xsl:comment>next_id</xsl:comment>
+	  <xsl:element name="a">
+	    <xsl:attribute name="href">
+	      <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
+	    </xsl:attribute>
+	    næste
+	  </xsl:element>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:variable name="lnext">
+	    <xsl:call-template name="get_next_id"/>
+	  </xsl:variable>
+	  <xsl:if test="$lnext">
+	    <xsl:element name="a">
+	      <xsl:attribute name="href">
+		<xsl:value-of select="concat('#',$lnext)"/>
+	      </xsl:attribute>
+	      næste
+	    </xsl:element>
+	  </xsl:if>
+	</xsl:otherwise>
+      </xsl:choose>
     </p>
   </xsl:template>
 
@@ -388,5 +419,14 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template name="get_prev_id">
+    <xsl:value-of
+	select="preceding::node()[@decls and @xml:id][1]/@xml:id"/>
+  </xsl:template>
+
+  <xsl:template name="get_next_id">
+    <xsl:value-of
+	select="following::node()[@decls and @xml:id][1]/@xml:id"/>
+  </xsl:template>
 
 </xsl:stylesheet>
