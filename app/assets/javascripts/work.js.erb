@@ -86,7 +86,7 @@ $(document).ready(function(){
         e.preventDefault();
         var selector = $(this).attr('data-selector'); // cloning messes up the data() method
         var $fields = $(selector);
-        disableAgentTypeahead($fields)
+        disableAuthorityTypeahead($fields)
         var $new_fields = $fields.clone(true);
         $new_fields.show();
         // Update all name and id attributes before pasting in the clone
@@ -106,8 +106,8 @@ $(document).ready(function(){
         //TODO: This doesn't work for some reason fix it
         $('#' + combobox_id).combobox();
 
-        enableAgentTypeahead($fields);
-        enableAgentTypeahead($new_fields);
+        enableAuthorityTypeahead($fields);
+        enableAuthorityTypeahead($new_fields);
     });
     $('[data-function="delete-fields"]').click(function(e){
         e.preventDefault()
@@ -178,13 +178,23 @@ $(document).ready(function(){
 
     $(".upload-file-form").on('submit',function(event){ButtonClicked();return true});
 
-    enableAgentTypeahead($(":root"));
+    enableAuthorityTypeahead($(":root"));
 
     //When submitting the form the check_upload_file function is called to check if a content file is uploaded
    $("#new_instance").on('submit',function(event){
       return check_upload_file();
    });
 
+    $("#new_auth_modal").on('shown.bs.modal',function(event) {
+        $(event.currentTarget).find('.modal-button').on('click',function() {
+                    modalSaveForm($(event.currentTarget).find('form:first'), $(event.currentTarget).find('.modal-body:first'));
+        });
+    });
+
+    $("#new_auth_modal").on("hidden.bs.modal", function () {
+        $(this).removeData("bs.modal");
+        $(this).find(".modal-body").html("");
+    });
 });
 
 // when the form-loader retrieves a form, append it to
@@ -321,122 +331,44 @@ function renderImageFoundModal(event) {
     link.attr('data-toggle','modal');
     link.off('click',renderImageFoundModal);
     return false;
-
 }
 
-function ButtonClicked()
-{
+function ButtonClicked() {
     document.getElementById("submit-button").style.display = "none"; // to undisplay
     document.getElementById("button-loading").style.display = ""; // to display
     return true;
 }
 
 
-
-
-//
-function disableAgentTypeahead(obj) {
-    obj.find(".agent-typeahead").typeahead('destroy');
+// Authority Typeahead functionallity
+function enableAuthorityTypeahead(obj) {
+    obj.find('[data-function="authority-typeahead"]').each(function(){
+        $(this).authority_typeahead({model: $(this).attr('data-model')});
+    });
 }
 
-// Typeahead functionallity
-function enableAgentTypeahead(obj) {
-    var localagents = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit: 10,
-        remote: {
-            url: '/solrwrapper/search/%QUERY',
-            wildcard: '%QUERY'
+function disableAuthorityTypeahead(obj) {
+    obj.find('[data-function="authority-typeahead"]').authority_typeahead({remove: true});
+}
+
+
+// modal functionallity
+function modalSaveForm(form,content_div) {
+
+
+    $.ajax({
+        type: $(form).attr('method'),
+        url: $(form).attr('action')+'.json',
+        data: $(form).serialize(),
+        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function(data) {
+            $(content_div).html('<p> Person '+data.name+' oprettet');
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Status: " + textStatus);
+            alert("Error: " + errorThrown);
         }
     });
 
-    var viafagents = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: 'http://viaf.org/viaf/AutoSuggest?query=%QUERY&callback=?',
-            wildcard: '%QUERY',
-            limit: 10,
-            ajax: {
-                jsonp: 'callback',
-                type: 'GET',
-                dataType: 'jsonp'
-            },
-            filter: function(data) {
-                return data.result;
-            }
-        }
-    });
-
-    obj.find(".agent-typeahead").typeahead({
-        minLength: 1,
-        highlight: true },
-    {
-        name: 'Agents',
-        source: localagents,
-        displayKey: 'val',
-        templates: {
-            header: '<h3 class="agent-source">Valhal</h3>',
-            empty: '<div class="empty-message">Ingen agenter fundet. Opret evt. en ny</div>'
-        }
-    }, {
-                name: 'ViafAgents',
-                source: viafagents,
-                displayKey: 'term',
-                templates: {
-                    header: '<h3 class="agent-source">VIAF</h3>',
-                    empty: '<div class="empty-message">Ingen viaf agenter fundet</div>'
-                }
-            }).bind('typeahead:select', function(event, suggestion) {
-                // If the selection is from Valhal
-                if('id' in suggestion){
-                    $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(suggestion.id);
-                }
-                // If the selection is from Viaf
-                else if('viafid' in suggestion){
-                    $.ajax({
-                        type: 'GET',
-                        url: '/solrwrapper/searchbysameasuri?uri=http://viaf.org/viaf/'+suggestion.viafid,
-                        dataType: 'json',
-                        success: function (data) {
-                            $(event.target).parent().parent().parent().find("input[id$='agent_id']").val(data.id);
-                        },
-                        error: function (data) {
-                            $('#new_agent_modal').modal();
-                            $('#loading').modal();
-                            $('#authority_person_same_as_uri').val("http://viaf.org/viaf/" + suggestion.viafid);
-                            $(event.target).val('');
-                            modal_agent_field = event.target.id;
-                            console.log("modal_agent_field "+modal_agent_field);
-                            viafImport();
-                        }
-                    });
-                }
-            });
-
-
-    function update_agent_label(label_obj,agent_id) {
-        $.ajax({
-            type: 'GET',
-            url: '/solrwrapper/getobj/'+encodeURIComponent(agent_id),
-            dataType: 'json',
-            success: function (data) {
-                label_obj.val(data.val);
-            }
-        });
-    }
-
-    $(".agent-typeahead[id$='agent_label']").each(function(){
-        id = $(this).parentsUntil("div.relator_fields").find("input[id$='agent_id']").val();
-        label_obj = $(this);
-        if (id != '') {
-            update_agent_label(label_obj,id);
-        }
-    });
-
-    $("#new_agent_modal" ).on('shown.bs.modal', function(){
-        modal_agent_field = $(".agent-typeahead:last").get(0).id
-        console.log("modal_agent_field "+modal_agent_field);
-    });
 }

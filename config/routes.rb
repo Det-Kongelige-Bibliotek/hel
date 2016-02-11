@@ -17,7 +17,6 @@ Rails.application.routes.draw do
       get 'send_to_preservation', on: :member
       get  'validate_tei', on: :member
     end
-    resources :trykforlaegs
     post 'aleph', on: :collection
   end
 
@@ -45,19 +44,15 @@ Rails.application.routes.draw do
 
   blacklight_for :catalog
   devise_for :users
+  mount Authority::Engine => "/authority"
 
-  namespace :authority do
-    resources :people do
-      get 'viaf', on: :collection
-    end
-    resources :organizations, :places
-  end
+
 
   get 'resources/:id' => 'resources#show'
 
   get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
   get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
-  get 'solrwrapper/searchbysameasuri/', to: 'solr_wrapper#search_by_same_as_uri'
+
 
 
   # The priority is based upon order of creation:

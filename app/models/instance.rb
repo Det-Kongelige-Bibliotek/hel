@@ -30,8 +30,6 @@ class Instance < ActiveFedora::Base
   has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
 
   has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
-  #This makes no sense, you can't have a datastream as a predicate, and there is no class name StructMap
- #has_many :struct_map, predicate: Datastreams::MetsStructMap
   has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
   has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
 

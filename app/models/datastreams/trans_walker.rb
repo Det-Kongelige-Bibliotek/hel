@@ -41,11 +41,9 @@ module Datastreams
         date   = p.xpath('mods:namePart[@type="date"]',
                          'mods'=>ns).text
 
-        if family.present? || given.present?
-          author = Authority::Person.new(given_name: given, family_name: family)
-        else
-          author = Authority::Person.new(_name: full)
-        end
+
+        author = Authority::Person.find_or_create(given_name: given, family_name: family)
+
         self.add_author(author)
       end
 
