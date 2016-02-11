@@ -1,34 +1,43 @@
-<h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first["display_value_ssm"].first %></h6>
-<h5><%= letter_show_link(letter['id'], letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"])) %></h5>
-<br>
-<dl style="float:right">
-<% if letter["status_ssi"].present? %>
-    <dt>Status:</dt>
-    <dd class="zeniasUglyBox<%
-    case letter["status_ssi"]
-      when "created" %> green<%
-      when "state2" %> red<%
-      when "state3" %> blue<%
-    end
-    %>"><%= letter["status_ssi"] %></dd>
-<% end %>
-</dl>
+<% for letter in l %>
+  <h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first["display_value_ssm"].first %></h6>
+
+  <% so, sid = letter['id'].split('-')%>
+
+  <% if letter_title(letter["sender_ssi"] , letter["recipient_ssi"], letter["date_ssi"]) %>
+     <h5><%= letters_link(letter['id'], letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"])) %></h5>
+  <% else %>
+     <h5><%= letters_link(letter['id'], "Intet title") %></h5>
+  <% end %>
+  <br>
+  <dl style="float:right">
+
+     <% if letter["status_ssi"].present? %>
+      <dt>Status:</dt>
+      <dd class="zeniasUglyBox<%
+      case letter["status_ssi"]
+        when "created" %> green<%
+        when "state2" %> red<%
+        when "state3" %> blue<%
+      end
+      %>"><%= letter["status_ssi"] %></dd>
+    <% end %>
+  </dl>
   <dl class="document-metadata dl-horizontal dl-invert">
-  <% if letter["recipient_location_ssi"].present? %>
+    <% if letter["recipient_location_ssi"].present? %>
       <dt>Modtagelsessted:</dt>
       <dd><%= letter["recipient_location_ssi"] %></dd>
-  <% end %>
-  <% if letter["sender_location_ssi"].present? %>
+    <% end %>
+    <% if letter["sender_location_ssi"].present? %>
       <dt>Afsendelsessted:</dt>
       <dd><%= letter["sender_location_ssi"] %></dd>
-  <% end %>
-  <% if letter["page_ssi"].present? %>
+    <% end %>
+    <% if letter["page_ssi"].present? %>
       <dt>Sider:</dt>
       <dd><%= letter["page_ssi"] %></dd>
-  <% end %>
-  <% if letter["has_model_ssim"].present? %>
+    <% end %>
+    <% if letter["has_model_ssim"].present? %>
       <dt>Format:</dt>
       <dd><%= letter["has_model_ssim"].first %></dd>
-  <% end %>
-
-</dl>
+    <% end %>
+  </dl>
+<% end %>

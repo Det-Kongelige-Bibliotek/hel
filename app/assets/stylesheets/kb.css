@@ -164,3 +164,6 @@
      background-color:blue;
  }
 
+#content .container{
+    width: 100%;
+}
