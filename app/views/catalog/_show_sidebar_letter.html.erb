@@ -8,15 +8,16 @@
 
 <%= render :partial => 'show_tools' %>
 
-<% if @document["status_ssi"].present? %>
+<% if letter["status_ssi"].present? %>
     <dt>Status:</dt>
-    <dd class="zeniasUglyBox<%
-       case @document["status_ssi"]
-         when "created" %> green<%
-       when "state2" %> red<%
-       when "state3" %> blue<%
+    <dd class="status-box<%
+       case letter["status_ssi"]
+         when "created" %> yellow<%
+       when "waiting" %> orange<%
+       when "working" %> blue<%
+       when "completed" %> green<%
        end
-    %>"><%= @document["status_ssi"] %></dd>
+    %>"><%= letter["status_ssi"] %></dd>
 <% end %>
 
 <% unless @document.more_like_this.empty? %>
