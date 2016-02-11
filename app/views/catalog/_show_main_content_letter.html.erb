@@ -22,7 +22,7 @@
           <div class="text-content workContent">
             <div class="text">
               <% book_id, div_id = @document.id.split('-') %>
-              <% text ||= SnippetServer.render_snippet(book_id) %>
+              <% text ||= SnippetServer.render_snippet(book_id,{:c=> coll}) %>
               <%= text.html_safe %>
             </div>
           </div>
