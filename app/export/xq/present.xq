@@ -1,5 +1,6 @@
-xquery version "1.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8";
 
+import module namespace json="http://xqilla.sourceforge.net/lib/xqjson";
 declare namespace xdb        = "http://exist-db.org/xquery/xmldb";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
@@ -10,6 +11,7 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
@@ -21,7 +23,8 @@ declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
-declare option    exist:serialize "method=xml omit-xml-declaration=yes  media-type=text/html";
+
+declare option output:encoding "UTF-8";
 
 let $list := 
   if($frag and not($o = "facsimile" or $o = "form")) then
@@ -80,5 +83,11 @@ let $params :=
 </parameters>
 
 for $doc in $list
-return  transform:transform($doc,$op,$params)
+  let $res := transform:transform($doc,$op,$params)
+  return  
+    if($o='json') then
+      json:serialize-json($res)
+    else
+      $res
+
 

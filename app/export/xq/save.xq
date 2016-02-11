@@ -63,6 +63,9 @@ let $list :=
     where util:document-name($doc)=$document
     return $doc
 
+
+
+
 let $params := 
 <parameters>
   <param name="uri_base" value="http://{request:get-header('HOST')}"/>
