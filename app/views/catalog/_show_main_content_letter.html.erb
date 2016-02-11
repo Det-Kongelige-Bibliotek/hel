@@ -24,7 +24,8 @@
       <% if doc_has_text %>
           <div class="text-content workContent">
             <div class="text">
-              <% text ||= SnippetServer.render_snippet(@document.id) %>
+              <% book_id, div_id = @document.id.split('-') %>
+              <% text ||= SnippetServer.render_snippet(book_id) %>
               <%= text.html_safe %>
             </div>
           </div>

@@ -48,6 +48,11 @@ module ApplicationHelper
     link_to label, "/catalog/#{URI::escape(letter_id, "/")}"
   end
 
+  def letters_link(letter_id, label)
+    book_id, div_id = letter_id.split('-')
+    link_to label, "/catalog/#{URI::escape(letter_id, "/")}##{div_id}"
+  end
+
   def letter_title(sender, recipient, date)
     title= "TIL: " + recipient if recipient.present?
     title+= " FRA: " + sender if sender.present?
