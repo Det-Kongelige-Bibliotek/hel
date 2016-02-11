@@ -10,11 +10,12 @@
 
 <% if @document["status_ssi"].present? %>
     <dt>Status:</dt>
-    <dd class="zeniasUglyBox<%
+    <dd class="status-box<%
        case @document["status_ssi"]
-         when "created" %> green<%
-       when "state2" %> red<%
-       when "state3" %> blue<%
+         when "created" %> yellow<%
+       when "waiting" %> orange<%
+       when "working" %> blue<%
+       when "completed" %> green<%
        end
     %>"><%= @document["status_ssi"] %></dd>
 <% end %>
