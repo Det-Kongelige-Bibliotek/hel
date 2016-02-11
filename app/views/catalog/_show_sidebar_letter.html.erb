@@ -8,6 +8,17 @@
 
 <%= render :partial => 'show_tools' %>
 
+<% if @document["status_ssi"].present? %>
+    <dt>Status:</dt>
+    <dd class="zeniasUglyBox<%
+       case @document["status_ssi"]
+         when "created" %> green<%
+       when "state2" %> red<%
+       when "state3" %> blue<%
+       end
+    %>"><%= @document["status_ssi"] %></dd>
+<% end %>
+
 <% unless @document.more_like_this.empty? %>
     <div class="panel panel-default">
       <div class="panel-heading">More Like This</div>
@@ -17,4 +28,6 @@
     </div>
 <% end %>
 
-<%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}) %>
+<% if current_user && (current_user.admin?) %>
+    <%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}) %>
+<% end %>

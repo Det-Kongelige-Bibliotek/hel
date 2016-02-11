@@ -167,3 +167,6 @@
      background-color:yellow;
  }
 
+#content .container{
+    width: 100%;
+}

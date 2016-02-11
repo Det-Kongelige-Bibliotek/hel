@@ -15,4 +15,8 @@
     </div>
 <% end %>
 
-<%= render partial: 'letter_books/form', locals: { id: @document.id } %>
+<%if current_user && urrent_user.admin? %>
+  <%= render partial: 'letter_books/form', locals: { id: @document.id } %>
+<%else %>
+  <%= render partial: 'letter_books/show', locals: { id: @document.id } %>
+<% end %>
