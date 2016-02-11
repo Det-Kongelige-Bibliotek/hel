@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<h4> <% letters = Finder.get_letters(@document.id) %> </h4>
+<h4> <% letters = Finder.get_all_letters(@document.id) %> </h4>
 <% for l in letters %>
     <%= render "letter_index", letter: l %>
 <% end %>
