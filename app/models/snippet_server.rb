@@ -52,11 +52,11 @@ class SnippetServer
 
   def self.render_snippet(id,opts={})
     if id.include? '/'
-      opts[:c] = id[0,id.rindex('/')]
       a = id[id.rindex('/')+1, id.length].split("-")
     else
       a =id.split("-")
     end
+
     uri  = snippet_server_url
     uri += "#{opts[:project]}" if opts[:project].present?
     uri += "/"+get_snippet_script

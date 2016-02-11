@@ -1,14 +1,15 @@
 <h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first["display_value_ssm"].first %></h6>
-<h5><%= letter_show_link(letter['id'], letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"])) %></h5>
+<h5><%= link_to letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"]),  solr_document_path(id: letter['id'])  %></h5>
 <br>
 <dl style="float:right">
 <% if letter["status_ssi"].present? %>
     <dt>Status:</dt>
-    <dd class="zeniasUglyBox<%
+    <dd class="status-box<%
     case letter["status_ssi"]
-      when "created" %> green<%
-      when "state2" %> red<%
-      when "state3" %> blue<%
+      when "created" %> yellow<%
+      when "waiting" %> orange<%
+      when "working" %> blue<%
+      when "completed" %> green<%
     end
     %>"><%= letter["status_ssi"] %></dd>
 <% end %>
