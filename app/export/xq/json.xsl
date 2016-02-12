@@ -113,7 +113,7 @@ Author Sigfrid Lundberg slu@kb.dk
 	      </xsl:with-param>
 	    </xsl:call-template>
 	    <xsl:call-template name="mk_input">
-	      <xsl:with-param name="name" select="'id'"/>
+	      <xsl:with-param name="name" select="'xml_id'"/>
 	      <xsl:with-param name="value">
 		<xsl:value-of select="@xml:id"/>
 	      </xsl:with-param>
@@ -141,7 +141,7 @@ Author Sigfrid Lundberg slu@kb.dk
       </xsl:call-template>
 
       <xsl:call-template name="mk_input">
-	<xsl:with-param name="name" select="'id'"/>
+	<xsl:with-param name="name" select="'xml_id'"/>
 	<xsl:with-param name="value">
 	  <xsl:value-of select="@xml:id"/>
 	</xsl:with-param>

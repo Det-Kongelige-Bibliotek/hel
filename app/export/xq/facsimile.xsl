@@ -20,7 +20,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <!-- this is for image URIs that are not absolute 
        (not starting with http -->
 
-  <xsl:param name="prefix" select="'http://kb-images.kb.dk/public/'"/>
+  <xsl:param name="prefix" select="''"/>
 
   <xsl:output encoding="UTF-8"
 	      indent="yes"
@@ -103,7 +103,8 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
         <xsl:element name="img">
 	  <xsl:attribute name="height">750</xsl:attribute>
 	  <xsl:attribute name="data-src">
-            <xsl:value-of select="concat(@facs,'/full/,750/0/native.jpg')"/>
+            <xsl:value-of select="@facs"/>
+            <!--xsl:value-of select="concat(@facs,'/full/,750/0/native.jpg')"/-->
 	  </xsl:attribute>
 	  <xsl:attribute name="src">
 	  </xsl:attribute>
@@ -115,7 +116,8 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	  <xsl:attribute name="height">750</xsl:attribute>
 	  <xsl:attribute name="data-src">
             <xsl:value-of 
-		select="concat($prefix,@facs,'/full/,750/0/native.jpg')"/>
+		select="@facs"/> 
+<!--		select="concat($prefix,@facs,'/full/,750/0/native.jpg')"/> -->
 	  </xsl:attribute>
           <xsl:attribute name="src">
           </xsl:attribute>

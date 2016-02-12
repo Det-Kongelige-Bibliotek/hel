@@ -1,4 +1,4 @@
-xquery version "1.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8";
 
 import module namespace json="http://xqilla.sourceforge.net/lib/xqjson";
 
@@ -12,6 +12,7 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
+declare namespace local="http://kb.dk/this/app";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
@@ -20,10 +21,37 @@ declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","solrize");
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $status   := request:get-parameter("status","");
+(: The posted content should actually live in a param with the same name :)
+
+declare variable  $content  := request:get-parameter("content","");
 declare variable  $coll     := concat($c,'/');
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
+
+
+
+declare function local:enter-data(
+  $frag as xs:string,
+  $doc as node(),
+  $json as node()) as node()
+{
+  let $letter := $doc//node()[@xml:id=$frag]
+  let $bibl := $doc//t:bibl[@xml:id = $letter/@decls]
+  let $sender := $json//pair[@name='sender']
+  let $sender_id := $sender//pair[@name="xml_id"]
+  let $s := $letter//t:persName[$sender_id=@xml:id]
+  let $upd := 
+    if($s) then
+      update insert attribute key {$sender//pair[@name="family_name"]/text()} into $s
+    else
+      ""
+
+      let $shit := <shit/>
+    return $shit
+
+};
+
 
 
 let $prev := 
@@ -53,18 +81,12 @@ let $next_encoded :=
   else
     ""
 
-let $list := 
-  if($frag and not($o = "facsimile")) then
-    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
-    where util:document-name($doc)=$document
-    return $doc
-  else
-    for $doc in collection($coll)
-    where util:document-name($doc)=$document
-    return $doc
+let $data := json:parse-json($content)
 
-
-
+let $doc := 
+for $tei in collection($coll)
+where util:document-name($tei)=$document
+return $tei
 
 let $params := 
 <parameters>
@@ -85,9 +107,9 @@ let $params :=
   <param name="status"   value="{$status}"/>
 </parameters>
 
-let $trans_doc :=
-for $doc in $list
-return  transform:transform($doc,$op,$params)
+let $d := local:enter-data($frag,$doc,$data)
+let $trans_doc := transform:transform($doc,$op,$params)
 
 return
 $trans_doc
+

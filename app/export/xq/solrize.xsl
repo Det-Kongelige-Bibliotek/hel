@@ -419,7 +419,7 @@
 	  <xsl:for-each select="t:placeName">
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
-		<xsl:value-of select="concat($role,'_location_ssi')"/>
+		<xsl:value-of select="concat($role,'_location_ssim')"/>
 	      </xsl:attribute>
 	      <xsl:value-of select="t:placeName"/>
 	    </xsl:element>
@@ -438,7 +438,7 @@
 	  </xsl:variable>
 	  <xsl:element name="field">
 	    <xsl:attribute name="name">
-	      <xsl:value-of select="concat($role,'_location_ssi')"/>
+	      <xsl:value-of select="concat($role,'_location_ssim')"/>
 	    </xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
@@ -456,7 +456,7 @@
 			      /t:date[@when/node() or node()]">
 	  <xsl:for-each select="(t:date/@when|t:date/node())">
 	    <xsl:element name="field">
-	      <xsl:attribute name="name">date_ssi</xsl:attribute>
+	      <xsl:attribute name="name">date_ssim</xsl:attribute>
 	      <xsl:value-of select="."/>
 	    </xsl:element>
 	  </xsl:for-each>
@@ -465,7 +465,7 @@
       <xsl:otherwise>
 	<xsl:for-each select="descendant::t:date">
 	  <xsl:element name="field">
-	    <xsl:attribute name="name">date_ssi</xsl:attribute>
+	    <xsl:attribute name="name">date_ssim</xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
 	</xsl:for-each>
@@ -481,7 +481,7 @@
 	<xsl:for-each select="//t:bibl[@xml:id=$bibl]
 			      /t:respStmt[t:resp/node() and t:name/node()]">
 	  <xsl:variable name="field">
-	    <xsl:value-of select="concat(t:resp,'_ssi')"/>
+	    <xsl:value-of select="concat(t:resp,'_ssim')"/>
 	  </xsl:variable>
 	  <xsl:for-each select="t:name">
 	    <xsl:element name="field">
@@ -496,7 +496,7 @@
       <xsl:otherwise>
 	<xsl:for-each select="descendant::t:persName">
 	  <xsl:variable name="field">
-	    <xsl:value-of select="concat(@type,'_ssi')"/>
+	    <xsl:value-of select="concat(@type,'_ssim')"/>
 	  </xsl:variable>
 	  <xsl:element name="field">
 	    <xsl:attribute name="name">
