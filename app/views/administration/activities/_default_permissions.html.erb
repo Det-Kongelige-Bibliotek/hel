@@ -1,22 +1,22 @@
 <fieldset class="row" id="instance-permissions">
-    <legend class="col-sm-12">Instance Permissions</legend>
+    <legend class="col-sm-12"><%= t('.ins_permissions') %></legend>
 
     <% get_controlled_vocab('Hydra Access Types').each do |access_type| %>
       <div class="col-sm-4">
-        <%= builder.label "permissions[instance][group][#{access_type}]", access_type %>
-        <%= select_tag "administration_activity[permissions][instance][group][#{access_type}][]",
-                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.permissions['instance']['group'][access_type]), {:multiple => :multiple} %>
+        <%= builder.label "permissions[instance][group][#{access_type}]", t(access_type) %>
+        <%= select_tag "administration_activity[activity_permissions][instance][group][#{access_type}][]",
+                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.activity_permissions['instance']['group'][access_type]), {:multiple => :multiple} %>
         </div>
     <% end %>
 </fieldset>
 <fieldset class="row" id="instance-permissions">
-  <legend class="col-sm-12">File Permissions</legend>
+  <legend class="col-sm-12"><%= t('.file_permissions') %></legend>
 
   <% get_controlled_vocab('Hydra Access Types').each do |access_type| %>
       <div class="col-sm-4">
-        <%= builder.label "permissions[file][group][#{access_type}]", access_type %>
-        <%= select_tag "administration_activity[permissions][file][group][#{access_type}][]",
-                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.permissions['file']['group'][access_type]), {:multiple => :multiple} %>
+        <%= builder.label "permissions[file][group][#{access_type}]", t(access_type) %>
+        <%= select_tag "administration_activity[activity_permissions][file][group][#{access_type}][]",
+                       options_for_select(get_controlled_vocab("Hydra Access Groups"),@activity.activity_permissions['file']['group'][access_type]), {:multiple => :multiple} %>
       </div>
   <% end %>
 </fieldset>

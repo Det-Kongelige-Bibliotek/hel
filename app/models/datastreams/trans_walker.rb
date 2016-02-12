@@ -26,28 +26,37 @@ module Datastreams
       
       self.add_title(tit)
 
-      mods.person.nodeset.each { |p|
+      mods.person.nodeset.each do |p|
         ns = p.namespace.href
-        family = p.xpath('car:namePart[@type="family"]','car'=>ns).text
-        given  = p.xpath('car:namePart[@type="given"]','car'=>ns).text
-        date   = p.xpath('car:namePart[@type="date"]','car'=>ns).text
 
-        if(!family.blank? or !given.blank?) then
-          nhash = {'scheme' => 'KB', 'family' => family, 'given' => given, 'date' => date}
-        else
-          full  = p.xpath('car:namePart','car'=>ns).text
-          nhash = {'scheme' => 'KB', 'full' => full, 'date' => date}
-        end
-        name={authorized_personal_name: nhash }
-        mads=Authority::Person.create(name)
-        self.add_author(mads)
-      }
+        family = p.xpath('mods:namePart[@type="family"]',
+                         'mods'=>ns).text.delete("\n").delete("\t")
 
+        given  = p.xpath('mods:namePart[@type="given"]',
+                         'mods'=>ns).text.delete("\n").delete("\t")
+
+        full   = p.xpath('mods:namePart',
+                         'mods'=>ns).text.delete("\n").delete("\t")
+
+        date   = p.xpath('mods:namePart[@type="date"]',
+                         'mods'=>ns).text
+
+
+        author = Authority::Person.find_or_create(given_name: given, family_name: family)
+
+        self.add_author(author)
+      end
+
+      self.origin_date  = mods.dateIssued.first
+
+      place = Authority::Place.find_or_create(_name: mods.originPlace.first)
+      self.origin_place = place
+      self
     end
 
     def to_instance(mods)
-
-      self.note=mods.note
+      # maybe we can use to_sentence instead of join
+      self.note=mods.note.join('; ')
 
       # self.note
       # self.identifier 
@@ -78,11 +87,10 @@ module Datastreams
 
       # Don't know what happens if these are repeated.
 
-      self.published_date  = mods.dateIssued.first
-      self.publisher_name  = mods.publisher.first
-      self.published_place = mods.originPlace.first
-    end
+      pub = Authority::Organization.find_or_create(_name: mods.publisher.first)
+      self.add_publisher(pub)
 
-    
+
+    end
   end
 end

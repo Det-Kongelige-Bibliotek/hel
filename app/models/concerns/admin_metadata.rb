@@ -5,40 +5,34 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      has_metadata :name => 'adminMetadata', :type => Datastreams::AdminDatastream
-      has_metadata :name => 'permissionMetadata', :type=> Datastreams::PermissionMetadata
+      contains 'adminMetadata', class_name: 'Datastreams::AdminDatastream'
 
-      has_attributes :activity, :workflow_status, :embargo, :embargo_date, :embargo_condition, :access_condition,
-                     :copyright, :material_type, :availability, :collection,
-                     datastream: 'adminMetadata', :multiple => false
+      #has_attributes :activity, :workflow_status, :embargo, :embargo_date, :embargo_condition, :access_condition,
+      #               :copyright, :material_type, :availability, :collection, :type, :external_repository, :validation_status,
+      #               :ophavsret_status
+      #               datastream: 'adminMetadata', :multiple => false
+      property :activity,  delegate_to: 'adminMetadata', :multiple => false
+      property :workflow_status,  delegate_to: 'adminMetadata', :multiple => false
+      property :embargo,  delegate_to: 'adminMetadata', :multiple => false
+      property :embargo_date,  delegate_to: 'adminMetadata', :multiple => false
+      property :embargo_condition,  delegate_to: 'adminMetadata', :multiple => false
+      property :access_condition,  delegate_to: 'adminMetadata', :multiple => false
+      property :copyright,  delegate_to: 'adminMetadata', :multiple => false
+      property :material_type,  delegate_to: 'adminMetadata', :multiple => false
+      property :material_type2,  delegate_to: 'adminMetadata', :multiple => false
+      property :availability,  delegate_to: 'adminMetadata', :multiple => false
+      property :collection,  delegate_to: 'adminMetadata', :multiple => true
+      property :type,  delegate_to: 'adminMetadata', :multiple => false
+      property :external_repository,  delegate_to: 'adminMetadata', :multiple => false
+      property :validation_status,  delegate_to: 'adminMetadata', :multiple => false
+      property :copyright_status, delegate_to: 'adminMetadata', :multiple => false
 
-      def permissions=(val)
-        permissionMetadata.remove_permissions
-        val['instance']['group'].each do |access,groups|
-          groups.each{|g| permissionMetadata.add_instance_permission(g,access,'group')} unless groups.blank?
-        end
-        val['file']['group'].each do |access,groups|
-          groups.each{|g| permissionMetadata.add_file_permission(g,access,'group')} unless groups.blank?
-        end
-      end
+      property :validation_message,  delegate_to: 'adminMetadata', :multiple => true
+      property :dissemination_profiles,  delegate_to: 'adminMetadata', :multiple => true
+      property :edit_in_GUI, delegate_to: 'adminMetadata', :multiple => false
 
-      def permissions
-        permissions = {}
-        permissions['file'] = {}
-        permissions['file']['group'] = {}
-
-        permissions['file']['group']['discover'] = permissionMetadata.get_file_groups('discover','group')
-        permissions['file']['group']['read'] = permissionMetadata.get_file_groups('read','group')
-        permissions['file']['group']['edit'] = permissionMetadata.get_file_groups('edit','group')
-
-        permissions['instance'] = {}
-        permissions['instance']['group'] = {}
-
-        permissions['instance']['group']['discover'] = permissionMetadata.get_instance_groups('discover','group')
-        permissions['instance']['group']['read'] = permissionMetadata.get_instance_groups('read','group')
-        permissions['instance']['group']['edit'] = permissionMetadata.get_instance_groups('edit','group')
-
-        permissions
+      def add_validation_message=(messages)
+        self.validation_message=messages
       end
     end
   end

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Account>
+<Mailaccount>
+	<Folder Name="Inbox">
+		<Message Mailbox="Inbox">
+			<Header>
+				<Date>2015-10-09 10:48:02</Date>
+				<FromName>Chris L Awre</FromName>
+				<FromAddr>C.Awre@hull.ac.uk</FromAddr>
+				<ReplyTo />
+				<To><![CDATA[Christen Hedegaard <chh@kb.dk>]]></To>
+				<Cc><![CDATA[Claus Jensen <cjen@kb.dk>]]></Cc>
+				<Bcc />
+				<Subject>HDPIG call follow-up</Subject>
+				<Priority>0</Priority>
+				<Flags>RE</Flags>
+				<MessageId><![CDATA[<FBF35FAD-5335-48C6-9C35-FCB7ED0C9CE5@hull.ac.uk>]]></MessageId>
+			</Header>
+			<Body>
+<![CDATA[
+Christen/Claus,
+
+Thank you for the call yesterday, but my apologies for the delay in joining.
+I had meetings all afternoon right up against each other and they inevitably
+pushed each other to make me late.
+
+A quick piece of feedback on the Adobe Connect platform.  Oddly, I could
+hear Sara very clearly indeed, and Nik reasonably clearly, but your voice
+was quite crackly.  Do you think this relates to the microphone being used?
+How did I come across?
+
+As to future actions, I will draft some WG charters in the next week and
+send them to you for an initial look.  I would then like to share them via
+hydra-community to get wider feedback and invite contribution.  I would hope
+we can then confirm the WGs at the next call and proceed from there.  I will
+also email Karen Estlund re: the Metadata Interest Group to scope how we
+link any work on PCDM to them.
+
+Regards,
+
+Chris
+
+
+]]>
+			</Body>
+			<Attachments>
+ATT00001.txt
+			</Attachments>
+			<File>
+				<FileNameSubject>HDPIG call follow-up</FileNameSubject>
+				<FileNameMD5>feea79579b7a8dd97cb7bf050780351c</FileNameMD5>
+			</File>
+		</Message>
+	</Folder>
+</Mailaccount>
+
+</Account>

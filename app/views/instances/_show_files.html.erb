@@ -1,36 +1,23 @@
-<a id="upload"></a><h4>Files</h4>
-<% @instance.content_files.each do |f| %>
-    <strong><%= f.original_filename %></strong>
-    <table class="table table-striped"><tbody>
-    <tr>
-      <td> <strong>Filnavn</strong></td>
-      <td>
-        <%= f.original_filename %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <strong>Bevarings profil</strong>
-      </td>
-      <td>
-        <span><%= @instance.preservation_profile %></span>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Bevarings Status</strong></td>
-      <td><%= f.preservation_state %></td>
-    </tr>
-    <tr>
-      <td><strong>Bevarings Detaljer</strong></td>
-      <td><%= f.preservation_details %></td>
-    </tr>
-    <tr>
-      <td><strong>Download link</strong></td>
-      <td>
-        <%if can?(:download,@instance.content_files.first) %>
-            <%= link_to "Download", download_content_file_path(f)%>
-        <% end %>
-      </td>
-    </tr>
-</tbody></table>
+<a id="upload"></a><h4><%= t('.label') %></h4>
+<% if @instance.content_files.empty? %>
+    <%= t('instances.show_files.no_files') %>
+    <hr/>
+<% else %>
+    <% @instance.content_files.each do |f| %>
+        <div>
+          <strong>
+            <%= f.original_filename %>
+            <%= link_to t('instances.show_files.details'), "##{f.original_filename.split('.').first}", class: 'btn btn-default', data: {toggle: 'collapse'} %>
+            <% if can?(:download, f) %>
+                <%= link_to(t(:show), f, class: 'btn btn-default') %>
+                <%= link_to(t('.download'), download_content_file_path(f), class: 'btn btn-default') %>
+            <% end %>
+          </strong>
+          <%= content_tag :div, id: f.original_filename.split('.').first, class: 'collapse' do %>
+              <%= render partial: 'content_files/file_info', locals: {file: f, instance: @instance} %>
+              <%= render partial: 'instances/upload_file_modal', :locals => {:file => f} %>
+          <% end %>
+        </div>
+        <hr/>
+    <% end %>
 <% end %>

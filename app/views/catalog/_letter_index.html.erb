@@ -1,0 +1,35 @@
+<h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first["display_value_ssm"].first %></h6>
+<h5><%= link_to letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"]),  solr_document_path(id: letter['id'])  %></h5>
+<br>
+<dl style="float:right">
+<% if letter["status_ssi"].present? %>
+    <dt>Status:</dt>
+    <dd class="status-box<%
+    case letter["status_ssi"]
+      when "created" %> yellow<%
+      when "waiting" %> orange<%
+      when "working" %> blue<%
+      when "completed" %> green<%
+    end
+    %>"><%= letter["status_ssi"] %></dd>
+<% end %>
+</dl>
+  <dl class="document-metadata dl-horizontal dl-invert">
+  <% if letter["recipient_location_ssi"].present? %>
+      <dt>Modtagelsessted:</dt>
+      <dd><%= letter["recipient_location_ssi"] %></dd>
+  <% end %>
+  <% if letter["sender_location_ssi"].present? %>
+      <dt>Afsendelsessted:</dt>
+      <dd><%= letter["sender_location_ssi"] %></dd>
+  <% end %>
+  <% if letter["page_ssi"].present? %>
+      <dt>Sider:</dt>
+      <dd><%= letter["page_ssi"] %></dd>
+  <% end %>
+  <% if letter["has_model_ssim"].present? %>
+      <dt>Format:</dt>
+      <dd><%= letter["has_model_ssim"].first %></dd>
+  <% end %>
+
+</dl>

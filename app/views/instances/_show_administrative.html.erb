@@ -1,11 +1,11 @@
-<a id="administrative"></a><h4>Administrative Data</h4>
+<a id="administrative"></a><h4><%= t('.label') %></h4>
 <table class="table table-striped"><tbody>
 <tr>
 <td>
   <strong><%= t('.activity') %></strong>
 </td>
 <td>
-  <span><%= Administration::Activity.find(@instance.activity).activity %></span>
+  <span><%= Administration::Activity.find(@instance.activity).activity rescue nil %></span>
 </td>
 </tr>
 <tr>
@@ -13,7 +13,7 @@
     <strong><%= t('.collection') %></strong>
   </td>
   <td>
-    <span><%= t("Collections.#{@instance.collection}") if @instance.collection.present? %></span>
+    <span><%= @instance.collection.to_sentence %></span>
   </td>
 </tr>
 <tr>
@@ -21,7 +21,7 @@
     <strong><%= t('.copyright') %></strong>
   </td>
   <td>
-    <span><%= @instance.copyright %></span>
+    <span><%= rdf_resource_link(@instance.copyright) %></span>
   </td>
 </tr>
 <tr>
@@ -42,15 +42,23 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservation_profile') %></strong>
+    <strong><%= t('instances.administrative.is_available') %></strong>
   </td>
   <td>
-    <span><%= @instance.preservation_profile %></span>
+    <span><%= @instance.availability == '1' ? 'Ja' : 'Nej' %></span>
   </td>
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservation_state') %></strong>
+    <strong><%= t('instances.show_administrative.preservation_collection') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.preservation_collection %></span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t('instances.show_administrative.preservation_state') %></strong>
   </td>
   <td>
     <span><%= @instance.preservation_state %></span>
@@ -58,11 +66,42 @@
 </tr>
 <tr>
   <td>
-    <strong><%= t('.preservaton_details') %></strong>
+    <strong><%= t('instances.show_administrative.preservaton_details') %></strong>
   </td>
   <td>
     <span><%= @instance.preservation_details %></span>
   </td>
 </tr>
-
+<tr>
+  <td>
+    <strong><%= t('instances.show_administrative.preservation_date') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.preservation_modify_date %></span>
+  </td>
+</tr>
+<tr>
+  <td><strong><%= t('instances.show_administrative.preservation_initiated_date') %></strong></td>
+  <td><%= @instance.preservation_initiated_date || t('instances.show_administrative.preservation_not_started') %></td>
+</tr>
+<tr>
+  <td>
+    <strong><%= t('instances.show_administrative.warc_id') %></strong>
+  </td>
+  <td>
+    <span><%= @instance.warc_id %></span>
+  </td>
+</tr>
+<% if @instance.copyright_status.present? %>
+    <tr>
+      <td>
+        <strong><%= t('.copyright_status') %></strong>
+      </td>
+      <td>
+        <span>
+           <%= @instance.copyright_status %>
+        </span>
+      </td>
+    </tr>
+<% end %>
 </tbody></table>

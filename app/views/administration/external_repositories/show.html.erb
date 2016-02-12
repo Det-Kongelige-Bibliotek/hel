@@ -1,0 +1,49 @@
+<div class="container">
+  <h1>
+    <%= t('.title') %><%= @external_repository.name %>
+  </h1>
+  <table class="table">
+    <tr>
+      <td>URL</td>
+      <td><%= @external_repository.url%></td>
+    </tr>
+    <tr>
+      <td><%= t('.title') %></td>
+      <td><%= @external_repository.branch%></td>
+    </tr>
+    <tr>
+      <td><%= t('.activity') %></td>
+      <td><%= @external_repository.activity%></td>
+    </tr>
+    <tr>
+      <td><%= t('.base') %></td>
+      <td><%= @external_repository.base_dir%></td>
+    </tr>
+    <tr>
+      <td><%= t('.image') %></td>
+      <td><%= @external_repository.image_dir%></td>
+    </tr>
+    <tr>
+      <td><%= t('.sync') %></td>
+      <td><%= @external_repository.sync_method%></td>
+    </tr>
+    <tr>
+      <td><%= t('.sync_status') %></td>
+      <td><%= @external_repository.sync_status%></td>
+    </tr>
+    <tr>
+      <td><%= t('.sync_date') %></td>
+      <td><%= @external_repository.sync_date%></td>
+    </tr>
+  </table>
+
+  <h2><%= t('.log') %></h2>
+  <pre>
+  <% @external_repository.sync_message.each do |msg| %>
+    <%= msg.msg %>
+  <% end %>
+  </pre>
+
+  <%= link_to t(:syncronise), syncronise_administration_external_repository_path(@external_repository) %> |
+  <%= link_to t(:back), administration_controlled_lists_path %>
+</div>

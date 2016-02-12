@@ -12,9 +12,24 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.validate
+//= require jquery.validate.additional-methods
+//= require jquery-ui
+//= require jquery.are-you-sure
+//= require xray
 //
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require bootstrap-combobox
+//= require bootstrap-select.min
+// Required by Authority gem
+//= require authority/viaf/jquery.viafauto.js
+//= require authority/viaf/jquery.viafauto.extended.js
+//= require authority/viaf/viaf_util.js
+// require authority/viaf/viafImport.js
+//= require authority/typeahead.bundle.js
+//= require authority/authority_typeahead.js
+
+// Now include the rest (in random order)
 //= require_tree .
-//= require jquery.are-you-sure
+
