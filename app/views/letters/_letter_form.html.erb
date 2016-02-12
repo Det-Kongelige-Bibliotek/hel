@@ -8,25 +8,38 @@
     <%= form.hidden_field :file %>
     <fieldset class="row">
       <legend>Afsender(e)</legend>
-      <% @letter.sender.each_with_index do |sender,index| %>
+      <% if @letter.sender.present? %>
+        <% @letter.sender.each_with_index do |sender,index| %>
           <label><%= sender["text"] %></label>
           <div class="sender-fields">
             <%= form.hidden_field  "[sender][#{index}][xml_id]", value: sender["xml_id"] %>
             <input id="<%= "letter_sender_#{index}_auth_id" %>" name="<%= "letter[sender][#{index}][auth_id]" %>" value="<%= sender["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
           </div>
+        <% end %>
+      <% else %>
+          <div class="recipient-fields">
+            <input id="<%= "letter_recipient_0_auth_id" %>" name="<%= "letter[recipient][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
+          </div>
       <% end %>
-      <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".sender-fields:last">
+
+          <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".sender-fields:last">
         <span class="glyphicon glyphicon-plus"></span>
         Tilføj Afsender
       </a>
     </fieldset>
     <fieldset class="row">
       <legend>Modtager(e)</legend>
-      <% @letter.recipient.each_with_index do |rcp,index| %>
-          <label><%= rcp["text"] %></label>
+      <% if @letter.recipient.present? %>
+          <% @letter.recipient.each_with_index do |rcp,index| %>
+              <label><%= rcp["text"] %></label>
+              <div class="recipient-fields">
+                  <%= form.hidden_field  "[recipient][#{index}][xml_id]", value: rcp["xml_id"] %>
+                  <input id="<%= "letter_recipient_#{index}_auth_id" %>" name="<%= "letter[recipient][#{index}][auth_id]" %>" value="<%= rcp["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
+              </div>
+          <% end %>
+      <% else %>
           <div class="recipient-fields">
-              <%= form.hidden_field  "[recipient][#{index}][xml_id]", value: rcp["xml_id"] %>
-              <input id="<%= "letter_recipient_#{index}_auth_id" %>" name="<%= "letter[recipient][#{index}][auth_id]" %>" value="<%= rcp["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
+            <input id="<%= "letter_recipient_0_auth_id" %>" name="<%= "letter[recipient][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
           </div>
       <% end %>
       <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".recipient-fields:last">
@@ -34,26 +47,42 @@
         Tilføj Modtager
       </a>
     </fieldset>
-    <fieldset class="row">
-      <legend>Sted(er)</legend>
-      <% @letter.place.each_with_index do |place,index| %>
-          <label><%= place["text"] %></label>
-          <div class="form.group">
-            <%= form.hidden_field  "[place][#{index}][xml_id]", value: place["xml_id"] %>
-            <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][auth_id]" %>" value="<%= place["name"] %>">
-            <select name="letter[place][<%= index %>][type]">
-              <option value="send_place" <%= place["type"] == "send_place" ? 'selected': '' %> >Afsendelsessted</option>
-              <option value="rcp_place" <%= place["type"] == "rcp_place" ? 'selected': '' %> >Modtagelsessted</option>
-            </select>
-          </div>
-      <% end %>
-    </fieldset>
+        <fieldset class="row">
+          <legend>Sted(er)</legend>
+          <% if @letter.place.present? %>
+              <% @letter.place.each_with_index do |place,index| %>
+                  <label><%= place["text"] %></label>
+                  <div class="places-fielsform.group">
+                    <%= form.hidden_field  "[place][#{index}][xml_id]", value: place["xml_id"] %>
+                    <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][auth_id]" %>" value="<%= place["name"] %>">
+                    <select name="letter[place][<%= index %>][type]">
+                      <option value="send_place" <%= place["type"] == "send_place" ? 'selected': '' %> >Afsendelsessted</option>
+                      <option value="rcp_place" <%= place["type"] == "rcp_place" ? 'selected': '' %> >Modtagelsessted</option>
+                    </select>
+                  </div>
+              <% end %>
+          <% else %>
+              <div class="places-fields form.group">
+                <%= form.hidden_field  "[place][0][xml_id]", value: '' %>
+                <input id="<%= "place_0_auth_id" %>" name="<%= "letter[place][0][auth_id]" %>"  %>"
+                <select name="letter[place][0][type]">
+                  <option value="send_place" >Afsendelsessted</option>
+                  <option value="rcp_place" >Modtagelsessted</option>
+                </select>
+              </div>
+          <% end %>
+          <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".places-fields:last">
+            <span class="glyphicon glyphicon-plus"></span>
+            Tilføj Sted
+          </a>
+        </fieldset>
+
     <fieldset class="row">
       <legend>Dato</legend>
-      <label><%= @letter.date["text"] %></label>
+      <label><%=@letter.date.present? ? @letter.date["text"] : ''%></label>
       <%= form.hidden_field "[date][xml_id]", value: @letter.date["xml_id"] %>
 
-      <input name="letter[date][date]" value="<%= @letter.date["date"] %>">
+      <input name="letter[date][date]" value="<%=@letter.date.present? ? @letter.date["date"] : '' %>">
     </fieldset>
     <%= form.submit %>
 <% end %>
