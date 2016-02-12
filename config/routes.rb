@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   post 'view_file/import_from_preservation'
   get 'statistics' => 'statistics#show'
 
-
   resources :instances do
     member do
       get 'preservation'
@@ -22,6 +21,7 @@ Rails.application.routes.draw do
 
   resources :mixed_materials
   resources :letter_books
+  resources :letters
 
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
   get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
+
 
 
 

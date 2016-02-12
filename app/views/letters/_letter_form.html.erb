@@ -1,0 +1,59 @@
+
+<a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/people/new?modal=true" data-target="#new_auth_modal">
+  <span class="glyphicon glyphicon-plus"></span>
+  <%= t('.new_person') %>
+</a>
+<%= simple_form_for @letter do |form| %>
+    <%= form.hidden_field :id%>
+    <fieldset class="row">
+      <legend>Afsender(e)</legend>
+      <% @letter.sender.each_with_index do |sender,index| %>
+          <label><%= sender["text"] %></label>
+          <div class="sender-fields">
+            <%= form.hidden_field  "[sender][#{index}][xml_id]", value: sender["xml_id"] %>
+            <input id="<%= "letter_sender_#{index}_auth_id" %>" name="<%= "letter[sender][#{index}][auth_id]" %>" value="<%= sender["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
+          </div>
+      <% end %>
+      <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".sender-fields:last">
+        <span class="glyphicon glyphicon-plus"></span>
+        Tilføj Afsender
+      </a>
+    </fieldset>
+    <fieldset class="row">
+      <legend>Modtager(e)</legend>
+      <% @letter.recipient.each_with_index do |rcp,index| %>
+          <label><%= rcp["text"] %></label>
+          <div class="recipient-fields">
+              <%= form.hidden_field  "[recipient][#{index}][xml_id]", value: rcp["xml_id"] %>
+              <input id="<%= "letter_recipient_#{index}_auth_id" %>" name="<%= "letter[recipient][#{index}][auth_id]" %>" value="<%= rcp["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
+          </div>
+      <% end %>
+      <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".recipient-fields:last">
+        <span class="glyphicon glyphicon-plus"></span>
+        Tilføj Modtager
+      </a>
+    </fieldset>
+    <fieldset class="row">
+      <legend>Sted(er)</legend>
+      <% @letter.place.each_with_index do |place,index| %>
+          <label><%= place["text"] %></label>
+          <div class="form.group">
+            <%= form.hidden_field  "[place][#{index}][xml_id]", value: place["xml_id"] %>
+            <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][auth_id]" %>" value="<%= place["name"] %>">
+            <select name="letter[place][<%= index %>][type]">
+              <option value="send_place" <%= place["type"] == "send_place" ? 'selected': '' %> >Afsendelsessted</option>
+              <option value="rcp_place" <%= place["type"] == "rcp_place" ? 'selected': '' %> >Modtagelsessted</option>
+            </select>
+          </div>
+      <% end %>
+    </fieldset>
+    <fieldset class="row">
+      <legend>Dato</legend>
+      <label><%= @letter.date["text"] %></label>
+      <%= form.hidden_field "[date][xml_id]", value: @letter.date["xml_id"] %>
+
+      <input name="letter[date][date]" value="<%= @letter.date["date"] %>">
+    </fieldset>
+    <%= form.submit %>
+<% end %>
+<%= render partial: 'shared/new_auth_modal', locals: {label: 'new_auth_modal'} %>

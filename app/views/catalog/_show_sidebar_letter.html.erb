@@ -30,5 +30,7 @@
 <% end %>
 
 <% if current_user && (current_user.admin?) %>
-    <%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}) %>
+    <% data = '{"id":"12345637", "sender" : [{"text" : "Kære Viktor", "xml_id" : "idm11111"},{"text" : "og Hans", "xml_id" : "idm11112"}], "recipient" : [{"text" : "Hilsen Tove", "xml_id": "idm2222"}], "place" : [{"text" : "Det mørke Jylland", "xml_id" : "idm3333"},{"text": "Hovedstaden", "xml_id": "idm4444"}], "date" : {"text":"lørdag","xml_id":"idm5555"}}' %>
+    <% @letter = Letter.from_json(data) %>
+    <%= render partial: 'letters/letter_form'  %>
 <% end %>
