@@ -29,6 +29,7 @@
 // require authority/viaf/viafImport.js
 //= require authority/typeahead.bundle.js
 //= require authority/authority_typeahead.js
+//= require jquery.unveil.min
 
 // Now include the rest (in random order)
 //= require_tree .
