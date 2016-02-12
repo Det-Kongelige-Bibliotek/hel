@@ -74,7 +74,7 @@ Author Sigfrid Lundberg slu@kb.dk
       </xsl:call-template>
 
       <xsl:if test="descendant::t:persName[@type='sender']">	
-	<pair name="senders" type="array">
+	<pair name="sender" type="array">
 	  <xsl:for-each select="descendant::t:persName[@type='sender']">	
 	    <xsl:call-template name="mk_field">
 	      <xsl:with-param name="name">text</xsl:with-param>
@@ -84,7 +84,7 @@ Author Sigfrid Lundberg slu@kb.dk
       </xsl:if>
 
       <xsl:if test="descendant::t:persName[@type='recipient']">	
-	<pair name="recipients" type="array">
+	<pair name="recipient" type="array">
 	  <xsl:for-each select="descendant::t:persName[@type='recipient']">
 	    <xsl:call-template name="mk_field">
 	      <xsl:with-param name="name">text</xsl:with-param>
@@ -94,7 +94,7 @@ Author Sigfrid Lundberg slu@kb.dk
       </xsl:if>
 
       <xsl:if test="descendant::t:geogName">	
-	<pair name="places" type="array">
+	<pair name="place" type="array">
 	  <xsl:for-each select="descendant::t:geogName">
 	    <xsl:call-template name="mk_field">
 	      <xsl:with-param name="name">text</xsl:with-param>
@@ -104,10 +104,20 @@ Author Sigfrid Lundberg slu@kb.dk
       </xsl:if>
      
       <xsl:if test="descendant::t:date">
-	<pair name="dates" type="array">
-	  <xsl:for-each select="descendant::t:date">
-	    <xsl:call-template name="mk_field">
+	<pair name="date" type="object">
+	  <xsl:for-each select="descendant::t:date[1]">
+	    <xsl:call-template name="mk_input">
 	      <xsl:with-param name="name">text</xsl:with-param>
+	      <xsl:with-param name="value">
+		<xsl:value-of select="."/>
+	      </xsl:with-param>
+	    </xsl:call-template>
+	    <xsl:call-template name="mk_input">
+	      <xsl:with-param name="name" select="'id'"/>
+	      <xsl:with-param name="value">
+		<xsl:value-of select="@xml:id"/>
+	      </xsl:with-param>
+	      <xsl:with-param name="type">pair</xsl:with-param>
 	    </xsl:call-template>
 	  </xsl:for-each>
 	</pair>
