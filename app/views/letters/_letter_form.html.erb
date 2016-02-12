@@ -4,7 +4,8 @@
   <%= t('.new_person') %>
 </a>
 <%= simple_form_for @letter do |form| %>
-    <%= form.hidden_field :id%>
+    <%= form.hidden_field :id %>
+    <%= form.hidden_field :file %>
     <fieldset class="row">
       <legend>Afsender(e)</legend>
       <% @letter.sender.each_with_index do |sender,index| %>
