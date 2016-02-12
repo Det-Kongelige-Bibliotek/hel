@@ -11,6 +11,12 @@
                   Tekst
               <% end %>
         </li>
+        <li role="presentation">
+              <%# Note we need to use no_turbolink because turbolinks will fuck with the unveil library %>
+              <%= link_to(facsimile_catalog_path(@document.id) + "/", data: { no_turbolink: true }) do %>
+                  Faksimile
+              <% end %>
+        </li>
 
       </ul>
     </div></div>
@@ -21,8 +27,7 @@
     <div class="col-md-12">
           <div class="text-content workContent">
             <div class="text">
-              <% book_id, div_id = @document.id.split('-') %>
-              <% text ||= SnippetServer.render_snippet(book_id,{:c=> coll}) %>
+              <% text ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
               <%= text.html_safe %>
             </div>
           </div>
