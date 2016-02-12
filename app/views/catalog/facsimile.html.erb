@@ -1,0 +1,45 @@
+<% document ||= @document %>
+<% id = @document.id %>
+<% coll = "/db#{ id[0, id.rindex('/')] }" %>
+
+<!--TODO: I (definitely) don't think that this is the right way to render facsimile and the form-->
+<div id="sidebar" class="<%= show_sidebar_classes %>">
+  <%= render partial: 'show_sidebar_letter' %>
+</div>
+
+<%# @page_title = @document['work_title_tesim'].first.strip+'- Arkiv for Dansk Litteratur' %>
+<div id="content" class="<%= show_content_classes %>">
+  <%#= render partial: 'previous_next_doc' %>
+  <%#= render partial: 'catalog/show_header_work' %>
+
+  <div class="container nav-tab-instance-fixContainer">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="nav-tab-instance">
+          <ul class="nav nav-tabs">
+            <li role="presentation">
+              <%= link_to(solr_document_path(document)) do %>
+                  Tekst
+              <% end %>
+            </li>
+            <li role="presentation" class="active">
+              <%# Note we need to use no_turbolink because turbolinks will fuck with the unveil library %>
+              <%= link_to(facsimile_catalog_path(document.id) + "/", data: {no_turbolink: true}) do %>
+                  Faksimile
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <%= SnippetServer.facsimile(@document.id, {c: coll}).html_safe %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

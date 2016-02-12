@@ -50,6 +50,8 @@ function check_upload_file(){
 
 $(document).ready(function(){
 
+    $("img").unveil();
+
     $(document).ajaxSend(function(event, request, settings) {
         $('#new_authority_person :input').prop('disabled', true);
         $('#loading-indicator').show();
