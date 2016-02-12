@@ -23,8 +23,7 @@ declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
-
-declare option output:encoding "UTF-8";
+declare option exist:serialize "method=xml encoding=UTF-8 media-type=text/html";
 
 let $list := 
   if($frag and not($o = "facsimile" or $o = "form")) then
