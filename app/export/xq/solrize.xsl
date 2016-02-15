@@ -317,7 +317,7 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">author_id_ssi</xsl:attribute>
+      <xsl:attribute name="name">author_id_ssim</xsl:attribute>
       <xsl:value-of select="$author_id"/>
     </xsl:element>
 
@@ -334,7 +334,7 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">editor_id_ssi</xsl:attribute>
+      <xsl:attribute name="name">editor_id_ssim</xsl:attribute>
       <xsl:value-of select="$editor_id"/>
     </xsl:element>
 

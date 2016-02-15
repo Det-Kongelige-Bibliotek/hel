@@ -30,7 +30,9 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
+declare function local:enter-location-data(
 
+)
 
 declare function local:enter-person-data(
   $frag as xs:string,
