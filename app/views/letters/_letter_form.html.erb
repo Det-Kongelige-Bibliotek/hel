@@ -54,7 +54,7 @@
                   <label><%= place["text"] %></label>
                   <div class="places-fielsform.group">
                     <%= form.hidden_field  "[place][#{index}][xml_id]", value: place["xml_id"] %>
-                    <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][auth_id]" %>" value="<%= place["name"] %>">
+                    <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][name]" %>" value="<%= place["name"] %>">
                     <select name="letter[place][<%= index %>][type]">
                       <option value="send_place" <%= place["type"] == "send_place" ? 'selected': '' %> >Afsendelsessted</option>
                       <option value="rcp_place" <%= place["type"] == "rcp_place" ? 'selected': '' %> >Modtagelsessted</option>
@@ -82,7 +82,7 @@
       <label><%=@letter.date.present? ? @letter.date["text"] : ''%></label>
       <%= form.hidden_field "[date][xml_id]", value: @letter.date["xml_id"] %>
 
-      <input name="letter[date][date]" value="<%=@letter.date.present? ? @letter.date["date"] : '' %>">
+      <input name="letter[date][edtf]" value="<%=@letter.date.present? ? @letter.date["edtf"] : '' %>">
     </fieldset>
     <%= form.submit %>
 <% end %>
