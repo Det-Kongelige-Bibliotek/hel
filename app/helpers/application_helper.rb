@@ -24,10 +24,12 @@ module ApplicationHelper
   # displayed is either the element's label if present
   # or the element's name if not.
   # The list is sorted by the value of the labels ascending
-  def get_list_with_labels(list_name)
+  # if a recstrict_to argument is given, array is restricted to elements with the name in the list
+  def get_list_with_labels(list_name,restrict_to=[])
     list = Administration::ControlledList.with(:name, list_name)
     elements = list.nil? ? [] : list.elements.to_a
     elements.map!{ |e| [ (e.label.present? ? e.label : e.name), e.name] }
+    elements.select!{|e| restrict_to.include?(e.last)} if restrict_to.present?
     elements.sort { |x,y| x.first <=> y.first }
   end
 
@@ -44,11 +46,25 @@ module ApplicationHelper
     profiles
   end
 
+  def letter_show_link(letter_id, label)
+    link_to label, "/catalog/#{URI::escape(letter_id, "/")}"
+  end
+
+  def letters_link(letter_id, label)
+    book_id, div_id = letter_id.split('-')
+    link_to label, "/catalog/#{URI::escape(letter_id, "/")}##{div_id}"
+  end
+
   def letter_title(sender, recipient, date)
     title= "TIL: " + recipient if recipient.present?
     title+= " FRA: " + sender if sender.present?
     title+= " DATO: "+ date if date.present?
     title
+  end
+
+  # Calculate the percentage of the letters that are done in a letter_book
+  def percent_of_completed_letters(lb_id)
+    ((Finder.get_completed_letters(lb_id).count.to_f / Finder.get_all_letters(lb_id).count.to_f) * 100).round(2)
   end
 
   def translate_model_names(name)

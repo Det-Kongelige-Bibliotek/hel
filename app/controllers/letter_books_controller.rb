@@ -9,7 +9,7 @@ class LetterBooksController < ApplicationController
   end
 
   def edit
-
+    @letter_book.relators.build(role:'http://id.loc.gov/vocabulary/relators/edt') unless @letter_book.editors.present?
   end
 
   def update
@@ -29,11 +29,26 @@ class LetterBooksController < ApplicationController
   end
 
   def work_params
-    params[:letter_book].permit( :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type]])
+    params[:letter_book].permit(:language, :origin_date, titles_attributes: [[:id, :value, :subtitle, :lang, :type, :_destroy]],
+                                relators_attributes: [[ :id, :agent_id, :role, :_destroy ]], subjects: [[:id]], note:[]).tap do |fields|
+      # remove any inputs with blank values
+      fields['titles_attributes'] = fields['titles_attributes'].select {|k,v| v['value'].present? && (v['id'].present? || v['_destroy'] != '1')} if fields['titles_attributes'].present?
+
+      #remove any agents whit blank agent_id
+      #remove any agents whith no relator_id and destroy set to true (this happens when a user has added a relator in the interface
+      # and deleted it again before saving)
+      fields['relators_attributes'] = fields['relators_attributes'].select {|k,v| v['agent_id'].present? && (v['id'].present? || v['_destroy'] != '1')} if fields['relators_attributes'].present?
+    end
   end
 
   def instance_params
-    params[:letter_book][:instance].permit( :edition, :note)
+    params[:letter_book][:instance].permit(:type, :activity, :title_statement, :extent, :copyright,
+                                           :dimensions, :mode_of_issuance, :isbn13, :material_type,
+                                           :contents_note, :embargo, :embargo_date, :embargo_condition,
+                                           :publisher, :published_date, :copyright_holder, :copyright_date, :copyright_status,
+                                           :access_condition, :availability, :preservation_collection, :note, collection: [],
+                                           content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
+                                           publications_attributes: [[:id, :copyright_date, :provider_date ]]).tap { |elems| remove_blanks(elems) }
   end
 
 end

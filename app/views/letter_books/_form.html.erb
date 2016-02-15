@@ -8,15 +8,39 @@
 
   <%= simple_form_for @letter_book do |f| %>
 
+      <div class="row">
+        <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/people/new?modal=true" data-target="#new_auth_modal">
+          <span class="glyphicon glyphicon-plus"></span>
+          <%= t('.new_person') %>
+        </a>
+        <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/organizations/new?modal=true" data-target="#new_auth_modal">
+          <span class="glyphicon glyphicon-plus"></span>
+          <%= t('.new_organization') %>
+        </a>
+      </div>
+
       <%= render partial: 'works/simple_title', locals: {builder: f} %>
+
+      <%= render partial: 'relators/form', locals: {builder: f, agent_label: 'Udgiver', delete_label: 'Slet Udgiver', input_wrapper_html_class: "", restrict_to: ['http://id.loc.gov/vocabulary/relators/aut','http://id.loc.gov/vocabulary/relators/edt']} %>
+      <div class='col-sm-12'>
+        <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
+          <span class="glyphicon glyphicon-plus"></span>
+          <%= t('.add_editor') %>
+        </a>
+      </div>
 
       <%= f.input :origin_date %>
       <%= f.simple_fields_for @letter_book.get_instance('TEI') do |instance_fields| %>
           <%= instance_fields.input :edition %>
+          <%= instance_fields.input :publisher, input_html: { data: {function: 'authority-typeahead', model: 'Organization'}} %>
+          <%= instance_fields.input :published_date %>
           <%= instance_fields.input :note %>
       <% end %>
 
       <%= f.submit t('letter_books.edit.save'), class: 'btn btn-lg btn-success' %>
   <% end %>
+
+  <%= render partial: 'shared/new_auth_modal', locals: {label: 'new_auth_modal'} %>
+
 
 </div>

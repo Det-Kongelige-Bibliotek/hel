@@ -9,7 +9,7 @@
   <% object.relators.each do |relator| %>
       <tr>
         <td>
-          <strong><%= link_to relator.agent.display_value, relator.agent rescue nil %></strong>
+          <strong><%= link_to relator.agent._name, authority.person_url(relator.agent)  rescue nil %></strong>
         </td>
         <td>
           <span><%= rdf_resource_link(relator.role) %></span>

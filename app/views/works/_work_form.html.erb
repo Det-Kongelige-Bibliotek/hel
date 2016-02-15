@@ -37,7 +37,7 @@
         <fieldset class="row">
           <legend class="col-sm-12">
             <%= t('.author') %>
-            <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="#new_agent_modal">
+            <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/people/new?modal=true" data-target="#new_agent_modal">
               <span class="glyphicon glyphicon-plus"></span>
               <%= t('.new_person') %>
             </a>
@@ -68,23 +68,7 @@
         </fieldset>
         <fieldset class="row col-sm-12">
           <legend class="col-sm-12"><%#= t('.subject') %></legend>
-          <%# if @work.subjects.size > 0  %>
-          <%# @work.subjects.each_with_index do |subject,index| %>
-          <%#= render  partial: 'works/subject_authority',  locals: {subject: subject , index: index, hidden:false} %>
-          <%# end%>
-          <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: @work.subjects.size, hidden:true} %>
-          <%# else %>
-          <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 0, hidden:false} %>
-          <%#= render partial: 'works/subject_authority', locals: {subject: nil , index: 1, hidden:true} %>
-          <%# end %>
-          <!--
-          <div class='col-sm-12'>
-            <a class="btn btn-sm btn-success" href="#" data-function="new-subject">
-              <span class="glyphicon glyphicon-plus"></span>
-              <%#= t('.add_subject') %>
-            </a>
-          </div>
-          -->
+
         </fieldset>
 
         <div class='col-sm-12'>
@@ -98,6 +82,6 @@
   </div>
 </div>
 
-<%= render partial: 'works/new_agent_modal' %>
+<%= render partial: 'shared/new_auth_modal', locals: {label: 'new_agent_modal'} %>
 <%= render partial: 'works/aleph_import' %>
 

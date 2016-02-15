@@ -22,11 +22,15 @@
 //= require blacklight/blacklight
 //= require bootstrap-combobox
 //= require bootstrap-select.min
-// Make sure that VIAF files are included in the right order
-//= require viaf/jquery.viafauto.js
-//= require viaf/jquery.viafauto.extended.js
-//= require viaf/jquery.viaf.autocomplete.js
-//= require viaf/viaf_util.js
+// Required by Authority gem
+//= require authority/viaf/jquery.viafauto.js
+//= require authority/viaf/jquery.viafauto.extended.js
+//= require authority/viaf/viaf_util.js
+// require authority/viaf/viafImport.js
+//= require authority/typeahead.bundle.js
+//= require authority/authority_typeahead.js
+//= require jquery.unveil.min
+
 // Now include the rest (in random order)
 //= require_tree .
 

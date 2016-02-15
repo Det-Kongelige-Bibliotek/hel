@@ -1,4 +1,5 @@
 <%# default partial to display solr document fields in catalog show view -%>
+<%= render 'catalog/show_header_default' %>
 <% id = @document.id %>
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
@@ -11,6 +12,12 @@
                   Tekst
               <% end %>
         </li>
+        <li role="presentation">
+              <%# Note we need to use no_turbolink because turbolinks will fuck with the unveil library %>
+              <%= link_to(facsimile_catalog_path(@document.id) + "/", data: { no_turbolink: true }) do %>
+                  Faksimile
+              <% end %>
+        </li>
 
       </ul>
     </div></div>
@@ -21,7 +28,7 @@
     <div class="col-md-12">
           <div class="text-content workContent">
             <div class="text">
-              <% text = SnippetServer.render_snippet(id,{op:'render',c: coll}) %>
+              <% text ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
               <%= text.html_safe %>
             </div>
           </div>
