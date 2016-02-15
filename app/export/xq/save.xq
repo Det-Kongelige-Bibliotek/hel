@@ -13,6 +13,7 @@ declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace local="http://kb.dk/this/app";
+declare namespace uuid="java:java.util.UUID";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
@@ -31,24 +32,57 @@ declare option    exist:serialize "method=xml media-type=text/xml";
 
 
 
-declare function local:enter-data(
+declare function local:enter-person-data(
   $frag as xs:string,
+  $role as xs:string,
   $doc as node(),
-  $json as node()) as node()
+  $json as node()) as node()*
 {
   let $letter := $doc//node()[@xml:id=$frag]
-  let $bibl := $doc//t:bibl[@xml:id = $letter/@decls]
-  let $sender := $json//pair[@name='sender']
-  let $sender_id := $sender//pair[@name="xml_id"]
-  let $s := $letter//t:persName[$sender_id=@xml:id]
-  let $upd := 
-    if($s) then
-      update insert attribute key {$sender//pair[@name="family_name"]/text()} into $s
-    else
-      ""
+  let $resp   := $doc//t:bibl[@xml:id = $letter/@decls]
+                      /t:respStmt[t:resp = $role ]
 
-      let $shit := <shit/>
-    return $shit
+  let $respid_id := 
+    if($resp/@xml:id) then
+      $resp/@xml:id
+    else
+      let $mid := concat("idm",util:uuid())
+      let $u   := update insert attribute xml:id {$mid} into $resp
+      return $mid
+
+  let $cleanup :=
+  for $n in $resp//t:name
+  return update delete $n
+
+  let $tasks := 
+  for $person in $json//pair[@name=$role]/item[@type='object']
+    let $person_id := $person//pair[@name="xml_id"]
+    let $name := 
+    <t:name>   
+      <t:surname>{$person//pair[@name="family_name"]/text()}</t:surname>,
+      <t:forename>{$person//pair[@name="given_name"]/text()}</t:forename>
+    </t:name>
+    let $full_name := concat(
+      $person//pair[@name="family_name"]/text(),
+      ", ",
+      $person//pair[@name="given_name"]/text())
+    let $all :=
+      if($person_id) then
+	let $s    := $letter//t:persName[$person_id=@xml:id]
+	let $pref := concat('#person',$person_id)
+	let $ppid := concat('person',$person_id)
+	let $up1  := update insert attribute key {$full_name} into $s
+	let $up2  := update insert attribute sameAs {$pref}   into $s
+	let $up5  := update insert $name into $resp      
+	let $r    := $resp/t:name[last()]
+	let $up3  := update insert attribute xml:id {$ppid} into $r
+	return $up1 and $up2 and $up3
+      else
+	update insert $name into $resp     
+ 
+     return $all
+
+  return ()
 
 };
 
@@ -107,7 +141,8 @@ let $params :=
   <param name="status"   value="{$status}"/>
 </parameters>
 
-let $d := local:enter-data($frag,$doc,$data)
+let $d := local:enter-person-data($frag,"sender",$doc,$data)
+let $e := local:enter-person-data($frag,"recipient",$doc,$data)
 let $trans_doc := transform:transform($doc,$op,$params)
 
 return
