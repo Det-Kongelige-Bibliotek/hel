@@ -56,6 +56,7 @@ module ApplicationHelper
   end
 
   def letter_title(sender, recipient, date)
+    title = "BREV"
     title= "TIL: " + recipient if recipient.present?
     title+= " FRA: " + sender if sender.present?
     title+= " DATO: "+ date if date.present?
