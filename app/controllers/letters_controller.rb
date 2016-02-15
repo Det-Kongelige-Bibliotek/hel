@@ -4,7 +4,7 @@ class LettersController < ApplicationController
     json = letter_params
     parts = json[:file].rpartition("/")
     coll = "/db#{ parts.first }"
-  #  SnippetServer.update_letter(parts.last,json[:id],json.to_json.html_safe,{:c => coll, :op=>'solrize'})
+    SnippetServer.update_letter(parts.last,json[:id],json.to_json.html_safe,{:c => coll, :op=>'solrize'})
     render text: json.to_json.html_safe
   end
 

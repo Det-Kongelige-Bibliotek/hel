@@ -51,15 +51,12 @@ class SnippetServer
   def self.post(url,body)
     username = Rails.application.config_for(:snippet)["snippet_server_user"]
     password = Rails.application.config_for(:snippet)["snippet_server_password"]
-    puts username
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri)
     request["Content-Type"] = 'text/xml;charset=UTF-8'
     request.basic_auth username, password unless username.nil?
-    request.body = body
-    puts uri
-    puts body
+    request.form_data={'content' => body}
     res = http.request(request)
     raise "post: #{self.snippet_server_url} response code #{res.code}" unless res.code == "200"
     res
@@ -167,6 +164,6 @@ class SnippetServer
     uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
     uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
     uri += "&status=#{URI.escape(opts[:status])}" if opts[:status].present?
-    self.post(uri,"content=#{json}")
+    self.post(uri,json)
   end
 end
