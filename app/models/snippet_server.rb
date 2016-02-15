@@ -33,7 +33,6 @@ class SnippetServer
   def self.put(url,body)
     username = Rails.application.config_for(:snippet)["snippet_server_user"]
     password = Rails.application.config_for(:snippet)["snippet_server_password"]
-    puts "#{username} #{password}"
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Put.new(uri.request_uri)
@@ -42,6 +41,20 @@ class SnippetServer
     request.body = body
     res = http.request(request)
     raise "put : #{self.snippet_server_url}#{path} response code #{res.code}" unless res.code == "201"
+    url
+  end
+
+  def self.post(url,body)
+    username = Rails.application.config_for(:snippet)["snippet_server_user"]
+    password = Rails.application.config_for(:snippet)["snippet_server_password"]
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request["Content-Type"] = 'text/xml;charset=UTF-8'
+    request.basic_auth username, password unless username.nil?
+    request.body = body
+    res = http.request(request)
+    raise "post: #{self.snippet_server_url}#{path} response code #{res.code}" unless res.code == "200"
     url
   end
 
@@ -70,7 +83,6 @@ class SnippetServer
     Rails.logger.debug("snippet url #{uri}")
 
     #res = Net::HTTP.get_response(URI(uri))
-    puts uri
     self.get(uri)
   end
 
@@ -135,5 +147,10 @@ class SnippetServer
 
   def self.facsimile(id)
     SnippetServer.render_snippet(id, {op: 'facsimile', prefix: Rails.application.config_for(:adl)["image_server_prefix"]})
+  end
+
+  def self.update_letter(json)
+    uri  = snippet_server_url
+
   end
 end
