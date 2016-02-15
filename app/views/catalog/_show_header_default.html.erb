@@ -1,2 +1,6 @@
 <% # bookmark/folder functions -%>
-<%#= render_document_heading(document, :tag => :h1) %>
+<% if (@document['has_model_ssim'].include? 'Letter').present? %>
+    <h1> <%= letter_title(@document["sender_ssi"], @document["recipient_ssi"], @document["date_ssi"]) %> </h1>
+<% else %>
+    <%#= render_document_heading(document, :tag => :h1) %>
+<% end %>
