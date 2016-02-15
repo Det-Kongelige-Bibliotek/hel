@@ -1,4 +1,4 @@
-xquery version "1.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8";
 
 import module namespace json="http://xqilla.sourceforge.net/lib/xqjson";
 
@@ -12,97 +12,139 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
+declare namespace local="http://kb.dk/this/app";
+declare namespace uuid="java:java.util.UUID";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
 declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
-declare variable  $o        := request:get-parameter("op","render");
-declare variable  $coll     := concat($c,'/');
-
-(:
-Using LOC relators
-from config/controlled_lists.yml
-
-sender
-'http://id.loc.gov/vocabulary/relators/crp': Correspondent
-
-recipient
-'http://id.loc.gov/vocabulary/relators/rcp': Addressee
-
-:)
-
+declare variable  $o        := request:get-parameter("op","solrize");
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
+declare variable  $status   := request:get-parameter("status","");
+(: The posted content should actually live in a param with the same name :)
 
+declare variable  $content  := request:get-parameter("content","");
+declare variable  $coll     := concat($c,'/');
+declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
-(:xdb:store($pubroot,util:document-name($doc), $doc):)
 
-let $person := 
-  '{"firstName": "John W",
-    "lastName": "Smith","isAlive": true,"age": 25,"height_cm": 167.6,"address": {"streetAddress": "21 2nd Street","city": "New York","state": "NY","postalCode": "10021-3100"},"phoneNumbers": [{"type": "home",                "number": "212 555-1234"            },            {                "type": "office",                "number": "646 555-4567"            }        ],        "children": [],        "spouse": null    }'
 
-let $persdoc :=
-    json:parse-json($person)
+declare function local:enter-person-data(
+  $frag as xs:string,
+  $role as xs:string,
+  $doc as node(),
+  $json as node()) as node()*
+{
+  let $letter := $doc//node()[@xml:id=$frag]
+  let $resp   := $doc//t:bibl[@xml:id = $letter/@decls]
+                      /t:respStmt[t:resp = $role ]
 
-let $list := 
-  if($frag and not($o = "facsimile")) then
+  let $respid_id := 
+    if($resp/@xml:id) then
+      $resp/@xml:id
+    else
+      let $mid := concat("idm",util:uuid())
+      let $u   := update insert attribute xml:id {$mid} into $resp
+      return $mid
+
+  let $cleanup :=
+  for $n in $resp//t:name
+  return update delete $n
+
+  let $tasks := 
+  for $person in $json//pair[@name=$role]/item[@type='object']
+    let $person_id := $person//pair[@name="xml_id"]
+    let $name := 
+    <t:name>   
+      <t:surname>{$person//pair[@name="family_name"]/text()}</t:surname>,
+      <t:forename>{$person//pair[@name="given_name"]/text()}</t:forename>
+    </t:name>
+    let $full_name := concat(
+      $person//pair[@name="family_name"]/text(),
+      ", ",
+      $person//pair[@name="given_name"]/text())
+    let $all :=
+      if($person_id) then
+	let $s    := $letter//t:persName[$person_id=@xml:id]
+	let $pref := concat('#person',$person_id)
+	let $ppid := concat('person',$person_id)
+	let $up1  := update insert attribute key {$full_name} into $s
+	let $up2  := update insert attribute sameAs {$pref}   into $s
+	let $up5  := update insert $name into $resp      
+	let $r    := $resp/t:name[last()]
+	let $up3  := update insert attribute xml:id {$ppid} into $r
+	return $up1 and $up2 and $up3
+      else
+	update insert $name into $resp     
+ 
+     return $all
+
+  return ()
+
+};
+
+
+
+let $prev := 
+  if($frag) then
+    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document 
+    return $doc/preceding::t:div[1]/@xml:id
+  else
+    ""
+
+let $next := 
+  if($frag) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
-    return $doc
+    return $doc/following::t:div[1]/@xml:id
   else
-    for $doc in collection($coll)
-    where util:document-name($doc)=$document
-    return $doc
+    ""
+
+let $prev_encoded := 
+  if($frag) then
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$prev)
+  else
+    ""
+let $next_encoded := 
+  if($frag) then
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$next)
+  else
+    ""
+
+let $data := json:parse-json($content)
+
+let $doc := 
+for $tei in collection($coll)
+where util:document-name($tei)=$document
+return $tei
 
 let $params := 
 <parameters>
-   <param name="uri_base" value="http://{request:get-header('HOST')}"/>
-   <param name="doc"      value="{$document}"/>
-   <param name="id"       value="{$frag}"/>
-   <param name="work_id"  value="{$work_id}"/>
-   <param name="c"        value="{$c}"/>
-   <param name="coll"     value="{$coll}"/>
-   <param name="submixion"     value="{$persdoc}"/>
-
+  <param name="uri_base" value="http://{request:get-header('HOST')}"/>
+  <param name="hostname" value="{request:get-header('HOST')}"/>
+  <param name="doc"      value="{$document}"/>
+  <param name="id"       value="{$frag}"/>
+  <param name="prev"     value="{$prev}"/>
+  <param name="prev_encoded"
+                         value="{$prev_encoded}"/>
+  <param name="next"     value="{$next}"/>
+  <param name="next_encoded"
+                         value="{$next_encoded}"/>
+  <param name="work_id"  value="{$work_id}"/>
+  <param name="c"        value="{$c}"/>
+  <param name="coll"     value="{$coll}"/>
+  <param name="file"     value="{$file}"/>
+  <param name="status"   value="{$status}"/>
 </parameters>
 
-let $trans_doc :=
-for $doc in $list
-return  transform:transform($doc,$op,$params)
-
-(:$persdoc
-$trans_doc :)
+let $d := local:enter-person-data($frag,"sender",$doc,$data)
+let $e := local:enter-person-data($frag,"recipient",$doc,$data)
+let $trans_doc := transform:transform($doc,$op,$params)
 
 return
-$params
+$trans_doc
 
-
-(:
-<json type="object">
-    <pair name="firstName" type="string">John</pair>
-    <pair name="lastName" type="string">Smith</pair>
-    <pair name="isAlive" type="boolean">true</pair>
-    <pair name="age" type="number">25</pair>
-    <pair name="height_cm" type="number">167.6</pair>
-    <pair name="address" type="object">
-        <pair name="streetAddress" type="string">21 2nd Street</pair>
-        <pair name="city" type="string">New York</pair>
-        <pair name="state" type="string">NY</pair>
-        <pair name="postalCode" type="string">10021-3100</pair>
-    </pair>
-    <pair name="phoneNumbers" type="array">
-        <item type="object">
-            <pair name="type" type="string">home</pair>
-            <pair name="number" type="string">212 555-1234</pair>
-        </item>
-        <item type="object">
-            <pair name="type" type="string">office</pair>
-            <pair name="number" type="string">646 555-4567</pair>
-        </item>
-    </pair>
-    <pair name="children" type="array"/>
-    <pair name="spouse" type="null"/>
-</json>
-:)
