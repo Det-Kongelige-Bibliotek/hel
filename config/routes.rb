@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   resources :mixed_materials
   resources :letter_books
 
+  get '/catalog/:id/facsimile' => 'catalog#facsimile', as: 'facsimile_catalog'
+
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
       get 'show'

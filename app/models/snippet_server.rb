@@ -133,7 +133,8 @@ class SnippetServer
   end
 
 
-  def self.facsimile(id)
-    SnippetServer.render_snippet(id, {op: 'facsimile', prefix: Rails.application.config_for(:adl)["image_server_prefix"]})
+  def self.facsimile(id, opts={})
+    opts[:op] = 'facsimile'
+    SnippetServer.render_snippet(id, opts)
   end
 end
