@@ -1,8 +1,11 @@
 class LettersController < ApplicationController
   def update
     # here we do the letter update
-    SnippetServer.update_letter(letter_params.to_json)
-    render text: letter_params.to_json
+    json = letter_params
+    parts = json[:file].rpartition("/")
+    coll = "/db#{ parts.first }"
+  #  SnippetServer.update_letter(parts.last,json[:id],json.to_json.html_safe,{:c => coll, :op=>'solrize'})
+    render text: json.to_json.html_safe
   end
 
 
@@ -24,16 +27,15 @@ class LettersController < ApplicationController
     persons.each do |k,p|
       phash = {}
       person_object = Authority::Person.where(id: p['auth_id']).first
-      phash['auth_id'] = p['auth_id']
-      phash['xml_id'] = p['xml_id']
       if person_object.present?
+        phash['auth_id'] = CONFIG[Rails.env.to_sym][:application_url]+"/authority/people/"+URI.encode(p['auth_id'])
+        phash['xml_id'] = p['xml_id']
         phash['given_name'] = person_object.given_name
         phash['family_name'] = person_object.family_name
+        result << phash
       else
         logger.error("Unkown person #{p['auth_id']} submittet to letter")
       end
-      result << phash
-      puts result.to_json
     end
     result
   end

@@ -5,6 +5,10 @@ class SnippetServer
     "#{Rails.application.config_for(:snippet)["snippet_server_url"]}"
   end
 
+  def self.snippet_server_url_with_admin
+    "#{Rails.application.config_for(:snippet)["snippet_server_url_with_admin"]}"
+  end
+
   def self.get_snippet_script
     "#{Rails.application.config_for(:snippet)["get_snippet_script"]}"
   end
@@ -40,22 +44,25 @@ class SnippetServer
     request.basic_auth username, password unless username.nil?
     request.body = body
     res = http.request(request)
-    raise "put : #{self.snippet_server_url}#{path} response code #{res.code}" unless res.code == "201"
-    url
+    raise "put : #{self.snippet_server_url} response code #{res.code}" unless res.code == "201"
+    res
   end
 
   def self.post(url,body)
     username = Rails.application.config_for(:snippet)["snippet_server_user"]
     password = Rails.application.config_for(:snippet)["snippet_server_password"]
+    puts username
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri)
     request["Content-Type"] = 'text/xml;charset=UTF-8'
     request.basic_auth username, password unless username.nil?
     request.body = body
+    puts uri
+    puts body
     res = http.request(request)
-    raise "post: #{self.snippet_server_url}#{path} response code #{res.code}" unless res.code == "200"
-    url
+    raise "post: #{self.snippet_server_url} response code #{res.code}" unless res.code == "200"
+    res
   end
 
 
@@ -150,8 +157,16 @@ class SnippetServer
     SnippetServer.render_snippet(id, opts)
   end
 
-  def self.update_letter(json)
-    uri  = snippet_server_url
-
+  def self.update_letter(doc,id,json,opts={})
+    uri  = snippet_server_url_with_admin
+    uri += "/save.xq"
+    uri += "?doc=#{doc}"
+    uri += "&id=#{id}"
+    uri += "&op=#{URI.escape(opts[:op])}" if opts[:op].present?
+    uri += "&c=#{URI.escape(opts[:c])}" if opts[:c].present?
+    uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
+    uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
+    uri += "&status=#{URI.escape(opts[:status])}" if opts[:status].present?
+    self.post(uri,"content=#{json}")
   end
 end
