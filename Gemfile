@@ -107,4 +107,3 @@ gem 'filesize', '>= 0.1.1'
 
 gem 'authority', :git => 'https://github.com/Det-Kongelige-Bibliotek/authority.git'
 #gem 'authority', :path=>'/home/dgj/RubymineProjects/authority'
-

@@ -1,45 +1,36 @@
 <%# default partial to display solr document fields in catalog show view -%>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 <% id = @document.id %>
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
-
-      <div class="nav-tab-instance">
-        <ul class="nav nav-tabs">
-          <li  class="active">
-              <%= link_to(solr_document_path(@document.id), toggle:"tab") do %>
-                  Tekst
-              <% end %>
-          </li>
-
-          <li>
-            <% book_id, div_id = @document.id.split('-') %>
-            <%= link_to(solr_document_path(book_id), toggle:"tab" ) do %>
-              Letter
-            <% end %>
-          </li>
-          <li role="presentation">
-            <%# Note we need to use no_turbolink because turbolinks will fuck with the unveil library %>
-            <%= link_to(facsimile_catalog_path(@document.id) + "/", data: { no_turbolink: true }) do %>
-                Faksimile
-            <% end %>
-          </li>
-        </ul>
+<div class="container nav-tab-instance-fixContainer">
+  <div class="row"><div class="col-md-12">
+    <div class="nav-tab-instance-2">
+      <ul class="nav nav-tabs">
+        <li  role="presentation" class="active">
+          <a data-toggle="tab" href="#text" >Text</a>
+        </li>
+        <li role="presentation">
+          <a data-toggle="tab" href="#letter" >Letter</a>
+        </li>
+        <li role="presentation">
+          <a data-toggle="link" href="http://www.kb.dk" >Facsimile</a>
+        </li>
+      </ul>
+    </div>
+    <div class="tab-content">
+      <div id="text" class="tab-pane active">
+        <% text1 ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
+        <%= text1.html_safe %>
       </div>
-
-      <div >
-        <div id="<%= solr_document_path(@document.id) %>" class="tab-pane text active">
-          <!--
-          < % text ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
-          < %= text.html_safe %>
-          -->
-          test 1
-        </div>
-        <div id="<%= solr_document_path(book_id)%>" class="tab-pane text">
-          <!--
-          < % book_id, div_id = @document.id.split('-') %>
-          < % text ||= SnippetServer.render_snippet(book_id) %>
-          < %= text.html_safe %>
-          -->
-          Test
-        </div>
+      <div id="letter" class="tab-pane">
+        <% book_id, div_id = @document.id.split('-') %>
+        <% text2 ||= SnippetServer.render_snippet(book_id, {:c=> coll}) %>
+        <%= text2.html_safe %>
       </div>
+    </div>
+  </div>
+ </div>
+</div>

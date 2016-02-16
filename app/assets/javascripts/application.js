@@ -22,6 +22,7 @@
 //= require blacklight/blacklight
 //= require bootstrap-combobox
 //= require bootstrap-select.min
+
 // Required by Authority gem
 //= require authority/viaf/jquery.viafauto.js
 //= require authority/viaf/jquery.viafauto.extended.js
@@ -32,4 +33,6 @@
 
 // Now include the rest (in random order)
 //= require_tree .
+
+
 
