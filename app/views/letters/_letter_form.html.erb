@@ -10,15 +10,17 @@
       <legend>Afsender(e)</legend>
       <% if @letter.sender.present? %>
         <% @letter.sender.each_with_index do |sender,index| %>
-          <label><%= sender["text"] %></label>
-          <div class="sender-fields">
+          <label for="<%= "letter_sender_#{index}_auth_id" %>"><%= sender["text"] %></label>
+          <div id="sender-fields_<%= index %>" class="sender-fields">
             <%= form.hidden_field  "[sender][#{index}][xml_id]", value: sender["xml_id"] %>
             <input id="<%= "letter_sender_#{index}_auth_id" %>" name="<%= "letter[sender][#{index}][auth_id]" %>" value="<%= sender["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
+            <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#sender-fields_<%= index %>" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_#{index}_auth_id\" "%>]').size()<1"></a>
           </div>
         <% end %>
       <% else %>
-          <div class="recipient-fields">
-            <input id="<%= "letter_recipient_0_auth_id" %>" name="<%= "letter[recipient][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
+          <div id="letter_sender-fields_0" class="sender-fields">
+            <input id="<%= "letter_sender_0_auth_id" %>" name="<%= "letter[sender][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
+            <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#sender-fields_0" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_0_auth_id\" "%>]').size()<1"></a>
           </div>
       <% end %>
 
@@ -31,15 +33,17 @@
       <legend>Modtager(e)</legend>
       <% if @letter.recipient.present? %>
           <% @letter.recipient.each_with_index do |rcp,index| %>
-              <label><%= rcp["text"] %></label>
-              <div class="recipient-fields">
+              <label for="<%= "letter_recipient_#{index}_auth_id" %>"><%= rcp["text"] %></label>
+              <div id="recipient-fields_<%= index %>" class="recipient-fields">
                   <%= form.hidden_field  "[recipient][#{index}][xml_id]", value: rcp["xml_id"] %>
                   <input id="<%= "letter_recipient_#{index}_auth_id" %>" name="<%= "letter[recipient][#{index}][auth_id]" %>" value="<%= rcp["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
+                 <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#recipient-fields_<%= index %>" data-condition="$('.recipient-fields').size()>1 && $('label[for=<%= "\"letter_recipient_#{index}_auth_id\" "%>]').size()<1"></a>
               </div>
           <% end %>
       <% else %>
-          <div class="recipient-fields">
+          <div id = "recipient-fields_0" class="recipient-fields">
             <input id="<%= "letter_recipient_0_auth_id" %>" name="<%= "letter[recipient][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
+            <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#recipient-fields_0" data-condition="$('.recipient-fields').size()>1 && $('label[for=<%= "\"letter_recipient_0_auth_id\" "%>]').size()<1"></a>
           </div>
       <% end %>
       <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".recipient-fields:last">
@@ -51,10 +55,11 @@
           <legend>Sted(er)</legend>
           <% if @letter.place.present? %>
               <% @letter.place.each_with_index do |place,index| %>
-                  <label><%= place["text"] %></label>
-                  <div class="places-fields form-group">
+                  <label for="<%= "place_#{index}_name" %>"><%= place["text"] %></label>
+                  <div id="places-fields_<%= index %>" class="places-fields form-group">
                     <%= form.hidden_field  "[place][#{index}][xml_id]", value: place["xml_id"] %>
-                    <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][name]" %>" value="<%= place["name"] %>">
+                    <input id="<%= "place_#{index}_name" %>" name="<%= "letter[place][#{index}][name]" %>" value="<%= place["name"] %>">
+                    <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#places-fields_<%= index %>" data-condition="$('.places-fields').size()>1 && $('label[for=<%= "\"place_#{index}_name\" "%>]').size()<1"></a>
                     <select name="letter[place][<%= index %>][type]">
                       <option value="send_place" <%= place["type"] == "send_place" ? 'selected': '' %> >Afsendelsessted</option>
                       <option value="rcp_place" <%= place["type"] == "rcp_place" ? 'selected': '' %> >Modtagelsessted</option>
@@ -62,9 +67,10 @@
                   </div>
               <% end %>
           <% else %>
-              <div class="places-fields form-group">
+              <div id="places-fields_0" class="places-fields form-group">
                 <%= form.hidden_field  "[place][0][xml_id]", value: '' %>
-                <input id="<%= "place_0_place" %>" name="<%= "letter[place][0][place]" %>"  %>"
+                <input id="<%= "place_0_name" %>" name="<%= "letter[place][0][name]" %>"  %>"
+                <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#places-fields_0" data-condition="$('.places-fields').size()>1 && $('label[for=<%= "\"place_0_name\" "%>]').size()<1"></a>
                 <select name="letter[place][0][type]">
                   <option value="send_place" >Afsendelsessted</option>
                   <option value="rcp_place" >Modtagelsessted</option>

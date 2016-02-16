@@ -32,6 +32,10 @@ function updateIndex(index,input) {
             var updated_id = $(input).attr('data-target').replace(num.toString(), inc.toString());
             $(input).attr('data-target', updated_id)
         }
+        if (typeof($(input).attr('data-condition')) !== 'undefined') {
+            var updated_id = $(input).attr('data-condition').replace('_'+num.toString()+'_','_'+inc.toString()+'_');
+            $(input).attr('data-condition', updated_id)
+        }
         $(input).val('');
     }
 }
@@ -114,8 +118,13 @@ $(document).ready(function(){
     $('[data-function="delete-fields"]').click(function(e){
         e.preventDefault()
         var selector = $(this).attr('data-target'); //cloning messes up the data() method
-        $(selector).hide();
-        $(selector).find("input[id$='_destroy']").val('1');
+        var condition = $(this).attr('data-condition');
+        if (eval(condition)) {
+            $(selector).hide();
+            $(selector).find("input[id$='_destroy']").val('1');
+        } else {
+            alert("kunne ikke slettes")
+        }
     });
 
     // Add/remove creator functions
@@ -127,13 +136,6 @@ $(document).ready(function(){
             .find("select.creator-id").attr("name","work[creators]["+creator_counter+"][id]").end()
             .find("select.creator-type").attr("name","work[creators]["+creator_counter+"][type]").end();
         hidden_creator.removeClass('hidden-creator').addClass("creator");
-    /*    hidden_creator.find("select").each(function(index){
-            $(this).addClass("combobox");
-            $(this).combobox();
-            $(this).click(function(){
-                $(this).siblings('.dropdown-toggle').click();
-            });
-        }) */
         hidden_creator.show();
         new_creator.insertAfter(hidden_creator);
         creator_counter = creator_counter +1;
