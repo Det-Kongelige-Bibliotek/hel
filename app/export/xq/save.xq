@@ -30,9 +30,9 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
-declare function local:enter-location-data(
+(:declare function local:enter-location-data(
 
-)
+:)
 
 declare function local:enter-person-data(
   $frag as xs:string,
@@ -58,29 +58,40 @@ declare function local:enter-person-data(
 
   let $tasks := 
   for $person in $json//pair[@name=$role]/item[@type='object']
-    let $person_id := $person//pair[@name="xml_id"]
+    let $person_id  := $person//pair[@name="xml_id"]
+    let $person_uri := $person//pair[@name="auth_id"]
     let $name := 
     <t:name>   
       <t:surname>{$person//pair[@name="family_name"]/text()}</t:surname>,
       <t:forename>{$person//pair[@name="given_name"]/text()}</t:forename>
     </t:name>
+
     let $full_name := concat(
       $person//pair[@name="family_name"]/text(),
       ", ",
       $person//pair[@name="given_name"]/text())
+
+    let $ppid := concat("person",$person_id)
+
     let $all :=
       if($person_id) then
 	let $s    := $letter//t:persName[$person_id=@xml:id]
-	let $pref := concat('#person',$person_id)
-	let $ppid := concat('person',$person_id)
+	let $pref := concat("#person",$person_id)
 	let $up1  := update insert attribute key {$full_name} into $s
 	let $up2  := update insert attribute sameAs {$pref}   into $s
 	let $up5  := update insert $name into $resp      
 	let $r    := $resp/t:name[last()]
 	let $up3  := update insert attribute xml:id {$ppid} into $r
-	return $up1 and $up2 and $up3
+	let $up6  := update insert attribute ref {$person_uri} into $r
+	return $r
       else
-	update insert $name into $resp     
+	let $rup5  := update insert $name into $resp      
+	let $rr    := $resp/t:name[last()]
+	let $rup3  := update insert attribute xml:id {$ppid} into $rr
+	let $rup6  := update insert attribute ref {$person_uri} into $rr
+	return $rr
+
+   
  
      return $all
 
