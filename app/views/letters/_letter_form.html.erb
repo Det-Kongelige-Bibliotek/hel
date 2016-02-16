@@ -52,7 +52,7 @@
           <% if @letter.place.present? %>
               <% @letter.place.each_with_index do |place,index| %>
                   <label><%= place["text"] %></label>
-                  <div class="places-fielsform.group">
+                  <div class="places-fields form-group">
                     <%= form.hidden_field  "[place][#{index}][xml_id]", value: place["xml_id"] %>
                     <input id="<%= "place_#{index}_auth_id" %>" name="<%= "letter[place][#{index}][name]" %>" value="<%= place["name"] %>">
                     <select name="letter[place][<%= index %>][type]">
@@ -62,7 +62,7 @@
                   </div>
               <% end %>
           <% else %>
-              <div class="places-fields form.group">
+              <div class="places-fields form-group">
                 <%= form.hidden_field  "[place][0][xml_id]", value: '' %>
                 <input id="<%= "place_0_place" %>" name="<%= "letter[place][0][place]" %>"  %>"
                 <select name="letter[place][0][type]">
