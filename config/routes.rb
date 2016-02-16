@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     end
     resources :trykforlaegs
     post 'aleph', on: :collection
+    patch 'email', on: :collection
   end
 
   resources :mixed_materials

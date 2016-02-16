@@ -14,15 +14,19 @@ class EmailIngestJob
   # @param attachment_dir_name: the name of the folder in which the attachments are contained
   # @param export_file_name: name for Aid4Mail XML file
   # @param donor_id: Person id of the donor of the email account
-  def self.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, donor_id)
+  # @param work_id; Work id for parent work
+  def self.perform(base_dir_path, email_dir_name, attachment_dir_name, export_file_name, donor_id, work_id)
 
     attachment_dir_name, email_dir_name, email_dir_path, export_file_path =
-        initialize_validate(attachment_dir_name, base_dir_path, donor_id, email_dir_name, export_file_name)
+        initialize_validate(attachment_dir_name, base_dir_path, donor_id, work_id, email_dir_name, export_file_name)
 
     # Extract metadata from Aid4Mail XML file
-    email_metadata = EmailXMLIngest.email_xml_ingest(export_file_path, email_dir_path)
+    email_metadata = EmailXMLIngestService.email_xml_ingest(export_file_path, email_dir_path)
 
     dirs_works = Hash.new
+
+    # A small hack to make the code nicer
+    dirs_works[email_dir_path.to_s] = work_id
 
     # Traverse (in depth first order) the folders present in the email_dir_path and ingest files and folders
     Find.find(email_dir_path) do |path|
@@ -56,12 +60,14 @@ class EmailIngestJob
     end
   end
 
-  def self.initialize_validate(attachment_dir_name, base_dir_path, donor_id, email_dir_name, export_file_name)
+  def self.initialize_validate(attachment_dir_name, base_dir_path, donor_id, work_id, email_dir_name, export_file_name)
     fail ArgumentError, 'A path, without trailing slash, to a folder containing data should be given' if base_dir_path.blank?
 
     fail ArgumentError, 'The folder containing data does not exist!' unless File.directory? base_dir_path
 
     fail ArgumentError, 'The Person id of the donor of the email account should be given' if donor_id.nil?
+
+    fail ArgumentError, 'The work id of the for parent work should be given' if work_id.nil?
 
     if email_dir_name.blank?
       email_dir_name = EMAIL_DIR_NAME
@@ -91,11 +97,11 @@ class EmailIngestJob
   # Creates Valhal folder related objects
   # @param folder_path: the complete path of the folder
   # @param email_metadata: a hash map containing email metadata for the complete email account
-  # @param dir_works: Hash map containing pairs of paths to folders and their associated works
+  # @param dirs_works: Hash map containing pairs of paths to folders and their associated works
   # @param donor_id: Person id of the donor of the email account
-  def self.email_create_folder(folder_path, email_metadata, dir_works, donor_id)
+  def self.email_create_folder(folder_path, email_metadata, dirs_works, donor_id)
 
-    work, dir_works = create_work(folder_path, email_metadata, dir_works, nil, nil, donor_id)
+    work, dirs_works = create_work(folder_path, email_metadata, dirs_works, nil, nil, donor_id)
 
     instance = create_instance(folder_path, email_metadata, work)
 
@@ -107,17 +113,17 @@ class EmailIngestJob
 
     Resque.logger.info "Email ingest #{folder_path.basename.to_s} imported with id #{work.id}"
 
-    return dir_works
+    return dirs_works
   end
 
   # Creates a Work
   # @param pathname: the complete path of the folder or file for which a Work should be created
   # @param email_metadata: a hash map containing email metadata for the complete email account
-  # @param dir_works: Hash map containing pairs of paths to folders and their associated works
+  # @param dirs_works: Hash map containing pairs of paths to folders and their associated works
   # @param email_work: Work of an email containing attachments
   # @param email_work_path_without_suffix: Pathname of email file associated with email_work without suffix
   # @param donor_id: Person id of the donor of the email account
-  def self.create_work(pathname, email_metadata, dir_works, email_work, email_work_path_without_suffix, donor_id)
+  def self.create_work(pathname, email_metadata, dirs_works, email_work, email_work_path_without_suffix, donor_id)
 
     @unknown = UNKNOWN_NAME
 
@@ -155,7 +161,7 @@ class EmailIngestJob
     # Work work relations
     parent_folder_path = File.expand_path('..', pathname)
 
-    parent_folder_work = dir_works[parent_folder_path]
+    parent_folder_work = dirs_works[parent_folder_path]
 
     parent_work = nil
     if parent_folder_work.present?
@@ -172,10 +178,10 @@ class EmailIngestJob
     fail "Work could not be saved #{work.errors.messages}" unless work.save
 
     if !File.file?(pathname)
-      dir_works[pathname.to_s] = work.id
+      dirs_works[pathname.to_s] = work.id
     end
 
-    return work, dir_works
+    return work, dirs_works
   end
 
   def self.create_folder_work(donor_id, pathname, work)

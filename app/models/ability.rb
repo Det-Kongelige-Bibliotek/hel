@@ -49,6 +49,10 @@ class Ability
       can [:aleph], Work
     end
 
+    if (user_groups & ['Chronos-Alle', 'Chronos-Pligtaflevering','Chronos-Admin']).present?
+      can [:email], Work
+    end
+
     if (user_groups & ['Chronos-Alle']).present?
       can [:viaf], Authority::Person
     end

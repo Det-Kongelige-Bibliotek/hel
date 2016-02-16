@@ -1,6 +1,6 @@
 rails_env   = ENV['RAILS_ENV']  || "production"
 rails_root  = ENV['RAILS_ROOT'] || "/home/rails/current"
-workers = ['sync_ext_repo','add_adl_images','fits_characterizing','dissemination','receive_preservation_response','import_from_preservation','send_to_preservation','validate_adl_tei_instance']
+workers = ['sync_ext_repo','add_adl_images','fits_characterizing','dissemination','receive_preservation_response','import_from_preservation','send_to_preservation','validate_adl_tei_instance','email_ingest','email_create_email','email_create_attachment','email_create_file']
 
 workers.each do |worker|
   God.watch do |w|

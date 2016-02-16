@@ -10,7 +10,7 @@ describe 'Build dictionary' do
       @email_dir_path = "/Inbox/"
       @file_name = "feea79579b7a8dd97cb7bf050780351c"
       @pathkey = @base_dir_path.to_s +  @email_dir_path + @file_name
-      @email_metadata = EmailXMLIngest.email_xml_ingest(@export_file_path.to_s, @base_dir_path.to_s)
+      @email_metadata = EmailXMLIngestService.email_xml_ingest(@export_file_path.to_s, @base_dir_path.to_s)
     end
 
     it 'should have builded the dictionary' do
@@ -37,6 +37,14 @@ describe 'Build dictionary' do
 
     it 'should have attachments felt' do
       expect(@email_metadata[@pathkey]["attachments"]).not_to be_nil
+    end
+
+    it 'should have attachmentsFullPath felt' do
+      expect(@email_metadata[@pathkey]["attachmentsFullPath"]).not_to be_nil
+    end
+
+    it 'should have attachmentsFileNames felt' do
+      expect(@email_metadata[@pathkey]["attachmentsFileNames"]).not_to be_nil
     end
 
     it 'should include email header information containing a non-empty string' do
@@ -82,6 +90,14 @@ describe 'Build dictionary' do
 
     it 'should include specific email attachments information' do
       expect(@email_metadata[@pathkey]["attachments"]).to include("ATT00001.txt")
+    end
+
+    it 'should include specific attachmentsFullPath information' do
+      expect(@email_metadata[@pathkey]["attachmentsFullPath"]).to include("P:")
+    end
+
+    it 'should include specific attachmentsFileNames information' do
+      expect(@email_metadata[@pathkey]["attachmentsFileNames"]).to include("ATT00001.txt")
     end
   end
 end
