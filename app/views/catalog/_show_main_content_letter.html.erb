@@ -4,34 +4,24 @@
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
 <div class="container nav-tab-instance-fixContainer">
-  <div class="row"><div class="col-md-12">
-    <div class="nav-tab-instance">
-      <ul class="nav nav-tabs">
-        <li role="presentation" class="active">
-              <%= link_to(solr_document_path(@document.id)) do %>
-                  Tekst
-              <% end %>
-        </li>
-        <li role="presentation">
-              <%# Note we need to use no_turbolink because turbolinks will fuck with the unveil library %>
-              <%= link_to(facsimile_catalog_path(@document.id) + "/", data: { no_turbolink: true }) do %>
-                  Faksimile
-              <% end %>
-        </li>
-
-      </ul>
-    </div></div>
-  </div>
-</div>
-<div class="container">
   <div class="row">
     <div class="col-md-12">
-          <div class="text-content workContent">
-            <div class="text">
-              <% text ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
-              <%= text.html_safe %>
-            </div>
-          </div>
+      <div class="nav-tab-instance-2">
+        <ul class="nav nav-tabs">
+          <li  role="presentation" class="active">
+            <a data-toggle="tab" href="#text" >Text</a>
+          </li>
+          <li role="presentation">
+            <a target="_blank" data-toggle="link" href="<%= show_letter_and_facsimile_letter_book_path(:id => @document['work_id_ssi'], :sid => @document.id) %>" >Facsimile</a>
+          </li>
+        </ul>
+      </div>
+      <div class="tab-content">
+        <div id="text" class="tab-pane active">
+          <% text1 ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
+          <%= text1.html_safe %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
