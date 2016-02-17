@@ -13,7 +13,6 @@ declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace local="http://kb.dk/this/app";
-declare namespace uuid="java:java.util.UUID";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
@@ -30,9 +29,61 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
-(:declare function local:enter-location-data(
+declare function local:enter-location-data(
+  $frag as xs:string,
+  $type as xs:string,
+  $doc  as node(),
+  $json as node()) as node()*
+{
+  let $letter := $doc//node()[@xml:id=$frag]
+  let $bibl   := $doc//t:bibl[@xml:id = $letter/@decls]
 
-:)
+
+  let $loc_id := 
+    if($bibl/t:location[@type=$type]/@xml:id) then
+      $bibl/t:location[@type=$type]/@xml:id/text()
+    else
+      concat("idm",util:uuid())
+	
+  let $loc    :=     
+    let $cleanup :=
+    for $loc in $bibl/t:location[not(node())] |
+                $bibl/t:location[@type=$type]
+    return update insert attribute to_be_removed {"yeah"} into $loc
+
+  let $tasks := 
+  for $location in $json//pair[@name="place"]/item[pair[@name="type"]=$type]
+    let $place_id  := $location/pair[@name="xml_id"]/text()
+    let $insert := 
+      if($bibl/t:location[@type=$type and @xml:id=$loc_id]) then
+	let $n1 := 
+	  <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
+	  return update insert $n1 into $bibl/t:location[@type=$type and @xml:id=$loc_id]
+      else
+	let $n2 := 
+	  <t:location type="{$type}" xml:id="{$loc_id}">
+	    <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
+	  </t:location>
+        return update insert $n2 into $bibl
+
+     let $name := $bibl/t:location[@xml:id=$loc_id]
+
+     let $do_geo :=
+     for $geo in $doc//t:geogName[$place_id=@xml:id]
+       let $ut := update insert attribute type {$type} into $geo
+       let $us := update insert attribute sameAs {$loc_id} into $geo
+       return $us
+
+     return $name
+
+     let $cleanup2 :=
+     for $loc2 in $bibl/t:location[@to_be_removed] 
+     return update delete $loc2	
+
+    return ()       
+
+   return ()
+};
 
 declare function local:enter-person-data(
   $frag as xs:string,
@@ -154,8 +205,10 @@ let $params :=
   <param name="status"   value="{$status}"/>
 </parameters>
 
-let $d := local:enter-person-data($frag,"sender",$doc,$data)
-let $e := local:enter-person-data($frag,"recipient",$doc,$data)
+let $d := local:enter-person-data(  $frag,"sender",   $doc,$data)
+let $e := local:enter-person-data(  $frag,"recipient", $doc,$data)
+let $f := local:enter-location-data($frag,"sender",   $doc,$data)
+let $g := local:enter-location-data($frag,"recipient",$doc,$data)
 let $trans_doc := transform:transform($doc,$op,$params)
 
 return
