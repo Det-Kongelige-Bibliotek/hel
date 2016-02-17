@@ -39,32 +39,34 @@ declare function local:enter-location-data(
   let $bibl   := $doc//t:bibl[@xml:id = $letter/@decls]
 
 
-  let $loc_id := 
-    if($bibl/t:location[@type=$type]/@xml:id) then
+  let $loc_id := concat("idm",util:uuid())
+   (: if($bibl/t:location[@type=$type]/@xml:id) then
       $bibl/t:location[@type=$type]/@xml:id/text()
-    else
-      concat("idm",util:uuid())
+    else :)
+      
 	
   let $loc    :=     
     let $cleanup :=
     for $loc in $bibl/t:location[not(node())] |
                 $bibl/t:location[@type=$type]
-    return update insert attribute to_be_removed {"yeah"} into $loc
+    return update delete $loc
+
+(: insert attribute to_be_removed {"yeah"} into $loc :)
 
   let $tasks := 
   for $location in $json//pair[@name="place"]/item[pair[@name="type"]=$type]
     let $place_id  := $location/pair[@name="xml_id"]/text()
-    let $insert := 
+    (:let $insert := 
       if($bibl/t:location[@type=$type and @xml:id=$loc_id]) then
 	let $n1 := 
 	  <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
 	  return update insert $n1 into $bibl/t:location[@type=$type and @xml:id=$loc_id]
-      else
-	let $n2 := 
+      else :)
+     let $n2 := 
 	  <t:location type="{$type}" xml:id="{$loc_id}">
 	    <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
 	  </t:location>
-        return update insert $n2 into $bibl
+     let $something := update insert $n2 into $bibl
 
      let $name := $bibl/t:location[@xml:id=$loc_id]
 
@@ -76,9 +78,9 @@ declare function local:enter-location-data(
 
      return $name
 
-     let $cleanup2 :=
+     (:let $cleanup2 :=
      for $loc2 in $bibl/t:location[@to_be_removed] 
-     return update delete $loc2	
+     return update delete $loc2	:)
 
     return ()       
 
@@ -109,10 +111,19 @@ declare function local:enter-person-data(
 
   let $tasks := 
   for $person in $json//pair[@name=$role]/item[@type='object']
-    let $person_id  := $person//pair[@name="xml_id"]
-    let $person_uri := $person//pair[@name="auth_id"]
+    let $person_id  := 
+      if(string-length($person//pair[@name="xml_id"]) > 0) then
+	$person//pair[@name="xml_id"]
+      else
+	concat("person",util:uuid())
+
+    let $person_uri :=
+      if(string-length($person//pair[@name="auth_id"]) > 0) then
+	$person//pair[@name="auth_id"]
+      else
+	""
     let $name := 
-    <t:name>   
+    <t:name xml:id="person{$person_id}" ref="{$person_uri}">   
       <t:surname>{$person//pair[@name="family_name"]/text()}</t:surname>,
       <t:forename>{$person//pair[@name="given_name"]/text()}</t:forename>
     </t:name>
@@ -122,8 +133,6 @@ declare function local:enter-person-data(
       ", ",
       $person//pair[@name="given_name"]/text())
 
-    let $ppid := concat("person",$person_id)
-
     let $all :=
       if($person_id) then
 	let $s    := $letter//t:persName[$person_id=@xml:id]
@@ -132,14 +141,10 @@ declare function local:enter-person-data(
 	let $up2  := update insert attribute sameAs {$pref}   into $s
 	let $up5  := update insert $name into $resp      
 	let $r    := $resp/t:name[last()]
-	let $up3  := update insert attribute xml:id {$ppid} into $r
-	let $up6  := update insert attribute ref {$person_uri} into $r
 	return $r
       else
 	let $rup5  := update insert $name into $resp      
 	let $rr    := $resp/t:name[last()]
-	let $rup3  := update insert attribute xml:id {$ppid} into $rr
-	let $rup6  := update insert attribute ref {$person_uri} into $rr
 	return $rr
 
    
@@ -209,8 +214,10 @@ let $d := local:enter-person-data(  $frag,"sender",   $doc,$data)
 let $e := local:enter-person-data(  $frag,"recipient", $doc,$data)
 let $f := local:enter-location-data($frag,"sender",   $doc,$data)
 let $g := local:enter-location-data($frag,"recipient",$doc,$data)
-let $trans_doc := transform:transform($doc,$op,$params)
 
-return
-$trans_doc
-
+let $res := transform:transform($doc,$op,$params)
+return  
+  if($o='xxxjson') then
+    json:serialize-json($res)
+  else
+    $res

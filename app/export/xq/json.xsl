@@ -55,74 +55,195 @@ Author Sigfrid Lundberg slu@kb.dk
    </json>
   </xsl:template>
 
+  <xsl:template name="de_hash">
+    <xsl:param name="string" select="''"/>
+    <xsl:choose>
+      <xsl:when test="contains($string,'#')">
+	<xsl:value-of select="substring-after($string,'#')"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$string"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template name="formulate">
 
+    <xsl:variable name="bibl_id">
+      <xsl:call-template name="de_hash">
+	<xsl:with-param name="string" select="@decls"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:variable name="letter_id">
+      <xsl:value-of select="@xml:id"/>
+    </xsl:variable>
+
+    <xsl:call-template name="mk_input">
+      <xsl:with-param name="name">file</xsl:with-param>
+      <xsl:with-param name="value">
+	<xsl:value-of select="$file"/>
+      </xsl:with-param>
+      <xsl:with-param name="type">string</xsl:with-param>
+    </xsl:call-template>
+
+    <xsl:call-template name="mk_input">
+      <xsl:with-param name="name">xml_id</xsl:with-param>
+      <xsl:with-param name="value">
+	<xsl:value-of select="@xml:id"/>
+      </xsl:with-param>
+      <xsl:with-param name="type">string</xsl:with-param>
+    </xsl:call-template>
+
+
+      <pair name="sender" type="array">
+	<xsl:if test="descendant::t:persName[@type='sender']">	
+	<xsl:for-each select="descendant::t:persName[@type='sender']">	
+	  <xsl:call-template name="extract_text_agent">
+	    <xsl:with-param name="bibl_id" select="$bibl_id"/>
+	    <xsl:with-param name="agent" select="'sender'"/>
+	  </xsl:call-template>
+	</xsl:for-each>
+	</xsl:if>
+	<xsl:for-each select="/t:TEI">
+	  <xsl:for-each select="descendant::t:bibl[@xml:id=$bibl_id]">
+	    <xsl:for-each select="t:respStmt[t:resp='sender']">
+	      <xsl:for-each select="t:name">
+		<xsl:variable name="me">
+		  <xsl:value-of select="@xml:id"/>
+		</xsl:variable>
+		apple me=<xsl:value-of select="$me"/>
+
+		<xsl:apply-templates select="/t:TEI/descendant::node()[@xml:id=$letter_id]/descendant::t:persName/@sameAs"/>
+
+		<xsl:choose>
+		  <xsl:when
+		      test="contains(/t:TEI/descendant::node()[@xml:id=$letter_id]/descendant::t:persName/@sameAs,@xml:id)">
+		    found shit
+		  </xsl:when>
+		  <xsl:otherwise>
+		    found no shit
+		  </xsl:otherwise>
+		</xsl:choose>
+	      </xsl:for-each>
+	    </xsl:for-each>
+	  </xsl:for-each>
+	</xsl:for-each>
+      </pair>
+
+
+
+      <pair name="recipient" type="array">
+	<xsl:if test="descendant::t:persName[@type='recipient']">	
+	<xsl:for-each select="descendant::t:persName[@type='recipient']">
+	  <xsl:call-template name="extract_text_agent">
+	    <xsl:with-param name="bibl_id" select="$bibl_id"/>
+	    <xsl:with-param name="agent" select="'sender'"/>
+	  </xsl:call-template>
+	</xsl:for-each>
+	</xsl:if>
+	<xsl:for-each select="/t:TEI">
+	  <xsl:for-each select="descendant::t:bibl[@xml:id=$bibl_id]">
+	    <xsl:for-each select="t:respStmt[t:resp='recipient']">
+	      <xsl:for-each select="t:name">
+		
+		apple apple again
+		<xsl:choose>
+		  <xsl:when
+		      test="contains(//node()[@xml:id=$letter_id]/descendant::t:persName/@sameAs,@xml:id)">
+		    found shit
+		  </xsl:when>
+		  <xsl:otherwise>
+		    found no shit
+		  </xsl:otherwise>
+		</xsl:choose>
+	      </xsl:for-each>
+	    </xsl:for-each>
+	  </xsl:for-each>
+	</xsl:for-each>
+      </pair>
+
+
+    <xsl:if test="descendant::t:geogName">	
+      <pair name="place" type="array">
+	<xsl:for-each select="descendant::t:geogName">
+	  <xsl:call-template name="mk_field">
+	    <xsl:with-param name="name">text</xsl:with-param>
+	  </xsl:call-template>
+	</xsl:for-each>
+      </pair>
+    </xsl:if>
+     
+    <xsl:if test="descendant::t:date">
+      <pair name="date" type="object">
+	<xsl:for-each select="descendant::t:date[1]">
+	  <xsl:call-template name="mk_input">
+	    <xsl:with-param name="name">text</xsl:with-param>
+	    <xsl:with-param name="value">
+	      <xsl:value-of select="."/>
+	    </xsl:with-param>
+	  </xsl:call-template>
+	  <xsl:call-template name="mk_input">
+	    <xsl:with-param name="name" select="'xml_id'"/>
+	    <xsl:with-param name="value">
+	      <xsl:value-of select="@xml:id"/>
+	    </xsl:with-param>
+	    <xsl:with-param name="type">pair</xsl:with-param>
+	  </xsl:call-template>
+	</xsl:for-each>
+      </pair>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="extract_bibl_agent">
+    <xsl:param name="letter_id" select="''"/>
+    <xsl:param name="agent" select="''"/>
+  </xsl:template>
+
+  <xsl:template name="extract_text_agent">
+    <xsl:param name="bibl_id" select="''"/>
+    <xsl:param name="agent" select="''"/>
+
+    <item type="object"> 
       <xsl:call-template name="mk_input">
-	<xsl:with-param name="name">file</xsl:with-param>
+	<xsl:with-param name="name">text</xsl:with-param>
 	<xsl:with-param name="value">
-	  <xsl:value-of select="$file"/>
+	  <xsl:value-of select="."/>
 	</xsl:with-param>
-	<xsl:with-param name="type">string</xsl:with-param>
       </xsl:call-template>
 
       <xsl:call-template name="mk_input">
-	<xsl:with-param name="name">id</xsl:with-param>
+	<xsl:with-param name="name">xml_id</xsl:with-param>
 	<xsl:with-param name="value">
 	  <xsl:value-of select="@xml:id"/>
 	</xsl:with-param>
-	<xsl:with-param name="type">string</xsl:with-param>
-      </xsl:call-template>
+      </xsl:call-template> 
 
-      <xsl:if test="descendant::t:persName[@type='sender']">	
-	<pair name="sender" type="array">
-	  <xsl:for-each select="descendant::t:persName[@type='sender']">	
-	    <xsl:call-template name="mk_field">
-	      <xsl:with-param name="name">text</xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:for-each>
-	</pair>
-      </xsl:if>
+      <xsl:variable name="same_as">
+	<xsl:call-template name="de_hash">
+	  <xsl:with-param name="string" select="@sameAs"/>
+	</xsl:call-template>
+      </xsl:variable>
 
-      <xsl:if test="descendant::t:persName[@type='recipient']">	
-	<pair name="recipient" type="array">
-	  <xsl:for-each select="descendant::t:persName[@type='recipient']">
-	    <xsl:call-template name="mk_field">
-	      <xsl:with-param name="name">text</xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:for-each>
-	</pair>
-      </xsl:if>
-
-      <xsl:if test="descendant::t:geogName">	
-	<pair name="place" type="array">
-	  <xsl:for-each select="descendant::t:geogName">
-	    <xsl:call-template name="mk_field">
-	      <xsl:with-param name="name">text</xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:for-each>
-	</pair>
-      </xsl:if>
-     
-      <xsl:if test="descendant::t:date">
-	<pair name="date" type="object">
-	  <xsl:for-each select="descendant::t:date[1]">
-	    <xsl:call-template name="mk_input">
-	      <xsl:with-param name="name">text</xsl:with-param>
-	      <xsl:with-param name="value">
-		<xsl:value-of select="."/>
-	      </xsl:with-param>
-	    </xsl:call-template>
-	    <xsl:call-template name="mk_input">
-	      <xsl:with-param name="name" select="'xml_id'"/>
-	      <xsl:with-param name="value">
-		<xsl:value-of select="@xml:id"/>
-	      </xsl:with-param>
-	      <xsl:with-param name="type">pair</xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:for-each>
-	</pair>
-      </xsl:if>
-
+      <xsl:for-each select="//t:respStmt/t:name[@xml:id = $same_as]">
+	<xsl:for-each select="t:surname">
+	  <xsl:call-template name="mk_input">
+	    <xsl:with-param name="name">family_name</xsl:with-param>
+	    <xsl:with-param name="value">
+	      <xsl:value-of select="."/>
+	    </xsl:with-param>
+	  </xsl:call-template>
+	</xsl:for-each>
+	<xsl:for-each select="t:forename">
+	  <xsl:call-template name="mk_input">
+	    <xsl:with-param name="name">given_name</xsl:with-param>
+	    <xsl:with-param name="value">
+	      <xsl:value-of select="."/>
+	    </xsl:with-param>
+	  </xsl:call-template>
+	</xsl:for-each>
+      </xsl:for-each>
+    </item>
   </xsl:template>
 
   <xsl:template name="mk_field">
