@@ -176,5 +176,11 @@ class CatalogController < ApplicationController
   end
 
 
+  def facsimile
+    @response, @document = fetch URI.unescape(params[:id])
+    respond_to do |format|
+      format.html { setup_next_and_previous_documents }
+    end
+  end
 
 end

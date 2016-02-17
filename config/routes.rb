@@ -21,7 +21,12 @@ Rails.application.routes.draw do
   end
 
   resources :mixed_materials
-  resources :letter_books
+
+  resources :letter_books do
+    member do
+      get 'show_letter_and_facsimile'
+    end
+  end
 
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
@@ -46,7 +51,7 @@ Rails.application.routes.draw do
   devise_for :users
   mount Authority::Engine => "/authority"
 
-
+  get '/catalog/:id/facsimile' => 'catalog#facsimile', as: 'facsimile_catalog'
 
   get 'resources/:id' => 'resources#show'
 

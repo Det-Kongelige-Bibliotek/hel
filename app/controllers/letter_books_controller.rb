@@ -1,6 +1,6 @@
 class LetterBooksController < ApplicationController
   include Concerns::RemoveBlanks
-  before_action :set_letter_book, only: [:show, :edit, :update]
+  before_action :set_letter_book, only: [:show, :edit, :update,:show_letter_and_facsimile, :facsimile]
 
   respond_to :html
 
@@ -49,6 +49,9 @@ class LetterBooksController < ApplicationController
                                            :access_condition, :availability, :preservation_collection, :note, collection: [],
                                            content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
                                            publications_attributes: [[:id, :copyright_date, :provider_date ]]).tap { |elems| remove_blanks(elems) }
+  end
+
+  def show_letter_and_facsimile
   end
 
 end
