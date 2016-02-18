@@ -41,32 +41,27 @@ declare function local:enter-location-data(
 
   let $loc_id := concat("idm",util:uuid())
 	
-  let $loc    :=     
-    let $cleanup :=
-    for $loc in $bibl/t:location[not(node())] |
-                $bibl/t:location[@type=$type]
+  let $cleanup :=
+  for $loc in $bibl/t:location[(@type = $type) or not(node())]
     return update delete $loc
 
   let $tasks := 
-  for $location in $json//pair[@name="place"]/item[pair[@name="type"]=$type]
-    let $place_id  := $location/pair[@name="xml_id"]/text()
-    let $n2 := 
-    <t:location type="{$type}" xml:id="{$loc_id}">
-      <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
-    </t:location>
-    let $something := update insert $n2 into $bibl
+    for $location in $json//pair[@name="place"]/item[pair=$type]
+      let $place_id  := $location/pair[@name="xml_id"]/text()
+      let $n := 
+      <t:location type="{$type}" xml:id="{$loc_id}">
+	<t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
+      </t:location>
+      let $something := update insert $n into $bibl
+      let $name := $bibl/t:location[@xml:id=$loc_id]
 
-    let $name := $bibl/t:location[@xml:id=$loc_id]
-
-    let $do_geo :=
-    for $geo in $doc//t:geogName[$place_id=@xml:id]
-       let $ut := update insert attribute type {$type} into $geo
-       let $us := update insert attribute sameAs {$loc_id} into $geo
-       return $us
+      let $do_geo :=
+        for $geo in $doc//t:geogName[$place_id=@xml:id]
+	  let $ut := update insert attribute type {$type} into $geo
+	  let $us := update insert attribute sameAs {$loc_id} into $geo
+	  return $us
 
      return $name
-
-    return ()       
 
    return ()
 };
