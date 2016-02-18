@@ -40,10 +40,6 @@ declare function local:enter-location-data(
 
 
   let $loc_id := concat("idm",util:uuid())
-   (: if($bibl/t:location[@type=$type]/@xml:id) then
-      $bibl/t:location[@type=$type]/@xml:id/text()
-    else :)
-      
 	
   let $loc    :=     
     let $cleanup :=
@@ -51,40 +47,50 @@ declare function local:enter-location-data(
                 $bibl/t:location[@type=$type]
     return update delete $loc
 
-(: insert attribute to_be_removed {"yeah"} into $loc :)
-
   let $tasks := 
   for $location in $json//pair[@name="place"]/item[pair[@name="type"]=$type]
     let $place_id  := $location/pair[@name="xml_id"]/text()
-    (:let $insert := 
-      if($bibl/t:location[@type=$type and @xml:id=$loc_id]) then
-	let $n1 := 
-	  <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
-	  return update insert $n1 into $bibl/t:location[@type=$type and @xml:id=$loc_id]
-      else :)
-     let $n2 := 
-	  <t:location type="{$type}" xml:id="{$loc_id}">
-	    <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
-	  </t:location>
-     let $something := update insert $n2 into $bibl
+    let $n2 := 
+    <t:location type="{$type}" xml:id="{$loc_id}">
+      <t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
+    </t:location>
+    let $something := update insert $n2 into $bibl
 
-     let $name := $bibl/t:location[@xml:id=$loc_id]
+    let $name := $bibl/t:location[@xml:id=$loc_id]
 
-     let $do_geo :=
-     for $geo in $doc//t:geogName[$place_id=@xml:id]
+    let $do_geo :=
+    for $geo in $doc//t:geogName[$place_id=@xml:id]
        let $ut := update insert attribute type {$type} into $geo
        let $us := update insert attribute sameAs {$loc_id} into $geo
        return $us
 
      return $name
 
-     (:let $cleanup2 :=
-     for $loc2 in $bibl/t:location[@to_be_removed] 
-     return update delete $loc2	:)
-
     return ()       
 
    return ()
+};
+
+declare function local:enter-date(
+  $frag as xs:string,
+  $doc  as node(),
+  $json as node()) as node()*
+{
+  let $letter       := $doc//node()[@xml:id=$frag]
+  let $bibl_date    := $doc//t:bibl[@xml:id = $letter/@decls]/t:date
+
+  let $date_struct  := $json//pair[@name="date"]
+  let $date_val     := $date_struct/pair[@name="edtf"]/text()
+  let $date_text_id := $date_struct/pair[@name="xml_id"]/text()
+
+  let $mid          := concat("idm",util:uuid())
+  let $date         := <t:date xml:id="{$mid}">{$date_val}</t:date>
+  let $u            := update replace $bibl_date with $date
+  let $same         := update insert attribute sameAs {$mid} into 
+                              $letter//t:date[@xml:id = $date_text_id]
+
+  return ()
+    
 };
 
 declare function local:enter-person-data(
@@ -214,10 +220,11 @@ let $d := local:enter-person-data(  $frag,"sender",   $doc,$data)
 let $e := local:enter-person-data(  $frag,"recipient", $doc,$data)
 let $f := local:enter-location-data($frag,"sender",   $doc,$data)
 let $g := local:enter-location-data($frag,"recipient",$doc,$data)
+let $dins := local:enter-date($frag,$doc,$data)
 
 let $res := transform:transform($doc,$op,$params)
 return  
-  if($o='xxxjson') then
+  if($o='json') then
     json:serialize-json($res)
   else
     $res
