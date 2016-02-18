@@ -1,5 +1,6 @@
 <%# default partial to display solr document fields in catalog show view -%>
 <%= render 'catalog/show_header_default' %>
+<%= render 'catalog/previous_next_doc' %>
 <% id = @document.id %>
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
