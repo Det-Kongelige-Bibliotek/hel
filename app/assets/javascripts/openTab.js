@@ -1,4 +1,11 @@
 $(document).ready(function() {
-    var mypage = window.location.hash;
-    (mypage.indexOf("#facs") > -1)? $('#facs').addClass('active') : $('#text').addClass('active');
+    var myid = window.location.hash;
+    //alert (myid);
+    if (myid) {
+        (myid.indexOf("facsid") > -1)? $('#facs').addClass('active') : $('#text').addClass('active');
+        $(myid)[0].scrollIntoView();
+    }
+    else {
+        $('#text').addClass('active');
+    }
 });
