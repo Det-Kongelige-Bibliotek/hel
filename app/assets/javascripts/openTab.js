@@ -9,3 +9,6 @@ $(document).ready(function() {
         $('#text').addClass('active');
     }
 });
+
+//On hash change the page should be reloaded so we can redirect to facsimiles
+$(window).on('hashchange', function () { location.reload(); });
