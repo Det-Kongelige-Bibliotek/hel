@@ -14,10 +14,10 @@ class EmailCreateFileJob
     if !pathname.nil?
       abs_path = pathname.to_s
       c = ContentFile.new
-      c.add_external_file(abs_path)
+      f = File.new(abs_path)
+      c.add_file(f)
       c.instance = instance
       fail "File could not be added! #{c.errors.messages}" unless c.save
-      c.id
     end
   end
 end
