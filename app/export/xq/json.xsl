@@ -95,6 +95,13 @@ exclude-result-prefixes="t">
       <xsl:with-param name="type">string</xsl:with-param>
     </xsl:call-template>
 
+    <xsl:variable name="all_the_same">
+      <xsl:for-each
+	  select="/t:TEI/descendant::node()[@xml:id=$letter_id]/descendant::t:persName/@sameAs">
+	<xsl:value-of select="."/>
+      </xsl:for-each>
+    </xsl:variable>
+
     <pair name="sender" type="array">
       <xsl:if test="descendant::t:persName[@type='sender']">	
 	<xsl:for-each select="descendant::t:persName[@type='sender']">	
@@ -110,7 +117,7 @@ exclude-result-prefixes="t">
 	    <xsl:for-each select="t:name">
 	      <xsl:choose>
 		<xsl:when
-		    test="contains(/t:TEI/descendant::node()[@xml:id=$letter_id]/descendant::t:persName/@sameAs,@xml:id)">
+		    test="contains($all_the_same,@xml:id)">
 		</xsl:when>
 		<xsl:otherwise>
 		  <xsl:call-template name="extract_bibl_agent">
@@ -140,7 +147,7 @@ exclude-result-prefixes="t">
 	    <xsl:for-each select="t:name">
 	      <xsl:choose>
 		<xsl:when
-		    test="contains(//node()[@xml:id=$letter_id]/descendant::t:persName/@sameAs,@xml:id)">
+		    test="contains($all_the_same,@xml:id)">
 		</xsl:when>
 		<xsl:otherwise>
 		  <xsl:call-template name="extract_bibl_agent">
