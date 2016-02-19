@@ -11,7 +11,7 @@
       <div class="nav-tab-instance-2">
         <ul class="nav nav-tabs">
           <li  role="presentation">
-            <a data-toggle="tab" href="#letter" >Letter</a>
+            <a data-toggle="tab" href="#text" >Letter</a>
           </li>
           <li role="presentation">
             <a data-toggle="tab" href="#facs" >Facsimile</a>
@@ -19,7 +19,7 @@
         </ul>
       </div>
       <div class="tab-content">
-        <div id="letter" class="tab-pane active">
+        <div id="text" class="tab-pane">
           <% book_id, div_id = sid.split('-') %>
           <% text2 ||= SnippetServer.render_snippet(book_id, {:c=> coll}) %>
           <%= text2.html_safe %>
