@@ -72,7 +72,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
       <span class="pageBreak">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('../#',@xml:id)"/>
+	    <xsl:value-of select="concat('#',@xml:id)"/>
 	  </xsl:attribute>
 	  <xsl:text>s. </xsl:text>
 	  <xsl:value-of select="@n"/>
