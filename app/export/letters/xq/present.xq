@@ -1,5 +1,7 @@
-xquery version "1.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8";
 
+import module namespace json="http://xqilla.sourceforge.net/lib/xqjson";
+declare namespace xdb        = "http://exist-db.org/xquery/xmldb";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -9,6 +11,7 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
@@ -20,10 +23,10 @@ declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
-declare option    exist:serialize "method=xml media-type=text/html";
+declare option exist:serialize "method=xml encoding=UTF-8 media-type=text/html";
 
 let $list := 
-  if($frag and not($o = "facsimile")) then
+  if($frag and not($o = "facsimile" or $o = "json")) then
     for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
     where util:document-name($doc)=$document
     return $doc
@@ -32,12 +35,45 @@ let $list :=
     where util:document-name($doc)=$document
     return $doc
 
+let $prev := 
+  if($frag) then
+    for $doc in collection($coll)//node()[@decls and ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document 
+    return $doc/preceding::t:div[1]/@xml:id
+  else
+    ""
+
+let $next := 
+  if($frag) then
+    for $doc in collection($coll)//node()[@decls and ft:query(@xml:id,$frag)]
+    where util:document-name($doc)=$document
+    return $doc/following::t:div[1]/@xml:id
+  else
+    ""
+
+let $prev_encoded := 
+  if($prev) then
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$prev)
+  else
+    ""
+let $next_encoded := 
+  if($next) then
+    concat(replace(substring-before($file,'.xml'),'/','%2F'),'-',$next)
+  else
+    ""
+
 let $params := 
 <parameters>
   <param name="uri_base" value="http://{request:get-header('HOST')}"/>
   <param name="hostname" value="{request:get-header('HOST')}"/>
   <param name="doc"      value="{$document}"/>
   <param name="id"       value="{$frag}"/>
+  <param name="prev"     value="{$prev}"/>
+  <param name="prev_encoded"
+                         value="{$prev_encoded}"/>
+  <param name="next"     value="{$next}"/>
+  <param name="next_encoded"
+                         value="{$next_encoded}"/>
   <param name="work_id"  value="{$work_id}"/>
   <param name="c"        value="{$c}"/>
   <param name="coll"     value="{$coll}"/>
@@ -46,5 +82,11 @@ let $params :=
 </parameters>
 
 for $doc in $list
-return  transform:transform($doc,$op,$params)
+  let $res := transform:transform($doc,$op,$params)
+  return  
+    if($o='json') then
+      json:serialize-json($res)
+    else
+      $res
+
 

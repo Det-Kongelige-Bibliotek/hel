@@ -36,13 +36,17 @@ Author Sigfrid Lundberg slu@kb.dk
       name="file" 
       select="''"/>
 
+  <xsl:param 
+      name="status" 
+      select="''"/>
+
  <xsl:template match="/">
     <xsl:choose>
       <xsl:when test="$id">
 	<xsl:for-each select="//node()[$id=@xml:id]">
 	  <div>
 	    <xsl:attribute name="id">
-	      <xsl:value-of select="$id"/>
+	      <xsl:value-of select="concat('form',$id)"/>
 	    </xsl:attribute>
 	    <xsl:call-template name="formulate"/>
 	  </div>
@@ -55,10 +59,6 @@ Author Sigfrid Lundberg slu@kb.dk
   </xsl:template>
 
   <xsl:template name="formulate">
-
-    <!-- xsl:value-of 
-	select="document('./form.xsl')//xsl:param[@name='submixion']/json/pair[@name='firstName']/text()"/
-	-->
 
     <form method="post" action="script_somewhere">
       <xsl:call-template name="mk_input">
