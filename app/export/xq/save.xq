@@ -215,6 +215,7 @@ let $d := local:enter-person-data(  $frag,"sender",   $doc,$data)
 let $e := local:enter-person-data(  $frag,"recipient", $doc,$data)
 let $f := local:enter-location-data($frag,"sender",   $doc,$data)
 let $g := local:enter-location-data($frag,"recipient",$doc,$data)
+let $g := local:enter-location-data($frag,"other",$doc,$data)
 let $dins := local:enter-date($frag,$doc,$data)
 
 let $res := transform:transform($doc,$op,$params)
