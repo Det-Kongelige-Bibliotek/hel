@@ -30,5 +30,5 @@
 <% end %>
 
 <% if current_user && (current_user.admin?) %>
-    <%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}) %>
+    <%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}, 1) %>
 <% end %>

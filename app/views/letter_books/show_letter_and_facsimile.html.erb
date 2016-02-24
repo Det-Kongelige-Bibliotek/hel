@@ -21,11 +21,11 @@
       <div class="tab-content">
         <div id="text" class="tab-pane">
           <% book_id, div_id = sid.split('-') %>
-          <% text2 ||= SnippetServer.render_snippet(book_id, {:c=> coll}) %>
+          <% text2 ||= SnippetServer.render_snippet(book_id, {:c=> coll}, 1) %>
           <%= text2.html_safe %>
         </div>
         <div id="facs" class="tab-pane">
-          <%= SnippetServer.facsimile(sid, {c: coll}).html_safe %>
+          <%= SnippetServer.facsimile(sid,  {c: coll}, 0).html_safe %>
         </div>
       </div>
     </div>
