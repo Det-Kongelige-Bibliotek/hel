@@ -2,7 +2,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <%= render 'catalog/show_header_default' %>
-
+<%= render 'catalog/previous_next_doc' %>
 <% id = @document.id %>
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
