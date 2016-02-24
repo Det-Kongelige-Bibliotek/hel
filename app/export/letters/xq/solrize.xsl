@@ -15,6 +15,8 @@
   <xsl:param name="root_category" select="'work'"/>
   <xsl:param name="file" select="'a_very_unique_id'"/>
   <xsl:param name="id"   select="''"/>
+  <xsl:param name="prev" select="''"/>
+  <xsl:param name="next" select="''"/>
   <xsl:param name="work_id" select="''"/>
   <xsl:param name="author" select="''"/>
   <xsl:param name="author_id" select="''"/>
@@ -27,6 +29,8 @@
   <xsl:param name="published_date" select="''"/>
   <xsl:param name="uri_base" select="'http://udvikling.kb.dk/'"/>
   <xsl:param name="url" select="concat($uri_base,$file)"/>
+  <xsl:param name="submixion" select="''"/>
+
 
   <xsl:param name="status" select="''"/>
   <!-- Status: created|waiting|working|completed -->
@@ -34,6 +38,9 @@
 
   <xsl:template match="/">
     <xsl:element name="add">
+
+      <xsl:copy-of select="$submixion"/>
+
       <xsl:choose>
 	<xsl:when test="$id">
 	  <xsl:apply-templates />
@@ -87,31 +94,53 @@
 			     select="./text()|descendant::node()/text()"/>
       </xsl:element>
 
-      <xsl:if test="preceding::t:text[@decls]
-		    |
-		    preceding::t:div[@decls]">
+      <xsl:variable name="lprev">
+	<xsl:choose>
+	  <xsl:when test="$prev">
+	    <xsl:value-of select="$prev"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+            <xsl:call-template name="get_prev_id"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
 
+      <xsl:variable name="lprev">
+	<xsl:choose>
+	  <xsl:when test="$prev">
+	    <xsl:value-of select="$prev"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+            <xsl:call-template name="get_prev_id"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+
+      <xsl:variable name="lnext">
+	<xsl:choose>
+	  <xsl:when test="$next">
+	    <xsl:value-of select="$next"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+            <xsl:call-template name="get_next_id"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+
+      <xsl:if test="string-length($lprev) &gt; 0">
 	<xsl:element name="field">
 	  <xsl:attribute name="name">previous_id_ssi</xsl:attribute>
-	  <xsl:value-of select="preceding::t:text[@decls][1]/@xml:id
-				|
-				preceding::t:div[@decls][1]/@xml:id"/>
+	  <xsl:value-of 
+	      select="concat(substring-before($file,'.xml'),'-',$lprev)"/>
 	</xsl:element>
-	
       </xsl:if>
 
-
-      <xsl:if test="following::t:text[@decls]
-		    |
-		    following::t:div[@decls]">
-
+      <xsl:if test="string-length($lnext) &gt; 0">
 	<xsl:element name="field">
 	  <xsl:attribute name="name">next_id_ssi</xsl:attribute>
-	  <xsl:value-of select="following::t:text[@decls][1]/@xml:id
-				|
-				following::t:div[@decls][1]/@xml:id"/>
+	  <xsl:value-of 
+	      select="concat(substring-before($file,'.xml'),'-',$lnext)"/>
 	</xsl:element>
-	
       </xsl:if>
 
     </doc>
@@ -288,7 +317,7 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">author_id_ssi</xsl:attribute>
+      <xsl:attribute name="name">author_id_ssim</xsl:attribute>
       <xsl:value-of select="$author_id"/>
     </xsl:element>
 
@@ -305,7 +334,7 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">editor_id_ssi</xsl:attribute>
+      <xsl:attribute name="name">editor_id_ssim</xsl:attribute>
       <xsl:value-of select="$editor_id"/>
     </xsl:element>
 
@@ -390,7 +419,7 @@
 	  <xsl:for-each select="t:placeName">
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
-		<xsl:value-of select="concat($role,'_location_ssi')"/>
+		<xsl:value-of select="concat($role,'_location_ssim')"/>
 	      </xsl:attribute>
 	      <xsl:value-of select="t:placeName"/>
 	    </xsl:element>
@@ -409,7 +438,7 @@
 	  </xsl:variable>
 	  <xsl:element name="field">
 	    <xsl:attribute name="name">
-	      <xsl:value-of select="concat($role,'_location_ssi')"/>
+	      <xsl:value-of select="concat($role,'_location_ssim')"/>
 	    </xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
@@ -427,7 +456,7 @@
 			      /t:date[@when/node() or node()]">
 	  <xsl:for-each select="(t:date/@when|t:date/node())">
 	    <xsl:element name="field">
-	      <xsl:attribute name="name">date_ssi</xsl:attribute>
+	      <xsl:attribute name="name">date_ssim</xsl:attribute>
 	      <xsl:value-of select="."/>
 	    </xsl:element>
 	  </xsl:for-each>
@@ -436,7 +465,7 @@
       <xsl:otherwise>
 	<xsl:for-each select="descendant::t:date">
 	  <xsl:element name="field">
-	    <xsl:attribute name="name">date_ssi</xsl:attribute>
+	    <xsl:attribute name="name">date_ssim</xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
 	</xsl:for-each>
@@ -452,7 +481,7 @@
 	<xsl:for-each select="//t:bibl[@xml:id=$bibl]
 			      /t:respStmt[t:resp/node() and t:name/node()]">
 	  <xsl:variable name="field">
-	    <xsl:value-of select="concat(t:resp,'_ssi')"/>
+	    <xsl:value-of select="concat(t:resp,'_ssim')"/>
 	  </xsl:variable>
 	  <xsl:for-each select="t:name">
 	    <xsl:element name="field">
@@ -467,7 +496,7 @@
       <xsl:otherwise>
 	<xsl:for-each select="descendant::t:persName">
 	  <xsl:variable name="field">
-	    <xsl:value-of select="concat(@type,'_ssi')"/>
+	    <xsl:value-of select="concat(@type,'_ssim')"/>
 	  </xsl:variable>
 	  <xsl:element name="field">
 	    <xsl:attribute name="name">
@@ -478,6 +507,16 @@
 	</xsl:for-each>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get_prev_id">
+    <xsl:value-of
+	select="preceding::node()[@decls and @xml:id][1]/@xml:id"/>
+  </xsl:template>
+
+  <xsl:template name="get_next_id">
+    <xsl:value-of
+	select="following::node()[@decls and @xml:id][1]/@xml:id"/>
   </xsl:template>
 
 

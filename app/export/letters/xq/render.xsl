@@ -3,11 +3,18 @@
 <xsl:stylesheet 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:t="http://www.tei-c.org/ns/1.0"
-    exclude-result-prefixes="t"
+    xmlns:str="http://exslt.org/strings"
+    extension-element-prefixes="str"
+    exclude-result-prefixes="t str"
     version="1.0">
 
   <xsl:param name="id" select="''"/>
   <xsl:param name="doc" select="''"/>
+  <xsl:param name="prev" select="''"/>
+  <xsl:param name="prev_encoded" select="''"/>
+  <xsl:param name="next" select="''"/>
+  <xsl:param name="next_encoded" select="''"/>
+  <xsl:param name="file" select="''"/>
   <xsl:param name="hostname" select="''"/>
 
   <xsl:output method="xml"
@@ -31,6 +38,9 @@
   <xsl:template match="t:text">
     <div>
       <xsl:call-template name="add_id"/>
+
+      <xsl:comment> text </xsl:comment>
+
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -38,6 +48,10 @@
   <xsl:template match="t:front">
     <div>
       <xsl:call-template name="add_id"/>
+
+      <xsl:comment> front </xsl:comment>
+
+
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -75,6 +89,7 @@
   <xsl:template match="t:body">
     <div>
       <xsl:call-template name="add_id"/>
+      <xsl:comment> body </xsl:comment>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -86,37 +101,7 @@
   <xsl:template match="t:div">
     <div>
       <xsl:call-template name="add_id"/>
-
-      <xsl:if test="@decls">
-	<xsl:if test="preceding::t:text[@decls]
-		    |
-		    preceding::t:div[@decls]">
-
-	  <xsl:comment>previous_id</xsl:comment>
-	  <xsl:element name="a">
-	    <xsl:attribute name="href">
-	    <xsl:value-of select="preceding::t:text[@decls][1]/@xml:id
-				  |
-				  preceding::t:div[@decls][1]/@xml:id"/>
-	    </xsl:attribute>
-	    forrige
-	  </xsl:element>
-	</xsl:if>
-
-	<xsl:if test="following::t:text[@decls]
-		      |
-		      following::t:div[@decls]">
-
-	  <xsl:element name="a">
-	    <xsl:attribute name="href">
-	      <xsl:value-of select="following::t:text[@decls][1]/@xml:id
-				    |
-				    following::t:div[@decls][1]/@xml:id"/></xsl:attribute>
-	      neste
-	  </xsl:element>
-	
-	</xsl:if>
-      </xsl:if>
+      <xsl:comment> div here <xsl:value-of select="@decls"/> </xsl:comment>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -131,6 +116,7 @@
   <xsl:template match="t:bibl">
     <p>
       <xsl:call-template name="add_id"/>
+      <xsl:comment> bibl </xsl:comment>
       <xsl:apply-templates/>
     </p>
   </xsl:template>
@@ -274,8 +260,9 @@
   </xsl:template>
   
   <xsl:template match="t:address">
-    <xsl:element name="br"/>
-    <xsl:call-template name="add_id_empty_elem"/>
+    <xsl:element name="br">
+      <xsl:call-template name="add_id_empty_elem"/>
+    </xsl:element>
     <xsl:for-each select="t:addrLine">
       <xsl:apply-templates/><xsl:element name="br"/>
     </xsl:for-each>
@@ -320,18 +307,21 @@
   
   <xsl:template match="t:pb">
     <xsl:element name="span">
-      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:call-template name="add_id_empty_elem"/>
+      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:element name="a">
 	<xsl:attribute name="data-no-turbolink">true</xsl:attribute>
-        <xsl:attribute name="href">        
+        <xsl:attribute name="href">
 	  <xsl:choose>
 	    <xsl:when test="$id">
-	      <xsl:value-of select="concat('/catalog/',
+	      <xsl:value-of select="concat('/catalog/%2Fletter_books%2F',
+				    substring-before($doc,'_'),
+				    '%2F',
 				    substring-before($doc,'.xml'),
-				    '%23',
+				    '-',
 				    $id,
-				    '/facsimile/#',@xml:id)"/>
+				    '#',
+				    'facsid', @xml:id)"/>
 	    </xsl:when>
 	    <xsl:otherwise>
               <xsl:value-of select="concat('/catalog/',
@@ -342,18 +332,85 @@
 	</xsl:attribute>
 	<xsl:text>s. </xsl:text>
 	<small><xsl:value-of select="@n"/></small>
-	</xsl:element>
+      </xsl:element>
     </xsl:element>
   </xsl:template>
 
   <xsl:template name="add_id">
+    <xsl:call-template name="add_id_empty_elem"/>
     <xsl:if test="$id = @xml:id">
       <xsl:attribute name="class">text snippetRoot</xsl:attribute>      
     </xsl:if>
-    <xsl:call-template name="add_id_empty_elem"/>
+ 
     <xsl:if test="not(descendant::node())">
       <xsl:comment>Instead of content</xsl:comment>
     </xsl:if>
+    <xsl:if test="@decls">
+      <xsl:call-template name="add_prev_next"/>
+    </xsl:if>
+
+  </xsl:template>
+
+  <xsl:template name="add_prev_next">
+    <p class="navigate_prev_next">
+      <xsl:comment>
+	<xsl:value-of select="$file"/><xsl:text>
+	</xsl:text><xsl:value-of select="$prev"/><xsl:text>
+	</xsl:text><xsl:value-of select="$prev_encoded"/><xsl:text>
+	</xsl:text><xsl:value-of select="$next"/><xsl:text>
+	</xsl:text><xsl:value-of select="$next_encoded"/>
+      </xsl:comment>
+      
+      <xsl:choose>
+	<xsl:when test="string-length($prev) &gt; 0">
+	<xsl:comment>previous_id</xsl:comment>
+	<xsl:element name="a">
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="concat('/catalog/',$prev_encoded)"/>
+	  </xsl:attribute>
+	  forrige
+	</xsl:element>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:variable name="lprev">
+	    <xsl:call-template name="get_prev_id"/>
+	  </xsl:variable>
+	  <xsl:if test="$lprev">
+	    <xsl:element name="a">
+	      <xsl:attribute name="href">
+		<xsl:value-of select="concat('#',$lprev)"/>
+	      </xsl:attribute>
+	      forrige
+	    </xsl:element>
+	  </xsl:if>
+	</xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:choose>
+	<xsl:when test="string-length($next) &gt; 0">
+	  <xsl:comment>next_id</xsl:comment>
+	  <xsl:element name="a">
+	    <xsl:attribute name="href">
+	      <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
+	    </xsl:attribute>
+	    næste
+	  </xsl:element>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:variable name="lnext">
+	    <xsl:call-template name="get_next_id"/>
+	  </xsl:variable>
+	  <xsl:if test="$lnext">
+	    <xsl:element name="a">
+	      <xsl:attribute name="href">
+		<xsl:value-of select="concat('#',$lnext)"/>
+	      </xsl:attribute>
+	      næste
+	    </xsl:element>
+	  </xsl:if>
+	</xsl:otherwise>
+      </xsl:choose>
+    </p>
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">
@@ -364,5 +421,14 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template name="get_prev_id">
+    <xsl:value-of
+	select="preceding::node()[@decls and @xml:id][1]/@xml:id"/>
+  </xsl:template>
+
+  <xsl:template name="get_next_id">
+    <xsl:value-of
+	select="following::node()[@decls and @xml:id][1]/@xml:id"/>
+  </xsl:template>
 
 </xsl:stylesheet>
