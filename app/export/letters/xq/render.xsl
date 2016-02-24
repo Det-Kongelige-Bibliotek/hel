@@ -324,9 +324,14 @@
 				    'facsid', @xml:id)"/>
 	    </xsl:when>
 	    <xsl:otherwise>
-              <xsl:value-of select="concat('/catalog/',
+              <xsl:value-of select="concat('/letter_books/show_letter_and_facsimile?sid=%2Fletter_books%2F',
+				    substring-before($doc,'_'),
+				    '%2F',
 				    substring-before($doc,'.xml'),
-				    '/facsimile/#',@xml:id)"/>
+				    '-',
+				    $id,
+				    '#',
+				    'facsid', @xml:id)"/>
 	    </xsl:otherwise>
 	  </xsl:choose>
 	</xsl:attribute>
