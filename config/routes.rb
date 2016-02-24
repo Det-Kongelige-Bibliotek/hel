@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   resources :mixed_materials
 
+  resources :letter_books
+
   get 'letter_books/show_letter_and_facsimile' => 'letter_books#show_letter_and_facsimile'
 
   get '/catalog/:id/facsimile' => 'catalog#facsimile', as: 'facsimile_catalog'
