@@ -7,7 +7,7 @@
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 
 <p align="right">
-  <a target="_blank" class="btn btn-primary" href="<%= show_letter_and_facsimile_letter_book_path(:id => @document['work_id_ssi'], :sid => @document.id) %>" >Show Letter</a>
+  <a target="_blank" class="btn btn-primary" href="<%= letter_books_show_letter_and_facsimile_path(:sid => @document.id) %>" >Show Letter</a>
 </p>
 
 <div class="container nav-tab-instance-fixContainer">
