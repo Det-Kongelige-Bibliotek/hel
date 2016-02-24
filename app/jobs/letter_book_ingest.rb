@@ -18,7 +18,7 @@ class LetterBookIngest
   def self.send_to_exist(sysno,xml_pathname)
     url = "#{SnippetServer.snippet_server_url}/#{sysno}/#{xml_pathname.basename}"
     doc = Nokogiri::XML(File.read(xml_pathname))
-    stylesheet_path = Rails.root.join('app', 'export', 'transforms', 'preprocess.xsl')
+    stylesheet_path = Rails.root.join('app', 'export','letters', 'transforms', 'preprocess.xsl')
     stylesheet = Nokogiri::XSLT(File.read(stylesheet_path))
     transformed_doc = stylesheet.transform(doc, {})
     SnippetServer.put(url,transformed_doc.root.to_xml)
