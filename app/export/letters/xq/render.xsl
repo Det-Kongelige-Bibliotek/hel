@@ -352,6 +352,7 @@
   </xsl:template>
 
   <xsl:template name="add_prev_next">
+    <!--
     <p class="navigate_prev_next">
       <xsl:comment>
 	<xsl:value-of select="$file"/><xsl:text>
@@ -411,6 +412,7 @@
 	</xsl:otherwise>
       </xsl:choose>
     </p>
+    -->
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">
