@@ -56,9 +56,15 @@ module ApplicationHelper
   end
 
   def letter_title(sender, recipient, date)
-    title= "TIL: " + recipient if recipient.present?
-    title+= " FRA: " + sender if sender.present?
-    title+= " DATO: "+ date if date.present?
+    unless recipient.nil?
+      recipient.first.present? ? title= "TIL: " + recipient.first : title = 'TIL: ukendt'
+    end
+    unless sender.nil?
+      sender.first.present? ? title+= " FRA: " + sender.first : title = " FRA: ukendt"
+    end
+    unless date.nil?
+      date.first.present? ? title+= " DATO: " + date.first : title = " DATO: ukendt"
+    end
     title
   end
 

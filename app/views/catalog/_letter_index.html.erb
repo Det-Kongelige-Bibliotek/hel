@@ -1,5 +1,5 @@
 <h6>Tilhører: <%= Finder.obj(letter["work_id_ssi"]).first["display_value_ssm"].first %></h6>
-<h5><%= link_to letter_title(letter["sender_ssi"], letter["recipient_ssi"], letter["date_ssi"]),  solr_document_path(id: letter['id'])  %></h5>
+<h5><%= link_to letter_title(letter["sender_ssim"], letter["recipient_ssim"], letter["date_ssim"]),  solr_document_path(id: letter['id'])  %></h5>
 <br>
 <dl style="float:right">
 <% if letter["status_ssi"].present? %>
