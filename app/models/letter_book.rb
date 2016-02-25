@@ -45,11 +45,11 @@ class LetterBook < Work
   def to_solr(solr_doc = {})
     solr_doc.merge!(super)
     solr_doc['cat_ssi'] = 'letterbook'
-    solr_doc['file_id_ssi'] = get_file_id
+    solr_doc['file_name_ssi'] = get_file_name
     solr_doc
   end
 
-  def get_file_id
+  def get_file_name
     if self.get_instance("TEI").present? && self.get_instance("TEI").try(:content_files).try(:first).try(:external_file_path).present?
       Pathname.new(self.get_instance("TEI").content_files.first.external_file_path).basename.to_s
     else
