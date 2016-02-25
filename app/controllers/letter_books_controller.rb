@@ -1,6 +1,6 @@
 class LetterBooksController < ApplicationController
   include Concerns::RemoveBlanks
-  before_action :set_letter_book, only: [:show, :edit, :update,:show_letter_and_facsimile, :facsimile]
+  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile]
 
   respond_to :html
 
