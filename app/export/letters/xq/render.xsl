@@ -324,9 +324,14 @@
 				    'facsid', @xml:id)"/>
 	    </xsl:when>
 	    <xsl:otherwise>
-              <xsl:value-of select="concat('/catalog/',
+              <xsl:value-of select="concat('/letter_books/show_letter_and_facsimile?sid=%2Fletter_books%2F',
+				    substring-before($doc,'_'),
+				    '%2F',
 				    substring-before($doc,'.xml'),
-				    '/facsimile/#',@xml:id)"/>
+				    '-',
+				    $id,
+				    '#',
+				    'facsid', @xml:id)"/>
 	    </xsl:otherwise>
 	  </xsl:choose>
 	</xsl:attribute>
@@ -352,6 +357,7 @@
   </xsl:template>
 
   <xsl:template name="add_prev_next">
+    <!--
     <p class="navigate_prev_next">
       <xsl:comment>
 	<xsl:value-of select="$file"/><xsl:text>
@@ -411,6 +417,7 @@
 	</xsl:otherwise>
       </xsl:choose>
     </p>
+    -->
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">

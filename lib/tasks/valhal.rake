@@ -45,6 +45,7 @@ namespace :valhal do
   task ingest_test_letters: :environment do
     xml_path = File.join(Rails.root,'spec','fixtures','breve','001541111_000','001541111_000.xml')
     img_path = File.join(Rails.root,'spec','fixtures','breve','001541111_000')
+    puts "xml_path #{xml_path}"
     LetterBookIngest.perform(xml_path,img_path)
   end
 

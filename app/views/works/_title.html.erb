@@ -5,7 +5,7 @@
 
     <% id = "title#{title_fields.index }" %>
     <div id="<%= id %>" class="title_fields">
-      <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#<%=id %>">
+      <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#<%=id %>" data-condition="$('.title_fields').size()>1">
       </a>
       <div class='col-sm-8'>
         <%= title_fields.input :value, placeholder: 'Titel', required:true %>
