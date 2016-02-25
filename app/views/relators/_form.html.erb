@@ -19,7 +19,7 @@
         <%= rel_fields.input :agent_id, label: agent_label, wrapper_html: agent_wrapper_html, input_html: agent_input_html %>
         <%= rel_fields.hidden_field :_destroy %>
         <%= rel_fields.input :role, collection: get_list_with_labels('Relators',restrict_to), wrapper_html: role_wrapper_html, input_html: role_input_html, required: true %>
-        <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#<%=id %>">
+        <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#<%=id %>" data-condition="$('.relator_fields').size()>1">
         </a>
       </div>
     </div>
