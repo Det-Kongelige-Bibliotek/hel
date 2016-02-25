@@ -56,10 +56,18 @@ module ApplicationHelper
   end
 
   def letter_title(sender, recipient, date)
-    title = "BREV"
-    title= "TIL: " + recipient if recipient.present?
-    title+= " FRA: " + sender if sender.present?
-    title+= " DATO: "+ date if date.present?
+    title = "BREV "
+    if recipient.is_a? Array
+      title += "TIL: " + recipient.to_sentence(:last_word_connector => " og ")
+    else
+      title += "TIL: " + recipient if recipient.present?
+    end
+    if sender.is_a? Array
+      title += " FRA: " + sender.to_sentence(:last_word_connector => " og ")
+    else
+      title += " FRA: " + sender if sender.present?
+    end
+    title += " DATO: "+ date if date.present?
     title
   end
 
