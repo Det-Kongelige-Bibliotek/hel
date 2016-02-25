@@ -39,11 +39,11 @@
   <xsl:template match="/">
     <xsl:element name="add">
 
-      <xsl:copy-of select="$submixion"/>
-
       <xsl:choose>
 	<xsl:when test="$id">
-	  <xsl:apply-templates />
+	  <xsl:for-each select="//node()[$id=@xml:id]">
+	    <xsl:apply-templates select="."/>
+	  </xsl:for-each>
 	</xsl:when>
 	<xsl:otherwise>
 	  <xsl:apply-templates/>
@@ -377,9 +377,8 @@
 
 
  <xsl:template name="letter_info">
-
-   <!-- we have been inconsistent as regards use of '#' in refs -->
    
+   <!-- we have been inconsistent as regards use of '#' in refs -->
     <xsl:variable name="bibl">
       <xsl:choose>
 	<xsl:when test="contains(@decls,'#')" >
@@ -393,8 +392,7 @@
 
     <!-- we should only look for letter info stuff if we're in a LLO (letter
 	 like object) -->
-
-    <xsl:if test="//t:bibl[@xml:id=$bibl]">
+  
       <xsl:call-template name="extract_places">  
 	<xsl:with-param name="bibl" select="$bibl"/>
       </xsl:call-template>
@@ -404,7 +402,7 @@
       <xsl:call-template name="extract_dates">
 	<xsl:with-param name="bibl" select="$bibl"/>
       </xsl:call-template>
-    </xsl:if>
+
   </xsl:template>
 
  <!-- xsl:for-each select="/t:TEI">
@@ -413,10 +411,10 @@
 
   <xsl:template name="extract_places">
     <xsl:param name="bibl" select="''"/>
-    <xsl:choose>
-      <xsl:when
-	  test="/t:TEI/descendant::t:bibl[@xml:id=$bibl]/t:location">
-	<xsl:for-each select="/t:TEI/descendant::t:bibl[@xml:id=$bibl]/t:location">
+
+    <xsl:for-each select="/t:TEI">
+      <xsl:for-each select="descendant::node()[@xml:id=$bibl]">
+	<xsl:for-each select="t:location">
 	  <xsl:variable name="role">
 	    <xsl:value-of select="@type"/>
 	  </xsl:variable>
@@ -425,92 +423,93 @@
 	      <xsl:attribute name="name">
 		<xsl:value-of select="concat($role,'_location_ssim')"/>
 	      </xsl:attribute>
-	      <xsl:value-of select="t:placeName"/>
+	      <xsl:value-of select="."/>
 	    </xsl:element>
 	  </xsl:for-each>
 	</xsl:for-each>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:for-each select="descendant::t:geogName">
-	  <xsl:variable name="role">
-	    <xsl:choose>
-	      <xsl:when test="@type">
-		<xsl:value-of select="@type"/>
-	      </xsl:when>
-	      <xsl:otherwise>sender</xsl:otherwise>
-	    </xsl:choose>
-	  </xsl:variable>
-	  <xsl:element name="field">
-	    <xsl:attribute name="name">
-	      <xsl:value-of select="concat($role,'_location_ssim')"/>
-	    </xsl:attribute>
-	    <xsl:value-of select="."/>
-	  </xsl:element>
-	</xsl:for-each>
-      </xsl:otherwise>
-    </xsl:choose>
+      </xsl:for-each>
+    </xsl:for-each>
+
+    <xsl:for-each select="descendant::t:geogName">
+      <xsl:variable name="role">
+	<xsl:choose>
+	  <xsl:when test="@type">
+	    <xsl:value-of select="@type"/>
+	  </xsl:when>
+	  <xsl:otherwise>sender</xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="concat($role,'_location_text_ssim')"/>
+	</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
+    </xsl:for-each>
+
   </xsl:template>
 
   <xsl:template name="extract_dates">
     <xsl:param name="bibl" select="''"/>
 
-    <xsl:choose>
-      <xsl:when test="//t:bibl[@xml:id=$bibl]/t:date[@when or node()]">
-	<xsl:for-each select="//t:bibl[@xml:id=$bibl]
-			      /t:date[@when/node() or node()]">
-	  <xsl:for-each select="(t:date/@when|t:date/node())">
-	    <xsl:element name="field">
-	      <xsl:attribute name="name">date_ssim</xsl:attribute>
-	      <xsl:value-of select="."/>
-	    </xsl:element>
-	  </xsl:for-each>
-	</xsl:for-each>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:for-each select="descendant::t:date">
+
+    <xsl:for-each select="/t:TEI">
+      <xsl:for-each select="descendant::node()[@xml:id=$bibl]">
+	<xsl:for-each select="t:date">
 	  <xsl:element name="field">
 	    <xsl:attribute name="name">date_ssim</xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
 	</xsl:for-each>
-      </xsl:otherwise>
-    </xsl:choose>
+      </xsl:for-each>
+    </xsl:for-each>
+
+    <xsl:for-each select="descendant::t:date">
+      <xsl:element name="field">
+	<xsl:attribute name="name">date_text_ssim</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
+    </xsl:for-each>
+
   </xsl:template>
 
   <xsl:template name="extract_agents">
     <xsl:param name="bibl" select="''"/>
-    <xsl:choose>
-      <xsl:when test="//t:bibl[@xml:id=$bibl]
-		      /t:respStmt[t:resp/node() and t:name/node()]">
-	<xsl:for-each select="//t:bibl[@xml:id=$bibl]
-			      /t:respStmt[t:resp/node() and t:name/node()]">
+
+    <xsl:for-each select="/t:TEI">
+      <xsl:for-each select="descendant::node()[@xml:id=$bibl]">
+	<xsl:for-each select="t:respStmt[t:resp/node() and t:name/node()]">
 	  <xsl:variable name="field">
-	    <xsl:value-of select="concat(t:resp,'_ssim')"/>
+	    <xsl:value-of select="t:resp"/>
 	  </xsl:variable>
 	  <xsl:for-each select="t:name">
+	  <xsl:element name="field">
+	    <xsl:attribute name="name">
+	      <xsl:value-of select="concat($field,'_ssim')"/>
+	    </xsl:attribute>
+	    <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
+	    </xsl:element>
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
-		<xsl:value-of select="$field"/>
+		<xsl:value-of select="concat($field,'_id_ssim')"/>
 	      </xsl:attribute>
-	      <xsl:value-of select="t:name"/>
+	      <xsl:value-of select="@ref"/>
 	    </xsl:element>
 	  </xsl:for-each>
 	</xsl:for-each>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:for-each select="descendant::t:persName">
-	  <xsl:variable name="field">
-	    <xsl:value-of select="concat(@type,'_ssim')"/>
-	  </xsl:variable>
-	  <xsl:element name="field">
-	    <xsl:attribute name="name">
-	      <xsl:value-of select="$field"/>
-	    </xsl:attribute>
-	    <xsl:value-of select="."/>
-	  </xsl:element>
-	</xsl:for-each>
-      </xsl:otherwise>
-    </xsl:choose>
+      </xsl:for-each>
+    </xsl:for-each>
+    <xsl:for-each select="descendant::t:persName">
+      <xsl:variable name="field">
+	<xsl:value-of select="concat(@type,'_text_ssim')"/>
+      </xsl:variable>
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="$field"/>
+	</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template name="get_prev_id">
