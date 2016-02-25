@@ -69,7 +69,7 @@ class LettersController < ApplicationController
       unless p['_destroy'] == '1'
         phash = {}
         phash['xml_id'] = p['xml_id']
-        phash['name'] = coder.encode(p['name'], :hexadecimal)
+        phash['name'] = p['name']
         phash['type'] = p['type']
         result << phash
       end
