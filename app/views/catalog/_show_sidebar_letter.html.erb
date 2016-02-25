@@ -2,7 +2,7 @@
 <% coll = "/db#{ id[0,id.rindex('/')] }" %>
 <% if current_search_session %>
     <div class="search-widgets">
-      <%= link_to "Back to Book", "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
+      <%= link_to "Back to Book", "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}"  if @document['work_id_ssi'].present? %>
     </div>
 <% end %>
 
@@ -32,5 +32,7 @@
 <% if current_user && (current_user.admin?) %>
     <% data =  SnippetServer.render_snippet(id, {:op =>'json', :c =>  coll}) %>
     <% @letter = Letter.from_json(data) %>
-    <%= render partial: 'letters/letter_form'  %>
+    <% @letter.id = id %>
+    <% @letter.work_id = @document['work_id_ssi'] %>
+    <%= render partial: 'letters/letter_form'%>
 <% end %>
