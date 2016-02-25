@@ -14,7 +14,7 @@ class SnippetServer
   end
 
   def self.get(uri)
-    puts "get #{uri}"
+    puts "SNIPPET SERVER GET #{uri}"
     uri = URI.parse(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
@@ -71,14 +71,7 @@ class SnippetServer
 
   end
 
-  def self.render_snippet(id,opts={})
-    if id.include? '/'
-      a = id[id.rindex('/')+1, id.length].split("-")
-    else
-      a =id.split("-")
-    end
-    opts[:doc] = "#{a[0]}.xml"
-    opts[:id] = a[1] if a.size>1
+  def self.render_snippet(opts={})
     base = snippet_server_url
     base += "#{opts[:project]}" if opts[:project].present?
     puts "base #{base} #{get_snippet_script} #{opts.inspect}"
@@ -87,28 +80,13 @@ class SnippetServer
     self.get(uri)
   end
 
-  def self.solrize(id,opts={})
+  def self.solrize(opts={})
     opts[:op] = 'solrize'
     opts[:status] = 'created' unless opts[:status].present?
-    SnippetServer.render_snippet(id, opts)
+    SnippetServer.render_snippet(opts)
   end
 
-  def self.toc(id,opts={})
-    opts[:op] = 'toc'
-    SnippetServer.render_snippet(id, opts)
-  end
-
-  def self.toc_facsimile(id,opts={})
-    opts[:op] = 'toc-facsimile'
-    SnippetServer.render_snippet(id, opts)
-  end
-
-  def self.author_portrait_has_text(id)
-    text = self.render_snippet(id,{c: 'authors'}).to_str
-    has_text(text)
-  end
-
-  def self.doc_has_text(id)
+  def self.doc_has_text(opts={})
     text = self.render_snippet(id).to_str
     has_text(text)
   end
@@ -120,15 +98,15 @@ class SnippetServer
     text.present?
   end
 
-  def self.has_facsimile(id)
-    html = SnippetServer.facsimile(id)
+  def self.has_facsimile(opts={})
+    html = SnippetServer.facsimile(opts)
     xml = Nokogiri::HTML(html)
     return !xml.css('img').empty?
   end
 
   # return all image links for use in facsimile pdf view
-  def self.image_links(id)
-    html = SnippetServer.facsimile(id)
+  def self.image_links(opts={})
+    html = SnippetServer.facsimile(opts)
     xml = Nokogiri::HTML(html)
     links = []
     xml.css('img').each do |img|
@@ -146,20 +124,34 @@ class SnippetServer
   end
 
 
-  def self.facsimile(id, opts={})
+  def self.facsimile(opts={})
     opts[:op] = 'facsimile'
-    SnippetServer.render_snippet(id, opts)
+    SnippetServer.render_snippet(opts)
   end
 
-  def self.update_letter(doc,id,json,opts={})
-    opts[:id] = id
-    opts[:doc] = doc
+  def self.update_letter(json,opts={})
     uri  = SnippetServer.contruct_url(snippet_server_url_with_admin,"save.xq",opts)
     puts "update letter uri #{uri}"
     self.post(uri,json)
   end
 
+  # get doc and id arguments form a solr id
+  def self.split_letter_id(id)
+    if id.include? '/'
+      a = id[id.rindex('/')+1, id.length].split("-")
+    else
+      a =id.split("-")
+    end
+    {doc: "#{a[0]}.xml", id: a[1]}
+  end
+
+  #get collection from a solr id
+  def self.get_collection(id)
+    "/db#{ id[0,id.rindex('/')] }"
+  end
+
   private
+
   def self.contruct_url(base,script,opts={})
     uri = base
     uri += "/"+script

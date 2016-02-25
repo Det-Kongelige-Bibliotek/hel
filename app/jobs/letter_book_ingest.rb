@@ -71,10 +71,9 @@ class LetterBookIngest
 
     ingest_img_files(img_pathname, instance_img)
 
-    puts "file_id #{lb.get_file_id}"
+    puts "file_id #{lb.get_file_name}"
 
-    solr_doc = SnippetServer.solrize(lb.get_file_id,{c: "/db/letter_books/#{sysnum}", work_id: lb.id})
-    # puts solr_doc
+    solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", work_id: lb.id})
     solr = RSolr.connect
     solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
     solr.commit

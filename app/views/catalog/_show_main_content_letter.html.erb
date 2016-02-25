@@ -3,8 +3,9 @@
 
 <%= render 'catalog/show_header_default' %>
 <%= render 'catalog/previous_next_doc' %>
-<% id = @document.id %>
-<% coll = "/db#{ id[0,id.rindex('/')] }" %>
+<% solr_id = @document.id %>
+<% opts = SnippetServer.split_letter_id(solr_id) %>
+<% opts[:c] = SnippetServer.get_collection(solr_id) %>
 
 <p align="right">
   <a target="_blank" class="btn btn-primary" href="<%= letter_books_show_letter_and_facsimile_path(:sid => @document.id) %>" >Show Letter</a>
@@ -25,11 +26,11 @@
       </div>
       <div class="tab-content">
         <div id="text" class="tab-pane">
-          <% text1 ||= SnippetServer.render_snippet(@document.id,{:c=> coll}, 1) %>
+          <% text1 ||= SnippetServer.render_snippet(opts) %>
           <%= text1.html_safe %>
         </div>
         <div id="facs" class="tab-pane">
-          <%= SnippetServer.facsimile(@document.id, {c: coll}, 1).html_safe %>
+          <%= SnippetServer.facsimile(opts).html_safe %>
         </div>
       </div>
     </div>

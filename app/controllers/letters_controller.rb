@@ -8,8 +8,8 @@ class LettersController < ApplicationController
       puts "JSON params #{json}"
       parts = json[:file].rpartition("/")
       coll = "/db#{ parts.first }"
-      res = SnippetServer.update_letter(parts.last,json[:xml_id],json.as_json.to_json ,{:c => coll, :op=>'json'})
-      solr_doc = SnippetServer.solrize("#{Pathname.new(parts.last).basename('.xml')}-#{json[:xml_id]}",{c: coll, id: json[:xml_id], work_id: json[:work_id],status: json[:status]})
+      res = SnippetServer.update_letter(json.as_json.to_json ,{doc: parts.last, id: json[:xml_id], :c => coll, :op=>'json'})
+      solr_doc = SnippetServer.solrize({doc: parts.last, c: coll, id: json[:xml_id], work_id: json[:work_id],status: json[:status]})
       #puts solr_doc
       solr = RSolr.connect
       solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)

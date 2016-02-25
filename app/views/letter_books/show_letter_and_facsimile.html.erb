@@ -1,8 +1,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<% sid = params['sid'] %>
-<% id = params['id'] %>
-<% coll = "/db#{ sid[0,sid.rindex('/')] }" %>
+
+
+<% solr_id = params['sid'] %>
+<% opts = SnippetServer.split_letter_id(solr_id) %>
+<% opts[:c] = SnippetServer.get_collection(solr_id) %>
+<% opts[:id] = nil %>
 
 
 <div class="container nav-tab-instance-fixContainer">
@@ -20,12 +23,11 @@
       </div>
       <div class="tab-content">
         <div id="text" class="tab-pane">
-          <% book_id, div_id = sid.split('-') %>
-          <% text2 ||= SnippetServer.render_snippet(book_id, {:c=> coll}, 1) %>
+          <% text2 ||= SnippetServer.render_snippet(opts) %>
           <%= text2.html_safe %>
         </div>
         <div id="facs" class="tab-pane">
-          <%= SnippetServer.facsimile(sid,  {c: coll}, 0).html_safe %>
+          <%= SnippetServer.facsimile(opts).html_safe %>
         </div>
       </div>
     </div>
