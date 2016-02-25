@@ -199,6 +199,10 @@ $(document).ready(function(){
         $(this).removeData("bs.modal");
         $(this).find(".modal-body").html("");
     });
+
+    $('[data-function="viaf_typeahead"]').each(function(){
+        enable_viaftypeahead($(this));
+    });
 });
 
 // when the form-loader retrieves a form, append it to
