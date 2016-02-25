@@ -13,7 +13,6 @@ declare namespace app="http://kb.dk/this/app";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace local="http://kb.dk/this/app";
-declare namespace uuid="java:java.util.UUID";
 
 declare variable  $document := request:get-parameter("doc","");
 declare variable  $frag     := request:get-parameter("id","");
@@ -30,7 +29,64 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option    exist:serialize "method=xml media-type=text/xml";
 
+declare function local:enter-location-data(
+  $frag as xs:string,
+  $type as xs:string,
+  $doc  as node(),
+  $json as node()) as node()*
+{
+  let $letter := $doc//node()[@xml:id=$frag]
+  let $bibl   := $doc//t:bibl[@xml:id = $letter/@decls]
 
+
+  let $loc_id := concat("idm",util:uuid())
+	
+  let $cleanup :=
+  for $loc in $bibl/t:location[(@type = $type) or not(node())]
+    return update delete $loc
+
+  let $tasks := 
+    for $location in $json//pair[@name="place"]/item[pair=$type]
+      let $place_id  := $location/pair[@name="xml_id"]/text()
+      let $n := 
+      <t:location type="{$type}" xml:id="{$loc_id}">
+	<t:placeName>{$location//pair[@name="name"]/text()}</t:placeName>
+      </t:location>
+      let $something := update insert $n into $bibl
+      let $name := $bibl/t:location[@xml:id=$loc_id]
+
+      let $do_geo :=
+        for $geo in $doc//t:geogName[$place_id=@xml:id]
+	  let $ut := update insert attribute type {$type} into $geo
+	  let $us := update insert attribute sameAs {$loc_id} into $geo
+	  return $us
+
+     return $name
+
+   return ()
+};
+
+declare function local:enter-date(
+  $frag as xs:string,
+  $doc  as node(),
+  $json as node()) as node()*
+{
+  let $letter       := $doc//node()[@xml:id=$frag]
+  let $bibl_date    := $doc//t:bibl[@xml:id = $letter/@decls]/t:date
+
+  let $date_struct  := $json//pair[@name="date"]
+  let $date_val     := $date_struct/pair[@name="edtf"]/text()
+  let $date_text_id := $date_struct/pair[@name="xml_id"]/text()
+
+  let $mid          := concat("idm",util:uuid())
+  let $date         := <t:date xml:id="{$mid}">{$date_val}</t:date>
+  let $u            := update replace $bibl_date with $date
+  let $same         := update insert attribute sameAs {$mid} into 
+                              $letter//t:date[@xml:id = $date_text_id]
+
+  return ()
+    
+};
 
 declare function local:enter-person-data(
   $frag as xs:string,
@@ -56,29 +112,43 @@ declare function local:enter-person-data(
 
   let $tasks := 
   for $person in $json//pair[@name=$role]/item[@type='object']
-    let $person_id := $person//pair[@name="xml_id"]
+    let $person_id  := 
+      if(string-length($person//pair[@name="xml_id"]) > 0) then
+	$person//pair[@name="xml_id"]
+      else
+	concat("person",util:uuid())
+
+    let $person_uri :=
+      if(string-length($person//pair[@name="auth_id"]) > 0) then
+	$person//pair[@name="auth_id"]
+      else
+	""
     let $name := 
-    <t:name>   
+    <t:name xml:id="person{$person_id}" ref="{$person_uri}">   
       <t:surname>{$person//pair[@name="family_name"]/text()}</t:surname>,
       <t:forename>{$person//pair[@name="given_name"]/text()}</t:forename>
     </t:name>
+
     let $full_name := concat(
       $person//pair[@name="family_name"]/text(),
       ", ",
       $person//pair[@name="given_name"]/text())
+
     let $all :=
       if($person_id) then
 	let $s    := $letter//t:persName[$person_id=@xml:id]
-	let $pref := concat('#person',$person_id)
-	let $ppid := concat('person',$person_id)
+	let $pref := concat("#person",$person_id)
 	let $up1  := update insert attribute key {$full_name} into $s
 	let $up2  := update insert attribute sameAs {$pref}   into $s
 	let $up5  := update insert $name into $resp      
 	let $r    := $resp/t:name[last()]
-	let $up3  := update insert attribute xml:id {$ppid} into $r
-	return $up1 and $up2 and $up3
+	return $r
       else
-	update insert $name into $resp     
+	let $rup5  := update insert $name into $resp      
+	let $rr    := $resp/t:name[last()]
+	return $rr
+
+   
  
      return $all
 
@@ -141,10 +211,16 @@ let $params :=
   <param name="status"   value="{$status}"/>
 </parameters>
 
-let $d := local:enter-person-data($frag,"sender",$doc,$data)
-let $e := local:enter-person-data($frag,"recipient",$doc,$data)
-let $trans_doc := transform:transform($doc,$op,$params)
+let $d := local:enter-person-data(  $frag,"sender",   $doc,$data)
+let $e := local:enter-person-data(  $frag,"recipient", $doc,$data)
+let $f := local:enter-location-data($frag,"sender",   $doc,$data)
+let $g := local:enter-location-data($frag,"recipient",$doc,$data)
+let $g := local:enter-location-data($frag,"other",$doc,$data)
+let $dins := local:enter-date($frag,$doc,$data)
 
-return
-$trans_doc
-
+let $res := transform:transform($doc,$op,$params)
+return  
+  if($o='json') then
+    json:serialize-json($res)
+  else
+    $res

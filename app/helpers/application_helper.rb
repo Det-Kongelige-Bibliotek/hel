@@ -55,7 +55,10 @@ module ApplicationHelper
     link_to label, "/catalog/#{URI::escape(letter_id, "/")}##{div_id}"
   end
 
-  def letter_title(sender, recipient, date)
+  def letter_title(doc)
+    recipient = doc["recipient_ssim"]
+    sender = doc["sender_ssim"]
+    date = doc["date_ssim"]
     title = "BREV "
     if recipient.is_a? Array
       title += "TIL: " + recipient.to_sentence(:last_word_connector => " og ")

@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   end
 
   resources :mixed_materials
+
+  get 'letter_books/show_letter_and_facsimile' => 'letter_books#show_letter_and_facsimile'
   resources :letter_books
   resources :letters
 

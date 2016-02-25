@@ -307,29 +307,37 @@
   
   <xsl:template match="t:pb">
     <xsl:element name="span">
-      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:call-template name="add_id_empty_elem"/>
+      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:element name="a">
 	<xsl:attribute name="data-no-turbolink">true</xsl:attribute>
-        <xsl:attribute name="href">        
+        <xsl:attribute name="href">
 	  <xsl:choose>
 	    <xsl:when test="$id">
-	      <xsl:value-of select="concat('/catalog/',
+	      <xsl:value-of select="concat('/catalog/%2Fletter_books%2F',
+				    substring-before($doc,'_'),
+				    '%2F',
 				    substring-before($doc,'.xml'),
-				    '%23',
+				    '-',
 				    $id,
-				    '/facsimile/#',@xml:id)"/>
+				    '#',
+				    'facsid', @xml:id)"/>
 	    </xsl:when>
 	    <xsl:otherwise>
-              <xsl:value-of select="concat('/catalog/',
+              <xsl:value-of select="concat('/letter_books/show_letter_and_facsimile?sid=%2Fletter_books%2F',
+				    substring-before($doc,'_'),
+				    '%2F',
 				    substring-before($doc,'.xml'),
-				    '/facsimile/#',@xml:id)"/>
+				    '-',
+				    $id,
+				    '#',
+				    'facsid', @xml:id)"/>
 	    </xsl:otherwise>
 	  </xsl:choose>
 	</xsl:attribute>
 	<xsl:text>s. </xsl:text>
 	<small><xsl:value-of select="@n"/></small>
-	</xsl:element>
+      </xsl:element>
     </xsl:element>
   </xsl:template>
 
@@ -338,7 +346,6 @@
     <xsl:if test="$id = @xml:id">
       <xsl:attribute name="class">text snippetRoot</xsl:attribute>      
     </xsl:if>
-
  
     <xsl:if test="not(descendant::node())">
       <xsl:comment>Instead of content</xsl:comment>
@@ -350,6 +357,7 @@
   </xsl:template>
 
   <xsl:template name="add_prev_next">
+    <!--
     <p class="navigate_prev_next">
       <xsl:comment>
 	<xsl:value-of select="$file"/><xsl:text>
@@ -409,6 +417,7 @@
 	</xsl:otherwise>
       </xsl:choose>
     </p>
+    -->
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">

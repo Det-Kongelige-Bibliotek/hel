@@ -33,7 +33,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	<xsl:for-each select="//node()[$id=@xml:id]">
 	  <div>
 	    <xsl:attribute name="id">
-	      <xsl:value-of select="$id"/>
+	      <xsl:value-of select="concat('facsid',$id)"/>
 	    </xsl:attribute>
 	    <xsl:attribute name="class">facsimile snippetRoot</xsl:attribute>
 	    <xsl:for-each select="preceding::t:pb[1]">
@@ -72,7 +72,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
       <span class="pageBreak">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('../#',@xml:id)"/>
+	    <xsl:value-of select="concat('#',@xml:id)"/>
 	  </xsl:attribute>
 	  <xsl:text>s. </xsl:text>
 	  <xsl:value-of select="@n"/>
@@ -91,7 +91,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template name="add_id">
     <xsl:if test="@xml:id">
       <xsl:attribute name="id">
-      	<xsl:value-of select="@xml:id"/>
+      	<xsl:value-of select="concat('facsid',@xml:id)"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>

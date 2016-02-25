@@ -67,7 +67,6 @@ class SnippetServer
     res
   end
 
-
   def self.ingest_file(uri,path)
 
   end
