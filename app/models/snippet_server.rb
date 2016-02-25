@@ -50,7 +50,7 @@ class SnippetServer
 
   end
 
-  def self.render_snippet(id,opts={})
+  def self.render_snippet(id,opts={}, type)
     if id.include? '/'
       a = id[id.rindex('/')+1, id.length].split("-")
     else
@@ -61,7 +61,9 @@ class SnippetServer
     uri += "#{opts[:project]}" if opts[:project].present?
     uri += "/"+get_snippet_script
     uri += "?doc=#{a[0]}.xml"
-    uri += "&id=#{URI.escape(a[1])}" unless a.size < 2
+    if (type == 1)
+      uri += "&id=#{URI.escape(a[1])}" unless a.size < 2
+    end
     uri += "&op=#{URI.escape(opts[:op])}" if opts[:op].present?
     uri += "&c=#{URI.escape(opts[:c])}" if opts[:c].present?
     uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
@@ -74,29 +76,30 @@ class SnippetServer
     self.get(uri)
   end
 
+
   def self.solrize(id,opts={})
     opts[:op] = 'solrize'
     opts[:status] = 'created'
-    SnippetServer.render_snippet(id, opts)
+    SnippetServer.render_snippet(id, opts, 1)
   end
 
   def self.toc(id,opts={})
     opts[:op] = 'toc'
-    SnippetServer.render_snippet(id, opts)
+    SnippetServer.render_snippet(id, opts, 1)
   end
 
   def self.toc_facsimile(id,opts={})
     opts[:op] = 'toc-facsimile'
-    SnippetServer.render_snippet(id, opts)
+    SnippetServer.render_snippet(id, opts, 1)
   end
 
   def self.author_portrait_has_text(id)
-    text = self.render_snippet(id,{c: 'authors'}).to_str
+    text = self.render_snippet(id,{c: 'authors'}, 1).to_str
     has_text(text)
   end
 
   def self.doc_has_text(id)
-    text = self.render_snippet(id).to_str
+    text = self.render_snippet(id, '', 1).to_str
     has_text(text)
   end
 
@@ -108,14 +111,14 @@ class SnippetServer
   end
 
   def self.has_facsimile(id)
-    html = SnippetServer.facsimile(id)
+    html = SnippetServer.facsimile(id,'', 1)
     xml = Nokogiri::HTML(html)
     return !xml.css('img').empty?
   end
 
   # return all image links for use in facsimile pdf view
   def self.image_links(id)
-    html = SnippetServer.facsimile(id)
+    html = SnippetServer.facsimile(id, '', 1)
     xml = Nokogiri::HTML(html)
     links = []
     xml.css('img').each do |img|
@@ -133,8 +136,9 @@ class SnippetServer
   end
 
 
-  def self.facsimile(id, opts={})
+  def self.facsimile(id, opts={}, type)
     opts[:op] = 'facsimile'
-    SnippetServer.render_snippet(id, opts)
+    SnippetServer.render_snippet(id, opts, type)
   end
+
 end

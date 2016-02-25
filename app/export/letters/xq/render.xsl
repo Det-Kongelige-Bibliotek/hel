@@ -307,18 +307,21 @@
   
   <xsl:template match="t:pb">
     <xsl:element name="span">
-      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:call-template name="add_id_empty_elem"/>
+      <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:element name="a">
 	<xsl:attribute name="data-no-turbolink">true</xsl:attribute>
-        <xsl:attribute name="href">        
+        <xsl:attribute name="href">
 	  <xsl:choose>
 	    <xsl:when test="$id">
-	      <xsl:value-of select="concat('/catalog/',
+	      <xsl:value-of select="concat('/catalog/%2Fletter_books%2F',
+				    substring-before($doc,'_'),
+				    '%2F',
 				    substring-before($doc,'.xml'),
-				    '%23',
+				    '-',
 				    $id,
-				    '/facsimile/#',@xml:id)"/>
+				    '#',
+				    'facsid', @xml:id)"/>
 	    </xsl:when>
 	    <xsl:otherwise>
               <xsl:value-of select="concat('/catalog/',
@@ -329,7 +332,7 @@
 	</xsl:attribute>
 	<xsl:text>s. </xsl:text>
 	<small><xsl:value-of select="@n"/></small>
-	</xsl:element>
+      </xsl:element>
     </xsl:element>
   </xsl:template>
 
@@ -338,7 +341,6 @@
     <xsl:if test="$id = @xml:id">
       <xsl:attribute name="class">text snippetRoot</xsl:attribute>      
     </xsl:if>
-
  
     <xsl:if test="not(descendant::node())">
       <xsl:comment>Instead of content</xsl:comment>

@@ -317,7 +317,7 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">author_id_ssi</xsl:attribute>
+      <xsl:attribute name="name">author_id_ssim</xsl:attribute>
       <xsl:value-of select="$author_id"/>
     </xsl:element>
 
@@ -334,7 +334,7 @@
     </xsl:element>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">editor_id_ssi</xsl:attribute>
+      <xsl:attribute name="name">editor_id_ssim</xsl:attribute>
       <xsl:value-of select="$editor_id"/>
     </xsl:element>
 
@@ -407,12 +407,16 @@
     </xsl:if>
   </xsl:template>
 
+ <!-- xsl:for-each select="/t:TEI">
+	<xsl:for-each select="descendant::t:bibl[@xml:id=$bibl_id]" -->
+
+
   <xsl:template name="extract_places">
     <xsl:param name="bibl" select="''"/>
     <xsl:choose>
       <xsl:when
-	  test="//t:bibl[@xml:id=$bibl]/t:location/t:placeName/node()">
-	<xsl:for-each select="//t:bibl[@xml:id=$bibl]/t:location">
+	  test="/t:TEI/descendant::t:bibl[@xml:id=$bibl]/t:location">
+	<xsl:for-each select="/t:TEI/descendant::t:bibl[@xml:id=$bibl]/t:location">
 	  <xsl:variable name="role">
 	    <xsl:value-of select="@type"/>
 	  </xsl:variable>
