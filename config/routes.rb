@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   post 'view_file/import_from_preservation'
   get 'statistics' => 'statistics#show'
 
-
   resources :instances do
     member do
       get 'preservation'
@@ -24,6 +23,7 @@ Rails.application.routes.draw do
 
   get 'letter_books/show_letter_and_facsimile' => 'letter_books#show_letter_and_facsimile'
   resources :letter_books
+  resources :letters
 
   get '/catalog/:id/facsimile' => 'catalog#facsimile', as: 'facsimile_catalog'
 
@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
   get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
   get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
+
 
 
 

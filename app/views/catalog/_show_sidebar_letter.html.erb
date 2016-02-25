@@ -30,5 +30,9 @@
 <% end %>
 
 <% if current_user && (current_user.admin?) %>
-    <%= SnippetServer.render_snippet(id, {:op =>'form', :c =>  coll}, 1) %>
+    <% data =  SnippetServer.render_snippet(id, {:op =>'json', :c =>  coll}) %>
+    <% @letter = Letter.from_json(data) %>
+    <% @letter.id = id %>
+    <% @letter.work_id = @document['work_id_ssi'] %>
+    <%= render partial: 'letters/letter_form'%>
 <% end %>

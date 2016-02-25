@@ -59,15 +59,18 @@ module ApplicationHelper
     recipient = doc["recipient_ssim"]
     sender = doc["sender_ssim"]
     date = doc["date_ssim"]
-    unless recipient.nil?
-      recipient.first.present? ? title= "TIL: " + recipient.first : title = 'TIL: ukendt'
+    title = "BREV "
+    if recipient.is_a? Array
+      title += "TIL: " + recipient.to_sentence(:last_word_connector => " og ")
+    else
+      title += "TIL: " + recipient if recipient.present?
     end
-    unless sender.nil?
-      sender.first.present? ? title+= " FRA: " + sender.first : title = " FRA: ukendt"
+    if sender.is_a? Array
+      title += " FRA: " + sender.to_sentence(:last_word_connector => " og ")
+    else
+      title += " FRA: " + sender if sender.present?
     end
-    unless date.nil?
-      date.first.present? ? title+= " DATO: " + date.first : title = " DATO: ukendt"
-    end
+    title += " DATO: "+ date if date.present?
     title
   end
 
