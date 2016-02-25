@@ -25,11 +25,11 @@
       </div>
       <div class="tab-content">
         <div id="text" class="tab-pane">
-          <% text1 ||= SnippetServer.render_snippet(@document.id,{:c=> coll}, 1) %>
+          <% text1 ||= SnippetServer.render_snippet(@document.id,{:c=> coll}) %>
           <%= text1.html_safe %>
         </div>
         <div id="facs" class="tab-pane">
-          <%= SnippetServer.facsimile(@document.id, {c: coll}, 1).html_safe %>
+          <%= SnippetServer.facsimile(@document.id, {c: coll}).html_safe %>
         </div>
       </div>
     </div>
