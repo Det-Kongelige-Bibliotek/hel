@@ -9,9 +9,9 @@ class LetterBookIngest
     sysnum = xml_pathname.basename.to_s.split('_')[0]
 
 
-    exist_pathname = self.send_to_exist(sysnum,xml_pathname)
+    self.send_to_exist(sysnum,xml_pathname)
 
-    self.create_letterbook(sysnum,exist_pathname,img_pathname)
+    self.create_letterbook(sysnum,xml_pathname,img_pathname)
 
   end
 
@@ -62,8 +62,12 @@ class LetterBookIngest
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
     fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
-    lb.add_tei_file(xml_pathname)
+    puts "adding tei file #{xml_pathname.to_s}"
+
+    lb.add_tei_file(xml_pathname.to_s)
     lb.reload
+
+    puts "lb created #{lb.id}"
 
     ingest_img_files(img_pathname, instance_img)
 

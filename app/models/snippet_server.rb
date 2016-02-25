@@ -14,6 +14,7 @@ class SnippetServer
   end
 
   def self.get(uri)
+    puts "get #{uri}"
     uri = URI.parse(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
@@ -54,11 +55,15 @@ class SnippetServer
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri)
-    request["Content-Type"] = 'text/xml;charset=UTF-8'
+    request["Content-Type"] = 'application/x-www-form-urlencoded;charset=UTF-8'
     request.basic_auth username, password unless username.nil?
     request.form_data={'content' => body}
+    puts uri
+    puts body
     res = http.request(request)
     raise "post: #{self.snippet_server_url} response code #{res.code}" unless res.code == "200"
+    puts "RES"
+    puts res.body
     res
   end
 
@@ -73,26 +78,19 @@ class SnippetServer
     else
       a =id.split("-")
     end
-
-    uri  = snippet_server_url
-    uri += "#{opts[:project]}" if opts[:project].present?
-    uri += "/"+get_snippet_script
-    uri += "?doc=#{a[0]}.xml"
-    uri += "&id=#{URI.escape(a[1])}" unless a.size < 2
-    uri += "&op=#{URI.escape(opts[:op])}" if opts[:op].present?
-    uri += "&c=#{URI.escape(opts[:c])}" if opts[:c].present?
-    uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
-    uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
-    uri += "&status=#{URI.escape(opts[:status])}" if opts[:status].present?
+    opts[:doc] = "#{a[0]}.xml"
+    opts[:id] = a[1] if a.size>1
+    base = snippet_server_url
+    base += "#{opts[:project]}" if opts[:project].present?
+    puts "base #{base} #{get_snippet_script} #{opts.inspect}"
+    uri = SnippetServer.contruct_url(base,get_snippet_script,opts)
     Rails.logger.debug("snippet url #{uri}")
-
-    #res = Net::HTTP.get_response(URI(uri))
     self.get(uri)
   end
 
   def self.solrize(id,opts={})
     opts[:op] = 'solrize'
-    opts[:status] = 'created'
+    opts[:status] = 'created' unless opts[:status].present?
     SnippetServer.render_snippet(id, opts)
   end
 
@@ -155,15 +153,24 @@ class SnippetServer
   end
 
   def self.update_letter(doc,id,json,opts={})
-    uri  = snippet_server_url_with_admin
-    uri += "/save.xq"
-    uri += "?doc=#{doc}"
-    uri += "&id=#{id}"
+    opts[:id] = id
+    opts[:doc] = doc
+    uri  = SnippetServer.contruct_url(snippet_server_url_with_admin,"save.xq",opts)
+    puts "update letter uri #{uri}"
+    self.post(uri,json)
+  end
+
+  private
+  def self.contruct_url(base,script,opts={})
+    uri = base
+    uri += "/"+script
+    uri += "?doc=#{opts[:doc]}" if opts[:doc].present?
+    uri += "&id=#{URI.escape(opts[:id])}"  if opts[:id].present?
     uri += "&op=#{URI.escape(opts[:op])}" if opts[:op].present?
     uri += "&c=#{URI.escape(opts[:c])}" if opts[:c].present?
     uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
     uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
     uri += "&status=#{URI.escape(opts[:status])}" if opts[:status].present?
-    self.post(uri,json)
+    uri
   end
 end
