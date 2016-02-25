@@ -135,7 +135,23 @@ class SnippetServer
     self.post(uri,json)
   end
 
+  # get doc and id arguments form a solr id
+  def self.split_letter_id(id)
+    if id.include? '/'
+      a = id[id.rindex('/')+1, id.length].split("-")
+    else
+      a =id.split("-")
+    end
+    {doc: "#{a[0]}.xml", id: a[1]}
+  end
+
+  #get collection from a solr id
+  def self.get_collection(id)
+    "/db#{ id[0,id.rindex('/')] }"
+  end
+
   private
+
   def self.contruct_url(base,script,opts={})
     uri = base
     uri += "/"+script

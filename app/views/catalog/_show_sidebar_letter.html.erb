@@ -1,5 +1,7 @@
-<% id = @document.id %>
-<% coll = "/db#{ id[0,id.rindex('/')] }" %>
+<% solr_id = @document.id %>
+<% opts = SnippetServer.split_letter_id(solr_id) %>
+<% opts[:c] = SnippetServer.get_collection(solr_id) %>
+<% opts[:op] = 'json' %>
 <% if current_search_session %>
     <div class="search-widgets">
       <%= link_to "Back to Book", "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
@@ -30,9 +32,9 @@
 <% end %>
 
 <% if current_user && (current_user.admin?) %>
-    <% data =  SnippetServer.render_snippet(id, {:op =>'json', :c =>  coll}) %>
+    <% data =  SnippetServer.render_snippet(opts) %>
     <% @letter = Letter.from_json(data) %>
-    <% @letter.id = id %>
+    <% @letter.id = solr_id %>
     <% @letter.work_id = @document['work_id_ssi'] %>
     <%= render partial: 'letters/letter_form'%>
 <% end %>
