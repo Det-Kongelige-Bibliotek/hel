@@ -56,12 +56,12 @@ module ApplicationHelper
   end
 
   def letter_title(doc)
-    recipient = doc["recipient_ssim"]
-    sender = doc["sender_ssim"]
-    date = doc["date_ssim"]
+    recipient = doc["recipient_text_ssim"]
+    sender = doc["sender_text_ssim"]
+    date = doc["date_text_ssim"]
     title = "BREV "
     if recipient.is_a? Array
-      recipient.first.present? ? title = "TIL: " + recipient.to_sentence(:last_word_connector => " og ") : title = 'TIL: ukendt'
+      recipient.first.present? ? title += "TIL: " + recipient.to_sentence(:last_word_connector => " og ") : title = 'TIL: ukendt'
     end
     if sender.is_a? Array
       sender.first.present? ? title += " FRA: " + sender.to_sentence(:last_word_connector => " og ") : title += ' FRA: ukendt'
