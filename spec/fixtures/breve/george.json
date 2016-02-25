@@ -1,0 +1,42 @@
+{
+    "file":"/letter_books/001003523/001003523_000.xml",
+    "xml_id":"L0010035230000049",
+    "sender":
+    [
+	{
+	    "text":"Georg",
+	    "family_name":"Brandes",
+	    "given_name":"Georg",
+	    "auth_id":"http://example.org/aut_id_aut_id_aut_id",
+	    "xml_id":"idm140531981242576"
+	}
+    ],
+    "recipient":
+    [
+	{
+	    "text":"",
+	    "family_name":"Bendix",
+	    "given_name":"Emilie",
+	    "auth_id":"http://example.org/mums_auttttttt_id_aut_id_aut_id",
+	}
+    ],
+    "place":
+    [
+	{
+	    "text":"Milano d. 17. Sept. 70.\nAlbergo Bella Venezia",
+	    "name":"Milano",
+	    "type":"sender",
+	    "xml_id":"idm140531981270160"
+	},
+	{
+	    "name":"København",
+	    "type":"recipient"
+	}
+    ],
+    "date":
+    {
+	"text":"d. 17. Sept. 70",
+	"edtf":"1870-09-17",
+	"xml_id":"idm140531981269904"
+    }
+}
