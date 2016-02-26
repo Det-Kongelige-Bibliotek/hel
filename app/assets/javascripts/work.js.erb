@@ -191,13 +191,18 @@ $(document).ready(function(){
 
     $("#new_auth_modal").on('shown.bs.modal',function(event) {
         $(event.currentTarget).find('.modal-button').on('click',function() {
-                    modalSaveForm($(event.currentTarget).find('form:first'), $(event.currentTarget).find('.modal-body:first'));
+                    modalSaveForm($(event.currentTarget).find('form:first'), $(event.currentTarget).find('.modal-body:first'),$(event.currentTarget).find('.modal-footer:first'));
         });
     });
 
     $("#new_auth_modal").on("hidden.bs.modal", function () {
         $(this).removeData("bs.modal");
         $(this).find(".modal-body").html("");
+    });
+
+    $('[data-function="open-new-auth-modal"]').on('click',function(event){
+        event.preventDefault();
+        openNewAuthModal('/authority/'+$(this).attr('data-model')+'/new?modal=true');
     });
 
     $('[data-function="viaf_typeahead"]').each(function(){
@@ -361,9 +366,7 @@ function disableAuthorityTypeahead(obj) {
 
 
 // modal functionallity
-function modalSaveForm(form,content_div) {
-
-
+function modalSaveForm(form,body,footer) {
     $.ajax({
         type: $(form).attr('method'),
         url: $(form).attr('action')+'.json',
@@ -371,7 +374,8 @@ function modalSaveForm(form,content_div) {
         dataType: 'json',
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         success: function(data) {
-            $(content_div).html('<p> Person '+data.name+' oprettet');
+            $(body).html('<p> Person '+data.name+' oprettet');
+            $(footer).find("#new-auth-save").hide();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("Status: " + textStatus);
@@ -381,3 +385,6 @@ function modalSaveForm(form,content_div) {
 
 }
 
+function openNewAuthModal(href) {
+    $('#new_auth_modal .modal-body').load(href,function(e){$('#new_auth_modal').modal('show');})
+};
