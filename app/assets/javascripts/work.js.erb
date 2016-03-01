@@ -386,5 +386,8 @@ function modalSaveForm(form,body,footer) {
 }
 
 function openNewAuthModal(href) {
-    $('#new_auth_modal .modal-body').load(href,function(e){$('#new_auth_modal').modal('show');})
+  $('#new_auth_modal .modal-body').load(href, function (e) {
+    viaf_autocomplete();
+    $('#new_auth_modal').modal('show');
+  })
 };
