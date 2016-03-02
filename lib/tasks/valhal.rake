@@ -3,7 +3,6 @@ namespace :valhal do
   task set_default_rights: :environment do
       Work.all.collect {|t| add_default_rights(t)}
       Instance.all.collect {|t| add_default_rights(t)}
-      # Trykforlaeg.all.collect {|t| add_default_rights(t)}
       ContentFile.all.collect {|t| add_default_rights(t)}
       Authority::Base.all.collect {|t| add_default_rights(t)}
   end
@@ -45,7 +44,9 @@ namespace :valhal do
   task ingest_test_letters: :environment do
     xml_path = File.join(Rails.root,'spec','fixtures','breve','001541111_000','001541111_000.xml')
     img_path = File.join(Rails.root,'spec','fixtures','breve','001541111_000')
-    puts "xml_path #{xml_path}"
+    LetterBookIngest.perform(xml_path,img_path)
+    xml_path = File.join(Rails.root,'spec','fixtures','breve','001003523_000','001003523_000.xml')
+    img_path = File.join(Rails.root,'spec','fixtures','breve','001003523_000')
     LetterBookIngest.perform(xml_path,img_path)
   end
 
