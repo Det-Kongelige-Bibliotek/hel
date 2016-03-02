@@ -366,16 +366,16 @@
 	</xsl:text><xsl:value-of select="$next"/><xsl:text>
 	</xsl:text><xsl:value-of select="$next_encoded"/>
       </xsl:comment>
-      
+
       <xsl:choose>
 	<xsl:when test="string-length($prev) &gt; 0">
 	<xsl:comment>previous_id</xsl:comment>
-	<!--xsl:element name="a">
+	<xsl:element name="a">
 	  <xsl:attribute name="href">
 	    <xsl:value-of select="concat('/catalog/',$prev_encoded)"/>
 	  </xsl:attribute>
 	  forrige
-	</xsl:element-->
+	</xsl:element
 	</xsl:when>
 	<xsl:otherwise>
 	  <xsl:variable name="lprev">
@@ -395,12 +395,12 @@
       <xsl:choose>
 	<xsl:when test="string-length($next) &gt; 0">
 	  <xsl:comment>next_id</xsl:comment>
-	  <!--xsl:element name="a">
+	  <xsl:element name="a">
 	    <xsl:attribute name="href">
 	      <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
 	    </xsl:attribute>
 	    næste
-	  </xsl:element-->
+	  </xsl:element>
 	</xsl:when>
 	<xsl:otherwise>
 	  <xsl:variable name="lnext">
