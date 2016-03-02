@@ -52,11 +52,13 @@ class LetterBookIngest
     instance_tei.collection = activity.collection
     instance_tei.copyright  = activity.copyright
     instance_tei.preservation_collection = activity.preservation_collection
+    instance_tei.status = 'ready'
 
     instance_img.activity   = activity.id
     instance_img.collection = activity.collection
     instance_img.copyright  = activity.copyright
     instance_img.preservation_collection = activity.preservation_collection
+    instance_tei.status = 'ready'
 
     fail "Work could not be saved #{lb.errors.messages}" unless lb.save 
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save

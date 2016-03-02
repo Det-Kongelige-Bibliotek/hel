@@ -1,6 +1,6 @@
 class LetterBooksController < ApplicationController
   include Concerns::RemoveBlanks
-  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile]
+  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile, :begin_work]
 
   respond_to :html
 
@@ -19,6 +19,13 @@ class LetterBooksController < ApplicationController
       flash[:error] =  t(:model_update_failed, model: t('models.letter_book'))
     end
     # respond_with @letter_book
+    redirect_to solr_document_path(@letter_book)
+  end
+
+  def begin_work
+    @letter_book.get_instance('TEI').status='working'
+    @letter_book.get_instance('TIFF').status='working'
+    @letter_book.save
     redirect_to solr_document_path(@letter_book)
   end
 
