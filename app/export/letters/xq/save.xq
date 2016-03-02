@@ -22,8 +22,8 @@ declare variable  $o        := request:get-parameter("op","solrize");
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $status   := request:get-parameter("status","");
 (: The posted content should actually live in a param with the same name :)
+declare variable  $content  := util:base64-decode(request:get-data());
 
-declare variable  $content  := request:get-parameter("content","");
 declare variable  $coll     := concat($c,'/');
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
@@ -211,6 +211,7 @@ let $params :=
   <param name="status"   value="{$status}"/>
 </parameters>
 
+
 let $d := local:enter-person-data(  $frag,"sender",   $doc,$data)
 let $e := local:enter-person-data(  $frag,"recipient", $doc,$data)
 let $f := local:enter-location-data($frag,"sender",   $doc,$data)
@@ -218,9 +219,11 @@ let $g := local:enter-location-data($frag,"recipient",$doc,$data)
 let $g := local:enter-location-data($frag,"other",$doc,$data)
 let $dins := local:enter-date($frag,$doc,$data)
 
+
 let $res := transform:transform($doc,$op,$params)
 return  
   if($o='json') then
     json:serialize-json($res)
   else
     $res
+
