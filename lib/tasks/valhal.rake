@@ -50,6 +50,11 @@ namespace :valhal do
     LetterBookIngest.perform(xml_path,img_path)
   end
 
+  desc 'Scan incomming forder for new letterbook Tei files'
+  task :scan_for_letterbooks, [:incomming_dir,:processed_dir, :img_base_dir] => :environment do |task, args|
+    Resque.enqueue(LetterBookScan,args.incomming_dir,args.processed_dir,args.img_base_dir)
+  end
+
   private
 
   def add_default_rights(obj)
