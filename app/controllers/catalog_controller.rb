@@ -11,6 +11,11 @@ class CatalogController < ApplicationController
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
 
+  # Hack to get blacklight to URL decode id param before fetching from solr
+  before_action :url_decode_id, :only => [:show,:facsimile]
+  def url_decode_id
+     params[:id] = URI.unescape(params[:id])
+  end
 
   configure_blacklight do |config|
     config.default_solr_params = {
