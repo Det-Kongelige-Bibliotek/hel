@@ -5,12 +5,10 @@ class LettersController < ApplicationController
     # here we do the letter update
     begin
       json = letter_params
-      puts "JSON params #{json}"
       parts = json[:file].rpartition("/")
       coll = "/db#{ parts.first }"
       res = SnippetServer.update_letter(json.as_json.to_json ,{doc: parts.last, id: json[:xml_id], :c => coll, :op=>'json'})
       solr_doc = SnippetServer.solrize({doc: parts.last, c: coll, id: json[:xml_id], work_id: json[:work_id],status: json[:status]})
-      #puts solr_doc
       solr = RSolr.connect
       solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
       solr.commit
@@ -69,7 +67,7 @@ class LettersController < ApplicationController
       unless p['_destroy'] == '1'
         phash = {}
         phash['xml_id'] = p['xml_id']
-        phash['name'] = coder.encode(p['name'], :hexadecimal)
+        phash['name'] = p['name']
         phash['type'] = p['type']
         result << phash
       end

@@ -1,8 +1,8 @@
 
-<a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/people/new?modal=true" data-target="#new_auth_modal">
+<button class="btn btn-sm btn-primary pull-right" data-function="open-new-auth-modal" data-model="people">
   <span class="glyphicon glyphicon-plus"></span>
   <%= t('.new_person') %>
-</a>
+</button>
 <%= simple_form_for @letter do |form| %>
     <%= form.hidden_field :xml_id %>
     <%= form.hidden_field :file %>

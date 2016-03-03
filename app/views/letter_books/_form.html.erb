@@ -7,17 +7,14 @@
   <!--</div>-->
 
   <%= simple_form_for @letter_book do |f| %>
-
-      <div class="row">
-        <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/people/new?modal=true" data-target="#new_auth_modal">
-          <span class="glyphicon glyphicon-plus"></span>
-          <%= t('.new_person') %>
-        </a>
-        <a class="btn btn-sm btn-primary pull-right" data-toggle="modal" href="/authority/organizations/new?modal=true" data-target="#new_auth_modal">
-          <span class="glyphicon glyphicon-plus"></span>
-          <%= t('.new_organization') %>
-        </a>
-      </div>
+      <button class="btn btn-sm btn-primary pull-right" data-function="open-new-auth-modal" data-model="people">
+        <span class="glyphicon glyphicon-plus"></span>
+        <%= t('.new_person') %>
+      </button>
+      <button class="btn btn-sm btn-primary pull-right" data-function="open-new-auth-modal" data-model="organizations">
+        <span class="glyphicon glyphicon-plus"></span>
+        <%= t('.new_organization') %>
+      </button>
 
       <%= render partial: 'works/simple_title', locals: {builder: f} %>
 

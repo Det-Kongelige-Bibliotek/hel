@@ -2,7 +2,7 @@ class LetterBookIngest
 
   @queue = :letter_book_ingest
 
-  def self.perform(xml_file,img_path)
+  def self.perform(xml_file,img_path,processed_path = nil)
     # get sysnumber based on path
     xml_pathname = Pathname.new(xml_file)
     img_pathname = Pathname.new(img_path)
@@ -13,6 +13,7 @@ class LetterBookIngest
 
     self.create_letterbook(sysnum,xml_pathname,img_pathname)
 
+    File.rename xml_file, processed_path if processed_path.present?
   end
 
   def self.send_to_exist(sysno,xml_pathname)
@@ -52,11 +53,13 @@ class LetterBookIngest
     instance_tei.collection = activity.collection
     instance_tei.copyright  = activity.copyright
     instance_tei.preservation_collection = activity.preservation_collection
+    instance_tei.status = 'ready'
 
     instance_img.activity   = activity.id
     instance_img.collection = activity.collection
     instance_img.copyright  = activity.copyright
     instance_img.preservation_collection = activity.preservation_collection
+    instance_tei.status = 'ready'
 
     fail "Work could not be saved #{lb.errors.messages}" unless lb.save 
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save

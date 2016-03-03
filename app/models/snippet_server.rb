@@ -55,11 +55,9 @@ class SnippetServer
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri)
-    request["Content-Type"] = 'application/x-www-form-urlencoded;charset=UTF-8'
+    request["Content-Type"] = 'application/json;charset=UTF-8'
     request.basic_auth username, password unless username.nil?
-    request.form_data={'content' => body}
-    puts uri
-    puts body
+    request.body = body
     res = http.request(request)
     raise "post: #{self.snippet_server_url} response code #{res.code}" unless res.code == "200"
     puts "RES"
