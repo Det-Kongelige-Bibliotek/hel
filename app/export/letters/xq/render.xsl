@@ -22,7 +22,16 @@
 	      indent="yes"/>
 
   <xsl:template match="/">
-    <xsl:apply-templates/>
+    <xsl:choose>
+      <xsl:when test="$id">
+	<xsl:for-each select="//node()[$id=@xml:id]">
+	  <xsl:apply-templates select="."/>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="t:TEI">
