@@ -77,7 +77,7 @@ class LetterBookIngest
     puts "file_id #{lb.get_file_name}"
 
     solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", work_id: lb.id})
-    solr = RSolr.connect
+    solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:solr_url]
     solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
     solr.commit
 
