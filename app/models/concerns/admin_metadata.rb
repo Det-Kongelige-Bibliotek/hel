@@ -26,6 +26,7 @@ module Concerns
       property :external_repository,  delegate_to: 'adminMetadata', :multiple => false
       property :validation_status,  delegate_to: 'adminMetadata', :multiple => false
       property :copyright_status, delegate_to: 'adminMetadata', :multiple => false
+      property :status, delegate_to: 'adminMetadata', :multiple => false
 
       property :validation_message,  delegate_to: 'adminMetadata', :multiple => true
       property :dissemination_profiles,  delegate_to: 'adminMetadata', :multiple => true

@@ -127,6 +127,7 @@ hydra_access_groups:
     Chronos-Admin:
     Chronos-Pligtaflevering:
     Chronos-NSA:
+    Chronos-student:
 ophavsret:
   name: Ophavsret
   entries:

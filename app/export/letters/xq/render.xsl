@@ -22,7 +22,16 @@
 	      indent="yes"/>
 
   <xsl:template match="/">
-    <xsl:apply-templates/>
+    <xsl:choose>
+      <xsl:when test="$id">
+	<xsl:for-each select="//node()[$id=@xml:id]">
+	  <xsl:apply-templates select="."/>
+	</xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="t:TEI">
@@ -357,67 +366,6 @@
   </xsl:template>
 
   <xsl:template name="add_prev_next">
-    <!--
-    <p class="navigate_prev_next">
-      <xsl:comment>
-	<xsl:value-of select="$file"/><xsl:text>
-	</xsl:text><xsl:value-of select="$prev"/><xsl:text>
-	</xsl:text><xsl:value-of select="$prev_encoded"/><xsl:text>
-	</xsl:text><xsl:value-of select="$next"/><xsl:text>
-	</xsl:text><xsl:value-of select="$next_encoded"/>
-      </xsl:comment>
-      
-      <xsl:choose>
-	<xsl:when test="string-length($prev) &gt; 0">
-	<xsl:comment>previous_id</xsl:comment>
-	<!--xsl:element name="a">
-	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('/catalog/',$prev_encoded)"/>
-	  </xsl:attribute>
-	  forrige
-	</xsl:element-->
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:variable name="lprev">
-	    <xsl:call-template name="get_prev_id"/>
-	  </xsl:variable>
-	  <xsl:if test="$lprev">
-	    <xsl:element name="a">
-	      <xsl:attribute name="href">
-		<xsl:value-of select="concat('#',$lprev)"/>
-	      </xsl:attribute>
-	      forrige
-	    </xsl:element>
-	  </xsl:if>
-	</xsl:otherwise>
-      </xsl:choose>
-
-      <xsl:choose>
-	<xsl:when test="string-length($next) &gt; 0">
-	  <xsl:comment>next_id</xsl:comment>
-	  <!--xsl:element name="a">
-	    <xsl:attribute name="href">
-	      <xsl:value-of select="concat('/catalog/',$next_encoded)"/>
-	    </xsl:attribute>
-	    næste
-	  </xsl:element-->
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:variable name="lnext">
-	    <xsl:call-template name="get_next_id"/>
-	  </xsl:variable>
-	  <xsl:if test="$lnext">
-	    <xsl:element name="a">
-	      <xsl:attribute name="href">
-		<xsl:value-of select="concat('#',$lnext)"/>
-	      </xsl:attribute>
-	      næste
-	    </xsl:element>
-	  </xsl:if>
-	</xsl:otherwise>
-      </xsl:choose>
-    </p>
-    -->
   </xsl:template>
 
   <xsl:template name="add_id_empty_elem">

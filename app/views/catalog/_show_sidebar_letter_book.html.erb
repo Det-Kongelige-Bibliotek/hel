@@ -6,6 +6,19 @@
 
 <%= render :partial => 'show_tools' %>
 
+<div class="status">
+<% if @document["status_ssi"].present? %>
+    <dt>Status:</dt>
+    <dd class="status-box<%
+       case @document["status_ssi"]
+         when "ready" %> yellow<%
+       when "working" %> blue<%
+       when "completed" %> green<%
+       end
+    %>"><%= @document["status_ssi"] %></dd>
+<% end %>
+</div>
+
 <div class="progress">
   <div class="progress-bar progress-bar-info" role="progressbar" style="width:<%= percent_of_completed_letters(@document.id) %>%">
     <span style="color:black"><%= percent_of_completed_letters(@document.id) %>% færdig</span>
@@ -22,7 +35,10 @@
 <% end %>
 
 <%if current_user && current_user.admin? %>
-  <%= render partial: 'letter_books/form', locals: { id: @document.id } %>
+    <%= render partial: 'letter_books/form', locals: { id: @document.id } %>
+    <% if @document["status_ssi"] == 'ready' %>
+        <%= link_to "Sæt igang", begin_work_letter_book_url(@document.id), class: 'btn btn-primary' %>
+    <% end %>
 <%else %>
-  <%= render partial: 'letter_books/show', locals: { id: @document.id } %>
+    <%= render partial: 'letter_books/show', locals: { id: @document.id } %>
 <% end %>

@@ -46,6 +46,7 @@ class LetterBook < Work
     solr_doc.merge!(super)
     solr_doc['cat_ssi'] = 'letterbook'
     solr_doc['file_name_ssi'] = get_file_name
+    solr_doc['status_ssi'] = get_instance('TEI').status if get_instance('TEI').present?
     solr_doc
   end
 
