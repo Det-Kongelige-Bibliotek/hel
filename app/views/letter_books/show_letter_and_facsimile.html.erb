@@ -27,6 +27,7 @@
           <%= text2.html_safe %>
         </div>
         <div id="facs" class="tab-pane">
+          <%= opts['prefix'] = ''%>
           <%= SnippetServer.facsimile(opts).html_safe %>
         </div>
       </div>

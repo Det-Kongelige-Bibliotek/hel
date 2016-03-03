@@ -19,6 +19,7 @@ declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $status   := request:get-parameter("status","");
+declare variable  $prefix   := request:get-parameter("prefix","");
 declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
 declare variable  $file     := substring-after(concat($coll,$document),"/db");
@@ -26,11 +27,6 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 declare option exist:serialize "method=xml encoding=UTF-8 media-type=text/html";
 
 let $list := 
-  if($frag and not($o = "facsimile" or $o = "json" or $o = "solrize")) then
-    for $doc in collection($coll)//node()[ft:query(@xml:id,$frag)]
-    where util:document-name($doc)=$document
-    return $doc
-  else
     for $doc in collection($coll)
     where util:document-name($doc)=$document
     return $doc
@@ -79,6 +75,7 @@ let $params :=
   <param name="coll"     value="{$coll}"/>
   <param name="file"     value="{$file}"/>
   <param name="status"   value="{$status}"/>
+  <param name="prefix"   value="{$prefix}"/>
 </parameters>
 
 for $doc in $list

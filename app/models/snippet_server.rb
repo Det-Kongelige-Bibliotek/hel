@@ -124,6 +124,7 @@ class SnippetServer
 
   def self.facsimile(opts={})
     opts[:op] = 'facsimile'
+    opts[:prefix] = Rails.application.config_for(:snippet)["image_server_prefix"]
     SnippetServer.render_snippet(opts)
   end
 
