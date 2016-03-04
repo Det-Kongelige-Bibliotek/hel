@@ -220,10 +220,16 @@ da:
     work: 'Værk'
     authority_person: 'Person'
     authority_place: 'Sted'
-    authority_organization: 'Organisation'
-    mixed_material: Arkiv
-    mixedmaterial: Arkiv
-    letter_book: Brevbog :)
+    authority_organization: 'Forlag'
+    mixed_material: 'Arkiv'
+    mixedmaterial: 'Arkiv'
+    letterbook: 'Brevudgave'
+
+  status:
+    ready: 'Oprettet'
+    waiting: 'Afventer'
+    working: 'Iværksat'
+    completed: 'Afsluttet'
 
   roles:
     aut: 'Forfatter'
