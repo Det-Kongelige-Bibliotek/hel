@@ -18,7 +18,7 @@ class SnippetServer
     uri = URI.parse(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
-    http.read_timeout = 20
+    http.read_timeout = 600
     begin
       res = http.start { |conn| conn.request_get(URI(uri)) }
       if res.code == "200"
