@@ -192,6 +192,8 @@ $(document).ready(function(){
     $("#new_auth_modal").on("hidden.bs.modal", function () {
         $(this).removeData("bs.modal");
         $(this).find(".modal-body").html("");
+       $(this).find("#new-auth-save").show();
+
     });
 
     $('[data-function="open-new-auth-modal"]').on('click',function(event){
@@ -368,7 +370,7 @@ function modalSaveForm(form,body,footer) {
         dataType: 'json',
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         success: function(data) {
-            $(body).html('<p> Person '+data.name+' oprettet</p>');
+            $(body).html('<p> Person '+data.name+' oprettet.</p>');
             $(footer).find("#new-auth-save").hide();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -381,6 +383,12 @@ function modalSaveForm(form,body,footer) {
 
 function openNewAuthModal(href) {
   $('#new_auth_modal .modal-body').load(href, function (e) {
+
+    $('[data-function="clone-input"]').click(function () {
+      $input = $(this).prev('input');
+      $input.clone().insertAfter($input);
+    });
+
     viaf_autocomplete();
     $('#new_auth_modal').modal('show');
   })
