@@ -58,5 +58,19 @@ class LetterBook < Work
     end
   end
 
+  def self.delete_lb(id)
+    lb = LetterBook.find(id)
+    tiff = lb.get_instance('TIFF')
+    tei = lb.get_instance('TEI')
+    tiff.content_files.each do |cf| cf.destroy end
+    tei.content_files.each do |cf| cf.destroy end
+    tiff.delete_providers
+    tei.delete_providers
+    tiff.destroy
+    tei.destroy
+    lb.relators.each do |rel| rel.destroy end
+    lb.titles.each do |t| t.destroy end
+    lb.destroy
+  end
 
 end
