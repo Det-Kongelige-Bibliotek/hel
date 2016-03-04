@@ -19,8 +19,24 @@
         <%= rel_fields.input :agent_id, label: agent_label, wrapper_html: agent_wrapper_html, input_html: agent_input_html %>
         <%= rel_fields.hidden_field :_destroy %>
         <%= rel_fields.input :role, collection: get_list_with_labels('Relators',restrict_to), wrapper_html: role_wrapper_html, input_html: role_input_html, required: true %>
-        <a class="btn glyphicon glyphicon-remove-sign" href="#" data-function="delete-fields" data-target="#<%=id %>" data-condition="$('.relator_fields').size()>1">
+        <a class="" href="#" data-function="delete-fields" data-target="#<%=id %>" data-condition="$('.relator_fields').size()>1">
+          <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
         </a>
       </div>
     </div>
+
 <% end %>
+
+<div class="form-group">
+  <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".relator_fields:last">
+    <span class="glyphicon glyphicon-plus"></span>
+    <%= t('.add_editor') %>
+  </a>
+
+  <button class="btn btn-sm btn-primary" data-function="open-new-auth-modal" data-model="people">
+    <span class="glyphicon glyphicon-plus"></span>
+    <%= t('.new_person') %>
+  </button>
+
+</div>
+<hr>

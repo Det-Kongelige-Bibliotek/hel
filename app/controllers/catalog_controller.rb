@@ -177,6 +177,7 @@ class CatalogController < ApplicationController
     end
     # This overwrites the default blacklight way of adding a tool partial
     config.add_show_tools_partial :citation, if: false
+    config.add_show_tools_partial :email, if: false
 
     def facsimile
       @response, @document = fetch URI.unescape(params[:id])
