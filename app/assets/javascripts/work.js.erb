@@ -189,12 +189,6 @@ $(document).ready(function(){
       return check_upload_file();
    });
 
-    $("#new_auth_modal").on('shown.bs.modal',function(event) {
-        $(event.currentTarget).find('.modal-button').on('click',function() {
-                    modalSaveForm($(event.currentTarget).find('form:first'), $(event.currentTarget).find('.modal-body:first'),$(event.currentTarget).find('.modal-footer:first'));
-        });
-    });
-
     $("#new_auth_modal").on("hidden.bs.modal", function () {
         $(this).removeData("bs.modal");
         $(this).find(".modal-body").html("");
@@ -205,8 +199,8 @@ $(document).ready(function(){
         openNewAuthModal('/authority/'+$(this).attr('data-model')+'/new?modal=true');
     });
 
-    $('[data-function="viaf_typeahead"]').each(function(){
-        enable_viaftypeahead($(this));
+    $("#new_auth_modal").find('.modal-button').on('click',function() {
+        modalSaveForm($("#new_auth_modal").find('form:first'), $("#new_auth_modal").find('.modal-body:first'),$("#new_auth_modal").find('.modal-footer:first'));
     });
 });
 
