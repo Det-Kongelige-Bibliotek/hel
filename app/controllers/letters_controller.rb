@@ -9,7 +9,7 @@ class LettersController < ApplicationController
       coll = "/db#{ parts.first }"
       res = SnippetServer.update_letter(json.as_json.to_json ,{doc: parts.last, id: json[:xml_id], :c => coll, :op=>'json'})
       solr_doc = SnippetServer.solrize({doc: parts.last, c: coll, id: json[:xml_id], work_id: json[:work_id],status: json[:status]})
-      solr = RSolr.connect
+      solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:solr_url]
       solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
       solr.commit
       flash[:notice] = 'Brev Opdateret'
