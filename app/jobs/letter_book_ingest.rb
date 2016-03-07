@@ -65,21 +65,27 @@ class LetterBookIngest
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
     fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
-    Rails.logger.info "adding tei file #{xml_pathname.to_s}"
+    Resque.logger.info "adding tei file #{xml_pathname.to_s}"
 
     lb.add_tei_file(xml_pathname.to_s)
     lb.reload
 
-    Rails.logger.info "lb created #{lb.id}"
+    Resque.logger.info "lb created #{lb.id}"
 
     ingest_img_files(img_pathname, instance_img)
 
-    Rails.logger.info "file_id #{lb.get_file_name}"
+    Resque.logger.info "file_id #{lb.get_file_name}"
 
-    solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", work_id: lb.id})
-    solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:solr_url]
-    solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
-    solr.commit
+    begin
+      solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", work_id: lb.id})
+      solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:solr_url]
+      solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
+      solr.commit
+    rescue Exception => e
+      Resque.logger.error "Failed to solrize #{lb.get_file_name}"
+      Resque.logger.error e.backtrace.join("\n")
+      # TODO: we should actually delete the letterbook again
+    end
 
     lb.id
   end
