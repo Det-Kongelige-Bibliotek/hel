@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :letter_books do
     member do
       get 'begin_work'
+      get 'complete_work'
     end
   end
   resources :letters
