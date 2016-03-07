@@ -5,6 +5,11 @@ class LettersController < ApplicationController
     # here we do the letter update
     begin
       json = letter_params
+      letter = Letter.new(xml_id: json[:xml_id], file: json[:file], sender: json[:sender], recipient: json[:recipient],
+                        place: json[:place], date: json[:date]['edtf'])
+      if !letter.valid?
+        raise 'Date is not EDTF valid'
+      end
       parts = json[:file].rpartition("/")
       coll = "/db#{ parts.first }"
       res = SnippetServer.update_letter(json.as_json.to_json ,{doc: parts.last, id: json[:xml_id], :c => coll, :op=>'json'})
@@ -16,7 +21,7 @@ class LettersController < ApplicationController
     rescue Exception => e
       logger.error e.message
       logger.error e.backtrace.join("\n")
-      flash[:error] = "Kunne ikke opdatere brev. Problemer med server"
+      flash[:error] = e.message
     end
     letter_id = "#{File.dirname(json[:file])}/#{File.basename(json[:file],'.xml')}-#{json[:xml_id]}"
 
