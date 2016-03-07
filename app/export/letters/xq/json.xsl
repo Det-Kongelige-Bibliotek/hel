@@ -187,36 +187,41 @@ Author Sigfrid Lundberg slu@kb.dk
       </xsl:for-each>
     </pair>
     
-    <xsl:if test="descendant::t:date">
-      <pair name="date" type="object">
+    <pair name="date" type="object">
+      <xsl:for-each select="descendant::t:date[1]">
+	<xsl:call-template name="mk_input">
+	  <xsl:with-param name="name">text</xsl:with-param>
+	  <xsl:with-param name="value">
+	    <xsl:value-of select="."/>
+	  </xsl:with-param>
+	</xsl:call-template>
+	<xsl:call-template name="mk_input">
+	  <xsl:with-param name="name">xml_id</xsl:with-param>
+	  <xsl:with-param name="value">
+	    <xsl:value-of select="@xml:id"/>
+	  </xsl:with-param>
+	  <xsl:with-param name="type">pair</xsl:with-param>
+	</xsl:call-template>
+      </xsl:for-each>
+      <xsl:variable name="same_as">
 	<xsl:for-each select="descendant::t:date[1]">
-	  <xsl:call-template name="mk_input">
-	    <xsl:with-param name="name">text</xsl:with-param>
-	    <xsl:with-param name="value">
-	      <xsl:value-of select="."/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:call-template name="mk_input">
-	    <xsl:with-param name="name">xml_id</xsl:with-param>
-	    <xsl:with-param name="value">
-	      <xsl:value-of select="@xml:id"/>
-	    </xsl:with-param>
-	    <xsl:with-param name="type">pair</xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:variable name="same_as" select="@sameAs"/>
-	    <xsl:for-each select="/t:TEI
-				  /descendant::t:bibl
-				  /t:date[@xml:id=$same_as]">
-	      <xsl:call-template name="mk_input">
-		<xsl:with-param name="name">edtf</xsl:with-param>
-		<xsl:with-param name="value">
-		  <xsl:value-of select="."/>
-		</xsl:with-param>
-	      </xsl:call-template>
-	    </xsl:for-each>
+	  <xsl:value-of select="@sameAs"/>
 	</xsl:for-each>
-      </pair>
-    </xsl:if>
+      </xsl:variable>
+      <xsl:for-each select="/t:TEI">
+	<xsl:for-each select="descendant::t:bibl[@xml:id=$bibl_id]">
+	  <xsl:for-each select="t:date">
+	    <xsl:call-template name="mk_input">
+	      <xsl:with-param name="name">edtf</xsl:with-param>
+	      <xsl:with-param name="value">
+		<xsl:value-of select="."/>
+	      </xsl:with-param>
+	    </xsl:call-template>
+	  </xsl:for-each>
+	</xsl:for-each>
+      </xsl:for-each>
+    </pair>
+
   </xsl:template>
 
   <xsl:template name="extract_bibl_agent">
