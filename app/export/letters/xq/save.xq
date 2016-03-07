@@ -76,13 +76,19 @@ declare function local:enter-date(
 
   let $date_struct  := $json//pair[@name="date"]
   let $date_val     := $date_struct/pair[@name="edtf"]/text()
-  let $date_text_id := $date_struct/pair[@name="xml_id"]/text()
+
 
   let $mid          := concat("idm",util:uuid())
   let $date         := <t:date xml:id="{$mid}">{$date_val}</t:date>
   let $u            := update replace $bibl_date with $date
-  let $same         := update insert attribute sameAs {$mid} into 
-                              $letter//t:date[@xml:id = $date_text_id]
+  let $same :=
+    if($date_struct/pair[@name="xml_id"]/text()) then
+      let $date_text_id := $date_struct/pair[@name="xml_id"]/text()
+      let $s            := update insert attribute sameAs {$mid} into 
+	$letter//t:date[@xml:id = $date_text_id]
+      return $s
+    else
+      ""
 
   return ()
     
