@@ -16,7 +16,7 @@
 //= require jquery.validate.additional-methods
 //= require jquery-ui
 //= require jquery.are-you-sure
-//= require xray
+#//= require xray
 //
 // Required by Blacklight
 //= require blacklight/blacklight
