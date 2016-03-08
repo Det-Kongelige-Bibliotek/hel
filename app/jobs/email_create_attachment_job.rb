@@ -16,13 +16,22 @@ class EmailCreateAttachmentJob
   def self.perform(corresponding_email_dir_path, email_dir_name, attachment_dir_name,
       email_metadata, dirs_works, email_work_id, email_work_path_without_suffix)
 
-    attachments_text = email_metadata[email_work_path_without_suffix]["attachments"].to_s
+    attachmentsFullPath = email_metadata[email_work_path_without_suffix]["attachmentsFullPath"].to_s
+
+    attachments_text = email_metadata[email_work_path_without_suffix]["attachmentsFileNames"].to_s
 
     attachments_lines = attachments_text.split("\n").reject(&:blank?)
 
     attachments_lines.each do |attachment|
+
+      attachment_names = attachment.split("\t")
+
+      attachment_current_path = attachment_names[0]
+
+      attachment_current_name = attachment_current_path.gsub(attachmentsFullPath,"")
+
       attach_dir_path = corresponding_email_dir_path.gsub(email_dir_name.to_s, attachment_dir_name.to_s)
-      pathname_attachment_file = Pathname(attach_dir_path).join(attachment)
+      pathname_attachment_file = Pathname(attach_dir_path).join(attachment_current_name)
 
       email_work = Work.find(email_work_id)
 

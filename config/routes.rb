@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get  'validate_tei', on: :member
     end
     post 'aleph', on: :collection
+    patch 'email', on: :collection
   end
 
   resources :mixed_materials

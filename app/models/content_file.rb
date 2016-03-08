@@ -152,8 +152,12 @@ class ContentFile < ActiveFedora::Base
     elsif file.class == File
       file_object = file
       file_name = Pathname.new(file.path).basename.to_s
-      # TODO: this could be improved through use of filemagick https://github.com/ricardochimal/ruby-filemagic
-      mime_type = MIME::Types.type_for(file_name).first.content_type
+      if File.directory?(file_object)
+        mime_type = "inode/directory"
+      else
+        # TODO: this could be improved through use of filemagick https://github.com/ricardochimal/ruby-filemagic
+        mime_type = MIME::Types.type_for(file_name).first.content_type
+      end
     else
       logger.warn "Could not add file #{file.inspect}"
       return false
@@ -161,9 +165,9 @@ class ContentFile < ActiveFedora::Base
     self.file_uuid = UUID.new.generate if self.file_uuid.blank?
     self.original_filename = file_name if self.original_filename.blank?
 
-    self.fileContent.content = file_object
+    self.fileContent.content = file_object if File.file?(file_object)
     set_file_timestamps(file_object)
-    self.checksum = generate_checksum(file_object)
+    self.checksum = generate_checksum(file_object) if File.file?(file_object)
     self.mime_type = mime_type
     self.size = file.size.to_s
     self.external_file_path = nil

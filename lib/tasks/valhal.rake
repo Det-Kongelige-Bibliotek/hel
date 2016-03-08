@@ -90,4 +90,25 @@ namespace :valhal do
     FileUtils.cp solr_conf, solr_dir
   end
 
+  desc 'Clean data WARNING: will remove all data from you repository'
+  task clean: :environment do
+    raise "You do not want to delete all production data" if Rails.env == 'production'
+    delete_all_objects
+  end
+
+  private
+  def delete_all_objects
+    ContentFile.find_each(&:delete)
+    Instance.find_each(&:delete)
+    Relator.find_each(&:delete)
+    Authority::Thing.find_each(&:delete)
+    Title.find_each(&:delete)
+    Work.find_each(&:delete)
+    Administration::Activity.find_each(&:delete)
+    Hydra::AccessControls::Permission.find_each(&:delete)
+
+    # Try to nuke the rest if something is left
+    ActiveFedora::Base.find_each(&:delete)
+  end
+
 end

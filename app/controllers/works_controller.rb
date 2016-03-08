@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Handle actions on Works
 class WorksController < ApplicationController
-  before_action :set_work, only: [:show, :edit, :update, :destroy]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :email]
   authorize_resource
 
   # GET /works
@@ -65,6 +65,21 @@ class WorksController < ApplicationController
     redirect_to new_work_path
   end
 
+  # Email ingesting
+  def email
+    EmailIngestService.initialize(params[:epath], @work)
+    @errors = EmailIngestService.validate()
+    if @errors.present?
+      Rails.logger.error I18n.t('works.show.accumulated_errors') #{@errors}"
+      flash[:error] = @errors
+      redirect_to @work
+    else
+      EmailIngestService.enqueue_email_ingest_job
+      Rails.logger.info I18n.t('works.show.email_ingest_started')
+      redirect_to @work, notice: I18n.t('works.show.email_ingest_started')
+    end
+  end
+
   # PATCH/PUT /works/1
   # PATCH/PUT /works/1.json
   def update
@@ -107,7 +122,11 @@ class WorksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_work
-    @work = Work.find(URI.unescape(params[:id]))
+    if params[:work].present?
+      @work = Work.find(URI.unescape(params[:work][:id]))
+    else
+      @work = Work.find(URI.unescape(params[:id]))
+    end
   end
 
   # special whitelist for when we're importing from Aleph
