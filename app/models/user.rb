@@ -51,6 +51,9 @@ class User < ActiveRecord::Base
     self.member_of.include? 'CN=Chronos-Admin,OU=SIFD,OU=Adgangsstyring,DC=kb,DC=dk'
   end
 
+  def student?
+    self.member_of.include? 'CN=Chronos-student,OU=SIFD,OU=Adgangsstyring,DC=kb,DC=dk'
+  end
 
   #TODO: group names should be loaded from a config file
   def groups
@@ -67,6 +70,9 @@ class User < ActiveRecord::Base
       end
       if self.member_of.include? 'CN=Chronos-Admin,OU=SIFD,OU=Adgangsstyring,DC=kb,DC=dk'
         groups << 'Chronos-Admin'
+      end
+      if self.member_of.include? 'CN=Chronos-student,OU=SIFD,OU=Adgangsstyring,DC=kb,DC=dk'
+        groups << 'Chronos-student'
       end
  #     if self.member_of.include? 'CN=Chronos-alle,OU=SIFD,OU=Adgangsstyring,DC=kb,DC=dk'
  #       groups << 'Chronos-Alle'

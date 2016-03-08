@@ -6,11 +6,16 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
   include Hydra::Controller::ControllerBehavior
   # These before_filters apply the hydra access controls
-  before_filter :enforce_show_permissions, :only=>:show
+  #before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
 
+  # Hack to get blacklight to URL decode id param before fetching from solr
+  before_action :url_decode_id, :only => [:show,:facsimile]
+  def url_decode_id
+     params[:id] = URI.unescape(params[:id])
+  end
 
   configure_blacklight do |config|
     config.default_solr_params = {
@@ -30,9 +35,21 @@ class CatalogController < ApplicationController
       solr_parameters[:fq] << wanted_models
     end
 
+    # method to serve up XML OpenSearch description and JSON autocomplete response
+    def opensearch
+      respond_to do |format|
+        format.xml do
+          render :layout => false
+        end
+        format.json do
+          render :json => get_opensearch_response
+        end
+      end
+    end
+
     def wanted_models
       rule = "has_model_ssim: ("
-      models = [Work, Authority::Person, MixedMaterial, Authority::Organization]
+      models = [Work, Authority::Person, MixedMaterial, Authority::Organization, LetterBook]
       rule + models.join(' OR ').gsub(':', '\:') + ')'
     end
 
@@ -62,6 +79,7 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field solr_name('author', :facetable), :label => 'Ophav'
     config.add_facet_field 'active_fedora_model_ssi', :label => 'Indhold', helper_method: :translate_model_names
+    config.add_facet_field 'status_ssi', :label => 'Status', helper_method: :translate_status_names
     config.add_facet_field solr_name('work_collection',:facetable), :label => 'Samling'
     config.add_facet_field solr_name('work_activity',:facetable), :label => 'Aktivitet', helper_method: :get_activity_name
 
@@ -152,8 +170,22 @@ class CatalogController < ApplicationController
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
     config.spell_max = 5
+
+    # This overwrites the default blacklight sms_mappings so that
+    # the sms tool is not shown.
+    def sms_mappings
+      {}
+    end
+    # This overwrites the default blacklight way of adding a tool partial
+    config.add_show_tools_partial :citation, if: false
+    config.add_show_tools_partial :email, if: false
+
+    def facsimile
+      @response, @document = fetch URI.unescape(params[:id])
+      respond_to do |format|
+        format.html { setup_next_and_previous_documents }
+      end
+    end
+
   end
-
-
-
 end

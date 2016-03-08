@@ -149,5 +149,24 @@
  .input-group .form-control {
      position: static;
  }
+ 
+.status-box {
+    border:1px solid black;
+    padding: 2px 10px;
+}
+ .status-box.orange{
+     background-color:orange;
+ }
+ .status-box.green{
+     background-color:darkseagreen;
+ }
+ .status-box.blue{
+     background-color:lightblue;
+ }
+ .status-box.yellow{
+     background-color:yellow;
+ }
 
-
+#content .container{
+    width: 100%;
+}

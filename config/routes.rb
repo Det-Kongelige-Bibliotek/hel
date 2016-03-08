@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   post 'view_file/import_from_preservation'
   get 'statistics' => 'statistics#show'
 
-
   resources :instances do
     member do
       get 'preservation'
@@ -17,12 +16,22 @@ Rails.application.routes.draw do
       get 'send_to_preservation', on: :member
       get  'validate_tei', on: :member
     end
-    resources :trykforlaegs
     post 'aleph', on: :collection
     patch 'email', on: :collection
   end
 
   resources :mixed_materials
+
+  get 'letter_books/show_letter_and_facsimile' => 'letter_books#show_letter_and_facsimile'
+  resources :letter_books do
+    member do
+      get 'begin_work'
+      get 'complete_work'
+    end
+  end
+  resources :letters
+
+  get '/catalog/:id/facsimile' => 'catalog#facsimile', as: 'facsimile_catalog'
 
   resources :content_files, :except => [:new, :index, :delete, :create, :edit, :update, :destroy] do
     member do
@@ -45,19 +54,16 @@ Rails.application.routes.draw do
 
   blacklight_for :catalog
   devise_for :users
+  mount Authority::Engine => "/authority"
 
-  namespace :authority do
-    resources :people do
-      get 'viaf', on: :collection
-    end
-    resources :organizations, :places
-  end
+
 
   get 'resources/:id' => 'resources#show'
 
   get 'solrwrapper/search/:q', to: 'solr_wrapper#search'
   get 'solrwrapper/getobj/:id', to: 'solr_wrapper#get_obj'
-  get 'solrwrapper/searchbysameasuri/', to: 'solr_wrapper#search_by_same_as_uri'
+
+
 
 
   # The priority is based upon order of creation:

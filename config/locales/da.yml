@@ -25,8 +25,14 @@ da:
   model_created: "%{model} blev oprettet"
   model_updated: "%{model} blev opdateret"
   model_creation_failed: "%{model} kunne ikke gemmes"
+  model_update_failed: "%{model} kunne ikke opdateres"
   blacklight:
     application_name: 'Valhal'
+    search:
+      bookmarks:
+        present: "In Bookmarks"
+        absent: "Bookmark"
+        inprogress: "Saving..."
   activefedora:
     errors:
       messages:
@@ -192,6 +198,8 @@ da:
         manuscripts: Håndskrifter
         music_manuscripts: Musikhåndskrifter
         images: Billeder
+        edition: Udgave
+        note: Bemærkninger
     placeholders:
       defaults:
         value: Titel eller label
@@ -212,9 +220,16 @@ da:
     work: 'Værk'
     authority_person: 'Person'
     authority_place: 'Sted'
-    authority_organization: 'Organisation'
-    mixed_material: Arkiv
-    mixedmaterial: Arkiv
+    authority_organization: 'Forlag'
+    mixed_material: 'Arkiv'
+    mixedmaterial: 'Arkiv'
+    letterbook: 'Brevudgave'
+
+  status:
+    ready: 'Oprettet'
+    waiting: 'Afventer'
+    working: 'Iværksat'
+    completed: 'Afsluttet'
 
   roles:
     aut: 'Forfatter'
@@ -486,3 +501,14 @@ da:
     form:
       new_person: "Opret ny person"
       author: "Ophav"
+
+  letter_books:
+    edit:
+      header: "Redigerer %{model}"
+      save: "Gem"
+    title: "Title"
+    origin_date: "Oprindelsesdato"
+    place: "Sted"
+    publisher: "Forlag"
+    notes: "Bemærkninger"
+    edition: "Udgave"

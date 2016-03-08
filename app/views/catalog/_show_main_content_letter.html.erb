@@ -1,0 +1,38 @@
+<%# default partial to display solr document fields in catalog show view -%>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<%= render 'catalog/show_header_default' %>
+<%= render 'catalog/previous_next_doc' %>
+<% solr_id = @document.id %>
+<% opts = SnippetServer.split_letter_id(solr_id) %>
+<% opts[:c] = SnippetServer.get_collection(solr_id) %>
+
+<p align="right">
+  <a target="_blank" class="btn btn-primary" href="<%= letter_books_show_letter_and_facsimile_path(:sid => @document.id) %>" >Show Book</a>
+</p>
+
+<div class="container nav-tab-instance-fixContainer">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="nav-tab-instance-2">
+        <ul class="nav nav-tabs">
+          <li  role="presentation">
+            <a data-toggle="tab" href="#text" >Text</a>
+          </li>
+          <li role="presentation">
+            <a data-toggle="tab" href="#facs" >Facsimile</a>
+          </li>
+        </ul>
+      </div>
+      <div class="tab-content">
+        <div id="text" class="tab-pane">
+          <% text1 ||= SnippetServer.render_snippet(opts) %>
+          <%= text1.html_safe %>
+        </div>
+        <div id="facs" class="tab-pane">
+          <%= SnippetServer.facsimile(opts).html_safe %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

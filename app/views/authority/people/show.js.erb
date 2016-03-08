@@ -1,7 +1,0 @@
-if (typeof(modal_agent_field) !== 'undefined' && modal_agent_field.length > 0) {
-    $("#"+modal_agent_field).val("<%= @authority_object.display_value %>");
-    $("#"+modal_agent_field).parentsUntil('.relator_fields').find("input[id$='agent_id']").val("<%= @authority_object.id %>");
-}
-modal_agent_field = '';
-$("#new_agent_modal").modal('hide');
-$("#new_agent_modal").find('form input[type!="submit"]').val('');
