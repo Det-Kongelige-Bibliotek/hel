@@ -9,7 +9,7 @@ class LetterBookScan
         sysnum = basename.to_s.split('_')[0]
         Resque.enqueue(LetterBookIngest,xml_path,"#{img_base_path}/#{File.basename(xml_path,'.xml')}","#{processed_path}/#{basename}")
       else
-        Resque.logger.warn "#{basname} allready ingested. Skipping it"
+        Resque.logger.warn "#{basename} allready ingested. Skipping it"
       end
     end
   end
