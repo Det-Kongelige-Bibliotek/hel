@@ -14,7 +14,7 @@ class SnippetServer
   end
 
   def self.get(uri)
-    puts "SNIPPET SERVER GET #{uri}"
+    Rails.logger.debug "SNIPPET SERVER GET #{uri}"
     uri = URI.parse(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
@@ -60,8 +60,8 @@ class SnippetServer
     request.body = body
     res = http.request(request)
     raise "post: #{self.snippet_server_url} response code #{res.code}" unless res.code == "200"
-    puts "RES"
-    puts res.body
+    Rails.logger.debug "RES"
+    Rails.logger.debug res.body
     res
   end
 
@@ -72,7 +72,7 @@ class SnippetServer
   def self.render_snippet(opts={})
     base = snippet_server_url
     base += "#{opts[:project]}" if opts[:project].present?
-    puts "base #{base} #{get_snippet_script} #{opts.inspect}"
+    Rails.logger.debug "render snippet base #{base} #{get_snippet_script} #{opts.inspect}"
     uri = SnippetServer.contruct_url(base,get_snippet_script,opts)
     Rails.logger.debug("snippet url #{uri}")
     self.get(uri)
@@ -130,7 +130,7 @@ class SnippetServer
 
   def self.update_letter(json,opts={})
     uri  = SnippetServer.contruct_url(snippet_server_url_with_admin,"save.xq",opts)
-    puts "update letter uri #{uri}"
+    Rails.logger.debug "update letter uri #{uri} data #{json}"
     self.post(uri,json)
   end
 
