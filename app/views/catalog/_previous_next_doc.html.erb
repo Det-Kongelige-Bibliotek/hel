@@ -8,7 +8,7 @@
           <div class="page_links">
             <%= link_to 'Previous', solr_document_path(id: @previous_document) if @previous_document.present? %> |
 
-            <%= id[-6, id.length].to_i %> af  <%= Finder.get_all_letters(@document["work_id_ssi"]).count if @document['work_id_ssi'].present? %> |
+            <%= id[-3, id.length].to_i %> af  <%= Finder.get_all_letters(@document["work_id_ssi"]).count if @document['work_id_ssi'].present? %> |
 
             <%= link_to 'Next', solr_document_path(id: @next_document) if @next_document.present?%>
           </div>

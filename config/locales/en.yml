@@ -42,6 +42,21 @@ en:
     show:
       edit: "Edit"
       origin_date: "Origin date"
+      ingest: "Ingest email"
+      email_path: "Write path to email folder"
+      email_ingest_started: "The ingest of email has started"
+      path_error: "A path, without trailing slash, to a folder containing data should be given!"
+      mail_path_error: "The email folder does not exist!"
+      attachment_path_error: "The attachment folder does not exist!"
+      export_path_error: "The Aid4Mail export xml file does not exist!"
+      accumulated_errors: "The following errors occurred while attempting to ingest emails:"
+      myarchive_activity: "A MyArchive activity does not exist!"
+      has: "Has"
+      parts: "part(s)"
+      is_part_of: "Is part of"
+    email_ingest:
+      ingest: "Ingest email"
+      email_path: "Write path to email folder"
   authority:
     people:
       form:
@@ -95,6 +110,7 @@ en:
     aleph:
       error_message: "No data found in Aleph for %{field} %{value}"
     save_error: "Work could not be saved correctly"
+
   administration:
     activities:
       index:

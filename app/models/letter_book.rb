@@ -46,7 +46,7 @@ class LetterBook < Work
     solr_doc.merge!(super)
     solr_doc['cat_ssi'] = 'letterbook'
     solr_doc['file_name_ssi'] = get_file_name
-    solr_doc['status_ssi'] = get_instance('TEI').status
+    solr_doc['status_ssi'] = get_instance('TEI').status if get_instance('TEI').present?
     solr_doc
   end
 
@@ -58,5 +58,19 @@ class LetterBook < Work
     end
   end
 
+  def self.delete_lb(id)
+    lb = LetterBook.find(id)
+    tiff = lb.get_instance('TIFF')
+    tei = lb.get_instance('TEI')
+    tiff.content_files.each do |cf| cf.destroy end
+    tei.content_files.each do |cf| cf.destroy end
+    tiff.delete_providers
+    tei.delete_providers
+    tiff.destroy
+    tei.destroy
+    lb.relators.each do |rel| rel.destroy end
+    lb.titles.each do |t| t.destroy end
+    lb.destroy
+  end
 
 end

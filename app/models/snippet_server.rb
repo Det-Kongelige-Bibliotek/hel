@@ -18,7 +18,7 @@ class SnippetServer
     uri = URI.parse(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
-    http.read_timeout = 20
+    http.read_timeout = 600
     begin
       res = http.start { |conn| conn.request_get(URI(uri)) }
       if res.code == "200"
@@ -124,6 +124,7 @@ class SnippetServer
 
   def self.facsimile(opts={})
     opts[:op] = 'facsimile'
+    opts[:prefix] = Rails.application.config_for(:snippet)["image_server_prefix"]
     SnippetServer.render_snippet(opts)
   end
 

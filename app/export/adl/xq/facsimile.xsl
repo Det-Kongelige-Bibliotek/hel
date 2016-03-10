@@ -20,7 +20,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <!-- this is for image URIs that are not absolute 
        (not starting with http -->
 
-  <xsl:param name="prefix" select="''"/>
+  <xsl:param name="prefix" select="'http://kb-images.kb.dk/public/'"/>
 
   <xsl:output encoding="UTF-8"
 	      indent="yes"
@@ -33,7 +33,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
 	<xsl:for-each select="//node()[$id=@xml:id]">
 	  <div>
 	    <xsl:attribute name="id">
-	      <xsl:value-of select="concat('facsid',$id)"/>
+	      <xsl:value-of select="$id"/>
 	    </xsl:attribute>
 	    <xsl:attribute name="class">facsimile snippetRoot</xsl:attribute>
 	    <xsl:for-each select="preceding::t:pb[1]">
@@ -72,7 +72,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
       <span class="pageBreak">
 	<xsl:element name="a">
 	  <xsl:attribute name="href">
-	    <xsl:value-of select="concat('#',@xml:id)"/>
+	    <xsl:value-of select="concat('../#',@xml:id)"/>
 	  </xsl:attribute>
 	  <xsl:text>s. </xsl:text>
 	  <xsl:value-of select="@n"/>
@@ -91,7 +91,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
   <xsl:template name="add_id">
     <xsl:if test="@xml:id">
       <xsl:attribute name="id">
-      	<xsl:value-of select="concat('facsid',@xml:id)"/>
+      	<xsl:value-of select="@xml:id"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -103,7 +103,7 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
         <xsl:element name="img">
 	  <xsl:attribute name="height">750</xsl:attribute>
 	  <xsl:attribute name="data-src">
-            <xsl:value-of select="@facs"/>
+            <xsl:value-of select="concat(@facs,'/full/,750/0/native.jpg')"/>
 	  </xsl:attribute>
 	  <xsl:attribute name="src">
 	  </xsl:attribute>
@@ -114,7 +114,8 @@ $Id: toc.xsl,v 1.2 2008/06/24 12:56:46 slu Exp $
         <xsl:element name="img">
 	  <xsl:attribute name="height">750</xsl:attribute>
 	  <xsl:attribute name="data-src">
-            <xsl:value-of select="concat($prefix,substring-before(substring-after(@facs,'images/'),'.jpg'),'/full/full/0/native.jpg')"/>
+            <xsl:value-of 
+		select="concat($prefix,@facs,'/full/,750/0/native.jpg')"/>
 	  </xsl:attribute>
           <xsl:attribute name="src">
           </xsl:attribute>

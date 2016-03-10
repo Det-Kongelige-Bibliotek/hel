@@ -81,6 +81,10 @@ module ApplicationHelper
     I18n.t("models.#{name.parameterize('_')}", default: name)
   end
 
+  def translate_status_names(status)
+    I18n.t("status.#{status}", default: status)
+  end
+
   # Renders a title type ahead field
   def render_title_typeahead_field
     results = Work.get_title_typeahead_objs

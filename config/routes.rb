@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get  'validate_tei', on: :member
     end
     post 'aleph', on: :collection
+    patch 'email', on: :collection
   end
 
   resources :mixed_materials
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
   resources :letter_books do
     member do
       get 'begin_work'
+      get 'complete_work'
     end
   end
   resources :letters

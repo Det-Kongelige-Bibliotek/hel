@@ -1,0 +1,12 @@
+<% if letter["status_ssi"].present? %>
+    <dt>Status:</dt>
+    <dd>
+    <span class="label <%
+       case letter["status_ssi"] when "created" %> label-danger<%
+       when "waiting" %> label-warning<%
+       when "working" %> label-info<%
+       when "completed" %> label-success<%
+       end
+    %>"><%= letter["status_ssi"] %></span>
+    </dd>
+<% end %>

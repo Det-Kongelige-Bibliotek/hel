@@ -220,10 +220,16 @@ da:
     work: 'Værk'
     authority_person: 'Person'
     authority_place: 'Sted'
-    authority_organization: 'Organisation'
-    mixed_material: Arkiv
-    mixedmaterial: Arkiv
-    letter_book: Brevbog :)
+    authority_organization: 'Forlag'
+    mixed_material: 'Arkiv'
+    mixedmaterial: 'Arkiv'
+    letterbook: 'Brevudgave'
+
+  status:
+    ready: 'Oprettet'
+    waiting: 'Afventer'
+    working: 'Iværksat'
+    completed: 'Afsluttet'
 
   roles:
     aut: 'Forfatter'
@@ -375,6 +381,9 @@ da:
       number: "System nummer"
     creator:
       close: "Slet ophav"
+    email_ingest:
+      ingest: "Ingest e-mail"
+      email_path: "Angiv sti til e-mail folder"
     show:
       edit: "Rediger"
       titles: "Titler"
@@ -389,6 +398,18 @@ da:
       page_title: "Værk: "
       agent_relations: "Relaterede agenter"
       new_instance: "Ny instans"
+      ingest: "Ingest e-mail"
+      email_path: "Angiv sti til e-mail folder"
+      email_ingest_started: "Ingest af e-mail påbegyndt"
+      path_error: "En sti, uden afsluttende skråstreg, til en mappe der indeholder email data skal angives!"
+      mail_path_error: "E-mail folderen kunne ikke findes!"
+      attachment_path_error: "Attachment folderen kunne ikke findes!"
+      export_path_error: "Aid4Mail export xml filen eksistere ikke!"
+      accumulated_errors: "Der skete følgende fejl i forbindelse med ingest af e-mails:"
+      myarchive_activity: "En MyArchive activitet blev ikke fundet!"
+      has: "Har"
+      parts: "del(e)"
+      is_part_of: "Er del af"
     subject_authority:
       close: "Slet emne"
     title:

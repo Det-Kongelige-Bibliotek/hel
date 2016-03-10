@@ -11,6 +11,11 @@ class CatalogController < ApplicationController
   #CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
 
 
+  # Hack to get blacklight to URL decode id param before fetching from solr
+  before_action :url_decode_id, :only => [:show,:facsimile]
+  def url_decode_id
+     params[:id] = URI.unescape(params[:id])
+  end
 
   configure_blacklight do |config|
     config.default_solr_params = {
@@ -74,6 +79,7 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field solr_name('author', :facetable), :label => 'Ophav'
     config.add_facet_field 'active_fedora_model_ssi', :label => 'Indhold', helper_method: :translate_model_names
+    config.add_facet_field 'status_ssi', :label => 'Status', helper_method: :translate_status_names
     config.add_facet_field solr_name('work_collection',:facetable), :label => 'Samling'
     config.add_facet_field solr_name('work_activity',:facetable), :label => 'Aktivitet', helper_method: :get_activity_name
 
@@ -172,6 +178,7 @@ class CatalogController < ApplicationController
     end
     # This overwrites the default blacklight way of adding a tool partial
     config.add_show_tools_partial :citation, if: false
+    config.add_show_tools_partial :email, if: false
 
     def facsimile
       @response, @document = fetch URI.unescape(params[:id])
