@@ -12,11 +12,11 @@ class ViewFileController < ApplicationController
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = t('flashmessage.file_not_found')
       logger.error obj_not_found.to_s
-      redirect_to :root
+      render status:404, nothing: true
     rescue StandardError => standard_error
       flash[:error] = t('flashmessage.standard_error')
       logger.error standard_error.to_s
-      redirect_to :root
+      render status:500, nothing:true
     end
   end
 
