@@ -13,7 +13,7 @@ test:
     polling_interval_in_minutes: 1
 
 production:
-  mq_uri: "amqp://sifd-staging-03:5672"
+  mq_uri: "amqp://valhal-test-03:5672"
   preservation:
     destination: "preservation-prod-queue"
     response: "preservation-prod-response-queue"
