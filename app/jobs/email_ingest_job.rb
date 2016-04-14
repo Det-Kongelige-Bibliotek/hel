@@ -1,4 +1,5 @@
 require 'resque'
+require 'redis'
 require 'pathname'
 require 'find'
 require 'full-name-splitter'
@@ -7,6 +8,8 @@ require 'full-name-splitter'
 class EmailIngestJob
 
   @queue = :email_ingest
+
+  @redis = Redis.new
 
   # Ingest individual emails into Valhal
   # @param base_dir_path: the name of the folder in which the emails, attachments, and metadata are contained
@@ -20,8 +23,8 @@ class EmailIngestJob
     attachment_dir_name, email_dir_name, email_dir_path, export_file_path =
         initialize_validate(attachment_dir_name, base_dir_path, donor_id, work_id, email_dir_name, export_file_name)
 
-    # Extract metadata from Aid4Mail XML file
-    email_metadata = EmailXMLIngestService.email_xml_ingest(export_file_path, email_dir_path)
+    # Extract metadata from Aid4Mail XML file and save in Redis
+    EmailXMLIngestService.email_xml_ingest(export_file_path, email_dir_path)
 
     dirs_works = Hash.new
 
@@ -35,7 +38,7 @@ class EmailIngestJob
       if File.directory?(pathname)
         begin
           if path != email_dir_path
-            dirs_works = email_create_folder(pathname, email_metadata, dirs_works, donor_id)
+            dirs_works = email_create_folder(pathname, dirs_works, donor_id)
           end
         rescue => e
           Resque.logger.error "A Valhal object for folder #{pathname} could not be created! Error inspect:
@@ -44,8 +47,7 @@ class EmailIngestJob
       else
         if Rails.env == 'test'
           begin
-          EmailCreateEmailJob.perform(pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s, email_metadata,
-                                   dirs_works)
+          EmailCreateEmailJob.perform(pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s, dirs_works)
           rescue => e
             Resque.logger.error "A Valhal object for an email or an attachment could not be created! Error inspect:
                             #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
@@ -53,8 +55,7 @@ class EmailIngestJob
                             #{e.inspect}, Error backtrace:  #{e.backtrace.join("\n")}"
           end
         else
-          Resque.enqueue(EmailCreateEmailJob, pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s,
-                         email_metadata, dirs_works)
+          Resque.enqueue(EmailCreateEmailJob, pathname.to_s, email_dir_name.to_s, attachment_dir_name.to_s, dirs_works)
         end
       end
     end
@@ -96,14 +97,13 @@ class EmailIngestJob
 
   # Creates Valhal folder related objects
   # @param folder_path: the complete path of the folder
-  # @param email_metadata: a hash map containing email metadata for the complete email account
   # @param dirs_works: Hash map containing pairs of paths to folders and their associated works
   # @param donor_id: Person id of the donor of the email account
-  def self.email_create_folder(folder_path, email_metadata, dirs_works, donor_id)
+  def self.email_create_folder(folder_path, dirs_works, donor_id)
 
-    work, dirs_works = create_work(folder_path, email_metadata, dirs_works, nil, nil, donor_id)
+    work, dirs_works = create_work(folder_path, dirs_works, nil, nil, donor_id)
 
-    instance = create_instance(folder_path, email_metadata, work)
+    instance = create_instance(folder_path, work)
 
     if Rails.env == 'test'
       EmailCreateFileJob.perform(folder_path.to_s, instance.id)
@@ -118,12 +118,11 @@ class EmailIngestJob
 
   # Creates a Work
   # @param pathname: the complete path of the folder or file for which a Work should be created
-  # @param email_metadata: a hash map containing email metadata for the complete email account
   # @param dirs_works: Hash map containing pairs of paths to folders and their associated works
   # @param email_work: Work of an email containing attachments
   # @param email_work_path_without_suffix: Pathname of email file associated with email_work without suffix
   # @param donor_id: Person id of the donor of the email account
-  def self.create_work(pathname, email_metadata, dirs_works, email_work, email_work_path_without_suffix, donor_id)
+  def self.create_work(pathname, dirs_works, email_work, email_work_path_without_suffix, donor_id)
 
     @unknown = UNKNOWN_NAME
 
@@ -146,14 +145,14 @@ class EmailIngestJob
     end
 
     # An email
-    if File.file?(pathname) && email_metadata.include?(pathname_without_suffix)
-      work = create_email_work(email_metadata, pathname_without_suffix, work)
+    if File.file?(pathname) && @redis.exists(pathname_without_suffix)
+      work = create_email_work(pathname_without_suffix, work)
     end
 
     # An attachment
-    if File.file?(pathname) &&  !email_work.nil? && email_metadata.include?(email_work_path_without_suffix) &&
-        !email_metadata[email_work_path_without_suffix]["attachments"].empty?
-      work = create_attachment_work(email_metadata, email_work, email_work_path_without_suffix, pathname, work)
+    if File.file?(pathname) &&  !email_work.nil? && @redis.exists(email_work_path_without_suffix) &
+        @redis.hexists(email_work_path_without_suffix, "attachments")
+      work = create_attachment_work(email_work, email_work_path_without_suffix, pathname, work)
     end
 
     fail "Work could not be saved #{work.errors.messages}" unless work.save
@@ -195,14 +194,14 @@ class EmailIngestJob
     return work
   end
 
-  def self.create_email_work(email_metadata, pathname_without_suffix, work)
+  def self.create_email_work(pathname_without_suffix, work)
 
     # Subject
-    work.add_title({"value" => email_metadata[pathname_without_suffix]["subject"].to_s})
+    work.add_title({"value" => @redis.hget(pathname_without_suffix, "subject").to_s})
 
     # From
-    if !email_metadata[pathname_without_suffix]["fromName"].empty?
-      from_name = email_metadata[pathname_without_suffix]["fromName"].to_s
+    if @redis.hexists(pathname_without_suffix, "fromName")
+      from_name = @redis.hget(pathname_without_suffix, "fromName").to_s
       names = FullNameSplitter.split(from_name)
       forename = names[0]
       surname = names[1]
@@ -214,8 +213,8 @@ class EmailIngestJob
     end
 
     # FromAddr
-    if !email_metadata[pathname_without_suffix]["fromAddr"].empty?
-      from_addr = email_metadata[pathname_without_suffix]["fromAddr"].to_s
+    if @redis.hexists(pathname_without_suffix, "fromAddr")
+      from_addr = @redis.hget(pathname_without_suffix, "fromAddr").to_s
       person_from.email += [from_addr]
       person_from.save
     else
@@ -224,8 +223,8 @@ class EmailIngestJob
     end
 
     # TO
-    if !email_metadata[pathname_without_suffix]["to"].empty?
-      to = email_metadata[pathname_without_suffix]["to"].to_s
+    if @redis.hexists(pathname_without_suffix, "to")
+      to = @redis.hget(pathname_without_suffix, "to").to_s
       work = add_email_recipients(to, work)
     else
       person_to = Authority::Person.find_or_create_person(@unknown, @unknown)
@@ -233,14 +232,14 @@ class EmailIngestJob
     end
 
     # CC
-    if !email_metadata[pathname_without_suffix]["cc"].empty?
-      cc = email_metadata[pathname_without_suffix]["cc"].to_s
+    if @redis.hexists(pathname_without_suffix, "cc")
+      cc = @redis.hget(pathname_without_suffix, "cc").to_s
       work = add_email_recipients(cc, work)
     end
 
     # BCC
-    if !email_metadata[pathname_without_suffix]["bcc"].empty?
-      bcc = email_metadata[pathname_without_suffix]["bcc"].to_s
+    if @redis.hexists(pathname_without_suffix, "bcc")
+      bcc = @redis.hget(pathname_without_suffix, "bcc").to_s
       work = add_email_recipients(bcc, work)
     end
 
@@ -248,12 +247,12 @@ class EmailIngestJob
     return work
   end
 
-  def self.create_attachment_work(email_metadata, email_work, email_work_path_without_suffix, pathname, work)
+  def self.create_attachment_work(email_work, email_work_path_without_suffix, pathname, work)
     work.add_title({"value" => pathname.basename.to_s.chomp(File.extname(pathname.basename.to_s))})
 
     # From
-    if !email_metadata[email_work_path_without_suffix]["fromName"].empty?
-      from_name = email_metadata[email_work_path_without_suffix]["fromName"].to_s
+    if @redis.hexists(email_work_path_without_suffix, "fromName")
+      from_name = @redis.hget(email_work_path_without_suffix, "fromName").to_s
       names = FullNameSplitter.split(from_name)
       forename = names[0]
       surname = names[1]
@@ -278,9 +277,8 @@ class EmailIngestJob
 
   # Creates a Instance
   # @param pathname: the complete path of the folder or file for which a Instance should be created
-  # @param email_metadata: a hash map containing email metadata for the complete email account
   # @param work: the associated work
-  def self.create_instance(pathname, email_metadata, work)
+  def self.create_instance(pathname, work)
 
     instance = Instance.new
 
@@ -292,9 +290,9 @@ class EmailIngestJob
     # Instance note == email body in plain text
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
-    if email_metadata.has_key?(pathname_without_suffix)
-      if !email_metadata[pathname_without_suffix]["body"].empty?
-        body = email_metadata[pathname_without_suffix]["body"].to_s
+    if @redis.exists(pathname_without_suffix)
+      if @redis.hexists(pathname_without_suffix, "body")
+        body = @redis.hget(pathname_without_suffix, "body").to_s
         instance.note = body
       end
     end
