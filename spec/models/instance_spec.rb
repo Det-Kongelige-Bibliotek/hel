@@ -13,8 +13,9 @@ describe Instance do
                                      'family_name' => 'Efternavn',
                                      'birth_date' => '1932' ,
                                      'death_date' => '2009')
-    @org =  Authority::Organization.new(_name: 'Gyldendalske boghandel, Nordisk forlag',
-                                        founding_date: '1770')
+    @org =  Authority::Organization.new(_name: 'Gyldendalske boghandel, Nordisk forlag')
+    # ,
+    #                                     founding_date: '1770')
     @org.alternate_names.push 'Gyldendal'
     @org.save
     @instance = Instance.new(valid_trykforlaeg)
