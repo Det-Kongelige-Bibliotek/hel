@@ -150,8 +150,7 @@ class EmailIngestJob
     end
 
     # An attachment
-    if File.file?(pathname) &&  !email_work.nil? && @redis.exists(email_work_path_without_suffix) &
-        @redis.hexists(email_work_path_without_suffix, "attachments")
+    if File.file?(pathname) &&  !email_work.nil? && @redis.hexists(email_work_path_without_suffix, "attachments")
       work = create_attachment_work(email_work, email_work_path_without_suffix, pathname, work)
     end
 
@@ -290,11 +289,9 @@ class EmailIngestJob
     # Instance note == email body in plain text
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
-    if @redis.exists(pathname_without_suffix)
-      if @redis.hexists(pathname_without_suffix, "body")
-        body = @redis.hget(pathname_without_suffix, "body").to_s
-        instance.note = body
-      end
+    if @redis.hexists(pathname_without_suffix, "body")
+      body = @redis.hget(pathname_without_suffix, "body").to_s
+      instance.note = body
     end
 
     instance.activity = activity.id
