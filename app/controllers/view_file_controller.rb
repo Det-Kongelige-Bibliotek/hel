@@ -7,8 +7,8 @@ class ViewFileController < ApplicationController
   # @return The file which needs to be shown, with the original filename and mime-type.
   def show
     begin
-      @content_file = ContentFile.find(URI.unescape(params[:pid]))
-      send_data @content_file.datastreams['content'].content, {:filename => @content_file.original_filename, :type => @content_file.mime_type}
+      @content_file = ContentFile.find(URI.unescape(params[:id] || params[:pid]))
+      send_data @content_file.content, {:filename => @content_file.original_filename, :type => @content_file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = t('flashmessage.file_not_found')
       logger.error obj_not_found.to_s
