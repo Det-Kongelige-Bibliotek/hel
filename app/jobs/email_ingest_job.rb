@@ -286,7 +286,7 @@ class EmailIngestJob
 
     instance.set_work = work
 
-    # Instance note == email body in plain text
+    # Instance note == email body in plain textthe RFC-282 Internet Message Format
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
     if @redis.hexists(pathname_without_suffix, "body")
@@ -353,7 +353,11 @@ class EmailIngestJob
       name.chop
     end
 
-    email = values[1].split(">")[0]
+    if values[1].present?
+      email = values[1].split(">")[0]
+    else
+      email = ""
+    end
 
     return name, email
   end
