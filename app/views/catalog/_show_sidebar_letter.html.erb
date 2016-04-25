@@ -26,5 +26,5 @@
     <% @letter = Letter.from_json(data) %>
     <% @letter.id = solr_id %>
     <% @letter.work_id = @document['work_id_ssi'] %>
-    <%= render partial: 'letters/letter_form'%>
+    <%= render partial: 'letters/letter_form', locals: {status: @document['status_ssi']}%>
 <% end %>
