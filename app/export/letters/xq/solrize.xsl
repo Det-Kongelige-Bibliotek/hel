@@ -105,17 +105,6 @@
 	</xsl:choose>
       </xsl:variable>
 
-      <xsl:variable name="lprev">
-	<xsl:choose>
-	  <xsl:when test="$prev">
-	    <xsl:value-of select="$prev"/>
-	  </xsl:when>
-	  <xsl:otherwise>
-            <xsl:call-template name="get_prev_id"/>
-	  </xsl:otherwise>
-	</xsl:choose>
-      </xsl:variable>
-
       <xsl:variable name="lnext">
 	<xsl:choose>
 	  <xsl:when test="$next">
@@ -264,6 +253,13 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
+
+    <xsl:if test="@n">
+    <xsl:element name="field">
+      <xsl:attribute name="name">letter_number_isi</xsl:attribute>
+      <xsl:value-of select="@n"/>
+    </xsl:element>
+    </xsl:if>
 
     <xsl:if test="$work_id">
       <xsl:element name="field">

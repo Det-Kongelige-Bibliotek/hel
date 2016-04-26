@@ -1,5 +1,6 @@
 <% @previous_document = @document["previous_id_ssi"] %>
 <% @next_document = @document["next_id_ssi"] %>
+<% @letter_number = @document["letter_number_isi"] %>
 <% id = @document.id %>
 
 <% if (@document['has_model_ssim'].include? 'Letter').present? %>
