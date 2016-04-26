@@ -47,7 +47,7 @@ module Datastreams
         self.add_author(author)
       end
 
-      self.origin_date  = mods.dateIssued.first
+      # self.origin_date  = mods.dateIssued.first
 
       place = Authority::Place.find_or_create(_name: mods.originPlace.first)
       self.origin_place = place
@@ -89,6 +89,7 @@ module Datastreams
 
       pub = Authority::Organization.find_or_create(_name: mods.publisher.first)
       self.add_publisher(pub)
+      self.published_date = mods.dateIssued.first
 
 
     end
