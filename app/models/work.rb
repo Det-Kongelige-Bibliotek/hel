@@ -24,14 +24,14 @@ class Work < ActiveFedora::Base
   accepts_nested_attributes_for :titles, :allow_destroy => true, reject_if: proc {|attrs| attrs['value'].blank? && attrs['variant'].blank? && attrs['subtitle'].blank?}
   accepts_nested_attributes_for :relators, :allow_destroy => true, reject_if: proc { |attrs| attrs['agent_id'].blank? }
 
-  validate :has_a_title,:has_a_creator
+  validate :has_a_title
 
   before_save :set_rights_metadata
 
   after_save :disseminate_all_instances
 
   validates_each :origin_date do |record, attr, val|
-    record.errors.add(attr, I18n.t('edtf.no_date_message')) unless val.present?
+ #   record.errors.add(attr, I18n.t('edtf.no_date_message')) unless val.present?
     record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
   end
 
