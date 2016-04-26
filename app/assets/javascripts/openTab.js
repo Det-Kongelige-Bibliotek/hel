@@ -5,7 +5,7 @@ $(document).ready(function() {
         $(myid)[0].scrollIntoView();
     }
     else {
-        $('#text').addClass('active');
+        $('#facs').addClass('active');
     }
 });
 
