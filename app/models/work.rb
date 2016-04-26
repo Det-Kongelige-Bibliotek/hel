@@ -155,9 +155,11 @@ class Work < ActiveFedora::Base
       Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
       Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
     end
+    Solrizer.insert_field(solr_doc,'title',title_values.first, :stored_searchable, :sortable)
     authors.each do |aut|
       Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable) unless aut.nil?
     end
+    Solrizer.insert_field(solr_doc, 'author', authors.first.try(:family_name)+", "+authors.first.try(:given_name), :stored_searchable, :sortable)
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
       Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)
