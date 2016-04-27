@@ -32,7 +32,7 @@ class Finder
 
   def self.get_all_letters(lb_id)
     solr_q = "work_id_ssi:#{lb_id}"
-    ActiveFedora::SolrService.query(solr_q,:fq=>["has_model_ssim:Letter", 'type_ssi:trunk'], :rows => max_rows)
+    ActiveFedora::SolrService.query(solr_q,:fq=>["has_model_ssim:Letter", 'type_ssi:trunk'], :sort =>'position_isi asc', :rows => max_rows)
   end
 
   def self.get_completed_letters(lb_id)
