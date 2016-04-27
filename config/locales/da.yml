@@ -517,4 +517,6 @@ da:
   letters:
     letter_form:
        new_person: "Opret ny person"
-
+       add_sender: "Gem afsender"
+       done: "Ferdig"
+       save_letter: "Gem metadata"

@@ -30,7 +30,7 @@
 
       <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".sender-fields:last">
         <span class="glyphicon glyphicon-plus"></span>
-        Tilføj Afsender
+	<%= t('.add_sender') %>
       </a>
       <button class="btn btn-sm btn-primary" data-function="open-new-auth-modal" data-model="people">
         <span class="glyphicon glyphicon-plus"></span>
@@ -119,7 +119,7 @@
 
       <input name="letter[date][edtf]"  value="<%= @letter.date.try(:[],"edtf") %>" >
     </fieldset>
-    <input type="checkbox" name="letter[status]" value="completed" <%= status == "completed" ? 'checked':'' %> >Done</input>
+    <input type="checkbox" name="letter[status]" value="completed" <%= status == "completed" ? 'checked':'' %> ><%= t('.done') %></input>
     <%= form.submit %>
 <% end %>
 <%= render partial: 'shared/new_auth_modal', locals: {label: 'new_auth_modal'} %>
