@@ -512,3 +512,9 @@ da:
     publisher: "Forlag"
     notes: "Bemærkninger"
     edition: "Udgave"
+    new_person: "Opret ny person"
+
+  letters:
+    letter_form:
+       new_person: "Opret ny person"
+
