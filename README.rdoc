@@ -2,6 +2,7 @@
 == VALHAL. Digital Curation Platform
 === Part of Chronos - The Royal Librarys 'Digital Library Platform'
 
+
 === GIT checkout of repository
 
 git clone https://gitusername@github.com/Det-Kongelige-Bibliotek/valhal.git
