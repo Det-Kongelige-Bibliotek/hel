@@ -168,7 +168,9 @@ class EmailIngestJob
 
     if parent_work.present?
       work.is_part_of = parent_work
-      parent_work.parts += [work]
+      # Commented out because the rsolr client in ActiveFedora returns a error
+      # if the number of parts are to "large" how large is machine depended
+      #parent_work.parts += [work]
 
       fail "Work could not be saved #{work.errors.messages}" unless parent_work.save
     end
@@ -286,7 +288,7 @@ class EmailIngestJob
 
     instance.set_work = work
 
-    # Instance note == email body in plain textthe RFC-282 Internet Message Format
+    # Instance note == email body in plain text the RFC-282 Internet Message Format
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
     if @redis.hexists(pathname_without_suffix, "body")
