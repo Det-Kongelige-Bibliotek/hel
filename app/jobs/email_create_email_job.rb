@@ -21,8 +21,7 @@ class EmailCreateEmailJob
     @pathname_without_suffix =  email_path.to_s.chomp(File.extname(email_path.to_s))
 
     # Given that the email has attachments Valhal objects are created for these
-    if redis.exists(@pathname_without_suffix) &&
-        redis.hexists(@pathname_without_suffix, "attachments")
+    if redis.hexists(@pathname_without_suffix, "attachments")
       corresponding_email_dir_path = File.dirname(email_path)
 
       if Rails.env == 'test'

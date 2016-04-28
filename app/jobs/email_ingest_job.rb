@@ -150,8 +150,7 @@ class EmailIngestJob
     end
 
     # An attachment
-    if File.file?(pathname) &&  !email_work.nil? && @redis.exists(email_work_path_without_suffix) &
-        @redis.hexists(email_work_path_without_suffix, "attachments")
+    if File.file?(pathname) &&  !email_work.nil? && @redis.hexists(email_work_path_without_suffix, "attachments")
       work = create_attachment_work(email_work, email_work_path_without_suffix, pathname, work)
     end
 
@@ -169,7 +168,9 @@ class EmailIngestJob
 
     if parent_work.present?
       work.is_part_of = parent_work
-      parent_work.parts += [work]
+      # Commented out because the rsolr client in ActiveFedora returns a error
+      # if the number of parts are to "large" how large is machine depended
+      #parent_work.parts += [work]
 
       fail "Work could not be saved #{work.errors.messages}" unless parent_work.save
     end
@@ -287,14 +288,12 @@ class EmailIngestJob
 
     instance.set_work = work
 
-    # Instance note == email body in plain text
+    # Instance note == email body in plain text the RFC-282 Internet Message Format
     pathname_without_suffix =  pathname.to_s.chomp(File.extname(pathname.to_s))
 
-    if @redis.exists(pathname_without_suffix)
-      if @redis.hexists(pathname_without_suffix, "body")
-        body = @redis.hget(pathname_without_suffix, "body").to_s
-        instance.note = body
-      end
+    if @redis.hexists(pathname_without_suffix, "body")
+      body = @redis.hget(pathname_without_suffix, "body").to_s
+      instance.note = body
     end
 
     instance.activity = activity.id
@@ -356,7 +355,11 @@ class EmailIngestJob
       name.chop
     end
 
-    email = values[1].split(">")[0]
+    if values[1].present?
+      email = values[1].split(">")[0]
+    else
+      email = ""
+    end
 
     return name, email
   end
