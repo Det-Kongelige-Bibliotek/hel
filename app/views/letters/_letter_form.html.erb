@@ -120,6 +120,6 @@
       <input name="letter[date][edtf]"  value="<%= @letter.date.try(:[],"edtf") %>" >
     </fieldset>
     <input type="checkbox" name="letter[status]" value="completed" <%= status == "completed" ? 'checked':'' %> ><%= t('.done') %></input>
-    <%= form.submit %>
+    <%= form.submit t('.save_letter') %>
 <% end %>
 <%= render partial: 'shared/new_auth_modal', locals: {label: 'new_auth_modal'} %>
