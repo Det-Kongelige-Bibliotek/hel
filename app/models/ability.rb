@@ -8,7 +8,6 @@ class Ability
       can [:create], Work
       can [:create], Authority::Organization
       can [:create], Authority::Person
-
     end
 
     if user_groups.include?('Chronos-Admin')
@@ -22,8 +21,9 @@ class Ability
   end
 
   def custom_permissions
-    can [:destroy], ActiveFedora::Base do |obj|
-      test_edit(obj.id)
+
+    unless (user_groups & ['Chronos-Admin']).present?
+      cannot [:destroy], ActiveFedora::Base
     end
 
     can [:download], ContentFile do |cf|
@@ -43,22 +43,28 @@ class Ability
     end
 
 
-    if (user_groups & ['Chronos-Pligtaflevering','Chronos-Admin']).present?
-      can [:aleph], Work
+    unless (user_groups & ['Chronos-Pligtaflevering','Chronos-Admin']).present?
+      cannot [:aleph], Work
     end
 
-    if (user_groups & ['Chronos-Alle', 'Chronos-Pligtaflevering','Chronos-Admin']).present?
-      can [:email], Work
+    unless (user_groups & ['Chronos-Alle', 'Chronos-Pligtaflevering','Chronos-Admin']).present?
+      cannot [:email], Work
     end
 
-    if (user_groups & ['Chronos-Alle']).present?
-      can [:edit], Authority::Person
-      can [:viaf], Authority::Person
+    unless (user_groups & ['Chronos-Admin','Chronos-Pligtaflevering','Chronos-student' ]).present?
+      cannot [:edit], Authority::Person
+      cannot [:viaf], Authority::Person
+      cannot [:edit], Authority::Organization
+      cannot [:viaf], Authority::Organization
     end
 
-    if (user_groups & ['Chronos-Alle']).present?
-      can [:edit], Authority::Organization
-      can [:viaf], Authority::Organization
+
+    unless (user_groups & ['Chronos-Admin']).present?
+      cannot [:destroy], Authority::Person
+      cannot [:destroy], Authority::Organization
+      cannot [:destroy], LetterBook
+      cannot [:edit], LetterBook
     end
+
   end
 end
