@@ -4,7 +4,7 @@
 <% opts[:op] = 'json' %>
 <% if current_search_session %>
     <div class="search-widgets">
-      <%= link_to "Back to Book", "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
+      <%= link_to t('.back_to_book'), "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
     </div>
 <% end %>
 

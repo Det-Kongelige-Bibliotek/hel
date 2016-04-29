@@ -7,11 +7,11 @@
     <div id='previousNextDocument' class='pagination-search-widgets'>
       <% if @previous_document || @next_document %>
           <div class="page_links">
-            <%= link_to 'Previous', solr_document_path(id: @previous_document) if @previous_document.present? %> |
+            <%= link_to t('.previous'), solr_document_path(id: @previous_document) if @previous_document.present? %> |
 
-            <%= id[-3, id.length].to_i %> af  <%= Finder.get_all_letters(@document["work_id_ssi"]).count if @document['work_id_ssi'].present? %> |
+            <%= @letter_number.to_i %> af  <%= Finder.get_all_letters(@document["work_id_ssi"]).count if @document['work_id_ssi'].present? %> |
 
-            <%= link_to 'Next', solr_document_path(id: @next_document) if @next_document.present?%>
+            <%= link_to t('.next'), solr_document_path(id: @next_document) if @next_document.present?%>
           </div>
       <% end %>
     </div>

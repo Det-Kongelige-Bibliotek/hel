@@ -370,6 +370,11 @@ da:
   relators:
     name: "Navn"
     role: "Rolle"
+    form:
+      new_person: "Opret ny person"
+      add_editor: "Tilføj udgiver"
+      new_organisation: "Opret ny organisation"
+
 
   works:
     add_instance:
@@ -502,6 +507,18 @@ da:
       new_person: "Opret ny person"
       author: "Ophav"
 
+  catalog:
+    previous_next_doc:
+      previous: "Forrige"
+      next: "Næste"
+    show_sidebar_letter:
+       back_to_book: "Tilbage til brevudgivelsen"
+       
+    show_main_content_letter:
+      show_book: "Vis hele brevudgivelsen"
+      facsimile: "Facsimile"
+      text: "Tekst"
+
   letter_books:
     edit:
       header: "Redigerer %{model}"
@@ -512,3 +529,11 @@ da:
     publisher: "Forlag"
     notes: "Bemærkninger"
     edition: "Udgave"
+    new_person: "Opret ny person"
+
+  letters:
+    letter_form:
+       new_person: "Opret ny person"
+       add_sender: "Gem afsender"
+       done: "Ferdig"
+       save_letter: "Gem metadata"

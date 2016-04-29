@@ -8,7 +8,7 @@
 <% opts[:c] = SnippetServer.get_collection(solr_id) %>
 
 <p align="right">
-  <a target="_blank" class="btn btn-primary" href="<%= letter_books_show_letter_and_facsimile_path(:sid => @document.id) %>" >Show Book</a>
+  <a target="_blank" class="btn btn-primary" href="<%= letter_books_show_letter_and_facsimile_path(:sid => @document.id) %>" ><%= t('.show_book') %></a>
 </p>
 
 <div class="container nav-tab-instance-fixContainer">
@@ -17,10 +17,10 @@
       <div class="nav-tab-instance-2">
         <ul class="nav nav-tabs">
           <li  role="presentation">
-            <a data-toggle="tab" href="#text" >Text</a>
+            <a data-toggle="tab" href="#text" ><%= t('.text') %></a>
           </li>
           <li role="presentation">
-            <a data-toggle="tab" href="#facs" >Facsimile</a>
+            <a data-toggle="tab" href="#facs" ><%= t('.facsimile') %></a>
           </li>
         </ul>
       </div>
