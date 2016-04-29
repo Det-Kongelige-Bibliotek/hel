@@ -531,6 +531,10 @@ da:
     edition: "Udgave"
     new_person: "Opret ny person"
 
+  letter_books:
+    form:
+       new_organization: "Tilføj organisation"
+
   letters:
     letter_form:
        new_person: "Opret ny person"
