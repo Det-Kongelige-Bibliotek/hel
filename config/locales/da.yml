@@ -534,6 +534,7 @@ da:
   letters:
     letter_form:
        new_person: "Opret ny person"
-       add_sender: "Gem afsender"
+       add_sender: "Tilføj afsender"
+       add_recipient: "Tilføj modtager"
        done: "Ferdig"
        save_letter: "Gem metadata"
