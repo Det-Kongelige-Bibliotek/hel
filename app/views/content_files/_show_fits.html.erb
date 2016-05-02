@@ -12,7 +12,10 @@
       <div class="modal-body">
         <% if file.fitsMetadata.present? %>
          <pre class="prettyprint">
-           <%= file.fitsMetadata.content.force_encoding("utf-8") %>
+           <%=
+               xml = Nokogiri::XML.parse(file.fitsMetadata.content.force_encoding("utf-8")) { |config| config.strict }
+               xml.to_s
+           %>
          </pre>
         <% end %>
       </div>

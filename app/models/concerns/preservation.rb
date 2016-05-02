@@ -115,7 +115,7 @@ module Concerns
             message = create_preservation_message
             MqHelper.send_message_to_preservation(message.to_json)
           else
-            raise "Initate_Preservation: Failed to update preservation data"
+            raise "Initate_Preservation: Failed to update preservation data:\n #{self.errors}"
           end
         end
       end

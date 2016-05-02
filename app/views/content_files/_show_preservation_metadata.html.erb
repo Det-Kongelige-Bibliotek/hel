@@ -13,7 +13,7 @@
         <% if file.preservationMetadata.present? %>
          <pre class="prettyprint">
            <%=
-               xml = Nokogiri::XML.parse(file.preservationMetadata.content.force_encoding("utf-8"), &:noblanks)
+               xml = Nokogiri::XML.parse(file.preservationMetadata.content.force_encoding("utf-8")) { |config| config.strict }
                xml.to_s
            %>
          </pre>
