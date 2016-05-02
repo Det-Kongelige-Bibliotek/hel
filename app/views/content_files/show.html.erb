@@ -9,6 +9,7 @@
 <%= render partial: 'file_info', locals: { file: @file, instance: @file.instance } %>
 <%= render partial: 'show_fits', locals: { file: @file, instance: @file.instance } %>
 <%= render partial: 'show_tech_metadata', locals: { file: @file, instance: @file.instance } %>
+<%= render partial: 'show_preservation_metadata', locals: { file: @file, instance: @file.instance } %>
 <% unless @file.warc_id.blank? %>
     <% if current_user
          # TODO is it alright just to be logged in?

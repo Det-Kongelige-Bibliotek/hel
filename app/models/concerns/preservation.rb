@@ -103,6 +103,7 @@ module Concerns
       def initiate_preservation
         collection = PRESERVATION_CONFIG['preservation_collection'][self.preservation_collection]
         self.update_preservation_collection
+        self.set_preservation_initiated_time
 
         if collection['yggdrasil'].blank? || collection['yggdrasil'] == 'false'
           self.preservation_state = PRESERVATION_STATE_NOT_LONGTERM.keys.first
@@ -110,15 +111,13 @@ module Concerns
           self.save
         else
           self.preservation_state = PRESERVATION_REQUEST_SEND.keys.first
-          puts "#{self.class.name} change to preservation state: #{self.preservation_state}"
           if self.save
             message = create_preservation_message
             MqHelper.send_message_to_preservation(message.to_json)
           else
-            raise "Initate_Preservation: Failed to update preservation data"
+            raise "Initate_Preservation: Failed to update preservation data:\n #{self.errors}"
           end
         end
-        self.set_preservation_initiated_time
       end
 
       # Initiates the import from preservation, by creating the message and sending it to

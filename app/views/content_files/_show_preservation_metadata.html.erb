@@ -1,19 +1,19 @@
 <!-- Modal -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#fitsModal">View FITS</button>
-<div id="fitsModal" class="modal fade" role="dialog">
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#preservationMdModal">View Preservation Metadata</button>
+<div id="preservationMdModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Fits Characterization output</h4>
+        <h4 class="modal-title">Preservation Metadata</h4>
       </div>
       <div class="modal-body">
-        <% if file.fitsMetadata.present? %>
+        <% if file.preservationMetadata.present? %>
          <pre class="prettyprint">
            <%=
-               xml = Nokogiri::XML.parse(file.fitsMetadata.content.force_encoding("utf-8")) { |config| config.strict }
+               xml = Nokogiri::XML.parse(file.preservationMetadata.content.force_encoding("utf-8")) { |config| config.strict }
                xml.to_s
            %>
          </pre>

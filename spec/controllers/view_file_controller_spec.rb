@@ -77,8 +77,5 @@ describe ViewFileController, type: :controller do
       post :import_from_preservation, :file => @file, 'uuid' => @f.id, 'type' => 'NOT_A_FILE', 'token' => @f.import_token
       response.status.should eq 400
     end
-
-
-
   end
 end
