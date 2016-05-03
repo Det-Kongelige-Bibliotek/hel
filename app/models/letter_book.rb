@@ -5,8 +5,8 @@ class LetterBook < Work
   def self.new_letterbook(work_params,instance_params)
     lb = LetterBook.new(work_params)
     tei_inst = Instance.new(instance_params.merge({:type => 'TEI'}))
-    tiff_inst = Instance.new(instance_params.merge({:type => 'TIFF'}))
-    lb.instances=[tei_inst,tiff_inst]
+ #   tiff_inst = Instance.new(instance_params.merge({:type => 'TIFF'}))
+    lb.instances=[tei_inst]#,tiff_inst]
     lb
   end
 
@@ -62,11 +62,13 @@ class LetterBook < Work
     lb = LetterBook.find(id)
     tiff = lb.get_instance('TIFF')
     tei = lb.get_instance('TEI')
-    tiff.content_files.each do |cf| cf.destroy end
+    if tiff.present?
+      tiff.content_files.each do |cf| cf.destroy end
+    end
     tei.content_files.each do |cf| cf.destroy end
-    tiff.delete_providers
+    tiff.delete_providers if tiff.present?
     tei.delete_providers
-    tiff.destroy
+    tiff.destroy if tiff.present?
     tei.destroy
     lb.relators.each do |rel| rel.destroy end
     lb.titles.each do |t| t.destroy end

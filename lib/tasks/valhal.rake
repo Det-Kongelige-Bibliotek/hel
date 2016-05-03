@@ -50,6 +50,15 @@ namespace :valhal do
     LetterBookIngest.perform(xml_path,img_path)
   end
 
+  desc 'Delete all leter data'
+  task delete_letter_data: :environment do
+    raise "You do not want to delete all production data" if Rails.env == 'production'
+    LetterBook.all.each do |lb|
+      LetterBook.delete_lb(lb.id)
+    end
+
+  end
+
   desc 'Scan incomming forder for new letterbook Tei files'
   task :scan_for_letterbooks, [:incomming_dir,:processed_dir, :img_base_dir] => :environment do |task, args|
     Resque.enqueue(LetterBookScan,args.incomming_dir,args.processed_dir,args.img_base_dir)

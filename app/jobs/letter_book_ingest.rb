@@ -38,11 +38,11 @@ class LetterBookIngest
     lb.save
 
     instance_tei = lb.get_instance("TEI")
-    instance_img = lb.get_instance("TIFF")
+    # instance_img = lb.get_instance("TIFF")
 
     lb.from_mods(mods)
-    instance_tei.from_mods(mods)
-    instance_img.from_mods(mods)
+    # instance_tei.from_mods(mods)
+    # instance_img.from_mods(mods)
 
     # create Valhal objects 
 
@@ -55,15 +55,15 @@ class LetterBookIngest
     instance_tei.preservation_collection = activity.preservation_collection
     instance_tei.status = 'ready'
 
-    instance_img.activity   = activity.id
-    instance_img.collection = activity.collection
-    instance_img.copyright  = activity.copyright
-    instance_img.preservation_collection = activity.preservation_collection
-    instance_tei.status = 'ready'
+    # instance_img.activity   = activity.id
+    # instance_img.collection = activity.collection
+    # instance_img.copyright  = activity.copyright
+    # instance_img.preservation_collection = activity.preservation_collection
+    # instance_img.status = 'ready'
 
     fail "Work could not be saved #{lb.errors.messages}" unless lb.save 
     fail "Instance could not be saved #{instance_tei.errors.messages}" unless instance_tei.save
-    fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
+    # fail "Instance could not be saved #{instance_img.errors.messages}" unless instance_img.save
 
     Resque.logger.info "adding tei file #{xml_pathname.to_s}"
 
@@ -72,7 +72,7 @@ class LetterBookIngest
 
     Resque.logger.info "lb created #{lb.id}"
 
-    ingest_img_files(img_pathname, instance_img)
+    # ingest_img_files(img_pathname, instance_img)
 
     Resque.logger.info "file_id #{lb.get_file_name}"
 
