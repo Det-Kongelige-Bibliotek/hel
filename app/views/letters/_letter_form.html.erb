@@ -5,137 +5,146 @@
     <fieldset>
       <legend>Afsender(e)</legend>
       <% if @letter.sender.present? %>
-        <% @letter.sender.each_with_index do |sender,index| %>
-          <div id="sender-fields_<%= index %>" class="sender-fields">
-          <% if sender["text"].present? %>
-            <label for="<%= "letter_sender_#{index}_auth_id" %>"><%= sender["text"] %></label>
+          <% @letter.sender.each_with_index do |sender, index| %>
+              <div>
+                  <% if sender["text"].present? %>
+                      <label for="<%= "letter_sender_#{index}_auth_id" %>"><%= sender["text"] %></label>
+                  <% end %>
+                  <div id="sender-fields_<%= index %>" class="sender-fields">
+                    <div style="position:relative;padding:3px">
+                      <input name="letter[sender][<%= index %>][xml_id]" type="hidden" value="<%= sender["xml_id"] %>">
+                      <input id="letter_sender_<%= index %>_destroy" name="letter[sender][<%= index %>][_destroy]" type="hidden" value="0">
+                      <input style="width:90%;" id="<%= "letter_sender_#{index}_auth_id" %>" name="<%= "letter[sender][#{index}][auth_id]" %>" value="<%= sender["auth_id"] %>" data-function="authority-typeahead" data-model="Person">
+                      <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#sender-fields_<%= index %>" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_#{index}_auth_id\" " %>]').size()<1">
+                        <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
+                      </a>
+                    </div>
+                  </div>
+              </div>
           <% end %>
-            <div style="position:relative">
-	      <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#sender-fields_<%= index %>" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_#{index}_auth_id\" "%>]').size()<1">
-              <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
-            </a>
-	    <input name="letter[sender][<%= index %>][xml_id]" type="hidden" value="<%= sender["xml_id"] %>" >
-            <input id="letter_sender_<%= index %>_destroy" name="letter[sender][<%= index %>][_destroy]" type="hidden" value="0" >
-            <input style="width:100%;margin-right:-32px;" id="<%= "letter_sender_#{index}_auth_id" %>" name="<%= "letter[sender][#{index}][auth_id]" %>" value="<%= sender["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
-            <!--a class="" href="#" data-function="delete-fields" data-target="#sender-fields_<%= index %>" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_#{index}_auth_id\" "%>]').size()<1">
-              <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
-            </a-->
-	    </div>
-        <% end %>
-        </div>
       <% else %>
           <div id="letter_sender-fields_0" class="sender-fields">
-
-	    <div style="position:relative">
-
-            <a style="float:right;"  class="" href="#" data-function="delete-fields" data-target="#sender-fields_0" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_0_auth_id\" "%>]').size()<1">
-              <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
-            </a>
-            <input style="width:100%;margin-right:-32px;" id=letter_sender_0_auth_id" name="<%= "letter[sender][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
-            <input id="letter_sender_0_destroy" name="letter[sender][0][_destroy]" type="hidden" value="0" >
-
+            <div style="position:relative;padding:3px">
+              <input style="width:90%;" id=letter_sender_0_auth_id" name="<%= "letter[sender][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person">
+              <input id="letter_sender_0_destroy" name="letter[sender][0][_destroy]" type="hidden" value="0">
+              <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#sender-fields_0" data-condition="$('.sender-fields').size()>1 && $('label[for=<%= "\"letter_sender_0_auth_id\" " %>]').size()<1">
+                <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
+              </a>
+            </div>
           </div>
       <% end %>
-
-      <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".sender-fields:last">
-        <span class="glyphicon glyphicon-plus"></span>
-	<%= t('.add_sender') %>
-      </a>
-      <button class="btn btn-sm btn-primary" data-function="open-new-auth-modal" data-model="people">
-        <span class="glyphicon glyphicon-plus"></span>
-        <%= t('.new_person') %>
-      </button>
+      <div style="padding:5px">
+          <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".sender-fields:last">
+            <span class="glyphicon glyphicon-plus"></span>
+            <%= t('.add_sender') %>
+          </a>
+          <button class="btn btn-sm btn-primary" data-function="open-new-auth-modal" data-model="people">
+            <span class="glyphicon glyphicon-plus"></span>
+            <%= t('.new_person') %>
+          </button>
+      </div>
     </fieldset>
 
     <fieldset>
       <legend>Modtager(e)</legend>
       <% if @letter.recipient.present? %>
-          <% @letter.recipient.each_with_index do |rcp,index| %>
-              <div id="recipient-fields_<%= index %>" class="recipient-fields">
-              <% if rcp["text"].present? %>
-                <label for="<%= "letter_recipient_#{index}_auth_id" %>"><%= rcp["text"] %></label>
-              <% end %>
-	      <div style="position:relative">
-		 <a  style="float:right;" class="" href="#" data-function="delete-fields" data-target="#recipient-fields_<%= index %>" data-condition="$('.recipient-fields').size()>1 && $('label[for=<%= "\"letter_recipient_#{index}_auth_id\" "%>]').size()<1">
+          <% @letter.recipient.each_with_index do |rcp, index| %>
+             <div>
+                <% if rcp["text"].present? %>
+                    <label for="<%= "letter_recipient_#{index}_auth_id" %>"><%= rcp["text"] %></label>
+                <% end %>
+               <div id="recipient-fields_<%= index %>" class="recipient-fields">
+               <div style="position:relative;padding:3px">
+                  <input name="letter[recipient][<%= index %>][xml_id]" type="hidden" value="<%= rcp["xml_id"] %>">
+                  <input id="letter_recipient_<%= index %>_destroy" name="letter[recipient][<%= index %>][_destroy]" type="hidden" value="0">
+                  <input style="width:90%;" id="<%= "letter_recipient_#{index}_auth_id" %>" name="<%= "letter[recipient][#{index}][auth_id]" %>" value="<%= rcp["auth_id"] %>" data-function="authority-typeahead" data-model="Person">
+                 <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#recipient-fields_<%= index %>" data-condition="$('.recipient-fields').size()>1 && $('label[for=<%= "\"letter_recipient_#{index}_auth_id\" " %>]').size()<1">
                    <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
                  </a>
-                  <input name="letter[recipient][<%= index %>][xml_id]" type="hidden" value="<%= rcp["xml_id"] %>" >
-                  <input id="letter_recipient_<%= index %>_destroy" name="letter[recipient][<%= index %>][_destroy]" type="hidden" value="0" >
-                  <input style="width:100%;margin-right:-32px;"  id="<%= "letter_recipient_#{index}_auth_id" %>" name="<%= "letter[recipient][#{index}][auth_id]" %>" value="<%= rcp["auth_id"] %>" data-function="authority-typeahead" data-model="Person" >
                 </div>
-          <% end %>
-          </div>
+              </div>
+             </div>
+        <% end %>
       <% else %>
-          <div id = "recipient-fields_0" class="recipient-fields">
-	    <div style="position:relative">
-	      <a  style="float:right;"  class="" href="#" data-function="delete-fields" data-target="#recipient-fields_0" data-condition="$('.recipient-fields').size()>1 && $('label[for=<%= "\"letter_recipient_0_auth_id\" "%>]').size()<1">
-		<span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
+          <div id="recipient-fields_0" class="recipient-fields">
+            <div style="position:relative;padding:3px">
+              <input style="width:90%;" id="letter_recipient_0_auth_id" name="<%= "letter[recipient][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person">
+              <input id="letter_recipient_0_destroy" name="letter[recipient][0][_destroy]" type="hidden" value="0">
+              <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#recipient-fields_0" data-condition="$('.recipient-fields').size()>1 && $('label[for=<%= "\"letter_recipient_0_auth_id\" " %>]').size()<1">
+                <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
               </a>
 
-              <input style="width:100%;margin-right:-32px;"   id="letter_recipient_0_auth_id" name="<%= "letter[recipient][0][auth_id]" %>" value="" data-function="authority-typeahead" data-model="Person" >
-              <input id="letter_recipient_0_destroy" name="letter[recipient][0][_destroy]" type="hidden" value="0" >
             </div>
           </div>
       <% end %>
+      <div style="padding:5px">
       <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".recipient-fields:last">
         <span class="glyphicon glyphicon-plus"></span>
-	<%= t('.add_recipient') %>
+        <%= t('.add_recipient') %>
       </a>
       <button class="btn btn-sm btn-primary" data-function="open-new-auth-modal" data-model="people">
         <span class="glyphicon glyphicon-plus"></span>
         <%= t('.new_person') %>
       </button>
+      </div>
     </fieldset>
-        <fieldset>
-          <legend>Sted(er)</legend>
-          <% if @letter.place.present? %>
-              <% @letter.place.each_with_index do |place,index| %>
-	      <div id="places-fields_<%= index %>" class="places-fields form-group">
+    <fieldset>
+      <legend>Sted(er)</legend>
+      <% if @letter.place.present? %>
+          <% @letter.place.each_with_index do |place, index| %>
+              <div>
                 <% if place["text"].present? %>
-                <label for="<%= "place_#{index}_name" %>"><%= place["text"] %></label>
-                <% end  %>
-		<div style="position:relative">
-                  <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#places-fields_<%= index %>" data-condition="$('.places-fields').size()>1 && $('label[for=<%= "\"place_#{index}_name\" "%>]').size()<1">
+                    <label for="<%= "place_#{index}_name" %>"><%= place["text"] %></label>
+                <% end %>
+                <div id="places-fields_<%= index %>" class="places-fields form-group">
+                <div style="position:relative;padding:3px">
+                  <input name="letter[place][<%= index %>][xml_id]" type="hidden" value="<%= place["xml_id"] %>">
+                  <input id="letter_place_<%= index %>_destroy" name="letter[place][<%= index %>][_destroy]" type="hidden" value="0">
+                  <input style="width:90%;" id="<%= "place_#{index}_name" %>" name="<%= "letter[place][#{index}][name]" %>" value="<%= place["name"] %>">
+                  <a style="float:right;" class="" href="#" data-function="delete-fields" data-target="#places-fields_<%= index %>" data-condition="$('.places-fields').size()>1 && $('label[for=<%= "\"place_#{index}_name\" " %>]').size()<1">
                     <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
                   </a>
-                  <input name="letter[place][<%= index %>][xml_id]" type="hidden" value="<%= place["xml_id"] %>" >
-                  <input id="letter_place_<%= index %>_destroy" name="letter[place][<%= index %>][_destroy]" type="hidden" value="0" >
-                  <input style="width:100%;margin-right:-32px;"   id="<%= "place_#{index}_name" %>" name="<%= "letter[place][#{index}][name]" %>" value="<%= place["name"] %>">
-                  <select style="width:100%;margin-right:-32px;"   name="letter[place][<%= index %>][type]">
-                    <option value="sender" <%= place["type"] == "sender" ? 'selected="selected"': '' %> >Afsendelsessted</option>
-                    <option value="recipient" <%= place["type"] == "recipient" ? 'selected="selected"': '' %> >Modtagelsessted</option>
-                    <option value="other" <%= place["type"] == "other" || !place["type"].present? ? 'selected="selected"': '' %>>Andet</option>                  </select>
-		</div>
-              <% end %>
-             </div>
-          <% else %>
-              <div id="places-fields_0" class="places-fields form-group">
-                <input id="letter_place_0_destroy" name="letter[place][0][_destroy]" type="hidden" value="0" >
-                <input id=place_0_name" name="<%= "letter[place][0][name]" %>"  %>
-                <a class="" href="#" data-function="delete-fields" data-target="#places-fields_0" data-condition="$('.places-fields').size()>1 && $('label[for=<%= "\"place_0_name\" "%>]').size()<1">
-                  <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
-                </a>
-                <select name="letter[place][0][type]">
-                  <option value="sender" selected="selected" >Afsendelsessted</option>
-                  <option value="recipient" >Modtagelsessted</option>
-                  <option value="other" >Andet</option>
-                </select>
+                  <select style="width:90%;" name="letter[place][<%= index %>][type]">
+                    <option value="sender" <%= place["type"] == "sender" || !place["type"].present? ? 'selected="selected"' : '' %> >Afsendelsessted</option>
+                    <option value="recipient" <%= place["type"] == "recipient" ? 'selected="selected"' : '' %> >Modtagelsessted</option>
+                    <option value="other" <%= place["type"] == "other"  ? 'selected="selected"' : '' %>>Andet</option>
+                  </select>
+                </div>
+              </div>
               </div>
           <% end %>
-          <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".places-fields:last">
-            <span class="glyphicon glyphicon-plus"></span>
-            Tilføj Sted
-          </a>
-        </fieldset>
+      <% else %>
+          <div id="places-fields_0" class="places-fields form-group">
+            <input id="letter_place_0_destroy" name="letter[place][0][_destroy]" type="hidden" value="0">
+            <input style="width:90%;" id=place_0_name" name="<%= "letter[place][0][name]" %>" %>
+            <a class="" href="#" data-function="delete-fields" data-target="#places-fields_0" data-condition="$('.places-fields').size()>1 && $('label[for=<%= "\"place_0_name\" " %>]').size()<1">
+              <span class="glyphicon glyphicon-remove" style="color: #d9534f;"></span>
+            </a>
+            <select style="width:90%;" name="letter[place][0][type]">
+              <option value="sender" selected="selected">Afsendelsessted</option>
+              <option value="recipient">Modtagelsessted</option>
+              <option value="other">Andet</option>
+            </select>
+          </div>
+      <% end %>
+      <a class="btn btn-sm btn-success" href="#" data-function="clone-fields" data-selector=".places-fields:last">
+        <span class="glyphicon glyphicon-plus"></span>
+        Tilføj Sted
+      </a>
+    </fieldset>
 
     <fieldset>
       <legend>Dato</legend>
-      <label><%=@letter.date.present? ? @letter.date["text"] : ''%></label>
-      <%= form.hidden_field "[date][xml_id]", value: @letter.date.try(:[],"xml_id") %>
+      <label><%= @letter.date.present? ? @letter.date["text"] : '' %></label>
+      <%= form.hidden_field "[date][xml_id]", value: @letter.date.try(:[], "xml_id") %>
 
-      <input name="letter[date][edtf]"  value="<%= @letter.date.try(:[],"edtf") %>" >
+      <input name="letter[date][edtf]" value="<%= @letter.date.try(:[], "edtf") %>">
     </fieldset>
-    <input type="checkbox" name="letter[status]" value="completed" <%= status == "completed" ? 'checked':'' %> ><%= t('.done') %></input>
-    <%= form.submit t('.save_letter') %>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="letter[status]" value="completed" <%= status == "completed" ? 'checked' : '' %> > <%= t('.done') %>
+      </label>
+    </div>
+    <%= form.submit t('.save_letter'), class: "btn btn-sm btn-success" %>
 <% end %>
 <%= render partial: 'shared/new_auth_modal', locals: {label: 'new_auth_modal'} %>
