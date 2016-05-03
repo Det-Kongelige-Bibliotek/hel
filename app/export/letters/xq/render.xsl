@@ -150,7 +150,6 @@
       </script>
 
       <xsl:element name="a">
-	<xsl:attribute name="href">#<xsl:value-of select="@xml:id"/></xsl:attribute>
 	<xsl:attribute name="onclick"><xsl:value-of select="$note"/>();</xsl:attribute>
 	<xsl:choose>
 	  <xsl:when test="@n"><xsl:value-of select="@n"/></xsl:when>
