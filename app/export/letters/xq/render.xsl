@@ -130,12 +130,47 @@
     </p>
   </xsl:template>
 
+  <xsl:template match="t:p/t:note">
+    <xsl:variable name="note">
+      <xsl:value-of select="concat('note',@xml:id)"/>
+    </xsl:variable>
+    <xsl:element name="sup">
+      <script>
+	var <xsl:value-of select="concat('disp',@xml:id)"/>="none";
+	function <xsl:value-of select="$note"/>() {
+	var ele = document.getElementById("<xsl:value-of select="@xml:id"/>");
+	if(<xsl:value-of select="concat('disp',@xml:id)"/>=="none") {
+	ele.style.display="inline";
+	<xsl:value-of select="concat('disp',@xml:id)"/>="inline";
+	} else {
+	ele.style.display="none";
+	<xsl:value-of select="concat('disp',@xml:id)"/>="none";
+	}
+	}
+      </script>
+
+      <xsl:element name="a">
+	<xsl:attribute name="href">#<xsl:value-of select="@xml:id"/></xsl:attribute>
+	<xsl:attribute name="onclick"><xsl:value-of select="$note"/>();</xsl:attribute>
+	<xsl:choose>
+	  <xsl:when test="@n"><xsl:value-of select="@n"/></xsl:when>
+	  <xsl:otherwise>*</xsl:otherwise>
+	</xsl:choose>
+      </xsl:element>
+    </xsl:element>
+    <span style="background-color:yellow;display:none;">
+      <xsl:call-template name="add_id"/>
+      <xsl:apply-templates/>
+    </span>
+  </xsl:template>
+
   <xsl:template match="t:note">
     <div class="note">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
+
 
   <xsl:template match="t:eg">
     <p class="eg">
