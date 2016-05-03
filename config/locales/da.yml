@@ -534,11 +534,13 @@ da:
   letter_books:
     form:
        new_organization: "Tilføj organisation"
+    edit:
+       save: "Gem metadata"
 
   letters:
     letter_form:
        new_person: "Opret ny person"
        add_sender: "Tilføj afsender"
        add_recipient: "Tilføj modtager"
-       done: "Ferdig"
+       done: "Færdig"
        save_letter: "Gem metadata"
