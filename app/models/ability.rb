@@ -66,5 +66,8 @@ class Ability
       cannot [:edit], LetterBook
     end
 
+    can [:viaf], Authority::Person
+    can [:viaf], Authority::Organization
+
   end
 end
