@@ -24,14 +24,14 @@ class LetterBooksController < ApplicationController
 
   def begin_work
     @letter_book.get_instance('TEI').status='working'
-    @letter_book.get_instance('TIFF').status='working'
+  #  @letter_book.get_instance('TIFF').status='working'
     @letter_book.save
     redirect_to solr_document_path(@letter_book)
   end
 
   def complete_work
     @letter_book.get_instance('TEI').status='completed'
-    @letter_book.get_instance('TIFF').status='completed'
+  #  @letter_book.get_instance('TIFF').status='completed'
     @letter_book.save
     redirect_to solr_document_path(@letter_book)
   end
