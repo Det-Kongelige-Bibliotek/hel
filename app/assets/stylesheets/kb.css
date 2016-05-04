@@ -170,3 +170,11 @@
 #content .container{
     width: 100%;
 }
+
+#sidebar fieldset {
+    margin-bottom: 20px;
+}
+
+#sidebar fieldset legend {
+    margin-bottom: 5px;
+}

@@ -24,10 +24,10 @@
 <%if current_user && current_user.admin? %>
     <%= render partial: 'letter_books/form', locals: { id: @document.id } %>
     <% if @document["status_ssi"] == 'ready' %>
-        <br>
+        <br><br>
         <%= link_to "Sæt igang", begin_work_letter_book_url(@document.id), class: 'btn btn-info' %>
     <% end %>
-    <br>
+    <br><br>
     <%= link_to "Mark as completed", complete_work_letter_book_url(@document.id), class: 'btn btn-success', disabled: !(percent_of_completed_letters(@document.id) == 100) %>
 <%else %>
     <%= render partial: 'letter_books/show', locals: { id: @document.id } %>
