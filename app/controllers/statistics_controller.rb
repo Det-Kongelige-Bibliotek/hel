@@ -180,6 +180,16 @@ class StatisticsController < ApplicationController
     res = ""
     # Show search terms in hash values as comma separated, and only if they contain values.
     SOLR_FL_ALL.each do |p|
+      if p == "activity_tesim"
+        if params[p].blank?
+          res += "#{p}\n"
+        else
+          a = Administration::Activity.find(params[p])
+          res += "#{p};#{a.activity};#{a.id}\n"
+        end
+        next
+      end
+
       if params[p].is_a?(Hash)
         res += "#{p};#{params[p].values.join(';') unless params[p].values.join.blank?}\n"
       else
