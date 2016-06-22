@@ -62,7 +62,9 @@
               select="/t:TEI/t:teiHeader/t:fileDesc/t:sourceDesc/t:listBibl/t:bibl[@xml:id=$bibl]"/>
 	</xsl:when>
 	<xsl:when test="t:head">
-	  <xsl:value-of select="t:head"/>
+	  <!-- xsl:value-of select="t:head"/ -->
+	  <xsl:apply-templates mode="gettext" 
+			       select="./text()|descendant::node()/text()"/>
 	</xsl:when>
 	<xsl:otherwise>
 	</xsl:otherwise>

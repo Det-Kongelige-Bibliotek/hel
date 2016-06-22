@@ -130,7 +130,9 @@
     </p>
   </xsl:template>
 
-  <xsl:template match="t:p/t:note">
+  <!-- xsl:template match="t:p/t:note" -->
+
+  <xsl:template match="t:note">
     <xsl:variable name="note">
       <xsl:value-of select="concat('note',@xml:id)"/>
     </xsl:variable>
@@ -163,12 +165,12 @@
     </span>
   </xsl:template>
 
-  <xsl:template match="t:note">
+  <!-- xsl:template match="t:note">
     <div class="note">
       <xsl:call-template name="add_id"/>
       <xsl:apply-templates/>
     </div>
-  </xsl:template>
+  </xsl:template-->
 
 
   <xsl:template match="t:eg">
