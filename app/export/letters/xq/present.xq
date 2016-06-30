@@ -78,7 +78,7 @@ let $params :=
   <param name="prefix"   value="{$prefix}"/>
 </parameters>
 
-for $doc in $list
+for $doc in $list[1]
   let $res := transform:transform($doc,$op,$params)
   return  
     if($o='json') then

@@ -94,6 +94,26 @@ declare function local:enter-date(
     
 };
 
+declare function local:enter-status(
+  $frag as xs:string,
+  $doc  as node(),
+  $json as node()) as node()*
+{
+  let $letter       := $doc//node()[@xml:id=$frag]
+  let $bibl         := $doc//t:bibl[@xml:id = $letter/@decls]
+  let $status_val   := $json//pair[@name="status"]/text()
+
+  let $stat :=
+    if($bibl) then
+      let $s            := update insert attribute status {$status_val} into $bibl
+      return $s
+    else
+      ""
+
+  return ()
+    
+};
+
 declare function local:enter-person-data(
   $frag as xs:string,
   $role as xs:string,
@@ -224,7 +244,7 @@ let $f := local:enter-location-data($frag,"sender",   $doc,$data)
 let $g := local:enter-location-data($frag,"recipient",$doc,$data)
 let $g := local:enter-location-data($frag,"other",$doc,$data)
 let $dins := local:enter-date($frag,$doc,$data)
-
+let $status := local:enter-status($frag,$doc,$data)
 
 let $res := transform:transform($doc,$op,$params)
 return  
