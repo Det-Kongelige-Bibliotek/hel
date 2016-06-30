@@ -1,0 +1,4 @@
+<% # bookmark/folder functions -%>
+<% if (@document['has_model_ssim'].include? 'Letter').present? %>
+    <h1> <%= letter_title(@document) %> </h1>
+<% end %>

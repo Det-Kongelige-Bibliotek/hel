@@ -1,0 +1,18 @@
+<!--TODO: uncomment the if statement when we can ingest/search letterbooks-->
+<%# if current_search_session %>
+<div class="search-widgets">
+  <%= link_back_to_catalog class: 'btn' %>
+</div>
+<%# end %>
+
+<%= render :partial => 'show_tools' %>
+
+<% unless @document.more_like_this.empty? %>
+  <div class="panel panel-default">
+    <div class="panel-heading">More Like This</div>
+    <div class="panel-body">
+      <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+    </div>
+  </div>
+<% end %>
+

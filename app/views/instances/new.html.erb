@@ -1,5 +1,5 @@
-<% @page_title="Ny instans af: " + @work.titles.first.value  %>
+<% @page_title = "#{t('.title')} #{@work.display_value}" %>
 <%= render partial: 'works/show' %>
 <%= render 'form' %>
 
-<%= link_to 'Back', instances_path %>
+<%= link_to t(:back), instances_path %>

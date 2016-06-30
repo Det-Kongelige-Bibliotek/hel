@@ -1,0 +1,22 @@
+<% @page_title = @mixed_material.display_value %>
+<% @instance ||= @mixed_material.instances.first %>
+<div class="work previewMode">
+  <div class="container">
+
+    <div class="page-header">
+      <div class="btn-group pull-right">
+
+        <%= link_to t(:edit), edit_mixed_material_path(@mixed_material), class: 'btn btn-primary' %>
+      </div>
+          <h1>
+            <%= @mixed_material.display_value %><br>
+          </h1>
+      <h4><%= t('works.show.author') %></h4>
+      <%= render partial: 'relators/show', locals: { object: @mixed_material } %>
+      <h4><%= t('works.show.origin_date') %></h4>
+      <%= @mixed_material.origin_date %>
+      <%= render partial: 'instances/show_administrative' %>
+      <%= render partial: 'instances/show_files' %>
+    </div>
+  </div>
+</div>

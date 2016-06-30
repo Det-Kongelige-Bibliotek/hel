@@ -1,5 +1,6 @@
 module Administration
   class ActivitiesController < ApplicationController
+    include Concerns::RemoveBlanks
     before_action :set_activity, only: [:show, :edit, :update, :destroy]
     authorize_resource
 
@@ -20,8 +21,7 @@ module Administration
     def create
       @activity = Administration::Activity.new(activity_params)
       if @activity.save
-        redirect_to administration_activity_path(@activity), 
-        notice: 'Activity created successfully'
+        redirect_to administration_activity_path(@activity), notice: t('administration.activities.flashmessage.created')
       else
         render action: :new
       end
@@ -29,7 +29,7 @@ module Administration
 
     def update
       if @activity.update(activity_params)
-        redirect_to @activity, notice: 'Activity was successfully updated.'
+        redirect_to @activity, notice: t('administration.activities.flashmessage.updated')
       else
         render action: 'edit'
       end
@@ -37,13 +37,12 @@ module Administration
 
     def destroy
       @activity.destroy
-      redirect_to administration_activities_url, 
-                  notice: 'Activity was successfully destroyed!'
+      redirect_to administration_activities_url, notice: t('administration.activities.flashmessage.destroyed')
     end
 
     private
     def set_activity
-      @activity = Administration::Activity.find(params[:id])
+      @activity = Administration::Activity.find(URI.unescape(params[:id]))
     end
 
     def activity_params
@@ -53,10 +52,14 @@ module Administration
                                                        :collection, 
                                                        :embargo,
                                                        :embargo_condition,
-                                                       :preservation_profile,
+                                                       :preservation_collection,
                                                        :copyright,
-                                                       permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
-      )
+                                                       :ophavsret,
+                                                       :edit_in_GUI,
+                                                       dissemination_profiles: [],
+                                                       collection:[],
+                                                       activity_permissions:[:instance=>[:group=>[:discover=>[],:read=>[],:edit=>[]]] ,:file=>[:group=>[:discover=>[],:read=>[],:edit=>[]]]]
+      ).tap { |elems| remove_blanks(elems) }
     end
   end
 end

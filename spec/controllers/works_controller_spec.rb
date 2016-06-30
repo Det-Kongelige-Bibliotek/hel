@@ -20,6 +20,7 @@ require 'spec_helper'
 
 # We'll put our functioning tests here for now
 describe WorksController, type: :controller do
+  include_context 'shared'
   # This should return the minimal set of attributes required to create a valid
   # Work. As you add validations to Work, be sure to
   # adjust the attributes here as well.
@@ -27,14 +28,22 @@ describe WorksController, type: :controller do
     agent = Authority::Person.create(
         'authorized_personal_name' => { 'given'=> 'Fornavn', 'family' => 'Efternavn', 'scheme' => 'KB', 'date' => '1932/2009' }
     )
-    $valid_attributes = {titles: {'0' => {'value'=> 'A work title'} }, creators: {'0'=>{'id'=> agent.id, 'type'=>'aut'} } }
+    $valid_attributes = {"titles_attributes"=>{"0"=>{"value"=>"test titel"}},
+                        "relators_attributes"=>{"0"=>{"agent_id"=>agent.id, "_destroy"=>"",
+                                                      "role"=>"http://id.loc.gov/vocabulary/relators/aut"}},
+                        "origin_date"=>"unknown/unknown"
+    }
   end
 
   let(:other_valid_attributes) do
     agent2 = Authority::Person.create(
         authorized_personal_name: { given: 'Fornavn2', family: 'Efternavn2', scheme: 'KB' }
     )
-    $valid_attributes = {titles: {'0' => {'value'=> 'Another work title'} }, creators: {'0'=>{'id'=> agent2.id, 'type'=>'aut'}, '1'=>{'id'=> agent2.id, 'type'=>'aut'}  } }
+    $valid_attributes = {"titles_attributes"=>{"0"=>{"value"=>"test titel 2"}},
+                         "relators_attributes"=>{"0"=>{"agent_id"=>agent2.id, "_destroy"=>"",
+                                                       "role"=>"http://id.loc.gov/vocabulary/relators/aut"}},
+                         "origin_date"=>"1920/1980"
+    }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -42,16 +51,18 @@ describe WorksController, type: :controller do
   # InstancesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-
   before :each  do
-    Work.delete_all
-    Authority::Base.delete_all
+  #   Work.delete_all
+  #   Authority::Base.delete_all
+    User.delete_all
     login_admin
   end
 
   describe '#show' do
     it 'should return rdf when requested' do
-      work = Work.create! valid_attributes
+      pending "rdf is not delivered for now"
+      work = Work.create(work_params)
+      work.add_author(person)
       get :show, { id: work.id, format: :rdf }
       expect(assigns(:work)).to eq(work)
     end
@@ -59,17 +70,19 @@ describe WorksController, type: :controller do
 
   describe 'GET index' do
     it 'assigns all works as @works' do
-      work = Work.create! valid_attributes
+      work = Work.create(work_params)
+      work.add_author(person)
       get :index, {}, valid_session
-      assigns(:works).should eq([work])
+      assigns(:works).should include(work)
     end
   end
 
   describe 'GET show' do
     it 'assigns the requested work as @work' do
-      work = Work.create! valid_attributes
+      work = Work.create(work_params)
+      work.add_author(person)
       get :show, { id: work.to_param }, valid_session
-      assigns(:work).should eq(work)
+      expect(assigns(:work)).to eq(work)
     end
   end
 
@@ -82,7 +95,8 @@ describe WorksController, type: :controller do
 
   describe 'GET edit' do
     it 'assigns the requested work as @work' do
-      work = Work.create! valid_attributes
+      work = Work.create(work_params)
+      work.add_author(person)
       get :edit, { id: work.to_param }, valid_session
       assigns(:work).should eq(work)
     end
@@ -90,15 +104,14 @@ describe WorksController, type: :controller do
 
   describe 'POST create' do
     describe 'with valid params' do
-      xit 'creates a new Work' do
-        pending 'Find out why 2 works are created when there are no Works in Fedora'
+      it 'creates a new Work' do
         expect {
           post :create, { work: valid_attributes }, valid_session
         }.to change(Work, :count).by(1)
       end
 
       it 'assigns a newly created work as @work' do
-        post :create, { work: valid_attributes }, valid_session
+        post :create, { work: valid_attributes}, valid_session
         assigns(:work).should be_a(Work)
         assigns(:work).should be_persisted
       end
@@ -124,7 +137,8 @@ describe WorksController, type: :controller do
   describe 'PUT update' do
     describe 'with valid params' do
       it 'updates the requested work' do
-        work = Work.create! valid_attributes
+        work = Work.create(valid_attributes)
+        work.add_author(person)
         # Assuming there are no other works in the database, this
         # specifies that the Work created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -134,13 +148,15 @@ describe WorksController, type: :controller do
       end
 
       it 'assigns the requested work as @work' do
-        work = Work.create! valid_attributes
+        work = Work.create(valid_attributes)
+        work.add_author(person)
         put :update, { id: work.to_param, work: valid_attributes }, valid_session
         assigns(:work).should eq(work)
       end
 
       it 'redirects to the work' do
-        work = Work.create! valid_attributes
+        work = Work.create(valid_attributes)
+        work.add_author(person)
         put :update, { id: work.to_param, work: valid_attributes }, valid_session
         response.should redirect_to(work)
       end
@@ -148,7 +164,8 @@ describe WorksController, type: :controller do
 
     describe 'with invalid params' do
       it 'assigns the work as @work' do
-        work = Work.create! valid_attributes
+        work = Work.create(valid_attributes)
+        work.add_author(person)
         # Trigger the behavior that occurs when invalid params are submitted
         Work.any_instance.stub(:save).and_return(false)
         put :update, { id: work.to_param, work: {} }, valid_session
@@ -156,7 +173,8 @@ describe WorksController, type: :controller do
       end
 
       it 're-renders the edit template' do
-        work = Work.create! valid_attributes
+        work = Work.create(valid_attributes)
+        work.add_author(person)
         # Trigger the behavior that occurs when invalid params are submitted
         Work.any_instance.stub(:save).and_return(false)
         put :update, { id: work.to_param, work: {} }, valid_session
@@ -167,14 +185,16 @@ describe WorksController, type: :controller do
 
   describe 'DELETE destroy' do
     it 'destroys the requested work' do
-      work = Work.create! valid_attributes
+      work = Work.create(valid_attributes)
+      work.add_author(person)
       expect {
         delete :destroy, { id: work.to_param }, valid_session
       }.to change(Work, :count).by(-1)
     end
 
     it 'redirects to the works list' do
-      work = Work.create! valid_attributes
+      work = Work.create(valid_attributes)
+      work.add_author(person)
       delete :destroy, { id: work.to_param }, valid_session
       response.should redirect_to(works_url)
     end

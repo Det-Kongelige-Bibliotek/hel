@@ -9,6 +9,8 @@
 
   <xsl:param name="pdfUri"  select="'http://example.com/mock-file.pdf'" />
 
+  <!-- http://biblstandard.dk/kat/konv_danmarc2_to_marc21.htm -->
+
   <xsl:output method="xml"
 	      indent="yes"
 	      encoding="UTF-8" />
@@ -61,7 +63,7 @@
       <xsl:attribute name="tag">852</xsl:attribute>
       <xsl:element name="marc:subfield">
 	<xsl:attribute name="code">a</xsl:attribute>
-	<xsl:value-of select="subfield[@label='a']"/>
+	<xsl:apply-templates select="subfield[@label='a']"/>
       </xsl:element>
     </xsl:element>
 
@@ -74,7 +76,7 @@
       <xsl:attribute name="tag">041</xsl:attribute>
       <xsl:element name="marc:subfield">
         <xsl:attribute name="code">a</xsl:attribute>
-        <xsl:value-of select="subfield[@label='l']"/>
+        <xsl:apply-templates select="subfield[@label='l']"/>
       </xsl:element>
     </xsl:element>
 
@@ -85,7 +87,7 @@
       <marc:datafield tag='020'>
 	<xsl:attribute name="ind1">0</xsl:attribute><xsl:attribute name="ind2">0</xsl:attribute>
 	<marc:subfield code="a"> 
-	  <xsl:value-of select="subfield[@label='e']"/>
+	  <xsl:apply-templates select="subfield[@label='e']"/>
 	</marc:subfield>
       </marc:datafield>
     </xsl:if>
@@ -99,7 +101,7 @@
 	<xsl:value-of select="@i1"/>
       </xsl:attribute>
       <xsl:attribute name="ind2">
-	<xsl:value-of select="@i1"/>
+	<xsl:value-of select="@i2"/>
       </xsl:attribute>
       <xsl:attribute name="tag">
 	<xsl:value-of select="@id"/>
@@ -109,9 +111,11 @@
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">a</xsl:attribute>
 	  <xsl:value-of select="subfield[@label = 'a']"/><xsl:text>,
-	  </xsl:text><xsl:value-of select="subfield[@label = 'h']"/>
+	  </xsl:text><xsl:apply-templates select="subfield[@label = 'h']"/>
 	</xsl:element>
       </xsl:if>
+
+      <xsl:call-template name="name-content" />
 
       <xsl:if test="subfield[@label='k']">
 	<xsl:element name="marc:subfield">
@@ -122,6 +126,17 @@
 	</xsl:element>
       </xsl:if>
 
+      <xsl:choose>
+	<xsl:when test="subfield[@label = '4']">
+	  <xsl:element name="marc:subfield">
+	    <xsl:attribute name="code">4</xsl:attribute>
+	    <xsl:apply-templates select="subfield[@label = '4']"/>
+	  </xsl:element>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:element name="marc:subfield"><xsl:attribute name="code">4</xsl:attribute>aut</xsl:element>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:element>
 
   </xsl:template>
@@ -138,7 +153,7 @@
 	</xsl:attribute>
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">t</xsl:attribute>
-	  <xsl:value-of select="subfield[@label='a']" />
+	  <xsl:apply-templates select="subfield[@label='a']" />
 	</xsl:element>
       </xsl:element>
     </xsl:if>
@@ -388,9 +403,9 @@
     <xsl:if test="subfield[@label = 'a'] |
 		  subfield[@label = 'h']">
 
-      <xsl:processing-instruction name="family"><xsl:value-of select="subfield[@label = 'a']"/></xsl:processing-instruction>
+      <xsl:processing-instruction name="family"><xsl:apply-templates select="subfield[@label = 'a']"/></xsl:processing-instruction>
       
-      <xsl:processing-instruction name="given"><xsl:value-of select="subfield[@label = 'h']"/></xsl:processing-instruction>
+      <xsl:processing-instruction name="given"><xsl:apply-templates select="subfield[@label = 'h']"/></xsl:processing-instruction>
 
       <xsl:element name="marc:subfield">
 	<xsl:attribute name="code">a</xsl:attribute>
@@ -433,6 +448,14 @@
 
       <xsl:call-template name="name-content" />
 
+      <xsl:if test="subfield[@label = '4']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">4</xsl:attribute>
+	  <xsl:value-of select="subfield[@label = '4']"/>
+	</xsl:element>
+      </xsl:if>
+
+
     </xsl:element>
   </xsl:template>
 
@@ -445,13 +468,13 @@
       <xsl:if test="subfield[@label = 'o']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">a</xsl:attribute>
-	  <xsl:value-of select="subfield[@label = 'o']"/>
+	  <xsl:apply-templates select="subfield[@label = 'o']"/>
 	</xsl:element>
       </xsl:if>
       <xsl:if test="subfield[@label = '4']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">4</xsl:attribute>
-	  <xsl:value-of select="subfield[@label = '4']"/>
+	  <xsl:apply-templates select="subfield[@label = '4']"/>
 	</xsl:element>
       </xsl:if>
     </xsl:element>

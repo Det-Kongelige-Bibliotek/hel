@@ -1,0 +1,19 @@
+<% if (@document['has_model_ssim'] & ['LetterBook']).present? %>
+    <div id="sidebar" class="col-md-4 col-sm-4">
+      <%= render partial: 'show_sidebar_letter_book' %>
+    </div>
+    <div id="content" class="col-md-8 col-sm-8 show-document">
+      <%= render partial: 'show_main_content_letter_book' %>
+    </div>
+<% elsif (@document['has_model_ssim'].include? 'Letter').present? %>
+    <div id="sidebar" class="col-md-3 col-sm-4">
+      <%= render partial: 'show_sidebar_letter' %>
+    </div>
+    <div id="content" class="col-md-9 col-sm-8 show-document">
+      <%= render partial: 'show_main_content_letter' %>
+    </div>
+<% end %>
+
+
+
+

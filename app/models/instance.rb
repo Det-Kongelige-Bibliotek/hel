@@ -5,21 +5,98 @@
 # should live in separate modules and
 # be mixed in.
 class Instance < ActiveFedora::Base
-  include Bibframe::Instance
   include Hydra::AccessControls::Permissions
   include Concerns::AdminMetadata
-  include Concerns::UUIDGenerator
   include Concerns::Preservation
-  include Concerns::Renderers
+  include Concerns::RelatorMethods
   include Datastreams::TransWalker
+  include Concerns::CustomValidations
 
-  has_and_belongs_to_many :work, class_name: 'Work', property: :instance_of, inverse_of: :has_instance
-  has_many :content_files, property: :content_for
-  has_and_belongs_to_many :parts, class_name: 'Work', property: :has_part, inverse_of: :is_part_of
+  property :languages, predicate: ::RDF::Vocab::Bibframe.language
+  property :isbn13, predicate: ::RDF::Vocab::Bibframe.isbn13, multiple: false
+  property :isbn10, predicate: ::RDF::Vocab::Bibframe.isbn10, multiple: false
+  property :mode_of_issuance, predicate: ::RDF::Vocab::Bibframe.modeOfIssuance, multiple: false
+  property :extent, predicate: ::RDF::Vocab::Bibframe.extent, multiple: false
+  property :note, predicate: ::RDF::Vocab::Bibframe.note, multiple: false
+  property :title_statement, predicate: ::RDF::Vocab::Bibframe.titleStatement, multiple: false
+  property :dimensions, predicate: ::RDF::Vocab::Bibframe.dimensions, multiple: false
+  property :contents_note, predicate: ::RDF::Vocab::Bibframe.contentsNote, multiple: false
+  property :system_number, predicate: ::RDF::Vocab::Bibframe.systemNumber, multiple: false
+  property :copyright_date, predicate: ::RDF::Vocab::Bibframe.copyrightDate, multiple: false
+  property :edition, predicate: ::RDF::Vocab::Bibframe.edition, multiple: false
 
-  validates :activity, :collection, :copyright, presence: true
+  belongs_to :work, predicate: ::RDF::Vocab::Bibframe::instanceOf
 
-  before_save :set_rights_metadata
+  has_and_belongs_to_many :equivalents, class_name: "Instance", predicate: ::RDF::Vocab::Bibframe::hasEquivalent
+
+  has_many :content_files, predicate: ActiveFedora::RDF::Fcrepo::RelsExt.isPartOf
+  has_many :relators, predicate: ::RDF::Vocab::Bibframe.relatedTo
+  has_many :publications, predicate: ::RDF::Vocab::Bibframe::publication, class_name: 'Provider'
+
+  accepts_nested_attributes_for :relators, reject_if: proc { |attrs| attrs['role'].blank? }
+  accepts_nested_attributes_for :publications
+
+  before_save :set_rights_metadata, :set_copyright_data, :delete_providers
+
+  after_save do
+    work.update_index if work.present?
+    Resque.enqueue(DisseminateJob,self.id) unless self.cannot_be_published?
+  end
+
+  def publication
+    publications.first
+  end
+  # method to set the rights metadata stream based on activity
+  def set_rights_metadata
+    a = Administration::Activity.find(self.activity)
+    self.discover_groups = a.activity_permissions['instance']['group']['discover']
+    self.read_groups = a.activity_permissions['instance']['group']['read']
+    self.edit_groups = a.activity_permissions['instance']['group']['edit']
+  end
+
+  def set_copyright_data
+    if self.copyright_status != 'agent'
+      #ensure that no copyright data is saved when copyright_status is not agent
+      self.copyright_date = nil
+      self.copyright_holder= nil
+
+      new_relators = []
+      self.relators.each do |rel|
+        if rel.short_role == 'cph'
+          rel.delete
+        else
+          new_relators += [rel]
+        end
+      end
+      self.relators = new_relators
+    end
+  end
+
+  def delete_providers
+    logger.debug("delete providers #{self.published_date} - #{self.publisher}")
+    unless self.published_date.present? || self.publisher.present?
+      logger.debug("deleting pubications")
+      self.publications.each do |prov|
+        prov.delete
+      end
+      self.publications = []
+    end
+  end
+
+  def uuid
+    self.id
+  end
+
+  validates :collection, :activity, :copyright, :type, presence: true
+  validates :isbn13, isbn_format: { with: :isbn13 }, if: "isbn13.present?"
+  validates :isbn13, presence: true, if: :is_trykforlaeg?
+  validates_each :copyright_date do |record, attr, val|
+    record.errors.add(attr, I18n.t('edtf.error_message')) if val.present? && EDTF.parse(val).nil?
+  end
+
+  def is_trykforlaeg?
+    self.type == 'Trykforlaeg'
+  end
 
   # Use this setter to manage work relations
   # as it ensures relationship symmetry
@@ -28,15 +105,14 @@ class Instance < ActiveFedora::Base
   # @params Work | String (pid)
   def set_work=(work_input)
     if work_input.is_a? String
-      work = Work.find(work_input)
+      work = Work.where(work_input)
     elsif work_input.is_a? Work
       work = work_input
     else
       fail "Can only take args of type Work or String where string represents a Work's pid"
     end
     begin
-     # work.instances << self
-      self.work << work
+      self.work = work
       work
     rescue ActiveFedora::RecordInvalid => exception
       logger.error("set_work failed #{exception}")
@@ -44,42 +120,151 @@ class Instance < ActiveFedora::Base
     end
   end
 
-  # This is actually a getter!
-  # In order to wrap work= as above, we also
-  # need to provide a reader for our form input
-  # It returns an id because this is what is used
-  # in the form.
-  def set_work
-    work.first.id
+  def set_equivalent=(instance_input)
+    if instance_input.is_a? String
+      instance = Instance.where(instance_input)
+    elsif instance_input.is_a? Instance
+      instance = instance_input
+    else
+      fail "Can only take args of type Instance or String where string represents a Work's pid"
+    end
+    begin
+      self.equivalents += [instance]
+      instance.equivalents += [self]
+      instance
+    rescue ActiveFedora::RecordInvalid => exception
+      logger.error("set_equivalent failed #{exception}")
+      nil
+    end
   end
+
+  def add_relator(agent,role)
+    relation = Relator.new(agent: agent, role: role)
+    self.relators += [relation]
+  end
+
+  ################ copyright_holder ####################
+  def copyright_holder
+    agents = related_agents('cph')
+    agents.first.id if agents.size > 0
+  end
+
+  def copyright_holder=(agent_id)
+    if  agent_id.present?
+      relators = select_relators('cph')
+      if relators.first.present?
+        relators.first.agent_id = agent_id;
+      else
+        self.add_relator(ActiveFedora::Base.find(agent_id),'http://id.loc.gov/vocabulary/relators/cph')
+      end
+    end
+  end
+
+  ################# publisher #########################
+  def publisher
+    self.publications.first.agent.id if self.publications.first.present? && self.publications.first.agent.present?
+  end
+
+  def publisher=(org_id)
+    logger.debug("set publisher #{org_id}")
+    if org_id.present?
+      org = Authority::Organization.where(id: org_id).first
+      self.add_publisher(org)  if org.present?
+    else
+      self.add_publisher(nil)
+    end
+  end
+
+  def published_date
+    unless self.publication.blank?
+      self.publication.provider_date
+    else
+      nil
+    end
+  end
+
+  def published_date=(date)
+    self.add_published_date(date)
+  end
+
+  # Accessors for backwards compatibility
+  def publisher_name
+    self.publications.first.agent._name if self.publications.first.present? && self.publications.first.agent.present?
+  end
+
+  def publisher_place
+    self.publications.first.agent.location if self.publications.first.present? && self.publications.first.agent.present?
+  end
+
+  def add_published_date(date)
+    ensure_publication_present
+    self.publications.first.provider_date=date
+  end
+
+  def add_publisher(org)
+    ensure_publication_present
+    self.publications.first.agent = org
+  end
+
+  ################### TODO: look into deprecating these #########################
+  ################### TODO: we need to handle bf relators and providers in general
+  def add_printer(agent)
+    role = 'http://id.loc.gov/vocabulary/relators/prt'
+    self.add_relator(agent,role)
+  end
+
+  def add_scribe(agent)
+    role = 'http://id.loc.gov/vocabulary/relators/scr'
+    self.add_relator(agent,role)
+  end
+  ################################################################################
 
   def content_files=(files)
     # ensure instance is valid before saving files
     return unless self.valid?
-    #remove old file
-    content_files.delete_all
     files.each do |f|
-      cf = ContentFile.new
-      cf.add_file(f)
-      set_rights_metadata_on_file(cf)
-      cf.save
-      content_files << cf
+      self.add_file(f)
+    end
+  end
+
+  def add_file(file, validators=[],run_custom_validators = true)
+    cf = ContentFile.new
+    cf.instance=self
+    if (file.is_a? File) || (file.is_a? ActionDispatch::Http::UploadedFile)
+      cf.add_file(file)
+    else
+      if (file.is_a? String)
+        cf.add_external_file(file)
+      end
+    end
+    cf.instance = self
+    cf.validators = validators
+    cf.save(validate: run_custom_validators)
+    cf
+  end
+
+  def create_structMap
+    self.structMap.clear_structMap
+    order = 1
+    self.content_files.each do |cf|
+      self.structMap.add_file(order.to_s,cf.uuid.to_s)
+      order += 1
     end
   end
 
   # method to set the rights metadata stream based on activity
   def set_rights_metadata
     a = Administration::Activity.find(self.activity)
-    self.discover_groups = a.permissions['instance']['group']['discover']
-    self.read_groups = a.permissions['instance']['group']['read']
-    self.edit_groups = a.permissions['instance']['group']['edit']
+    self.discover_groups = a.activity_permissions['instance']['group']['discover']
+    self.read_groups = a.activity_permissions['instance']['group']['read']
+    self.edit_groups = a.activity_permissions['instance']['group']['edit']
   end
 
   def set_rights_metadata_on_file(file)
     a = Administration::Activity.find(self.activity)
-    file.discover_groups = a.permissions['file']['group']['discover']
-    file.read_groups = a.permissions['file']['group']['read']
-    file.edit_groups = a.permissions['file']['group']['edit']
+    file.discover_groups = a.activity_permissions['file']['group']['discover']
+    file.read_groups = a.activity_permissions['file']['group']['read']
+    file.edit_groups = a.activity_permissions['file']['group']['edit']
   end
 
   ## Model specific preservation functionallity
@@ -95,32 +280,73 @@ class Instance < ActiveFedora::Base
   def cascading_elements
     res = []
     content_files.each do |f|
-      res << ContentFile.find(f.pid)
+      res << ContentFile.find(f.id)
     end
     logger.debug "Found following inheritable objects: #{res}"
     res
   end
 
   def create_preservation_message_metadata
+    XML::InstanceSerializer.preservation_message(self)
+  end
 
-    res = "<provenanceMetadata><fields><uuid>#{self.uuid}</uuid></fields></provenanceMetadata>"
-    res +="<preservationMetadata>"
-    res += self.preservationMetadata.content
-    res +="</preservationMetadata>"
+  def to_solr(solr_doc = {} )
+    super
+    #activity_name = Administration::Activity.find(activity).activity
+    #Solrizer.insert_field(solr_doc, 'activity_name', activity_name, :stored_searchable, :facetable)
+  end
 
-    mods = self.to_mods
-    if mods.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
-      mods = Nokogiri::XML.parse(mods).root.to_s
+  def valid_trykforlaeg
+    if self.is_trykforlaeg?
+      errors.add(:published_date,'Et trykforlæg skal have en udgivelses dato') unless self.published_date.present?
     end
-    res += mods
+  end
 
-    #TODO: Update this to handle multiple file instances with structmaps
-    if (self.content_files.size  > 0 )
-      cf = content_files.each do |cf|
-        res+="<file><name>#{cf.original_filename}</name>"
-        res+="<uuid>#{cf.uuid}</uuid></file>"
+  # given an activity name, return a set of Instances
+  # belonging to that activity
+  # note the mapping to AF objects will take a bit of time
+  def self.find_by_activity(activity)
+    docs = ActiveFedora::SolrService.query("activity_name_sim:#{activity}")
+    docs.map { |d| Instance.find(d['id']) }
+  end
+
+  # given an activity object - create an instance
+  # with the default values of that activity
+  def self.from_activity(activity)
+    i = self.new
+    i.activity = activity.id
+    i.collection = activity.collection
+    i.copyright = activity.copyright
+    i.preservation_collection = activity.preservation_collection
+    i
+  end
+
+
+  #
+  def cannot_be_published?
+    self.availability == "0"
+  end
+
+  # Send the instance to the rsolr
+  def disseminate
+    activity_obj = Administration::Activity.find(activity)
+    activity_obj.dissemination_profiles.each do |profile|
+      disseminator = profile.safe_constantize
+      if disseminator
+        disseminator.disseminate(self)
       end
     end
-    res
   end
+
+  def activity_can_change?
+    a = Administration::Activity.where(id: activity).first
+    a.present? && a.present_in_GUI?
+  end
+
+  private
+
+  def ensure_publication_present
+    self.publications=[ Provider.new(role: 'Publisher') ] if self.publication.blank?
+  end
+
 end

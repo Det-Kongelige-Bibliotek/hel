@@ -1,0 +1,33 @@
+<%  if provider.present? %>
+
+    <% if provider.agent.present? %>
+        <tr>
+          <td>
+            <strong><%= "Udgiver" %></strong>
+          </td>
+          <td>
+              <strong><%= link_to provider.agent._name, authority.organization_path(provider.agent.id) rescue nil %></strong>
+            </td>
+        </tr>
+    <% end %>
+    <% if provider.provider_date.present? %>
+        <tr>
+          <td>
+            <strong><%= t('instances.show_bibliograph.provider_date') %></strong>
+          </td>
+          <td>
+            <span><%= provider.provider_date %></span>
+          </td>
+        </tr>
+    <% end %>
+    <% if provider.copyright_date.present? %>
+        <tr>
+          <td>
+            <strong><%= t('instances.show_bibliograph.copyright_date') %></strong>
+          </td>
+          <td>
+            <span><%= provider.copyright_date %></span>
+          </td>
+        </tr>
+    <% end %>
+<% end %>

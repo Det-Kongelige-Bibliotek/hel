@@ -1,0 +1,15 @@
+<h1><%= t('statistics.preservation_statistics_based_on_solr') %></h1>
+
+<%= render partial: 'search_form' %>
+
+<hr/>
+<!--<%= @params.inspect %>-->
+<!--<br/>-->
+<!--<%= "q:#{@q}" %>-->
+<!--<br/>-->
+<!--<%= "Group: #{@group}" %>-->
+<!--<br/>-->
+<!--<%= "csv: #{@csv}" %>-->
+<!--<br/>-->
+
+<%= render partial: 'show_solr_results' %>

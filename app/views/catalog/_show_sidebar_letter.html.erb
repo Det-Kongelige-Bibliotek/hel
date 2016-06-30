@@ -1,0 +1,30 @@
+<% solr_id = @document.id %>
+<% opts = SnippetServer.split_letter_id(solr_id) %>
+<% opts[:c] = SnippetServer.get_collection(solr_id) %>
+<% opts[:op] = 'json' %>
+<% if current_search_session %>
+    <div class="search-widgets">
+      <%= link_to t('.back_to_book'), "/catalog/#{URI::escape(@document['work_id_ssi'], "/")}" %>
+    </div>
+<% end %>
+
+<%= render :partial => 'show_tools' %>
+<%= render partial: 'status' , locals:  {letter: @document} %>
+<hr>
+
+<% unless @document.more_like_this.empty? %>
+    <div class="panel panel-default">
+      <div class="panel-heading">More Like This</div>
+      <div class="panel-body">
+        <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+      </div>
+    </div>
+<% end %>
+
+<% if current_user && (current_user.admin? || current_user.student?) %>
+    <% data =  SnippetServer.render_snippet(opts) %>
+    <% @letter = Letter.from_json(data) %>
+    <% @letter.id = solr_id %>
+    <% @letter.work_id = @document['work_id_ssi'] %>
+    <%= render partial: 'letters/letter_form', locals: {status: @document['status_ssi']}%>
+<% end %>

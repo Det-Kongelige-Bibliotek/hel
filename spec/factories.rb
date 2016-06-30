@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   trait :valid_administrative_data do
-    collection 'collection'
+    collection ['collection']
     activity 'activity'
     copyright 'cc'
   end

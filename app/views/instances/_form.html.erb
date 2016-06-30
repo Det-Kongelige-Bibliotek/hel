@@ -14,34 +14,35 @@
     <div class="instans editMode">
       <div class="page-header">
         <div class="container">
-          <h1>Instans <small><%= @klazz %></small></h1>
+          <h1><%= t('.title') %></h1>
         </div>
       </div>
 
     <div class="container">
-    <div class="row">
+        <div class="row">
 
-    <div class="col-sm-3">
-        <%= render partial: 'sidebar' %>
-    </div>
-    <div class="col-sm-9">
-      <%= f.input :set_work, as: :hidden %>
-      <%= render partial: 'bibliographic', locals: { builder: f } %>
-      <%= render partial: 'administrative', locals: { builder: f }  %>
-      <%= render partial: 'upload', locals: { builder: f }  %>
+            <div class="col-sm-3">
+                <%= render partial: 'sidebar' %>
+            </div>
+            <div class="col-sm-9">
+              <%= f.input :work, as: :hidden %>
+              <%= render partial: 'type', locals: {builder: f} %>
+              <%= render partial: 'bibliographic', locals: { builder: f } %>
+              <%= render partial: 'administrative', locals: { builder: f }  %>
+              <%= render partial: 'upload', locals: { builder: f }  %>
 
-    </div>
+            </div>
 
-      <div class="btn-group pull-right col-sm-offset-9">
-        <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
-        <%= f.button :button, 'Gem', class: 'btn btn-success' do %>
-            <span class="glyphicon glyphicon-save"></span>
-            Gem
-        <% end %>
+              <div class="btn-group pull-right col-sm-offset-9">
+                <%= link_to t('.cancel'), :back, class: 'btn btn-warning'%>
+                <%= f.button :button, 'Gem', class: 'btn btn-success', :id => 'instance_submit', data: {disable_with: "Gemmer..."} do %>
+                    <span class="glyphicon glyphicon-save"></span>
+                    <%= t('.gem') %>
+                <% end %>
 
-    </div>
+            </div>
 
-    </div>
+        </div>
     </div>
 </div>
 

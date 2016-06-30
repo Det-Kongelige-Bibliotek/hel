@@ -1,7 +1,7 @@
 <div class="input file optional">
-  <label class="file optional">Content files</label>
-  <input class="file optional" name="<%="#{@instance.class.to_s.downcase}[content_files][]" %>" type="file">
+  <label class="file optional">Indholdsfiler</label>
+  <input class="file optional" name="<%="#{@instance.class.to_s.downcase}[content_files][]" %>" type="file" id="upload_file">
   <button type="button" class="btn btn-default" data-function="clone-input">
-    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Tilføj flere filer
+    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span><%= t('.add') %>
   </button>
 </div>

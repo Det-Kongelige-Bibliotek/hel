@@ -14,13 +14,14 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-/jetty
+/jetty*
 .keep
 /.idea
 *~
 
 # Ignore local configuration
 config/application.local.yml
+config/initializers/hydra-file_characterization_config.rb
 
 # Ignore code coverage report
 coverage

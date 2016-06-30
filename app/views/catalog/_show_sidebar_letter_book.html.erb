@@ -1,0 +1,34 @@
+<% if current_search_session %>
+<div class="search-widgets">
+  <%= link_back_to_catalog class: 'btn' %>
+</div>
+<% end %>
+
+<%= render :partial => 'show_tools' %>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" style="width:<%= percent_of_completed_letters(@document.id) %>%">
+    <span style="color:black"><%= percent_of_completed_letters(@document.id) %>% færdig</span>
+  </div>
+</div>
+
+<% unless @document.more_like_this.empty? %>
+    <div class="panel panel-default">
+      <div class="panel-heading">More Like This</div>
+      <div class="panel-body">
+        <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+      </div>
+    </div>
+<% end %>
+
+<%if current_user && current_user.admin? %>
+    <%= render partial: 'letter_books/form', locals: { id: @document.id } %>
+    <% if @document["status_ssi"] == 'ready' %>
+        <br><br>
+        <%= link_to "Sæt igang", begin_work_letter_book_url(@document.id), class: 'btn btn-info' %>
+    <% end %>
+    <br><br>
+    <%= link_to "Mark as completed", complete_work_letter_book_url(@document.id), class: 'btn btn-success', disabled: !(percent_of_completed_letters(@document.id) == 100) %>
+<%else %>
+    <%= render partial: 'letter_books/show', locals: { id: @document.id } %>
+<% end %>

@@ -4,6 +4,12 @@ PERFORM_PRESERVATION_BUTTON = 'Perform preservation'
 
 # The message type for a preservation request.
 MQ_MESSAGE_TYPE_PRESERVATION_REQUEST = 'PreservationRequest'
+# The message type for a preservation request.
+MQ_MESSAGE_TYPE_PRESERVATION_RESPONSE = 'PreservationResponse'
+# The message type for a preservation import request.
+MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_REQUEST = 'PreservationImportRequest'
+# The message type for a preservation import request.
+MQ_MESSAGE_TYPE_PRESERVATION_IMPORT_RESPONSE = 'PreservationImportResponse'
 # The message type for a dissemination request for BifrostBooks.
 MQ_MESSAGE_TYPE_DISSEMINATION_BIFROST_BOOKS_REQUEST = 'BifrostBooksDisseminationRequest'
 
@@ -66,6 +72,14 @@ PRESERVATION_RESOURCES_DOWNLOAD_SUCCESS = {'PRESERVATION_RESOURCES_DOWNLOAD_SUCC
 PRESERVATION_RESOURCES_DOWNLOAD_FAILURE = {'PRESERVATION_RESOURCES_DOWNLOAD_FAILURE' => {
     'error' => true, 'color' => 'red', 'text' => 'Yggdrasil could not download the resource file from Valhal.'}}
 
+# Yggdrasil has successfully packaged the resources successfully.
+PRESERVATION_RESOURCES_PACKAGE_SUCCESS = {'PRESERVATION_RESOURCES_PACKAGE_SUCCESS' => {
+    'error' => false, 'color' => 'limegreen', 'text' => 'Yggdrasil has successfully packaged the resources from Valhal'}}
+
+# Yggdrasil could not package the resources. Failstate.
+PRESERVATION_RESOURCES_PACKAGE_FAILURE = {'PRESERVATION_RESOURCES_PACKAGE_FAILURE' => {
+    'error' => true, 'color' => 'red', 'text' => 'Yggdrasil could not package the resource file from Valhal.'}}
+
 # Yggdrasil finished packaging (metadata and ressources written to the WARC format) and ready to initiate upload.
 PRESERVATION_PACKAGE_COMPLETE = {'PRESERVATION_PACKAGE_COMPLETE' => {
     'error' => false, 'color' => 'limegreen', 'text' => 'Yggdrasil has finished packaging into a WARC file.'}}
@@ -73,7 +87,7 @@ PRESERVATION_PACKAGE_COMPLETE = {'PRESERVATION_PACKAGE_COMPLETE' => {
 # Yggdrasil waiting for more requests before upload is initiated.
 # If the request does not have the requirement, that it should be packaged in its own package.
 # Then it arrives into this state. However, we can only package data together with
-# the same bitrepository profile. So each profile must have its own waiting queue.
+# the same bitrepository collection.
 PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA = {'PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA' => {
     'error' => false, 'color' => 'limegreen', 'text' => 'Yggdrasil is waiting for more data before uploading the WARC file.'}}
 
@@ -102,9 +116,76 @@ PRESERVATION_STATES = Hash.new
  PRESERVATION_REQUEST_RECEIVED_BUT_INCOMPLETE,PRESERVATION_METADATA_DOWNLOAD_SUCCESS,
  PRESERVATION_METADATA_DOWNLOAD_FAILURE,PRESERVATION_METADATA_PACKAGED_SUCCESSFULLY,
  PRESERVATION_METADATA_PACKAGED_FAILURE,PRESERVATION_RESOURCES_DOWNLOAD_SUCCESS,
- PRESERVATION_RESOURCES_DOWNLOAD_FAILURE,PRESERVATION_PACKAGE_COMPLETE,PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA,
- PRESERVATION_PACKAGE_UPLOAD_INITIATED,PRESERVATION_PACKAGE_UPLOAD_FAILURE,PRESERVATION_PACKAGE_UPLOAD_SUCCESS,
- PRESERVATION_REQUEST_FAILED, PRESERVATION_STATE_NOT_LONGTERM
+ PRESERVATION_RESOURCES_DOWNLOAD_FAILURE,PRESERVATION_RESOURCES_PACKAGE_SUCCESS,PRESERVATION_RESOURCES_PACKAGE_FAILURE,
+ PRESERVATION_PACKAGE_COMPLETE,PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA,PRESERVATION_PACKAGE_UPLOAD_INITIATED,
+ PRESERVATION_PACKAGE_UPLOAD_FAILURE,PRESERVATION_PACKAGE_UPLOAD_SUCCESS,PRESERVATION_REQUEST_FAILED,
+ PRESERVATION_STATE_NOT_LONGTERM
 ].each {|h| PRESERVATION_STATES.merge!(h)}
 
 PRESERVATION_STATE_INVALID = {'error' => true, 'color' => 'yellow', 'text' => 'The current preservation state is invalid.'}
+
+#######################
+# PRESERVATION_IMPORT_STATES
+#######################
+
+# The state when the preservation import has not yet begun.
+PRESERVATION_IMPORT_STATE_NOT_STARTED = {'PRESERVATION_NOT_STARTED' => {
+    'error' => false, 'text' => 'Import not started'}}
+
+# The state when the preservation import has been initiated on Valhal-side (e.g. preservation import request message sent)
+PRESERVATION_IMPORT_STATE_INITIATED = {'PRESERVATION_STATE_INITIATED' => {
+    'error' => false, 'text' => 'Preservation import initiated'}}
+
+# The state when Yggdrasil has received and validated the preservation import request.
+PRESERVATION_IMPORT_REQUEST_RECEIVED_AND_VALIDATED = {'PRESERVATION_IMPORT_REQUEST_RECEIVED_AND_VALIDATED' => {
+    'error' => false, 'text' => 'When Yggdrasil has received and validated the PreservationImportRequest.'}}
+
+# The state when Yggdrasil reject the preservation import request.
+PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE = {'PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE' => {
+    'error' => true, 'text' => 'If anything is invalid or missing from the PreservationImportRequest.'}}
+
+# The state when Yggdrasil initiates the retrieval of the data from the Bitrepository.
+PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED = {'PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED' => {
+    'error' => false, 'text' => 'Yggdrasil starts to retrieve the data from the Bitrepository'}}
+
+# The state when Yggdrasil fails the retrieval of the data from the Bitrepository.
+PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE = {'PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE' => {
+    'error' => true, 'text' => 'Yggdrasil starts to retrieve the data from the Bitrepository'}}
+
+# The state when Yggdrasil has retrieved the data from the Bitrepository and initiates delivery to Valhal
+PRESERVATION_IMPORT_DELIVERY_INITIATED = {'PRESERVATION_IMPORT_DELIVERY_INITIATED' => {
+    'error' => false, 'text' => 'When Yggdrasil start to deliver the data to Valhal.'}}
+
+# The state when Yggdrasil fails to deliver the data to Valhal
+PRESERVATION_IMPORT_DELIVERY_FAILURE = {'PRESERVATION_IMPORT_DELIVERY_FAILURE' => {
+    'error' => true, 'text' => 'If the delivery of data to Valhal somehow fails.'}}
+
+# The state when the import is finished
+PRESERVATION_IMPORT_FINISHED = {'PRESERVATION_IMPORT_FINISHED' => {
+    'error' => false, 'text' => 'When the delivery of the data is finished.'}}
+
+# The generic failure state for failures that does not fall into the other failure catagories.
+PRESERVATION_IMPORT_FAILURE = {'PRESERVATION_IMPORT_FAILURE' => {
+    'error' => true, 'text' => 'Generic failure for errors, which are not covered by the other failures.'}}
+
+# The complete hash of the valid states and their values. (No easy way of merging hashes, therefore this 'hack')
+PRESERVATION_IMPORT_STATES = Hash.new
+[PRESERVATION_IMPORT_STATE_INITIATED, PRESERVATION_IMPORT_STATE_INITIATED, PRESERVATION_IMPORT_REQUEST_RECEIVED_AND_VALIDATED,
+ PRESERVATION_IMPORT_REQUEST_VALIDATION_FAILURE, PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_INITIATED,
+ PRESERVATION_IMPORT_RETRIEVAL_FROM_BITREPOSITORY_FAILURE, PRESERVATION_IMPORT_DELIVERY_INITIATED, PRESERVATION_IMPORT_DELIVERY_FAILURE, PRESERVATION_IMPORT_FINISHED,
+ PRESERVATION_IMPORT_FAILURE].each {|h| PRESERVATION_IMPORT_STATES.merge!(h)}
+
+#######################
+# Email ingest default arguments
+#######################
+
+EMAIL_DIR_NAME = 'Mails'
+EMAIL_ATTACHMENT_DIR_NAME = 'Attachments'
+EMAIL_EXPORT_FILE_NAME = 'Exports.xml'
+
+# unknown person or organisation name
+UNKNOWN_NAME = 'Ukendt'
+
+# unknown EDTF date
+UNKNOWN_EDTF_DATE = 'unknown/unknown'
+
