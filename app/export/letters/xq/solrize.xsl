@@ -259,7 +259,7 @@
     <xsl:if test="@n">
     <xsl:element name="field">
       <xsl:attribute name="name">letter_number_isi</xsl:attribute>
-      <xsl:value-of select="@n"/>
+      <xsl:value-of select="1 + count(preceding::node()[@decls])"/>
     </xsl:element>
     </xsl:if>
 
@@ -470,6 +470,10 @@
     </xsl:for-each>
 
   </xsl:template>
+
+  <!--
+      This is where we extract senders, recipients, authors and other agents. The code is a bit obfuscated
+  -->
 
   <xsl:template name="extract_agents">
     <xsl:param name="bibl" select="''"/>
