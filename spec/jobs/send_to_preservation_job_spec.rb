@@ -49,6 +49,17 @@ describe 'Send object to preservation' do
         expect(@i.preservation_state).to eql PRESERVATION_REQUEST_SEND.keys.first
         expect(SendToPreservationJob).to have_queued(f.id)
       end
+
+      it 'check preservation_initiated is being set' do
+        @i.preservation_state = PRESERVATION_STATE_INITIATED.keys.first
+        @i.save!
+        expect(@i.preservation_initiated_date).to be_nil
+        SendToPreservationJob.perform(@i.id,false)
+        @i.reload
+        expect(@i.preservation_state).to eql PRESERVATION_REQUEST_SEND.keys.first
+        expect(@i.preservation_initiated_date).not_to be_nil
+      end
+
     end
   end
 

@@ -1,0 +1,4 @@
+Hydra::FileCharacterization.configure do |config|
+  config.tool_path(:fits, '/usr/local/fits/fits.sh')
+end
+
