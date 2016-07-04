@@ -29,7 +29,7 @@ class ContentFile < ActiveFedora::Base
   validate :custom_validations
 
   after_save do
-    Resque.enqueue(DisseminateJob,self.instance.id) if self.instance.present? && !self.instance.cannot_be_published?
+ #   Resque.enqueue(DisseminateJob,self.instance.id) if self.instance.present? && !self.instance.cannot_be_published?
   end
 
   def uuid
