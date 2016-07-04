@@ -35,6 +35,9 @@
   <xsl:param name="status" select="''"/>
   <!-- Status: created|waiting|working|completed -->
 
+  <xsl:param name="app" select="''"/>
+  <!-- the name of the application, used by bifrost solr -->
+
 
   <xsl:template match="/">
     <xsl:element name="add">
@@ -274,6 +277,13 @@
       <xsl:element name="field">
 	<xsl:attribute name="name">status_ssi</xsl:attribute>
 	<xsl:value-of select="$status"/>
+      </xsl:element>
+    </xsl:if>
+
+    <xsl:if test="$app">
+      <xsl:element name="field">
+        <xsl:attribute name="name">application_ssim</xsl:attribute>
+        <xsl:value-of select="$app"/>
       </xsl:element>
     </xsl:if>
 

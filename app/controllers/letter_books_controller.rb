@@ -1,6 +1,6 @@
 class LetterBooksController < ApplicationController
   include Concerns::RemoveBlanks
-  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile, :begin_work, :complete_work]
+  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile, :begin_work, :complete_work, :publish_work]
 
   respond_to :html
 
@@ -35,6 +35,12 @@ class LetterBooksController < ApplicationController
     @letter_book.save
     redirect_to solr_document_path(@letter_book)
   end
+
+  def publish_work
+    Resque.enqueue(DisseminateJob,@letter_book.id) if !@letter_book.instance.cannot_be_published?
+    redirect_to solr_document_path(@letter_book)
+  end
+
 
   private
 

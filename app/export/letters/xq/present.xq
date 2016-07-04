@@ -19,6 +19,7 @@ declare variable  $work_id  := request:get-parameter("work_id","");
 declare variable  $c        := request:get-parameter("c","texts");
 declare variable  $o        := request:get-parameter("op","render");
 declare variable  $status   := request:get-parameter("status","");
+declare variable  $app      := request:get-parameter("app","");
 declare variable  $prefix   := request:get-parameter("prefix","");
 declare variable  $coll     := concat($c,'/');
 declare variable  $op       := doc(concat("/db/letter_books/", $o,".xsl"));
@@ -76,6 +77,7 @@ let $params :=
   <param name="file"     value="{$file}"/>
   <param name="status"   value="{$status}"/>
   <param name="prefix"   value="{$prefix}"/>
+  <param name="app"      value="{$app}" />
 </parameters>
 
 for $doc in $list[1]
