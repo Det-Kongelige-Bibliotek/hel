@@ -29,6 +29,8 @@
     <% end %>
     <br><br>
     <%= link_to "Mark as completed", complete_work_letter_book_url(@document.id), class: 'btn btn-success', disabled: !(percent_of_completed_letters(@document.id) == 100) %>
+    <br><br>
+    <%= link_to "Publicer", publish_work_letter_book_url(@docukent.id), class: 'btn btn-warning' %>
 <%else %>
     <%= render partial: 'letter_books/show', locals: { id: @document.id } %>
 <% end %>

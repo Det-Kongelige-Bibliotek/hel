@@ -37,7 +37,12 @@ class LetterBooksController < ApplicationController
   end
 
   def publish_work
-    Resque.enqueue(DisseminateJob,@letter_book.id) if !@letter_book.instance.cannot_be_published?
+    tei_inst = @letter_book.get_instance('TEI')
+    if tei_inst.present?
+      Resque.enqueue(DisseminateJob,tei_inst.id) unless tei_inst.cannot_be_published?
+    else
+      flash[:error] = "Brevudgave har ingen tei instans"
+    end
     redirect_to solr_document_path(@letter_book)
   end
 
