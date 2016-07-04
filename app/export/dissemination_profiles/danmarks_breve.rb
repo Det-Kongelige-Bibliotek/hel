@@ -1,7 +1,7 @@
 module DisseminationProfiles
   class DanmarksBreve
     def self.platform
-      'Danmarks Breve'
+      'DanmarksBreve'
     end
 
     def self.disseminate(instance)
