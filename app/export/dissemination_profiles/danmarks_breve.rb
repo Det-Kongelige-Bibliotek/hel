@@ -63,7 +63,7 @@ module DisseminationProfiles
           end
         end
       end
-      persons.each do |doc|
+      persons.each do |id,doc|
         RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{})
       end
     end
@@ -83,7 +83,7 @@ module DisseminationProfiles
                birth_date_ssi: person.birth_date, death_date_ssi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
 
       else
-        Resque.logger.error "Person #{person_id} not found"
+        Rails.logger.error "Person #{person_id} not found"
       end
       doc
     end
