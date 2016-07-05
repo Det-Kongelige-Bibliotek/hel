@@ -40,24 +40,24 @@ module DisseminationProfiles
      # RSolr.connect.xml.add(doc,{})
       puts doc
 
+      persons = Hash.new
       #Get all persons in letterbook
       lb.relators.each do |agent|
         if ['http://id.loc.gov/vocabulary/relators/edt','http://id.loc.gov/vocabulary/relators/aut'].include? agent.role
-          send_person_to_solr(agent.id)
+          persons[agent.id] = get_person_doc(agent.id)
         end
       end
 
       #Create solr doc(s) for persons and orgs
       #Get all persons in letters
       letters = Finder.get_all_letters(lb.id)
-      persons = Hash.new
       letters.each do |letter|
-        if (letter['sender_id_ssim'].present?)
+        if letter['sender_id_ssim'].present?
           letter['sender_id_ssim'].each do |sender|
             persons[sender.id] = get_person_doc(sender.id)
           end
         end
-        if (letter['recipient_id_ssim'].present?)
+        if letter['recipient_id_ssim'].present?
           letter['recipient_id_ssim'].each do |rcp|
             persons[sender.id] = get_person_doc(rcp.id)
           end
