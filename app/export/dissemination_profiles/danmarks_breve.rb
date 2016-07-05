@@ -50,15 +50,20 @@ module DisseminationProfiles
       #Create solr doc(s) for persons and orgs
       #Get all persons in letters
       letters = Finder.get_all_letters(lb.id)
+      persons = Hash.new
       letters.each do |letter|
-        letter['sender_id_ssim'].each do |sender|
-          send_person_to_solr(sender)
+        if (letter['sender_id_ssim'].present?)
+          letter['sender_id_ssim'].each do |sender|
+            persons[sender.id] = get_person_doc(sender.id)
+          end
         end
-        letter['recipient_id_ssim'].each do |sender|
-          send_person_to_solr(sender)
+        if (letter['recipient_id_ssim'].present?)
+          letter['recipient_id_ssim'].each do |rcp|
+            persons[sender.id] = get_person_doc(rcp.id)
+          end
         end
       end
-
+      puts persons.inspect
     end
 
     def self.send_to_solr(solr_doc)
@@ -67,18 +72,19 @@ module DisseminationProfiles
       solr.commit
     end
 
-    def self.send_person_to_solr(person_id)
+    def self.get_person_doc(person_id)
       Resque.logger.debug "disseminating author #{person.id}"
       person = Authority::Person.where(id: person_id).first;
+      doc = {}
       if person.present?
         doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
                family_name_ssi: person.family_name, given_name_ssi: person.given_name,
                birth_date_ssi: person.birth_date, death_date_ssi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
-        #  RSolr.connect.xml.add(doc,{})
-        puts doc
+
       else
         Resque.logger.error "Person #{person_id} not found"
       end
+      doc
     end
   end
 end
