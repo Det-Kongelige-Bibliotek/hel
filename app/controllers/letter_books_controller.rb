@@ -69,7 +69,7 @@ class LetterBooksController < ApplicationController
   def instance_params
     params[:letter_book][:instance].permit(:type, :activity, :title_statement, :extent, :copyright,
                                            :dimensions, :mode_of_issuance, :isbn13, :material_type,
-                                           :contents_note, :embargo, :embargo_date, :embargo_condition,
+                                           :contents_note, :embargo, :embargo_date, :embargo_condition, :edition,
                                            :publisher, :published_date, :copyright_holder, :copyright_date, :copyright_status,
                                            :access_condition, :availability, :preservation_collection, :note, collection: [],
                                            content_files: [], relators_attributes: [[ :id, :agent_id, :role ]],
