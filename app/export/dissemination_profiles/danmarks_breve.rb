@@ -42,9 +42,9 @@ module DisseminationProfiles
 
       persons = Hash.new
       #Get all persons in letterbook
-      lb.relators.each do |agent|
-        if ['http://id.loc.gov/vocabulary/relators/edt','http://id.loc.gov/vocabulary/relators/aut'].include? agent.role
-          persons[agent.id] = get_person_doc(agent.id)
+      lb.relators.each do |rel|
+        if ['http://id.loc.gov/vocabulary/relators/edt','http://id.loc.gov/vocabulary/relators/aut'].include? rel.role
+          persons[rel.agent_id] = get_person_doc(rel.agent_id)
         end
       end
 
@@ -54,12 +54,12 @@ module DisseminationProfiles
       letters.each do |letter|
         if letter['sender_id_ssim'].present?
           letter['sender_id_ssim'].each do |sender|
-            persons[sender.id] = get_person_doc(sender.id)
+            persons[sender] = get_person_doc(sender)
           end
         end
         if letter['recipient_id_ssim'].present?
           letter['recipient_id_ssim'].each do |rcp|
-            persons[sender.id] = get_person_doc(rcp.id)
+            persons[rcp] = get_person_doc(rcp)
           end
         end
       end
@@ -73,8 +73,7 @@ module DisseminationProfiles
     end
 
     def self.get_person_doc(person_id)
-      Resque.logger.debug "disseminating author #{person.id}"
-      person = Authority::Person.where(id: person_id).first;
+q      person = Authority::Person.where(id: person_id).first;
       doc = {}
       if person.present?
         doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
