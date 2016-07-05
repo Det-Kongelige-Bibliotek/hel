@@ -15,7 +15,7 @@ module DisseminationProfiles
       #Solrize letters
       begin
         solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", app: 'DKLetters'})
-      #  self.send_to_solr(solr_doc)
+        self.send_to_solr(solr_doc)
       rescue Exception => e
         raise "Unable to solrize letters #{e.message}"
       end
@@ -37,7 +37,7 @@ module DisseminationProfiles
       doc[:publisher_name_ssi] = instance.publisher if instance.publisher.present?
       doc[:published_date_ssi] = instance.published_date if instance.published_date.present?
       doc[:note_ssi] = instance.note if instance.note.present?
-     # RSolr.connect.xml.add(doc,{})
+      RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{})
       puts doc
 
       persons = Hash.new
@@ -63,7 +63,9 @@ module DisseminationProfiles
           end
         end
       end
-      puts persons.inspect
+      persons.each do |doc|
+        RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{})
+      end
     end
 
     def self.send_to_solr(solr_doc)
