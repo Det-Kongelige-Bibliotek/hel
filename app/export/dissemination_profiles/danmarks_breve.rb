@@ -68,7 +68,7 @@ module DisseminationProfiles
     end
 
     def self.send_person_to_solr(person_id)
-      Resque.logger.debug "disseminating author #{author.id}"
+      Resque.logger.debug "disseminating author #{person.id}"
       person = Authority::Person.where(id: person_id);
       if person.present?
         doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
