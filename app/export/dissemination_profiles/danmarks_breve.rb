@@ -73,7 +73,7 @@ module DisseminationProfiles
     end
 
     def self.get_person_doc(person_id)
-q      person = Authority::Person.where(id: person_id).first;
+      person = Authority::Person.where(id: person_id).first;
       doc = {}
       if person.present?
         doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
