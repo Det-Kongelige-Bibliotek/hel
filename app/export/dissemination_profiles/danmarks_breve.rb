@@ -61,25 +61,24 @@ module DisseminationProfiles
 
     end
 
-  end
+    def self.send_to_solr(solr_doc)
+      solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]
+      solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
+      solr.commit
+    end
 
-  def self.send_to_solr(solr_doc)
-    solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]
-    solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
-    solr.commit
-  end
-
-  def self.send_person_to_solr(person_id)
-    Resque.logger.debug "disseminating author #{author.id}"
-    person = Authority::Person.where(id: person_id);
-    if person.present?
-      doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
-             family_name_ssi: person.family_name, given_name_ssi: person.given_name,
-             birth_date_ssi: person.birth_date, death_date_ssi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
-    #  RSolr.connect.xml.add(doc,{})
-      puts doc
-    else
-      Resque.logger.error "Person #{person_id} not found"
+    def self.send_person_to_solr(person_id)
+      Resque.logger.debug "disseminating author #{author.id}"
+      person = Authority::Person.where(id: person_id);
+      if person.present?
+        doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
+               family_name_ssi: person.family_name, given_name_ssi: person.given_name,
+               birth_date_ssi: person.birth_date, death_date_ssi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
+        #  RSolr.connect.xml.add(doc,{})
+        puts doc
+      else
+        Resque.logger.error "Person #{person_id} not found"
+      end
     end
   end
 end
