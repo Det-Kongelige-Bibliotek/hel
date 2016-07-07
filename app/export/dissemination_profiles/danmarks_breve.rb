@@ -81,7 +81,7 @@ module DisseminationProfiles
       if person.present?
         doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
                family_name_ssi: person.family_name, given_name_ssi: person.given_name,
-               birth_date_ssi: person.birth_date, death_date_dsi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
+               birth_date_ssi: person.birth_date, death_date_ssi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
 
       else
         Rails.logger.error "Person #{person_id} not found"
