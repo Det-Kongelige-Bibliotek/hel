@@ -22,7 +22,7 @@ module DisseminationProfiles
 
 
       #Create solr doc for volume
-      doc = {id: "/letter_books/#{sysnum}/#{lb.get_file_name}", application_ssim: 'DKLetters'}
+      doc = {id: "/letter_books/#{sysnum}/#{lb.get_file_name}", application_ssim: 'DKLetters', cat_ssi: 'letterbook'}
       doc[:volume_title_ssim] = []
       lb.titles.each do |title|
         doc[:volume_title_ssim] << title.value
@@ -35,10 +35,10 @@ module DisseminationProfiles
       end
       doc[:edition_ssi] = instance.edition if instance.edition.present?
       doc[:publisher_name_ssi] = instance.publisher if instance.publisher.present?
-      doc[:published_date_ssi] = instance.published_date if instance.published_date.present?
+      doc[:published_date_dttsi] = instance.published_date if instance.published_date.present?
       doc[:note_ssi] = instance.note if instance.note.present?
       RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{})
-      puts doc
+      Rails.logger.debug "Sending letterbook to bifrost solr #{doc}"
 
       persons = Hash.new
       #Get all persons in letterbook
@@ -65,6 +65,7 @@ module DisseminationProfiles
       end
       persons.each do |id,doc|
         RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{})
+        Rails.logger.debug "Sending person to bifrost solr #{doc}"
       end
     end
 
@@ -80,7 +81,7 @@ module DisseminationProfiles
       if person.present?
         doc = {id: person.id, cat_ssi: 'person', work_title_tesim: person.full_name,
                family_name_ssi: person.family_name, given_name_ssi: person.given_name,
-               birth_date_ssi: person.birth_date, death_date_ssi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
+               birth_date_dttsi: person.birth_date, death_date_dttsi: person.death_date, type_ssi: 'trunk', application_ssim: 'DKLetters'}
 
       else
         Rails.logger.error "Person #{person_id} not found"
