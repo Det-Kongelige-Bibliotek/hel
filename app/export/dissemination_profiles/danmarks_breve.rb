@@ -15,7 +15,7 @@ module DisseminationProfiles
       #Solrize letters
       begin
         solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", app: 'DKLetters'})
-        self.send_to_solr(solr_doc)
+        self.send_to_solr('<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
       rescue Exception => e
         raise "Unable to solrize letters #{e.message}"
       end
@@ -71,7 +71,7 @@ module DisseminationProfiles
 
     def self.send_to_solr(solr_doc)
       solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]
-      solr.update(data: '<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
+      solr.update(data:solr_doc)
       solr.commit
     end
 
