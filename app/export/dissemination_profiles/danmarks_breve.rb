@@ -37,7 +37,7 @@ module DisseminationProfiles
       doc[:publisher_name_ssi] = instance.publisher if instance.publisher.present?
       doc[:published_date_dttsi] = instance.published_date if instance.published_date.present?
       doc[:note_ssi] = instance.note if instance.note.present?
-      self.add_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
+      self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
       Rails.logger.debug "Sending letterbook to bifrost solr #{doc}"
 
       persons = Hash.new
@@ -64,7 +64,7 @@ module DisseminationProfiles
         end
       end
       persons.each do |id,doc|
-        self.add_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
+        self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
         Rails.logger.debug "Sending person to bifrost solr #{doc}"
       end
     end
