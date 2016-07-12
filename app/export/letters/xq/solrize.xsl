@@ -423,6 +423,12 @@
 	      </xsl:attribute>
 	      <xsl:value-of select="."/>
 	    </xsl:element>
+        <xsl:element name="field">
+          <xsl:attribute name="name">
+            <xsl:value-of select="concat($role,'_location_tesim')"/>
+          </xsl:attribute>
+          <xsl:value-of select="."/>
+        </xsl:element>
 	  </xsl:for-each>
 	</xsl:for-each>
       </xsl:for-each>
@@ -490,7 +496,13 @@
 	      <xsl:value-of select="concat($field,'_ssim')"/>
 	    </xsl:attribute>
 	    <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
-	    </xsl:element>
+      </xsl:element>
+        <xsl:element name="field">
+          <xsl:attribute name="name">
+            <xsl:value-of select="concat($field,'_tesim')"/>
+          </xsl:attribute>
+          <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
+        </xsl:element>
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
 		<xsl:value-of select="concat($field,'_id_ssim')"/>
