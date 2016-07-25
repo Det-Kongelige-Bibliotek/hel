@@ -67,7 +67,7 @@
 	<xsl:when test="t:head">
 	  <!-- xsl:value-of select="t:head"/ -->
 	  <xsl:apply-templates mode="gettext" 
-			       select="./text()|descendant::node()/text()"/>
+			       select="t:head/text()|descendant::node()/text()"/>
 	</xsl:when>
 	<xsl:otherwise>
 	</xsl:otherwise>
