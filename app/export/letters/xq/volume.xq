@@ -52,7 +52,11 @@ return
     <h2>Tekst før brevene</h2>
     {
         for $div in $doc//t:div[not(@decls) and following::t:div[@decls]]
-	return <p>{substring(string-join($div//text()," "),1,100)}</p>
+	let $id := $div/@xml:id/string()
+	let $anchor := substring(string-join($div//text()," "),1,100)
+	(:let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id):)
+	let $uri := concat("present.xq?doc=",$document,"&amp;op=render&amp;c=letter_books&amp;id=",$id)
+	return <p><a href="{$uri}">{$anchor}</a></p>
     }
     <h2>Breve</h2>
     {
@@ -65,9 +69,9 @@ return
 	{
 	   for $bibl in //t:bibl[@xml:id=$bib_id]
 	   let $anchor := ("fra ",
-			<strong>{$bibl/t:respStmt[contains(t:resp,"sender")]/t:name//text()}</strong>,
+			<strong>&#160;{$bibl/t:respStmt[contains(t:resp,"sender")]/t:name//text()}</strong>,
 			" til ",
-			<strong>{$bibl/t:respStmt[contains(t:resp,"recipient")]/t:name//text()}</strong>,
+			<strong>&#160;{$bibl/t:respStmt[contains(t:resp,"recipient")]/t:name//text()}</strong>,
 			", ",
 			for $d in $bibl/t:date[string()] return concat("(",$d,")"))
             return <a href="{$uri}">{$anchor}</a>
@@ -78,7 +82,11 @@ return
     <h2>Tekst efter brevene</h2>
     {
         for $div in $doc//t:div[not(@decls) and not(following::t:div[@decls])]
-	return <p>{substring(string-join($div//text()," "),1,100)}</p>
+	let $id := $div/@xml:id/string()
+	let $anchor := substring(string-join($div//text()," "),1,100)
+	(: let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id) :)
+	let $uri := concat("present.xq?doc=",$document,"&amp;op=render&amp;c=letter_books&amp;id=",$id)
+	return <p><a href="{$uri}">{$anchor}</a></p>
     }
   </body>
 </html>
