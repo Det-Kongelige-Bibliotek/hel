@@ -49,7 +49,6 @@ return
 <html>
   <body>
     {comment{$file}}
-<kbd>{encode-for-uri($file)}</kbd>
     <h2>Tekst før brevene</h2>
     {
         for $div in $doc//t:div[not(@decls) and following::t:div[@decls]]
