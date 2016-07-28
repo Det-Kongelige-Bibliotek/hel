@@ -48,9 +48,8 @@ for $doc in $docs[1]
 return
 <html>
   <body>
-    <pre>file={$file}</pre>
-    <pre>coll={$coll}</pre>
-    <pre>doc={util:document-name($doc)}</pre>
+    {comment{$file}}
+<kbd>{encode-for-uri($file)}</kbd>
     <h2>Tekst før brevene</h2>
     {
         for $div in $doc//t:div[not(@decls) and following::t:div[@decls]]
@@ -59,19 +58,20 @@ return
     <h2>Breve</h2>
     {
         for $div in $doc//node()[@decls]
+	let $id := $div/@xml:id/string()
+	let $bib_id := $div/@decls
+	let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
 	return 
 	<p>
 	{
-		for $id in $div/@decls
-		return
-		  for $bibl in //t:bibl[@xml:id=$id]
-                  return (
-			"fra",
-			<strong>{$bibl/t:respStmt[contains(t:resp,"sender")]/t:name}</strong>,
-			"til",
-			<strong>{$bibl/t:respStmt[contains(t:resp,"recipient")]/t:name}</strong>,
-			for $d in $bibl/t:date[string()] return concat("(",$d,")")
-	               )
+	   for $bibl in //t:bibl[@xml:id=$bib_id]
+	   let $anchor := ("fra ",
+			<strong>{$bibl/t:respStmt[contains(t:resp,"sender")]/t:name//text()}</strong>,
+			" til ",
+			<strong>{$bibl/t:respStmt[contains(t:resp,"recipient")]/t:name//text()}</strong>,
+			", ",
+			for $d in $bibl/t:date[string()] return concat("(",$d,")"))
+            return <a href="{$uri}">{$anchor}</a>
 	}
 	<br/><small>{substring(string-join($div//text()," "),1,300)}</small>
 	</p>
