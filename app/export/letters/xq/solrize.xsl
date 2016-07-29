@@ -160,7 +160,7 @@
       </xsl:element>
 
       <xsl:element name="field">
-        <xsl:attribute name="name">speaker_name</xsl:attribute>
+        <xsl:attribute name="name">speaker_name_ssi</xsl:attribute>
         <xsl:value-of select="t:speaker"/>
       </xsl:element>
 
@@ -312,6 +312,11 @@
       <xsl:value-of select="$volume_title"/>
     </xsl:element>
 
+    <xsl:element name="field">
+      <xsl:attribute name="name">volume_title_ssim</xsl:attribute>
+      <xsl:value-of select="$volume_title"/>
+    </xsl:element>
+
     <xsl:if test="t:head|../t:head">
       <xsl:element name="field">
         <xsl:attribute name="name">head_tesim</xsl:attribute>
@@ -320,7 +325,12 @@
     </xsl:if>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">author_name_ssi</xsl:attribute>
+      <xsl:attribute name="name">author_name_ssim</xsl:attribute>
+      <xsl:value-of select="$author"/>
+    </xsl:element>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">author_name_tesim</xsl:attribute>
       <xsl:value-of select="$author"/>
     </xsl:element>
 
@@ -342,6 +352,11 @@
     </xsl:element>
 
     <xsl:element name="field">
+      <xsl:attribute name="name">editor_tesim</xsl:attribute>
+      <xsl:value-of select="$editor"/>
+    </xsl:element>
+
+    <xsl:element name="field">
       <xsl:attribute name="name">editor_id_ssim</xsl:attribute>
       <xsl:value-of select="$editor_id"/>
     </xsl:element>
@@ -349,6 +364,13 @@
     <xsl:if test="$publisher">
       <xsl:element name="field">
         <xsl:attribute name="name">publisher_ssi</xsl:attribute>
+        <xsl:value-of select="$publisher"/>
+      </xsl:element>
+    </xsl:if>
+
+    <xsl:if test="$publisher">
+      <xsl:element name="field">
+        <xsl:attribute name="name">publisher_tesim</xsl:attribute>
         <xsl:value-of select="$publisher"/>
       </xsl:element>
     </xsl:if>
@@ -433,6 +455,14 @@
 	      </xsl:attribute>
 	      <xsl:value-of select="."/>
 	    </xsl:element>
+
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">
+		<xsl:value-of select="concat($role,'_location_tesim')"/>
+	      </xsl:attribute>
+	      <xsl:value-of select="."/>
+	    </xsl:element>
+
 	  </xsl:for-each>
 	</xsl:for-each>
       </xsl:for-each>
@@ -450,6 +480,12 @@
       <xsl:element name="field">
 	<xsl:attribute name="name">
 	  <xsl:value-of select="concat($role,'_location_text_ssim')"/>
+	</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="concat($role,'_location_text_tesim')"/>
 	</xsl:attribute>
 	<xsl:value-of select="."/>
       </xsl:element>
@@ -501,6 +537,14 @@
 	    </xsl:attribute>
 	    <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
 	    </xsl:element>
+
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">
+		<xsl:value-of select="concat($field,'_tesim')"/>
+	      </xsl:attribute>
+	      <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
+	    </xsl:element>
+
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
 		<xsl:value-of select="concat($field,'_id_ssim')"/>
@@ -512,15 +556,29 @@
       </xsl:for-each>
     </xsl:for-each>
     <xsl:for-each select="descendant::t:persName">
-      <xsl:variable name="field">
+      <xsl:variable name="field1">
 	<xsl:value-of select="concat(@type,'_text_ssim')"/>
       </xsl:variable>
+
+      <xsl:variable name="field2">
+	<xsl:value-of select="concat(@type,'_text_tesim')"/>
+      </xsl:variable>
+
       <xsl:element name="field">
 	<xsl:attribute name="name">
-	  <xsl:value-of select="$field"/>
+	  <xsl:value-of select="$field1"/>
 	</xsl:attribute>
 	<xsl:value-of select="."/>
       </xsl:element>
+
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="$field2"/>
+	</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
+
+
     </xsl:for-each>
   </xsl:template>
 
