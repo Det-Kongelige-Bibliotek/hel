@@ -48,9 +48,9 @@ return
         <pair type="boolean" name="sequenceMode">true</pair>
 	<pair name="indexPage" type="array">
 	{
-	for $div in $doc//node()[@decls]
-	   let $id := $div/@xml:id/string()
-	   let $page := count($div/preceding::t:pb)
+	for $div in $doc//node()[@decls and (not($frag) or @xml:id=$frag)]
+	   let $page := if($frag) then 1
+	                else count($div/preceding::t:pb)
 	   let $bib_id := $div/@decls
 	   return 
 	   for $bibl in //t:bibl[@xml:id=$bib_id]
@@ -66,11 +66,19 @@ return
 	</pair>
 	<pair name="tileSources" type="array">
 	{
-	for $p in $doc//t:pb
-	return  
-        <item type="string">
-	{string-join(("http://kb-images.kb.dk/public/dk_breve/",substring-after(substring-before($p/@facs/string(),".jp"),"/images/"),"info.json"),"/")}
-	</item>
+	if($frag) then
+          for $div in $doc//node()[@decls and @xml:id=$frag]
+	    for $p in $div/preceding::t:pb[1] | $div//t:pb
+	    return
+              <item type="string">
+                {string-join(("http://kb-images.kb.dk/public/dk_breve/",substring-after(substring-before($p/@facs/string(),".jp"),"images/"),"info.json"),"/")}
+	      </item>
+	else
+	  for $p in $doc//t:pb
+	  return  
+          <item type="string">
+          {string-join(("http://kb-images.kb.dk/public/dk_breve/",substring-after(substring-before($p/@facs/string(),".jp"),"images/"),"info.json"),"/")}
+	  </item>
         }
 	</pair>
  </json>
