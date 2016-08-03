@@ -83,4 +83,4 @@ return
 	</pair>
  </json>
 
-return json:serialize-json($osd)
+return replace(replace(replace(json:serialize-json($osd),"\\n"," "),"\\/","/"),"/+","/")
