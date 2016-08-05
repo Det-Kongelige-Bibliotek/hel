@@ -55,7 +55,8 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="t:text[@decls]|t:div[@decls]">
+  <!-- xsl:template match="t:text[@decls]|t:div[@decls]" -->
+  <xsl:template match="t:text|t:div">
     <xsl:variable name="bibl" select="substring-after(@decls,'#')"/>
     <xsl:variable name="worktitle">
       <xsl:choose>
@@ -82,16 +83,18 @@
       </xsl:element>
 
       <xsl:element name="field">
-        <xsl:attribute name="name">cat_ssi</xsl:attribute>
-        <xsl:value-of select="$category"/>
-      </xsl:element>
-
-      <xsl:element name="field">
         <xsl:attribute name="name">work_title_tesim</xsl:attribute>
         <xsl:value-of select="$worktitle"/>
       </xsl:element>
 
-      <xsl:call-template name="add_globals"/>
+      <xsl:call-template name="add_globals">
+	<xsl:with-param name="category">
+	  <xsl:choose>
+	    <xsl:when test="@decls">letter</xsl:when>
+	    <xsl:otherwise>text</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:with-param>
+      </xsl:call-template>
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
@@ -247,6 +250,8 @@
 
   <xsl:template name="add_globals">
 
+    <xsl:param name="category">text</xsl:param>
+
     <xsl:element name="field">
       <xsl:attribute name="name">id</xsl:attribute>
       <xsl:choose>
@@ -279,6 +284,11 @@
 	<xsl:value-of select="$status"/>
       </xsl:element>
     </xsl:if>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">cat_ssi</xsl:attribute>
+      <xsl:value-of select="$category"/>
+    </xsl:element>
 
     <xsl:if test="$app">
       <xsl:element name="field">
@@ -608,10 +618,10 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template mode="backtrack" match="*[@decls]">
+  <xsl:template mode="backtrack" match="node()">
     <xsl:element name="field">
       <xsl:attribute name="name">part_of_ssim</xsl:attribute>
-      <xsl:value-of select="concat($file,'#',@xml:id)"/>
+      <xsl:value-of select="concat(substring-before($file,'.xml'),'-',@xml:id)"/>
     </xsl:element>
     <xsl:choose>
       <xsl:when test="ancestor::node()[@decls]">

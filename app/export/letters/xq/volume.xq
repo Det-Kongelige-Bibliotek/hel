@@ -54,8 +54,7 @@ return
         for $div in $doc//t:div[not(@decls) and following::t:div[@decls]]
 	let $id := $div/@xml:id/string()
 	let $anchor := substring(string-join($div//text()," "),1,100)
-	(:let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id):)
-	let $uri := concat("present.xq?doc=",$document,"&amp;op=render&amp;c=letter_books&amp;id=",$id)
+	let $uri := concat("/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
 	return <p><a href="{$uri}">{$anchor}</a></p>
     }
     <h2>Breve</h2>
@@ -63,7 +62,7 @@ return
         for $div in $doc//node()[@decls]
 	let $id := $div/@xml:id/string()
 	let $bib_id := $div/@decls
-	let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
+	let $uri := concat("/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
 	return 
 	<p>
 	{
@@ -85,7 +84,7 @@ return
 	let $id := $div/@xml:id/string()
 	let $anchor := substring(string-join($div//text()," "),1,100)
 	(: let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id) :)
-	let $uri := concat("present.xq?doc=",$document,"&amp;op=render&amp;c=letter_books&amp;id=",$id)
+	let $uri := concat("/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
 	return <p><a href="{$uri}">{$anchor}</a></p>
     }
   </body>
