@@ -56,7 +56,7 @@
   </xsl:template>
 
   <!-- xsl:template match="t:text[@decls]|t:div[@decls]" -->
-  <xsl:template match="t:text|t:div">
+  <xsl:template match="t:div">
     <xsl:variable name="bibl" select="substring-after(@decls,'#')"/>
     <xsl:variable name="worktitle">
       <xsl:choose>
@@ -349,7 +349,9 @@
       <xsl:value-of select="$author_id"/>
     </xsl:element>
 
-    <xsl:call-template name="letter_info"/>
+    <xsl:if test="@decls">
+      <xsl:call-template name="letter_info"/>
+    </xsl:if>
 
     <xsl:element name="field">
       <xsl:attribute name="name">copyright_ssi</xsl:attribute>
