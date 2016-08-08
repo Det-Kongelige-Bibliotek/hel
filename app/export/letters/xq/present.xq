@@ -27,8 +27,10 @@ declare variable  $file     := substring-after(concat($coll,$document),"/db");
 
 declare option exist:serialize "method=xml encoding=UTF-8 media-type=text/html";
 
+
+
 let $list := 
-    for $doc in collection($coll)
+    for $doc in collection("/db/letter_books")
     where util:document-name($doc)=$document
     return $doc
 
@@ -72,6 +74,7 @@ let $params :=
   <param name="next_encoded"
                          value="{$next_encoded}"/>
   <param name="work_id"  value="{$work_id}"/>
+
   <param name="c"        value="{$c}"/>
   <param name="coll"     value="{$coll}"/>
   <param name="file"     value="{$file}"/>
