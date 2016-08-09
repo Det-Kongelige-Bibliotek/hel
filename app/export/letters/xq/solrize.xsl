@@ -24,6 +24,7 @@
   <xsl:param name="editor" select="''"/>
   <xsl:param name="editor_id" select="''"/>
   <xsl:param name="volume_title" select="''"/>
+  <xsl:param name="volume_id" select="''"/>
   <xsl:param name="publisher" select="''"/>
   <xsl:param name="published_place" select="''"/>
   <xsl:param name="published_date" select="''"/>
@@ -307,7 +308,7 @@
 
     <xsl:element name="field">
       <xsl:attribute name="name">volume_id_ssi</xsl:attribute>
-      <xsl:value-of select="$file"/>
+      <xsl:value-of select="$volume_id"/>
     </xsl:element>
 
     <xsl:element name="field">
