@@ -54,7 +54,7 @@ module DisseminationProfiles
       #Get all persons in letterbook
       lb.relators.each do |rel|
         if ['http://id.loc.gov/vocabulary/relators/edt','http://id.loc.gov/vocabulary/relators/aut'].include? rel.role
-          Rails.logger.debug "adding letterbook person #{doc}"
+          Rails.logger.debug "adding letterbook person #{rel.agent_id} #{get_person_doc(rel.agent_id)}"
           persons[rel.agent_id] = get_person_doc(rel.agent_id)
         end
       end
