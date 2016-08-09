@@ -35,6 +35,8 @@ module DisseminationProfiles
 
       doc[:editor_id_ssim] = []
       doc[:author_id_ssim] = []
+      doc[:editor_name_tesim] = []
+      doc[:author_name_tesim] = []
       lb.relators.each do |agent|
         doc[:editor_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:editor_name_tesim] << self.get_person_name(agent.id) if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
