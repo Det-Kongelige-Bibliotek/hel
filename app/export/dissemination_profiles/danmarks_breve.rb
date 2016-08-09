@@ -21,7 +21,7 @@ module DisseminationProfiles
       end
 
       #Create solr doc for volume
-      doc = {id: "/letter_books/#{sysnum}/#{lb.get_file_name}", application_ssim: 'DKLetters', cat_ssi: 'letterbook'}
+      doc = {id: "/letter_books/#{sysnum}/#{File.basename(lb.get_file_name,'.xml')}", application_ssim: 'DKLetters', cat_ssi: 'letterbook'}
       doc[:volume_title_ssim] = []
       lb.titles.each do |title|
         doc[:volume_title_ssim] << title.value
