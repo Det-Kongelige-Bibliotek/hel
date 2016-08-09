@@ -20,7 +20,6 @@ module DisseminationProfiles
         raise "Unable to solrize letters #{e.message}"
       end
 
-
       #Create solr doc for volume
       doc = {id: "/letter_books/#{sysnum}/#{lb.get_file_name}", application_ssim: 'DKLetters', cat_ssi: 'letterbook'}
       doc[:volume_title_ssim] = []
