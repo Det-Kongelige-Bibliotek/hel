@@ -37,6 +37,7 @@ module DisseminationProfiles
       doc[:editor_name_tesim] = []
       doc[:author_name_tesim] = []
       lb.relators.each do |agent|
+        Rails.logger.debug "Letterbook agent #{agent.id} #{agent.role}"
         doc[:editor_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:editor_name_tesim] << self.get_person_name(agent.id) if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:author_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/aut'
