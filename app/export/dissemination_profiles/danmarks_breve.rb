@@ -36,11 +36,11 @@ module DisseminationProfiles
       doc[:author_id_ssim] = []
       doc[:editor_name_tesim] = []
       doc[:author_name_tesim] = []
-      lb.relators.each do |agent|
-        Resque.logger.debug "Letterbook agent #{agent.id} #{agent.role}"
-        doc[:editor_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
+      lb.relators.each do |rel|
+        Resque.logger.debug "Letterbook agent #{rel.agent_id} #{rel.agent_id}"
+        doc[:editor_id_ssim] << rel.agent_id if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:editor_name_tesim] << self.get_person_name(agent.id) if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
-        doc[:author_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/aut'
+        doc[:author_id_ssim] << rel.agent_id if agent.role == 'http://id.loc.gov/vocabulary/relators/aut'
         doc[:author_name_tesim] << self.get_person_name(agent.id) if agent.role == 'http://id.loc.gov/vocabulary/relators/aut'
       end
       doc[:edition_ssi] = instance.edition if instance.edition.present?
