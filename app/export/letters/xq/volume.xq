@@ -73,7 +73,7 @@ return
 			<strong>&#160;{$bibl/t:respStmt[contains(t:resp,"recipient")]/t:name//text()}</strong>,
 			", ",
 			for $d in $bibl/t:date[string()] return concat("(",$d,")"))
-            return <a href="{$uri}">{$anchor}</a>
+            return <a id="{$id}" href="{$uri}">{$anchor}</a>
 	}
 	<br/><small>{substring(string-join($div//text()," "),1,300)}</small>
 	</p>
