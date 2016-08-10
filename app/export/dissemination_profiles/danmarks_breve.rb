@@ -40,7 +40,7 @@ module DisseminationProfiles
         Resque.logger.debug "Letterbook agent #{rel.agent_id} #{rel.agent_id}"
         doc[:editor_id_ssim] << rel.agent_id if rel.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:editor_name_tesim] << self.get_person_name(rel.agent_id) if rel.role == 'http://id.loc.gov/vocabulary/relators/edt'
-        doc[:author_id_ssim] << rel.agent_id if agent.role == 'http://id.loc.gov/vocabulary/relators/aut'
+        doc[:author_id_ssim] << rel.agent_id if rel.role == 'http://id.loc.gov/vocabulary/relators/aut'
         doc[:author_name_tesim] << self.get_person_name(rel.agent_id) if rel.role == 'http://id.loc.gov/vocabulary/relators/aut'
       end
       doc[:edition_ssi] = instance.edition if instance.edition.present?
