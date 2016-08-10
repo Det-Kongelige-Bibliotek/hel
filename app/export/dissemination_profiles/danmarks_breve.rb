@@ -37,7 +37,7 @@ module DisseminationProfiles
       doc[:editor_name_tesim] = []
       doc[:author_name_tesim] = []
       lb.relators.each do |agent|
-        Rails.logger.debug "Letterbook agent #{agent.id} #{agent.role}"
+        Resque.logger.debug "Letterbook agent #{agent.id} #{agent.role}"
         doc[:editor_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:editor_name_tesim] << self.get_person_name(agent.id) if agent.role == 'http://id.loc.gov/vocabulary/relators/edt'
         doc[:author_id_ssim] << agent.id if agent.role == 'http://id.loc.gov/vocabulary/relators/aut'
@@ -49,13 +49,13 @@ module DisseminationProfiles
       doc[:published_date_ssi] = instance.published_date if instance.published_date.present?
       doc[:note_ssi] = instance.note if instance.note.present?
       self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
-      Rails.logger.debug "Sending letterbook to bifrost solr #{doc}"
+      Resque.logger.debug "Sending letterbook to bifrost solr #{doc}"
 
       persons = Hash.new
       #Get all persons in letterbook
       lb.relators.each do |rel|
         if ['http://id.loc.gov/vocabulary/relators/edt','http://id.loc.gov/vocabulary/relators/aut'].include? rel.role
-          Rails.logger.debug "adding letterbook person #{rel.agent_id} #{get_person_doc(rel.agent_id)}"
+          Resque.logger.debug "adding letterbook person #{rel.agent_id} #{get_person_doc(rel.agent_id)}"
           persons[rel.agent_id] = get_person_doc(rel.agent_id)
         end
       end
@@ -77,7 +77,7 @@ module DisseminationProfiles
       end
       persons.each do |id,doc|
         self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
-        Rails.logger.debug "Sending person to bifrost solr #{doc}"
+        Resque.logger.debug "Sending person to bifrost solr #{doc}"
       end
     end
 
@@ -103,7 +103,7 @@ module DisseminationProfiles
                application_ssim: 'DKLetters'}
 
       else
-        Rails.logger.error "Person #{person_id} not found"
+        Resque.logger.error "Person #{person_id} not found"
       end
       doc
     end
@@ -113,7 +113,7 @@ module DisseminationProfiles
        if person.present?
          name = person.full_name
        else
-         Rails.logger.error "Person #{person_id} not found"
+         Resque.logger.error "Person #{person_id} not found"
        end
        name
     end
