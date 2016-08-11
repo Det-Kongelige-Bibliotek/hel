@@ -517,6 +517,17 @@
 	    <xsl:attribute name="name">date_ssim</xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
+	  <xsl:variable name="ditsi">
+	    <xsl:value-of select="number(substring(.,1,4))"/>
+	  </xsl:variable>
+
+	  <xsl:if test="not(contains($ditsi,'NaN'))">
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">year_itsi</xsl:attribute>
+	      <xsl:value-of select="$ditsi"/>
+	    </xsl:element>
+	  </xsl:if>
+
 	</xsl:for-each>
       </xsl:for-each>
     </xsl:for-each>
