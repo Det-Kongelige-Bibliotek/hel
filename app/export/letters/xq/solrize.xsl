@@ -544,12 +544,42 @@
   <!--
       This is where we extract senders, recipients, authors and other agents. The code is a bit obfuscated
   -->
+  <xsl:template name="extract_agent_sort_keys">
+    <xsl:param name="field" select="''"/>
+
+    <xsl:variable name="value">
+      <xsl:for-each select="t:respStmt[t:resp=$field and t:name/node()]">
+	<xsl:for-each select="t:name"><xsl:value-of select="t:surname"/><xsl:value-of select="t:forename"/></xsl:for-each>
+      </xsl:for-each>
+    </xsl:variable>
+
+    <xsl:if test="$value">
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="concat('sortby_',$field,'_ssi')"/>
+	</xsl:attribute>
+	<xsl:value-of select="$value"/>
+      </xsl:element>
+    </xsl:if>
+
+  </xsl:template>
+
 
   <xsl:template name="extract_agents">
     <xsl:param name="bibl" select="''"/>
 
     <xsl:for-each select="/t:TEI">
       <xsl:for-each select="descendant::node()[@xml:id=$bibl]">
+
+	<xsl:call-template name="extract_agent_sort_keys">
+	  <xsl:with-param name="field">recipient</xsl:with-param>
+	</xsl:call-template>
+
+	<xsl:call-template name="extract_agent_sort_keys">
+	  <xsl:with-param name="field">sender</xsl:with-param>
+	</xsl:call-template>
+
+
 	<xsl:for-each select="t:respStmt[t:resp/node() and t:name/node()]">
 	  <xsl:variable name="field">
 	    <xsl:value-of select="t:resp"/>
