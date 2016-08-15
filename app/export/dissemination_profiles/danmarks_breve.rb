@@ -44,8 +44,8 @@ module DisseminationProfiles
         doc[:author_name_tesim] << self.get_person_name(rel.agent_id) if rel.role == 'http://id.loc.gov/vocabulary/relators/aut'
       end
       doc[:edition_ssi] = instance.edition if instance.edition.present?
-      doc[:publisher_name_ssi] = instance.publisher if instance.publisher.present?
-      doc[:publisher_name_tesim] = instance.publisher if instance.publisher.present?
+      doc[:publisher_name_ssi] = instance.publisher_name if instance.publisher.present?
+      doc[:publisher_name_tesim] = instance.publisher_name if instance.publisher.present?
       doc[:published_date_ssi] = instance.published_date if instance.published_date.present?
       doc[:note_ssi] = instance.note if instance.note.present?
       self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
