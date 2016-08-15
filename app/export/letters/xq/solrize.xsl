@@ -589,14 +589,14 @@
 	    <xsl:attribute name="name">
 	      <xsl:value-of select="concat($field,'_ssim')"/>
 	    </xsl:attribute>
-	    <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
+	    <xsl:value-of select="t:surname"/><xsl:text>, </xsl:text><xsl:value-of select="t:forename"/>
 	    </xsl:element>
 
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
 		<xsl:value-of select="concat($field,'_tesim')"/>
 	      </xsl:attribute>
-	      <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
+              <xsl:value-of select="t:forename"/><xsl:text> </xsl:text><xsl:value-of select="t:surname"/>
 	    </xsl:element>
 
 	    <xsl:element name="field">
