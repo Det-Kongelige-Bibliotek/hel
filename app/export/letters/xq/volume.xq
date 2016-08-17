@@ -64,16 +64,17 @@ return
 	let $bib_id := $div/@decls
 	let $uri := concat("/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
 	return 
-	<p>
+	<p  id="{$id}">
 	{
 	   for $bibl in //t:bibl[@xml:id=$bib_id]
-	   let $anchor := ("fra ",
-			<strong>&#160;{$bibl/t:respStmt[contains(t:resp,"sender")]/t:name//text()}</strong>,
-			" til ",
-			<strong>&#160;{$bibl/t:respStmt[contains(t:resp,"recipient")]/t:name//text()}</strong>,
-			", ",
+	   let $anchor := ("BREV TIL: ",
+			<strong>&#160;{string-join($bibl/t:respStmt[contains(t:resp,"recipient")]/t:name,"; ")}</strong>,
+			" FRA: ",
+			<strong>&#160;{string-join($bibl/t:respStmt[contains(t:resp,"sender")]/t:name,"; ")}</strong>,
+
+			" ",
 			for $d in $bibl/t:date[string()] return concat("(",$d,")"))
-            return <a id="{$id}" href="{$uri}">{$anchor}</a>
+            return (<a><span class="glyphicon glyphicon-envelope"></span></a>,<a href="{$uri}">{$anchor}</a>)
 	}
 	<br/><small>{substring(string-join($div//text()," "),1,300)}</small>
 	</p>
