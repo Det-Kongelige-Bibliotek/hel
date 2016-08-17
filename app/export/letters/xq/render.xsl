@@ -357,6 +357,11 @@
   </xsl:template>
   
   <xsl:template match="t:pb">
+    <xsl:variable name="first">
+      <xsl:value-of select="count(preceding::t:pb)"/>
+    </xsl:variable>
+
+    <xsl:if test="$first &gt; 0">
     <xsl:element name="span">
       <xsl:call-template name="add_id_empty_elem"/>
       <xsl:attribute name="class">pageBreak</xsl:attribute>
@@ -390,6 +395,7 @@
 	<small><xsl:value-of select="@n"/></small>
       </xsl:element>
     </xsl:element>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="add_id">
