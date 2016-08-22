@@ -16,6 +16,7 @@
   <xsl:param name="next_encoded" select="''"/>
   <xsl:param name="file" select="''"/>
   <xsl:param name="hostname" select="''"/>
+  <xsl:param name="facslinks" select="''"/>
 
   <xsl:output method="xml"
 	      encoding="UTF-8"
@@ -367,30 +368,32 @@
       <xsl:attribute name="class">pageBreak</xsl:attribute>
       <xsl:element name="a">
 	<xsl:attribute name="data-no-turbolink">true</xsl:attribute>
-        <xsl:attribute name="href">
-	  <xsl:choose>
-	    <xsl:when test="$id">
-	      <xsl:value-of select="concat('/catalog/%2Fletter_books%2F',
-				    substring-before($doc,'_'),
-				    '%2F',
-				    substring-before($doc,'.xml'),
-				    '-',
-				    $id,
-				    '#',
-				    'facsid', @xml:id)"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-              <xsl:value-of select="concat('/letter_books/show_letter_and_facsimile?sid=%2Fletter_books%2F',
-				    substring-before($doc,'_'),
-				    '%2F',
-				    substring-before($doc,'.xml'),
-				    '-',
-				    $id,
-				    '#',
-				    'facsid', @xml:id)"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:attribute>
+	<xsl:if test="$facslinks">
+	  <xsl:attribute name="href">
+	    <xsl:choose>
+	      <xsl:when test="$id">
+		<xsl:value-of select="concat('/catalog/%2Fletter_books%2F',
+				      substring-before($doc,'_'),
+				      '%2F',
+				      substring-before($doc,'.xml'),
+				      '-',
+				      $id,
+				      '#',
+				      'facsid', @xml:id)"/>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:value-of select="concat('/letter_books/show_letter_and_facsimile?sid=%2Fletter_books%2F',
+				      substring-before($doc,'_'),
+				      '%2F',
+				      substring-before($doc,'.xml'),
+				      '-',
+				      $id,
+				      '#',
+				      'facsid', @xml:id)"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:attribute>
+	</xsl:if>
 	<xsl:text>s. </xsl:text>
 	<small><xsl:value-of select="@n"/></small>
       </xsl:element>
