@@ -74,7 +74,7 @@ return
 
 			" ",
 			for $d in $bibl/t:date[string()] return concat("(",$d,")"))
-            return (<a><span class="glyphicon glyphicon-envelope"></span></a>,<a href="{$uri}">{$anchor}</a>)
+            return (<span class="glyphicon glyphicon-envelope">{" "}</span>,<a href="{$uri}">{$anchor}</a>)
 	}
 	<br/><small>{substring(string-join($div//text()," "),1,300)}</small>
 	</p>
