@@ -49,15 +49,15 @@ return
 <html>
   <body>
     {comment{$file}}
-    <h4>Tekst før brevene</h4>
+   
     {
         for $div in $doc//t:div[not(@decls) and following::t:div[@decls]]
 	let $id := $div/@xml:id/string()
-	let $anchor := substring(string-join($div//text()," "),1,100)
+	let $anchor := "Tekst før brevene" (: substring(string-join($div//text()," "),1,100) :)
 	let $uri := concat("/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
-	return <p><a href="{$uri}">{$anchor}</a></p>
+	return <h4><a href="{$uri}">{$anchor}</a></h4>
     }
-    <h4>Breve</h4>
+
     {
         for $div in $doc//node()[@decls]
 	let $id := $div/@xml:id/string()
@@ -79,14 +79,13 @@ return
 	<br/><small>{substring(string-join($div//text()," "),1,300)}</small>
 	</p>
     }
-    <h4>Tekst efter brevene</h4>
     {
         for $div in $doc//t:div[not(@decls) and not(following::t:div[@decls])]
 	let $id := $div/@xml:id/string()
-	let $anchor := substring(string-join($div//text()," "),1,100)
+	let $anchor := "Tekst efter brevene" (:substring(string-join($div//text()," "),1,100) :)
 	(: let $uri := concat("http://localhost:3000/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id) :)
 	let $uri := concat("/catalog/",encode-for-uri(substring-before($file,".xml")),"-",$id)
-	return <p><a href="{$uri}">{$anchor}</a></p>
+	return <h4><a href="{$uri}">{$anchor}</a></h4>
     }
   </body>
 </html>
