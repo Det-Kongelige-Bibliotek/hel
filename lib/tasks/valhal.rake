@@ -71,7 +71,7 @@ namespace :valhal do
   task update_letter_book_index: :environment do
     Authority::Person.all.each do |p|
       puts "Updating index for #{p.display_value}"
-      lb.update_index
+      p.update_index
     end
   end
 
