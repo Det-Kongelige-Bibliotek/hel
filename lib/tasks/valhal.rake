@@ -68,7 +68,7 @@ namespace :valhal do
   end
 
   desc 'Update authority index'
-  task update_letter_book_index: :environment do
+  task update_author_index: :environment do
     Authority::Person.all.each do |p|
       puts "Updating index for #{p.display_value}"
       p.update_index
