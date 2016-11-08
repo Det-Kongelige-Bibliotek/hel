@@ -62,6 +62,7 @@ namespace :valhal do
   desc 'Update letterbook index'
   task update_letter_book_index: :environment do
     LetterBook.all.each do |lb|
+      puts "Updating index for #{lb.id}"
       lb.update_index
     end
   end
