@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/Det-Kongelige-Bibliotek/authority.git
-  revision: 92530bc5cb492810043011fb74a5c0b318f79143
+  revision: e89fec09c759881953c2d148f5f709d4483747f0
   specs:
     authority (0.0.1)
       hydra
