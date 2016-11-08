@@ -59,6 +59,13 @@ namespace :valhal do
 
   end
 
+  desc 'Update letterbook index'
+  task update_letter_book_index: :environment do
+    LetterBook.all.each do |lb|
+      lb.update_index
+    end
+  end
+
   desc 'Scan incomming forder for new letterbook Tei files'
   task :scan_for_letterbooks, [:incomming_dir,:processed_dir, :img_base_dir] => :environment do |task, args|
     Resque.enqueue(LetterBookScan,args.incomming_dir,args.processed_dir,args.img_base_dir)
