@@ -164,8 +164,8 @@ class CatalogController < ApplicationController
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
     config.add_sort_field 'score desc, pub_date_dtsi desc, title_si asc', :label => 'relevans'
-    config.add_sort_field 'author_si asc, title_si asc', :label => 'forfatter'
-    config.add_sort_field 'title_si asc, pub_date_dtsi desc', :label => 'title'
+    config.add_sort_field 'author_sort_ssi asc, title_si asc', :label => 'forfatter'
+    config.add_sort_field 'display_value_ssi asc, pub_date_dtsi desc', :label => 'title'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
