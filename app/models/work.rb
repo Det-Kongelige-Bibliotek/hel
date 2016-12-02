@@ -151,6 +151,7 @@ class Work < ActiveFedora::Base
   def to_solr(solr_doc = {})
     solr_doc.merge!(super)
     Solrizer.insert_field(solr_doc, 'display_value', display_value, :displayable)
+    Solrizer.insert_field(solr_doc, 'display_value', display_value, :stored_sortable)
     titles.each do |title|
       Solrizer.insert_field(solr_doc, 'title', title.value, :stored_searchable, :displayable)
       Solrizer.insert_field(solr_doc, 'subtitle', title.subtitle, :stored_searchable, :displayable)
@@ -159,7 +160,7 @@ class Work < ActiveFedora::Base
     authors.each do |aut|
       Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable) unless aut.nil?
     end
-    Solrizer.insert_field(solr_doc, 'author', authors.first.try(:family_name)+", "+authors.first.try(:given_name), :stored_searchable, :sortable)
+    Solrizer.insert_field(solr_doc, 'author_sort', authors.first.try(:family_name).to_s+", "+authors.first.try(:given_name).to_s, :stored_sortable)
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
       Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)

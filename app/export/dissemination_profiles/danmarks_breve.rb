@@ -49,7 +49,7 @@ module DisseminationProfiles
       doc[:published_date_ssi] = instance.published_date if instance.published_date.present?
       doc[:note_ssi] = instance.note if instance.note.present?
       self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
-      Resque.logger.debug "Sending letterbook to bifrost solr #{doc}"
+      Resque.logger.info "Sending letterbook to bifrost solr #{doc}"
 
       persons = Hash.new
       #Get all persons in letterbook
@@ -77,7 +77,7 @@ module DisseminationProfiles
       end
       persons.each do |id,doc|
         self.send_to_solr(RSolr.connect(:url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]).xml.add(doc,{}))
-        Resque.logger.debug "Sending person to bifrost solr #{doc}"
+        Resque.logger.info "Sending person to bifrost solr #{doc}"
       end
     end
 
