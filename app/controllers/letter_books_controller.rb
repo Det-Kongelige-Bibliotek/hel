@@ -1,6 +1,6 @@
 class LetterBooksController < ApplicationController
   include Concerns::RemoveBlanks
-  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile, :begin_work, :complete_work]
+  before_action :set_letter_book, only: [:show, :edit, :update, :facsimile, :begin_work, :complete_work, :publish_work]
 
   respond_to :html
 
@@ -35,6 +35,17 @@ class LetterBooksController < ApplicationController
     @letter_book.save
     redirect_to solr_document_path(@letter_book)
   end
+
+  def publish_work
+    tei_inst = @letter_book.get_instance('TEI')
+    if tei_inst.present?
+      Resque.enqueue(DisseminateJob,tei_inst.id) unless tei_inst.cannot_be_published?
+    else
+      flash[:error] = "Brevudgave har ingen tei instans"
+    end
+    redirect_to solr_document_path(@letter_book)
+  end
+
 
   private
 
