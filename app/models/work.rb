@@ -28,7 +28,7 @@ class Work < ActiveFedora::Base
 
   before_save :set_rights_metadata
 
-  after_save :disseminate_all_instances
+  # after_save :disseminate_all_instances
 
   validates_each :origin_date do |record, attr, val|
  #   record.errors.add(attr, I18n.t('edtf.no_date_message')) unless val.present?
@@ -160,7 +160,7 @@ class Work < ActiveFedora::Base
     authors.each do |aut|
       Solrizer.insert_field(solr_doc, 'author', aut.display_value,:stored_searchable, :facetable, :displayable) unless aut.nil?
     end
-    Solrizer.insert_field(solr_doc, 'author_sort', authors.first.try(:family_name).to_s+", "+authors.first.try(:given_name).to_s, :stored_sortable)
+    Solrizer.insert_field(solr_doc, 'author', authors.first.try(:family_name).to_s+", "+authors.first.try(:given_name).to_s, :stored_searchable, :sortable)
     instances.each do |i|
       Solrizer.insert_field(solr_doc, 'work_activity', i.activity, :facetable)
       Solrizer.insert_field(solr_doc, 'work_collection', i.collection, :facetable)

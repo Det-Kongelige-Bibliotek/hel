@@ -41,7 +41,6 @@ module Datastreams
         date   = p.xpath('mods:namePart[@type="date"]',
                          'mods'=>ns).text
 
-
         author = Authority::Person.find_or_create(given_name: given, family_name: family)
 
         self.add_author(author)

@@ -121,12 +121,11 @@ namespace :valhal do
     delete_all_objects
   end
 
-  private
-  def delete_all_objects
+  task delete_all_objects: :environment do
     ContentFile.find_each(&:delete)
     Instance.find_each(&:delete)
     Relator.find_each(&:delete)
-    Authority::Thing.find_each(&:delete)
+    Authority::Person.find_each(&:delete)
     Title.find_each(&:delete)
     Work.find_each(&:delete)
     Administration::Activity.find_each(&:delete)

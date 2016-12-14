@@ -38,10 +38,10 @@ class Instance < ActiveFedora::Base
 
   before_save :set_rights_metadata, :set_copyright_data, :delete_providers
 
-  after_save do
-    work.update_index if work.present?
- #   Resque.enqueue(DisseminateJob,self.id) unless self.cannot_be_published?
-  end
+#  after_save do
+#    work.update_index if work.present?
+#    Resque.enqueue(DisseminateJob,self.id) unless self.cannot_be_published?
+#  end
 
   def publication
     publications.first

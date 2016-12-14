@@ -15,7 +15,9 @@ module DisseminationProfiles
       #Solrize letters
       begin
         solr_doc = SnippetServer.solrize({doc: lb.get_file_name, c: "/db/letter_books/#{sysnum}", app: 'DKLetters'})
+        Resque.logger.info "#{solr_doc}"
         self.send_to_solr('<?xml version="1.0" encoding="UTF-8"?>'+solr_doc)
+        Resque.logger.debug "letters send "
       rescue Exception => e
         raise "Unable to solrize letters #{e.message}"
       end
@@ -82,9 +84,13 @@ module DisseminationProfiles
     end
 
     def self.send_to_solr(solr_doc)
+      Resque.logger.debug("connecting #{CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]}")
       solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]
+      Resque.logger.debug("connected")
       solr.update(data:solr_doc)
+      Resque.logger.debug("updated")
       solr.commit
+      Resque.logger.debug("comitted")
     end
 
     def self.get_person_doc(person_id)
@@ -117,7 +123,5 @@ module DisseminationProfiles
        end
        name
     end
-
-
   end
 end

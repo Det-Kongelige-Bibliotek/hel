@@ -34,6 +34,16 @@ class LetterBookIngest
     # make a letter_book
 
     lb = LetterBook.new_letterbook({},{})
+    status = 'ready'
+    if (File.exists? "/home/rails_owner/dk_breve/lb_ids.json")
+	file = File.read("/home/rails_owner/dk_breve/lb_ids.json")
+	json = JSON.parse(file)
+	if (json[xml_pathname.basename.to_s].present?)
+		Resque.logger.info("Setting id and status #{json[xml_pathname.basename.to_s]["id"]} - #{json[xml_pathname.basename.to_s]["status"]}")
+		lb.id = json[xml_pathname.basename.to_s]["id"]
+		status = json[xml_pathname.basename.to_s]["status"]
+	end
+    end	
 
     lb.save
 
@@ -53,7 +63,7 @@ class LetterBookIngest
     instance_tei.collection = activity.collection
     instance_tei.copyright  = activity.copyright
     instance_tei.preservation_collection = activity.preservation_collection
-    instance_tei.status = 'ready'
+    instance_tei.status = status
 
     # instance_img.activity   = activity.id
     # instance_img.collection = activity.collection
