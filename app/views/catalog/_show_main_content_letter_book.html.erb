@@ -10,6 +10,10 @@
 </div>
 
 <h4> <% letters = Finder.get_all_letters(@document.id) %> </h4>
-<% for l in letters %>
-    <%= render "letter_index", letter: l %>
+<% if letters.size > 0 %>
+    <% for l in letters %>
+        <%= render "letter_index", letter: l %>
+    <% end %>
+<% else %>
+    <h4>Denne brevudgivelse indeholder ingen breve</h4>
 <% end %>

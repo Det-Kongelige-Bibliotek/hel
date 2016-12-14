@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     member do
       get 'begin_work'
       get 'complete_work'
+      get 'publish_work'
     end
   end
   resources :letters

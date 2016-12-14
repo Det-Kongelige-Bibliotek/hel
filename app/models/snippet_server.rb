@@ -161,6 +161,7 @@ class SnippetServer
     uri += "&prefix=#{URI.escape(opts[:prefix])}" if opts[:prefix].present?
     uri += "&work_id=#{URI.escape(opts[:work_id])}" if opts[:work_id].present?
     uri += "&status=#{URI.escape(opts[:status])}" if opts[:status].present?
+    uri += "&app=#{URI.escape(opts[:app])}" if opts[:app].present?
     uri
   end
 end

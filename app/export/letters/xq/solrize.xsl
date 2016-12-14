@@ -24,6 +24,7 @@
   <xsl:param name="editor" select="''"/>
   <xsl:param name="editor_id" select="''"/>
   <xsl:param name="volume_title" select="''"/>
+  <xsl:param name="volume_id" select="''"/>
   <xsl:param name="publisher" select="''"/>
   <xsl:param name="published_place" select="''"/>
   <xsl:param name="published_date" select="''"/>
@@ -34,6 +35,9 @@
 
   <xsl:param name="status" select="''"/>
   <!-- Status: created|waiting|working|completed -->
+
+  <xsl:param name="app" select="''"/>
+  <!-- the name of the application, used by bifrost solr -->
 
 
   <xsl:template match="/">
@@ -52,7 +56,8 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="t:text[@decls]|t:div[@decls]">
+  <!-- xsl:template match="t:text[@decls]|t:div[@decls]" -->
+  <xsl:template match="t:div">
     <xsl:variable name="bibl" select="substring-after(@decls,'#')"/>
     <xsl:variable name="worktitle">
       <xsl:choose>
@@ -64,7 +69,7 @@
 	<xsl:when test="t:head">
 	  <!-- xsl:value-of select="t:head"/ -->
 	  <xsl:apply-templates mode="gettext" 
-			       select="./text()|descendant::node()/text()"/>
+			       select="t:head/text()|descendant::node()/text()"/>
 	</xsl:when>
 	<xsl:otherwise>
 	</xsl:otherwise>
@@ -79,16 +84,18 @@
       </xsl:element>
 
       <xsl:element name="field">
-        <xsl:attribute name="name">cat_ssi</xsl:attribute>
-        <xsl:value-of select="$category"/>
-      </xsl:element>
-
-      <xsl:element name="field">
         <xsl:attribute name="name">work_title_tesim</xsl:attribute>
         <xsl:value-of select="$worktitle"/>
       </xsl:element>
 
-      <xsl:call-template name="add_globals"/>
+      <xsl:call-template name="add_globals">
+	<xsl:with-param name="category">
+	  <xsl:choose>
+	    <xsl:when test="@decls">letter</xsl:when>
+	    <xsl:otherwise>text</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:with-param>
+      </xsl:call-template>
 
       <xsl:element name="field">
         <xsl:attribute name="name">text_tesim</xsl:attribute>
@@ -157,7 +164,7 @@
       </xsl:element>
 
       <xsl:element name="field">
-        <xsl:attribute name="name">speaker_name</xsl:attribute>
+        <xsl:attribute name="name">speaker_name_ssi</xsl:attribute>
         <xsl:value-of select="t:speaker"/>
       </xsl:element>
 
@@ -244,6 +251,8 @@
 
   <xsl:template name="add_globals">
 
+    <xsl:param name="category">text</xsl:param>
+
     <xsl:element name="field">
       <xsl:attribute name="name">id</xsl:attribute>
       <xsl:choose>
@@ -278,6 +287,18 @@
     </xsl:if>
 
     <xsl:element name="field">
+      <xsl:attribute name="name">cat_ssi</xsl:attribute>
+      <xsl:value-of select="$category"/>
+    </xsl:element>
+
+    <xsl:if test="$app">
+      <xsl:element name="field">
+        <xsl:attribute name="name">application_ssim</xsl:attribute>
+        <xsl:value-of select="$app"/>
+      </xsl:element>
+    </xsl:if>
+
+    <xsl:element name="field">
       <xsl:attribute
 	  name="name">active_fedora_model_ssi</xsl:attribute>Letter</xsl:element>
 
@@ -287,7 +308,7 @@
 
     <xsl:element name="field">
       <xsl:attribute name="name">volume_id_ssi</xsl:attribute>
-      <xsl:value-of select="$file"/>
+      <xsl:value-of select="$volume_id"/>
     </xsl:element>
 
     <xsl:element name="field">
@@ -302,6 +323,11 @@
       <xsl:value-of select="$volume_title"/>
     </xsl:element>
 
+    <xsl:element name="field">
+      <xsl:attribute name="name">volume_title_ssim</xsl:attribute>
+      <xsl:value-of select="$volume_title"/>
+    </xsl:element>
+
     <xsl:if test="t:head|../t:head">
       <xsl:element name="field">
         <xsl:attribute name="name">head_tesim</xsl:attribute>
@@ -310,7 +336,12 @@
     </xsl:if>
 
     <xsl:element name="field">
-      <xsl:attribute name="name">author_name_ssi</xsl:attribute>
+      <xsl:attribute name="name">author_name_ssim</xsl:attribute>
+      <xsl:value-of select="$author"/>
+    </xsl:element>
+
+    <xsl:element name="field">
+      <xsl:attribute name="name">author_name_tesim</xsl:attribute>
       <xsl:value-of select="$author"/>
     </xsl:element>
 
@@ -319,7 +350,9 @@
       <xsl:value-of select="$author_id"/>
     </xsl:element>
 
-    <xsl:call-template name="letter_info"/>
+    <xsl:if test="@decls">
+      <xsl:call-template name="letter_info"/>
+    </xsl:if>
 
     <xsl:element name="field">
       <xsl:attribute name="name">copyright_ssi</xsl:attribute>
@@ -332,6 +365,11 @@
     </xsl:element>
 
     <xsl:element name="field">
+      <xsl:attribute name="name">editor_tesim</xsl:attribute>
+      <xsl:value-of select="$editor"/>
+    </xsl:element>
+
+    <xsl:element name="field">
       <xsl:attribute name="name">editor_id_ssim</xsl:attribute>
       <xsl:value-of select="$editor_id"/>
     </xsl:element>
@@ -339,6 +377,13 @@
     <xsl:if test="$publisher">
       <xsl:element name="field">
         <xsl:attribute name="name">publisher_ssi</xsl:attribute>
+        <xsl:value-of select="$publisher"/>
+      </xsl:element>
+    </xsl:if>
+
+    <xsl:if test="$publisher">
+      <xsl:element name="field">
+        <xsl:attribute name="name">publisher_tesim</xsl:attribute>
         <xsl:value-of select="$publisher"/>
       </xsl:element>
     </xsl:if>
@@ -423,12 +468,14 @@
 	      </xsl:attribute>
 	      <xsl:value-of select="."/>
 	    </xsl:element>
-        <xsl:element name="field">
-          <xsl:attribute name="name">
-            <xsl:value-of select="concat($role,'_location_tesim')"/>
-          </xsl:attribute>
-          <xsl:value-of select="."/>
-        </xsl:element>
+
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">
+		<xsl:value-of select="concat($role,'_location_tesim')"/>
+	      </xsl:attribute>
+	      <xsl:value-of select="."/>
+	    </xsl:element>
+
 	  </xsl:for-each>
 	</xsl:for-each>
       </xsl:for-each>
@@ -449,6 +496,12 @@
 	</xsl:attribute>
 	<xsl:value-of select="."/>
       </xsl:element>
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="concat($role,'_location_text_tesim')"/>
+	</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
     </xsl:for-each>
 
   </xsl:template>
@@ -464,6 +517,17 @@
 	    <xsl:attribute name="name">date_ssim</xsl:attribute>
 	    <xsl:value-of select="."/>
 	  </xsl:element>
+	  <xsl:variable name="ditsi">
+	    <xsl:value-of select="number(substring(.,1,4))"/>
+	  </xsl:variable>
+
+	  <xsl:if test="not(contains($ditsi,'NaN'))">
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">year_itsi</xsl:attribute>
+	      <xsl:value-of select="$ditsi"/>
+	    </xsl:element>
+	  </xsl:if>
+
 	</xsl:for-each>
       </xsl:for-each>
     </xsl:for-each>
@@ -480,12 +544,42 @@
   <!--
       This is where we extract senders, recipients, authors and other agents. The code is a bit obfuscated
   -->
+  <xsl:template name="extract_agent_sort_keys">
+    <xsl:param name="field" select="''"/>
+
+    <xsl:variable name="value">
+      <xsl:for-each select="t:respStmt[t:resp=$field and t:name/node()]">
+	<xsl:for-each select="t:name"><xsl:value-of select="t:surname"/><xsl:value-of select="t:forename"/></xsl:for-each>
+      </xsl:for-each>
+    </xsl:variable>
+
+    <xsl:if test="$value">
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="concat('sortby_',$field,'_ssi')"/>
+	</xsl:attribute>
+	<xsl:value-of select="$value"/>
+      </xsl:element>
+    </xsl:if>
+
+  </xsl:template>
+
 
   <xsl:template name="extract_agents">
     <xsl:param name="bibl" select="''"/>
 
     <xsl:for-each select="/t:TEI">
       <xsl:for-each select="descendant::node()[@xml:id=$bibl]">
+
+	<xsl:call-template name="extract_agent_sort_keys">
+	  <xsl:with-param name="field">recipient</xsl:with-param>
+	</xsl:call-template>
+
+	<xsl:call-template name="extract_agent_sort_keys">
+	  <xsl:with-param name="field">sender</xsl:with-param>
+	</xsl:call-template>
+
+
 	<xsl:for-each select="t:respStmt[t:resp/node() and t:name/node()]">
 	  <xsl:variable name="field">
 	    <xsl:value-of select="t:resp"/>
@@ -495,14 +589,16 @@
 	    <xsl:attribute name="name">
 	      <xsl:value-of select="concat($field,'_ssim')"/>
 	    </xsl:attribute>
-	    <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
-      </xsl:element>
-        <xsl:element name="field">
-          <xsl:attribute name="name">
-            <xsl:value-of select="concat($field,'_tesim')"/>
-          </xsl:attribute>
-          <xsl:value-of select="t:surname"/>, <xsl:value-of select="t:forename"/>
-        </xsl:element>
+	    <xsl:value-of select="t:surname"/><xsl:text>, </xsl:text><xsl:value-of select="t:forename"/>
+	    </xsl:element>
+
+	    <xsl:element name="field">
+	      <xsl:attribute name="name">
+		<xsl:value-of select="concat($field,'_tesim')"/>
+	      </xsl:attribute>
+              <xsl:value-of select="t:forename"/><xsl:text> </xsl:text><xsl:value-of select="t:surname"/>
+	    </xsl:element>
+
 	    <xsl:element name="field">
 	      <xsl:attribute name="name">
 		<xsl:value-of select="concat($field,'_id_ssim')"/>
@@ -514,15 +610,29 @@
       </xsl:for-each>
     </xsl:for-each>
     <xsl:for-each select="descendant::t:persName">
-      <xsl:variable name="field">
+      <xsl:variable name="field1">
 	<xsl:value-of select="concat(@type,'_text_ssim')"/>
       </xsl:variable>
+
+      <xsl:variable name="field2">
+	<xsl:value-of select="concat(@type,'_text_tesim')"/>
+      </xsl:variable>
+
       <xsl:element name="field">
 	<xsl:attribute name="name">
-	  <xsl:value-of select="$field"/>
+	  <xsl:value-of select="$field1"/>
 	</xsl:attribute>
 	<xsl:value-of select="."/>
       </xsl:element>
+
+      <xsl:element name="field">
+	<xsl:attribute name="name">
+	  <xsl:value-of select="$field2"/>
+	</xsl:attribute>
+	<xsl:value-of select="."/>
+      </xsl:element>
+
+
     </xsl:for-each>
   </xsl:template>
 
@@ -552,10 +662,10 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template mode="backtrack" match="*[@decls]">
+  <xsl:template mode="backtrack" match="node()">
     <xsl:element name="field">
       <xsl:attribute name="name">part_of_ssim</xsl:attribute>
-      <xsl:value-of select="concat($file,'#',@xml:id)"/>
+      <xsl:value-of select="concat(substring-before($file,'.xml'),'-',@xml:id)"/>
     </xsl:element>
     <xsl:choose>
       <xsl:when test="ancestor::node()[@decls]">

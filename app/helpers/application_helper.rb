@@ -13,7 +13,7 @@ module ApplicationHelper
   def dissemination_profiles
     dir = Rails.root.join('app','export', 'dissemination_profiles')
     Pathname.new(dir).children.collect do |c|
-      profile_name = c.basename.to_s.split('.').first.titleize
+      profile_name = c.basename.to_s.split('.').first
       class_name = "dissemination_profiles/#{profile_name}".classify
       [ class_name, profile_name]
     end

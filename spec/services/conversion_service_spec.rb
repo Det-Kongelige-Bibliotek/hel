@@ -5,7 +5,8 @@ describe ConversionService do
   before do
     @service = AlephService.new
     # set = @service.find_set("sys=001401044") hak hak
-    set = @service.find_set("sys=001364118") # hak hak
+    set = @service.find_set("sys=001541111") # tove
+    # set = @service.find_set("sys=001364118") # hak hak
     # set = @service.find_set("isbn=9788711396322") 
     # set = @service.find_set("isbn=9780691129785")
     rec = @service.get_record(set[:set_num],set[:num_entries])

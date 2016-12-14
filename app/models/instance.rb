@@ -40,7 +40,7 @@ class Instance < ActiveFedora::Base
 
   after_save do
     work.update_index if work.present?
-    Resque.enqueue(DisseminateJob,self.id) unless self.cannot_be_published?
+ #   Resque.enqueue(DisseminateJob,self.id) unless self.cannot_be_published?
   end
 
   def publication
