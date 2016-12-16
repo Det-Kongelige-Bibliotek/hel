@@ -1,6 +1,6 @@
 rails_env   = ENV['RAILS_ENV']  || "production"
 rails_root  = ENV['RAILS_ROOT'] || "/home/rails/current"
-workers = ['letter_book_scan','letter_book_ingest']
+workers = ['letter_book_scan','letter_book_ingest','dissemination']
 
 workers.each do |worker|
   God.watch do |w|
