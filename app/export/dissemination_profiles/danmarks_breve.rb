@@ -85,7 +85,7 @@ module DisseminationProfiles
 
     def self.send_to_solr(solr_doc)
       Resque.logger.debug("connecting #{CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]}")
-      solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url]
+      solr = RSolr.connect :url => CONFIG[Rails.env.to_sym][:bifrost_letters_solr_url], :read_timeout => 1200
       Resque.logger.debug("connected")
       solr.update(data:solr_doc)
       Resque.logger.debug("updated")
